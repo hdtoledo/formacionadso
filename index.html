@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50 text-slate-900 antialiased">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nivelación y Formación ADSO - SENA Garzón | Plataforma Integral</title>
+  <meta name="description" content="Plataforma institucional de lecciones técnicas interactivas, proyección en aula y seguimiento pedagógico para aprendices ADSO en el Centro Agroempresarial y Desarrollo Pecuario del Huila (SENA Garzón).">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            sena: {
+              green: '#39A900',
+              'green-hover': '#2D8200',
+              navy: '#00324D',
+              'navy-dark': '#00263A',
+              'navy-light': '#004164'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/presenter.css">
+</head>
+<body class="min-h-full flex flex-col bg-slate-50/50 text-slate-900 font-sans selection:bg-[#39A900] selection:text-white">
+
+  <!-- ========================================================================= -->
+  <!-- 1. CINTILLO INSTITUCIONAL SENA -->
+  <!-- ========================================================================= -->
+  <div class="bg-[#00324D] text-white text-[11px] sm:text-xs py-2 px-4 sm:px-6 border-b border-[#00263a]">
+    <div class="max-w-6xl mx-auto flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2 truncate">
+        <span class="font-extrabold tracking-wide shrink-0">SENA</span>
+        <span class="text-slate-400">|</span>
+        <span class="text-slate-200 truncate font-medium">Regional Huila • Centro Agroempresarial y Desarrollo Pecuario del Huila</span>
+      </div>
+      <div class="flex items-center gap-3 text-slate-300 font-medium shrink-0 text-xs">
+        <span class="hidden md:inline">Sede Garzón</span>
+        <span class="text-emerald-400 font-semibold flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#39A900] animate-pulse"></span>
+          <span id="cintillo-fecha">Hoy</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 2. HEADER PRINCIPAL INSTITUCIONAL (CENTRADO) -->
+  <!-- ========================================================================= -->
+  <header class="border-b border-slate-200 bg-white sticky top-0 z-50 shadow-xs">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
+      
+      <!-- Logo Oficial SENA y Programa ADSO -->
+      <div class="flex items-center min-w-0">
+        <a class="flex items-center space-x-3 min-w-0 group" href="index.html">
+          <img src="assets/logo_green.png" alt="Logo SENA" class="h-11 w-auto object-contain shrink-0 group-hover:scale-105 transition-transform">
+          <div class="border-l border-slate-200 pl-3.5 min-w-0">
+            <div class="flex items-center gap-2">
+              <span class="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">FORMACIÓN</span>
+              <span class="text-lg sm:text-xl font-black text-[#39A900]">ADSO</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 shrink-0">CADPH</span>
+            </div>
+            <p class="text-[11px] text-slate-500 font-medium truncate">
+              Análisis y Desarrollo de Software · Nivelación & Formación Continua
+            </p>
+          </div>
+        </a>
+      </div>
+
+      <!-- Navegación Centrada -->
+      <nav class="hidden md:flex items-center space-x-6 text-xs font-bold text-slate-600">
+        <a href="#sesion-actual" class="hover:text-[#39A900] transition-colors">Sesión Actual</a>
+        <a href="#metodologia" class="hover:text-[#39A900] transition-colors">Metodología</a>
+        <a href="#cronograma" class="hover:text-[#39A900] transition-colors">Plan 8 Semanas</a>
+        <a href="#recursos" class="hover:text-[#39A900] transition-colors">Recursos SQL</a>
+      </nav>
+
+      <!-- Botón de Proyección Rápida -->
+      <div class="flex items-center gap-3 shrink-0">
+        <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/index.html" class="px-5 py-2.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-bold text-xs sm:text-sm rounded-xl transition-all shadow-sm flex items-center gap-2">
+          <i data-lucide="projector" class="w-4 h-4"></i>
+          <span>Proyectar Sesión 01</span>
+          <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- 3. HERO: BIENVENIDA Y SESIÓN DEL DÍA (CENTRADO, MAX-W-6XL) -->
+  <!-- ========================================================================= -->
+  <section class="py-10 sm:py-14 border-b border-slate-200 bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <!-- Columna Izquierda: Información de Formación -->
+        <div class="lg:col-span-7 space-y-5">
+          
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 bg-emerald-50 border border-emerald-200 rounded-full text-xs font-bold text-[#39A900] shadow-2xs">
+            <span class="w-2 h-2 rounded-full bg-[#39A900] animate-pulse"></span>
+            <span id="hero-fecha-dinamica">Cargando fecha de hoy...</span>
+          </div>
+
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
+            Plataforma de Lecciones Técnicas y Nivelación en Aula ADSO
+          </h1>
+
+          <p class="text-sm sm:text-base text-slate-600 leading-relaxed font-normal max-w-xl">
+            Material pedagógico interactivo día a día para aprendices ADSO en todas las jornadas formativas. Sesiones con proyección en Video-beam, live coding asistido, desarrollo guiado sin IA generativa y sustentación individual.
+          </p>
+
+          <!-- Acciones Principales -->
+          <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/index.html" class="px-6 py-3.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-sm rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2.5">
+              <i data-lucide="play-circle" class="w-5 h-5"></i>
+              <span>Iniciar Sesión 01: Modelo Relacional & SQL</span>
+            </a>
+            <a href="#cronograma" class="px-5 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm rounded-xl transition flex items-center justify-center gap-2">
+              <i data-lucide="calendar" class="w-4 h-4 text-slate-500"></i>
+              <span>Ver las 40 Sesiones</span>
+            </a>
+          </div>
+
+          <!-- Píldoras de Enfoque Curricular -->
+          <div class="pt-4 border-t border-slate-100 grid grid-cols-3 gap-3 text-slate-700 text-xs font-bold">
+            <div class="flex items-center gap-2">
+              <i data-lucide="database" class="w-4 h-4 text-[#39A900] shrink-0"></i>
+              <span>SQL & NoSQL</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="server" class="w-4 h-4 text-[#00324D] shrink-0"></i>
+              <span>Node.js / Express</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="layout" class="w-4 h-4 text-purple-600 shrink-0"></i>
+              <span>React & Tailwind</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Columna Derecha: Tarjeta Institucional de Estado Formativo -->
+        <div class="lg:col-span-5">
+          <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-6 shadow-sm space-y-5">
+            
+            <div class="flex items-center justify-between border-b border-slate-200 pb-3.5">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-[#39A900] shadow-2xs">
+                  <i data-lucide="layers" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h2 class="text-xs font-bold text-slate-900 uppercase tracking-wider">Esquema Institucional ADSO</h2>
+                  <span class="text-[11px] text-slate-500 font-medium">Sede CADPH Garzón · Huila</span>
+                </div>
+              </div>
+              <span class="text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
+                Universal
+              </span>
+            </div>
+
+            <!-- Métricas Clave de la Formación -->
+            <div class="grid grid-cols-2 gap-3">
+              <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-2xs">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Población Objetivo</span>
+                <span class="text-sm font-extrabold text-slate-900 mt-0.5 block">Todas las Jornadas</span>
+                <span class="text-[11px] text-slate-500">Mismo estándar curricular</span>
+              </div>
+              <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-2xs">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Plan de Trabajo</span>
+                <span class="text-sm font-extrabold text-slate-900 mt-0.5 block">8 Semanas</span>
+                <span class="text-[11px] text-slate-500">40 Sesiones día a día</span>
+              </div>
+            </div>
+
+            <!-- Estado de Avance Actual -->
+            <div class="p-4 rounded-xl border border-slate-200 bg-white space-y-2.5 shadow-2xs">
+              <div class="flex items-center justify-between text-xs">
+                <span class="font-extrabold text-slate-800">Semana 1: Nivelación de Fundamentos</span>
+                <span class="font-mono font-bold text-[#39A900]">Sesión 01 / 40</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div class="bg-[#39A900] h-2 rounded-full w-[12%]"></div>
+              </div>
+              <p class="text-[11px] text-slate-500 leading-snug">
+                Eje temático activo: <strong class="text-slate-800">Bases de Datos Relacionales (Modelo E-R, DDL y DML).</strong>
+              </p>
+            </div>
+
+            <!-- Enlaces directos a recursos -->
+            <div class="pt-1 flex items-center gap-2">
+              <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/recursos/solucion_sistema_ventas.sql" target="_blank" class="flex-1 py-2.5 px-3 bg-white hover:bg-slate-100 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 transition flex items-center justify-center gap-1.5 shadow-2xs">
+                <i data-lucide="file-code" class="w-3.5 h-3.5 text-[#39A900]"></i>
+                <span>Solución SQL</span>
+              </a>
+              <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/recursos/plantilla_aprendiz.sql" download class="flex-1 py-2.5 px-3 bg-white hover:bg-slate-100 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 transition flex items-center justify-center gap-1.5 shadow-2xs">
+                <i data-lucide="download" class="w-3.5 h-3.5 text-[#00324D]"></i>
+                <span>Plantilla Aprendiz</span>
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 4. METODOLOGÍA FORMATIVA UNIVERSAL EN 3 BLOQUES (CENTRADO) -->
+  <!-- ========================================================================= -->
+  <section id="metodologia" class="py-12 border-b border-slate-200 bg-slate-50/70">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      
+      <div class="text-center max-w-2xl mx-auto mb-10 space-y-2">
+        <span class="text-xs font-bold uppercase tracking-wider text-[#39A900]">Estructura de Aula Estandarizada</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Metodología Formativa en 3 Bloques Diarios</h2>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+          Aplicable a cualquier jornada formativa para garantizar asimilación real de conceptos y erradicar la dependencia de IA generativa sin comprensión técnica.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Bloque 1 -->
+        <div class="bg-white border-2 border-slate-200 hover:border-[#39A900] border-t-4 border-t-[#39A900] rounded-2xl p-6 shadow-xs hover:shadow-md transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="px-2.5 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded border border-emerald-200">
+                BLOQUE 1
+              </span>
+              <span class="text-xs text-slate-400 font-semibold font-mono">Paso a Paso</span>
+            </div>
+            <h3 class="text-lg font-extrabold text-slate-900 mb-2">Teoría & Live Coding Guiado</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+              Explicación concisa de conceptos fundamentales seguida de codificación en vivo guiada por el instructor. Código desde cero, explicando arquitectura, sintaxis y advertencias de fallos.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-slate-100 flex items-center text-xs font-bold text-[#39A900]">
+            <i data-lucide="terminal" class="w-4 h-4 mr-1.5"></i>
+            <span>Sin IA · Código desde cero</span>
+          </div>
+        </div>
+
+        <!-- Bloque 2 -->
+        <div class="bg-white border-2 border-slate-200 hover:border-[#00324D] border-t-4 border-t-[#00324D] rounded-2xl p-6 shadow-xs hover:shadow-md transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="px-2.5 py-1 bg-[#00324D] text-white font-mono text-xs font-extrabold rounded">
+                BLOQUE 2
+              </span>
+              <span class="text-xs text-slate-400 font-semibold font-mono">Taller Asistido</span>
+            </div>
+            <h3 class="text-lg font-extrabold text-slate-900 mb-2">Reto Práctico en Aula</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+              Laboratorio práctico individual o en parejas sobre un caso de negocio real. Aplicación directa de las restricciones, estructuras y endpoints explicados en la lección.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-slate-100 flex items-center text-xs font-bold text-[#00324D]">
+            <i data-lucide="code" class="w-4 h-4 mr-1.5"></i>
+            <span>Laboratorio guiado de aula</span>
+          </div>
+        </div>
+
+        <!-- Bloque 3 -->
+        <div class="bg-white border-2 border-slate-200 hover:border-purple-600 border-t-4 border-t-purple-600 rounded-2xl p-6 shadow-xs hover:shadow-md transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="px-2.5 py-1 bg-purple-100 text-purple-700 font-mono text-xs font-extrabold rounded border border-purple-200">
+                BLOQUE 3
+              </span>
+              <span class="text-xs text-slate-400 font-semibold font-mono">Evaluación</span>
+            </div>
+            <h3 class="text-lg font-extrabold text-slate-900 mb-2">Evidencia & Sustentación</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+              Revisión de funcionamiento, commit a Git y modificación de código en caliente por parte del aprendiz para validar autoría y dominio técnico de la solución.
+            </p>
+          </div>
+          <div class="pt-3 border-t border-slate-100 flex items-center text-xs font-bold text-purple-700">
+            <i data-lucide="award" class="w-4 h-4 mr-1.5"></i>
+            <span>Modificación en caliente en vivo</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 5. CRONOGRAMA CURRICULAR DÍA A DÍA: 8 SEMANAS / 40 SESIONES (CENTRADO) -->
+  <!-- ========================================================================= -->
+  <main id="cronograma" class="py-12 sm:py-16 bg-white border-b border-slate-200 flex-1">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 space-y-8">
+      
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div class="space-y-1.5 max-w-xl">
+          <span class="text-xs font-bold uppercase tracking-wider text-[#39A900]">Plan de 8 Semanas (40 Sesiones)</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Distribución Curricular Día a Día</h2>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            Explora las lecciones técnicas organizadas secuencialmente para nivelar y acelerar el dominio Full Stack MERN + SQL.
+          </p>
+        </div>
+
+        <!-- Selector de Semanas -->
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 max-w-full">
+          <button onclick="window.cambiarSemana(1)" id="btn-sem-1" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-[#39A900] text-white shadow-xs transition">Semana 1</button>
+          <button onclick="window.cambiarSemana(2)" id="btn-sem-2" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">Semana 2</button>
+          <button onclick="window.cambiarSemana(3)" id="btn-sem-3" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">Semana 3</button>
+          <button onclick="window.cambiarSemana(4)" id="btn-sem-4" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">Semana 4</button>
+          <button onclick="window.cambiarSemana(5)" id="btn-sem-5" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">Semana 5</button>
+          <button onclick="window.cambiarSemana(6)" id="btn-sem-6" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">Semana 6</button>
+          <button onclick="window.cambiarSemana(7)" id="btn-sem-7" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">Semana 7</button>
+          <button onclick="window.cambiarSemana(8)" id="btn-sem-8" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">Semana 8</button>
+        </div>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- CONTENIDO DE SEMANA 1 (DISPONIBLE / EN CURSO) -->
+      <!-- ===================================================================== -->
+      <div id="panel-semana-1" class="semana-panel space-y-4">
+        
+        <!-- Tarjeta Destacada: Sesión 01 (COMPLETA Y LISTA PARA PROYECTAR) -->
+        <div class="bg-white border-2 border-[#39A900] rounded-2xl p-6 sm:p-7 shadow-xs hover:shadow-md transition">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div class="space-y-3 flex-1">
+              
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold border border-emerald-200">
+                  SESIÓN 01 · DÍA 1
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-xs font-bold">
+                  BASES DE DATOS (SQL)
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold flex items-center gap-1">
+                  <i data-lucide="check" class="w-3.5 h-3.5"></i> Disponible para Proyección
+                </span>
+              </div>
+
+              <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+                Modelo Relacional y SQL DDL & DML desde Cero
+              </h3>
+
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                Entidades, atributos, llaves primarias (PK), foráneas (FK), cardinalidades del mundo real, restricciones de integridad (<code class="text-[#00324D] font-mono font-semibold">NOT NULL</code>, <code class="text-[#00324D] font-mono font-semibold">UNIQUE</code>, <code class="text-[#00324D] font-mono font-semibold">DEFAULT</code>) y prevención del borrado destructivo en producción sin WHERE.
+              </p>
+
+              <!-- Desglose de los 3 bloques de la sesión -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs">
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-extrabold text-[#39A900] block mb-1">Bloque 1: Teoría & Live Coding</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">Entidades, PK/FK, CREATE TABLE y zona de peligro UPDATE/DELETE sin WHERE.</span>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-extrabold text-[#00324D] block mb-1">Bloque 2: Taller Práctico</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">Construcción en Workbench del Sistema de Ventas (usuarios, categorías, productos).</span>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-extrabold text-purple-700 block mb-1">Bloque 3: Evidencia & Sustentación</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">Script .sql sin errores, ALTER TABLE UNIQUE y explicación de regla RESTRICT.</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Botones de Acción de la Sesión -->
+            <div class="flex flex-col gap-2.5 shrink-0 lg:w-56">
+              <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/index.html" class="w-full px-5 py-3 bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-xs sm:text-sm rounded-xl transition shadow-sm flex items-center justify-center gap-2 text-center">
+                <i data-lucide="projector" class="w-4 h-4"></i>
+                <span>Proyectar Diapositivas</span>
+              </a>
+
+              <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/recursos/solucion_sistema_ventas.sql" target="_blank" class="w-full px-4 py-2 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-xl transition flex items-center justify-center gap-2 text-center">
+                <i data-lucide="file-code" class="w-3.5 h-3.5 text-[#39A900]"></i>
+                <span>Ver Script SQL Maestro</span>
+              </a>
+
+              <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/recursos/plantilla_aprendiz.sql" download class="w-full px-4 py-2 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-xl transition flex items-center justify-center gap-2 text-center">
+                <i data-lucide="download" class="w-3.5 h-3.5 text-[#00324D]"></i>
+                <span>Plantilla para Aprendiz</span>
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Lista de las demás sesiones de la Semana 1 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          
+          <!-- Sesión 02 -->
+          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-2 hover:border-slate-300 transition">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 bg-slate-100 rounded text-[11px] font-mono font-bold text-slate-700">SESIÓN 02 · DÍA 2</span>
+              <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">Bases de Datos</span>
+            </div>
+            <h4 class="text-sm font-bold text-slate-900">Consultas SQL y Cruce de Tablas (JOINs)</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Filtros avanzados (<code class="font-mono text-slate-800">WHERE</code>, <code class="font-mono text-slate-800">LIKE</code>, <code class="font-mono text-slate-800">IN</code>), agregaciones (<code class="font-mono text-slate-800">COUNT</code>, <code class="font-mono text-slate-800">SUM</code>, <code class="font-mono text-slate-800">GROUP BY</code>) y diferencias entre <code class="font-mono text-slate-800">INNER JOIN</code> y <code class="font-mono text-slate-800">LEFT JOIN</code>.
+            </p>
+          </div>
+
+          <!-- Sesión 03 -->
+          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-2 hover:border-slate-300 transition">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 bg-slate-100 rounded text-[11px] font-mono font-bold text-slate-700">SESIÓN 03 · DÍA 3</span>
+              <span class="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">Backend I</span>
+            </div>
+            <h4 class="text-sm font-bold text-slate-900">JavaScript Moderno (ES6+) y Asincronía</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Inmutabilidad, desestructuración, spread operator, métodos de arrays (<code class="font-mono text-slate-800">map</code>, <code class="font-mono text-slate-800">filter</code>, <code class="font-mono text-slate-800">reduce</code>), Event Loop y promesas con <code class="font-mono text-slate-800">async/await</code>.
+            </p>
+          </div>
+
+          <!-- Sesión 04 -->
+          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-2 hover:border-slate-300 transition">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 bg-slate-100 rounded text-[11px] font-mono font-bold text-slate-700">SESIÓN 04 · DÍA 4</span>
+              <span class="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">Backend II</span>
+            </div>
+            <h4 class="text-sm font-bold text-slate-900">Protocolo HTTP y Servidor Base en Node.js / Express</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Headers, verbos HTTP, códigos de estado (2xx, 4xx, 5xx), captura de <code class="font-mono text-slate-800">req.body</code>, <code class="font-mono text-slate-800">req.params</code>, <code class="font-mono text-slate-800">req.query</code> y middleware <code class="font-mono text-slate-800">express.json()</code>.
+            </p>
+          </div>
+
+          <!-- Sesión 05 -->
+          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-2 hover:border-slate-300 transition">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 bg-slate-100 rounded text-[11px] font-mono font-bold text-slate-700">SESIÓN 05 · DÍA 5</span>
+              <span class="text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100">Frontend II</span>
+            </div>
+            <h4 class="text-sm font-bold text-slate-900">Consumo con Fetch API y Manipulación del DOM</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Peticiones asíncronas con Fetch, parsing de JSON, prevención de recarga (<code class="font-mono text-slate-800">e.preventDefault()</code>) y renderizado reactivo de datos en cliente.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- PANELES DE SEMANAS 2 A 8 (PLAN CURRICULAR) -->
+      <!-- ===================================================================== -->
+      <div id="panel-semana-2" class="semana-panel space-y-4 hidden">
+        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-900 flex items-center gap-2">
+          <i data-lucide="info" class="w-4 h-4 text-[#39A900]"></i>
+          <span>Semana 2: Arquitectura Backend en Capas y React Base (Sesiones 06 a 10)</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-1.5">
+            <span class="text-[11px] font-mono font-bold text-slate-500">SESIÓN 06 · DÍA 06 (BD)</span>
+            <h4 class="text-sm font-bold text-slate-900">Integridad Referencial y Reglas de Borrado</h4>
+            <p class="text-xs text-slate-600"><code class="font-mono">ON DELETE CASCADE</code> vs <code class="font-mono">RESTRICT</code>, llaves compuestas y transacciones básicas (<code class="font-mono">COMMIT</code>, <code class="font-mono">ROLLBACK</code>).</p>
+          </div>
+          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-1.5">
+            <span class="text-[11px] font-mono font-bold text-slate-500">SESIÓN 07 · DÍA 07 (Backend I)</span>
+            <h4 class="text-sm font-bold text-slate-900">Arquitectura en Capas en Express</h4>
+            <p class="text-xs text-slate-600">Separación estricta de responsabilidades: carpetas de rutas (<code class="font-mono">routes/</code>) y controladores (<code class="font-mono">controllers/</code>).</p>
+          </div>
+          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-1.5">
+            <span class="text-[11px] font-mono font-bold text-slate-500">SESIÓN 08 · DÍA 08 (Backend II)</span>
+            <h4 class="text-sm font-bold text-slate-900">Conexión de Node.js a BD Relacional</h4>
+            <p class="text-xs text-slate-600">Pools de conexión (<code class="font-mono">mysql2</code>), queries parametrizadas de seguridad y variables de entorno con <code class="font-mono">dotenv</code>.</p>
+          </div>
+          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-1.5">
+            <span class="text-[11px] font-mono font-bold text-slate-500">SESIÓN 09 · DÍA 09 (Frontend I)</span>
+            <h4 class="text-sm font-bold text-slate-900">Introducción a Vite + React</h4>
+            <p class="text-xs text-slate-600">Estructura de proyecto, sintaxis JSX, paso de <code class="font-mono">props</code> y composición de componentes reutilizables.</p>
+          </div>
+          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-1.5 sm:col-span-2">
+            <span class="text-[11px] font-mono font-bold text-slate-500">SESIÓN 10 · DÍA 10 (Frontend II)</span>
+            <h4 class="text-sm font-bold text-slate-900">Maquetación con Tailwind CSS Mobile-First</h4>
+            <p class="text-xs text-slate-600">Flexbox, Grid, breakpoints responsivos (<code class="font-mono">sm:</code>, <code class="font-mono">md:</code>, <code class="font-mono">lg:</code>) y diseño adaptativo sin CSS tradicional.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="panel-semana-3" class="semana-panel space-y-4 hidden">
+        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-900 flex items-center gap-2">
+          <i data-lucide="info" class="w-4 h-4 text-[#39A900]"></i>
+          <span>Semana 3: Persistencia SQL Completa y Estado en React (Sesiones 11 a 15)</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 11 (BD):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Normalización Práctica (1FN a 3FN)</h4>
+            <p class="text-slate-600">Eliminación de anomalías y redundancias para proyectos formativos.</p>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 12 (Back I):</span>
+            <h4 class="font-bold text-slate-900 text-sm">CRUD en Express + SQL (POST & GET)</h4>
+            <p class="text-slate-600">Endpoints para inserción y lectura con filtros por ID.</p>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 13 (Back II):</span>
+            <h4 class="font-bold text-slate-900 text-sm">CRUD en Express + SQL (PUT & DELETE)</h4>
+            <p class="text-slate-600">Actualización y borrado físico vs lógico (<code class="font-mono">is_active</code>).</p>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 14 (Front I):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Manejo de Estado con useState</h4>
+            <p class="text-slate-600">Formularios controlados, eventos onChange y mutación inmutable.</p>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1 sm:col-span-2">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 15 (Front II):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Ciclo de Vida y useEffect</h4>
+            <p class="text-slate-600">Sincronización, dependencias estrictas y prevención de bucles infinitos.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="panel-semana-4" class="semana-panel space-y-4 hidden">
+        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-900 flex items-center gap-2">
+          <i data-lucide="info" class="w-4 h-4 text-[#39A900]"></i>
+          <span>Semana 4: Transición a MongoDB, NoSQL y Conexión Frontend-Backend (Sesiones 16 a 20)</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 16 (BD):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Paradigma NoSQL y MongoDB Atlas</h4>
+            <p class="text-slate-600">Tablas vs Colecciones, Filas vs Documentos BSON y Compass.</p>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 17 (Back I):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Mongoose ODM: Esquemas y Modelos</h4>
+            <p class="text-slate-600">Conexión URI, Schema, tipos de datos y validaciones estrictas.</p>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 18 (Back II):</span>
+            <h4 class="font-bold text-slate-900 text-sm">CRUD REST con Mongoose</h4>
+            <p class="text-slate-600">Operaciones find, findById, create, findByIdAndUpdate.</p>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 19 (Front I):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Consumo de la API Express desde React</h4>
+            <p class="text-slate-600">Integración con useEffect y manejo de estados loading y error.</p>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1 sm:col-span-2">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 20 (Front II):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Formularios de Mutación e Inmutabilidad</h4>
+            <p class="text-slate-600">Envíos POST y DELETE con actualización reactiva en pantalla.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="panel-semana-5" class="semana-panel space-y-4 hidden">
+        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-900 flex items-center gap-2">
+          <i data-lucide="info" class="w-4 h-4 text-[#39A900]"></i>
+          <span>Semana 5: Relaciones NoSQL, Validaciones y Enrutamiento SPA (Sesiones 21 a 25)</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 21 (BD):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Relaciones en MongoDB: Embebidos vs Referencias</h4>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 22 (Back I):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Consultas con Referencias (.populate()) y Paginación</h4>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 23 (Back II):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Middlewares de Validación y Control de Errores</h4>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 24 (Front I):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Enrutamiento SPA con react-router-dom</h4>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1 sm:col-span-2">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 25 (Front II):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Parámetros Dinámicos (useParams) y Navegación</h4>
+          </div>
+        </div>
+      </div>
+
+      <div id="panel-semana-6" class="semana-panel space-y-4 hidden">
+        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-900 flex items-center gap-2">
+          <i data-lucide="info" class="w-4 h-4 text-[#39A900]"></i>
+          <span>Semana 6: Autenticación, Seguridad y Estado Global (Sesiones 26 a 30)</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 26 (BD):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Modelado Seguro de Usuarios y Roles</h4>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 27 (Back I):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Hashing de Contraseñas con bcryptjs</h4>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 28 (Back II):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Autenticación Stateless con JWT y Middleware</h4>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 29 (Front I):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Estado Global con React Context API (AuthContext)</h4>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1 sm:col-span-2">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 30 (Front II):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Rutas Protegidas en React (&lt;ProtectedRoute /&gt;)</h4>
+          </div>
+        </div>
+      </div>
+
+      <div id="panel-semana-7" class="semana-panel space-y-4 hidden">
+        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-900 flex items-center gap-2">
+          <i data-lucide="info" class="w-4 h-4 text-[#39A900]"></i>
+          <span>Semana 7: Sprint de Proyectos Formativos SENA (Sesiones 31 a 35)</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 31 (BD):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Optimización de Esquemas de Proyecto y Seeds</h4>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 32 (Back I):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Lógica de Negocio y Endpoints Específicos</h4>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 33 (Back II):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Cierre y Pruebas del Backend (CORS y Postman)</h4>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 34 (Front I):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Dashboard de Proyecto con Tailwind CSS</h4>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1 sm:col-span-2">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 35 (Front II):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Integración Total Frontend-Backend (Auth + CRUD)</h4>
+          </div>
+        </div>
+      </div>
+
+      <div id="panel-semana-8" class="semana-panel space-y-4 hidden">
+        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-900 flex items-center gap-2">
+          <i data-lucide="info" class="w-4 h-4 text-[#39A900]"></i>
+          <span>Semana 8: Despliegue en la Nube y Sustentación Final (Sesiones 36 a 40)</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 36 (DevOps):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Base de Datos en Producción (MongoDB Atlas)</h4>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 37 (DevOps):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Despliegue del Backend en Railway con HTTPS</h4>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 38 (DevOps):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Build de Producción en Vite (SPA Vercel)</h4>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+            <span class="font-mono font-bold text-slate-500">SESIÓN 39 (DevOps):</span>
+            <h4 class="font-bold text-slate-900 text-sm">Despliegue del Frontend en Vercel & E2E Test</h4>
+          </div>
+          <div class="p-4 bg-emerald-100 border border-emerald-300 rounded-xl space-y-1 sm:col-span-2 text-emerald-950">
+            <span class="font-mono font-extrabold text-emerald-800">SESIÓN 40 (CIERRE SENA):</span>
+            <h4 class="font-extrabold text-base">Jornada de Sustentación Técnica Individual SENA</h4>
+            <p>Demostración en vivo en producción y examen de modificación de código en caliente sin IA.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- 6. REPOSITORIO DE RECURSOS TÉCNICOS (CENTRADO) -->
+  <!-- ========================================================================= -->
+  <section id="recursos" class="py-12 bg-slate-50/80 border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h3 class="text-xl font-extrabold text-slate-900">Repositorio Técnico de Laboratorio</h3>
+          <p class="text-xs text-slate-500">Archivos oficiales listos para ejecución en MySQL Workbench y editores de código.</p>
+        </div>
+        <span class="text-xs font-mono font-bold text-[#39A900] bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-200">MySQL 8.0</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 flex items-start justify-between gap-4 shadow-2xs">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <i data-lucide="file-check-2" class="w-5 h-5 text-[#39A900]"></i>
+              <h4 class="text-sm font-bold text-slate-900">solucion_sistema_ventas.sql</h4>
+            </div>
+            <p class="text-xs text-slate-600">
+              Script maestro verificado: tablas <code class="font-mono font-semibold">usuarios</code>, <code class="font-mono font-semibold">categorias</code>, <code class="font-mono font-semibold">productos</code>, FK con RESTRICT, inserts masivos y prueba de Error 1451.
+            </p>
+          </div>
+          <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/recursos/solucion_sistema_ventas.sql" target="_blank" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition shrink-0">
+            Abrir Script
+          </a>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 flex items-start justify-between gap-4 shadow-2xs">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <i data-lucide="code" class="w-5 h-5 text-[#00324D]"></i>
+              <h4 class="text-sm font-bold text-slate-900">plantilla_aprendiz.sql</h4>
+            </div>
+            <p class="text-xs text-slate-600">
+              Plantilla base con comentarios guía <code class="font-mono font-semibold">[TODO]</code> para que los aprendices construyan las tablas y restricciones durante el Bloque 2.
+            </p>
+          </div>
+          <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/recursos/plantilla_aprendiz.sql" download class="px-4 py-2 bg-[#00324D] hover:bg-[#00263A] text-white font-bold text-xs rounded-xl transition shrink-0">
+            Descargar
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 7. FOOTER INSTITUCIONAL (CENTRADO) -->
+  <!-- ========================================================================= -->
+  <footer class="bg-[#00324D] text-slate-300 pt-10 pb-6 px-4 sm:px-6 mt-auto text-xs">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-[#004164]/60">
+      
+      <div class="space-y-2">
+        <div class="flex items-center gap-2">
+          <span class="font-bold text-white text-sm">FORMACIÓN ADSO</span>
+          <span class="text-slate-400">•</span>
+          <span class="text-slate-300">CADPH Garzón</span>
+        </div>
+        <p class="text-[11px] text-slate-400 leading-relaxed">
+          Plataforma pedagógica institucional de apoyo académico y control de formación desarrollada para el Centro Agroempresarial y Desarrollo Pecuario del Huila (SENA Regional Huila).
+        </p>
+      </div>
+
+      <div class="space-y-1.5 text-[11px] text-slate-400">
+        <div class="flex items-center gap-2 text-slate-300 font-semibold">
+          <i data-lucide="map-pin" class="w-3.5 h-3.5 text-[#39A900]"></i>
+          <span>Sede Principal: Carrera 10 # 11 - 22, Garzón - Huila</span>
+        </div>
+        <p>Centro Agroempresarial y Desarrollo Pecuario del Huila</p>
+        <p>Regional Huila • Formación Profesional Integral</p>
+      </div>
+
+      <div class="space-y-2 text-[11px] md:text-right">
+        <p class="text-slate-200 font-bold">© 2026 SENA CADPH Garzón</p>
+        <p class="text-slate-400">Ecosistema de Formación Integral para el Desarrollo de Software.</p>
+      </div>
+
+    </div>
+
+    <div class="max-w-6xl mx-auto pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-slate-400 text-[11px]">
+      <div class="flex items-center gap-2 text-slate-400">
+        <span>Uso exclusivo académico • ADSO Garzón, Huila</span>
+      </div>
+      <a href="https://www.hdtoledo.dev/" target="_blank" rel="noopener noreferrer" title="hdtoledo.dev" class="flex items-center justify-center p-2 rounded-lg bg-[#00263a]/80 hover:bg-[#00263a] border border-slate-700/60 hover:border-[#39A900]/50 transition-all group">
+        <img src="assets/logo_hd.png" alt="hdtoledo.dev" class="h-5 w-auto object-contain opacity-90 group-hover:opacity-100 transition-opacity">
+      </a>
+    </div>
+  </footer>
+
+  <!-- Lucide y Script de Dinamismo (Fecha de hoy y Tabs de semanas) -->
+  <script>
+    // 1. Inicializar iconos Lucide
+    lucide.createIcons();
+
+    // 2. Formatear y renderizar la fecha de HOY dinámicamente
+    (function renderFechaDinamica() {
+      const hoy = new Date();
+      const opcionesCintillo = { weekday: 'short', day: 'numeric', month: 'short' };
+      const opcionesHero = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+
+      const formatoCintillo = hoy.toLocaleDateString('es-CO', opcionesCintillo);
+      const formatoHero = hoy.toLocaleDateString('es-CO', opcionesHero);
+
+      const cap = str => str.charAt(0).toUpperCase() + str.slice(1);
+
+      const elCintillo = document.getElementById('cintillo-fecha');
+      if (elCintillo) elCintillo.textContent = 'Hoy: ' + cap(formatoCintillo);
+
+      const elHero = document.getElementById('hero-fecha-dinamica');
+      if (elHero) elHero.textContent = '📅 Sesión Activa · ' + cap(formatoHero);
+    })();
+
+    // 3. Controlador interactivo de pestañas de semanas
+    window.cambiarSemana = function(semanaNum) {
+      // Ocultar todos los paneles
+      document.querySelectorAll('.semana-panel').forEach(panel => panel.classList.add('hidden'));
+      
+      // Mostrar el panel seleccionado
+      const panelActivo = document.getElementById('panel-semana-' + semanaNum);
+      if (panelActivo) panelActivo.classList.remove('hidden');
+
+      // Actualizar estilo de botones
+      for (let i = 1; i <= 8; i++) {
+        const btn = document.getElementById('btn-sem-' + i);
+        if (btn) {
+          if (i === semanaNum) {
+            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-extrabold bg-[#39A900] text-white shadow-xs transition';
+          } else {
+            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-extrabold bg-slate-100 hover:bg-slate-200 text-slate-700 transition';
+          }
+        }
+      }
+
+      // Reinicializar iconos dentro del panel mostrado
+      lucide.createIcons();
+    };
+  </script>
+</body>
+</html>
