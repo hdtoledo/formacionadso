@@ -2,8 +2,11 @@
 
 **Servicio Nacional de Aprendizaje (SENA)**  
 **Centro Agroempresarial y Desarrollo Pecuario del Huila (CADPH - Garzón)**  
+**Regional Huila**  
+**Instructor ADSO:** Ing. Hector David Toledo Garcia ([hdtoledo.dev](https://www.hdtoledo.dev/))  
 **Programa:** Tecnólogo en Análisis y Desarrollo de Software (ADSO)  
-**Ecosistema:** Formación Profesional Integral · Nivelación Full Stack (MERN + SQL)
+**Ecosistema:** Formación Profesional Integral · Nivelación Full Stack (MERN + SQL)  
+**Portal en Vivo (GitHub Pages):** [https://hdtoledo.github.io/formacionadso/](https://hdtoledo.github.io/formacionadso/)
 
 ---
 
@@ -55,7 +58,12 @@ La plataforma implementa estrictamente las directrices del manual de imagen inst
 
 ```text
 NivelacionADSO/
-├── .gitignore                     # Filtro contra scripts basura, temporales y volcados no oficiales
+├── .github/
+│   └── workflows/
+│       └── deploy.yml             # Automatización CI/CD para GitHub Pages
+├── .gitignore                     # Filtro contra scripts basura, temporales y notas del instructor
+├── .nojekyll                      # Deshabilita Jekyll para servir activos estáticos en GitHub Pages
+├── 404.html                       # Página institucional de error con redirección automática
 ├── README.md                      # Documentación oficial del proyecto
 ├── planSesiones.md                # Matriz curricular de 8 semanas (40 sesiones, uso local)
 ├── index.html                     # Portal principal centrado con fecha dinámica y explorador semanal
@@ -77,16 +85,16 @@ NivelacionADSO/
 
 ---
 
-## ⌨️ 5. Atajos de Teclado en Modo Proyección (Video-beam)
-
-Al abrir cualquier presentación de sesión (ej. `semana-01-fundamentos/dia-01-bd-sql-ddl-dml/index.html`):
+## ⌨️ 5. Controles y Atajos de Teclado (Proyección Videobeam)
 
 | Tecla | Acción |
 |---|---|
-| `Espacio` o `→` | Avanzar a la siguiente diapositiva |
-| `←` o `RePág` | Retroceder a la diapositiva anterior |
-| `F` | Activar / Desactivar pantalla completa |
-| `M` | Abrir / Cerrar el cajón de índice de diapositivas |
+| `Espacio` / `→` / `↓` | Avanzar a la siguiente diapositiva |
+| `←` / `↑` | Retroceder a la diapositiva anterior |
+| `F` | Alternar modo Pantalla Completa (*Full Screen*) |
+| `T` | Iniciar / Pausar el temporizador del bloque en curso |
+| `R` | Reiniciar el temporizador al tiempo original |
+| `M` | Desplegar el menú selector de diapositivas |
 | `?` | Abrir la ventana de ayuda con atajos |
 
 ---
@@ -95,20 +103,44 @@ Al abrir cualquier presentación de sesión (ej. `semana-01-fundamentos/dia-01-b
 
 Para mantener limpio y seguro el repositorio pedagógico:
 - **Solo se suben scripts oficiales aprobados** dentro de las carpetas de recursos designadas (`semana-XX/dia-YY/recursos/*.sql`).
-- El archivo `.gitignore` bloquea automáticamente scripts temporales (`test_*.sql`, `temp.sql`, `prueba.sql`, `dump.sql`), archivos `.log`, volcados locales de bases de datos (`*.dump`, `*.sqlite`) y archivos generados por editores o sistemas operativos.
+- El archivo `.gitignore` bloquea automáticamente scripts temporales (`test_*.sql`, `temp.sql`, `prueba.sql`, `dump.sql`), archivos `.log`, volcados locales de bases de datos (`*.dump`, `*.sqlite`), la planeación interna (`planSesiones.md`) y archivos generados por editores o sistemas operativos.
 
 ---
 
-## 🚀 7. Instrucciones de Uso y Despliegue Local
+## 🌐 7. Despliegue en GitHub Pages
 
-1. **Clonar o descargar el repositorio:**
+El proyecto está 100% optimizado y preparado para desplegarse de manera inmediata y gratuita en **GitHub Pages**:
+
+### Opción A: Automatización con GitHub Actions (Recomendada)
+El repositorio ya incluye el flujo de trabajo en `.github/workflows/deploy.yml`:
+1. En tu repositorio de GitHub, ve a **Settings** (Configuración) > **Pages**.
+2. En la sección **Build and deployment** > **Source**, selecciona: **GitHub Actions**.
+3. Cada vez que realices `git push` a la rama `master` (o `main`), el sitio se compilará y desplegará automáticamente en:
+   ```text
+   https://<tu-usuario>.github.io/<tu-repositorio>/
+   ```
+
+### Opción B: Despliegue directo desde la Rama (Branch)
+1. En **Settings** > **Pages** > **Build and deployment** > **Source**, selecciona: **Deploy from a branch**.
+2. En **Branch**, selecciona `master` (o `main`) y la carpeta `/ (root)`.
+3. Haz clic en **Save**. En 1-2 minutos tu sitio estará en línea.
+
+### Archivos clave para GitHub Pages:
+- **`.nojekyll`:** Evita que el motor Jekyll ignore archivos o carpetas del proyecto.
+- **`404.html`:** Maneja rutas inexistentes o módulos en construcción redirigiendo al portal con la identidad visual SENA.
+- **Rutas Relativas:** Todos los enlaces, hojas de estilo, scripts e imágenes usan referencias relativas, garantizando que el sitio funcione tanto en la raíz de un dominio como en subdirectorios de GitHub Pages (`/nombre-repo/`).
+
+---
+
+## 💻 8. Ejecución en Servidor Local
+
+1. **Clonar o abrir el directorio:**
    ```bash
-   git clone https://github.com/usuario/NivelacionADSO.git
    cd NivelacionADSO
    ```
-2. **Ejecutar localmente:**
-   - Puedes hacer doble clic directamente en `index.html` desde tu navegador favorito (Chrome, Edge, Firefox).
-   - O iniciar un servidor HTTP liviano con Python:
+2. **Ejecutar servidor local:**
+   - Puedes abrir directamente `index.html` en tu navegador.
+   - O con Python:
      ```bash
      python -m http.server 8080
      ```
@@ -116,9 +148,11 @@ Para mantener limpio y seguro el repositorio pedagógico:
 
 ---
 
-## 📄 8. Licencia y Créditos
+## 📄 9. Licencia y Créditos
 
 - **Institución:** Servicio Nacional de Aprendizaje (SENA) - Regional Huila.
 - **Centro:** Centro Agroempresarial y Desarrollo Pecuario del Huila (CADPH Garzón).
-- **Desarrollo y Dirección Técnica:** Instructor Líder ADSO.
-- **Uso:** Material de formación profesional integral bajo los lineamientos académicos del SENA.
+- **Instructor ADSO & Dirección Técnica:** **Ing. Hector David Toledo Garcia** ([hdtoledo.dev](https://www.hdtoledo.dev/)).
+- **Repositorio Oficial:** [github.com/hdtoledo/formacionadso](https://github.com/hdtoledo/formacionadso)
+- **Portal Web en Producción:** [hdtoledo.github.io/formacionadso](https://hdtoledo.github.io/formacionadso/)
+- **Uso:** Material de formación profesional integral bajo los lineamientos pedagógicos y tecnológicos del SENA.

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50 text-slate-900 antialiased">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Recurso No Encontrado | SENA ADSO</title>
+  <link rel="icon" type="image/png" href="assets/logo_green.png">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            sena: {
+              green: '#39A900',
+              'green-hover': '#2D8200',
+              navy: '#00324D',
+              'navy-dark': '#00263A',
+              'navy-light': '#004164'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/presenter.css">
+</head>
+<body class="min-h-full flex flex-col justify-between bg-slate-50 text-slate-900 font-sans selection:bg-[#39A900] selection:text-white">
+
+  <!-- Cintillo Institucional -->
+  <div class="bg-[#00324D] text-white text-xs py-2 px-4 border-b border-[#00263a]">
+    <div class="max-w-4xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <span class="w-2 h-2 rounded-full bg-[#39A900]"></span>
+        <span class="font-bold tracking-wider">SENA · REGIONAL HUILA</span>
+      </div>
+      <span class="text-slate-300 hidden sm:inline">CADPH Garzón · Formación ADSO</span>
+    </div>
+  </div>
+
+  <!-- Contenido 404 Centrado -->
+  <main class="flex-1 flex items-center justify-center px-4 py-12">
+    <div class="max-w-md w-full bg-white border border-slate-200 rounded-3xl p-8 shadow-xl text-center space-y-6">
+      
+      <div class="flex justify-center">
+        <div class="w-20 h-20 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center shadow-inner">
+          <i data-lucide="compass" class="w-10 h-10 text-[#39A900]"></i>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <span class="inline-block px-3 py-1 bg-slate-100 text-slate-600 font-mono text-xs font-bold rounded-full border border-slate-200">
+          ERROR 404 · RUTA NO ENCONTRADA
+        </span>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          Página o Sesión en Construcción
+        </h1>
+        <p class="text-slate-500 text-sm leading-relaxed">
+          La lección o el recurso al que intentas acceder aún no ha sido publicado o la dirección URL es incorrecta.
+        </p>
+      </div>
+
+      <div class="p-3 bg-slate-50 border border-slate-200/80 rounded-xl text-xs font-mono text-slate-600">
+        Redirigiendo automáticamente al portal principal en <span id="countdown" class="font-bold text-[#39A900]">8</span>s...
+      </div>
+
+      <div class="pt-2 flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="index.html" class="inline-flex items-center justify-center px-5 py-3 rounded-xl bg-[#39A900] hover:bg-[#2D8200] text-white font-bold text-sm shadow-md transition-all hover:scale-[1.02] gap-2">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          Volver al Portal ADSO
+        </a>
+      </div>
+
+      <div class="border-t border-slate-100 pt-4 text-[11px] text-slate-400">
+        Tecnólogo en Análisis y Desarrollo de Software · CADPH
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer mínimo -->
+  <footer class="py-4 text-center text-xs text-slate-400 border-t border-slate-200 bg-white">
+    SENA Formación Profesional Integral · Plataforma de Lecciones ADSO
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    // Redirección con cuenta regresiva
+    let seconds = 8;
+    const countdownEl = document.getElementById('countdown');
+    const interval = setInterval(() => {
+      seconds--;
+      if (countdownEl) countdownEl.textContent = seconds;
+      if (seconds <= 0) {
+        clearInterval(interval);
+        window.location.href = 'index.html';
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
