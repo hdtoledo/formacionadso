@@ -95,7 +95,6 @@
 
       <!-- Navegación Centrada -->
       <nav class="hidden md:flex items-center space-x-6 text-xs font-bold text-slate-600">
-        <a href="#sesion-actual" class="hover:text-[#39A900] transition-colors">Sesión Actual</a>
         <a href="#metodologia" class="hover:text-[#39A900] transition-colors">Metodología</a>
         <a href="#cronograma" class="hover:text-[#39A900] transition-colors">Plan 8 Semanas</a>
         <a href="#recursos" class="hover:text-[#39A900] transition-colors">Recursos SQL</a>
@@ -413,16 +412,30 @@
         <!-- Lista de las demás sesiones de la Semana 1 -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
           
-          <!-- Sesión 02 -->
-          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-2 hover:border-slate-300 transition">
+          <!-- Sesión 02 (Activa) -->
+          <div class="p-5 bg-white border-2 border-slate-200 hover:border-[#39A900] rounded-2xl space-y-3 shadow-xs hover:shadow-md transition">
             <div class="flex items-center justify-between">
-              <span class="px-2 py-0.5 bg-slate-100 rounded text-[11px] font-mono font-bold text-slate-700">SESIÓN 02 · DÍA 2</span>
-              <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">Bases de Datos</span>
+              <span class="px-2.5 py-0.5 bg-emerald-50 rounded-md text-[11px] font-mono font-extrabold text-[#39A900] border border-emerald-200">SESIÓN 02 · DÍA 2</span>
+              <span class="text-[10px] font-bold text-emerald-800 bg-emerald-100/70 px-2 py-0.5 rounded-full">Bases de Datos (DQL)</span>
             </div>
-            <h4 class="text-sm font-bold text-slate-900">Consultas SQL y Cruce de Tablas (JOINs)</h4>
+            <h4 class="text-base font-extrabold text-slate-900">Consultas SQL y Cruce de Tablas (JOINs)</h4>
             <p class="text-xs text-slate-600 leading-relaxed">
-              Filtros avanzados (<code class="font-mono text-slate-800">WHERE</code>, <code class="font-mono text-slate-800">LIKE</code>, <code class="font-mono text-slate-800">IN</code>), agregaciones (<code class="font-mono text-slate-800">COUNT</code>, <code class="font-mono text-slate-800">SUM</code>, <code class="font-mono text-slate-800">GROUP BY</code>) y diferencias entre <code class="font-mono text-slate-800">INNER JOIN</code> y <code class="font-mono text-slate-800">LEFT JOIN</code>.
+              Filtros avanzados (<code class="font-mono font-bold text-slate-800">WHERE</code>, <code class="font-mono font-bold text-slate-800">LIKE</code>, <code class="font-mono font-bold text-slate-800">IN</code>, <code class="font-mono font-bold text-slate-800">BETWEEN</code>), agregaciones (<code class="font-mono font-bold text-slate-800">COUNT</code>, <code class="font-mono font-bold text-slate-800">SUM</code>, <code class="font-mono font-bold text-slate-800">GROUP BY</code>, <code class="font-mono font-bold text-slate-800">HAVING</code>) y cruces relacionales (<code class="font-mono font-bold text-[#39A900]">INNER JOIN</code> y <code class="font-mono font-bold text-[#39A900]">LEFT JOIN</code>).
             </p>
+            <div class="pt-2 flex flex-col sm:flex-row gap-2">
+              <a href="semana-01-fundamentos/dia-02-consultas-sql-joins/index.html" class="flex-1 py-2.5 px-3 bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-xs rounded-xl transition flex items-center justify-center gap-1.5 shadow-2xs">
+                <i data-lucide="projector" class="w-3.5 h-3.5"></i>
+                <span>Proyectar Sesión 02</span>
+              </a>
+              <a href="semana-01-fundamentos/dia-02-consultas-sql-joins/recursos/solucion_consultas_joins.sql" target="_blank" class="py-2.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1">
+                <i data-lucide="file-code" class="w-3.5 h-3.5 text-[#39A900]"></i>
+                <span>Script</span>
+              </a>
+              <a href="semana-01-fundamentos/dia-02-consultas-sql-joins/recursos/plantilla_aprendiz.sql" download class="py-2.5 px-3 bg-[#00324D] hover:bg-[#00263A] text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-1">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                <span>Plantilla</span>
+              </a>
+            </div>
           </div>
 
           <!-- Sesión 03 -->
@@ -706,14 +719,15 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         
+        <!-- Sesión 01: Scripts -->
         <div class="bg-white p-5 rounded-2xl border border-slate-200 flex items-start justify-between gap-4 shadow-2xs">
           <div class="space-y-1">
             <div class="flex items-center gap-2">
-              <i data-lucide="file-check-2" class="w-5 h-5 text-[#39A900]"></i>
+              <span class="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-emerald-50 text-[#39A900] border border-emerald-200">SESIÓN 01</span>
               <h4 class="text-sm font-bold text-slate-900">solucion_sistema_ventas.sql</h4>
             </div>
             <p class="text-xs text-slate-600">
-              Script maestro verificado: tablas <code class="font-mono font-semibold">usuarios</code>, <code class="font-mono font-semibold">categorias</code>, <code class="font-mono font-semibold">productos</code>, FK con RESTRICT, inserts masivos y prueba de Error 1451.
+              Esquema DDL/DML verificado: tablas <code class="font-mono font-semibold">usuarios</code>, <code class="font-mono font-semibold">categorias</code>, <code class="font-mono font-semibold">productos</code>, FKs y restricciones de integridad.
             </p>
           </div>
           <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/recursos/solucion_sistema_ventas.sql" target="_blank" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition shrink-0">
@@ -724,14 +738,45 @@
         <div class="bg-white p-5 rounded-2xl border border-slate-200 flex items-start justify-between gap-4 shadow-2xs">
           <div class="space-y-1">
             <div class="flex items-center gap-2">
-              <i data-lucide="code" class="w-5 h-5 text-[#00324D]"></i>
+              <span class="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-blue-50 text-[#00324D] border border-blue-200">SESIÓN 01</span>
               <h4 class="text-sm font-bold text-slate-900">plantilla_aprendiz.sql</h4>
             </div>
             <p class="text-xs text-slate-600">
-              Plantilla base con comentarios guía <code class="font-mono font-semibold">[TODO]</code> para que los aprendices construyan las tablas y restricciones durante el Bloque 2.
+              Plantilla starter guiada con bloques <code class="font-mono font-semibold">[TODO]</code> para modelar las tablas relacionales en el laboratorio de clase.
             </p>
           </div>
           <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/recursos/plantilla_aprendiz.sql" download class="px-4 py-2 bg-[#00324D] hover:bg-[#00263A] text-white font-bold text-xs rounded-xl transition shrink-0">
+            Descargar
+          </a>
+        </div>
+
+        <!-- Sesión 02: Scripts -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 flex items-start justify-between gap-4 shadow-2xs">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-emerald-50 text-[#39A900] border border-emerald-200">SESIÓN 02</span>
+              <h4 class="text-sm font-bold text-slate-900">solucion_consultas_joins.sql</h4>
+            </div>
+            <p class="text-xs text-slate-600">
+              Solucionario maestro: consultas con <code class="font-mono font-semibold">WHERE</code>, <code class="font-mono font-semibold">GROUP BY</code>, <code class="font-mono font-semibold">HAVING</code>, <code class="font-mono font-semibold">INNER JOIN</code>, <code class="font-mono font-semibold">LEFT JOIN</code> y auditoría de nulos.
+            </p>
+          </div>
+          <a href="semana-01-fundamentos/dia-02-consultas-sql-joins/recursos/solucion_consultas_joins.sql" target="_blank" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition shrink-0">
+            Abrir Script
+          </a>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 flex items-start justify-between gap-4 shadow-2xs">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-blue-50 text-[#00324D] border border-blue-200">SESIÓN 02</span>
+              <h4 class="text-sm font-bold text-slate-900">plantilla_aprendiz (JOINs).sql</h4>
+            </div>
+            <p class="text-xs text-slate-600">
+              Base de datos precargada con datos de ventas y enunciados de los 5 retos de consultas relacionales para resolver en aula.
+            </p>
+          </div>
+          <a href="semana-01-fundamentos/dia-02-consultas-sql-joins/recursos/plantilla_aprendiz.sql" download class="px-4 py-2 bg-[#00324D] hover:bg-[#00263A] text-white font-bold text-xs rounded-xl transition shrink-0">
             Descargar
           </a>
         </div>

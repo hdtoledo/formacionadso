@@ -32,6 +32,11 @@ class SlidePresenter {
   init() {
     if (this.totalSlides === 0) return;
 
+    // Renderizar iconos de Lucide automáticamente
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons();
+    }
+
     // Recuperar última diapositiva si existe en hash o sessionStorage
     const hash = window.location.hash;
     if (hash && hash.startsWith('#slide-')) {
@@ -57,6 +62,10 @@ class SlidePresenter {
         slide.setAttribute('aria-hidden', 'true');
       }
     });
+
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons();
+    }
 
     // Actualizar Contador
     if (this.counterEl) {

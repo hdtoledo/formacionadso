@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50 text-slate-900 antialiased">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sesión 02 | Consultas SQL y Cruce de Tablas (JOINs) | SENA ADSO</title>
+  <meta name="description" content="Sesión 02: Consultas SQL avanzadas, filtros, agregaciones y cruce de tablas (JOINs). Diapositivas interactivas para videobeam SENA ADSO.">
+  <link rel="icon" type="image/png" href="../../assets/logo_green.png">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            sena: {
+              green: '#39A900',
+              'green-hover': '#2D8200',
+              navy: '#00324D',
+              'navy-dark': '#00263A',
+              'navy-light': '#004164'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- PrismJS para sintaxis SQL -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Estilos de presentación -->
+  <link rel="stylesheet" href="../../assets/css/presenter.css">
+</head>
+<body class="min-h-full flex flex-col bg-[#F8FAFC] text-slate-900 overflow-x-hidden selection:bg-[#39A900] selection:text-white">
+
+  <!-- ========================================================================= -->
+  <!-- 1. CINTILLO INSTITUCIONAL SENA (FECHA DINÁMICA & UBICACIÓN) -->
+  <!-- ========================================================================= -->
+  <div class="bg-[#00324D] text-white text-[11px] sm:text-xs py-1.5 px-4 sm:px-8 xl:px-12 border-b border-[#00263a] sticky top-0 z-50">
+    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-extrabold bg-[#39A900] text-white tracking-wider uppercase">
+          SENA
+        </span>
+        <span class="text-slate-300">Regional Huila • Centro Agroempresarial y Desarrollo Pecuario del Huila (CADPH Garzón)</span>
+      </div>
+      <div class="flex items-center space-x-4 text-slate-300">
+        <span class="hidden sm:inline">Sede Garzón</span>
+        <span>•</span>
+        <span class="text-emerald-300 font-medium" id="slide-cintillo-fecha">Hoy: Cargando...</span>
+        <span class="hidden md:inline">•</span>
+        <span class="hidden md:inline font-mono">ADSO · Proyección en Aula</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 2. HEADER DE CONTROL DE PRESENTACIÓN & TEMPORIZADOR -->
+  <!-- ========================================================================= -->
+  <header class="bg-white border-b border-slate-200 px-4 sm:px-8 xl:px-12 py-3 sticky top-[33px] sm:top-[35px] z-40 shadow-xs">
+    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-3">
+      
+      <!-- Marca SENA & Título de la Lección -->
+      <div class="flex items-center space-x-3">
+        <a href="../../index.html" class="flex items-center space-x-2.5 text-slate-600 hover:text-slate-900 transition-colors group" title="Volver al Portal">
+          <img src="../../assets/logo_green.png" alt="Logo SENA" class="h-9 w-auto object-contain shrink-0">
+          <div class="hidden sm:block border-l border-slate-200 pl-3">
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm font-extrabold text-slate-900">NIVELACIÓN</span>
+              <span class="text-sm font-black text-[#39A900]">ADSO</span>
+              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">CADPH</span>
+            </div>
+            <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Centro Agroempresarial y Desarrollo Pecuario del Huila</p>
+          </div>
+        </a>
+        <span class="text-slate-300 hidden md:inline">/</span>
+        <div class="hidden md:flex items-center space-x-2">
+          <span class="px-2.5 py-0.5 text-xs font-bold bg-emerald-50 text-[#39A900] border border-emerald-200 rounded">Semana 1</span>
+          <span class="text-xs font-bold text-slate-800">Sesión 02 · Día 2: Consultas SQL y Cruce de Tablas (JOINs)</span>
+        </div>
+      </div>
+
+      <!-- Controles de Clase & Temporizador -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        
+        <!-- Temporizador Institucional -->
+        <div class="flex items-center bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 space-x-2 shadow-2xs">
+          <i data-lucide="clock" class="w-4 h-4 text-[#39A900]"></i>
+          <span id="timer-display" class="font-mono text-sm font-bold text-slate-800 tracking-wider">00:00</span>
+          <button id="btn-timer-start" class="px-2.5 py-1 rounded bg-white hover:bg-slate-100 border border-slate-200 text-xs font-bold text-slate-700 transition-colors flex items-center space-x-1">
+            <i data-lucide="play" class="w-3 h-3 text-[#39A900]"></i>
+            <span>Iniciar</span>
+          </button>
+          <button id="btn-timer-reset" class="p-1 rounded hover:bg-slate-200 text-slate-400 hover:text-slate-700" title="Reiniciar temporizador">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+
+        <!-- Índice de Diapositivas (M) -->
+        <button id="btn-open-menu" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition" title="Índice de Diapositivas (M)">
+          <i data-lucide="list" class="w-4 h-4 text-[#00324D]"></i>
+        </button>
+
+        <!-- Contador de Diapositiva -->
+        <div class="bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-slate-700">
+          <span id="slide-counter">1 / 15</span>
+        </div>
+
+        <!-- Botones de Navegación Anterior / Siguiente -->
+        <div class="flex items-center space-x-1.5">
+          <button id="btn-prev-slide" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition disabled:opacity-40" title="Anterior (←)">
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+          </button>
+          <button id="btn-next-slide" class="p-2 rounded-lg bg-[#39A900] hover:bg-[#2D8200] text-white border border-[#39A900] shadow-sm transition" title="Siguiente (→)">
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Botón Pantalla Completa (F) -->
+        <button id="btn-fullscreen" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition hidden sm:inline-flex" title="Pantalla Completa (F)">
+          <i data-lucide="maximize" class="w-4 h-4"></i>
+        </button>
+
+        <!-- Ayuda (?) -->
+        <button onclick="window.presenter?.toggleHelpModal()" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition" title="Atajos de Teclado (?)">
+          <i data-lucide="help-circle" class="w-4 h-4 text-slate-500"></i>
+        </button>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Barra de progreso institucional verde SENA -->
+  <div class="w-full bg-slate-200 h-1 fixed top-[83px] sm:top-[87px] left-0 z-40">
+    <div id="presentation-progress" class="bg-[#39A900] h-full w-0 transition-all duration-300 ease-out"></div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- CONTENEDOR PRINCIPAL DE DIAPOSITIVAS (WIDESCREEN 16:9) -->
+  <!-- ========================================================================= -->
+  <main class="slide-container flex-1 w-full max-w-[1860px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 py-3 sm:py-6 flex flex-col justify-center">
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 1: PORTADA INSTITUCIONAL SENA CADPH -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content active flex-col justify-center items-center text-center py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="1" data-block="1" data-duration="110">
+      
+      <!-- Badge Institucional SENA -->
+      <div class="inline-flex items-center gap-2.5 px-6 py-2 rounded-full bg-white border-2 border-emerald-100 text-slate-700 text-xs sm:text-sm xl:text-base font-bold shadow-2xs mb-4 xl:mb-6">
+        <span class="w-3 h-3 rounded-full bg-[#39A900] animate-pulse"></span>
+        <span>SENA Regional Huila · Centro Agroempresarial y Desarrollo Pecuario del Huila (CADPH Garzón)</span>
+      </div>
+
+      <!-- Título de Gran Escala para Proyección en Videobeam -->
+      <h1 class="text-4xl sm:text-6xl lg:text-7xl xl:text-[4.75rem] 2xl:text-[5.25rem] font-black tracking-tight text-slate-900 mb-3 xl:mb-5 leading-[1.08] max-w-[1720px]">
+        Consultas SQL, Agregaciones y <br class="hidden md:inline">
+        <span class="text-[#39A900]">Cruce de Tablas (JOINs)</span>
+      </h1>
+
+      <p class="text-base sm:text-xl xl:text-2xl 2xl:text-3xl text-slate-600 max-w-6xl mb-6 xl:mb-10 font-medium leading-relaxed">
+        Tecnólogo en Análisis y Desarrollo de Software (ADSO) · Nivelación Intensiva de Consultas Relacionales & Cruces Avanzados · Ficha 2026
+      </p>
+
+      <!-- Tres Bloques Formativos con Mayor Altura y Amplitud para Aprovechar la Pantalla -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 xl:gap-8 w-full max-w-[1780px] text-left mb-8 xl:mb-11">
+        
+        <!-- Bloque 1 -->
+        <div class="bg-white border-2 border-slate-200 hover:border-[#39A900] border-t-4 border-t-[#39A900] rounded-2xl p-7 xl:p-8 shadow-xs hover:shadow-md transition flex flex-col justify-between min-h-[300px] xl:min-h-[340px]">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1.5 bg-emerald-50 text-[#39A900] font-mono text-xs xl:text-sm font-extrabold rounded-lg border border-emerald-200">
+                BLOQUE 1
+              </span>
+              <span class="text-xs xl:text-sm font-mono font-bold text-slate-400">110 MINUTOS</span>
+            </div>
+            <h3 class="text-2xl xl:text-3xl font-extrabold text-slate-900 mb-3">Teoría & Live Coding</h3>
+            <p class="text-sm xl:text-base text-slate-600 leading-relaxed mb-4">
+              Pipeline de ejecución SQL, trampa del NULL, funciones de agregado (<code class="font-mono text-slate-900 font-bold">SUM</code>, <code class="font-mono text-slate-900 font-bold">COUNT</code>) y diagramas relacionales.
+            </p>
+            <ul class="space-y-2 text-xs xl:text-sm font-medium text-slate-700">
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-[#39A900] shrink-0"></i>
+                <span>Pipeline de 8 fases (FROM hasta LIMIT)</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-[#39A900] shrink-0"></i>
+                <span>INNER JOIN vs LEFT JOIN con diagramas</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs xl:text-sm font-bold text-[#39A900]">
+            <div class="flex items-center">
+              <i data-lucide="clock" class="w-4 h-4 mr-1.5"></i>
+              <span>110 minutos de fundamentos</span>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-emerald-50 text-[11px] xl:text-xs">Aula Informática</span>
+          </div>
+        </div>
+
+        <!-- Bloque 2 -->
+        <div class="bg-white border-2 border-slate-200 hover:border-[#00324D] border-t-4 border-t-[#00324D] rounded-2xl p-7 xl:p-8 shadow-xs hover:shadow-md transition flex flex-col justify-between min-h-[300px] xl:min-h-[340px]">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1.5 bg-[#00324D] text-white font-mono text-xs xl:text-sm font-extrabold rounded-lg">
+                BLOQUE 2
+              </span>
+              <span class="text-xs xl:text-sm font-mono font-bold text-slate-400">70 MINUTOS</span>
+            </div>
+            <h3 class="text-2xl xl:text-3xl font-extrabold text-slate-900 mb-3">Taller Práctico en Aula</h3>
+            <p class="text-sm xl:text-base text-slate-600 leading-relaxed mb-4">
+              Resolución de los 5 retos de negocio sobre el esquema <code class="font-mono text-slate-900 font-bold">sistema_ventas_adso</code> en MySQL Workbench.
+            </p>
+            <ul class="space-y-2 text-xs xl:text-sm font-medium text-slate-700">
+              <li class="flex items-center gap-2">
+                <i data-lucide="terminal" class="w-4 h-4 text-[#00324D] shrink-0"></i>
+                <span>Filtros avanzados, rangos y agregaciones</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="terminal" class="w-4 h-4 text-[#00324D] shrink-0"></i>
+                <span>Auditoría de registros huérfanos con LEFT JOIN</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs xl:text-sm font-bold text-[#00324D]">
+            <div class="flex items-center">
+              <i data-lucide="code-2" class="w-4 h-4 mr-1.5"></i>
+              <span>70 minutos prácticos guiados</span>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-slate-100 text-[11px] xl:text-xs">Individual / Parejas</span>
+          </div>
+        </div>
+
+        <!-- Bloque 3 -->
+        <div class="bg-white border-2 border-slate-200 hover:border-purple-600 border-t-4 border-t-purple-600 rounded-2xl p-7 xl:p-8 shadow-xs hover:shadow-md transition flex flex-col justify-between min-h-[300px] xl:min-h-[340px]">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1.5 bg-purple-100 text-purple-700 font-mono text-xs xl:text-sm font-extrabold rounded-lg border border-purple-200">
+                BLOQUE 3
+              </span>
+              <span class="text-xs xl:text-sm font-mono font-bold text-slate-400">40 MINUTOS</span>
+            </div>
+            <h3 class="text-2xl xl:text-3xl font-extrabold text-slate-900 mb-3">Evidencia & Sustentación</h3>
+            <p class="text-sm xl:text-base text-slate-600 leading-relaxed mb-4">
+              Sustentación individual en vivo ante el instructor: modificación de queries en caliente (sin IA) y commit oficial a Git.
+            </p>
+            <ul class="space-y-2 text-xs xl:text-sm font-medium text-slate-700">
+              <li class="flex items-center gap-2">
+                <i data-lucide="award" class="w-4 h-4 text-purple-600 shrink-0"></i>
+                <span>Revisión en vivo puesto por puesto</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="award" class="w-4 h-4 text-purple-600 shrink-0"></i>
+                <span>Demostración de modificación en caliente</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs xl:text-sm font-bold text-purple-700">
+            <div class="flex items-center">
+              <i data-lucide="check-check" class="w-4 h-4 mr-1.5"></i>
+              <span>40 minutos de evaluación</span>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-purple-50 text-[11px] xl:text-xs font-mono">Territorium / Sofia</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Barra de Acciones y Atajos de Teclado -->
+      <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+        <button onclick="window.presenter?.nextSlide()" class="px-10 py-4 xl:py-5 rounded-2xl bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-base sm:text-lg xl:text-xl shadow-md transition-all hover:scale-[1.02] flex items-center space-x-3">
+          <span>Iniciar Proyección</span>
+          <i data-lucide="arrow-right" class="w-5 h-5"></i>
+        </button>
+        <div class="flex items-center gap-3 text-xs sm:text-sm xl:text-base text-slate-500 font-medium">
+          <span>Navegar:</span>
+          <span class="inline-flex items-center gap-1.5">
+            <kbd class="px-2.5 py-1 bg-white border border-slate-300 rounded-md font-mono font-bold text-slate-700 shadow-2xs">[Espacio]</kbd> o 
+            <kbd class="px-2.5 py-1 bg-white border border-slate-300 rounded-md font-mono font-bold text-slate-700 shadow-2xs">[→]</kbd>
+          </span>
+          <span class="text-slate-300">•</span>
+          <span class="inline-flex items-center gap-1.5">
+            <kbd class="px-2.5 py-1 bg-white border border-slate-300 rounded-md font-mono font-bold text-slate-700 shadow-2xs">[F]</kbd> Pantalla Completa
+          </span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 2: EL MODELO MENTAL: ORDEN REAL DE EJECUCIÓN SQL -->
+    <!-- --------------------------------------------------------------------- -->
+    <div class="slide-content" data-slide="2" data-block="1" data-duration="110">
+      <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
+        
+        <div class="space-y-4">
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-amber-100 text-amber-800 border border-amber-200">
+              ARQUITECTURA DEL MOTOR SQL
+            </span>
+            <span class="text-xs text-slate-400">· Modelo Mental Crítico</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            ¿Cómo Ejecuta MySQL una Consulta Realmente?
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-4xl leading-relaxed">
+            El mayor error del aprendiz novato es asumir que SQL se ejecuta en el orden en que se escribe (<code class="font-mono text-slate-800">SELECT</code> primero). El motor relacional sigue un pipeline estricto de 8 fases:
+          </p>
+
+          <!-- Pipeline Visual de Ejecución -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 pt-2 text-center text-xs">
+            
+            <div class="p-3 bg-emerald-50 border-2 border-[#39A900] rounded-xl space-y-1">
+              <span class="font-mono font-black text-xs text-[#39A900]">1. FROM</span>
+              <p class="text-[11px] text-slate-700 font-semibold">Carga tablas base</p>
+            </div>
+
+            <div class="p-3 bg-emerald-50 border-2 border-[#39A900] rounded-xl space-y-1">
+              <span class="font-mono font-black text-xs text-[#39A900]">2. ON / JOIN</span>
+              <p class="text-[11px] text-slate-700 font-semibold">Cruza relaciones</p>
+            </div>
+
+            <div class="p-3 bg-blue-50 border-2 border-[#00324D] rounded-xl space-y-1">
+              <span class="font-mono font-black text-xs text-[#00324D]">3. WHERE</span>
+              <p class="text-[11px] text-slate-700 font-semibold">Filtra filas base</p>
+            </div>
+
+            <div class="p-3 bg-indigo-50 border-2 border-indigo-600 rounded-xl space-y-1">
+              <span class="font-mono font-black text-xs text-indigo-700">4. GROUP BY</span>
+              <p class="text-[11px] text-slate-700 font-semibold">Agrupa filas</p>
+            </div>
+
+            <div class="p-3 bg-indigo-50 border-2 border-indigo-600 rounded-xl space-y-1">
+              <span class="font-mono font-black text-xs text-indigo-700">5. HAVING</span>
+              <p class="text-[11px] text-slate-700 font-semibold">Filtra grupos</p>
+            </div>
+
+            <div class="p-3 bg-amber-50 border-2 border-amber-500 rounded-xl space-y-1">
+              <span class="font-mono font-black text-xs text-amber-700">6. SELECT</span>
+              <p class="text-[11px] text-slate-700 font-semibold">Calcula y proyecta</p>
+            </div>
+
+            <div class="p-3 bg-slate-50 border-2 border-slate-400 rounded-xl space-y-1">
+              <span class="font-mono font-black text-xs text-slate-700">7. ORDER BY</span>
+              <p class="text-[11px] text-slate-700 font-semibold">Ordena filas</p>
+            </div>
+
+            <div class="p-3 bg-rose-50 border-2 border-rose-500 rounded-xl space-y-1">
+              <span class="font-mono font-black text-xs text-rose-700">8. LIMIT</span>
+              <p class="text-[11px] text-slate-700 font-semibold">Página conjunto</p>
+            </div>
+
+          </div>
+
+          <!-- Consecuencia Práctica -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            <div class="p-4 bg-rose-50 border border-rose-200 rounded-2xl space-y-2">
+              <div class="flex items-center space-x-2 text-rose-700 font-bold text-xs">
+                <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                <span>¿Por qué falla esto en MySQL?</span>
+              </div>
+              <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-xs font-mono overflow-x-auto"><code>-- ❌ ERROR 1054: Unknown column 'subtotal_con_iva' in 'where clause'
+SELECT nombre, (precio * 1.19) AS subtotal_con_iva
+FROM productos
+WHERE subtotal_con_iva > 100000;</code></pre>
+              <p class="text-[11px] text-rose-800 leading-relaxed">
+                <strong>Motivo:</strong> El <code class="font-mono">WHERE</code> (Fase 3) se ejecuta mucho antes de que el <code class="font-mono">SELECT</code> (Fase 6) cree el alias <code class="font-mono">subtotal_con_iva</code>.
+              </p>
+            </div>
+
+            <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl space-y-2">
+              <div class="flex items-center space-x-2 text-emerald-800 font-bold text-xs">
+                <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                <span>Solución Correcta y Profesional</span>
+              </div>
+              <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-xs font-mono overflow-x-auto"><code>-- ✅ Repetir la expresión matemática en WHERE o usar Subconsulta/HAVING
+SELECT nombre, (precio * 1.19) AS subtotal_con_iva
+FROM productos
+WHERE (precio * 1.19) > 100000;</code></pre>
+              <p class="text-[11px] text-emerald-900 leading-relaxed">
+                El optimizador de InnoDB calcula el filtro directamente sobre la columna física sin depender de alias aún no generados.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+          <span class="text-slate-400">Concepto fundamental de optimización relacional</span>
+          <button onclick="window.presenter?.nextSlide()" class="text-[#39A900] font-bold hover:underline flex items-center gap-1">
+            <span>Siguiente: Esquema del Negocio</span>
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 3: ESQUEMA DE DATOS DE NEGOCIO (SISTEMA DE VENTAS) -->
+    <!-- --------------------------------------------------------------------- -->
+    <div class="slide-content" data-slide="3" data-block="1" data-duration="110">
+      <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
+        
+        <div class="space-y-4">
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-blue-100 text-[#00324D] border border-blue-200">
+              MODELO E-R EN ACCIÓN
+            </span>
+            <span class="text-xs text-slate-400">· Caso Práctico del Día</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl xl:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Esquema Relacional: <span class="text-[#00324D] font-mono">sistema_ventas_adso</span>
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-4xl">
+            Sobre esta arquitectura relacional ejecutaremos todas las consultas del día. Cada llave foránea (<code class="font-mono text-purple-700 font-bold">FK</code>) representa el puente natural para nuestros <code class="font-mono text-[#39A900] font-bold">JOINs</code>.
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
+            
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
+              <div class="flex items-center justify-between pb-1 border-b border-slate-200">
+                <span class="font-mono font-extrabold text-xs text-slate-800">usuarios</span>
+                <span class="text-[10px] bg-slate-200 px-2 py-0.5 rounded font-mono">6 registros</span>
+              </div>
+              <ul class="text-xs font-mono space-y-1 text-slate-600">
+                <li><span class="text-amber-600 font-bold">🔑 id</span> (INT PK)</li>
+                <li>nombre (VARCHAR)</li>
+                <li>email (VARCHAR UNIQUE)</li>
+                <li>ciudad (VARCHAR)</li>
+                <li><span class="text-purple-600 font-bold">🔗 rol_id</span> (FK -> roles.id)</li>
+                <li>activo (BOOLEAN)</li>
+              </ul>
+            </div>
+
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
+              <div class="flex items-center justify-between pb-1 border-b border-slate-200">
+                <span class="font-mono font-extrabold text-xs text-slate-800">productos</span>
+                <span class="text-[10px] bg-slate-200 px-2 py-0.5 rounded font-mono">7 referencias</span>
+              </div>
+              <ul class="text-xs font-mono space-y-1 text-slate-600">
+                <li><span class="text-amber-600 font-bold">🔑 id</span> (INT PK)</li>
+                <li>codigo (VARCHAR UNIQUE)</li>
+                <li>nombre (VARCHAR)</li>
+                <li>precio (DECIMAL 12,2)</li>
+                <li>stock (INT)</li>
+                <li><span class="text-purple-600 font-bold">🔗 categoria_id</span> (FK NULLable)</li>
+              </ul>
+            </div>
+
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
+              <div class="flex items-center justify-between pb-1 border-b border-slate-200">
+                <span class="font-mono font-extrabold text-xs text-slate-800">categorias</span>
+                <span class="text-[10px] bg-slate-200 px-2 py-0.5 rounded font-mono">4 categorías</span>
+              </div>
+              <ul class="text-xs font-mono space-y-1 text-slate-600">
+                <li><span class="text-amber-600 font-bold">🔑 id</span> (INT PK)</li>
+                <li>nombre (VARCHAR UNIQUE)</li>
+                <li>descripcion (TEXT)</li>
+              </ul>
+              <p class="text-[11px] text-emerald-700 italic pt-1">
+                * Nota: 'Servicios & Licencias' no tiene productos aún (ideal para probar LEFT JOIN).
+              </p>
+            </div>
+
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
+              <div class="flex items-center justify-between pb-1 border-b border-slate-200">
+                <span class="font-mono font-extrabold text-xs text-slate-800">pedidos (Encabezado)</span>
+                <span class="text-[10px] bg-slate-200 px-2 py-0.5 rounded font-mono">4 pedidos</span>
+              </div>
+              <ul class="text-xs font-mono space-y-1 text-slate-600">
+                <li><span class="text-amber-600 font-bold">🔑 id</span> (INT PK)</li>
+                <li>codigo (VARCHAR UNIQUE)</li>
+                <li><span class="text-purple-600 font-bold">🔗 usuario_id</span> (FK -> usuarios.id)</li>
+                <li>fecha (DATETIME)</li>
+                <li>total (DECIMAL)</li>
+                <li>estado (ENUM: PAGADO, PENDIENTE)</li>
+              </ul>
+            </div>
+
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2 sm:col-span-2">
+              <div class="flex items-center justify-between pb-1 border-b border-slate-200">
+                <span class="font-mono font-extrabold text-xs text-slate-800">detalle_pedidos (Líneas de Compra)</span>
+                <span class="text-[10px] bg-slate-200 px-2 py-0.5 rounded font-mono">6 ítems</span>
+              </div>
+              <ul class="text-xs font-mono space-y-1 text-slate-600">
+                <li><span class="text-amber-600 font-bold">🔑 id</span> (INT PK)</li>
+                <li><span class="text-purple-600 font-bold">🔗 pedido_id</span> (FK -> pedidos.id ON DELETE CASCADE)</li>
+                <li><span class="text-purple-600 font-bold">🔗 producto_id</span> (FK -> productos.id ON DELETE RESTRICT)</li>
+                <li>cantidad (INT) · precio_unitario (DECIMAL) · subtotal (DECIMAL)</li>
+              </ul>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+          <span class="text-slate-400">Esquema idéntico en el script plantilla_aprendiz.sql</span>
+          <button onclick="window.presenter?.nextSlide()" class="text-[#39A900] font-bold hover:underline flex items-center gap-1">
+            <span>Siguiente: Filtros Avanzados WHERE</span>
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 4: FILTROS AVANZADOS WHERE Y PRECEDENCIA LÓGICA -->
+    <!-- --------------------------------------------------------------------- -->
+    <div class="slide-content" data-slide="4" data-block="1" data-duration="110">
+      <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
+        
+        <div class="space-y-4">
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-purple-100 text-purple-700 border border-purple-200">
+              FILTRADO DE FILAS
+            </span>
+            <span class="text-xs text-slate-400">· Precedencia de Operadores</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Filtros con <code class="text-[#39A900]">WHERE</code>: La Trampa del <code class="text-purple-700">AND</code> vs <code class="text-rose-600">OR</code>
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-4xl leading-relaxed">
+            En el álgebra booleana de SQL, el operador <code class="font-mono font-bold text-[#00324D]">AND</code> tiene <strong>mayor prioridad de evaluación</strong> que el operador <code class="font-mono font-bold text-rose-600">OR</code> (similar a la multiplicación frente a la suma). No usar paréntesis provocará fugas de datos y reportes erróneos.
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            
+            <div class="p-4 bg-rose-50/70 border border-rose-200 rounded-2xl space-y-2">
+              <span class="text-xs font-bold font-mono text-rose-700 block">❌ CASO INCORRECTO (Sin Paréntesis)</span>
+              <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-xs font-mono overflow-x-auto"><code>-- Queremos aprendices ACTIVOS de Garzón o Neiva:
+SELECT nombre, ciudad, activo 
+FROM usuarios
+WHERE activo = 1 AND ciudad = 'Garzón' OR ciudad = 'Neiva';</code></pre>
+              <div class="text-[11px] text-rose-800 space-y-1">
+                <p><strong>Resultado inesperado:</strong> Trae todos los usuarios activos de Garzón, ¡PERO también trae a María Rojas aunque esté INACTIVA porque la condición de la derecha (<code class="font-mono">ciudad = 'Neiva'</code>) se evalúa aislada!</p>
+              </div>
+            </div>
+
+            <div class="p-4 bg-emerald-50/70 border border-emerald-200 rounded-2xl space-y-2">
+              <span class="text-xs font-bold font-mono text-[#39A900] block">✅ CASO CORRECTO (Paréntesis Obligatorios)</span>
+              <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-xs font-mono overflow-x-auto"><code>-- Agrupando la condición lógica de ciudades:
+SELECT nombre, ciudad, activo 
+FROM usuarios
+WHERE activo = 1 
+  AND (ciudad = 'Garzón' OR ciudad = 'Neiva');</code></pre>
+              <div class="text-[11px] text-emerald-900 space-y-1">
+                <p><strong>Comportamiento real:</strong> Primero resuelve si el usuario es de Garzón o Neiva, y de ese grupo EXIGE obligatoriamente que <code class="font-mono">activo = 1</code>.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex items-center justify-between gap-4 text-xs">
+            <div class="flex items-center space-x-2 text-slate-700">
+              <i data-lucide="info" class="w-4 h-4 text-[#39A900] shrink-0"></i>
+              <span><strong>Regla SENA ADSO:</strong> Siempre que combines <code class="font-mono font-bold">AND</code> con <code class="font-mono font-bold">OR</code>, encapsula los grupos de decisión entre paréntesis para asegurar claridad para ti y para el motor relacional.</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+          <span class="text-slate-400">Precedencia booleana en bases de datos relacionales</span>
+          <button onclick="window.presenter?.nextSlide()" class="text-[#39A900] font-bold hover:underline flex items-center gap-1">
+            <span>Siguiente: LIKE, IN y BETWEEN</span>
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 5: OPERADORES LIKE, IN Y BETWEEN -->
+    <!-- --------------------------------------------------------------------- -->
+    <div class="slide-content" data-slide="5" data-block="1" data-duration="110">
+      <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
+        
+        <div class="space-y-4">
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-emerald-100 text-[#39A900] border border-emerald-200">
+              PATRONES Y RANGOS
+            </span>
+            <span class="text-xs text-slate-400">· Filtros de Alto Rendimiento</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Patrones (<code class="text-[#39A900]">LIKE</code>), Listas (<code class="text-[#00324D]">IN</code>) y Rangos (<code class="text-purple-700">BETWEEN</code>)
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-4xl leading-relaxed">
+            Escribir consultas profesionales implica evitar ristras interminables de comparaciones con <code class="font-mono">OR</code> usando operadores nativos optimizados:
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+            
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
+              <span class="font-mono font-bold text-xs text-[#39A900]">1. LIKE (Comodines % y _)</span>
+              <p class="text-xs text-slate-600 leading-snug">
+                <code class="font-mono text-slate-800">%</code> representa 0 o más caracteres.<br>
+                <code class="font-mono text-slate-800">_</code> representa exactamente 1 caracter.
+              </p>
+              <pre class="bg-slate-900 text-slate-100 p-2.5 rounded-xl text-[11px] font-mono overflow-x-auto"><code>-- Correos institucionales:
+SELECT nombre, email 
+FROM usuarios
+WHERE email LIKE '%@misena.edu.co';
+
+-- Códigos que inician con 'LAP-':
+SELECT * FROM productos
+WHERE codigo LIKE 'LAP-%';</code></pre>
+            </div>
+
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
+              <span class="font-mono font-bold text-xs text-[#00324D]">2. IN (Pertenencia a Conjuntos)</span>
+              <p class="text-xs text-slate-600 leading-snug">
+                Reemplaza múltiples <code class="font-mono">OR</code> haciéndolo más legible y permitiendo subconsultas posteriores.
+              </p>
+              <pre class="bg-slate-900 text-slate-100 p-2.5 rounded-xl text-[11px] font-mono overflow-x-auto"><code>-- En vez de: ciudad = 'A' OR ciudad = 'B'
+SELECT nombre, ciudad 
+FROM usuarios
+WHERE ciudad IN ('Garzón', 'Neiva', 'Pitalito');
+
+-- Estados específicos:
+SELECT codigo, total 
+FROM pedidos
+WHERE estado IN ('PAGADO', 'ENVIADO');</code></pre>
+            </div>
+
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
+              <span class="font-mono font-bold text-xs text-purple-700">3. BETWEEN (Rangos Inclusivos)</span>
+              <p class="text-xs text-slate-600 leading-snug">
+                Equivale a <code class="font-mono">val >= min AND val <= max</code> (incluye ambos límites).
+              </p>
+              <pre class="bg-slate-900 text-slate-100 p-2.5 rounded-xl text-[11px] font-mono overflow-x-auto"><code>-- Rango de precios:
+SELECT nombre, precio 
+FROM productos
+WHERE precio BETWEEN 400000 AND 2000000;
+
+-- Rango de fechas:
+SELECT codigo, fecha 
+FROM pedidos
+WHERE fecha BETWEEN '2026-09-01' 
+                AND '2026-09-30';</code></pre>
+            </div>
+
+          </div>
+
+          <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 flex items-center gap-2">
+            <i data-lucide="zap" class="w-4 h-4 text-amber-700 shrink-0"></i>
+            <span><strong>Tip de Rendimiento:</strong> Evita iniciar búsquedas LIKE con porcentaje al principio (<code class="font-mono">%texto</code>) en tablas con millones de registros, pues anula el uso de índices B-Tree obligando a un Table Scan completo.</span>
+          </div>
+
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+          <span class="text-slate-400">Operadores DQL estándar SQL-92</span>
+          <button onclick="window.presenter?.nextSlide()" class="text-[#39A900] font-bold hover:underline flex items-center gap-1">
+            <span>Siguiente: La Gran Trampa de NULL</span>
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 6: LA GRAN TRAMPA DE NULL (IS NULL, IFNULL, COALESCE) -->
+    <!-- --------------------------------------------------------------------- -->
+    <div class="slide-content" data-slide="6" data-block="1" data-duration="110">
+      <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
+        
+        <div class="space-y-4">
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-rose-100 text-rose-800 border border-rose-200">
+              LÓGICA TRIVALENTE
+            </span>
+            <span class="text-xs text-slate-400">· Pregunta Clásica de Entrevista Técnica</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            La Gran Trampa de <code class="text-rose-600">NULL</code> en Bases de Datos
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-4xl leading-relaxed">
+            En bases de datos relacionales, <code class="font-mono font-bold text-rose-600">NULL</code> <strong>no es un valor</strong>. No es el número 0, no es espacio en blanco, ni es una cadena vacía <code class="font-mono">''</code>. Representa el <strong>estado de ausencia de información</strong> o valor desconocido.
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+            
+            <div class="p-5 bg-slate-900 text-slate-100 rounded-2xl space-y-3 font-mono text-xs">
+              <span class="text-rose-400 font-bold block">❌ ¿Por qué "= NULL" NUNCA funciona?</span>
+              <pre class="text-slate-300"><code>-- Este query devuelve 0 filas SIEMPRE:
+SELECT * FROM productos WHERE categoria_id = NULL;
+
+-- Este query TAMBIÉN devuelve 0 filas SIEMPRE:
+SELECT * FROM productos WHERE categoria_id != NULL;</code></pre>
+              <div class="p-3 bg-slate-800 rounded-xl text-[11px] text-slate-400 leading-relaxed font-sans">
+                <strong>¿Por qué?</strong> Cualquier comparación aritmética con NULL evalúa a <span class="text-amber-300 font-bold">UNKNOWN</span> (desconocido). Y la cláusula <code class="font-mono">WHERE</code> solo devuelve filas que evalúen estrictamente a <span class="text-emerald-400 font-bold">TRUE</span>.
+              </div>
+            </div>
+
+            <div class="p-5 bg-emerald-50/60 border border-emerald-200 rounded-2xl space-y-3 text-xs">
+              <span class="text-[#39A900] font-bold font-mono block">✅ Sintaxis Correcta: IS NULL & Manejo Seguro</span>
+              <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl font-mono overflow-x-auto"><code>-- 1. Comparación con operadores de identidad:
+SELECT nombre, precio 
+FROM productos 
+WHERE categoria_id IS NULL;
+
+-- 2. Sustitución de nulos con IFNULL / COALESCE:
+SELECT 
+  nombre, 
+  IFNULL(categoria_id, 0) AS cat_id_segura,
+  COALESCE(categoria_id, 999) AS cat_con_default
+FROM productos;</code></pre>
+              <p class="text-emerald-900 text-[11px] leading-relaxed">
+                <code class="font-mono font-bold">COALESCE()</code> es el estándar ANSI SQL preferido porque acepta N parámetros y retorna el primer valor no nulo de la lista.
+              </p>
+            </div>
+
+          </div>
+
+          <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs flex items-center justify-between">
+            <span class="text-slate-700"><strong>Regla de oro:</strong> Jamás uses <code class="font-mono font-bold">= NULL</code>. Usa siempre <code class="font-mono font-bold text-[#39A900]">IS NULL</code> o <code class="font-mono font-bold text-[#39A900]">IS NOT NULL</code>.</span>
+          </div>
+
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+          <span class="text-slate-400">Lógica trivalente (TRUE, FALSE, UNKNOWN)</span>
+          <button onclick="window.presenter?.nextSlide()" class="text-[#39A900] font-bold hover:underline flex items-center gap-1">
+            <span>Siguiente: Funciones de Agregación</span>
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 7: FUNCIONES DE AGREGACIÓN (COUNT, SUM, AVG, MIN, MAX) -->
+    <!-- --------------------------------------------------------------------- -->
+    <div class="slide-content" data-slide="7" data-block="1" data-duration="110">
+      <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
+        
+        <div class="space-y-4">
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-emerald-100 text-[#39A900] border border-emerald-200">
+              MÉTRICAS Y ESTADÍSTICAS
+            </span>
+            <span class="text-xs text-slate-400">· Reducción de Datos</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Funciones de Agregación: De Filas a Indicadores
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-4xl leading-relaxed">
+            Las funciones de agregación toman un conjunto de valores de una columna y calculan un <strong>único valor resumen</strong> escalar:
+          </p>
+
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 pt-2 text-center text-xs">
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
+              <span class="font-mono font-extrabold text-[#39A900] text-sm">COUNT()</span>
+              <p class="text-[11px] text-slate-600">Conteo de registros</p>
+            </div>
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
+              <span class="font-mono font-extrabold text-[#00324D] text-sm">SUM()</span>
+              <p class="text-[11px] text-slate-600">Suma aritmética</p>
+            </div>
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
+              <span class="font-mono font-extrabold text-purple-700 text-sm">AVG()</span>
+              <p class="text-[11px] text-slate-600">Promedio aritmético</p>
+            </div>
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
+              <span class="font-mono font-extrabold text-amber-600 text-sm">MIN()</span>
+              <p class="text-[11px] text-slate-600">Valor mínimo</p>
+            </div>
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
+              <span class="font-mono font-extrabold text-rose-600 text-sm">MAX()</span>
+              <p class="text-[11px] text-slate-600">Valor máximo</p>
+            </div>
+          </div>
+
+          <!-- Demostración en Código SQL -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            
+            <div class="p-4 bg-slate-900 text-slate-100 rounded-2xl font-mono text-xs space-y-2">
+              <span class="text-amber-400 font-bold block">Diferencia Crítica: COUNT(*) vs COUNT(columna)</span>
+              <pre class="text-slate-300"><code>SELECT 
+  COUNT(*) AS total_productos_bd,
+  COUNT(categoria_id) AS con_categoria
+FROM productos;</code></pre>
+              <div class="p-3 bg-slate-800 rounded-xl text-[11px] text-slate-400 font-sans space-y-1">
+                <p>• <code class="font-mono text-white">COUNT(*)</code> retorna <strong>7</strong> (cuenta filas totales).</p>
+                <p>• <code class="font-mono text-white">COUNT(categoria_id)</code> retorna <strong>6</strong> (ignora el cable que tiene categoría NULL).</p>
+              </div>
+            </div>
+
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2 text-xs">
+              <span class="text-slate-800 font-bold font-mono block">Métricas de Pedidos en Producción</span>
+              <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl font-mono overflow-x-auto text-[11px]"><code>SELECT 
+  COUNT(id) AS cantidad_pedidos,
+  SUM(total) AS venta_total_global,
+  ROUND(AVG(total), 2) AS ticket_promedio,
+  MIN(total) AS pedido_mas_pequeno,
+  MAX(total) AS pedido_mas_grande
+FROM pedidos;</code></pre>
+              <p class="text-slate-600 text-[11px]">
+                Usamos <code class="font-mono font-bold">ROUND(..., 2)</code> para formatear valores decimales monetarios evitando decimales infinitos.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+          <span class="text-slate-400">Funciones de agregación DQL</span>
+          <button onclick="window.presenter?.nextSlide()" class="text-[#39A900] font-bold hover:underline flex items-center gap-1">
+            <span>Siguiente: Agrupamiento con GROUP BY</span>
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 8: AGRUPAMIENTO CON GROUP BY Y REGLAS DE ORO -->
+    <!-- --------------------------------------------------------------------- -->
+    <div class="slide-content" data-slide="8" data-block="1" data-duration="110">
+      <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
+        
+        <div class="space-y-4">
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-indigo-100 text-indigo-800 border border-indigo-200">
+              SEGMENTACIÓN ANALÍTICA
+            </span>
+            <span class="text-xs text-slate-400">· Agrupamiento de Dimensiones</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            <code class="text-indigo-700">GROUP BY</code>: Consolidando Reportes por Dimensión
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-4xl leading-relaxed">
+            Las funciones de agregación por sí solas dan un total global. Cuando queremos ver métricas <strong>por categoría, por ciudad o por estado</strong>, entra en acción <code class="font-mono font-bold text-indigo-700">GROUP BY</code>.
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            
+            <div class="p-5 bg-slate-900 text-slate-100 rounded-2xl font-mono text-xs space-y-3">
+              <span class="text-indigo-400 font-bold block">Ejemplo: Ventas por Estado de Pedido</span>
+              <pre class="text-slate-300"><code>SELECT 
+  estado, 
+  COUNT(id) AS cantidad_pedidos,
+  SUM(total) AS total_recaudado
+FROM pedidos
+GROUP BY estado;</code></pre>
+              <div class="p-3 bg-slate-800 rounded-xl text-[11px] text-slate-400 font-sans">
+                <strong>Salida esperada:</strong>
+                <table class="w-full mt-2 text-left font-mono text-[10px]">
+                  <tr class="border-b border-slate-700 text-slate-200">
+                    <th class="pb-1">estado</th>
+                    <th class="pb-1">cantidad_pedidos</th>
+                    <th class="pb-1">total_recaudado</th>
+                  </tr>
+                  <tr><td>PAGADO</td><td>3</td><td>$ 6.850.000,00</td></tr>
+                  <tr><td>PENDIENTE</td><td>1</td><td>$ 3.150.000,00</td></tr>
+                </table>
+              </div>
+            </div>
+
+            <div class="p-5 bg-amber-50/70 border border-amber-200 rounded-2xl space-y-3 text-xs">
+              <span class="text-amber-800 font-bold font-mono block">⚠️ La Regla de Oro (ONLY_FULL_GROUP_BY)</span>
+              <p class="text-slate-700 leading-relaxed">
+                En MySQL 8.0 está activado por defecto el modo estricto <code class="font-mono bg-white px-1.5 py-0.5 rounded border">ONLY_FULL_GROUP_BY</code>.
+              </p>
+              <div class="p-3 bg-white rounded-xl border border-amber-300 space-y-1 text-slate-800">
+                <p class="font-bold text-amber-900">Regla Absoluta:</p>
+                <p class="text-[11px]">
+                  Toda columna que pongas en el <code class="font-mono font-bold">SELECT</code> que <strong>NO</strong> esté dentro de una función agregada (<code class="font-mono">SUM</code>, <code class="font-mono">COUNT</code>, etc.), <strong>TIENE QUE ESTAR</strong> en la cláusula <code class="font-mono font-bold">GROUP BY</code>.
+                </p>
+              </div>
+              <p class="text-[11px] text-slate-500">
+                Si intentas seleccionar <code class="font-mono">SELECT estado, fecha, SUM(total) ... GROUP BY estado</code>, MySQL rechazará la consulta porque la fecha es ambigua para el grupo.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+          <span class="text-slate-400">Estándar SQL ANSI / MySQL 8.0</span>
+          <button onclick="window.presenter?.nextSlide()" class="text-[#39A900] font-bold hover:underline flex items-center gap-1">
+            <span>Siguiente: El Duelo WHERE vs HAVING</span>
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 9: EL GRAN DUELO: WHERE VS HAVING -->
+    <!-- --------------------------------------------------------------------- -->
+    <div class="slide-content" data-slide="9" data-block="1" data-duration="110">
+      <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
+        
+        <div class="space-y-4">
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-rose-100 text-rose-800 border border-rose-200">
+              FILTRO DE FILAS VS FILTRO DE GRUPOS
+            </span>
+            <span class="text-xs text-slate-400">· Claridad Conceptual Definitiva</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            El Gran Duelo: <code class="text-blue-700">WHERE</code> vs <code class="text-purple-700">HAVING</code>
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-4xl leading-relaxed">
+            Una de las preguntas que más aprendices reprueban en pruebas técnicas. Ambos filtran, pero en momentos y sobre conjuntos completamente distintos:
+          </p>
+
+          <!-- Tabla Comparativa -->
+          <div class="overflow-x-auto rounded-2xl border border-slate-200">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-100 text-slate-700 border-b border-slate-200 font-mono">
+                <tr>
+                  <th class="p-3">Característica</th>
+                  <th class="p-3 text-blue-700 font-bold">WHERE</th>
+                  <th class="p-3 text-purple-700 font-bold">HAVING</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 text-slate-600">
+                <tr>
+                  <td class="p-3 font-semibold text-slate-800">¿Cuándo se ejecuta?</td>
+                  <td class="p-3 font-mono">Fase 3: ANTES de agrupar</td>
+                  <td class="p-3 font-mono">Fase 5: DESPUÉS de agrupar</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-semibold text-slate-800">¿Sobre qué actúa?</td>
+                  <td class="p-3">Sobre filas individuales de las tablas</td>
+                  <td class="p-3">Sobre los grupos generados por GROUP BY</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-semibold text-slate-800">¿Admite funciones agregadas?</td>
+                  <td class="p-3 text-rose-600 font-bold">❌ NUNCA (ej. WHERE SUM(total) > 100 da error)</td>
+                  <td class="p-3 text-emerald-600 font-bold">✅ SÍ (diseñado expresamente para eso)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Ejemplo Live Coding Integrado -->
+          <div class="p-4 bg-slate-900 text-slate-100 rounded-2xl font-mono text-xs space-y-2">
+            <span class="text-emerald-400 font-bold block">Consulta Combinada con Ambos Filtros:</span>
+            <pre class="text-slate-300"><code>SELECT 
+  ciudad,
+  COUNT(id) AS total_clientes,
+  SUM(activo) AS clientes_activos
+FROM usuarios
+WHERE email LIKE '%@%'               -- 1. WHERE filtra usuarios individuales válidos
+GROUP BY ciudad                      -- 2. GROUP BY consolida por ciudad
+HAVING COUNT(id) >= 2;               -- 3. HAVING filtra las ciudades con 2 o más clientes</code></pre>
+          </div>
+
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+          <span class="text-slate-400">Diferenciación estricta de pipelines relacionales</span>
+          <button onclick="window.presenter?.nextSlide()" class="text-[#39A900] font-bold hover:underline flex items-center gap-1">
+            <span>Siguiente: Anatomía de un JOIN</span>
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 10: ANATOMÍA DE UN JOIN Y EL PELIGRO DEL PRODUCTO CARTESIANO -->
+    <!-- --------------------------------------------------------------------- -->
+    <div class="slide-content" data-slide="10" data-block="1" data-duration="110">
+      <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
+        
+        <div class="space-y-4">
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-rose-100 text-rose-800 border border-rose-200">
+              ALERTA DE SEGURIDAD Y RENDIMIENTO
+            </span>
+            <span class="text-xs text-slate-400">· Peligro de Colapso de Servidor</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Anatomía de un <code class="text-[#39A900]">JOIN</code> y el Peligro del Producto Cartesiano
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-4xl leading-relaxed">
+            Un <code class="font-mono font-bold text-[#00324D]">JOIN</code> combina registros de dos o más tablas usando una condición explícita de coincidencia (<code class="font-mono font-bold text-[#39A900]">ON</code>). Si olvidas la condición, ocurre la peor catástrofe de un DBA:
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+            
+            <div class="p-5 bg-rose-50/70 border-2 border-rose-300 rounded-2xl space-y-3 text-xs">
+              <span class="text-rose-700 font-extrabold font-mono text-sm block">⚠️ EL FATAL PRODUCTO CARTESIANO (CROSS JOIN)</span>
+              <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl font-mono overflow-x-auto text-[11px]"><code>-- ❌ Sintaxis obsoleta o sin condición ON:
+SELECT * FROM usuarios, pedidos; 
+-- o también:
+SELECT * FROM usuarios CROSS JOIN pedidos;</code></pre>
+              <div class="p-3 bg-white rounded-xl border border-rose-200 text-rose-900 space-y-1 text-[11px] leading-relaxed">
+                <p>Multiplica cada fila de la tabla A por cada fila de la tabla B:</p>
+                <p class="font-bold font-mono">10.000 usuarios × 50.000 pedidos = 500.000.000 filas</p>
+                <p>Resultado: <strong>Agotamiento de memoria RAM, CPU al 100% y caída del servidor en producción.</strong></p>
+              </div>
+            </div>
+
+            <div class="p-5 bg-emerald-50/70 border-2 border-emerald-300 rounded-2xl space-y-3 text-xs">
+              <span class="text-[#39A900] font-extrabold font-mono text-sm block">✅ SINTAXIS MODERNA EXPLÍCITA (ANSI SQL-92)</span>
+              <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl font-mono overflow-x-auto text-[11px]"><code>-- Siempre usa JOIN con su cláusula ON explícita:
+SELECT 
+  u.nombre AS cliente,
+  p.codigo AS pedido
+FROM usuarios u
+INNER JOIN pedidos p 
+  ON u.id = p.usuario_id; -- Condición de coincidencia</code></pre>
+              <div class="p-3 bg-white rounded-xl border border-emerald-200 text-emerald-950 space-y-1 text-[11px]">
+                <p><strong>Tres Reglas Profesionales:</strong></p>
+                <p>1. Usa siempre alias cortos y semánticos (<code class="font-mono">u</code>, <code class="font-mono">p</code>, <code class="font-mono">prod</code>).</p>
+                <p>2. Prefija todas las columnas (<code class="font-mono">u.id</code>, nunca <code class="font-mono">id</code> suelto).</p>
+                <p>3. Pon la llave foránea conectando a la llave primaria en el <code class="font-mono">ON</code>.</p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+          <span class="text-slate-400">Control estricto de cardinalidad relacional</span>
+          <button onclick="window.presenter?.nextSlide()" class="text-[#39A900] font-bold hover:underline flex items-center gap-1">
+            <span>Siguiente: INNER JOIN</span>
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 11: INNER JOIN (INTERSECCIÓN ESTRICTA) -->
+    <!-- --------------------------------------------------------------------- -->
+    <div class="slide-content" data-slide="11" data-block="1" data-duration="110">
+      <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
+        
+        <div class="space-y-4">
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-blue-100 text-[#00324D] border border-blue-200">
+              CRUCE EXACTO
+            </span>
+            <span class="text-xs text-slate-400">· Teoría de Conjuntos: Intersección (A ∩ B)</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            <code class="text-[#00324D]">INNER JOIN</code>: Solo Coincidencias en Ambas Tablas
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-4xl leading-relaxed">
+            Retorna únicamente los registros donde el valor de la columna en la Tabla A coincide con el de la Tabla B. Si un registro no tiene pareja en el otro lado, <strong>se descarta silenciosamente</strong>:
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-5 pt-2 items-center">
+            
+            <!-- Diagrama Conceptual -->
+            <div class="md:col-span-5 p-5 bg-slate-50 border border-slate-200 rounded-2xl text-center space-y-3">
+              <div class="relative w-48 h-32 mx-auto flex items-center justify-center">
+                <div class="absolute left-2 w-28 h-28 rounded-full border-2 border-slate-400 bg-slate-200/40 flex items-center justify-start pl-3 text-[11px] font-mono text-slate-600">
+                  usuarios
+                </div>
+                <div class="absolute right-2 w-28 h-28 rounded-full border-2 border-slate-400 bg-slate-200/40 flex items-center justify-end pr-3 text-[11px] font-mono text-slate-600">
+                  pedidos
+                </div>
+                <div class="z-10 w-12 h-20 bg-[#39A900]/80 rounded-full flex items-center justify-center text-[10px] font-bold text-white shadow-sm">
+                  INNER
+                </div>
+              </div>
+              <p class="text-xs text-slate-600 leading-snug">
+                Solo aprendices/clientes que <strong>sí tienen</strong> al menos un pedido registrado.
+              </p>
+            </div>
+
+            <!-- Código SQL -->
+            <div class="md:col-span-7 p-4 bg-slate-900 text-slate-100 rounded-2xl font-mono text-xs space-y-2">
+              <span class="text-[#39A900] font-bold block">Live Coding en Clase:</span>
+              <pre class="text-slate-300 overflow-x-auto"><code>SELECT 
+  usr.nombre AS cliente,
+  usr.ciudad,
+  ped.codigo AS num_pedido,
+  ped.total,
+  ped.estado
+FROM usuarios usr
+INNER JOIN pedidos ped 
+  ON usr.id = ped.usuario_id
+WHERE ped.estado = 'PAGADO'
+ORDER BY ped.total DESC;</code></pre>
+              <div class="p-2.5 bg-slate-800 rounded-xl text-[11px] text-slate-400 font-sans">
+                <strong>¿Dónde quedó Valentina Losada (Usuario 4)?</strong> Como nunca ha hecho pedidos, el <code class="font-mono text-white">INNER JOIN</code> la excluyó del listado.
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+          <span class="text-slate-400">Intersección estricta de claves foráneas</span>
+          <button onclick="window.presenter?.nextSlide()" class="text-[#39A900] font-bold hover:underline flex items-center gap-1">
+            <span>Siguiente: LEFT JOIN y Auditoría</span>
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 12: LEFT JOIN (PRESERVACIÓN Y AUDITORÍA DE REGISTROS HUÉRFANOS) -->
+    <!-- --------------------------------------------------------------------- -->
+    <div class="slide-content" data-slide="12" data-block="1" data-duration="110">
+      <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
+        
+        <div class="space-y-4">
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-emerald-100 text-[#39A900] border border-emerald-200">
+              AUDITORÍA RELACIONAL
+            </span>
+            <span class="text-xs text-slate-400">· Preservación de la Tabla Izquierda</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            <code class="text-[#39A900]">LEFT JOIN</code>: Preservar Todo y Detectar Huérfanos
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-4xl leading-relaxed">
+            Trae <strong>absolutamente todas las filas</strong> de la tabla izquierda (<code class="font-mono">FROM</code>). Si la fila no tiene coincidencia en la tabla derecha, rellena los campos de la derecha con <code class="font-mono text-rose-600 font-bold">NULL</code>:
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2 text-xs">
+              <span class="font-mono font-bold text-slate-800 block">1. Todos los clientes con o sin compras:</span>
+              <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl font-mono overflow-x-auto text-[11px]"><code>SELECT 
+  u.id, 
+  u.nombre, 
+  p.codigo AS pedido,
+  IFNULL(p.total, 0.00) AS total_gastado
+FROM usuarios u
+LEFT JOIN pedidos p ON u.id = p.usuario_id;</code></pre>
+              <p class="text-slate-500 text-[11px]">
+                Aquí Valentina aparecerá en el reporte con <code class="font-mono">pedido = NULL</code> y <code class="font-mono">total_gastado = 0.00</code>.
+              </p>
+            </div>
+
+            <div class="p-4 bg-emerald-50/70 border-2 border-[#39A900] rounded-2xl space-y-2 text-xs">
+              <span class="font-mono font-bold text-[#39A900] block">2. Técnica de Auditoría: "¿Quién NUNCA ha comprado?"</span>
+              <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl font-mono overflow-x-auto text-[11px]"><code>-- Filtramos donde la llave de la derecha sea NULL:
+SELECT u.id, u.nombre, u.email
+FROM usuarios u
+LEFT JOIN pedidos p ON u.id = p.usuario_id
+WHERE p.id IS NULL AND u.rol_id = 3;</code></pre>
+              <p class="text-emerald-950 text-[11px] leading-relaxed">
+                Esta consulta es el corazón de los sistemas CRM para enviar campañas de reactivación a usuarios inactivos.
+              </p>
+            </div>
+
+          </div>
+
+          <div class="p-3 bg-slate-100 rounded-xl text-xs text-slate-600">
+            <strong>¿Y el RIGHT JOIN?</strong> En el estándar corporativo moderno rara vez se usa <code class="font-mono">RIGHT JOIN</code>; se prefiere invertir el orden de las tablas en el <code class="font-mono">FROM</code> para leer siempre de izquierda a derecha.
+          </div>
+
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+          <span class="text-slate-400">Patrón de exclusión anti-join</span>
+          <button onclick="window.presenter?.nextSlide()" class="text-[#39A900] font-bold hover:underline flex items-center gap-1">
+            <span>Siguiente: Cruce Multitabla</span>
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 13: CRUCE MULTITABLA MAESTRO (FACTURACIÓN CON 4 TABLAS) -->
+    <!-- --------------------------------------------------------------------- -->
+    <div class="slide-content" data-slide="13" data-block="1" data-duration="110">
+      <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
+        
+        <div class="space-y-4">
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-indigo-100 text-indigo-800 border border-indigo-200">
+              INTEGRACIÓN COMPLETA
+            </span>
+            <span class="text-xs text-slate-400">· Cadena de Relaciones</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl xl:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Cruce Multitabla: Reporte Maestro de Facturación
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-4xl leading-relaxed">
+            En sistemas reales de producción como ERPs o pasarelas de pago, los datos requeridos residen en 4 o 5 tablas diferentes. Aprende a encadenar relaciones sin perder el hilo:
+          </p>
+
+          <div class="p-4 bg-slate-900 text-slate-100 rounded-2xl font-mono text-xs space-y-2">
+            <div class="flex items-center justify-between text-slate-400 border-b border-slate-800 pb-2">
+              <span class="text-emerald-400 font-bold">Encadenamiento Relacional:</span>
+              <span class="text-[11px]">pedidos → usuarios → detalle_pedidos → productos → categorias</span>
+            </div>
+            <pre class="text-slate-300 overflow-x-auto text-[11px] leading-relaxed"><code>SELECT 
+  ped.codigo AS factura,
+  ped.fecha,
+  usr.nombre AS cliente,
+  prod.nombre AS item,
+  COALESCE(cat.nombre, 'General') AS categoria,
+  det.cantidad,
+  det.precio_unitario,
+  det.subtotal
+FROM pedidos ped
+INNER JOIN usuarios usr        ON ped.usuario_id = usr.id
+INNER JOIN detalle_pedidos det ON ped.id = det.pedido_id
+INNER JOIN productos prod      ON det.producto_id = prod.id
+LEFT JOIN categorias cat       ON prod.categoria_id = cat.id
+ORDER BY ped.fecha DESC, det.id ASC;</code></pre>
+          </div>
+
+          <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-950 flex items-center justify-between">
+            <span><strong>Observa el detalle:</strong> Usamos <code class="font-mono text-purple-700 font-bold">LEFT JOIN</code> en <code class="font-mono">categorias</code> porque algunos productos (como cables de prueba) pueden tener categoría NULL y no queremos que la factura desaparezca.</span>
+          </div>
+
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+          <span class="text-slate-400">Fin del Bloque 1 (Teoría & Live Coding)</span>
+          <button onclick="window.presenter?.nextSlide()" class="px-5 py-2.5 bg-[#39A900] text-white font-bold rounded-xl hover:bg-[#2D8200] transition flex items-center gap-1.5 shadow-sm">
+            <span>Ir al Bloque 2: Taller de Aula</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 14: BLOQUE 2 - TALLER PRÁCTICO EN AULA (5 RETOS) -->
+    <!-- --------------------------------------------------------------------- -->
+    <div class="slide-content" data-slide="14" data-block="2" data-duration="70">
+      <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
+        
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <span class="px-3 py-1 rounded-full text-xs font-mono font-black bg-[#00324D] text-white">
+                BLOQUE 2 · TALLER ASISTIDO
+              </span>
+              <span class="text-xs font-bold text-slate-500">Duración: 70 Minutos</span>
+            </div>
+            <span class="text-xs font-mono font-bold text-[#39A900] bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+              Laboratorio en Parejas / Individual
+            </span>
+          </div>
+
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Laboratorio: Motor de Consultas y Auditoría SQL
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-4xl leading-relaxed">
+            Descarga <code class="font-mono text-slate-800 font-bold">plantilla_aprendiz.sql</code> en tu IDE o MySQL Workbench. Resuelve los 5 retos respetando las restricciones técnicas:
+          </p>
+
+          <!-- 5 Retos Progresivos -->
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 text-xs pt-1">
+            
+            <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
+              <span class="font-mono font-bold text-[#39A900] block">Reto 1: Filtros & Precedencia</span>
+              <p class="text-slate-600 text-[11px]">
+                Filtrar clientes activos de 'Garzón' o 'Neiva' con correo institucional <code class="font-mono">@misena.edu.co</code> usando paréntesis.
+              </p>
+            </div>
+
+            <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
+              <span class="font-mono font-bold text-[#00324D] block">Reto 2: Rangos & Nulos</span>
+              <p class="text-slate-600 text-[11px]">
+                Productos entre $400.000 y $2.000.000 con <code class="font-mono">BETWEEN</code> o con <code class="font-mono">categoria_id IS NULL</code> ordenados de mayor a menor precio.
+              </p>
+            </div>
+
+            <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
+              <span class="font-mono font-bold text-indigo-700 block">Reto 3: Métricas con GROUP BY</span>
+              <p class="text-slate-600 text-[11px]">
+                Total de pedidos y recaudación por estado. Filtrar con <code class="font-mono">HAVING</code> solo estados con suma superior a $1.500.000.
+              </p>
+            </div>
+
+            <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
+              <span class="font-mono font-bold text-purple-700 block">Reto 4: Cruce de Facturación</span>
+              <p class="text-slate-600 text-[11px]">
+                <code class="font-mono">INNER JOIN</code> de 4 tablas: factura, cliente, producto, cantidad, precio y subtotal ordenado por fecha descendente.
+              </p>
+            </div>
+
+            <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-1 sm:col-span-2 xl:col-span-2 bg-emerald-50/50 border-emerald-200">
+              <span class="font-mono font-bold text-emerald-800 block">Reto 5: Auditoría con LEFT JOIN</span>
+              <p class="text-emerald-950 text-[11px]">
+                <strong>5A:</strong> Encontrar clientes registrados que NUNCA han comprado.<br>
+                <strong>5B:</strong> Encontrar categorías creadas que NO tienen ningún producto registrado.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex flex-wrap justify-between items-center gap-3 text-xs">
+          <div class="flex items-center space-x-2">
+            <span class="text-slate-500">Inicia el temporizador de clase (Tecla <kbd class="px-1.5 py-0.5 bg-slate-100 rounded border font-mono">T</kbd>)</span>
+          </div>
+          <button onclick="window.presenter?.nextSlide()" class="px-6 py-2.5 bg-purple-700 text-white font-bold rounded-xl hover:bg-purple-800 transition shadow-sm">
+            <span>Pasar a Bloque 3: Sustentación</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 15: BLOQUE 3 - EVIDENCIA & SUSTENTACIÓN EN CALIENTE -->
+    <!-- --------------------------------------------------------------------- -->
+    <div class="slide-content" data-slide="15" data-block="3" data-duration="40">
+      <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
+        
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <span class="px-3 py-1 rounded-full text-xs font-mono font-black bg-purple-700 text-white">
+                BLOQUE 3 · CONTROL DE CALIDAD
+              </span>
+              <span class="text-xs font-bold text-slate-500">Duración: 40 Minutos</span>
+            </div>
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+              Evaluación Individual en Caliente
+            </span>
+          </div>
+
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Sustentación Técnica & Commit Oficial
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-4xl leading-relaxed">
+            La aprobación de la sesión requiere sustentación en vivo frente al instructor <strong>Ing. Hector David Toledo Garcia</strong>. Se formularán preguntas de modificación en caliente en Workbench para verificar que no hubo copia ciega:
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+            
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2 text-xs">
+              <span class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+                <i data-lucide="help-circle" class="w-4 h-4 text-purple-600"></i>
+                <span>Preguntas de Modificación en Vivo</span>
+              </span>
+              <ul class="space-y-2 text-slate-600 text-[11px] leading-relaxed list-disc list-inside">
+                <li><strong class="text-slate-800">Modificación 1:</strong> Cambia un <code class="font-mono text-purple-700">INNER JOIN</code> por un <code class="font-mono text-[#39A900]">LEFT JOIN</code> en tu pantalla y explica por qué aparecieron valores <code class="font-mono">NULL</code>.</li>
+                <li><strong class="text-slate-800">Modificación 2:</strong> Mueve una condición de <code class="font-mono">HAVING</code> a <code class="font-mono">WHERE</code> y explica al instructor por qué el motor arroja error de sintaxis.</li>
+                <li><strong class="text-slate-800">Modificación 3:</strong> Obtén el cliente con mayor volumen histórico de compras usando <code class="font-mono">ORDER BY DESC LIMIT 1</code>.</li>
+              </ul>
+            </div>
+
+            <div class="p-4 bg-slate-900 text-slate-100 rounded-2xl space-y-2 text-xs font-mono">
+              <span class="text-[#39A900] font-bold text-xs flex items-center gap-1.5">
+                <i data-lucide="git-commit" class="w-4 h-4"></i>
+                <span>Entrega Git del Aprendiz</span>
+              </span>
+              <p class="text-[11px] text-slate-300 font-sans">
+                Una vez aprobada la revisión del instructor, registra los cambios en tu repositorio local y envía a tu rama de seguimiento:
+              </p>
+              <pre class="bg-slate-800 p-3 rounded-xl text-[11px] text-slate-200 overflow-x-auto"><code>git add recursos/consultas_joins.sql
+git commit -m "feat(sql): sesion 02 consultas avanzadas filtros y cruce de tablas"
+git push origin mi-rama-aprendiz</code></pre>
+            </div>
+
+          </div>
+
+          <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-950 flex items-center justify-between">
+            <span>¡Felicitaciones! Has completado con éxito la <strong>Sesión 02</strong> del programa de nivelación intensiva ADSO.</span>
+            <a href="../../index.html" class="font-bold text-[#39A900] hover:underline flex items-center gap-1">
+              <span>Volver al Portal ADSO</span>
+              <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            </a>
+          </div>
+
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+          <span class="text-slate-400">ADSO CADPH Garzón · Regional Huila</span>
+          <button onclick="window.presenter?.goToSlide(0)" class="px-6 py-2.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-bold rounded-xl transition flex items-center space-x-1.5 shadow-sm">
+            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+            <span>Reiniciar Presentación</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- DRAWER / ÍNDICE DE DIAPOSITIVAS (M) -->
+  <!-- ========================================================================= -->
+  <aside id="menu-drawer" class="fixed inset-y-0 right-0 z-50 w-80 bg-white border-l border-slate-200 shadow-2xl p-5 overflow-y-auto hidden flex flex-col">
+    <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
+      <h3 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
+        <i data-lucide="layers" class="w-4 h-4 text-[#39A900]"></i>
+        <span>Índice de Diapositivas</span>
+      </h3>
+      <button id="btn-close-menu" class="text-slate-400 hover:text-slate-700">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+      
+      <div class="space-y-1.5 text-xs">
+        <button onclick="window.presenter?.goToSlide(0)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+          <span class="font-mono text-slate-400 font-bold">01.</span><span>Portada y Objetivos</span>
+        </button>
+        <button onclick="window.presenter?.goToSlide(1)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+          <span class="font-mono text-slate-400 font-bold">02.</span><span>Orden Real de Ejecución SQL</span>
+        </button>
+        <button onclick="window.presenter?.goToSlide(2)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+          <span class="font-mono text-slate-400 font-bold">03.</span><span>Esquema del Negocio</span>
+        </button>
+        <button onclick="window.presenter?.goToSlide(3)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+          <span class="font-mono text-slate-400 font-bold">04.</span><span>Filtros WHERE y Precedencia</span>
+        </button>
+        <button onclick="window.presenter?.goToSlide(4)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+          <span class="font-mono text-slate-400 font-bold">05.</span><span>LIKE, IN y BETWEEN</span>
+        </button>
+        <button onclick="window.presenter?.goToSlide(5)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+          <span class="font-mono text-slate-400 font-bold">06.</span><span>La Gran Trampa de NULL</span>
+        </button>
+        <button onclick="window.presenter?.goToSlide(6)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+          <span class="font-mono text-slate-400 font-bold">07.</span><span>Funciones de Agregación</span>
+        </button>
+        <button onclick="window.presenter?.goToSlide(7)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+          <span class="font-mono text-slate-400 font-bold">08.</span><span>Agrupamiento con GROUP BY</span>
+        </button>
+        <button onclick="window.presenter?.goToSlide(8)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+          <span class="font-mono text-slate-400 font-bold">09.</span><span>WHERE vs HAVING</span>
+        </button>
+        <button onclick="window.presenter?.goToSlide(9)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+          <span class="font-mono text-slate-400 font-bold">10.</span><span>Anatomía de un JOIN & Peligro</span>
+        </button>
+        <button onclick="window.presenter?.goToSlide(10)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+          <span class="font-mono text-slate-400 font-bold">11.</span><span>INNER JOIN (Intersección)</span>
+        </button>
+        <button onclick="window.presenter?.goToSlide(11)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+          <span class="font-mono text-slate-400 font-bold">12.</span><span>LEFT JOIN & Registros Huérfanos</span>
+        </button>
+        <button onclick="window.presenter?.goToSlide(12)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+          <span class="font-mono text-slate-400 font-bold">13.</span><span>Cruce Multitabla Maestro</span>
+        </button>
+        <button onclick="window.presenter?.goToSlide(13)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-purple-700 font-bold">
+          <span class="font-mono text-purple-600 font-bold">14.</span><span>Bloque 2: Taller de Aula</span>
+        </button>
+        <button onclick="window.presenter?.goToSlide(14)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-emerald-700 font-bold">
+          <span class="font-mono text-[#39A900] font-bold">15.</span><span>Bloque 3: Sustentación & Git</span>
+        </button>
+      </div>
+    </div>
+    
+    <div class="pt-4 border-t border-slate-200 text-center">
+      <a href="../../index.html" class="inline-flex items-center text-xs font-bold text-slate-500 hover:text-slate-900 transition gap-1">
+        <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+        <span>Volver al Portal Principal</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL DE AYUDA / ATAJOS DE TECLADO (?) -->
+  <!-- ========================================================================= -->
+  <div id="help-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-200">
+      <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+        <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+          <i data-lucide="keyboard" class="w-5 h-5 text-[#39A900]"></i>
+          <span>Atajos de Teclado (Modo Proyección)</span>
+        </h3>
+        <button onclick="window.presenter?.toggleHelpModal()" class="p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-2 text-xs text-slate-600">
+        <div class="flex justify-between py-1 border-b border-slate-100">
+          <span>Avanzar diapositiva</span>
+          <kbd class="px-2 py-0.5 bg-slate-100 rounded font-mono font-bold text-slate-700">Espacio / → / ↓</kbd>
+        </div>
+        <div class="flex justify-between py-1 border-b border-slate-100">
+          <span>Retroceder diapositiva</span>
+          <kbd class="px-2 py-0.5 bg-slate-100 rounded font-mono font-bold text-slate-700">← / ↑</kbd>
+        </div>
+        <div class="flex justify-between py-1 border-b border-slate-100">
+          <span>Pantalla Completa</span>
+          <kbd class="px-2 py-0.5 bg-slate-100 rounded font-mono font-bold text-slate-700">F</kbd>
+        </div>
+        <div class="flex justify-between py-1 border-b border-slate-100">
+          <span>Iniciar / Pausar Temporizador</span>
+          <kbd class="px-2 py-0.5 bg-slate-100 rounded font-mono font-bold text-slate-700">T</kbd>
+        </div>
+        <div class="flex justify-between py-1 border-b border-slate-100">
+          <span>Reiniciar Temporizador</span>
+          <kbd class="px-2 py-0.5 bg-slate-100 rounded font-mono font-bold text-slate-700">R</kbd>
+        </div>
+        <div class="flex justify-between py-1 border-b border-slate-100">
+          <span>Abrir / Cerrar Menú</span>
+          <kbd class="px-2 py-0.5 bg-slate-100 rounded font-mono font-bold text-slate-700">M</kbd>
+        </div>
+        <div class="flex justify-between py-1">
+          <span>Mostrar / Ocultar Ayuda</span>
+          <kbd class="px-2 py-0.5 bg-slate-100 rounded font-mono font-bold text-slate-700">?</kbd>
+        </div>
+      </div>
+
+      <button onclick="window.presenter?.toggleHelpModal()" class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs rounded-xl transition">
+        Entendido
+      </button>
+    </div>
+  </div>
+
+  <!-- Script del Presentador, Lucide Icons y Fecha Dinámica -->
+  <script src="../../assets/js/presenter.js"></script>
+  <script>
+    lucide.createIcons();
+
+    // Fecha dinámica de hoy en el cintillo de la presentación
+    (function renderFechaSlide() {
+      const hoy = new Date();
+      const opciones = { weekday: 'short', day: 'numeric', month: 'short' };
+      const fechaTxt = hoy.toLocaleDateString('es-CO', opciones);
+      const el = document.getElementById('slide-cintillo-fecha');
+      if (el) el.textContent = 'Hoy: ' + fechaTxt.charAt(0).toUpperCase() + fechaTxt.slice(1);
+    })();
+  </script>
+</body>
+</html>

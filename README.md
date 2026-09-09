@@ -76,11 +76,16 @@ NivelacionADSO/
 │   ├── logo_sena.png              # Variante institucional
 │   └── logo_hd.png                # Marca de autoría técnica
 └── semana-01-fundamentos/
-    └── dia-01-bd-sql-ddl-dml/
-        ├── index.html             # Diapositivas de proyección (Sesión 01: Modelo Relacional & SQL)
+    ├── dia-01-bd-sql-ddl-dml/
+    │   ├── index.html             # Diapositivas de proyección (Sesión 01: Modelo Relacional & SQL)
+    │   └── recursos/
+    │       ├── plantilla_aprendiz.sql    # Plantilla starter para los aprendices en clase
+    │       └── solucion_sistema_ventas.sql # Solución maestra probada en MySQL 8 InnoDB
+    └── dia-02-consultas-sql-joins/
+        ├── index.html             # Diapositivas de proyección (Sesión 02: Consultas SQL & JOINs)
         └── recursos/
-            ├── plantilla_aprendiz.sql    # Plantilla starter para los aprendices en clase
-            └── solucion_sistema_ventas.sql # Solución maestra probada en MySQL 8 InnoDB
+            ├── plantilla_aprendiz.sql    # Datos sembrados y retos de laboratorio en aula
+            └── solucion_consultas_joins.sql # Solucionario analítico y preguntas en caliente
 ```
 
 ---
