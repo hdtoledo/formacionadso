@@ -1,0 +1,1651 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50 text-slate-900 antialiased">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sesión 03 | JavaScript Moderno (ES6+) y Asincronía en Node.js | SENA ADSO</title>
+  <meta name="description" content="Sesión 03: JavaScript ES6+, Inmutabilidad, Métodos de Array, Event Loop, Promesas y Async/Await. Diapositivas interactivas para videobeam SENA ADSO.">
+  <link rel="icon" type="image/png" href="../../assets/logo_green.png">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            sena: {
+              green: '#39A900',
+              'green-hover': '#2D8200',
+              navy: '#00324D',
+              'navy-dark': '#00263A',
+              'navy-light': '#004164'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- PrismJS para sintaxis JavaScript -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Estilos de presentación -->
+  <link rel="stylesheet" href="../../assets/css/presenter.css">
+</head>
+<body class="min-h-full flex flex-col bg-[#F8FAFC] text-slate-900 overflow-x-hidden selection:bg-[#39A900] selection:text-white">
+
+  <!-- ========================================================================= -->
+  <!-- 1. CINTILLO INSTITUCIONAL SENA (FECHA DINÁMICA & UBICACIÓN) -->
+  <!-- ========================================================================= -->
+  <div class="bg-[#00324D] text-white text-[11px] sm:text-xs py-1.5 px-4 sm:px-8 xl:px-12 border-b border-[#00263a] sticky top-0 z-50">
+    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-extrabold bg-[#39A900] text-white tracking-wider uppercase">
+          SENA
+        </span>
+        <span class="font-medium text-slate-200 hidden sm:inline">Centro Agroempresarial y Desarrollo Pecuario del Huila</span>
+        <span class="text-slate-400 hidden md:inline">|</span>
+        <span class="text-emerald-400 font-semibold hidden md:inline">Regional Huila</span>
+      </div>
+      <div class="flex items-center space-x-3 text-slate-300 text-[11px]">
+        <span class="hidden sm:inline">Sede Garzón</span>
+        <span>•</span>
+        <span class="text-emerald-300 font-medium" id="slide-cintillo-fecha">Hoy: Cargando...</span>
+        <span class="hidden md:inline">•</span>
+        <span class="hidden md:inline font-mono">ADSO · Proyección en Aula</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 2. HEADER DE CONTROL DE PRESENTACIÓN & TEMPORIZADOR -->
+  <!-- ========================================================================= -->
+  <header class="bg-white border-b border-slate-200 px-4 sm:px-8 xl:px-12 py-3 sticky top-[33px] sm:top-[35px] z-40 shadow-xs">
+    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-3">
+      
+      <!-- Marca SENA & Título de la Lección -->
+      <div class="flex items-center space-x-3">
+        <a href="../../index.html" class="flex items-center space-x-2.5 text-slate-600 hover:text-slate-900 transition-colors group" title="Volver al Portal">
+          <img src="../../assets/logo_green.png" alt="Logo SENA" class="h-9 w-auto object-contain shrink-0">
+          <div class="hidden sm:block border-l border-slate-200 pl-3">
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm font-extrabold text-slate-900">NIVELACIÓN</span>
+              <span class="text-sm font-black text-[#39A900]">ADSO</span>
+              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">CADPH</span>
+            </div>
+            <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Centro Agroempresarial y Desarrollo Pecuario del Huila</p>
+          </div>
+        </a>
+        <span class="text-slate-300 hidden md:inline">/</span>
+        <div class="hidden md:flex items-center space-x-2">
+          <span class="px-2.5 py-0.5 text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200 rounded">Semana 1</span>
+          <span class="text-xs font-bold text-slate-800">Sesión 03 · Día 3: JavaScript Moderno (ES6+) y Asincronía en Node.js</span>
+        </div>
+      </div>
+
+      <!-- Controles de Clase & Temporizador -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        
+        <!-- Temporizador Institucional -->
+        <div class="flex items-center bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 space-x-2 shadow-2xs">
+          <i data-lucide="clock" class="w-4 h-4 text-[#39A900]"></i>
+          <span id="timer-display" class="font-mono text-sm font-bold text-slate-800 tracking-wider">00:00</span>
+          <button id="btn-timer-start" class="px-2.5 py-1 rounded bg-white hover:bg-slate-100 border border-slate-200 text-xs font-bold text-slate-700 transition-colors flex items-center space-x-1">
+            <i data-lucide="play" class="w-3 h-3 text-[#39A900]"></i>
+            <span>Iniciar</span>
+          </button>
+          <button id="btn-timer-reset" class="p-1 rounded hover:bg-slate-200 text-slate-400 hover:text-slate-700" title="Reiniciar temporizador">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+
+        <!-- Índice de Diapositivas (M) -->
+        <button id="btn-open-menu" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition" title="Índice de Diapositivas (M)">
+          <i data-lucide="list" class="w-4 h-4 text-[#00324D]"></i>
+        </button>
+
+        <!-- Contador de Diapositiva -->
+        <div class="bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-slate-700">
+          <span id="slide-counter">1 / 15</span>
+        </div>
+
+        <!-- Botones de Navegación Anterior / Siguiente -->
+        <div class="flex items-center space-x-1.5">
+          <button id="btn-prev-slide" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition disabled:opacity-40" title="Anterior (←)">
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+          </button>
+          <button id="btn-next-slide" class="p-2 rounded-lg bg-[#39A900] hover:bg-[#2D8200] text-white border border-[#39A900] shadow-sm transition" title="Siguiente (→)">
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Botón Pantalla Completa (F) -->
+        <button id="btn-fullscreen" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition hidden sm:inline-flex" title="Pantalla Completa (F)">
+          <i data-lucide="maximize" class="w-4 h-4"></i>
+        </button>
+
+        <!-- Ayuda (?) -->
+        <button onclick="window.presenter?.toggleHelpModal()" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition" title="Atajos de Teclado (?)">
+          <i data-lucide="help-circle" class="w-4 h-4 text-slate-500"></i>
+        </button>
+
+        <!-- Recursos Rápidos -->
+        <div class="hidden lg:flex items-center space-x-2 border-l border-slate-200 pl-3">
+          <a href="recursos/solucion_taller_es6_asincronia.js" target="_blank" class="px-2.5 py-1 rounded bg-emerald-50 text-[#39A900] border border-emerald-200 text-xs font-bold hover:bg-emerald-100 transition flex items-center gap-1" title="Ver Solución JS">
+            <i data-lucide="file-code" class="w-3.5 h-3.5"></i>
+            <span>Solución JS</span>
+          </a>
+          <a href="recursos/plantilla_aprendiz.js" download class="px-2.5 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200 text-xs font-bold hover:bg-slate-200 transition flex items-center gap-1" title="Descargar Plantilla Aprendiz">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Plantilla</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Barra de progreso institucional verde SENA -->
+  <div class="w-full bg-slate-200 h-1 fixed top-[83px] sm:top-[87px] left-0 z-40">
+    <div id="presentation-progress" class="bg-[#39A900] h-full w-0 transition-all duration-300 ease-out"></div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- CONTENEDOR PRINCIPAL DE DIAPOSITIVAS (WIDESCREEN 16:9) -->
+  <!-- ========================================================================= -->
+  <main class="slide-container flex-1 w-full max-w-[1860px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 py-3 sm:py-6 flex flex-col justify-center">
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 1: PORTADA INSTITUCIONAL SENA CADPH -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content active flex-col justify-center items-center text-center py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="1" data-block="1" data-duration="110">
+      
+      <!-- Badge Institucional SENA -->
+      <div class="inline-flex items-center gap-2.5 px-6 py-2 rounded-full bg-white border-2 border-emerald-100 text-slate-700 text-xs sm:text-sm xl:text-base font-bold shadow-2xs mb-4 xl:mb-6">
+        <span class="w-3 h-3 rounded-full bg-[#39A900] animate-pulse"></span>
+        <span>SENA Regional Huila · Centro Agroempresarial y Desarrollo Pecuario del Huila (CADPH Garzón)</span>
+      </div>
+
+      <!-- Título de Gran Escala para Proyección en Videobeam -->
+      <h1 class="text-4xl sm:text-6xl lg:text-7xl xl:text-[4.75rem] 2xl:text-[5.25rem] font-black tracking-tight text-slate-900 mb-3 xl:mb-5 leading-[1.08] max-w-[1720px]">
+        JavaScript Moderno (ES6+) & <br class="hidden md:inline">
+        <span class="text-[#39A900]">Asincronía en Node.js</span>
+      </h1>
+
+      <p class="text-base sm:text-xl xl:text-2xl 2xl:text-3xl text-slate-600 max-w-6xl mb-6 xl:mb-10 font-medium leading-relaxed">
+        Tecnólogo en Análisis y Desarrollo de Software (ADSO) · Nivelación de Backend I: ES6+, Event Loop y Manejo de Promesas · Ficha 2026
+      </p>
+
+      <!-- Tres Bloques Formativos con Mayor Altura y Amplitud para Aprovechar la Pantalla -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 xl:gap-8 w-full max-w-[1780px] text-left mb-8 xl:mb-11">
+        
+        <!-- Bloque 1 -->
+        <div class="bg-white border-2 border-slate-200 hover:border-[#39A900] border-t-4 border-t-[#39A900] rounded-2xl p-7 xl:p-8 shadow-xs hover:shadow-md transition flex flex-col justify-between min-h-[300px] xl:min-h-[340px]">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1.5 bg-emerald-50 text-[#39A900] font-mono text-xs xl:text-sm font-extrabold rounded-lg border border-emerald-200">
+                BLOQUE 1
+              </span>
+              <span class="text-xs xl:text-sm font-mono font-bold text-slate-400">110 MINUTOS</span>
+            </div>
+            <h3 class="text-2xl xl:text-3xl font-extrabold text-slate-900 mb-3">Teoría & Live Coding</h3>
+            <p class="text-sm xl:text-base text-slate-600 leading-relaxed mb-4">
+              Inmutabilidad con <code class="font-mono text-slate-900 font-bold">const</code>, desestructuración profunda, métodos de arreglo puros (<code class="font-mono text-[#39A900] font-bold">map, filter, reduce</code>) y el Event Loop.
+            </p>
+            <ul class="space-y-2 text-xs xl:text-sm font-medium text-slate-700">
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-[#39A900] shrink-0"></i>
+                <span>ES6+: spread, rest y destructuring limpio</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-[#39A900] shrink-0"></i>
+                <span>Event Loop, Microtasks, Promises y Async/Await</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs xl:text-sm font-bold text-[#39A900]">
+            <div class="flex items-center">
+              <i data-lucide="clock" class="w-4 h-4 mr-1.5"></i>
+              <span>110 minutos de fundamentos</span>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-emerald-50 text-[11px] xl:text-xs">Aula Informática</span>
+          </div>
+        </div>
+
+        <!-- Bloque 2 -->
+        <div class="bg-white border-2 border-slate-200 hover:border-[#00324D] border-t-4 border-t-[#00324D] rounded-2xl p-7 xl:p-8 shadow-xs hover:shadow-md transition flex flex-col justify-between min-h-[300px] xl:min-h-[340px]">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1.5 bg-[#00324D] text-white font-mono text-xs xl:text-sm font-extrabold rounded-lg">
+                BLOQUE 2
+              </span>
+              <span class="text-xs xl:text-sm font-mono font-bold text-slate-400">70 MINUTOS</span>
+            </div>
+            <h3 class="text-2xl xl:text-3xl font-extrabold text-slate-900 mb-3">Taller Práctico en Aula</h3>
+            <p class="text-sm xl:text-base text-slate-600 leading-relaxed mb-4">
+              Resolución de 5 retos progresivos en <code class="font-mono text-slate-900 font-bold">Node.js</code> procesando pedidos de clientes, inventarios y simulación de base de datos asíncrona.
+            </p>
+            <ul class="space-y-2 text-xs xl:text-sm font-medium text-slate-700">
+              <li class="flex items-center gap-2">
+                <i data-lucide="terminal" class="w-4 h-4 text-[#00324D] shrink-0"></i>
+                <span>Cálculo de balances con <code class="font-mono font-bold text-[#00324D]">reduce()</code></span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="terminal" class="w-4 h-4 text-[#00324D] shrink-0"></i>
+                <span>Pipeline asíncrono con control de fallos</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs xl:text-sm font-bold text-[#00324D]">
+            <div class="flex items-center">
+              <i data-lucide="code-2" class="w-4 h-4 mr-1.5"></i>
+              <span>70 minutos prácticos guiados</span>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-slate-100 text-[11px] xl:text-xs">Individual / Parejas</span>
+          </div>
+        </div>
+
+        <!-- Bloque 3 -->
+        <div class="bg-white border-2 border-slate-200 hover:border-purple-600 border-t-4 border-t-purple-600 rounded-2xl p-7 xl:p-8 shadow-xs hover:shadow-md transition flex flex-col justify-between min-h-[300px] xl:min-h-[340px]">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1.5 bg-purple-50 text-purple-700 font-mono text-xs xl:text-sm font-extrabold rounded-lg border border-purple-200">
+                BLOQUE 3
+              </span>
+              <span class="text-xs xl:text-sm font-mono font-bold text-slate-400">40 MINUTOS</span>
+            </div>
+            <h3 class="text-2xl xl:text-3xl font-extrabold text-slate-900 mb-3">Sustentación & Git</h3>
+            <p class="text-sm xl:text-base text-slate-600 leading-relaxed mb-4">
+              Modificación de código en caliente en el puesto del aprendiz por parte del instructor, explicación del flujo asíncrono y control de versiones con Git.
+            </p>
+            <ul class="space-y-2 text-xs xl:text-sm font-medium text-slate-700">
+              <li class="flex items-center gap-2">
+                <i data-lucide="git-commit" class="w-4 h-4 text-purple-600 shrink-0"></i>
+                <span>Sustentación individual en caliente</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="git-commit" class="w-4 h-4 text-purple-600 shrink-0"></i>
+                <span>Commit atómico y entrega en GitHub</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs xl:text-sm font-bold text-purple-700">
+            <div class="flex items-center">
+              <i data-lucide="check-circle" class="w-4 h-4 mr-1.5"></i>
+              <span>40 minutos de evaluación</span>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-purple-50 text-[11px] xl:text-xs">Evaluación Directa</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Acciones Rápidas de Portada -->
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <button onclick="window.presenter?.nextSlide()" class="px-8 py-3.5 rounded-xl bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-base shadow-lg shadow-emerald-500/20 transition-all flex items-center gap-2 group">
+          <span>Comenzar Lección</span>
+          <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+        </button>
+        <a href="recursos/plantilla_aprendiz.js" download class="px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border-2 border-slate-200 font-bold text-base transition flex items-center gap-2">
+          <i data-lucide="download" class="w-5 h-5 text-slate-500"></i>
+          <span>Descargar Plantilla Aprendiz</span>
+        </a>
+        <a href="recursos/solucion_taller_es6_asincronia.js" target="_blank" class="px-6 py-3.5 rounded-xl bg-[#00324D] hover:bg-[#00263A] text-white font-bold text-base transition flex items-center gap-2">
+          <i data-lucide="file-code" class="w-5 h-5 text-emerald-400"></i>
+          <span>Ver Solución Maestra</span>
+        </a>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 2: OBJETIVO TÉCNICO & RUNTIME DE NODE.JS -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="2" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Fundamentos de Backend Moderno</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 02 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          El Runtime de Node.js: <span class="text-[#39A900]">V8 Engine & libuv</span>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-8 leading-relaxed">
+          JavaScript nació para el navegador, pero Node.js lo llevó al servidor gracias a dos componentes fundamentales: el motor compilador V8 y la biblioteca libuv para operaciones de entrada/salida no bloqueantes.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-6 shadow-xs">
+            <div class="w-12 h-12 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 mb-4">
+              <i data-lucide="cpu" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-xl font-extrabold text-slate-900 mb-2">Motor V8 (Google)</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Compila JavaScript directamente a código máquina nativo. Gestiona la memoria (Heap) y la pila de ejecución (<strong class="text-slate-800">Call Stack</strong>) donde corre tu lógica de manera secuencial en un solo hilo.
+            </p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-6 shadow-xs">
+            <div class="w-12 h-12 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 mb-4">
+              <i data-lucide="git-branch" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-xl font-extrabold text-slate-900 mb-2">libuv (C/C++)</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Biblioteca multiplataforma que provee el <strong class="text-slate-800">Event Loop</strong> y administra un grupo de hilos de fondo (<strong class="text-slate-800">Thread Pool</strong>) para I/O asíncrono: archivos, sockets y red.
+            </p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-6 shadow-xs">
+            <div class="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-[#39A900] mb-4">
+              <i data-lucide="layers" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-xl font-extrabold text-slate-900 mb-2">Single Thread & Non-Blocking</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Tu código se ejecuta en un único hilo principal, pero las tareas pesadas (consultas a base de datos, lectura de disco) se delegan al sistema operativo sin detener las peticiones entrantes.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-8 p-4 bg-slate-100 rounded-xl border border-slate-200 flex items-center justify-between text-xs text-slate-600">
+        <div class="flex items-center gap-2">
+          <i data-lucide="info" class="w-4 h-4 text-slate-500"></i>
+          <span>En el backend ADSO jamás bloquearemos el hilo principal con bucles síncronos pesados o llamadas I/O síncronas (`fs.readFileSync`).</span>
+        </div>
+        <span class="font-mono font-bold text-slate-500">Node.js v20+ LTS</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 3: CONST VS LET VS VAR -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="3" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Sintaxis Limpia & Clean Code</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 03 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Alcance y Declaración: <code class="text-[#39A900]">const</code> vs <code class="text-blue-600">let</code> vs el Peligro de <code class="text-rose-600">var</code>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          En el desarrollo backend con JavaScript moderno, la palabra reservada <code class="font-mono text-rose-600 font-bold">var</code> está estrictamente desaconsejada debido al hoisting y a su alcance de función que provoca fugas de variables.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <!-- Comparativa Conceptual -->
+          <div class="space-y-4">
+            <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-3">
+              <h4 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#39A900]"></span>
+                <span>Reglas de Oro en ADSO</span>
+              </h4>
+              <ul class="space-y-2 text-xs sm:text-sm text-slate-600">
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check" class="w-4 h-4 text-[#39A900] shrink-0 mt-0.5"></i>
+                  <span><strong>1. Por defecto, siempre usa <code>const</code>:</strong> Garantiza que el identificador no será reasignado por accidente.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check" class="w-4 h-4 text-[#39A900] shrink-0 mt-0.5"></i>
+                  <span><strong>2. Usa <code>let</code> únicamente si el valor mutará:</strong> Contadores de iteración, acumuladores dinámicos o reasignaciones condicionadas.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="x" class="w-4 h-4 text-rose-500 shrink-0 mt-0.5"></i>
+                  <span><strong>3. Jamás uses <code>var</code>:</strong> Presenta *hoisting* con valor `undefined` y no respeta bloques (`if`, `for`).</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="bg-amber-50 border border-amber-200 rounded-2xl p-5 text-xs text-amber-900 space-y-1">
+              <p class="font-bold flex items-center gap-1.5">
+                <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>
+                <span>Temporal Dead Zone (TDZ)</span>
+              </p>
+              <p class="leading-relaxed">
+                A diferencia de <code>var</code>, las variables declaradas con <code>let</code> y <code>const</code> existen en la TDZ desde el inicio del bloque hasta su declaración. Intentar usarlas antes genera un <strong class="font-mono">ReferenceError</strong> inmediato, atrapando errores temprano.
+              </p>
+            </div>
+          </div>
+
+          <!-- Código Live Coding -->
+          <div class="bg-slate-900 rounded-2xl p-5 font-mono text-xs text-slate-100 overflow-x-auto shadow-lg flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-slate-400 pb-3 mb-3 border-b border-slate-800 text-[11px]">
+                <span>scope_demo.js</span>
+                <span class="text-[#39A900]">ES6 Strict</span>
+              </div>
+              <pre><code class="language-javascript">// ❌ Peligro con 'var' (alcance de función y fugas):
+for (var i = 0; i < 3; i++) {
+  setTimeout(() => console.log('var:', i), 100);
+}
+// Imprime: 3, 3, 3 (la variable 'i' se comparte globalmente)
+
+// ✅ Alcance de bloque con 'let' (crea un contexto por iteración):
+for (let j = 0; j < 3; j++) {
+  setTimeout(() => console.log('let:', j), 100);
+}
+// Imprime correctamente: 0, 1, 2
+
+// ✅ Inmutabilidad de enlace con 'const':
+const PORT = 3000;
+// PORT = 8080; // ❌ TypeError: Assignment to constant variable.</code></pre>
+            </div>
+            <div class="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+              <span>Resultado en Node.js</span>
+              <span class="text-emerald-400 font-bold">Node.js Call Stack</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-900 flex items-center justify-between">
+        <span class="font-semibold">💡 Consejo de sustentación: Todo aprendiz debe poder explicar la diferencia entre el alcance de bloque (block scope) y el alcance de función.</span>
+        <span class="font-mono font-bold text-[#39A900]">ES6 Standard</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 4: INMUTABILIDAD DE REFERENCIAS -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="4" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Manipulación de Datos Segura</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 04 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Inmutabilidad: <span class="text-[#39A900]">Referencia vs Contenido</span>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          Uno de los errores conceptuales más frecuentes en aprendices de software es creer que declarar un objeto o array con <code class="font-mono font-bold text-[#39A900]">const</code> vuelve inmutables sus propiedades internas.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <div class="space-y-4">
+            <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-3">
+              <h4 class="text-base font-bold text-slate-900">¿Qué congela realmente const?</h4>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                <code>const</code> protege el <strong>puntero de memoria (referencia)</strong>. Impide reasignar la variable a otro objeto, pero permite modificar, agregar o eliminar sus propiedades internas.
+              </p>
+              <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs space-y-2">
+                <p class="font-bold text-slate-800">Efecto Secundario en Backend:</p>
+                <p class="text-slate-600">
+                  Si pasas un objeto como parámetro a una función y ésta muta una propiedad, ese cambio afectará a todas las demás partes del sistema que compartan esa misma referencia de memoria.
+                </p>
+              </div>
+            </div>
+
+            <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-5 text-xs text-emerald-950 space-y-2">
+              <p class="font-bold flex items-center gap-1.5 text-[#39A900]">
+                <i data-lucide="shield-check" class="w-4 h-4"></i>
+                <span>Patrón Inmutable: Copiar en lugar de Mutar</span>
+              </p>
+              <p class="leading-relaxed">
+                En arquitecturas limpias de backend (Express, Nest, servicios), siempre generamos un nuevo objeto con los cambios aplicados utilizando el operador spread (<code class="font-mono font-bold">...</code>) o <code class="font-mono font-bold">structuredClone()</code>.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 rounded-2xl p-5 font-mono text-xs text-slate-100 overflow-x-auto shadow-lg flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-slate-400 pb-3 mb-3 border-b border-slate-800 text-[11px]">
+                <span>immutability_demo.js</span>
+                <span class="text-[#39A900]">JavaScript Heap</span>
+              </div>
+              <pre><code class="language-javascript">const usuario = {
+  id: 101,
+  nombre: 'Carlos Pérez',
+  activo: true
+};
+
+// ✅ Esto es completamente válido (muta el contenido):
+usuario.activo = false; 
+
+// ❌ Esto lanzará TypeError (intenta cambiar la referencia):
+// usuario = { id: 102 }; // TypeError: Assignment to constant variable
+
+// 🛡️ Enfoque Inmutable Recomendado (Copia con Spread):
+const usuarioActualizado = {
+  ...usuario,
+  rol: 'INSTRUCTOR',
+  actualizadoEn: new Date().toISOString()
+};
+
+// 🔒 Congelar objeto superficialmente:
+Object.freeze(usuarioActualizado);
+// usuarioActualizado.rol = 'ADMIN'; // Falla en modo estricto</code></pre>
+            </div>
+            <div class="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+              <span>Heap Allocation</span>
+              <span class="text-emerald-400 font-bold">Sin efectos secundarios</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-slate-100 rounded-xl border border-slate-200 text-xs text-slate-600 flex items-center justify-between">
+        <span>Patrón funcional: <code>estadoNuevo = funcionPura(estadoAnterior)</code>. Base fundamental para Redux, Zustand y APIs seguras.</span>
+        <span class="font-mono font-bold text-slate-500">Pure Functions</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 5: DESESTRUCTURACIÓN MODERNA -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="5" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Sintaxis Expresiva</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 05 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Desestructuración: <span class="text-[#39A900]">Objetos y Arrays</span>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          Permite extraer datos de arreglos o propiedades de objetos directamente en variables con una sintaxis limpia, eliminando el código repetitivo como <code class="font-mono text-slate-800">const email = req.body.email;</code>.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <div class="space-y-4">
+            <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-3">
+              <h4 class="text-base font-bold text-slate-900">Capacidades Clave de ES6+:</h4>
+              <ul class="space-y-2.5 text-xs sm:text-sm text-slate-600">
+                <li class="flex items-start gap-2">
+                  <span class="px-2 py-0.5 rounded bg-emerald-50 text-[#39A900] font-mono font-bold text-xs">Alias</span>
+                  <span>Renombrar propiedades para evitar colisiones: <code>const { nombre: nombreCliente } = cliente;</code></span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-mono font-bold text-xs">Default</span>
+                  <span>Asignar valores por defecto si la clave es <code>undefined</code>: <code>const { rol = 'INVITADO' } = user;</code></span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="px-2 py-0.5 rounded bg-purple-50 text-purple-700 font-mono font-bold text-xs">Params</span>
+                  <span>Desestructurar directamente en la firma de funciones y controladores Express.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="bg-slate-100 border border-slate-200 rounded-2xl p-4 text-xs text-slate-700">
+              <span class="font-bold text-slate-900 block mb-1">Desestructuración de Arrays (Posicional):</span>
+              <p>Extrae por posición exacta: <code>const [primerItem, segundoItem, ...resto] = arreglo;</code></p>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 rounded-2xl p-5 font-mono text-xs text-slate-100 overflow-x-auto shadow-lg flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-slate-400 pb-3 mb-3 border-b border-slate-800 text-[11px]">
+                <span>destructuring_demo.js</span>
+                <span class="text-[#39A900]">ES6 Destructuring</span>
+              </div>
+              <pre><code class="language-javascript">// Objeto simulando petición HTTP o registro de BD:
+const pedido = {
+  id: 4501,
+  cliente: { nombre: 'María Rojas', ciudad: 'Garzón' },
+  total: 185000,
+  estado: 'PENDIENTE'
+};
+
+// ✅ Extracción elegante con alias y default:
+const {
+  id: pedidoId,
+  cliente: { nombre, ciudad },
+  total,
+  descuento = 0
+} = pedido;
+
+console.log(`${nombre} de ${ciudad} debe: $${total}`);
+
+// ✅ Desestructuración directa en parámetros de función:
+function procesarPago({ id, total, estado }) {
+  return `Procesando pedido #${id} por valor $${total}`;
+}</code></pre>
+            </div>
+            <div class="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+              <span>Clean Controller Pattern</span>
+              <span class="text-emerald-400 font-bold">Código legible</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-900 flex items-center justify-between">
+        <span>En Express.js usaremos: <code>const { email, password } = req.body;</code> en cada endpoint de autenticación.</span>
+        <span class="font-mono font-bold text-[#39A900]">Express Ready</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 6: SPREAD OPERATOR VS REST PARAMETERS -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="6" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Operador de Tres Puntos (...)</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 06 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Operador <code class="text-[#39A900]">...</code> : <span class="text-blue-600">Spread</span> vs <span class="text-purple-600">Rest</span>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          Los tres puntos consecutivos tienen dos propósitos totalmente opuestos dependiendo del contexto: <strong class="text-blue-600">desempaquetar</strong> elementos existentes (Spread) o <strong class="text-purple-600">empaquetar</strong> múltiples elementos en un arreglo (Rest).
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <div class="space-y-4">
+            <div class="bg-blue-50 border border-blue-200 rounded-2xl p-5 space-y-2 text-xs">
+              <span class="font-mono font-bold text-blue-800 text-sm">1. Spread Operator (Expandir / Esparcir)</span>
+              <p class="text-blue-950 leading-relaxed">
+                Toma una colección y esparce sus elementos individuales dentro de otro array u objeto. Permite clonar o combinar datos sin mutar los originales:
+              </p>
+              <pre class="bg-white p-3 rounded-lg border border-blue-200 font-mono text-[11px] text-slate-800"><code>const nums = [1, 2, 3];
+const copia = [...nums, 4, 5]; // [1, 2, 3, 4, 5]</code></pre>
+            </div>
+
+            <div class="bg-purple-50 border border-purple-200 rounded-2xl p-5 space-y-2 text-xs">
+              <span class="font-mono font-bold text-purple-800 text-sm">2. Rest Parameters (Empaquetar / Agrupar)</span>
+              <p class="text-purple-950 leading-relaxed">
+                Agrupa el resto de los argumentos sobrantes dentro de un arreglo. Se usa en firmas de funciones o en desestructuración:
+              </p>
+              <pre class="bg-white p-3 rounded-lg border border-purple-200 font-mono text-[11px] text-slate-800"><code>function sumar(...valores) {
+  return valores.reduce((acc, n) => acc + n, 0);
+}</code></pre>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 rounded-2xl p-5 font-mono text-xs text-slate-100 overflow-x-auto shadow-lg flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-slate-400 pb-3 mb-3 border-b border-slate-800 text-[11px]">
+                <span>spread_rest_usecase.js</span>
+                <span class="text-[#39A900]">Modern Patterns</span>
+              </div>
+              <pre><code class="language-javascript">// Caso Backend: Sanitizar contraseña antes de responder al cliente:
+const usuarioDB = {
+  id: 105,
+  email: 'aprendiz@sena.edu.co',
+  passwordHash: '$2b$10$X9...', // ⚠️ Confidencial
+  rol: 'APRENDIZ',
+  activo: true
+};
+
+// ✅ Con Rest podemos omitir claves sensibles limpiamente:
+const { passwordHash, ...usuarioPublico } = usuarioDB;
+
+console.log(usuarioPublico);
+// { id: 105, email: 'aprendiz@sena.edu.co', rol: 'APRENDIZ', activo: true }
+
+// ✅ Combinar configuraciones de base de datos con Spread:
+const configBase = { host: 'localhost', port: 3306, dialect: 'mysql' };
+const configProd = { ...configBase, host: 'db.produccion.sena.edu.co' };</code></pre>
+            </div>
+            <div class="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+              <span>Sanitización de Datos</span>
+              <span class="text-emerald-400 font-bold">Seguridad backend</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-slate-100 rounded-xl border border-slate-200 text-xs text-slate-600 flex items-center justify-between">
+        <span>El operador Rest debe ser siempre el último elemento en una desestructuración o lista de parámetros.</span>
+        <span class="font-mono font-bold text-slate-500">Syntax Rule</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 7: MÉTODOS DE ARRAYS I -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="7" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Programación Funcional</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 07 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Métodos de Arrays I: <code class="text-[#39A900]">map()</code>, <code class="text-blue-600">filter()</code> y <code class="text-purple-600">find()</code>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          Reemplazamos los bucles imperativos <code class="font-mono text-slate-800">for</code> y <code class="font-mono text-slate-800">while</code> por métodos funcionales declarativos que no mutan el array original y devuelven colecciones procesadas.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="font-mono font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded border border-emerald-200 text-sm">.map()</span>
+              <span class="text-[10px] text-slate-400 font-bold uppercase">Transformación 1 a 1</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Devuelve un <strong>nuevo array</strong> con la misma longitud que el original, donde cada elemento es el resultado de aplicarle la función callback.
+            </p>
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded-lg font-mono text-[11px] overflow-x-auto"><code>const precios = [100, 200];
+const conIva = precios.map(p => p * 1.19);
+// [119, 238]</code></pre>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="font-mono font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded border border-blue-200 text-sm">.filter()</span>
+              <span class="text-[10px] text-slate-400 font-bold uppercase">Subconjunto condicional</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Devuelve un <strong>nuevo array</strong> con todos los elementos que cumplan la condición booleana (retornen <code>true</code> en el callback).
+            </p>
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded-lg font-mono text-[11px] overflow-x-auto"><code>const stock = [15, 0, 8, 0, 4];
+const disponibles = stock.filter(s => s > 0);
+// [15, 8, 4]</code></pre>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="font-mono font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded border border-purple-200 text-sm">.find()</span>
+              <span class="text-[10px] text-slate-400 font-bold uppercase">Búsqueda unitaria</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Devuelve el <strong>primer elemento</strong> que coincida con la condición, o <code>undefined</code> si ninguno cumple. Se detiene tan pronto lo encuentra.
+            </p>
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded-lg font-mono text-[11px] overflow-x-auto"><code>const usuarios = [{ id: 1 }, { id: 2 }];
+const u2 = usuarios.find(u => u.id === 2);
+// { id: 2 }</code></pre>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-900 flex items-center justify-between">
+        <span>Patrón encadenado: <code>pedidos.filter(p => p.activo).map(p => p.total)</code> es legible, mantenible y testeable.</span>
+        <span class="font-mono font-bold text-[#39A900]">Method Chaining</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 8: MÉTODOS DE ARRAYS II -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="8" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Acumuladores & Verificaciones</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 08 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Métodos de Arrays II: <code class="text-[#39A900]">reduce()</code>, <code class="text-amber-600">some()</code> y <code class="text-indigo-600">every()</code>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          <code class="font-mono text-[#39A900] font-bold">reduce()</code> es el método funcional más poderoso de JavaScript: puede transformar un array completo en un único número, un objeto agrupado o un mapa de índices.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <div class="space-y-4">
+            <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-3">
+              <h4 class="text-base font-bold text-slate-900">Anatomía de Array.prototype.reduce()</h4>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                Recibe dos argumentos: la función reductora <code>(acumulador, elementoActual, index, array)</code> y el <strong>valor inicial</strong> del acumulador.
+              </p>
+              <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900">
+                <strong>⚠️ Regla de Oro:</strong> Siempre proporciona el valor inicial (e.g. <code>0</code>, <code>{}</code> o <code>[]</code>). Omitirlo sobre un array vacío lanza un <code>TypeError</code> crítico.
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+                <span class="font-mono font-bold text-amber-600 text-xs">.some() (Existencial)</span>
+                <p class="text-xs text-slate-600">Retorna <code>true</code> si al menos un elemento cumple la condición.</p>
+              </div>
+              <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
+                <span class="font-mono font-bold text-indigo-600 text-xs">.every() (Universal)</span>
+                <p class="text-xs text-slate-600">Retorna <code>true</code> únicamente si todos los elementos cumplen.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 rounded-2xl p-5 font-mono text-xs text-slate-100 overflow-x-auto shadow-lg flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-slate-400 pb-3 mb-3 border-b border-slate-800 text-[11px]">
+                <span>reduce_examples.js</span>
+                <span class="text-[#39A900]">Array Reduction</span>
+              </div>
+              <pre><code class="language-javascript">const items = [
+  { producto: 'Teclado', precio: 120000, categoria: 'HARDWARE' },
+  { producto: 'Mouse', precio: 80000, categoria: 'HARDWARE' },
+  { producto: 'Curso ADSO', precio: 0, categoria: 'EDUCACION' }
+];
+
+// 1. Calcular el total acumulado:
+const totalInventario = items.reduce((acc, item) => acc + item.precio, 0);
+console.log('Total:', totalInventario); // 200000
+
+// 2. Agrupar dinámicamente por categoría en un solo paso:
+const agrupados = items.reduce((acc, item) => {
+  const cat = item.categoria;
+  if (!acc[cat]) acc[cat] = [];
+  acc[cat].push(item);
+  return acc;
+}, {});
+
+// 3. Verificaciones de negocio:
+const hayGratis = items.some(i => i.precio === 0); // true
+const todosHardware = items.every(i => i.categoria === 'HARDWARE'); // false</code></pre>
+            </div>
+            <div class="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+              <span>Agregaciones en Backend</span>
+              <span class="text-emerald-400 font-bold">Sin bucles for manuales</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-slate-100 rounded-xl border border-slate-200 text-xs text-slate-600 flex items-center justify-between">
+        <span>En el Taller Práctico de hoy, el Reto 3 requiere calcular un balance financiero usando <code>reduce()</code>.</span>
+        <span class="font-mono font-bold text-slate-500">Reto 3 Starter</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 9: EL EVENT LOOP DE NODE.JS -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="9" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Arquitectura Interna de Concurrencia</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 09 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          El Event Loop: <span class="text-[#39A900]">Call Stack, libuv y Colas de Tareas</span>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          ¿Cómo atiende Node.js miles de solicitudes concurrentes con un solo hilo? A través de su bucle de eventos que orquesta la ejecución entre la pila principal y las colas asíncronas.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-2">
+            <div class="flex items-center gap-2 text-rose-600 font-bold text-sm">
+              <span class="w-6 h-6 rounded-full bg-rose-50 border border-rose-200 flex items-center justify-center text-xs">1</span>
+              <span>Call Stack (Pila V8)</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Donde se apilan las funciones síncronas en ejecución (LIFO: Last In, First Out). Si una función tarda demasiado aquí, bloquea toda la aplicación.
+            </p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-2">
+            <div class="flex items-center gap-2 text-blue-600 font-bold text-sm">
+              <span class="w-6 h-6 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center text-xs">2</span>
+              <span>Node APIs & libuv</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Cuando el código invoca un temporizador, una consulta SQL o una lectura de archivo, el Call Stack delega la operación a libuv y sigue ejecutando la siguiente línea.
+            </p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-2">
+            <div class="flex items-center gap-2 text-purple-600 font-bold text-sm">
+              <span class="w-6 h-6 rounded-full bg-purple-50 border border-purple-200 flex items-center justify-center text-xs">3</span>
+              <span>Microtask Queue</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              <strong>Prioridad Máxima:</strong> Contiene callbacks de Promesas resueltas (<code class="font-mono">.then()</code>, <code class="font-mono">await</code>) y <code class="font-mono">process.nextTick</code>. Se vacía antes de cualquier otra cola.
+            </p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-2">
+            <div class="flex items-center gap-2 text-emerald-600 font-bold text-sm">
+              <span class="w-6 h-6 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-xs">4</span>
+              <span>Macrotask Queue</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Contiene temporizadores (<code class="font-mono">setTimeout</code>, <code class="font-mono">setInterval</code>) y eventos de I/O. El Event Loop pasa sus callbacks al Call Stack cuando la pila está vacía.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-5 bg-slate-900 rounded-2xl text-slate-100 font-mono text-xs flex items-center justify-between">
+        <div>
+          <span class="text-amber-400 font-bold">Orden de prioridad de ejecución:</span>
+          <span class="text-slate-300 ml-2">Código Síncrono (Call Stack) ➔ Microtasks (Promises) ➔ Macrotasks (setTimeout / I/O)</span>
+        </div>
+        <span class="text-emerald-400 font-bold">Non-Blocking I/O</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 10: ANATOMÍA DE UNA PROMESA -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="10" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Modelo Asíncrono</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 10 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Anatomía de una <code class="text-[#39A900]">Promise</code>: Estados y Consumo
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          Una Promesa representa un valor que puede estar disponible ahora, en el futuro o nunca. Reemplaza el antiguo y caótico infierno de callbacks anidados (<em class="text-rose-600 font-semibold">Callback Hell</em>).
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <div class="space-y-4">
+            <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-3">
+              <h4 class="text-base font-bold text-slate-900">Los 3 Estados Inmutables de una Promesa:</h4>
+              <div class="space-y-2 text-xs">
+                <div class="p-2.5 rounded-lg bg-amber-50 border border-amber-200 flex items-center justify-between">
+                  <span class="font-bold text-amber-900">1. Pending (Pendiente)</span>
+                  <span class="text-slate-500">Operación en curso, resultado aún no resuelto</span>
+                </div>
+                <div class="p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-between">
+                  <span class="font-bold text-emerald-900">2. Fulfilled (Cumplida)</span>
+                  <span class="text-slate-500">Operación exitosa; dispara resolve(valor)</span>
+                </div>
+                <div class="p-2.5 rounded-lg bg-rose-50 border border-rose-200 flex items-center justify-between">
+                  <span class="font-bold text-rose-900">3. Rejected (Rechazada)</span>
+                  <span class="text-slate-500">Ocurrió un error; dispara reject(error)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-slate-100 border border-slate-200 rounded-2xl p-4 text-xs text-slate-700 space-y-1">
+              <span class="font-bold text-slate-900">Regla de Inmutabilidad de Estado:</span>
+              <p>Una vez que una promesa pasa a <em>Fulfilled</em> o <em>Rejected</em>, queda fijada para siempre y no puede cambiar de estado ni emitir múltiples valores.</p>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 rounded-2xl p-5 font-mono text-xs text-slate-100 overflow-x-auto shadow-lg flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-slate-400 pb-3 mb-3 border-b border-slate-800 text-[11px]">
+                <span>promise_creation.js</span>
+                <span class="text-[#39A900]">ES6 Promise</span>
+              </div>
+              <pre><code class="language-javascript">// Función constructora que simula consulta a BD:
+function consultarStock(idProducto) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (idProducto <= 0) {
+        reject(new Error('ID de producto inválido'));
+      } else {
+        resolve({ id: idProducto, stock: 45, bodega: 'Garzón' });
+      }
+    }, 500);
+  });
+}
+
+// Consumo tradicional con .then(), .catch() y .finally():
+consultarStock(10)
+  .then(resultado => {
+    console.log('Stock disponible:', resultado.stock);
+  })
+  .catch(error => {
+    console.error('Error al consultar:', error.message);
+  })
+  .finally(() => {
+    console.log('Conexión con base de datos cerrada.');
+  });</code></pre>
+            </div>
+            <div class="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+              <span>Encapsulamiento Asíncrono</span>
+              <span class="text-emerald-400 font-bold">then / catch / finally</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-900 flex items-center justify-between">
+        <span>Siempre maneja el rechazo con <code>.catch()</code> para evitar la advertencia <code>UnhandledPromiseRejection</code> en Node.js.</span>
+        <span class="font-mono font-bold text-[#39A900]">Safe Handling</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 11: ASYNC / AWAIT -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="11" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Azúcar Sintáctico Moderno</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 11 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Asincronía Lineal: <code class="text-[#39A900]">async</code> / <code class="text-blue-600">await</code>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          Introducido en ES2017, <code class="font-mono text-[#39A900] font-bold">async/await</code> permite escribir código asíncrono que se lee y estructura exactamente igual que el código síncrono tradicional, reduciendo drásticamente la carga cognitiva.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <div class="space-y-4">
+            <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-3">
+              <h4 class="text-base font-bold text-slate-900">Dos Reglas Universales:</h4>
+              <ul class="space-y-2.5 text-xs sm:text-sm text-slate-600">
+                <li class="flex items-start gap-2">
+                  <span class="px-2 py-0.5 rounded bg-emerald-50 text-[#39A900] font-mono font-bold text-xs">async</span>
+                  <span>Al anteponer <code>async</code> a una función, ésta pasa a devolver <strong>automáticamente una Promesa</strong>, incluso si retorna un valor primitivo.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-mono font-bold text-xs">await</span>
+                  <span>Pausa la ejecución de la función <em>async</em> hasta que la promesa se resuelva, sin bloquear en ningún momento el hilo principal de Node.js.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="bg-rose-50 border border-rose-200 rounded-2xl p-4 text-xs text-rose-900 space-y-1">
+              <span class="font-bold flex items-center gap-1.5 text-rose-700">
+                <i data-lucide="alert-circle" class="w-4 h-4"></i>
+                <span>El Error Clásico: Olvidar el `await`</span>
+              </span>
+              <p>Si olvidas <code>await</code>, la variable no recibirá el dato procesado sino el objeto <code>Promise { &lt;pending&gt; }</code>, causando errores posteriores inesperados.</p>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 rounded-2xl p-5 font-mono text-xs text-slate-100 overflow-x-auto shadow-lg flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-slate-400 pb-3 mb-3 border-b border-slate-800 text-[11px]">
+                <span>async_await_flow.js</span>
+                <span class="text-[#39A900]">ES2017 Syntax</span>
+              </div>
+              <pre><code class="language-javascript">// Controlador asíncrono limpio de backend:
+async function procesarPedidoCliente(idCliente, productos) {
+  console.log('1. Iniciando verificación de cliente...');
+  
+  // Espera síncrona visual, no bloqueante real:
+  const cliente = await buscarClienteDB(idCliente);
+  
+  console.log(`2. Cliente verificado: ${cliente.nombre}`);
+  
+  // Segundo paso dependiente del primero:
+  const factura = await emitirFacturaDB(cliente.id, productos);
+  
+  console.log(`3. Factura generada con éxito: #${factura.numero}`);
+  return { status: 'OK', factura };
+}
+
+// Ejecución limpia:
+const respuesta = await procesarPedidoCliente(42, ['Laptop', 'Mouse']);</code></pre>
+            </div>
+            <div class="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+              <span>Flujo de Ejecución Secuencial</span>
+              <span class="text-emerald-400 font-bold">Lectura lineal</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-900 flex items-center justify-between">
+        <span>Node.js v14.8+ soporta <em>Top-level await</em> en módulos ESM (archivos <code>.mjs</code> o con <code>"type": "module"</code> en package.json).</span>
+        <span class="font-mono font-bold text-[#39A900]">ESM Standard</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 12: MANEJO DEFENSIVO DE ERRORES -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="12" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Control de Fallos Defensivo</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 12 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Manejo de Errores: <code class="text-[#39A900]">try</code>...<code class="text-rose-600">catch</code>...<code class="text-slate-600">finally</code>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          En un servidor de producción, un error asíncrono no capturado derriba el proceso Node.js completo. El patrón defensivo con bloques <code class="font-mono text-slate-900 font-bold">try...catch</code> garantiza alta disponibilidad y respuestas estructuradas al cliente.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <div class="space-y-4">
+            <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-3">
+              <h4 class="text-base font-bold text-slate-900">Estructura del Bloque Defensivo:</h4>
+              <ul class="space-y-2 text-xs sm:text-sm text-slate-600">
+                <li><strong class="text-emerald-700">try:</strong> Bloque protegido donde ocurren operaciones que pueden fallar (conexión a base de datos, parseo de JSON, llamadas HTTP).</li>
+                <li><strong class="text-rose-700">catch (error):</strong> Se activa de inmediato si se produce una excepción o si una promesa rechaza con <code>await</code>.</li>
+                <li><strong class="text-slate-700">finally:</strong> Se ejecuta <strong>siempre</strong>, tanto si hubo éxito como si ocurrió un error. Ideal para liberar conexiones, cerrar archivos o detener temporizadores.</li>
+              </ul>
+            </div>
+
+            <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4 text-xs text-blue-950 space-y-1">
+              <span class="font-bold flex items-center gap-1.5 text-blue-800">
+                <i data-lucide="shield" class="w-4 h-4"></i>
+                <span>Buenas Prácticas en Backend SENA:</span>
+              </span>
+              <p>Nunca dejes un bloque <code>catch</code> vacío. Siempre registra el error en consola o sistema de logs (<code class="font-mono">console.error</code>) y retorna un código de error comprensible.</p>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 rounded-2xl p-5 font-mono text-xs text-slate-100 overflow-x-auto shadow-lg flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-slate-400 pb-3 mb-3 border-b border-slate-800 text-[11px]">
+                <span>defensive_try_catch.js</span>
+                <span class="text-[#39A900]">Robust Backend</span>
+              </div>
+              <pre><code class="language-javascript">async function registrarVentaSegura(datosVenta) {
+  let conexion = null;
+  try {
+    conexion = await poolConexiones.obtenerConexion();
+    console.log('Conexión adquirida...');
+
+    if (!datosVenta.clienteId) {
+      throw new Error('El campo clienteId es obligatorio.');
+    }
+
+    const resultado = await conexion.insertarVenta(datosVenta);
+    return { ok: true, idVenta: resultado.insertId };
+
+  } catch (err) {
+    // 🛡️ Registro defensivo del incidente:
+    console.error(`[ERROR VENTA] ${err.name}: ${err.message}`);
+    return { ok: false, error: err.message };
+
+  } finally {
+    // 🧹 Limpieza garantizada de recursos:
+    if (conexion) {
+      await conexion.liberar();
+      console.log('Conexión devuelta al pool correctamente.');
+    }
+  }
+}</code></pre>
+            </div>
+            <div class="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+              <span>Manejo Profesional de Recursos</span>
+              <span class="text-emerald-400 font-bold">Zero Crashes</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-900 flex items-center justify-between">
+        <span>El Reto 5 del taller pone a prueba la capacidad del aprendiz para atrapar errores simulados sin detener el script.</span>
+        <span class="font-mono font-bold text-[#39A900]">Reto 5 Focus</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 13: PARALELISMO CON PROMISE.ALL -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="13" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Concurrencia & Rendimiento</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 13 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Concurrencia: <code class="text-[#39A900]">Promise.all()</code> vs <code class="text-blue-600">Promise.allSettled()</code>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          Un error grave de rendimiento en backend es ejecutar consultas independientes en serie con múltiples <code class="font-mono font-bold text-slate-800">await</code> sucesivos, multiplicando el tiempo total de respuesta.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <div class="space-y-4">
+            <div class="p-4 bg-rose-50 border border-rose-200 rounded-2xl space-y-2 text-xs">
+              <span class="font-mono font-bold text-rose-700 text-sm">❌ Secuencial Lento (300ms + 300ms + 300ms = 900ms)</span>
+              <pre class="bg-white p-3 rounded-lg border border-rose-200 font-mono text-[11px] text-slate-800"><code>// Ineficiente si las consultas son independientes:
+const usuarios = await db.obtenerUsuarios();   // 300ms
+const pedidos = await db.obtenerPedidos();     // 300ms
+const categorias = await db.obtenerCategorias(); // 300ms
+// Tiempo total consumido: 900ms 🐌</code></pre>
+            </div>
+
+            <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl space-y-2 text-xs">
+              <span class="font-mono font-bold text-[#39A900] text-sm">✅ Concurrente en Paralelo (Total: 300ms)</span>
+              <pre class="bg-white p-3 rounded-lg border border-emerald-200 font-mono text-[11px] text-slate-800"><code>// Dispara las 3 al mismo tiempo y espera el paquete:
+const [usuarios, pedidos, categorias] = await Promise.all([
+  db.obtenerUsuarios(),
+  db.obtenerPedidos(),
+  db.obtenerCategorias()
+]);
+// Tiempo total consumido: 300ms ⚡ (3 veces más rápido)</code></pre>
+            </div>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-4">
+            <h4 class="text-base font-bold text-slate-900">¿Cuándo usar cada combinador?</h4>
+            
+            <div class="space-y-3 text-xs">
+              <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
+                <span class="font-mono font-bold text-[#39A900]">Promise.all() [Todo o Nada]</span>
+                <p class="text-slate-600">
+                  Falla de inmediato (<em>fail-fast</em>) si <strong>cualquiera</strong> de las promesas es rechazada. Se usa cuando todas las operaciones son estrictamente indispensables para continuar.
+                </p>
+              </div>
+
+              <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
+                <span class="font-mono font-bold text-blue-700">Promise.allSettled() [Auditoría Completa]</span>
+                <p class="text-slate-600">
+                  Espera a que <strong>todas</strong> terminen, sin importar si triunfaron o fallaron. Devuelve un array de objetos con estado <code>{ status: 'fulfilled', value }</code> o <code>{ status: 'rejected', reason }</code>. Ideal para envíos masivos de emails o sincronizaciones.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-slate-100 rounded-xl border border-slate-200 text-xs text-slate-600 flex items-center justify-between">
+        <span>Optimización directa de latencia: Siempre identifica operaciones I/O independientes y ejecútalas en paralelo.</span>
+        <span class="font-mono font-bold text-slate-500">Latency Optimization</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 14: BLOQUE 2 - TALLER PRÁCTICO EN AULA -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="14" data-block="2" data-duration="70">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-[#00324D] text-white font-mono text-xs font-extrabold rounded-lg">BLOQUE 2</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Laboratorio Práctico en Node.js</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 14 / 15</span>
+        </div>
+
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight">
+              Taller de Aula: <span class="text-[#00324D]">5 Retos Progresivos en JavaScript</span>
+            </h2>
+            <p class="text-base sm:text-lg text-slate-600 max-w-5xl mt-1">
+              Descarga la plantilla <code class="font-mono font-bold text-slate-800">plantilla_aprendiz.js</code> y resuelve en tu terminal con <code class="font-mono font-bold text-[#39A900]">node plantilla_aprendiz.js</code>.
+            </p>
+          </div>
+          <a href="recursos/plantilla_aprendiz.js" download class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#39A900] hover:bg-[#2D8200] text-white text-xs font-bold shadow-sm transition">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span>Descargar Plantilla</span>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4 my-6">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-4 shadow-xs space-y-2">
+            <span class="px-2 py-0.5 rounded bg-emerald-50 text-[#39A900] font-mono text-xs font-black">RETO 1</span>
+            <h4 class="font-extrabold text-slate-900 text-sm">Desestructuración & Spread</h4>
+            <p class="text-xs text-slate-600">Extraer datos de pedidos, calcular subtotal y clonar objeto agregando fecha sin mutar el original.</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-4 shadow-xs space-y-2">
+            <span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-mono text-xs font-black">RETO 2</span>
+            <h4 class="font-extrabold text-slate-900 text-sm">Filter & Map</h4>
+            <p class="text-xs text-slate-600">Filtrar clientes activos de la sede Garzón y transformar la salida en DTOs amigables con formato COP.</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-4 shadow-xs space-y-2">
+            <span class="px-2 py-0.5 rounded bg-amber-50 text-amber-700 font-mono text-xs font-black">RETO 3</span>
+            <h4 class="font-extrabold text-slate-900 text-sm">Balance con Reduce</h4>
+            <p class="text-xs text-slate-600">Acumular el gran total de ventas y agrupar las cantidades totales vendidas por categoría.</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-4 shadow-xs space-y-2">
+            <span class="px-2 py-0.5 rounded bg-purple-50 text-purple-700 font-mono text-xs font-black">RETO 4</span>
+            <h4 class="font-extrabold text-slate-900 text-sm">Promesas y DB Fake</h4>
+            <p class="text-xs text-slate-600">Implementar función constructora de Promesa con <code class="font-mono">setTimeout</code> y validación de stock negativo.</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-4 shadow-xs space-y-2">
+            <span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 font-mono text-xs font-black">RETO 5</span>
+            <h4 class="font-extrabold text-slate-900 text-sm">Async/Await Defensivo</h4>
+            <p class="text-xs text-slate-600">Crear un pipeline asíncrono robusto con <code class="font-mono">try/catch/finally</code> procesando pedidos concurrentes.</p>
+          </div>
+
+        </div>
+
+        <div class="bg-slate-100 border border-slate-200 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-700">
+          <div class="flex items-center gap-2">
+            <i data-lucide="terminal" class="w-4 h-4 text-slate-800"></i>
+            <span>Ejecución del taller: <code class="bg-white px-2 py-0.5 rounded border border-slate-300 font-mono font-bold text-slate-900">node recursos/plantilla_aprendiz.js</code></span>
+          </div>
+          <span class="font-bold text-[#39A900]">Tiempo sugerido: 70 minutos</span>
+        </div>
+
+      </div>
+
+      <div class="mt-6 p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-900 flex items-center justify-between">
+        <span>El instructor pasará por los puestos resolviendo dudas del Event Loop y verificando que no se usen bucles <code>for</code> manuales.</span>
+        <span class="font-mono font-bold text-[#39A900]">Supervisión Activa</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 15: BLOQUE 3 - SUSTENTACIÓN EN CALIENTE Y GIT -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="15" data-block="3" data-duration="40">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-purple-50 text-purple-700 font-mono text-xs font-extrabold rounded-lg border border-purple-200">BLOQUE 3</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Cierre & Verificación Individual</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 15 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Evidencia de Aula: <span class="text-purple-700">Sustentación en Caliente</span> & Control Git
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          En los últimos 40 minutos de la sesión, el instructor visita cada puesto de trabajo para realizar una prueba en caliente y registrar la evidencia en el control de versiones.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-6 shadow-xs space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-700 mb-2">
+              <i data-lucide="help-circle" class="w-5 h-5"></i>
+            </div>
+            <h4 class="text-lg font-extrabold text-slate-900">1. Preguntas en Caliente</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              El instructor solicitará modificar una condición en vivo:
+            </p>
+            <ul class="space-y-2 text-xs text-slate-700">
+              <li class="p-2 bg-slate-50 rounded-lg">¿Por qué este <code>const</code> permite agregarle un campo nuevo al objeto?</li>
+              <li class="p-2 bg-slate-50 rounded-lg">Transforma este <code>filter + map</code> en un solo <code>reduce</code>.</li>
+              <li class="p-2 bg-slate-50 rounded-lg">¿Qué sucede si quitamos el <code>await</code> en la línea 45?</li>
+            </ul>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-6 shadow-xs space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-[#39A900] mb-2">
+              <i data-lucide="check-square" class="w-5 h-5"></i>
+            </div>
+            <h4 class="text-lg font-extrabold text-slate-900">2. Criterios de Aprobación</h4>
+            <ul class="space-y-2 text-xs text-slate-600">
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-[#39A900]"></i>
+                <span>Cero uso de la palabra <code>var</code>.</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-[#39A900]"></i>
+                <span>Sin mutación directa en arrays y objetos.</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-[#39A900]"></i>
+                <span>Manejo defensivo de errores con <code>try/catch</code>.</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-[#39A900]"></i>
+                <span>Código formateado e identado limpiamente.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-6 shadow-xs space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-700 mb-2">
+              <i data-lucide="git-pull-request" class="w-5 h-5"></i>
+            </div>
+            <h4 class="text-lg font-extrabold text-slate-900">3. Flujo Git de Entrega</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Comandos obligatorios a ejecutar desde la terminal del aprendiz:
+            </p>
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl font-mono text-[11px] overflow-x-auto"><code>git add .
+git commit -m "feat(dia-03): solucion taller es6 y asincronia"
+git push origin master</code></pre>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-8 p-5 bg-[#00324D] rounded-2xl text-white flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <img src="../../assets/logo_green.png" alt="SENA" class="h-8 w-auto">
+          <div>
+            <h4 class="font-extrabold text-sm">¡Felicitaciones! Has completado la Sesión 03 de Nivelación</h4>
+            <p class="text-xs text-slate-300">Próxima Sesión: Día 4 · Servidores Web con Node.js y Express (Rutas & Middlewares).</p>
+          </div>
+        </div>
+        <a href="../../index.html" class="px-6 py-2.5 rounded-xl bg-[#39A900] hover:bg-[#2D8200] text-white text-xs font-bold transition flex items-center gap-2 shadow-sm">
+          <i data-lucide="home" class="w-4 h-4"></i>
+          <span>Volver al Portal</span>
+        </a>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- DRAWER / ÍNDICE DE DIAPOSITIVAS (M) -->
+  <!-- ========================================================================= -->
+  <aside id="menu-drawer" class="fixed inset-y-0 right-0 z-50 w-80 bg-white border-l border-slate-200 shadow-2xl p-5 overflow-y-auto hidden flex flex-col">
+    <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
+      <h3 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
+        <i data-lucide="layers" class="w-4 h-4 text-[#39A900]"></i>
+        <span>Índice de Diapositivas</span>
+      </h3>
+      <button id="btn-close-menu" class="text-slate-400 hover:text-slate-700">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+      
+    <div class="space-y-1.5 text-xs flex-1">
+      <button onclick="window.presenter?.goToSlide(0)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="font-mono text-slate-400 font-bold">01.</span><span>Portada y Objetivos</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(1)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="font-mono text-slate-400 font-bold">02.</span><span>El Runtime de Node.js</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(2)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="font-mono text-slate-400 font-bold">03.</span><span>const vs let vs Peligro de var</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(3)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="font-mono text-slate-400 font-bold">04.</span><span>Inmutabilidad de Referencias</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(4)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="font-mono text-slate-400 font-bold">05.</span><span>Desestructuración Moderna</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(5)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="font-mono text-slate-400 font-bold">06.</span><span>Spread Operator (...) vs Rest</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(6)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="font-mono text-slate-400 font-bold">07.</span><span>map, filter y find</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(7)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="font-mono text-slate-400 font-bold">08.</span><span>reduce, some y every</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(8)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="font-mono text-slate-400 font-bold">09.</span><span>El Event Loop de Node.js</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(9)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="font-mono text-slate-400 font-bold">10.</span><span>Anatomía de una Promesa</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(10)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="font-mono text-slate-400 font-bold">11.</span><span>Asincronía con async/await</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(11)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="font-mono text-slate-400 font-bold">12.</span><span>try...catch Defensivo</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(12)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="font-mono text-slate-400 font-bold">13.</span><span>Promise.all vs allSettled</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(13)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-blue-700 font-bold">
+        <span class="font-mono text-blue-600 font-bold">14.</span><span>Bloque 2: Taller de Aula</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(14)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-purple-700 font-bold">
+        <span class="font-mono text-purple-700 font-bold">15.</span><span>Bloque 3: Sustentación & Git</span>
+      </button>
+    </div>
+    
+    <div class="pt-4 border-t border-slate-200 text-center mt-4">
+      <a href="../../index.html" class="inline-flex items-center text-xs font-bold text-slate-500 hover:text-slate-900 transition gap-1">
+        <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+        <span>Volver al Portal Principal</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL DE AYUDA / ATAJOS DE TECLADO (?) -->
+  <!-- ========================================================================= -->
+  <div id="help-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-200">
+      <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+        <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+          <i data-lucide="keyboard" class="w-5 h-5 text-[#39A900]"></i>
+          <span>Atajos de Teclado (Modo Proyección)</span>
+        </h3>
+        <button onclick="window.presenter?.toggleHelpModal()" class="p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-2 text-xs text-slate-600">
+        <div class="flex justify-between py-1 border-b border-slate-100">
+          <span>Avanzar diapositiva</span>
+          <kbd class="px-2 py-0.5 bg-slate-100 rounded font-mono font-bold text-slate-700">Espacio / → / ↓</kbd>
+        </div>
+        <div class="flex justify-between py-1 border-b border-slate-100">
+          <span>Retroceder diapositiva</span>
+          <kbd class="px-2 py-0.5 bg-slate-100 rounded font-mono font-bold text-slate-700">← / ↑</kbd>
+        </div>
+        <div class="flex justify-between py-1 border-b border-slate-100">
+          <span>Pantalla Completa</span>
+          <kbd class="px-2 py-0.5 bg-slate-100 rounded font-mono font-bold text-slate-700">F</kbd>
+        </div>
+        <div class="flex justify-between py-1 border-b border-slate-100">
+          <span>Iniciar / Pausar Temporizador</span>
+          <kbd class="px-2 py-0.5 bg-slate-100 rounded font-mono font-bold text-slate-700">T</kbd>
+        </div>
+        <div class="flex justify-between py-1 border-b border-slate-100">
+          <span>Reiniciar Temporizador</span>
+          <kbd class="px-2 py-0.5 bg-slate-100 rounded font-mono font-bold text-slate-700">R</kbd>
+        </div>
+        <div class="flex justify-between py-1 border-b border-slate-100">
+          <span>Abrir / Cerrar Menú</span>
+          <kbd class="px-2 py-0.5 bg-slate-100 rounded font-mono font-bold text-slate-700">M</kbd>
+        </div>
+        <div class="flex justify-between py-1">
+          <span>Mostrar / Ocultar Ayuda</span>
+          <kbd class="px-2 py-0.5 bg-slate-100 rounded font-mono font-bold text-slate-700">?</kbd>
+        </div>
+      </div>
+
+      <button onclick="window.presenter?.toggleHelpModal()" class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs rounded-xl transition">
+        Entendido
+      </button>
+    </div>
+  </div>
+
+  <!-- Script del Presentador, Lucide Icons y Fecha Dinámica -->
+  <script src="../../assets/js/presenter.js"></script>
+  <script>
+    lucide.createIcons();
+
+    // Fecha dinámica de hoy en el cintillo de la presentación
+    (function renderFechaSlide() {
+      const hoy = new Date();
+      const opciones = { weekday: 'short', day: 'numeric', month: 'short' };
+      const fechaTxt = hoy.toLocaleDateString('es-CO', opciones);
+      const el = document.getElementById('slide-cintillo-fecha');
+      if (el) el.textContent = 'Hoy: ' + fechaTxt.charAt(0).toUpperCase() + fechaTxt.slice(1);
+    })();
+  </script>
+</body>
+</html>

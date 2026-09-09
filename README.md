@@ -81,11 +81,16 @@ NivelacionADSO/
     │   └── recursos/
     │       ├── plantilla_aprendiz.sql    # Plantilla starter para los aprendices en clase
     │       └── solucion_sistema_ventas.sql # Solución maestra probada en MySQL 8 InnoDB
-    └── dia-02-consultas-sql-joins/
-        ├── index.html             # Diapositivas de proyección (Sesión 02: Consultas SQL & JOINs)
+    ├── dia-02-consultas-sql-joins/
+    │   ├── index.html             # Diapositivas de proyección (Sesión 02: Consultas SQL & JOINs)
+    │   └── recursos/
+    │       ├── plantilla_aprendiz.sql    # Datos sembrados y retos de laboratorio en aula
+    │       └── solucion_consultas_joins.sql # Solucionario analítico y preguntas en caliente
+    └── dia-03-javascript-es6-asincronia/
+        ├── index.html             # Diapositivas de proyección (Sesión 03: JavaScript ES6+ & Asincronía)
         └── recursos/
-            ├── plantilla_aprendiz.sql    # Datos sembrados y retos de laboratorio en aula
-            └── solucion_consultas_joins.sql # Solucionario analítico y preguntas en caliente
+            ├── plantilla_aprendiz.js       # Taller starter de 5 retos progresivos
+            └── solucion_taller_es6_asincronia.js # Solución completa validada con Node.js
 ```
 
 ---
