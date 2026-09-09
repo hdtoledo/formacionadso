@@ -100,13 +100,48 @@
         <a href="#recursos" class="hover:text-[#39A900] transition-colors">Recursos SQL</a>
       </nav>
 
-      <!-- Botón de Proyección Rápida -->
-      <div class="flex items-center gap-3 shrink-0">
-        <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/index.html" class="px-5 py-2.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-bold text-xs sm:text-sm rounded-xl transition-all shadow-sm flex items-center gap-2">
+      <!-- Selector de Proyección Rápida en Aula -->
+      <div class="relative group">
+        <button id="btn-proyeccion-menu" type="button" class="px-4 sm:px-5 py-2.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-xs sm:text-sm rounded-xl transition-all shadow-sm hover:shadow-md flex items-center gap-2">
           <i data-lucide="projector" class="w-4 h-4"></i>
-          <span>Proyectar Sesión 01</span>
-          <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-        </a>
+          <span>Proyectar Aula</span>
+          <span class="px-1.5 py-0.5 rounded-full bg-white/20 text-[10px] font-mono">2</span>
+          <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform group-hover:rotate-180"></i>
+        </button>
+
+        <!-- Menú Desplegable de Sesiones Disponibles -->
+        <div class="absolute right-0 mt-2 w-72 sm:w-80 bg-white border border-slate-200 rounded-2xl shadow-xl p-2 hidden group-hover:block hover:block z-50 transition-all">
+          <div class="px-3 py-2 border-b border-slate-100 flex items-center justify-between">
+            <span class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Lecciones Disponibles</span>
+            <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">2 Listas</span>
+          </div>
+          <div class="py-1 space-y-1">
+            <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/index.html" class="flex items-start gap-2.5 p-2.5 rounded-xl hover:bg-slate-50 transition group/item">
+              <div class="w-8 h-8 rounded-lg bg-emerald-50 text-[#39A900] border border-emerald-200 flex items-center justify-center shrink-0 mt-0.5 group-hover/item:bg-[#39A900] group-hover/item:text-white transition">
+                <span class="font-mono font-bold text-xs">01</span>
+              </div>
+              <div class="min-w-0">
+                <p class="text-xs font-bold text-slate-800 truncate">Modelo Relacional & SQL DDL/DML</p>
+                <p class="text-[10px] text-slate-500 truncate">Semana 1 · Día 1 (14 Diapositivas)</p>
+              </div>
+            </a>
+            <a href="semana-01-fundamentos/dia-02-consultas-sql-joins/index.html" class="flex items-start gap-2.5 p-2.5 rounded-xl hover:bg-slate-50 transition group/item">
+              <div class="w-8 h-8 rounded-lg bg-emerald-50 text-[#39A900] border border-emerald-200 flex items-center justify-center shrink-0 mt-0.5 group-hover/item:bg-[#39A900] group-hover/item:text-white transition">
+                <span class="font-mono font-bold text-xs">02</span>
+              </div>
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5">
+                  <p class="text-xs font-bold text-slate-800 truncate">Consultas SQL & JOINs</p>
+                  <span class="px-1.5 py-0.5 bg-emerald-100 text-emerald-800 text-[9px] font-bold rounded">Nueva</span>
+                </div>
+                <p class="text-[10px] text-slate-500 truncate">Semana 1 · Día 2 (15 Diapositivas)</p>
+              </div>
+            </a>
+          </div>
+          <div class="pt-2 border-t border-slate-100 px-3 pb-1 flex items-center justify-between text-[10px] text-slate-400 font-medium">
+            <span>Atajo: Teclas <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-200 rounded font-mono font-bold text-slate-700">1</kbd> o <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-200 rounded font-mono font-bold text-slate-700">2</kbd></span>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -137,13 +172,18 @@
 
           <!-- Acciones Principales -->
           <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-            <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/index.html" class="px-6 py-3.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-sm rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2.5">
-              <i data-lucide="play-circle" class="w-5 h-5"></i>
-              <span>Iniciar Sesión 01: Modelo Relacional & SQL</span>
+            <a href="semana-01-fundamentos/dia-02-consultas-sql-joins/index.html" class="px-6 py-3.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-sm rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2.5 group">
+              <i data-lucide="play-circle" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+              <span>Iniciar Sesión 02: Consultas & JOINs</span>
+              <span class="px-2 py-0.5 bg-white/20 rounded-full text-[10px] font-mono font-black uppercase tracking-wider">Nueva</span>
             </a>
-            <a href="#cronograma" class="px-5 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm rounded-xl transition flex items-center justify-center gap-2">
-              <i data-lucide="calendar" class="w-4 h-4 text-slate-500"></i>
-              <span>Ver las 40 Sesiones</span>
+            <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/index.html" class="px-5 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-sm rounded-xl transition flex items-center justify-center gap-2">
+              <i data-lucide="projector" class="w-4 h-4 text-[#39A900]"></i>
+              <span>Sesión 01: DDL & DML</span>
+            </a>
+            <a href="#cronograma" class="px-4 py-3.5 bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 font-bold text-sm rounded-xl transition flex items-center justify-center gap-1.5">
+              <i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i>
+              <span>Plan 40 Días</span>
             </a>
           </div>
 
@@ -167,7 +207,7 @@
 
         <!-- Columna Derecha: Tarjeta Institucional de Estado Formativo -->
         <div class="lg:col-span-5">
-          <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-6 shadow-sm space-y-5">
+          <div class="bg-gradient-to-br from-white via-white to-emerald-50/40 border-2 border-slate-200 hover:border-[#39A900]/40 rounded-2xl p-6 shadow-sm hover:shadow-md transition space-y-5">
             
             <div class="flex items-center justify-between border-b border-slate-200 pb-3.5">
               <div class="flex items-center gap-2.5">
@@ -202,26 +242,42 @@
             <div class="p-4 rounded-xl border border-slate-200 bg-white space-y-2.5 shadow-2xs">
               <div class="flex items-center justify-between text-xs">
                 <span class="font-extrabold text-slate-800">Semana 1: Nivelación de Fundamentos</span>
-                <span class="font-mono font-bold text-[#39A900]">Sesión 01 / 40</span>
+                <span class="font-mono font-bold text-[#39A900] bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">02 / 40 Listas</span>
               </div>
-              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
-                <div class="bg-[#39A900] h-2 rounded-full w-[12%]"></div>
+              <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                <div class="bg-gradient-to-r from-[#39A900] to-emerald-400 h-2.5 rounded-full w-[5%]"></div>
               </div>
               <p class="text-[11px] text-slate-500 leading-snug">
-                Eje temático activo: <strong class="text-slate-800">Bases de Datos Relacionales (Modelo E-R, DDL y DML).</strong>
+                Eje temático activo: <strong class="text-slate-800">Bases de Datos Relacionales (DDL, DML, Consultas DQL & JOINs).</strong>
               </p>
             </div>
 
-            <!-- Enlaces directos a recursos -->
-            <div class="pt-1 flex items-center gap-2">
-              <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/recursos/solucion_sistema_ventas.sql" target="_blank" class="flex-1 py-2.5 px-3 bg-white hover:bg-slate-100 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 transition flex items-center justify-center gap-1.5 shadow-2xs">
-                <i data-lucide="file-code" class="w-3.5 h-3.5 text-[#39A900]"></i>
-                <span>Solución SQL</span>
-              </a>
-              <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/recursos/plantilla_aprendiz.sql" download class="flex-1 py-2.5 px-3 bg-white hover:bg-slate-100 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 transition flex items-center justify-center gap-1.5 shadow-2xs">
-                <i data-lucide="download" class="w-3.5 h-3.5 text-[#00324D]"></i>
-                <span>Plantilla Aprendiz</span>
-              </a>
+            <!-- Enlaces directos a recursos de Sesión 01 y Sesión 02 -->
+            <div class="space-y-2 pt-1">
+              <div class="flex items-center justify-between text-[11px] font-bold text-slate-500">
+                <span>Recursos de Laboratorio Rápido:</span>
+                <span class="text-[10px] font-mono text-emerald-700">Archivos .SQL</span>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/recursos/solucion_sistema_ventas.sql" target="_blank" class="py-2 px-2.5 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-[11px] font-bold text-slate-700 transition flex items-center justify-center gap-1.5 shadow-2xs">
+                  <i data-lucide="file-code" class="w-3 h-3 text-[#39A900]"></i>
+                  <span>Solución S01</span>
+                </a>
+                <a href="semana-01-fundamentos/dia-02-consultas-sql-joins/recursos/solucion_consultas_joins.sql" target="_blank" class="py-2 px-2.5 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-[11px] font-bold text-slate-700 transition flex items-center justify-center gap-1.5 shadow-2xs">
+                  <i data-lucide="file-code" class="w-3 h-3 text-[#39A900]"></i>
+                  <span>Solución S02</span>
+                </a>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/recursos/plantilla_aprendiz.sql" download class="py-2 px-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-[11px] font-bold text-slate-700 transition flex items-center justify-center gap-1.5 shadow-2xs">
+                  <i data-lucide="download" class="w-3 h-3 text-[#00324D]"></i>
+                  <span>Plantilla S01</span>
+                </a>
+                <a href="semana-01-fundamentos/dia-02-consultas-sql-joins/recursos/plantilla_aprendiz.sql" download class="py-2 px-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-[11px] font-bold text-slate-700 transition flex items-center justify-center gap-1.5 shadow-2xs">
+                  <i data-lucide="download" class="w-3 h-3 text-[#00324D]"></i>
+                  <span>Plantilla S02</span>
+                </a>
+              </div>
             </div>
 
           </div>
@@ -318,7 +374,8 @@
   <main id="cronograma" class="py-12 sm:py-16 bg-white border-b border-slate-200 flex-1">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 space-y-8">
       
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      <!-- Cabecera del Cronograma con Buscador Instantáneo -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div class="space-y-1.5 max-w-xl">
           <span class="text-xs font-bold uppercase tracking-wider text-[#39A900]">Plan de 8 Semanas (40 Sesiones)</span>
           <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Distribución Curricular Día a Día</h2>
@@ -327,6 +384,21 @@
           </p>
         </div>
 
+        <!-- Buscador en Vivo de Sesiones -->
+        <div class="w-full md:w-80">
+          <label for="input-busqueda-sesiones" class="sr-only">Buscar sesión o tecnología</label>
+          <div class="relative">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input id="input-busqueda-sesiones" type="text" placeholder="Buscar: JOIN, Express, React, DDL, Git..." class="w-full pl-10 pr-9 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#39A900] focus:bg-white transition shadow-2xs placeholder:text-slate-400">
+            <button id="btn-limpiar-busqueda" type="button" onclick="window.limpiarBusqueda()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5">
+              <i data-lucide="x" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de Filtros y Selector de Semanas -->
+      <div id="barra-semanas-nav" class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-2 border-t border-slate-100">
         <!-- Selector de Semanas -->
         <div class="flex items-center gap-1.5 overflow-x-auto pb-1 max-w-full">
           <button onclick="window.cambiarSemana(1)" id="btn-sem-1" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-[#39A900] text-white shadow-xs transition">Semana 1</button>
@@ -338,14 +410,36 @@
           <button onclick="window.cambiarSemana(7)" id="btn-sem-7" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">Semana 7</button>
           <button onclick="window.cambiarSemana(8)" id="btn-sem-8" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">Semana 8</button>
         </div>
+
+        <div class="flex items-center gap-2 text-xs shrink-0">
+          <span class="inline-flex items-center gap-1.5 text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 font-bold text-[11px]">
+            <span class="w-2 h-2 rounded-full bg-[#39A900] animate-pulse"></span>
+            2 de 40 Sesiones Listas
+          </span>
+        </div>
+      </div>
+
+      <!-- Panel Dinámico de Resultados de Búsqueda -->
+      <div id="panel-resultados-busqueda" class="hidden space-y-4 p-5 bg-slate-50/80 border-2 border-emerald-200 rounded-2xl">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2 text-xs font-extrabold text-slate-800">
+            <i data-lucide="search" class="w-4 h-4 text-[#39A900]"></i>
+            <span id="conteo-resultados">Coincidencias encontradas</span>
+          </div>
+          <button onclick="window.limpiarBusqueda()" class="text-xs font-bold text-[#39A900] hover:text-[#2D8200] hover:underline flex items-center gap-1">
+            <span>Restablecer vista</span>
+            <i data-lucide="arrow-right" class="w-3 h-3"></i>
+          </button>
+        </div>
+        <div id="lista-resultados-busqueda" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
       </div>
 
       <!-- ===================================================================== -->
       <!-- CONTENIDO DE SEMANA 1 (DISPONIBLE / EN CURSO) -->
       <!-- ===================================================================== -->
-      <div id="panel-semana-1" class="semana-panel space-y-4">
+      <div id="panel-semana-1" class="semana-panel space-y-5">
         
-        <!-- Tarjeta Destacada: Sesión 01 (COMPLETA Y LISTA PARA PROYECTAR) -->
+        <!-- Tarjeta Destacada: Sesión 01 (LISTA PARA PROYECTAR) -->
         <div class="bg-white border-2 border-[#39A900] rounded-2xl p-6 sm:p-7 shadow-xs hover:shadow-md transition">
           <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div class="space-y-3 flex-1">
@@ -380,8 +474,8 @@
                   <span class="font-extrabold text-[#00324D] block mb-1">Bloque 2: Taller Práctico</span>
                   <span class="text-slate-600 text-[11px] leading-snug block">Construcción en Workbench del Sistema de Ventas (usuarios, categorías, productos).</span>
                 </div>
-                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
-                  <span class="font-extrabold text-purple-700 block mb-1">Bloque 3: Evidencia & Sustentación</span>
+                <div class="p-3 bg-slate-50 rounded-xl border border-purple-200 bg-purple-50/40">
+                  <span class="font-extrabold text-purple-700 block mb-1">Bloque 3: Sustentación</span>
                   <span class="text-slate-600 text-[11px] leading-snug block">Script .sql sin errores, ALTER TABLE UNIQUE y explicación de regla RESTRICT.</span>
                 </div>
               </div>
@@ -392,87 +486,149 @@
             <div class="flex flex-col gap-2.5 shrink-0 lg:w-56">
               <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/index.html" class="w-full px-5 py-3 bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-xs sm:text-sm rounded-xl transition shadow-sm flex items-center justify-center gap-2 text-center">
                 <i data-lucide="projector" class="w-4 h-4"></i>
-                <span>Proyectar Diapositivas</span>
+                <span>Proyectar Sesión 01</span>
               </a>
 
               <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/recursos/solucion_sistema_ventas.sql" target="_blank" class="w-full px-4 py-2 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-xl transition flex items-center justify-center gap-2 text-center">
                 <i data-lucide="file-code" class="w-3.5 h-3.5 text-[#39A900]"></i>
-                <span>Ver Script SQL Maestro</span>
+                <span>Ver Script Maestro</span>
               </a>
 
               <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/recursos/plantilla_aprendiz.sql" download class="w-full px-4 py-2 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-xl transition flex items-center justify-center gap-2 text-center">
                 <i data-lucide="download" class="w-3.5 h-3.5 text-[#00324D]"></i>
-                <span>Plantilla para Aprendiz</span>
+                <span>Plantilla Aprendiz</span>
               </a>
             </div>
 
           </div>
         </div>
 
-        <!-- Lista de las demás sesiones de la Semana 1 -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-          
-          <!-- Sesión 02 (Activa) -->
-          <div class="p-5 bg-white border-2 border-slate-200 hover:border-[#39A900] rounded-2xl space-y-3 shadow-xs hover:shadow-md transition">
-            <div class="flex items-center justify-between">
-              <span class="px-2.5 py-0.5 bg-emerald-50 rounded-md text-[11px] font-mono font-extrabold text-[#39A900] border border-emerald-200">SESIÓN 02 · DÍA 2</span>
-              <span class="text-[10px] font-bold text-emerald-800 bg-emerald-100/70 px-2 py-0.5 rounded-full">Bases de Datos (DQL)</span>
+        <!-- Tarjeta Destacada: Sesión 02 (LISTA PARA PROYECTAR · NUEVA) -->
+        <div class="bg-white border-2 border-emerald-500 rounded-2xl p-6 sm:p-7 shadow-xs hover:shadow-md transition">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div class="space-y-3 flex-1">
+              
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold border border-emerald-200">
+                  SESIÓN 02 · DÍA 2
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-xs font-bold">
+                  BASES DE DATOS (DQL & JOINS)
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold flex items-center gap-1">
+                  <i data-lucide="check" class="w-3.5 h-3.5"></i> Disponible para Proyección
+                </span>
+                <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[10px] font-mono font-black uppercase">
+                  ✨ Nueva Lección
+                </span>
+              </div>
+
+              <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+                Consultas SQL, Funciones de Agregación y Cruce de Tablas (JOINs)
+              </h3>
+
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                Dominio de consultas avanzadas con <code class="font-mono font-semibold text-[#00324D]">WHERE</code>, ordenamiento con <code class="font-mono font-semibold text-[#00324D]">ORDER BY</code>, funciones agrupadas (<code class="font-mono font-semibold">COUNT</code>, <code class="font-mono font-semibold">SUM</code>, <code class="font-mono font-semibold">GROUP BY</code>, <code class="font-mono font-semibold">HAVING</code>), y la diferencia crucial entre <code class="font-mono font-semibold text-[#39A900]">INNER JOIN</code> (coincidencia estricta) y <code class="font-mono font-semibold text-[#39A900]">LEFT JOIN</code> (preservación de huérfanos).
+              </p>
+
+              <!-- Desglose de los 3 bloques de la sesión -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs">
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-extrabold text-[#39A900] block mb-1">Bloque 1: Teoría & Live Coding</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">Ejecución lógica de SELECT, agrupaciones con HAVING vs WHERE y diagramas de Venn para JOINs.</span>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-extrabold text-[#00324D] block mb-1">Bloque 2: Taller en Aula</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">5 retos progresivos de analítica comercial sobre clientes, ventas, productos y categorías.</span>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-purple-200 bg-purple-50/40">
+                  <span class="font-extrabold text-purple-700 block mb-1">Bloque 3: Sustentación</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">Consulta en caliente solicitada por el instructor en Video-beam demostrando autoría.</span>
+                </div>
+              </div>
+
             </div>
-            <h4 class="text-base font-extrabold text-slate-900">Consultas SQL y Cruce de Tablas (JOINs)</h4>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              Filtros avanzados (<code class="font-mono font-bold text-slate-800">WHERE</code>, <code class="font-mono font-bold text-slate-800">LIKE</code>, <code class="font-mono font-bold text-slate-800">IN</code>, <code class="font-mono font-bold text-slate-800">BETWEEN</code>), agregaciones (<code class="font-mono font-bold text-slate-800">COUNT</code>, <code class="font-mono font-bold text-slate-800">SUM</code>, <code class="font-mono font-bold text-slate-800">GROUP BY</code>, <code class="font-mono font-bold text-slate-800">HAVING</code>) y cruces relacionales (<code class="font-mono font-bold text-[#39A900]">INNER JOIN</code> y <code class="font-mono font-bold text-[#39A900]">LEFT JOIN</code>).
-            </p>
-            <div class="pt-2 flex flex-col sm:flex-row gap-2">
-              <a href="semana-01-fundamentos/dia-02-consultas-sql-joins/index.html" class="flex-1 py-2.5 px-3 bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-xs rounded-xl transition flex items-center justify-center gap-1.5 shadow-2xs">
-                <i data-lucide="projector" class="w-3.5 h-3.5"></i>
+
+            <!-- Botones de Acción de la Sesión -->
+            <div class="flex flex-col gap-2.5 shrink-0 lg:w-56">
+              <a href="semana-01-fundamentos/dia-02-consultas-sql-joins/index.html" class="w-full px-5 py-3 bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-xs sm:text-sm rounded-xl transition shadow-sm flex items-center justify-center gap-2 text-center">
+                <i data-lucide="projector" class="w-4 h-4"></i>
                 <span>Proyectar Sesión 02</span>
               </a>
-              <a href="semana-01-fundamentos/dia-02-consultas-sql-joins/recursos/solucion_consultas_joins.sql" target="_blank" class="py-2.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1">
+
+              <a href="semana-01-fundamentos/dia-02-consultas-sql-joins/recursos/solucion_consultas_joins.sql" target="_blank" class="w-full px-4 py-2 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-xl transition flex items-center justify-center gap-2 text-center">
                 <i data-lucide="file-code" class="w-3.5 h-3.5 text-[#39A900]"></i>
-                <span>Script</span>
+                <span>Ver Script Maestro</span>
               </a>
-              <a href="semana-01-fundamentos/dia-02-consultas-sql-joins/recursos/plantilla_aprendiz.sql" download class="py-2.5 px-3 bg-[#00324D] hover:bg-[#00263A] text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-1">
-                <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                <span>Plantilla</span>
+
+              <a href="semana-01-fundamentos/dia-02-consultas-sql-joins/recursos/plantilla_aprendiz.sql" download class="w-full px-4 py-2 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-xl transition flex items-center justify-center gap-2 text-center">
+                <i data-lucide="download" class="w-3.5 h-3.5 text-[#00324D]"></i>
+                <span>Plantilla Aprendiz</span>
               </a>
             </div>
+
+          </div>
+        </div>
+
+        <!-- Próximas Sesiones de Semana 1 (Planificadas / En Desarrollo) -->
+        <div class="pt-2 space-y-3">
+          <div class="flex items-center justify-between text-xs font-bold text-slate-500">
+            <span>Próximas Sesiones de la Semana 1:</span>
+            <span class="text-[11px] text-slate-400">En desarrollo curricular</span>
           </div>
 
-          <!-- Sesión 03 -->
-          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-2 hover:border-slate-300 transition">
-            <div class="flex items-center justify-between">
-              <span class="px-2 py-0.5 bg-slate-100 rounded text-[11px] font-mono font-bold text-slate-700">SESIÓN 03 · DÍA 3</span>
-              <span class="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">Backend I</span>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            
+            <!-- Sesión 03 -->
+            <div class="p-5 bg-white border border-slate-200 rounded-2xl space-y-2 hover:border-slate-300 transition opacity-90">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 bg-slate-100 rounded text-[11px] font-mono font-bold text-slate-700">SESIÓN 03 · DÍA 3</span>
+                <span class="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">Backend I</span>
+              </div>
+              <h4 class="text-sm font-bold text-slate-900">JavaScript Moderno (ES6+) y Asincronía</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Inmutabilidad, desestructuración, spread operator, métodos de arrays (<code class="font-mono text-slate-800">map</code>, <code class="font-mono text-slate-800">filter</code>), Event Loop y promesas con <code class="font-mono text-slate-800">async/await</code>.
+              </p>
+              <div class="pt-2 flex items-center gap-1.5 text-[11px] font-semibold text-slate-400">
+                <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+                <span>Planificada</span>
+              </div>
             </div>
-            <h4 class="text-sm font-bold text-slate-900">JavaScript Moderno (ES6+) y Asincronía</h4>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              Inmutabilidad, desestructuración, spread operator, métodos de arrays (<code class="font-mono text-slate-800">map</code>, <code class="font-mono text-slate-800">filter</code>, <code class="font-mono text-slate-800">reduce</code>), Event Loop y promesas con <code class="font-mono text-slate-800">async/await</code>.
-            </p>
-          </div>
 
-          <!-- Sesión 04 -->
-          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-2 hover:border-slate-300 transition">
-            <div class="flex items-center justify-between">
-              <span class="px-2 py-0.5 bg-slate-100 rounded text-[11px] font-mono font-bold text-slate-700">SESIÓN 04 · DÍA 4</span>
-              <span class="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">Backend II</span>
+            <!-- Sesión 04 -->
+            <div class="p-5 bg-white border border-slate-200 rounded-2xl space-y-2 hover:border-slate-300 transition opacity-90">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 bg-slate-100 rounded text-[11px] font-mono font-bold text-slate-700">SESIÓN 04 · DÍA 4</span>
+                <span class="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">Backend II</span>
+              </div>
+              <h4 class="text-sm font-bold text-slate-900">Protocolo HTTP y Servidor Base en Express</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Headers, verbos HTTP, códigos de estado (2xx, 4xx, 5xx), captura de <code class="font-mono text-slate-800">req.body</code>, <code class="font-mono text-slate-800">req.params</code> y middleware <code class="font-mono text-slate-800">express.json()</code>.
+              </p>
+              <div class="pt-2 flex items-center gap-1.5 text-[11px] font-semibold text-slate-400">
+                <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+                <span>Planificada</span>
+              </div>
             </div>
-            <h4 class="text-sm font-bold text-slate-900">Protocolo HTTP y Servidor Base en Node.js / Express</h4>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              Headers, verbos HTTP, códigos de estado (2xx, 4xx, 5xx), captura de <code class="font-mono text-slate-800">req.body</code>, <code class="font-mono text-slate-800">req.params</code>, <code class="font-mono text-slate-800">req.query</code> y middleware <code class="font-mono text-slate-800">express.json()</code>.
-            </p>
-          </div>
 
-          <!-- Sesión 05 -->
-          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-2 hover:border-slate-300 transition">
-            <div class="flex items-center justify-between">
-              <span class="px-2 py-0.5 bg-slate-100 rounded text-[11px] font-mono font-bold text-slate-700">SESIÓN 05 · DÍA 5</span>
-              <span class="text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100">Frontend II</span>
+            <!-- Sesión 05 -->
+            <div class="p-5 bg-white border border-slate-200 rounded-2xl space-y-2 hover:border-slate-300 transition opacity-90">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 bg-slate-100 rounded text-[11px] font-mono font-bold text-slate-700">SESIÓN 05 · DÍA 5</span>
+                <span class="text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100">Frontend II</span>
+              </div>
+              <h4 class="text-sm font-bold text-slate-900">Consumo con Fetch API y Manipulación del DOM</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Peticiones asíncronas con Fetch, parsing de JSON, prevención de recarga (<code class="font-mono text-slate-800">e.preventDefault()</code>) y renderizado reactivo de datos en cliente.
+              </p>
+              <div class="pt-2 flex items-center gap-1.5 text-[11px] font-semibold text-slate-400">
+                <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+                <span>Planificada</span>
+              </div>
             </div>
-            <h4 class="text-sm font-bold text-slate-900">Consumo con Fetch API y Manipulación del DOM</h4>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              Peticiones asíncronas con Fetch, parsing de JSON, prevención de recarga (<code class="font-mono text-slate-800">e.preventDefault()</code>) y renderizado reactivo de datos en cliente.
-            </p>
+
           </div>
+        </div>
 
         </div>
 
@@ -852,9 +1008,19 @@
       if (elHero) elHero.textContent = '📅 Sesión Activa · ' + cap(formatoHero);
     })();
 
+    let semanaActivaActual = 1;
+
     // 3. Controlador interactivo de pestañas de semanas
     window.cambiarSemana = function(semanaNum) {
-      // Ocultar todos los paneles
+      semanaActivaActual = semanaNum;
+      
+      // Ocultar panel de búsqueda si estaba visible
+      const panelBusqueda = document.getElementById('panel-resultados-busqueda');
+      const barraNav = document.getElementById('barra-semanas-nav');
+      if (panelBusqueda) panelBusqueda.classList.add('hidden');
+      if (barraNav) barraNav.classList.remove('hidden');
+
+      // Ocultar todos los paneles de semanas
       document.querySelectorAll('.semana-panel').forEach(panel => panel.classList.add('hidden'));
       
       // Mostrar el panel seleccionado
@@ -876,6 +1042,130 @@
       // Reinicializar iconos dentro del panel mostrado
       lucide.createIcons();
     };
+
+    // 4. Motor de Búsqueda Instantánea de Sesiones y Tecnologías
+    const inputBusqueda = document.getElementById('input-busqueda-sesiones');
+    const btnLimpiar = document.getElementById('btn-limpiar-busqueda');
+    const panelResultados = document.getElementById('panel-resultados-busqueda');
+    const listaResultados = document.getElementById('lista-resultados-busqueda');
+    const conteoResultados = document.getElementById('conteo-resultados');
+    const barraNav = document.getElementById('barra-semanas-nav');
+
+    // Extraer catálogo de sesiones una sola vez del DOM
+    const catalogoSesiones = [];
+    document.querySelectorAll('.semana-panel').forEach(panel => {
+      const semanaId = panel.id.replace('panel-semana-', '');
+      
+      // Buscar todas las tarjetas de sesiones en el panel
+      panel.querySelectorAll('h3, h4').forEach(headerEl => {
+        const tarjeta = headerEl.closest('.p-5, .p-6, .p-7, .p-4');
+        if (!tarjeta) return;
+        
+        const titulo = headerEl.textContent.trim();
+        const descripcion = tarjeta.querySelector('p') ? tarjeta.querySelector('p').textContent.trim() : '';
+        const badges = Array.from(tarjeta.querySelectorAll('span, code')).map(el => el.textContent.trim()).join(' ');
+        
+        // Determinar enlace de proyección si existe
+        const linkProyeccion = tarjeta.querySelector('a[href*="semana-01-fundamentos"]');
+        const hrefProyeccion = linkProyeccion ? linkProyeccion.getAttribute('href') : null;
+
+        catalogoSesiones.push({
+          semana: semanaId,
+          titulo,
+          descripcion,
+          textoCompleto: `${titulo} ${descripcion} ${badges} semana ${semanaId}`.toLowerCase(),
+          badges,
+          hrefProyeccion
+        });
+      });
+    });
+
+    function ejecutarBusqueda() {
+      const termino = inputBusqueda.value.trim().toLowerCase();
+
+      if (termino.length === 0) {
+        window.limpiarBusqueda();
+        return;
+      }
+
+      btnLimpiar.classList.remove('hidden');
+
+      if (termino.length < 2) return;
+
+      // Filtrar sesiones
+      const coincidencias = catalogoSesiones.filter(s => s.textoCompleto.includes(termino));
+
+      // Ocultar paneles normales y mostrar panel de resultados
+      document.querySelectorAll('.semana-panel').forEach(p => p.classList.add('hidden'));
+      panelResultados.classList.remove('hidden');
+
+      conteoResultados.textContent = `${coincidencias.length} lección(es) encontrada(s) para "${termino}"`;
+
+      if (coincidencias.length === 0) {
+        listaResultados.innerHTML = `
+          <div class="col-span-full py-8 text-center space-y-2">
+            <p class="text-sm font-bold text-slate-700">No encontramos lecciones que coincidan con tu búsqueda.</p>
+            <p class="text-xs text-slate-500">Prueba con palabras como: <code>JOIN</code>, <code>Express</code>, <code>React</code>, <code>DDL</code>, <code>Token</code>, <code>Docker</code>.</p>
+          </div>
+        `;
+        return;
+      }
+
+      listaResultados.innerHTML = coincidencias.map(item => `
+        <div class="bg-white border border-slate-200 hover:border-[#39A900] rounded-xl p-4 shadow-2xs space-y-2 transition">
+          <div class="flex items-center justify-between gap-2">
+            <span class="px-2 py-0.5 rounded bg-emerald-50 text-[#39A900] font-mono text-[10px] font-extrabold border border-emerald-200">
+              SEMANA ${item.semana}
+            </span>
+            ${item.hrefProyeccion ? '<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold">🟢 Lista</span>' : '<span class="text-[10px] font-semibold text-slate-400">🔒 Planificada</span>'}
+          </div>
+          <h4 class="text-sm font-extrabold text-slate-900">${item.titulo}</h4>
+          <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">${item.descripcion}</p>
+          ${item.hrefProyeccion ? `
+            <div class="pt-2 border-t border-slate-100">
+              <a href="${item.hrefProyeccion}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#39A900] hover:bg-[#2D8200] text-white text-xs font-bold rounded-lg transition shadow-2xs">
+                <i data-lucide="projector" class="w-3.5 h-3.5"></i>
+                <span>Proyectar en Aula</span>
+              </a>
+            </div>
+          ` : ''}
+        </div>
+      `).join('');
+
+      lucide.createIcons();
+    }
+
+    if (inputBusqueda) {
+      inputBusqueda.addEventListener('input', ejecutarBusqueda);
+    }
+
+    window.limpiarBusqueda = function() {
+      if (inputBusqueda) inputBusqueda.value = '';
+      if (btnLimpiar) btnLimpiar.classList.add('hidden');
+      if (panelResultados) panelResultados.classList.add('hidden');
+      window.cambiarSemana(semanaActivaActual);
+    };
+
+    // 5. Atajos de Teclado Rápidos para Proyección y Búsqueda en Aula
+    window.addEventListener('keydown', function(e) {
+      // Ignorar si el usuario está escribiendo en un input
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+        if (e.key === 'Escape') {
+          window.limpiarBusqueda();
+          document.activeElement.blur();
+        }
+        return;
+      }
+
+      if (e.key === '1') {
+        window.location.href = 'semana-01-fundamentos/dia-01-bd-sql-ddl-dml/index.html';
+      } else if (e.key === '2') {
+        window.location.href = 'semana-01-fundamentos/dia-02-consultas-sql-joins/index.html';
+      } else if (e.key === '/') {
+        e.preventDefault();
+        if (inputBusqueda) inputBusqueda.focus();
+      }
+    });
   </script>
 </body>
 </html>
