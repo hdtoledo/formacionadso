@@ -1,0 +1,25 @@
+meta {
+  name: 08 - Crear Producto Invalido (400 Bad Request)
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/api/productos
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "nombre": "Producto Incompleto Sin SKU Ni Precio"
+  }
+}
+
+docs {
+  Envía un payload incompleto para verificar que el backend responda con 400 Bad Request y no guarde datos corruptos.
+}

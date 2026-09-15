@@ -1,0 +1,19 @@
+meta {
+  name: 04 - Buscar por Texto (GET query)
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/productos?q=teclado
+  body: none
+  auth: none
+}
+
+params:query {
+  q: teclado
+}
+
+docs {
+  Búsqueda flexible por nombre de producto con el query ?q=teclado.
+}

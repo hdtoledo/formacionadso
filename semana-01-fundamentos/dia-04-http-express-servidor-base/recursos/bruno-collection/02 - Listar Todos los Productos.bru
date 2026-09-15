@@ -1,0 +1,15 @@
+meta {
+  name: 02 - Listar Todos los Productos (GET)
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/productos
+  body: none
+  auth: none
+}
+
+docs {
+  Retorna la lista completa de productos disponibles en el catálogo en memoria.
+}

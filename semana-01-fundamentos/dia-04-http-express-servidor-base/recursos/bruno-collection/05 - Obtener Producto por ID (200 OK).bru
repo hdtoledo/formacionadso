@@ -1,0 +1,15 @@
+meta {
+  name: 05 - Obtener Producto por ID (200 OK)
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/productos/1
+  body: none
+  auth: none
+}
+
+docs {
+  Obtiene el detalle de un producto existente por su ID (ej. ID: 1).
+}

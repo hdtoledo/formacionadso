@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Tienda SENA - Sesión 04 Express",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

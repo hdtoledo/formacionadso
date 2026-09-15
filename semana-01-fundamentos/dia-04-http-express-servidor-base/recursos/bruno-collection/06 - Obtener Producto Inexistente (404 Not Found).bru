@@ -1,0 +1,15 @@
+meta {
+  name: 06 - Obtener Producto Inexistente (404 Not Found)
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/api/productos/999
+  body: none
+  auth: none
+}
+
+docs {
+  Prueba la respuesta 404 Not Found cuando se consulta un ID que no existe en el catálogo.
+}

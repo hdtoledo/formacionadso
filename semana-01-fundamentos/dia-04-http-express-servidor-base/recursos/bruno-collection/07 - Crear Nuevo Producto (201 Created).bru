@@ -1,0 +1,29 @@
+meta {
+  name: 07 - Crear Nuevo Producto (201 Created)
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/api/productos
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "sku": "MOU-09",
+    "nombre": "Mouse Ergonómico Vertical Pro",
+    "categoria": "ACCESORIOS",
+    "stock": 14,
+    "precio": 95000
+  }
+}
+
+docs {
+  Envía un payload JSON para registrar un nuevo producto en el catálogo. Espera Status 201 Created.
+}

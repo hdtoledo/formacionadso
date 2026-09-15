@@ -1,0 +1,17 @@
+{
+  "name": "sena-adso-sesion-04-express-base",
+  "version": "1.0.0",
+  "description": "Sesión 04: Protocolo HTTP y Servidor Base en Node.js/Express - SENA CADPH Garzón",
+  "type": "module",
+  "main": "plantilla_servidor.js",
+  "scripts": {
+    "start": "node plantilla_servidor.js",
+    "test:api": "node test_api.js"
+  },
+  "keywords": ["sena", "adso", "express", "http", "api-rest", "bruno"],
+  "author": "SENA Regional Huila - CADPH Garzón",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

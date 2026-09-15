@@ -1,0 +1,24 @@
+{
+  "name": "nivelacionadso",
+  "version": "1.0.0",
+  "description": "**Servicio Nacional de Aprendizaje (SENA)**   **Centro Agroempresarial y Desarrollo Pecuario del Huila (CADPH - Garzón)**   **Regional Huila**   **Instructor ADSO:** Ing. Hector David Toledo Garcia ([hdtoledo.dev](https://www.hdtoledo.dev/))   **Programa:** Tecnólogo en Análisis y Desarrollo de Software (ADSO)   **Ecosistema:** Formación Profesional Integral · Nivelación Full Stack (MERN + SQL)   **Portal en Vivo (GitHub Pages):** [https://hdtoledo.github.io/formacionadso/](https://hdtoledo.github.io/formacionadso/)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hdtoledo/formacionadso.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/hdtoledo/formacionadso/issues"
+  },
+  "homepage": "https://github.com/hdtoledo/formacionadso#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

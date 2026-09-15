@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-900 text-slate-100 antialiased">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Referencia Técnica Docente | SENA ADSO Garzón</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="../assets/logo_green.png">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            sena: {
+              green: '#39A900',
+              'green-hover': '#2D8200',
+              navy: '#00324D',
+              'navy-dark': '#00263A'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- PrismJS para resaltado de código -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    pre, code, .font-mono { font-family: 'JetBrains Mono', monospace; }
+    
+    /* Scrollbar estilizada oscura */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+    .code-viewer {
+      transition: font-size 0.15s ease;
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col bg-slate-950 text-slate-100 selection:bg-[#39A900] selection:text-white">
+
+  <!-- ========================================================================= -->
+  <!-- 1. HEADER DE PROYECCIÓN DOCENTE (MODO VIDEO-BEAM) -->
+  <!-- ========================================================================= -->
+  <header class="bg-[#00263A] border-b border-slate-800 sticky top-0 z-50 px-4 sm:px-8 py-3 shadow-lg">
+    <div class="max-w-[1920px] mx-auto flex flex-wrap items-center justify-between gap-4">
+      
+      <!-- Marca de Instructor & Identidad SENA -->
+      <div class="flex items-center space-x-3">
+        <a href="../index.html" class="flex items-center gap-2 group" title="Volver al Portal de Aprendices">
+          <img src="../assets/logo_green.png" alt="SENA" class="h-8 w-auto">
+          <div class="border-l border-slate-700 pl-3">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-black tracking-wider text-emerald-400 uppercase">PORTAL DOCENTE</span>
+              <span class="px-1.5 py-0.2 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">Privado</span>
+            </div>
+            <p class="text-[10px] text-slate-400">Nivelación ADSO · Guías de Referencia Técnica</p>
+          </div>
+        </a>
+      </div>
+
+      <!-- Selector de Sesión / Pestañas de Navegación -->
+      <div class="flex items-center bg-slate-900/90 p-1 rounded-xl border border-slate-800">
+        <button onclick="cargarSesion(1)" id="tab-1" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 bg-[#39A900] text-white shadow-sm">
+          <i data-lucide="database" class="w-3.5 h-3.5"></i>
+          <span>Sesión 01: SQL DDL & DML</span>
+        </button>
+        <button onclick="cargarSesion(2)" id="tab-2" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 text-slate-400 hover:text-white">
+          <i data-lucide="git-merge" class="w-3.5 h-3.5"></i>
+          <span>Sesión 02: Consultas & JOINs</span>
+        </button>
+        <button onclick="cargarSesion(3)" id="tab-3" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 text-slate-400 hover:text-white">
+          <i data-lucide="code-2" class="w-3.5 h-3.5"></i>
+          <span>Sesión 03: JavaScript ES6+</span>
+        </button>
+        <button onclick="cargarSesion(4)" id="tab-4" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 text-slate-400 hover:text-white">
+          <i data-lucide="server" class="w-3.5 h-3.5"></i>
+          <span>Sesión 04: Express & Bruno</span>
+        </button>
+      </div>
+
+      <!-- Controles de Video-beam (Zoom tipográfico, Copiar, Pantalla Completa) -->
+      <div class="flex items-center space-x-2">
+        
+        <!-- Zoom de Fuente -->
+        <div class="flex items-center bg-slate-900 border border-slate-800 rounded-lg p-1 text-xs">
+          <button onclick="cambiarZoom(-1)" class="p-1.5 hover:bg-slate-800 rounded text-slate-400 hover:text-white" title="Reducir tamaño de letra">
+            <i data-lucide="minus" class="w-3.5 h-3.5"></i>
+          </button>
+          <span id="zoom-label" class="px-2 font-mono text-[11px] text-slate-300 font-bold">14px</span>
+          <button onclick="cambiarZoom(1)" class="p-1.5 hover:bg-slate-800 rounded text-slate-400 hover:text-white" title="Aumentar tamaño de letra para Videobeam">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+
+        <!-- Copiar Código -->
+        <button onclick="copiarCodigoActual()" id="btn-copy" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+          <i data-lucide="copy" class="w-3.5 h-3.5 text-emerald-400"></i>
+          <span id="copy-text">Copiar Código</span>
+        </button>
+
+        <!-- Descargar Archivo Físico -->
+        <a id="btn-download" href="semana-01/dia-01-sistema-ventas.sql" download class="px-3 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 text-xs font-bold transition flex items-center gap-1.5">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i>
+          <span>Descargar</span>
+        </a>
+
+        <!-- Pantalla Completa (F) -->
+        <button onclick="toggleFullscreen()" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition" title="Pantalla Completa (F)">
+          <i data-lucide="maximize" class="w-4 h-4"></i>
+        </button>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- 2. BARRA DE INFORMACIÓN DEL EJERCICIO ACTIVO -->
+  <!-- ========================================================================= -->
+  <div class="bg-slate-900 border-b border-slate-800/80 px-4 sm:px-8 py-2.5 text-xs text-slate-300">
+    <div class="max-w-[1920px] mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <span id="info-badge" class="px-2.5 py-0.5 rounded font-mono font-black bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 uppercase text-[10px]">
+          MySQL 8.0 · InnoDB
+        </span>
+        <span id="info-title" class="font-bold text-white text-sm">
+          Sesión 01: Creación de BD Relacional, Tablas Usuarios/Categorias/Productos y Restricciones FK
+        </span>
+      </div>
+      <div class="flex items-center gap-4 text-slate-400 font-mono text-[11px]">
+        <span id="info-file">referencia-docente/semana-01/dia-01-sistema-ventas.sql</span>
+        <span>•</span>
+        <span class="text-emerald-400 font-semibold">Uso exclusivo de retroalimentación</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 3. VISOR DE CÓDIGO (100% WIDESCREEN PARA PROYECCIÓN) -->
+  <!-- ========================================================================= -->
+  <main class="flex-1 w-full max-w-[1920px] mx-auto p-4 sm:p-6 flex flex-col">
+    <div class="relative bg-[#1e1e1e] rounded-2xl border border-slate-800 shadow-2xl overflow-hidden flex-1 flex flex-col">
+      
+      <!-- Barra superior de la ventana de código -->
+      <div class="bg-slate-900/90 px-4 py-2.5 border-b border-slate-800 flex items-center justify-between text-xs text-slate-400">
+        <div class="flex items-center gap-2 font-mono">
+          <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
+          <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
+          <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+          <span id="code-filename" class="ml-2 font-bold text-slate-300">dia-01-sistema-ventas.sql</span>
+        </div>
+        <div class="flex items-center gap-3 text-[11px]">
+          <span>Atajos: <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 font-mono">F</kbd> Pantalla completa · <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 font-mono">+</kbd> / <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 font-mono">-</kbd> Zoom</span>
+        </div>
+      </div>
+
+      <!-- Contenedor del código con scroll independiente -->
+      <div class="flex-1 overflow-auto p-4 sm:p-6">
+        <pre class="m-0 bg-transparent p-0"><code id="code-block" class="language-sql code-viewer text-sm leading-relaxed">-- Cargando referencia técnica...</code></pre>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- 4. FOOTER DISCRETO -->
+  <!-- ========================================================================= -->
+  <footer class="bg-[#00263A] border-t border-slate-800 py-3 px-6 text-center text-xs text-slate-400">
+    <span>SENA CADPH Garzón · Tecnólogo en Análisis y Desarrollo de Software (ADSO) · Instructor: Ing. Hector David Toledo Garcia</span>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- 5. SCRIPTS Y CÓDIGOS FUENTE EMBEBIDOS PARA DISPONIBILIDAD TOTAL OFFLINE -->
+  <!-- ========================================================================= -->
+  <script>
+    // Códigos de referencia prealmacenados para que funcionen tanto en servidor como localmente
+    const referencias = {
+      1: {
+        titulo: "Sesión 01: Creación de BD Relacional, Tablas Usuarios/Categorias/Productos y Restricciones FK",
+        archivo: "semana-01/dia-01-sistema-ventas.sql",
+        nombre: "dia-01-sistema-ventas.sql",
+        lenguaje: "language-sql",
+        badge: "MySQL 8.0 · DDL & DML",
+        codigo: `-- ==============================================================================
+-- SENA - CENTRO AGROEMPRESARIAL Y DESARROLLO PECUARIO DEL HUILA (CADPH GARZÓN)
+-- PROGRAMA: ANÁLISIS Y DESARROLLO DE SOFTWARE (ADSO)
+-- SEMANA 1: NIVELACIÓN INTENSIVA DE FUNDAMENTOS
+-- SESIÓN 01: MODELO RELACIONAL Y SQL DDL/DML DESDE CERO
+-- SCRIPT DE REFERENCIA DOCENTE: SISTEMA DE VENTAS BÁSICO
+-- INSTRUCTOR: Ing. Hector David Toledo Garcia (https://www.hdtoledo.dev/)
+-- ==============================================================================
+
+-- ------------------------------------------------------------------------------
+-- 1. FASE DDL (DATA DEFINITION LANGUAGE)
+-- ------------------------------------------------------------------------------
+
+DROP DATABASE IF EXISTS sistema_ventas_db;
+
+CREATE DATABASE IF NOT EXISTS sistema_ventas_db
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
+
+USE sistema_ventas_db;
+
+-- TABLA 1: USUARIOS
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    documento VARCHAR(20) NOT NULL UNIQUE,
+    nombres VARCHAR(100) NOT NULL,
+    email VARCHAR(120) NOT NULL UNIQUE,
+    rol ENUM('ADMIN', 'VENDEDOR', 'CLIENTE') NOT NULL DEFAULT 'CLIENTE',
+    activo BOOLEAN NOT NULL DEFAULT TRUE,
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- TABLA 2: CATEGORIAS
+CREATE TABLE categorias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(60) NOT NULL UNIQUE,
+    descripcion VARCHAR(255) NULL,
+    activo BOOLEAN NOT NULL DEFAULT TRUE
+) ENGINE=InnoDB;
+
+-- TABLA 3: PRODUCTOS (Con Llave Foránea y Regla ON DELETE RESTRICT)
+CREATE TABLE productos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    codigo_barras VARCHAR(50) NOT NULL UNIQUE,
+    nombre VARCHAR(120) NOT NULL,
+    precio DECIMAL(10, 2) NOT NULL,
+    stock INT NOT NULL DEFAULT 0,
+    categoria_id INT NOT NULL,
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    CONSTRAINT fk_productos_categorias
+        FOREIGN KEY (categoria_id) 
+        REFERENCES categorias(id)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+        
+    CONSTRAINT chk_precio_positivo CHECK (precio >= 0),
+    CONSTRAINT chk_stock_positivo CHECK (stock >= 0)
+) ENGINE=InnoDB;
+
+-- ------------------------------------------------------------------------------
+-- 2. FASE DML (DATA MANIPULATION LANGUAGE)
+-- ------------------------------------------------------------------------------
+
+INSERT INTO usuarios (documento, nombres, email, rol, activo) VALUES
+('1001234567', 'Carlos Alberto Ruiz', 'carlos.ruiz@misena.edu.co', 'ADMIN', TRUE),
+('1009876543', 'María Fernanda Gómez', 'maria.gomez@empresa.com', 'VENDEDOR', TRUE),
+('1014567890', 'Julián Andrés Caicedo', 'julian.caicedo@gmail.com', 'CLIENTE', TRUE),
+('1023456789', 'Laura Sofía Méndez', 'laura.mendez@outlook.com', 'CLIENTE', TRUE);
+
+INSERT INTO categorias (nombre, descripcion) VALUES
+('Tecnología', 'Dispositivos electrónicos, periféricos y accesorios de cómputo'),
+('Papelería y Oficina', 'Útiles de oficina, cuadernos, bolígrafos y papelería técnica'),
+('Audio y Sonido', 'Auriculares, parlantes Bluetooth y micrófonos');
+
+INSERT INTO productos (codigo_barras, nombre, precio, stock, categoria_id) VALUES
+('TECH-001', 'Teclado Mecánico RGB Switch Blue', 185000.00, 15, 1),
+('TECH-002', 'Mouse Ergonómico Inalámbrico 2.4Ghz', 75000.00, 28, 1),
+('TECH-003', 'Monitor 24 Pulgadas IPS 100Hz', 560000.00, 8, 1),
+('PAP-001', 'Cuaderno Argollado 100 Hojas Cuadriculado', 12500.00, 50, 2),
+('PAP-002', 'Caja Bolígrafos Tinta Gel x12 Negro', 28000.00, 30, 2),
+('AUD-001', 'Auriculares Diadema Cancelación Ruido', 220000.00, 12, 3);
+
+-- CONSULTA VERIFICADORA DE INTEGRIDAD RELACIONAL
+SELECT 
+    p.codigo_barras,
+    p.nombre AS producto,
+    CONCAT('$ ', FORMAT(p.precio, 2, 'es_CO')) AS precio_formateado,
+    p.stock,
+    c.nombre AS categoria
+FROM productos p
+INNER JOIN categorias c ON p.categoria_id = c.id
+ORDER BY c.nombre ASC, p.nombre ASC;`
+      },
+      2: {
+        titulo: "Sesión 02: Consultas Avanzadas, Agregaciones, GROUP BY, HAVING, INNER JOIN y LEFT JOIN",
+        archivo: "semana-01/dia-02-consultas-joins.sql",
+        nombre: "dia-02-consultas-joins.sql",
+        lenguaje: "language-sql",
+        badge: "MySQL 8.0 · DQL & JOINs",
+        codigo: `-- ==============================================================================
+-- SENA - CENTRO AGROEMPRESARIAL Y DESARROLLO PECUARIO DEL HUILA (CADPH GARZÓN)
+-- PROGRAMA: TECNÓLOGO EN ANÁLISIS Y DESARROLLO DE SOFTWARE (ADSO)
+-- SEMANA 1: NIVELACIÓN INTENSIVA DE FUNDAMENTOS
+-- SESIÓN 02: CONSULTAS SQL AVANZADAS, AGREGACIONES Y CRUCE DE TABLAS (JOINS)
+-- SCRIPT DE REFERENCIA DOCENTE: SOLUCIONARIO ANALÍTICO
+-- INSTRUCTOR: Ing. Hector David Toledo Garcia (https://www.hdtoledo.dev/)
+-- ==============================================================================
+
+USE sistema_ventas_adso;
+
+-- ------------------------------------------------------------------------------
+-- RETO 1: FILTRO COMBINADO Y PRECIO CON IVA (19%)
+-- ------------------------------------------------------------------------------
+SELECT 
+    codigo_barras,
+    nombre AS producto,
+    stock,
+    precio AS precio_base,
+    ROUND(precio * 1.19, 2) AS precio_con_iva
+FROM productos
+WHERE precio BETWEEN 50000 AND 300000
+  AND stock > 5
+ORDER BY precio DESC;
+
+-- ------------------------------------------------------------------------------
+-- RETO 2: ANÁLISIS POR CATEGORÍA CON GROUP BY Y HAVING
+-- ------------------------------------------------------------------------------
+SELECT 
+    c.id AS categoria_id,
+    c.nombre AS categoria,
+    COUNT(p.id) AS total_productos,
+    ROUND(AVG(p.precio), 2) AS precio_promedio,
+    SUM(p.stock) AS stock_total
+FROM categorias c
+INNER JOIN productos p ON c.id = p.categoria_id
+GROUP BY c.id, c.nombre
+HAVING COUNT(p.id) >= 2
+ORDER BY stock_total DESC;
+
+-- ------------------------------------------------------------------------------
+-- RETO 3: REPORTE DE VENTAS CON INNER JOIN MULTITABLA
+-- ------------------------------------------------------------------------------
+SELECT 
+    v.id AS numero_factura,
+    v.fecha,
+    u.nombres AS cliente,
+    u.documento,
+    p.nombre AS producto,
+    dv.cantidad,
+    dv.precio_unitario,
+    dv.subtotal
+FROM ventas v
+INNER JOIN usuarios u ON v.cliente_id = u.id
+INNER JOIN detalle_ventas dv ON v.id = dv.venta_id
+INNER JOIN productos p ON dv.producto_id = p.id
+ORDER BY v.fecha DESC, v.id DESC;
+
+-- ------------------------------------------------------------------------------
+-- RETO 4: AUDITORÍA DE CATEGORÍAS HUÉRFANAS CON LEFT JOIN
+-- ------------------------------------------------------------------------------
+SELECT 
+    c.id AS categoria_id,
+    c.nombre AS categoria,
+    c.activo,
+    COUNT(p.id) AS total_asociados
+FROM categorias c
+LEFT JOIN productos p ON c.id = p.categoria_id
+GROUP BY c.id, c.nombre, c.activo
+HAVING COUNT(p.id) = 0;
+
+-- ------------------------------------------------------------------------------
+-- RETO 5: CLIENTES INACTIVOS SIN COMPRAS REGISTRADAS
+-- ------------------------------------------------------------------------------
+SELECT 
+    u.id AS cliente_id,
+    u.documento,
+    u.nombres AS cliente,
+    u.email,
+    u.creado_en AS fecha_registro
+FROM usuarios u
+LEFT JOIN ventas v ON u.id = v.cliente_id
+WHERE u.rol = 'CLIENTE'
+  AND v.id IS NULL
+ORDER BY u.creado_en ASC;`
+      },
+      3: {
+        titulo: "Sesión 03: JavaScript Moderno (ES6+), Inmutabilidad, Métodos de Array y Asincronía",
+        archivo: "semana-01/dia-03-taller-es6-asincronia.js",
+        nombre: "dia-03-taller-es6-asincronia.js",
+        lenguaje: "language-javascript",
+        badge: "Node.js · ES6+ & Async/Await",
+        codigo: `/**
+ * =============================================================================
+ * SENA - CENTRO AGROEMPRESARIAL Y DESARROLLO PECUARIO DEL HUILA (GARZÓN)
+ * PROGRAMA: ANÁLISIS Y DESARROLLO DE SOFTWARE (ADSO)
+ * FORMACIÓN: NIVELACIÓN TÉCNICA FULL STACK MERN + SQL
+ * SESIÓN 03 | DÍA 3: JAVASCRIPT MODERNO (ES6+) Y ASINCRONÍA
+ * =============================================================================
+ * ARCHIVO: dia-03-taller-es6-asincronia.js
+ * INSTRUCTOR: Ing. Hector David Toledo Garcia
+ * =============================================================================
+ */
+
+// DATASET DE AULA: TIENDA AGROTECNOLÓGICA Y FERRETERA DEL HUILA
+const inventario = [
+  { sku: "TEC-01", nombre: "Teclado Mecánico RGB", categoria: "HARDWARE", stock: 8, precio: 120000 },
+  { sku: "MON-02", nombre: "Monitor 24 pulg IPS", categoria: "PANTALLAS", stock: 3, precio: 580000 },
+  { sku: "USB-03", nombre: "Hub USB-C 7 en 1", categoria: "ACCESORIOS", stock: 0, precio: 65000 },
+  { sku: "SSD-04", nombre: "SSD NVMe 1TB PCIe 4.0", categoria: "ALMACENAMIENTO", stock: 5, precio: 320000 },
+  { sku: "CAB-05", nombre: "Cable Red Cat 6 10m", categoria: "REDES", stock: 12, precio: 28000 },
+  { sku: "MOU-06", nombre: "Mouse Inalámbrico Pro", categoria: "ACCESORIOS", stock: 6, precio: 75000 }
+];
+
+const pedidos = [
+  {
+    id: 101,
+    cliente: { nombre: "Carlos Perdomo", ciudad: "Garzón", tipo: "FRECUENTE" },
+    total: 195000,
+    estado: "PAGADO",
+    items: [
+      { sku: "TEC-01", cant: 1, precioUnit: 120000 },
+      { sku: "MOU-06", cant: 1, precioUnit: 75000 }
+    ]
+  },
+  {
+    id: 102,
+    cliente: { nombre: "Mariana Rojas", ciudad: "Neiva", tipo: "NUEVO" },
+    total: 580000,
+    estado: "PENDIENTE",
+    items: [ { sku: "MON-02", cant: 1, precioUnit: 580000 } ]
+  },
+  {
+    id: 103,
+    cliente: { nombre: "Julian Andrade", ciudad: "Garzón", tipo: "FRECUENTE" },
+    total: 93000,
+    estado: "PAGADO",
+    items: [
+      { sku: "CAB-05", cant: 1, precioUnit: 28000 },
+      { sku: "USB-03", cant: 1, precioUnit: 65000 }
+    ]
+  },
+  {
+    id: 104,
+    cliente: { nombre: "Sofia Garzón", ciudad: "Pitalito", tipo: "VIP" },
+    total: 1220000,
+    estado: "PAGADO",
+    items: [
+      { sku: "MON-02", cant: 2, precioUnit: 580000 },
+      { sku: "CAB-05", cant: 2, precioUnit: 30000 }
+    ]
+  },
+  {
+    id: 105,
+    cliente: { nombre: "David Toledo", ciudad: "Garzón", tipo: "FRECUENTE" },
+    total: 320000,
+    estado: "CANCELADO",
+    items: [ { sku: "SSD-04", cant: 1, precioUnit: 320000 } ]
+  },
+  {
+    id: 106,
+    cliente: { nombre: "Valentina Ortiz", ciudad: "Neiva", tipo: "NUEVO" },
+    total: 75000,
+    estado: "PAGADO",
+    items: [ { sku: "MOU-06", cant: 1, precioUnit: 75000 } ]
+  }
+];
+
+const formatoCOP = (valor) => \`$\${Number(valor || 0).toLocaleString("es-CO")} COP\`;
+
+// -----------------------------------------------------------------------------
+// RETO 1: DESESTRUCTURACIÓN ANIDADA Y CLONACIÓN INMUTABLE
+// -----------------------------------------------------------------------------
+const {
+  id: nroPedido,
+  cliente: { nombre: titular, ciudad: municipio },
+  total: totalReto1,
+  canalVenta = "PORTAL_WEB"
+} = pedidos[0];
+
+const ivaCalculado = Math.round(pedidos[0].total * 0.19);
+const pedidoConImpuestos = {
+  ...pedidos[0],
+  iva: ivaCalculado,
+  granTotal: pedidos[0].total + ivaCalculado,
+  despachado: false,
+  fechaEmision: new Date().toISOString()
+};
+
+// -----------------------------------------------------------------------------
+// RETO 2: FILTRADO Y MAPEO DECLARATIVO (DTOs Limpios para Frontend)
+// -----------------------------------------------------------------------------
+const pedidosGarzonDTO = pedidos
+  .filter(p => p.estado === "PAGADO" && p.cliente.ciudad === "Garzón")
+  .map(p => ({
+    factura: \`FAC-\${p.id}\`,
+    cliente: p.cliente.nombre,
+    cantidadArticulos: p.items.reduce((sum, item) => sum + item.cant, 0),
+    totalTexto: formatoCOP(p.total)
+  }));
+
+// -----------------------------------------------------------------------------
+// RETO 3: REDUCCIÓN Y ANALÍTICA DE NEGOCIO (.reduce)
+// -----------------------------------------------------------------------------
+const recaudoEfectivo = pedidos.reduce((acc, p) => p.estado === "PAGADO" ? acc + p.total : acc, 0);
+const conteoPorEstado = pedidos.reduce((acc, p) => {
+  acc[p.estado] = (acc[p.estado] || 0) + 1;
+  return acc;
+}, {});
+const ticketPromedio = Math.round(recaudoEfectivo / (conteoPorEstado.PAGADO || 1));
+
+// -----------------------------------------------------------------------------
+// RETO 4: SERVICIO ASÍNCRONO CON PROMESAS Y VALIDACIÓN DEFENSIVA
+// -----------------------------------------------------------------------------
+function verificarStockBodega(sku, cantidadDeseada) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (cantidadDeseada <= 0) {
+        return reject(new Error(\`[400_BAD_REQUEST] Cantidad inválida: \${cantidadDeseada}\`));
+      }
+      const item = inventario.find(p => p.sku === sku);
+      if (!item) {
+        return reject(new Error(\`[404_NOT_FOUND] SKU '\${sku}' no existe.\`));
+      }
+      if (item.stock < cantidadDeseada) {
+        return reject(new Error(\`[409_OUT_OF_STOCK] Stock insuficiente para '\${item.nombre}'. Disponible: \${item.stock}\`));
+      }
+      item.stock -= cantidadDeseada;
+      resolve({
+        sku: item.sku,
+        nombre: item.nombre,
+        cantidad: cantidadDeseada,
+        precioUnitario: item.precio,
+        subtotal: item.precio * cantidadDeseada,
+        stockRestante: item.stock,
+        disponible: true
+      });
+    }, 300);
+  });
+}
+
+// -----------------------------------------------------------------------------
+// RETO 5: ORQUESTADOR ASYNC/AWAIT CON TRY...CATCH...FINALLY
+// -----------------------------------------------------------------------------
+async function procesarVentaExpress(sku, cantidad) {
+  try {
+    const res = await verificarStockBodega(sku, cantidad);
+    console.log(\`✅ Aprobado: \${res.nombre} x\${res.cantidad} -> \${formatoCOP(res.subtotal)}\`);
+    return { exito: true, datos: res };
+  } catch (err) {
+    console.error(\`❌ Rechazado: \${err.message}\`);
+    return { exito: false, motivo: err.message };
+  } finally {
+    console.log(\`🔒 Auditoría completada para '\${sku}'.\`);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// RETO 6 (PRO): VERIFICACIÓN CONCURRENTE EN PARALELO (Promise.all)
+// -----------------------------------------------------------------------------
+async function validarCarritoCompleto(itemsCarrito) {
+  try {
+    const promesas = itemsCarrito.map(i => verificarStockBodega(i.sku, i.cantidad));
+    const resultados = await Promise.all(promesas);
+    const granTotal = resultados.reduce((acc, curr) => acc + curr.subtotal, 0);
+    return { ok: true, articulosAprobados: resultados.length, totalPagar: granTotal, detalles: resultados };
+  } catch (err) {
+    return { ok: false, error: err.message };
+  }
+}`
+      },
+      4: {
+        titulo: "Sesión 04: Protocolo HTTP, Servidor Base en Express y Pruebas con Bruno",
+        archivo: "semana-01/dia-04-servidor-express-base.js",
+        nombre: "dia-04-servidor-express-base.js",
+        lenguaje: "language-javascript",
+        badge: "Express.js · HTTP & Bruno API",
+        codigo: `/**
+ * =============================================================================
+ * SENA - CENTRO AGROEMPRESARIAL Y DESARROLLO PECUARIO DEL HUILA (GARZÓN)
+ * PROGRAMA: ANÁLISIS Y DESARROLLO DE SOFTWARE (ADSO)
+ * FORMACIÓN: NIVELACIÓN TÉCNICA FULL STACK MERN + SQL
+ * SESIÓN 04 | DÍA 4: PROTOCOLO HTTP Y SERVIDOR BASE EN EXPRESS
+ * =============================================================================
+ * ARCHIVO: dia-04-servidor-express-base.js
+ * INSTRUCTOR: Ing. Hector David Toledo Garcia
+ * =============================================================================
+ */
+
+import express from 'express';
+
+// RETO 1: INSTANCIA, PUERTO Y MIDDLEWARE JSON
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.use(express.json());
+
+// Logger de auditoría:
+app.use((req, res, next) => {
+  console.log(\`[\${new Date().toLocaleTimeString('es-CO')}] \${req.method} \${req.originalUrl}\`);
+  next();
+});
+
+// DATASET EN MEMORIA
+let productos = [
+  { id: 1, sku: "TEC-01", nombre: "Teclado Mecánico RGB", categoria: "HARDWARE", stock: 8, precio: 120000 },
+  { id: 2, sku: "MON-02", nombre: "Monitor 24 pulg IPS", categoria: "PANTALLAS", stock: 3, precio: 580000 },
+  { id: 3, sku: "USB-03", nombre: "Hub USB-C 7 en 1", categoria: "ACCESORIOS", stock: 0, precio: 65000 },
+  { id: 4, sku: "SSD-04", nombre: "SSD NVMe 1TB PCIe 4.0", categoria: "ALMACENAMIENTO", stock: 5, precio: 320000 },
+  { id: 5, sku: "CAB-05", nombre: "Cable Red Cat 6 10m", categoria: "REDES", stock: 12, precio: 28000 }
+];
+
+// RETO 2: HEALTH-CHECK 200 OK
+app.get('/api/status', (req, res) => {
+  res.status(200).json({
+    ok: true,
+    mensaje: "Servidor Express ADSO en funcionamiento",
+    instructor: "Ing. Hector David Toledo Garcia",
+    sede: "SENA CADPH Garzón - Huila",
+    uptimeSegundos: Math.floor(process.uptime()),
+    timestamp: new Date().toISOString()
+  });
+});
+
+// RETO 3: LISTADO CON QUERY PARAMS
+app.get('/api/productos', (req, res) => {
+  const { categoria, q } = req.query;
+  let resultado = [...productos];
+
+  if (categoria) {
+    resultado = resultado.filter(p => p.categoria.toUpperCase() === categoria.toUpperCase());
+  }
+  if (q) {
+    resultado = resultado.filter(p => p.nombre.toLowerCase().includes(q.toLowerCase()));
+  }
+
+  res.status(200).json({
+    ok: true,
+    total: resultado.length,
+    datos: resultado
+  });
+});
+
+// RETO 4: OBTENER POR ID (PARAMS) & 404
+app.get('/api/productos/:id', (req, res) => {
+  const id = Number(req.params.id);
+  if (isNaN(id)) {
+    return res.status(400).json({ ok: false, error: "El ID debe ser numérico." });
+  }
+
+  const producto = productos.find(p => p.id === id);
+  if (!producto) {
+    return res.status(404).json({ ok: false, error: \`Producto con ID \${id} no encontrado.\` });
+  }
+
+  res.status(200).json({ ok: true, datos: producto });
+});
+
+// RETO 5: CREAR PRODUCTO (POST & 201 CREATED)
+app.post('/api/productos', (req, res) => {
+  const { sku, nombre, categoria, stock, precio } = req.body;
+
+  if (!sku || !nombre || !categoria || stock === undefined || precio === undefined) {
+    return res.status(400).json({ ok: false, error: "Todos los campos son requeridos." });
+  }
+
+  if (productos.some(p => p.sku.toUpperCase() === sku.toUpperCase())) {
+    return res.status(409).json({ ok: false, error: \`El SKU '\${sku}' ya existe en el catálogo.\` });
+  }
+
+  const nuevoId = productos.length > 0 ? Math.max(...productos.map(p => p.id)) + 1 : 1;
+  const nuevo = { id: nuevoId, sku: sku.toUpperCase(), nombre, categoria: categoria.toUpperCase(), stock: Number(stock), precio: Number(precio) };
+  productos.push(nuevo);
+
+  res.status(201).json({ ok: true, mensaje: "Producto registrado", datos: nuevo });
+});
+
+// RETO 6.1: ACTUALIZAR STOCK (PATCH 200 OK)
+app.patch('/api/productos/:id/stock', (req, res) => {
+  const id = Number(req.params.id);
+  const { nuevoStock } = req.body;
+
+  const producto = productos.find(p => p.id === id);
+  if (!producto) return res.status(404).json({ ok: false, error: "Producto no encontrado" });
+
+  producto.stock = Number(nuevoStock);
+  res.status(200).json({ ok: true, datos: producto });
+});
+
+// RETO 6.2: MIDDLEWARE GLOBAL 404 CATCH-ALL
+app.use((req, res) => {
+  res.status(404).json({
+    ok: false,
+    error: \`Ruta no encontrada: [\${req.method}] \${req.originalUrl}\`
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(\`Servidor corriendo en: http://localhost:\${PORT}\`);
+});`
+      }
+    };
+
+    let sesionActual = 1;
+    let currentZoom = 14;
+
+    function cargarSesion(num) {
+      sesionActual = num;
+      const ref = referencias[num];
+      if (!ref) return;
+
+      // Actualizar botones de pestaña
+      document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
+        if (idx + 1 === num) {
+          btn.className = "tab-btn px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 bg-[#39A900] text-white shadow-sm";
+        } else {
+          btn.className = "tab-btn px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 text-slate-400 hover:text-white";
+        }
+      });
+
+      // Actualizar textos e información
+      document.getElementById('info-badge').textContent = ref.badge;
+      document.getElementById('info-title').textContent = ref.titulo;
+      document.getElementById('info-file').textContent = 'referencia-docente/' + ref.archivo;
+      document.getElementById('code-filename').textContent = ref.nombre;
+      document.getElementById('btn-download').href = ref.archivo;
+
+      // Actualizar código y colorear con Prism
+      const codeBlock = document.getElementById('code-block');
+      codeBlock.className = ref.lenguaje + " code-viewer leading-relaxed";
+      codeBlock.style.fontSize = currentZoom + 'px';
+      codeBlock.textContent = ref.codigo;
+
+      Prism.highlightElement(codeBlock);
+      lucide.createIcons();
+    }
+
+    function cambiarZoom(delta) {
+      currentZoom = Math.min(Math.max(currentZoom + (delta * 2), 10), 26);
+      document.getElementById('zoom-label').textContent = currentZoom + 'px';
+      document.getElementById('code-block').style.fontSize = currentZoom + 'px';
+    }
+
+    function copiarCodigoActual() {
+      const ref = referencias[sesionActual];
+      if (!ref) return;
+      navigator.clipboard.writeText(ref.codigo).then(() => {
+        const copyText = document.getElementById('copy-text');
+        const original = copyText.textContent;
+        copyText.textContent = "¡Copiado!";
+        setTimeout(() => { copyText.textContent = original; }, 2000);
+      });
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          console.warn('Fullscreen no permitido:', err);
+        });
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    // Atajos de teclado para el docente
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'f' || e.key === 'F') {
+        e.preventDefault();
+        toggleFullscreen();
+      } else if (e.key === '+' || e.key === '=') {
+        e.preventDefault();
+        cambiarZoom(1);
+      } else if (e.key === '-' || e.key === '_') {
+        e.preventDefault();
+        cambiarZoom(-1);
+      } else if (e.key === '1') {
+        cargarSesion(1);
+      } else if (e.key === '2') {
+        cargarSesion(2);
+      } else if (e.key === '3') {
+        cargarSesion(3);
+      }
+    });
+
+    // Iniciar en Sesión 1
+    cargarSesion(1);
+  </script>
+</body>
+</html>

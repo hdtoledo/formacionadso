@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50 text-slate-900 antialiased">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sesión 04 | Protocolo HTTP, Servidor Base en Express y Pruebas con Bruno | SENA ADSO</title>
+  <meta name="description" content="Sesión 04: Protocolo HTTP, Ciclo Request-Response, Verbos HTTP, Status Codes, Express.js y Pruebas con Bruno API Client. Diapositivas para videobeam SENA ADSO.">
+  <link rel="icon" type="image/png" href="../../assets/logo_green.png">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            sena: {
+              green: '#39A900',
+              'green-hover': '#2D8200',
+              navy: '#00324D',
+              'navy-dark': '#00263A',
+              'navy-light': '#004164'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- PrismJS para sintaxis JavaScript y HTTP -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-http.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Estilos de presentación -->
+  <link rel="stylesheet" href="../../assets/css/presenter.css">
+</head>
+<body class="min-h-full flex flex-col bg-[#F8FAFC] text-slate-900 overflow-x-hidden selection:bg-[#39A900] selection:text-white">
+
+  <!-- ========================================================================= -->
+  <!-- 1. CINTILLO INSTITUCIONAL SENA (FECHA DINÁMICA & UBICACIÓN) -->
+  <!-- ========================================================================= -->
+  <div class="bg-[#00324D] text-white text-[11px] sm:text-xs py-1.5 px-4 sm:px-8 xl:px-12 border-b border-[#00263a] sticky top-0 z-50">
+    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-extrabold bg-[#39A900] text-white tracking-wider uppercase">
+          SENA
+        </span>
+        <span class="font-medium text-slate-200 hidden sm:inline">Centro Agroempresarial y Desarrollo Pecuario del Huila</span>
+        <span class="text-slate-400 hidden md:inline">|</span>
+        <span class="text-emerald-400 font-semibold hidden md:inline">Regional Huila</span>
+      </div>
+      <div class="flex items-center space-x-3 text-slate-300 text-[11px]">
+        <span class="hidden sm:inline">Sede Garzón</span>
+        <span>•</span>
+        <span class="text-emerald-300 font-medium" id="slide-cintillo-fecha">Hoy: Cargando...</span>
+        <span class="hidden md:inline">•</span>
+        <span class="hidden md:inline font-mono">ADSO · Proyección en Aula</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 2. HEADER DE CONTROL DE PRESENTACIÓN & TEMPORIZADOR -->
+  <!-- ========================================================================= -->
+  <header class="bg-white border-b border-slate-200 px-4 sm:px-8 xl:px-12 py-3 sticky top-[33px] sm:top-[35px] z-40 shadow-xs">
+    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-3">
+      
+      <!-- Marca SENA & Título de la Lección -->
+      <div class="flex items-center space-x-3">
+        <a href="../../index.html" class="flex items-center space-x-2.5 text-slate-600 hover:text-slate-900 transition-colors group" title="Volver al Portal">
+          <img src="../../assets/logo_green.png" alt="Logo SENA" class="h-9 w-auto object-contain shrink-0">
+          <div class="hidden sm:block border-l border-slate-200 pl-3">
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm font-extrabold text-slate-900">NIVELACIÓN</span>
+              <span class="text-sm font-black text-[#39A900]">ADSO</span>
+              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">CADPH</span>
+            </div>
+            <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Centro Agroempresarial y Desarrollo Pecuario del Huila</p>
+          </div>
+        </a>
+        <span class="text-slate-300 hidden md:inline">/</span>
+        <div class="hidden md:flex items-center space-x-2">
+          <span class="px-2.5 py-0.5 text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200 rounded">Semana 1</span>
+          <span class="text-xs font-bold text-slate-800">Sesión 04 · Día 4: Protocolo HTTP, Servidor Express y Pruebas con Bruno</span>
+        </div>
+      </div>
+
+      <!-- Controles de Clase & Temporizador -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        
+        <!-- Temporizador Institucional -->
+        <div class="flex items-center bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 space-x-2 shadow-2xs">
+          <i data-lucide="clock" class="w-4 h-4 text-[#39A900]"></i>
+          <span id="timer-display" class="font-mono text-sm font-bold text-slate-800 tracking-wider">00:00</span>
+          <button id="btn-timer-start" class="px-2.5 py-1 rounded bg-white hover:bg-slate-100 border border-slate-200 text-xs font-bold text-slate-700 transition-colors flex items-center space-x-1">
+            <i data-lucide="play" class="w-3 h-3 text-[#39A900]"></i>
+            <span>Iniciar</span>
+          </button>
+          <button id="btn-timer-reset" class="p-1 rounded hover:bg-slate-200 text-slate-400 hover:text-slate-700" title="Reiniciar temporizador">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+
+        <!-- Índice de Diapositivas (M) -->
+        <button id="btn-open-menu" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition" title="Índice de Diapositivas (M)">
+          <i data-lucide="list" class="w-4 h-4 text-[#00324D]"></i>
+        </button>
+
+        <!-- Contador de Diapositiva -->
+        <div class="bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-slate-700">
+          <span id="slide-counter">1 / 15</span>
+        </div>
+
+        <!-- Botones de Navegación Anterior / Siguiente -->
+        <div class="flex items-center space-x-1.5">
+          <button id="btn-prev-slide" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition disabled:opacity-40" title="Anterior (←)">
+            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+          </button>
+          <button id="btn-next-slide" class="p-2 rounded-lg bg-[#39A900] hover:bg-[#2D8200] text-white border border-[#39A900] shadow-sm transition" title="Siguiente (→)">
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Botón Pantalla Completa (F) -->
+        <button id="btn-fullscreen" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition hidden sm:inline-flex" title="Pantalla Completa (F)">
+          <i data-lucide="maximize" class="w-4 h-4"></i>
+        </button>
+
+        <!-- Ayuda (?) -->
+        <button onclick="window.presenter?.toggleHelpModal()" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition" title="Atajos de Teclado (?)">
+          <i data-lucide="help-circle" class="w-4 h-4 text-slate-500"></i>
+        </button>
+
+        <!-- Recursos Rápidos de Aprendiz -->
+        <div class="hidden lg:flex items-center space-x-2 border-l border-slate-200 pl-3">
+          <a href="recursos/plantilla_servidor.js" download class="px-2.5 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200 text-xs font-bold hover:bg-slate-200 transition flex items-center gap-1" title="Descargar Plantilla Servidor">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Plantilla</span>
+          </a>
+          <a href="recursos/bruno-collection/bruno.json" download class="px-2.5 py-1 rounded bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold hover:bg-amber-100 transition flex items-center gap-1" title="Descargar Colección Bruno">
+            <i data-lucide="folder-git-2" class="w-3.5 h-3.5 text-amber-600"></i>
+            <span>Colección Bruno</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Barra de progreso institucional verde SENA -->
+  <div class="w-full bg-slate-200 h-1 fixed top-[83px] sm:top-[87px] left-0 z-40">
+    <div id="presentation-progress" class="bg-[#39A900] h-full w-0 transition-all duration-300 ease-out"></div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- CONTENEDOR PRINCIPAL DE DIAPOSITIVAS (WIDESCREEN 16:9) -->
+  <!-- ========================================================================= -->
+  <main class="slide-container flex-1 w-full max-w-[1860px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 py-3 sm:py-6 flex flex-col justify-center">
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 1: PORTADA INSTITUCIONAL SENA CADPH -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content active flex-col justify-center items-center text-center py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="1" data-block="1" data-duration="110">
+      
+      <div class="inline-flex items-center gap-2.5 px-6 py-2 rounded-full bg-white border-2 border-amber-200 text-slate-700 text-xs sm:text-sm xl:text-base font-bold shadow-2xs mb-4 xl:mb-6">
+        <span class="w-3 h-3 rounded-full bg-amber-500 animate-pulse"></span>
+        <span>SENA Regional Huila · Centro Agroempresarial y Desarrollo Pecuario del Huila (CADPH Garzón)</span>
+      </div>
+
+      <h1 class="text-4xl sm:text-6xl lg:text-7xl xl:text-[4.5rem] 2xl:text-[5rem] font-black tracking-tight text-slate-900 mb-3 xl:mb-5 leading-[1.08] max-w-[1720px]">
+        Protocolo HTTP, Servidor Express & <br class="hidden md:inline">
+        <span class="text-[#39A900]">Pruebas de API con Bruno</span>
+      </h1>
+
+      <p class="text-base sm:text-xl xl:text-2xl 2xl:text-3xl text-slate-600 max-w-6xl mb-6 xl:mb-10 font-medium leading-relaxed">
+        Tecnólogo en Análisis y Desarrollo de Software (ADSO) · Nivelación de Backend II: Headers, Status Codes, Verbos REST y Client Local-First · Ficha 2026
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 xl:gap-8 w-full max-w-[1780px] text-left mb-8 xl:mb-11">
+        
+        <!-- Bloque 1 -->
+        <div class="bg-white border-2 border-slate-200 hover:border-[#39A900] border-t-4 border-t-[#39A900] rounded-2xl p-7 xl:p-8 shadow-xs hover:shadow-md transition flex flex-col justify-between min-h-[300px] xl:min-h-[340px]">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1.5 bg-emerald-50 text-[#39A900] font-mono text-xs xl:text-sm font-extrabold rounded-lg border border-emerald-200">
+                BLOQUE 1
+              </span>
+              <span class="text-xs xl:text-sm font-mono font-bold text-slate-400">110 MINUTOS</span>
+            </div>
+            <h3 class="text-2xl xl:text-3xl font-extrabold text-slate-900 mb-3">Fundamentos HTTP & Express</h3>
+            <p class="text-sm xl:text-base text-slate-600 leading-relaxed mb-4">
+              El ciclo Request-Response sin estado, semántica REST, status codes (2xx, 4xx, 5xx), ESM en Node.js, middlewares y captura de <code class="font-mono font-bold text-[#00324D]">params, query y body</code>.
+            </p>
+            <ul class="space-y-2 text-xs xl:text-sm font-medium text-slate-700">
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-[#39A900] shrink-0"></i>
+                <span>Headers MIME, Status Codes y Verbos Idempotentes</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="check" class="w-4 h-4 text-[#39A900] shrink-0"></i>
+                <span>Express minimalista: <code class="font-mono text-xs">express.json()</code> y Routing</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs xl:text-sm font-bold text-[#39A900]">
+            <div class="flex items-center">
+              <i data-lucide="clock" class="w-4 h-4 mr-1.5"></i>
+              <span>110 minutos de live coding</span>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-emerald-50 text-[11px] xl:text-xs">Aula Informática</span>
+          </div>
+        </div>
+
+        <!-- Bloque 2 -->
+        <div class="bg-white border-2 border-slate-200 hover:border-[#00324D] border-t-4 border-t-[#00324D] rounded-2xl p-7 xl:p-8 shadow-xs hover:shadow-md transition flex flex-col justify-between min-h-[300px] xl:min-h-[340px]">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1.5 bg-[#00324D] text-white font-mono text-xs xl:text-sm font-extrabold rounded-lg">
+                BLOQUE 2
+              </span>
+              <span class="text-xs xl:text-sm font-mono font-bold text-slate-400">70 MINUTOS</span>
+            </div>
+            <h3 class="text-2xl xl:text-3xl font-extrabold text-slate-900 mb-3">Taller Express & Bruno</h3>
+            <p class="text-sm xl:text-base text-slate-600 leading-relaxed mb-4">
+              Construcción de una Mini API REST de Tienda en memoria con 6 retos progresivos y verificación directa mediante colecciones Git-friendly de <strong class="text-amber-700">Bruno</strong>.
+            </p>
+            <ul class="space-y-2 text-xs xl:text-sm font-medium text-slate-700">
+              <li class="flex items-center gap-2">
+                <i data-lucide="terminal" class="w-4 h-4 text-[#00324D] shrink-0"></i>
+                <span>Endpoints GET, POST y PATCH con validaciones</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="terminal" class="w-4 h-4 text-[#00324D] shrink-0"></i>
+                <span>Colección <code class="font-mono text-xs">.bru</code> versionada en Git</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs xl:text-sm font-bold text-[#00324D]">
+            <div class="flex items-center">
+              <i data-lucide="code-2" class="w-4 h-4 mr-1.5"></i>
+              <span>70 minutos prácticos asistidos</span>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-slate-100 text-[11px] xl:text-xs">Bruno + Express</span>
+          </div>
+        </div>
+
+        <!-- Bloque 3 -->
+        <div class="bg-white border-2 border-slate-200 hover:border-purple-600 border-t-4 border-t-purple-600 rounded-2xl p-7 xl:p-8 shadow-xs hover:shadow-md transition flex flex-col justify-between min-h-[300px] xl:min-h-[340px]">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1.5 bg-purple-50 text-purple-700 font-mono text-xs xl:text-sm font-extrabold rounded-lg border border-purple-200">
+                BLOQUE 3
+              </span>
+              <span class="text-xs xl:text-sm font-mono font-bold text-slate-400">40 MINUTOS</span>
+            </div>
+            <h3 class="text-2xl xl:text-3xl font-extrabold text-slate-900 mb-3">Sustentación & Git</h3>
+            <p class="text-sm xl:text-base text-slate-600 leading-relaxed mb-4">
+              Modificación de endpoints en caliente en el puesto del aprendiz. El instructor dispara peticiones desde Bruno y se valida el commit atómico a GitHub.
+            </p>
+            <ul class="space-y-2 text-xs xl:text-sm font-medium text-slate-700">
+              <li class="flex items-center gap-2">
+                <i data-lucide="git-commit" class="w-4 h-4 text-purple-600 shrink-0"></i>
+                <span>Sustentación en caliente de autoría</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="git-commit" class="w-4 h-4 text-purple-600 shrink-0"></i>
+                <span>Commit del servidor + colección .bru</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs xl:text-sm font-bold text-purple-700">
+            <div class="flex items-center">
+              <i data-lucide="check-circle" class="w-4 h-4 mr-1.5"></i>
+              <span>40 minutos de evaluación</span>
+            </div>
+            <span class="px-2 py-0.5 rounded bg-purple-50 text-[11px] xl:text-xs">Evaluación Directa</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Acciones Rápidas de Portada -->
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <button onclick="window.presenter?.nextSlide()" class="px-8 py-3.5 rounded-xl bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-base shadow-lg shadow-emerald-500/20 transition-all flex items-center gap-2 group">
+          <span>Comenzar Lección</span>
+          <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+        </button>
+        <a href="recursos/plantilla_servidor.js" download class="px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border-2 border-slate-200 font-bold text-base transition flex items-center gap-2">
+          <i data-lucide="download" class="w-5 h-5 text-slate-500"></i>
+          <span>Descargar Plantilla Servidor</span>
+        </a>
+        <a href="recursos/bruno-collection/bruno.json" download class="px-6 py-3.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border-2 border-amber-200 font-bold text-base transition flex items-center gap-2">
+          <i data-lucide="folder-git-2" class="w-5 h-5 text-amber-600"></i>
+          <span>Colección Bruno (.bru)</span>
+        </a>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 2: EL CICLO REQUEST - RESPONSE -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="2" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Fundamentos de Red & Protocolo HTTP</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 02 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          El Ciclo Request - Response: <span class="text-[#39A900]">Arquitectura Cliente-Servidor</span>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          HTTP (Hypertext Transfer Protocol) es el protocolo de capa de aplicación sobre TCP/IP que rige la web. Es un modelo <strong class="text-slate-900 font-bold">Stateless (sin estado)</strong>: el servidor atiende cada petición de forma aislada sin recordar quién fuiste hace un segundo.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-6 shadow-xs flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 mb-4">
+                <i data-lucide="laptop" class="w-6 h-6"></i>
+              </div>
+              <h3 class="text-xl font-extrabold text-slate-900 mb-2">1. Cliente (Consumer)</h3>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
+                Navegador web, app móvil en React Native o un cliente como <strong class="text-amber-700">Bruno</strong>. Empaqueta el método, la URL de destino, encabezados y datos en un mensaje estándar HTTP.
+              </p>
+            </div>
+            <span class="text-xs font-mono font-bold text-blue-600 bg-blue-50 p-2 rounded-lg">Petición (HTTP Request)</span>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-6 shadow-xs flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-[#39A900] mb-4">
+                <i data-lucide="server" class="w-6 h-6"></i>
+              </div>
+              <h3 class="text-xl font-extrabold text-slate-900 mb-2">2. Servidor (Node / Express)</h3>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
+                Escucha en un socket/puerto (ej. 3000). El Event Loop recibe el stream TCP, lo parsea mediante middlewares (<code class="font-mono">express.json()</code>), ejecuta la lógica del controlador y prepara la respuesta.
+              </p>
+            </div>
+            <span class="text-xs font-mono font-bold text-[#39A900] bg-emerald-50 p-2 rounded-lg">Procesamiento Stateless</span>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-6 shadow-xs flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-600 mb-4">
+                <i data-lucide="send" class="w-6 h-6"></i>
+              </div>
+              <h3 class="text-xl font-extrabold text-slate-900 mb-2">3. Respuesta (HTTP Response)</h3>
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
+                El backend retorna un código de estado numérico (200, 201, 404, 500), encabezados de respuesta (<code class="font-mono">Content-Type: application/json</code>) y el cuerpo con los datos serializados.
+              </p>
+            </div>
+            <span class="text-xs font-mono font-bold text-purple-700 bg-purple-50 p-2 rounded-lg">Payload JSON Estructurado</span>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-slate-100 rounded-xl border border-slate-200 text-xs text-slate-700 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i data-lucide="shield-alert" class="w-4 h-4 text-amber-600"></i>
+          <span><strong>Regla de Oro en Backend:</strong> Toda petición HTTP <em>debe</em> recibir una respuesta (`res.json()` o `res.send()`). Si olvidas responder, el cliente quedará colgado hasta dar timeout.</span>
+        </div>
+        <span class="font-mono font-bold text-slate-500">Stateless Architecture</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 3: ANATOMÍA DE PETICIONES Y RESPUESTAS HTTP -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="3" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Estructura del Paquete HTTP</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 03 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Anatomía de Peticiones y Respuestas: <span class="text-[#39A900]">Headers & MIME Types</span>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          Un mensaje HTTP es texto plano transmitido por la red. Los <strong class="text-slate-900">Headers (encabezados)</strong> son metadatos clave que definen el formato de codificación, seguridad y autenticación.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <!-- HTTP Request Anatomy -->
+          <div class="bg-slate-900 rounded-2xl p-5 font-mono text-xs text-slate-100 overflow-x-auto shadow-lg flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-slate-400 pb-2 mb-3 border-b border-slate-800 text-[11px]">
+                <span>HTTP REQUEST (Cliente ➔ Servidor)</span>
+                <span class="text-emerald-400 font-bold">Petición POST</span>
+              </div>
+              <pre><code class="language-http">POST /api/productos HTTP/1.1
+Host: localhost:3000
+Content-Type: application/json
+Accept: application/json
+User-Agent: Bruno/1.25.0
+
+{
+  "sku": "TEC-01",
+  "nombre": "Teclado Mecánico",
+  "precio": 120000
+}</code></pre>
+            </div>
+            <div class="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+              <span>Payload: Stream JSON</span>
+              <span class="text-amber-400 font-bold">Content-Type obligatorio</span>
+            </div>
+          </div>
+
+          <!-- HTTP Response Anatomy -->
+          <div class="bg-slate-900 rounded-2xl p-5 font-mono text-xs text-slate-100 overflow-x-auto shadow-lg flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-slate-400 pb-2 mb-3 border-b border-slate-800 text-[11px]">
+                <span>HTTP RESPONSE (Servidor ➔ Cliente)</span>
+                <span class="text-[#39A900] font-bold">Respuesta 201 Created</span>
+              </div>
+              <pre><code class="language-http">HTTP/1.1 201 Created
+Content-Type: application/json; charset=utf-8
+Content-Length: 108
+Date: Mon, 14 Sep 2026 20:00:00 GMT
+
+{
+  "ok": true,
+  "mensaje": "Producto creado",
+  "datos": { "id": 6, "sku": "TEC-01" }
+}</code></pre>
+            </div>
+            <div class="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+              <span>Status Line + Headers + Body</span>
+              <span class="text-emerald-400 font-bold">res.status(201).json()</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-950 flex items-center justify-between">
+        <span>El header <code class="font-bold font-mono">Content-Type: application/json</code> le indica a Express qué middleware utilizar para deserializar los bytes recibidos.</span>
+        <span class="font-mono font-bold text-[#39A900]">MIME Standard</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 4: VERBOS HTTP Y FILOSOFÍA RESTFUL -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="4" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Semántica de Operaciones</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 04 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Verbos HTTP & Filosofía REST: <span class="text-[#39A900]">Semántica e Idempotencia</span>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          En arquitectura REST, las URLs representan <strong class="text-slate-900 font-bold">recursos en sustantivo</strong> (ej. <code class="font-mono text-[#00324D]">/api/productos</code>) y los <strong class="text-[#39A900] font-bold">Verbos HTTP</strong> determinan la acción a realizar.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-2 flex flex-col justify-between shadow-xs">
+            <div>
+              <span class="px-2.5 py-1 rounded bg-blue-50 text-blue-700 font-mono font-black text-xs">GET</span>
+              <h4 class="font-extrabold text-slate-900 text-base mt-2">Lectura</h4>
+              <p class="text-xs text-slate-600 mt-1">Obtiene recursos. <strong>Seguro e Idempotente</strong>: ejecutarlo 100 veces no muta los datos del servidor.</p>
+            </div>
+            <span class="text-[11px] font-mono text-slate-500 bg-slate-50 p-1.5 rounded">app.get()</span>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-2 flex flex-col justify-between shadow-xs">
+            <div>
+              <span class="px-2.5 py-1 rounded bg-emerald-50 text-[#39A900] font-mono font-black text-xs">POST</span>
+              <h4 class="font-extrabold text-slate-900 text-base mt-2">Creación</h4>
+              <p class="text-xs text-slate-600 mt-1">Crea nuevos registros con <code class="font-mono">req.body</code>. <strong>No idempotente</strong>: cada envío genera un nuevo registro.</p>
+            </div>
+            <span class="text-[11px] font-mono text-slate-500 bg-slate-50 p-1.5 rounded">app.post()</span>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-2 flex flex-col justify-between shadow-xs">
+            <div>
+              <span class="px-2.5 py-1 rounded bg-amber-50 text-amber-700 font-mono font-black text-xs">PUT</span>
+              <h4 class="font-extrabold text-slate-900 text-base mt-2">Reemplazo</h4>
+              <p class="text-xs text-slate-600 mt-1">Reemplaza el objeto completo en <code class="font-mono">/:id</code>. Exige enviar todas las propiedades del recurso.</p>
+            </div>
+            <span class="text-[11px] font-mono text-slate-500 bg-slate-50 p-1.5 rounded">app.put()</span>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-2 flex flex-col justify-between shadow-xs">
+            <div>
+              <span class="px-2.5 py-1 rounded bg-purple-50 text-purple-700 font-mono font-black text-xs">PATCH</span>
+              <h4 class="font-extrabold text-slate-900 text-base mt-2">Parcial</h4>
+              <p class="text-xs text-slate-600 mt-1">Actualiza solo una o varias propiedades específicas (ej. solo el stock o el precio) sin reenviar todo.</p>
+            </div>
+            <span class="text-[11px] font-mono text-slate-500 bg-slate-50 p-1.5 rounded">app.patch()</span>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-2 flex flex-col justify-between shadow-xs">
+            <div>
+              <span class="px-2.5 py-1 rounded bg-rose-50 text-rose-700 font-mono font-black text-xs">DELETE</span>
+              <h4 class="font-extrabold text-slate-900 text-base mt-2">Eliminación</h4>
+              <p class="text-xs text-slate-600 mt-1">Elimina el recurso identificado por <code class="font-mono">/:id</code> (borrado físico o borrado lógico).</p>
+            </div>
+            <span class="text-[11px] font-mono text-slate-500 bg-slate-50 p-1.5 rounded">app.delete()</span>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-900 flex items-center justify-between">
+        <span>❌ <strong>Anti-patrón común en aprendices:</strong> Nombrar rutas como <code>/api/eliminarProducto</code> o <code>/api/crearUsuario</code>. En REST se usa siempre <code>DELETE /api/productos/:id</code> y <code>POST /api/usuarios</code>.</span>
+        <span class="font-mono font-bold text-rose-700">RESTful Naming</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 5: CÓDIGOS DE ESTADO HTTP (STATUS CODES) -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="5" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Protocolo HTTP Estándar</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 05 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Códigos de Estado HTTP: <span class="text-[#39A900]">Las Familias Semánticas</span>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          El Status Code es un número entero de 3 dígitos que le dice al cliente de forma instantánea el resultado de la operación sin necesidad de parsear el cuerpo del mensaje.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <!-- 2xx Success -->
+          <div class="bg-white border-2 border-emerald-200 rounded-2xl p-5 space-y-3 shadow-xs">
+            <div class="flex items-center justify-between">
+              <span class="px-3 py-1 rounded-lg bg-emerald-50 text-[#39A900] font-mono font-black text-sm">2xx SUCCESS</span>
+              <span class="text-xs font-bold text-slate-400">Operación Exitosa</span>
+            </div>
+            <ul class="space-y-2 text-xs text-slate-700">
+              <li class="flex items-start gap-2">
+                <span class="font-mono font-bold text-[#39A900]">200 OK:</span>
+                <span>Petición exitosa estándar (lectura con GET, actualización con PUT/PATCH).</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="font-mono font-bold text-[#39A900]">201 Created:</span>
+                <span>Registro creado exitosamente en base de datos mediante POST.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="font-mono font-bold text-[#39A900]">204 No Content:</span>
+                <span>Éxito sin cuerpo de respuesta (muy común en DELETE).</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 4xx Client Error -->
+          <div class="bg-white border-2 border-amber-200 rounded-2xl p-5 space-y-3 shadow-xs">
+            <div class="flex items-center justify-between">
+              <span class="px-3 py-1 rounded-lg bg-amber-50 text-amber-800 font-mono font-black text-sm">4xx CLIENT ERROR</span>
+              <span class="text-xs font-bold text-slate-400">Culpa del Cliente</span>
+            </div>
+            <ul class="space-y-2 text-xs text-slate-700">
+              <li class="flex items-start gap-2">
+                <span class="font-mono font-bold text-amber-700">400 Bad Request:</span>
+                <span>Payload inválido, faltan campos requeridos o tipos erróneos.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="font-mono font-bold text-amber-700">404 Not Found:</span>
+                <span>El recurso con ese ID o la ruta solicitada no existe.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="font-mono font-bold text-amber-700">409 Conflict:</span>
+                <span>Violación de restricción única (ej. SKU o correo ya registrado).</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 5xx Server Error -->
+          <div class="bg-white border-2 border-rose-200 rounded-2xl p-5 space-y-3 shadow-xs">
+            <div class="flex items-center justify-between">
+              <span class="px-3 py-1 rounded-lg bg-rose-50 text-rose-700 font-mono font-black text-sm">5xx SERVER ERROR</span>
+              <span class="text-xs font-bold text-slate-400">Fallo Interno</span>
+            </div>
+            <ul class="space-y-2 text-xs text-slate-700">
+              <li class="flex items-start gap-2">
+                <span class="font-mono font-bold text-rose-700">500 Internal Error:</span>
+                <span>Excepción no controlada en el backend (bug de código o caída de BD).</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="font-mono font-bold text-rose-700">502 Bad Gateway:</span>
+                <span>El servidor proxy o gateway no recibió respuesta válida.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="font-mono font-bold text-rose-700">503 Unavailable:</span>
+                <span>Servidor sobrecargado o en mantenimiento temporal.</span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-slate-900 rounded-xl text-slate-100 font-mono text-xs flex items-center justify-between">
+        <span class="text-amber-300">⚠️ Prohibido en ADSO: Retornar HTTP 200 con un cuerpo `{ error: "No encontrado" }`. Usa el código HTTP correspondiente: `res.status(404).json(...)`.</span>
+        <span class="text-emerald-400 font-bold">Semantic Status</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 6: NODE.JS CON ECMASCRIPT MODULES (ESM) -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="6" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Entorno Node.js Moderno</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 06 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Inicialización del Proyecto: <span class="text-[#39A900]">ESM vs CommonJS</span>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          Históricamente Node.js utilizó CommonJS (<code class="font-mono text-slate-800">const express = require('express');</code>). En el estándar moderno 2026 configuramos <code class="font-mono font-bold text-[#39A900]">"type": "module"</code> en <code class="font-mono text-slate-800">package.json</code> para usar sintaxis oficial <code class="font-mono font-bold">import/export</code>.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-4">
+            <h4 class="text-base font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="terminal" class="w-5 h-5 text-[#39A900]"></i>
+              <span>Flujo de Inicialización en Terminal:</span>
+            </h4>
+            <div class="space-y-3 font-mono text-xs">
+              <div class="p-3 bg-slate-900 text-slate-100 rounded-xl">
+                <span class="text-slate-400"># 1. Crear el package.json por defecto</span>
+                <p class="text-emerald-400 mt-1 font-bold">npm init -y</p>
+              </div>
+              <div class="p-3 bg-slate-900 text-slate-100 rounded-xl">
+                <span class="text-slate-400"># 2. Instalar el framework Express</span>
+                <p class="text-emerald-400 mt-1 font-bold">npm install express</p>
+              </div>
+              <div class="p-3 bg-slate-900 text-slate-100 rounded-xl">
+                <span class="text-slate-400"># 3. Arrancar el servidor</span>
+                <p class="text-emerald-400 mt-1 font-bold">node server.js</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 rounded-2xl p-5 font-mono text-xs text-slate-100 overflow-x-auto shadow-lg flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-slate-400 pb-2 mb-3 border-b border-slate-800 text-[11px]">
+                <span>package.json</span>
+                <span class="text-emerald-400 font-bold">"type": "module"</span>
+              </div>
+              <pre><code class="language-json">{
+  "name": "tienda-sena-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}</code></pre>
+            </div>
+            <div class="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+              <span>Node.js v18+ nativo</span>
+              <span class="text-emerald-400 font-bold">--watch recarga automática</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-950 flex items-center justify-between">
+        <span>Con <code class="font-bold font-mono">node --watch server.js</code> tu servidor se reiniciará automáticamente cada vez que guardes cambios sin instalar librerías pesadas como nodemon.</span>
+        <span class="font-mono font-bold text-[#39A900]">Node Watch Mode</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 7: INSTALACIÓN E INICIALIZACIÓN DE EXPRESS -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="7" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Arquitectura Express.js</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 07 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Servidor Base Express: <span class="text-[#39A900]">Instancia & Puerto de Escucha</span>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          Express es el framework de servidor web más consolidado en el ecosistema Node.js. Provee una capa minimalista sobre el módulo HTTP nativo facilitando el enrutamiento y la composición mediante middlewares.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-3">
+            <h4 class="text-base font-bold text-slate-900">Anatomía del Servidor Mínimo:</h4>
+            <ul class="space-y-3 text-xs sm:text-sm text-slate-600">
+              <li class="flex items-start gap-2">
+                <span class="w-5 h-5 rounded-full bg-emerald-50 text-[#39A900] border border-emerald-200 flex items-center justify-center font-mono font-bold text-xs shrink-0 mt-0.5">1</span>
+                <span><strong>Importación:</strong> Se importa la función factoría <code>import express from 'express';</code>.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-5 h-5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 flex items-center justify-center font-mono font-bold text-xs shrink-0 mt-0.5">2</span>
+                <span><strong>Instanciación:</strong> <code>const app = express();</code> crea la aplicación que manejará las rutas y ciclo de vida.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-5 h-5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 flex items-center justify-center font-mono font-bold text-xs shrink-0 mt-0.5">3</span>
+                <span><strong>Puerto Dinámico:</strong> <code>const PORT = process.env.PORT || 3000;</code> necesario para despliegues en la nube (Railway/Render).</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-5 h-5 rounded-full bg-purple-50 text-purple-700 border border-purple-200 flex items-center justify-center font-mono font-bold text-xs shrink-0 mt-0.5">4</span>
+                <span><strong>Escucha de Red:</strong> <code>app.listen(PORT, callback)</code> abre el socket TCP y queda a la espera de peticiones entrantes.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-slate-900 rounded-2xl p-5 font-mono text-xs text-slate-100 overflow-x-auto shadow-lg flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-slate-400 pb-2 mb-3 border-b border-slate-800 text-[11px]">
+                <span>server.js (Servidor Base)</span>
+                <span class="text-[#39A900]">ESM Express</span>
+              </div>
+              <pre><code class="language-javascript">import express from 'express';
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Ruta raíz de comprobación:
+app.get('/', (req, res) => {
+  res.send('Servidor Express SENA ADSO activo');
+});
+
+// Poner en marcha la escucha del puerto:
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en: http://localhost:${PORT}`);
+});</code></pre>
+            </div>
+            <div class="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+              <span>TCP Socket Binding</span>
+              <span class="text-emerald-400 font-bold">Ready for requests</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-slate-100 rounded-xl border border-slate-200 text-xs text-slate-600 flex items-center justify-between">
+        <span>Siempre define el puerto con <code>process.env.PORT || 3000</code>. En producción las plataformas de hosting asignan puertos aleatorios.</span>
+        <span class="font-mono font-bold text-slate-500">Cloud Ready</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 8: EL MIDDLEWARE EXPRESS.JSON() -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="8" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Procesamiento de Cargas Útiles</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 08 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          El Middleware <code class="text-[#39A900]">express.json()</code>: <span class="text-slate-700">De Bytes a Objeto</span>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          Por defecto, Express NO procesa el cuerpo de las peticiones HTTP porque viajan como fragmentos binarios (*streams*). Sin este middleware, <code class="font-mono font-bold text-rose-600">req.body</code> será siempre <code class="font-mono text-rose-600">undefined</code>.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-4">
+            <h4 class="text-base font-bold text-slate-900">¿Qué ocurre internamente en la tubería?</h4>
+            <div class="space-y-3 text-xs sm:text-sm text-slate-600">
+              <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
+                <strong class="text-slate-800">1. Inspecciona el Header:</strong>
+                <p>Verifica si la petición contiene el encabezado <code class="font-mono text-[#00324D]">Content-Type: application/json</code>.</p>
+              </div>
+              <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
+                <strong class="text-slate-800">2. Ensambla el Stream:</strong>
+                <p>Concatena los buffers de datos que van llegando por la red en memoria.</p>
+              </div>
+              <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1 text-emerald-950">
+                <strong class="text-emerald-800">3. Inyecta en req.body:</strong>
+                <p>Ejecuta <code class="font-mono">JSON.parse()</code> de forma segura y monta el objeto resultante en <code class="font-mono font-bold">req.body</code> para que tus rutas lo consuman limpiamente.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 rounded-2xl p-5 font-mono text-xs text-slate-100 overflow-x-auto shadow-lg flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-slate-400 pb-2 mb-3 border-b border-slate-800 text-[11px]">
+                <span>middleware_flow.js</span>
+                <span class="text-emerald-400 font-bold">app.use(express.json())</span>
+              </div>
+              <pre><code class="language-javascript">import express from 'express';
+
+const app = express();
+
+// 🛡️ Middleware OBLIGATORIO antes de las rutas:
+app.use(express.json());
+
+// Endpoint de prueba:
+app.post('/api/pedidos', (req, res) => {
+  // ✅ Gracias a express.json(), req.body existe:
+  console.log('Datos recibidos:', req.body);
+  
+  const { cliente, total } = req.body;
+  res.status(201).json({ ok: true, cliente, total });
+});</code></pre>
+            </div>
+            <div class="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+              <span>Pipeline de Middlewares</span>
+              <span class="text-emerald-400 font-bold">req.body parsed</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 flex items-center justify-between">
+        <span>⚠️ Coloca siempre <code>app.use(express.json())</code> <strong>antes</strong> de definir tus rutas. Los middlewares en Express se ejecutan en estricto orden secuencial.</span>
+        <span class="font-mono font-bold text-amber-700">Middleware Order</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 9: CAPTURA DE PARÁMETROS I: REQ.PARAMS -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="9" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Enrutamiento Dinámico</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 09 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Captura de Parámetros I: <code class="text-[#39A900]">req.params</code> (Rutas Dinámicas)
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          Los parámetros de ruta se declaran anteponiendo dos puntos (<code class="font-mono font-bold text-[#00324D]">:nombreParametro</code>). Se utilizan para identificar un recurso único dentro de la colección.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <div class="space-y-4">
+            <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-3">
+              <h4 class="text-base font-bold text-slate-900">Reglas de Implementación en ADSO:</h4>
+              <ul class="space-y-2 text-xs sm:text-sm text-slate-600">
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check" class="w-4 h-4 text-[#39A900] shrink-0 mt-0.5"></i>
+                  <span><strong>1. Siempre vienen como String:</strong> <code>req.params.id</code> es una cadena. Para buscar en un array o base de datos relacional debes convertirlo con <code>Number(req.params.id)</code>.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check" class="w-4 h-4 text-[#39A900] shrink-0 mt-0.5"></i>
+                  <span><strong>2. Validación de Existencia:</strong> Si el registro no existe, responde de inmediato con status <code>404 Not Found</code>.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i data-lucide="check" class="w-4 h-4 text-[#39A900] shrink-0 mt-0.5"></i>
+                  <span><strong>3. Validación de Tipo:</strong> Si envían <code>/api/productos/abc</code>, valida con <code>isNaN(id)</code> y retorna <code>400 Bad Request</code>.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-900">
+              <strong>URL Ejemplo:</strong> <code>GET http://localhost:3000/api/productos/3</code> <br>
+              ➔ <code>req.params</code> produce: <code>{ id: "3" }</code>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 rounded-2xl p-5 font-mono text-xs text-slate-100 overflow-x-auto shadow-lg flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-slate-400 pb-2 mb-3 border-b border-slate-800 text-[11px]">
+                <span>params_handler.js</span>
+                <span class="text-emerald-400 font-bold">req.params</span>
+              </div>
+              <pre><code class="language-javascript">app.get('/api/productos/:id', (req, res) => {
+  const id = Number(req.params.id);
+
+  if (isNaN(id)) {
+    return res.status(400).json({
+      ok: false,
+      error: 'El ID proporcionado debe ser un número entero'
+    });
+  }
+
+  const producto = inventario.find(p => p.id === id);
+
+  if (!producto) {
+    return res.status(404).json({
+      ok: false,
+      error: `Producto con ID ${id} no encontrado`
+    });
+  }
+
+  res.status(200).json({ ok: true, datos: producto });
+});</code></pre>
+            </div>
+            <div class="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+              <span>Manejo de Errores 400 y 404</span>
+              <span class="text-emerald-400 font-bold">Safe Params</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-slate-100 rounded-xl border border-slate-200 text-xs text-slate-600 flex items-center justify-between">
+        <span>El Reto 4 del taller pone a prueba la captura de <code>req.params.id</code> y su validación con 404.</span>
+        <span class="font-mono font-bold text-slate-500">Reto 4 Starter</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 10: CAPTURA DE PARÁMETROS II: REQ.QUERY -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="10" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Filtros y Búsquedas</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 10 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Captura de Parámetros II: <code class="text-[#39A900]">req.query</code> (Filtros & Búsqueda)
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          Los Query Strings viajan al final de la URL precedidos por un signo de interrogación (<code class="font-mono text-[#00324D]">?clave=valor&otra=123</code>). Son opcionales y se emplean para filtrar, ordenar y paginar listas de recursos.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <div class="space-y-4">
+            <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-3">
+              <h4 class="text-base font-bold text-slate-900">Diferencia Clave: Params vs Query</h4>
+              <div class="space-y-2 text-xs">
+                <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl">
+                  <strong class="text-blue-800">req.params (Obligatorio en la ruta):</strong>
+                  <p class="text-slate-600 mt-1">Identifica el recurso específico: <code>/api/productos/42</code></p>
+                </div>
+                <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl">
+                  <strong class="text-emerald-800">req.query (Opcional en la ruta):</strong>
+                  <p class="text-slate-600 mt-1">Filtra la colección: <code>/api/productos?categoria=HARDWARE&q=rgb</code></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-3 bg-slate-100 border border-slate-200 rounded-xl text-xs text-slate-700">
+              <strong>URL Ejemplo:</strong> <code>GET /api/productos?categoria=HARDWARE&q=teclado</code> <br>
+              ➔ <code>req.query</code> produce: <code>{ categoria: "HARDWARE", q: "teclado" }</code>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 rounded-2xl p-5 font-mono text-xs text-slate-100 overflow-x-auto shadow-lg flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-slate-400 pb-2 mb-3 border-b border-slate-800 text-[11px]">
+                <span>query_filter.js</span>
+                <span class="text-emerald-400 font-bold">req.query</span>
+              </div>
+              <pre><code class="language-javascript">app.get('/api/productos', (req, res) => {
+  const { categoria, q } = req.query;
+  let listado = [...inventario];
+
+  // Filtro por categoría (si se proporcionó):
+  if (categoria) {
+    listado = listado.filter(p => 
+      p.categoria.toUpperCase() === categoria.toUpperCase()
+    );
+  }
+
+  // Búsqueda por texto (si se proporcionó):
+  if (q) {
+    const texto = q.toLowerCase();
+    listado = listado.filter(p => 
+      p.nombre.toLowerCase().includes(texto)
+    );
+  }
+
+  res.status(200).json({
+    ok: true,
+    total: listado.length,
+    datos: listado
+  });
+});</code></pre>
+            </div>
+            <div class="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+              <span>Búsqueda Flexible y Filtrado</span>
+              <span class="text-emerald-400 font-bold">200 OK</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-950 flex items-center justify-between">
+        <span>En el cliente Bruno podemos definir y activar/desactivar Query Params con casillas de verificación en la pestaña <em>Params</em>.</span>
+        <span class="font-mono font-bold text-[#39A900]">Bruno Integration</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 11: CAPTURA DE PARÁMETROS III: REQ.BODY Y VALIDACIONES -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="11" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Creación y Mutación de Datos</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 11 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Captura de Parámetros III: <code class="text-[#39A900]">req.body</code> (Validación & 201 Created)
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          En los métodos <code class="font-mono font-bold text-slate-900">POST</code> y <code class="font-mono font-bold text-slate-900">PUT</code> los datos viajan en el cuerpo de la petición. El backend debe actuar como un guardia fronterizo: nunca confíes en los datos del cliente.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <div class="space-y-4">
+            <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-3">
+              <h4 class="text-base font-bold text-slate-900">Checklist de Validación Defensiva:</h4>
+              <ul class="space-y-2 text-xs sm:text-sm text-slate-600">
+                <li class="flex items-start gap-2">
+                  <span class="w-5 h-5 rounded-full bg-rose-50 text-rose-700 border border-rose-200 flex items-center justify-center font-mono font-bold text-xs shrink-0 mt-0.5">1</span>
+                  <span><strong>Campos obligatorios:</strong> Si falta <code>nombre</code>, <code>precio</code> o <code>sku</code> ➔ Rechazar inmediatamente con <code>400 Bad Request</code>.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="w-5 h-5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 flex items-center justify-center font-mono font-bold text-xs shrink-0 mt-0.5">2</span>
+                  <span><strong>Reglas de negocio:</strong> Precios mayores a cero, existencias no negativas.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="w-5 h-5 rounded-full bg-purple-50 text-purple-700 border border-purple-200 flex items-center justify-center font-mono font-bold text-xs shrink-0 mt-0.5">3</span>
+                  <span><strong>Unicidad:</strong> Si el SKU ya existe ➔ Rechazar con <code>409 Conflict</code>.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="w-5 h-5 rounded-full bg-emerald-50 text-[#39A900] border border-emerald-200 flex items-center justify-center font-mono font-bold text-xs shrink-0 mt-0.5">4</span>
+                  <span><strong>Éxito de Creación:</strong> Responder con código <code>201 Created</code> y devolver el registro recién guardado con su nuevo ID.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 rounded-2xl p-5 font-mono text-xs text-slate-100 overflow-x-auto shadow-lg flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-slate-400 pb-2 mb-3 border-b border-slate-800 text-[11px]">
+                <span>post_handler.js</span>
+                <span class="text-emerald-400 font-bold">POST 201 Created</span>
+              </div>
+              <pre><code class="language-javascript">app.post('/api/productos', (req, res) => {
+  const { sku, nombre, precio, stock } = req.body;
+
+  // 1. Validación de presencia:
+  if (!sku || !nombre || precio === undefined) {
+    return res.status(400).json({
+      ok: false,
+      error: 'sku, nombre y precio son campos requeridos'
+    });
+  }
+
+  // 2. Creación con ID único:
+  const nuevo = {
+    id: Date.now(),
+    sku: sku.toUpperCase(),
+    nombre: nombre.trim(),
+    precio: Number(precio),
+    stock: Number(stock || 0)
+  };
+
+  inventario.push(nuevo);
+
+  // 3. Respuesta 201 Created:
+  res.status(201).json({
+    ok: true,
+    mensaje: 'Producto creado exitosamente',
+    datos: nuevo
+  });
+});</code></pre>
+            </div>
+            <div class="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+              <span>Validación de Integridad</span>
+              <span class="text-emerald-400 font-bold">201 Created</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-950 flex items-center justify-between">
+        <span>El Reto 5 del taller evalúa la capacidad de rechazar entradas maliciosas o incompletas con 400 Bad Request antes de persistirlas.</span>
+        <span class="font-mono font-bold text-[#39A900]">Reto 5 Focus</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 12: MANEJO DE ERRORES Y MIDDLEWARE 404 NOT FOUND -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="12" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Manejo Defensivo de Rutas</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 12 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Manejo de Errores & <span class="text-[#39A900]">Middleware Global 404 Catch-All</span>
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          Si un cliente solicita una ruta no registrada (ej. <code class="font-mono text-slate-800">/api/usuarios</code>), el comportamiento por defecto de Express devuelve un HTML feo <em class="text-rose-600">"Cannot GET /api/usuarios"</em>. En una API REST siempre debemos responder en JSON estructurado.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-4">
+            <h4 class="text-base font-bold text-slate-900">¿Cómo funciona el Middleware Catch-All?</h4>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Express evalúa las rutas registradas en orden de arriba hacia abajo. Si ninguna ruta coincide con el método o la URL solicitada, la ejecución llega al último middleware:
+            </p>
+            <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 space-y-2">
+              <p class="font-bold">⚠️ Regla Estricta de Ubicación:</p>
+              <p>El middleware 404 debe ubicarse <strong>al final de todas las rutas válidas</strong>, justo antes de <code class="font-mono">app.listen()</code>. Si lo colocas arriba, interceptará todas las peticiones antes de tiempo.</p>
+            </div>
+          </div>
+
+          <div class="bg-slate-900 rounded-2xl p-5 font-mono text-xs text-slate-100 overflow-x-auto shadow-lg flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-slate-400 pb-2 mb-3 border-b border-slate-800 text-[11px]">
+                <span>error_middleware.js</span>
+                <span class="text-emerald-400 font-bold">Catch-All 404</span>
+              </div>
+              <pre><code class="language-javascript">// Rutas válidas arriba...
+app.get('/api/productos', ...);
+app.post('/api/productos', ...);
+
+// 🛡️ Middleware final para rutas NO mapeadas:
+app.use((req, res) => {
+  res.status(404).json({
+    ok: false,
+    error: `La ruta '${req.originalUrl}' no existe en este servidor`,
+    metodo: req.method,
+    sugerencia: 'Endpoints válidos en /api/status o /api/productos'
+  });
+});
+
+app.listen(PORT, ...);</code></pre>
+            </div>
+            <div class="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+              <span>Zero Unhandled Routes</span>
+              <span class="text-emerald-400 font-bold">JSON 404</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-slate-100 rounded-xl border border-slate-200 text-xs text-slate-700 flex items-center justify-between">
+        <span>Esto asegura que clientes frontend o móviles reciban siempre JSON procesable y no errores de parseo por respuestas HTML.</span>
+        <span class="font-mono font-bold text-slate-500">API Consistency</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 13: HERRAMIENTA OFICIAL DE PRUEBAS: BRUNO API CLIENT -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="13" data-block="1" data-duration="110">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-amber-100 text-amber-900 font-mono text-xs font-extrabold rounded-lg border border-amber-300">HERRAMIENTA PROFESIONAL</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Cliente de Pruebas Git-Friendly</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 13 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Cliente de APIs: <span class="text-amber-600">Bruno</span> vs Postman & Insomnia
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          Para probar endpoints backend antes de construir la interfaz gráfica necesitamos un cliente HTTP. En SENA ADSO usamos <strong class="text-amber-700">Bruno</strong>: un cliente de código abierto, ultraligero y diseñado para vivir dentro de Git.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-3 shadow-xs">
+            <div class="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 mb-2">
+              <i data-lucide="git-branch" class="w-5 h-5"></i>
+            </div>
+            <h4 class="text-base font-extrabold text-slate-900">1. Colecciones en Git (.bru)</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Bruno no guarda peticiones en nubes de terceros. Cada endpoint es un archivo de texto plano <code class="font-mono text-amber-800">.bru</code> guardado en tu carpeta de proyecto y versionado con <code class="font-mono">git commit</code>.
+            </p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-3 shadow-xs">
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-[#39A900] mb-2">
+              <i data-lucide="wifi-off" class="w-5 h-5"></i>
+            </div>
+            <h4 class="text-base font-extrabold text-slate-900">2. Local-First & Sin Cuenta</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              No requiere iniciar sesión, crear cuenta corporativa ni estar conectado a internet. Ideal para las salas de informática y desarrollo offline de alta velocidad.
+            </p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-3 shadow-xs">
+            <div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 mb-2">
+              <i data-lucide="sliders" class="w-5 h-5"></i>
+            </div>
+            <h4 class="text-base font-extrabold text-slate-900">3. Variables de Entorno</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Define <code class="font-mono text-blue-700">{{baseUrl}}</code> para apuntar a <code class="font-mono">http://localhost:3000</code> en local y cambiar a producción en un clic sin modificar peticiones individuales.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="mt-6 bg-slate-900 rounded-2xl p-4 font-mono text-xs text-slate-100 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="folder-open" class="w-4 h-4 text-amber-400"></i>
+            <span><strong>Cómo abrir en clase:</strong> En Bruno haz clic en <code class="text-amber-300">Open Collection</code> ➔ Selecciona la carpeta <code class="text-emerald-300">recursos/bruno-collection/</code>.</span>
+          </div>
+          <a href="recursos/bruno-collection/bruno.json" download class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold transition flex items-center gap-1.5">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Descargar Colección Bruno</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-4 p-3 bg-slate-100 rounded-xl border border-slate-200 text-xs text-slate-600 flex items-center justify-between">
+        <span>Durante la sustentación, el instructor probará tu servidor directamente importando la colección de Bruno.</span>
+        <span class="font-mono font-bold text-slate-500">Testing Standard</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 14: BLOQUE 2 - TALLER PRÁCTICO EN AULA -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="14" data-block="2" data-duration="70">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-[#00324D] text-white font-mono text-xs font-extrabold rounded-lg">BLOQUE 2</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Laboratorio Práctico en Node.js</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 14 / 15</span>
+        </div>
+
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight">
+              Taller de Aula: <span class="text-[#00324D]">6 Retos Progresivos en Express + Bruno</span>
+            </h2>
+            <p class="text-base sm:text-lg text-slate-600 max-w-5xl mt-1">
+              Descarga <code class="font-mono font-bold text-slate-800">plantilla_servidor.js</code>, ejecuta <code class="font-mono font-bold text-[#39A900]">npm start</code> y prueba tus endpoints con Bruno.
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <a href="recursos/plantilla_servidor.js" download class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#39A900] hover:bg-[#2D8200] text-white text-xs font-bold shadow-sm transition">
+              <i data-lucide="download" class="w-4 h-4"></i>
+              <span>Descargar Starter</span>
+            </a>
+            <a href="recursos/bruno-collection/bruno.json" download class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-50 text-amber-900 border border-amber-200 text-xs font-bold shadow-sm transition">
+              <i data-lucide="folder-git-2" class="w-4 h-4 text-amber-600"></i>
+              <span>Colección Bruno</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3.5 my-6">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-4 shadow-xs space-y-2 flex flex-col justify-between">
+            <div>
+              <span class="px-2 py-0.5 rounded bg-emerald-50 text-[#39A900] font-mono text-xs font-black">RETO 1</span>
+              <h4 class="font-extrabold text-slate-900 text-sm mt-1">Servidor & Middleware</h4>
+              <p class="text-xs text-slate-600 mt-1">Instanciar Express, configurar puerto dinámico con process.env y activar el middleware express.json().</p>
+            </div>
+            <span class="text-[11px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">Setup Express</span>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-4 shadow-xs space-y-2 flex flex-col justify-between">
+            <div>
+              <span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-mono text-xs font-black">RETO 2</span>
+              <h4 class="font-extrabold text-slate-900 text-sm mt-1">Health Check 200</h4>
+              <p class="text-xs text-slate-600 mt-1">Implementar GET /api/status con uptime, fecha ISO y confirmación operativa para monitorización.</p>
+            </div>
+            <span class="text-[11px] font-mono font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded">GET /api/status</span>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-4 shadow-xs space-y-2 flex flex-col justify-between">
+            <div>
+              <span class="px-2 py-0.5 rounded bg-amber-50 text-amber-700 font-mono text-xs font-black">RETO 3</span>
+              <h4 class="font-extrabold text-slate-900 text-sm mt-1">Listado & Query Params</h4>
+              <p class="text-xs text-slate-600 mt-1">Implementar GET /api/productos con filtros dinámicos por ?categoria=X y búsqueda de texto por ?q=Y.</p>
+            </div>
+            <span class="text-[11px] font-mono font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">req.query Filters</span>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-4 shadow-xs space-y-2 flex flex-col justify-between">
+            <div>
+              <span class="px-2 py-0.5 rounded bg-purple-50 text-purple-700 font-mono text-xs font-black">RETO 4</span>
+              <h4 class="font-extrabold text-slate-900 text-sm mt-1">Detalle por ID & 404</h4>
+              <p class="text-xs text-slate-600 mt-1">Capturar req.params.id, parsear con Number() y retornar 404 Not Found estructurado si no existe.</p>
+            </div>
+            <span class="text-[11px] font-mono font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded">req.params.id</span>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-4 shadow-xs space-y-2 flex flex-col justify-between">
+            <div>
+              <span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 font-mono text-xs font-black">RETO 5</span>
+              <h4 class="font-extrabold text-slate-900 text-sm mt-1">Creación POST & 201</h4>
+              <p class="text-xs text-slate-600 mt-1">Recibir req.body, validar campos obligatorios, evitar SKU duplicado (409) y responder 201 Created.</p>
+            </div>
+            <span class="text-[11px] font-mono font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded">POST /api/productos</span>
+          </div>
+
+          <div class="bg-white border-2 border-indigo-200 hover:border-indigo-500 rounded-xl p-4 shadow-xs space-y-2 flex flex-col justify-between">
+            <div>
+              <span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 font-mono text-xs font-black">RETO 6 (PRO)</span>
+              <h4 class="font-extrabold text-slate-900 text-sm mt-1">PATCH & 404 Catch-All</h4>
+              <p class="text-xs text-slate-600 mt-1">Actualizar stock con PATCH /:id/stock y configurar middleware global para rutas no existentes.</p>
+            </div>
+            <span class="text-[11px] font-mono font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">PATCH & Catch-All</span>
+          </div>
+
+        </div>
+
+        <div class="bg-slate-100 border border-slate-200 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-700">
+          <div class="flex items-center gap-2">
+            <i data-lucide="terminal" class="w-4 h-4 text-slate-800"></i>
+            <span>Ejecución del servidor: <code class="bg-white px-2 py-0.5 rounded border border-slate-300 font-mono font-bold text-slate-900">npm start</code> | Test rápido: <code class="bg-white px-2 py-0.5 rounded border border-slate-300 font-mono font-bold text-slate-900">node test_api.js</code></span>
+          </div>
+          <span class="font-bold text-[#39A900]">Pruebas Oficiales: Colección de Bruno (10 Requests)</span>
+        </div>
+
+      </div>
+
+      <div class="mt-6 p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-900 flex items-center justify-between">
+        <span>El instructor revisará en tu terminal y en Bruno que cada petición responda con el código HTTP exacto esperado.</span>
+        <span class="font-mono font-bold text-[#39A900]">Supervisión Activa</span>
+      </div>
+
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- SLIDE 15: BLOQUE 3 - SUSTENTACIÓN EN CALIENTE Y GIT -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="15" data-block="3" data-duration="40">
+      
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+          <div class="flex items-center space-x-3">
+            <span class="px-3 py-1 bg-purple-50 text-purple-700 font-mono text-xs font-extrabold rounded-lg border border-purple-200">BLOQUE 3</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Cierre & Verificación Individual</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 15 / 15</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight mb-4">
+          Evidencia de Aula: <span class="text-purple-700">Sustentación en Caliente</span> & Control Git
+        </h2>
+        <p class="text-base sm:text-lg text-slate-600 max-w-5xl mb-6 leading-relaxed">
+          Para garantizar la autoría del código y eliminar la dependencia ciega de IAs generativas, la evaluación se realiza de forma individual en el puesto del aprendiz con pruebas vivas en Bruno.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-6 space-y-4 shadow-xs">
+            <h4 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="crosshair" class="w-5 h-5 text-purple-600"></i>
+              <span>Examen de Modificación en Caliente (Live Mod)</span>
+            </h4>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              El instructor se acercará a tu puesto y te solicitará una modificación inmediata en vivo, por ejemplo:
+            </p>
+            <ul class="space-y-2.5 text-xs sm:text-sm text-slate-700">
+              <li class="flex items-start gap-2 bg-purple-50 p-3 rounded-xl border border-purple-200">
+                <i data-lucide="help-circle" class="w-4 h-4 text-purple-600 shrink-0 mt-0.5"></i>
+                <span><em>"Agrega un filtro por rango de precio (?minPrecio=X) en GET /api/productos y pruébalo en Bruno ahora mismo."</em></span>
+              </li>
+              <li class="flex items-start gap-2 bg-purple-50 p-3 rounded-xl border border-purple-200">
+                <i data-lucide="help-circle" class="w-4 h-4 text-purple-600 shrink-0 mt-0.5"></i>
+                <span><em>"Cambia la respuesta de POST /api/productos para que devuelva un header personalizado 'X-SENA-ID' y explica por qué no usamos status 200."</em></span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-slate-900 rounded-2xl p-6 font-mono text-xs text-slate-100 flex flex-col justify-between shadow-lg">
+            <div>
+              <div class="flex items-center justify-between text-slate-400 pb-2 mb-3 border-b border-slate-800 text-[11px]">
+                <span>terminal_git.sh</span>
+                <span class="text-purple-400 font-bold">Entrega Atómica en GitHub</span>
+              </div>
+              <pre><code class="language-bash"># 1. Verificar estado de los archivos y colección Bruno:
+git status
+
+# 2. Agregar cambios (código servidor + colección .bru):
+git add semana-01-fundamentos/dia-04-http-express-servidor-base/
+
+# 3. Crear commit semántico atómico:
+git commit -m "feat(dia-04): servidor express con crud productos y coleccion bruno"
+
+# 4. Enviar a tu repositorio remoto:
+git push origin main</code></pre>
+            </div>
+            <div class="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+              <span>Evidencia Válida en Aula</span>
+              <span class="text-emerald-400 font-bold">Aprobado / No Aprobado</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 p-5 bg-[#00324D] rounded-2xl text-white flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <i data-lucide="award" class="w-6 h-6 text-[#39A900]"></i>
+          <div>
+            <span class="font-extrabold text-sm block">Criterio de Aprobación de la Sesión 04:</span>
+            <span class="text-xs text-slate-300">Todos los endpoints funcionando, colección de Bruno ejecutada y sustentación satisfactoria ante el instructor.</span>
+          </div>
+        </div>
+        <a href="../../index.html" class="px-6 py-2.5 rounded-xl bg-[#39A900] hover:bg-[#2D8200] text-white text-xs font-bold transition flex items-center gap-2">
+          <span>Volver al Portal Principal</span>
+          <i data-lucide="home" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL DE ÍNDICE DE DIAPOSITIVAS (TECLA M) -->
+  <!-- ========================================================================= -->
+  <div id="drawer-menu" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden transition-opacity">
+    <div class="fixed inset-y-0 right-0 max-w-md w-full bg-white shadow-2xl p-6 flex flex-col justify-between overflow-y-auto">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
+          <div class="flex items-center gap-2">
+            <i data-lucide="list" class="w-5 h-5 text-[#00324D]"></i>
+            <h3 class="text-lg font-black text-slate-900">Índice de Diapositivas</h3>
+          </div>
+          <button id="btn-close-menu" class="p-1.5 rounded-lg hover:bg-slate-100 text-slate-500">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+        <p class="text-xs text-slate-500 mb-4">Selecciona cualquier diapositiva para saltar directamente en videobeam:</p>
+        
+        <div class="space-y-1.5" id="drawer-slide-list">
+          <!-- Se genera dinámicamente con JS -->
+        </div>
+      </div>
+
+      <div class="pt-4 border-t border-slate-200 text-xs text-slate-500 flex items-center justify-between">
+        <span>Presiona <kbd class="px-1.5 py-0.5 rounded bg-slate-100 border text-slate-700 font-mono">Esc</kbd> o <kbd class="px-1.5 py-0.5 rounded bg-slate-100 border text-slate-700 font-mono">M</kbd> para cerrar</span>
+        <span class="font-bold text-[#39A900]">15 Slides</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL DE AYUDA Y ATAJOS DE TECLADO (?) -->
+  <!-- ========================================================================= -->
+  <div id="help-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <h3 class="text-base font-extrabold text-slate-900 flex items-center gap-2">
+          <i data-lucide="keyboard" class="w-5 h-5 text-[#39A900]"></i>
+          <span>Atajos de Teclado para Proyección</span>
+        </h3>
+        <button onclick="window.presenter?.toggleHelpModal()" class="p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3 text-xs">
+        <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
+          <span class="text-slate-600">Siguiente Slide</span>
+          <span class="font-mono font-bold bg-white px-2 py-0.5 rounded border border-slate-300">→ / Espacio</span>
+        </div>
+        <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
+          <span class="text-slate-600">Slide Anterior</span>
+          <span class="font-mono font-bold bg-white px-2 py-0.5 rounded border border-slate-300">←</span>
+        </div>
+        <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
+          <span class="text-slate-600">Pantalla Completa</span>
+          <span class="font-mono font-bold bg-white px-2 py-0.5 rounded border border-slate-300">F</span>
+        </div>
+        <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
+          <span class="text-slate-600">Índice Menú</span>
+          <span class="font-mono font-bold bg-white px-2 py-0.5 rounded border border-slate-300">M</span>
+        </div>
+        <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
+          <span class="text-slate-600">Inicio de Clase</span>
+          <span class="font-mono font-bold bg-white px-2 py-0.5 rounded border border-slate-300">Inicio / Home</span>
+        </div>
+        <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
+          <span class="text-slate-600">Cierre / Sustentación</span>
+          <span class="font-mono font-bold bg-white px-2 py-0.5 rounded border border-slate-300">Fin / End</span>
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-slate-200 text-center">
+        <button onclick="window.presenter?.toggleHelpModal()" class="px-5 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-slate-800 transition">
+          Entendido
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script Presenter de Diapositivas -->
+  <script src="../../assets/js/presenter.js"></script>
+
+  <!-- Lógica de Sesión 04 & Fecha Dinámica -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Inicializar iconos Lucide
+      lucide.createIcons();
+
+      // 2. Fecha Dinámica Institucional en Español
+      const fechaEl = document.getElementById('slide-cintillo-fecha');
+      if (fechaEl) {
+        const ahora = new Date();
+        const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const fechaFormateada = ahora.toLocaleDateString('es-CO', opciones);
+        fechaEl.textContent = `Hoy: ${fechaFormateada.charAt(0).toUpperCase() + fechaFormateada.slice(1)}`;
+      }
+
+      // 3. Generar Índice Dinámico en el Drawer Menu
+      const slides = document.querySelectorAll('.slide-content');
+      const drawerList = document.getElementById('drawer-slide-list');
+      if (drawerList && slides.length > 0) {
+        drawerList.innerHTML = Array.from(slides).map((s, idx) => {
+          const num = idx + 1;
+          const h2 = s.querySelector('h2');
+          let titulo = `Diapositiva ${num}`;
+          if (num === 1) titulo = "Portada Institucional (3 Bloques)";
+          else if (h2) titulo = h2.textContent.replace(/\s+/g, ' ').trim();
+
+          const blockNum = s.getAttribute('data-block') || '1';
+          const badgeClass = blockNum === '1' ? 'bg-emerald-50 text-[#39A900] border-emerald-200' :
+                             blockNum === '2' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+                             'bg-purple-50 text-purple-700 border-purple-200';
+
+          return `
+            <button onclick="window.presenter?.goToSlide(${num}); window.presenter?.toggleDrawerMenu();" 
+                    class="w-full text-left p-2.5 rounded-xl hover:bg-slate-100 transition flex items-center justify-between text-xs group">
+              <div class="flex items-center gap-2.5 overflow-hidden">
+                <span class="w-6 h-6 rounded-lg bg-slate-100 group-hover:bg-[#39A900] group-hover:text-white font-mono font-bold flex items-center justify-center text-[11px] shrink-0 transition">
+                  ${num}
+                </span>
+                <span class="font-bold text-slate-800 truncate">${titulo}</span>
+              </div>
+              <span class="text-[10px] font-mono px-1.5 py-0.5 rounded border ${badgeClass} shrink-0 ml-2">B${blockNum}</span>
+            </button>
+          `;
+        }).join('');
+      }
+    });
+  </script>
+</body>
+</html>

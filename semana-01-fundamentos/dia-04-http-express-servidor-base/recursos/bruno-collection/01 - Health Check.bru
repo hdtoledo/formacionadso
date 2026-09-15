@@ -1,0 +1,15 @@
+meta {
+  name: 01 - Health Check (GET status)
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/status
+  body: none
+  auth: none
+}
+
+docs {
+  Endpoint de diagnóstico para validar que el servidor Node.js/Express está en línea y funcionando.
+}

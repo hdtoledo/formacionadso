@@ -145,12 +145,8 @@
           <i data-lucide="help-circle" class="w-4 h-4 text-slate-500"></i>
         </button>
 
-        <!-- Recursos Rápidos -->
+        <!-- Recursos Rápidos de Aprendiz -->
         <div class="hidden lg:flex items-center space-x-2 border-l border-slate-200 pl-3">
-          <a href="recursos/solucion_taller_es6_asincronia.js" target="_blank" class="px-2.5 py-1 rounded bg-emerald-50 text-[#39A900] border border-emerald-200 text-xs font-bold hover:bg-emerald-100 transition flex items-center gap-1" title="Ver Solución JS">
-            <i data-lucide="file-code" class="w-3.5 h-3.5"></i>
-            <span>Solución JS</span>
-          </a>
           <a href="recursos/plantilla_aprendiz.js" download class="px-2.5 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200 text-xs font-bold hover:bg-slate-200 transition flex items-center gap-1" title="Descargar Plantilla Aprendiz">
             <i data-lucide="download" class="w-3.5 h-3.5"></i>
             <span>Plantilla</span>
@@ -305,10 +301,6 @@
         <a href="recursos/plantilla_aprendiz.js" download class="px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border-2 border-slate-200 font-bold text-base transition flex items-center gap-2">
           <i data-lucide="download" class="w-5 h-5 text-slate-500"></i>
           <span>Descargar Plantilla Aprendiz</span>
-        </a>
-        <a href="recursos/solucion_taller_es6_asincronia.js" target="_blank" class="px-6 py-3.5 rounded-xl bg-[#00324D] hover:bg-[#00263A] text-white font-bold text-base transition flex items-center gap-2">
-          <i data-lucide="file-code" class="w-5 h-5 text-emerald-400"></i>
-          <span>Ver Solución Maestra</span>
         </a>
       </div>
 
@@ -930,57 +922,93 @@ const todosHardware = items.every(i => i.categoria === 'HARDWARE'); // false</co
           ¿Cómo atiende Node.js miles de solicitudes concurrentes con un solo hilo? A través de su bucle de eventos que orquesta la ejecución entre la pila principal y las colas asíncronas.
         </p>
 
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
           
-          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-2">
-            <div class="flex items-center gap-2 text-rose-600 font-bold text-sm">
-              <span class="w-6 h-6 rounded-full bg-rose-50 border border-rose-200 flex items-center justify-center text-xs">1</span>
-              <span>Call Stack (Pila V8)</span>
+          <!-- 4 Componentes de la Arquitectura (7 cols) -->
+          <div class="xl:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            
+            <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 space-y-2 shadow-xs">
+              <div class="flex items-center gap-2 text-rose-600 font-bold text-sm">
+                <span class="w-6 h-6 rounded-full bg-rose-50 border border-rose-200 flex items-center justify-center text-xs font-mono">1</span>
+                <span>Call Stack (Pila V8)</span>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Pila LIFO donde se ejecutan funciones síncronas. En JavaScript solo hay <strong>un hilo principal</strong>; si una función tarda demasiado, la aplicación se congela.
+              </p>
             </div>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              Donde se apilan las funciones síncronas en ejecución (LIFO: Last In, First Out). Si una función tarda demasiado aquí, bloquea toda la aplicación.
-            </p>
+
+            <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 space-y-2 shadow-xs">
+              <div class="flex items-center gap-2 text-blue-600 font-bold text-sm">
+                <span class="w-6 h-6 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center text-xs font-mono">2</span>
+                <span>Node APIs (libuv C++)</span>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Delega tareas pesadas del sistema operativo: lectura de archivos (<code class="font-mono">fs</code>), red (<code class="font-mono">http</code>) o timers sin detener el hilo principal de JavaScript.
+              </p>
+            </div>
+
+            <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 space-y-2 shadow-xs">
+              <div class="flex items-center gap-2 text-purple-600 font-bold text-sm">
+                <span class="w-6 h-6 rounded-full bg-purple-50 border border-purple-200 flex items-center justify-center text-xs font-mono">3</span>
+                <span>Microtask Queue (Prioridad)</span>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                <strong>Prioridad Absoluta:</strong> Callbacks de Promesas resueltas (<code class="font-mono">.then()</code>, <code class="font-mono">await</code>) y <code class="font-mono">queueMicrotask</code>. Se vacía <em>inmediatamente</em> antes de cualquier timer.
+              </p>
+            </div>
+
+            <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 space-y-2 shadow-xs">
+              <div class="flex items-center gap-2 text-emerald-600 font-bold text-sm">
+                <span class="w-6 h-6 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-xs font-mono">4</span>
+                <span>Macrotask Queue (Timers)</span>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Callbacks de <code class="font-mono">setTimeout</code>, <code class="font-mono">setInterval</code> y eventos de socket. El Event Loop las atiende una vez el Call Stack y las Microtasks están vacíos.
+              </p>
+            </div>
+
           </div>
 
-          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-2">
-            <div class="flex items-center gap-2 text-blue-600 font-bold text-sm">
-              <span class="w-6 h-6 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center text-xs">2</span>
-              <span>Node APIs & libuv</span>
-            </div>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              Cuando el código invoca un temporizador, una consulta SQL o una lectura de archivo, el Call Stack delega la operación a libuv y sigue ejecutando la siguiente línea.
-            </p>
-          </div>
+          <!-- Demostración en Código y Pregunta de Entrevista (5 cols) -->
+          <div class="xl:col-span-5 bg-slate-900 rounded-2xl p-5 font-mono text-xs text-slate-100 flex flex-col justify-between shadow-lg">
+            <div>
+              <div class="flex items-center justify-between text-slate-400 pb-2 mb-3 border-b border-slate-800 text-[11px]">
+                <span>event_loop_quiz.js</span>
+                <span class="text-amber-400 font-bold">🎯 Pregunta Clásica Técnica</span>
+              </div>
+              <pre><code class="language-javascript">console.log('1. Síncrono (Inicio)');
 
-          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-2">
-            <div class="flex items-center gap-2 text-purple-600 font-bold text-sm">
-              <span class="w-6 h-6 rounded-full bg-purple-50 border border-purple-200 flex items-center justify-center text-xs">3</span>
-              <span>Microtask Queue</span>
-            </div>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              <strong>Prioridad Máxima:</strong> Contiene callbacks de Promesas resueltas (<code class="font-mono">.then()</code>, <code class="font-mono">await</code>) y <code class="font-mono">process.nextTick</code>. Se vacía antes de cualquier otra cola.
-            </p>
-          </div>
+setTimeout(() => {
+  console.log('4. Macrotask (setTimeout 0ms)');
+}, 0);
 
-          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 space-y-2">
-            <div class="flex items-center gap-2 text-emerald-600 font-bold text-sm">
-              <span class="w-6 h-6 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-xs">4</span>
-              <span>Macrotask Queue</span>
+Promise.resolve().then(() => {
+  console.log('3. Microtask (Promise)');
+});
+
+console.log('2. Síncrono (Fin)');
+
+// 📌 ORDEN DE SALIDA EN TERMINAL:
+// 1. Síncrono (Inicio)
+// 2. Síncrono (Fin)
+// 3. Microtask (Promise)      <-- ¡Antes que setTimeout!
+// 4. Macrotask (setTimeout 0ms)</code></pre>
             </div>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              Contiene temporizadores (<code class="font-mono">setTimeout</code>, <code class="font-mono">setInterval</code>) y eventos de I/O. El Event Loop pasa sus callbacks al Call Stack cuando la pila está vacía.
-            </p>
+            <div class="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+              <span class="text-slate-400">Regla de Oro:</span>
+              <span class="text-emerald-400 font-bold">Microtasks drenan antes que Macrotasks</span>
+            </div>
           </div>
 
         </div>
       </div>
 
-      <div class="mt-6 p-5 bg-slate-900 rounded-2xl text-slate-100 font-mono text-xs flex items-center justify-between">
-        <div>
-          <span class="text-amber-400 font-bold">Orden de prioridad de ejecución:</span>
-          <span class="text-slate-300 ml-2">Código Síncrono (Call Stack) ➔ Microtasks (Promises) ➔ Macrotasks (setTimeout / I/O)</span>
+      <div class="mt-6 p-4 bg-slate-100 rounded-xl border border-slate-200 text-xs text-slate-700 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+          <i data-lucide="zap" class="w-4 h-4 text-[#39A900]"></i>
+          <span><strong>Secuencia de Ejecución Universal:</strong> Call Stack (Síncrono) ➔ Microtask Queue (Promesas / async-await) ➔ Macrotask Queue (setTimeout / I/O).</span>
         </div>
-        <span class="text-emerald-400 font-bold">Non-Blocking I/O</span>
+        <span class="font-mono font-bold text-slate-500">libuv Loop Lifecycle</span>
       </div>
 
     </section>
@@ -1351,10 +1379,10 @@ const [usuarios, pedidos, categorias] = await Promise.all([
         <div class="flex items-center justify-between mb-4">
           <div>
             <h2 class="text-3xl sm:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight">
-              Taller de Aula: <span class="text-[#00324D]">5 Retos Progresivos en JavaScript</span>
+              Taller de Aula: <span class="text-[#00324D]">6 Retos Progresivos en JavaScript ES6+</span>
             </h2>
             <p class="text-base sm:text-lg text-slate-600 max-w-5xl mt-1">
-              Descarga la plantilla <code class="font-mono font-bold text-slate-800">plantilla_aprendiz.js</code> y resuelve en tu terminal con <code class="font-mono font-bold text-[#39A900]">node plantilla_aprendiz.js</code>.
+              Descarga la plantilla <code class="font-mono font-bold text-slate-800">plantilla_aprendiz.js</code> y resuelve en tu terminal ejecutando <code class="font-mono font-bold text-[#39A900]">node plantilla_aprendiz.js</code>.
             </p>
           </div>
           <a href="recursos/plantilla_aprendiz.js" download class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#39A900] hover:bg-[#2D8200] text-white text-xs font-bold shadow-sm transition">
@@ -1363,36 +1391,60 @@ const [usuarios, pedidos, categorias] = await Promise.all([
           </a>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-4 my-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3.5 my-6">
           
-          <div class="bg-white border-2 border-slate-200 rounded-xl p-4 shadow-xs space-y-2">
-            <span class="px-2 py-0.5 rounded bg-emerald-50 text-[#39A900] font-mono text-xs font-black">RETO 1</span>
-            <h4 class="font-extrabold text-slate-900 text-sm">Desestructuración & Spread</h4>
-            <p class="text-xs text-slate-600">Extraer datos de pedidos, calcular subtotal y clonar objeto agregando fecha sin mutar el original.</p>
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-4 shadow-xs space-y-2 flex flex-col justify-between">
+            <div>
+              <span class="px-2 py-0.5 rounded bg-emerald-50 text-[#39A900] font-mono text-xs font-black">RETO 1</span>
+              <h4 class="font-extrabold text-slate-900 text-sm mt-1">Desestructuración & Spread</h4>
+              <p class="text-xs text-slate-600 mt-1">Extraer con alias/default, calcular IVA 19% y clonar inmutablemente verificando que las referencias no coincidan.</p>
+            </div>
+            <span class="text-[11px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">Inmutabilidad</span>
           </div>
 
-          <div class="bg-white border-2 border-slate-200 rounded-xl p-4 shadow-xs space-y-2">
-            <span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-mono text-xs font-black">RETO 2</span>
-            <h4 class="font-extrabold text-slate-900 text-sm">Filter & Map</h4>
-            <p class="text-xs text-slate-600">Filtrar clientes activos de la sede Garzón y transformar la salida en DTOs amigables con formato COP.</p>
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-4 shadow-xs space-y-2 flex flex-col justify-between">
+            <div>
+              <span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-mono text-xs font-black">RETO 2</span>
+              <h4 class="font-extrabold text-slate-900 text-sm mt-1">Filter & Map (DTOs)</h4>
+              <p class="text-xs text-slate-600 mt-1">Filtrar pedidos pagados de Garzón y transformar la salida en DTOs limpios para frontend con formato de moneda COP.</p>
+            </div>
+            <span class="text-[11px] font-mono font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded">Data Transfer</span>
           </div>
 
-          <div class="bg-white border-2 border-slate-200 rounded-xl p-4 shadow-xs space-y-2">
-            <span class="px-2 py-0.5 rounded bg-amber-50 text-amber-700 font-mono text-xs font-black">RETO 3</span>
-            <h4 class="font-extrabold text-slate-900 text-sm">Balance con Reduce</h4>
-            <p class="text-xs text-slate-600">Acumular el gran total de ventas y agrupar las cantidades totales vendidas por categoría.</p>
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-4 shadow-xs space-y-2 flex flex-col justify-between">
+            <div>
+              <span class="px-2 py-0.5 rounded bg-amber-50 text-amber-700 font-mono text-xs font-black">RETO 3</span>
+              <h4 class="font-extrabold text-slate-900 text-sm mt-1">Analítica con Reduce</h4>
+              <p class="text-xs text-slate-600 mt-1">Totalizar recaudo efectivo, calcular el ticket promedio y clasificar conteos por estado en un solo recorrido funcional.</p>
+            </div>
+            <span class="text-[11px] font-mono font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">Business Analytics</span>
           </div>
 
-          <div class="bg-white border-2 border-slate-200 rounded-xl p-4 shadow-xs space-y-2">
-            <span class="px-2 py-0.5 rounded bg-purple-50 text-purple-700 font-mono text-xs font-black">RETO 4</span>
-            <h4 class="font-extrabold text-slate-900 text-sm">Promesas y DB Fake</h4>
-            <p class="text-xs text-slate-600">Implementar función constructora de Promesa con <code class="font-mono">setTimeout</code> y validación de stock negativo.</p>
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-4 shadow-xs space-y-2 flex flex-col justify-between">
+            <div>
+              <span class="px-2 py-0.5 rounded bg-purple-50 text-purple-700 font-mono text-xs font-black">RETO 4</span>
+              <h4 class="font-extrabold text-slate-900 text-sm mt-1">Servicio con Promesas</h4>
+              <p class="text-xs text-slate-600 mt-1">Simular consulta con latencia (300ms), validando stock insuficiente y errores 404 con <code class="font-mono">resolve/reject</code>.</p>
+            </div>
+            <span class="text-[11px] font-mono font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded">Async Services</span>
           </div>
 
-          <div class="bg-white border-2 border-slate-200 rounded-xl p-4 shadow-xs space-y-2">
-            <span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 font-mono text-xs font-black">RETO 5</span>
-            <h4 class="font-extrabold text-slate-900 text-sm">Async/Await Defensivo</h4>
-            <p class="text-xs text-slate-600">Crear un pipeline asíncrono robusto con <code class="font-mono">try/catch/finally</code> procesando pedidos concurrentes.</p>
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-4 shadow-xs space-y-2 flex flex-col justify-between">
+            <div>
+              <span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 font-mono text-xs font-black">RETO 5</span>
+              <h4 class="font-extrabold text-slate-900 text-sm mt-1">Async/Await Defensivo</h4>
+              <p class="text-xs text-slate-600 mt-1">Orquestar transacciones de venta con bloques <code class="font-mono">try...catch...finally</code>, capturando excepciones sin tumbar la app.</p>
+            </div>
+            <span class="text-[11px] font-mono font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded">Zero Crash</span>
+          </div>
+
+          <div class="bg-white border-2 border-indigo-200 hover:border-indigo-500 rounded-xl p-4 shadow-xs space-y-2 flex flex-col justify-between">
+            <div>
+              <span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 font-mono text-xs font-black">RETO 6 (PRO)</span>
+              <h4 class="font-extrabold text-slate-900 text-sm mt-1">Concurrencia Promise.all</h4>
+              <p class="text-xs text-slate-600 mt-1">Validar múltiples ítems de un carrito de compras simultáneamente en paralelo con política atómica <em>Fail-Fast</em>.</p>
+            </div>
+            <span class="text-[11px] font-mono font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">Parallel Speed</span>
           </div>
 
         </div>
@@ -1400,9 +1452,9 @@ const [usuarios, pedidos, categorias] = await Promise.all([
         <div class="bg-slate-100 border border-slate-200 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-700">
           <div class="flex items-center gap-2">
             <i data-lucide="terminal" class="w-4 h-4 text-slate-800"></i>
-            <span>Ejecución del taller: <code class="bg-white px-2 py-0.5 rounded border border-slate-300 font-mono font-bold text-slate-900">node recursos/plantilla_aprendiz.js</code></span>
+            <span>Ejecución del taller: <code class="bg-white px-2 py-0.5 rounded border border-slate-300 font-mono font-bold text-slate-900">node semana-01-fundamentos/dia-03-javascript-es6-asincronia/recursos/plantilla_aprendiz.js</code></span>
           </div>
-          <span class="font-bold text-[#39A900]">Tiempo sugerido: 70 minutos</span>
+          <span class="font-bold text-[#39A900]">Suite de verificación automatizada: 6 Retos [PASSED ✅]</span>
         </div>
 
       </div>
@@ -1486,7 +1538,7 @@ const [usuarios, pedidos, categorias] = await Promise.all([
               Comandos obligatorios a ejecutar desde la terminal del aprendiz:
             </p>
             <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl font-mono text-[11px] overflow-x-auto"><code>git add .
-git commit -m "feat(dia-03): solucion taller es6 y asincronia"
+git commit -m "feat(dia-03): taller es6 y asincronia resuelto"
 git push origin master</code></pre>
           </div>
 

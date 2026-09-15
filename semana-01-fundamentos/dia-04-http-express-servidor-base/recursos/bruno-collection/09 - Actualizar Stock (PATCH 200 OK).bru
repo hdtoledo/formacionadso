@@ -1,0 +1,25 @@
+meta {
+  name: 09 - Actualizar Stock (PATCH 200 OK)
+  type: http
+  seq: 9
+}
+
+patch {
+  url: {{baseUrl}}/api/productos/1/stock
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "nuevoStock": 20
+  }
+}
+
+docs {
+  Actualiza parcialmente el stock del producto con ID 1 mediante el verbo PATCH.
+}

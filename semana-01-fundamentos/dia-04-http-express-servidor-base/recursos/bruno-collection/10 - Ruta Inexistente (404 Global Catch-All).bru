@@ -1,0 +1,15 @@
+meta {
+  name: 10 - Ruta Inexistente (404 Global Catch-All)
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{baseUrl}}/api/ruta-inexistente-adso
+  body: none
+  auth: none
+}
+
+docs {
+  Verifica que el middleware 404 global intercepte cualquier endpoint o verbo no registrado y retorne un error amigable en JSON.
+}

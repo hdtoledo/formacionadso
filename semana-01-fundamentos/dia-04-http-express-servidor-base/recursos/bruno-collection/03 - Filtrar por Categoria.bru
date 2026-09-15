@@ -1,0 +1,19 @@
+meta {
+  name: 03 - Filtrar por Categoria (GET query)
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/productos?categoria=HARDWARE
+  body: none
+  auth: none
+}
+
+params:query {
+  categoria: HARDWARE
+}
+
+docs {
+  Filtra productos pasando el parámetro query ?categoria=HARDWARE.
+}

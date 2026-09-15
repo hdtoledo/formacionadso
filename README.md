@@ -75,22 +75,33 @@ NivelacionADSO/
 │   ├── logo_green.png             # Logo oficial SENA verde
 │   ├── logo_sena.png              # Variante institucional
 │   └── logo_hd.png                # Marca de autoría técnica
+├── referencia-docente/            # Repositorio de referencia del instructor (no visible a aprendices)
+│   ├── index.html                 # Portal web privado del docente para proyectar código de referencia
+│   └── semana-01/
+│       ├── dia-01-sistema-ventas.sql       # Script de referencia validado en MySQL 8 InnoDB
+│       ├── dia-02-consultas-joins.sql      # Consultas analíticas y preguntas de sustentación
+│       ├── dia-03-taller-es6-asincronia.js # Solución técnica validada en Node.js
+│       └── dia-04-servidor-express-base.js # Servidor API Express base con 6 retos resueltos
 └── semana-01-fundamentos/
     ├── dia-01-bd-sql-ddl-dml/
     │   ├── index.html             # Diapositivas de proyección (Sesión 01: Modelo Relacional & SQL)
     │   └── recursos/
-    │       ├── plantilla_aprendiz.sql    # Plantilla starter para los aprendices en clase
-    │       └── solucion_sistema_ventas.sql # Solución maestra probada en MySQL 8 InnoDB
+    │       └── plantilla_aprendiz.sql    # Plantilla starter para los aprendices en clase
     ├── dia-02-consultas-sql-joins/
     │   ├── index.html             # Diapositivas de proyección (Sesión 02: Consultas SQL & JOINs)
     │   └── recursos/
-    │       ├── plantilla_aprendiz.sql    # Datos sembrados y retos de laboratorio en aula
-    │       └── solucion_consultas_joins.sql # Solucionario analítico y preguntas en caliente
-    └── dia-03-javascript-es6-asincronia/
-        ├── index.html             # Diapositivas de proyección (Sesión 03: JavaScript ES6+ & Asincronía)
+    │       └── plantilla_aprendiz.sql    # Datos sembrados y retos de laboratorio en aula
+    ├── dia-03-javascript-es6-asincronia/
+    │   ├── index.html             # Diapositivas de proyección (Sesión 03: JavaScript ES6+ & Asincronía)
+    │   └── recursos/
+    │       └── plantilla_aprendiz.js     # Taller starter de 5 retos progresivos
+    └── dia-04-http-express-servidor-base/
+        ├── index.html             # Diapositivas de proyección (Sesión 04: Express & Bruno Client)
         └── recursos/
-            ├── plantilla_aprendiz.js       # Taller starter de 5 retos progresivos
-            └── solucion_taller_es6_asincronia.js # Solución completa validada con Node.js
+            ├── package.json              # Configuración de dependencias (Express) y scripts
+            ├── plantilla_servidor.js     # Servidor base starter para aprendices
+            ├── test_api.js               # Suite de 9 pruebas automatizadas para la API
+            └── bruno-collection/         # Colección oficial de Bruno (.bru) para Git
 ```
 
 ---
@@ -109,11 +120,12 @@ NivelacionADSO/
 
 ---
 
-## 🛡️ 6. Política de Scripts y Control de Calidad (`.gitignore`)
+## 🛡️ 6. Política Pedagógica de Recursos y Evaluación de Aula
 
-Para mantener limpio y seguro el repositorio pedagógico:
-- **Solo se suben scripts oficiales aprobados** dentro de las carpetas de recursos designadas (`semana-XX/dia-YY/recursos/*.sql`).
-- El archivo `.gitignore` bloquea automáticamente scripts temporales (`test_*.sql`, `temp.sql`, `prueba.sql`, `dump.sql`), archivos `.log`, volcados locales de bases de datos (`*.dump`, `*.sqlite`), la planeación interna (`planSesiones.md`) y archivos generados por editores o sistemas operativos.
+Para garantizar el aprendizaje significativo y erradicar la copia pasiva:
+- **Vista de los Aprendices:** En el portal web y las diapositivas de proyección solo se publican y enlazan las **plantillas starter** (`plantilla_aprendiz.sql`, `plantilla_aprendiz.js`), guiando la ejercitación activa durante el Bloque 2.
+- **Carpeta de Referencia Docente (`referencia-docente/`):** Aloja los scripts de referencia técnica del instructor por semana. El instructor valida las evidencias puesto por puesto mediante preguntas en caliente y pruebas de modificación en vivo antes de retroalimentar y compartir la referencia oficial.
+- **Filtros `.gitignore`:** Bloquea automáticamente volcados locales, scripts temporales y notas privadas del instructor.
 
 ---
 
