@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-900 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Referencia Técnica Docente · Sesión 05: Fetch API & DOM | SENA ADSO</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body class="min-h-full flex flex-col antialiased bg-slate-950 text-slate-100">
+
+  <!-- Cintillo Institucional de Referencia Docente -->
+  <header class="bg-[#00263A] border-b border-slate-800 text-white sticky top-0 z-40 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-[#39A900] flex items-center justify-center font-bold text-white text-base shadow-sm">
+          <i data-lucide="shield-check" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs uppercase tracking-wider font-extrabold text-[#39A900]">SENA CADPH Garzón</span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 font-mono border border-emerald-800">
+              REFERENCIA TÉCNICA OFICIAL
+            </span>
+          </div>
+          <h1 class="text-sm sm:text-base font-extrabold text-white tracking-tight">
+            Sesión 05: Consumo con Fetch API y Manipulación Reactiva del DOM
+          </h1>
+        </div>
+      </div>
+
+      <!-- Estado de Modo de Ejecución (Backend Real vs Mock) -->
+      <div class="flex items-center gap-2.5 text-xs font-mono">
+        <div id="indicador-modo" class="px-3 py-1 rounded-full bg-slate-900 border border-slate-700 text-slate-300 flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" id="punto-conexion"></span>
+          <span id="label-conexion">Verificando Backend Express (:3000)...</span>
+        </div>
+        <button id="btn-toggle-modo" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-[11px] font-sans font-bold transition border border-slate-700">
+          Alternar Modo Mock
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Panel de Control y Notas Pedagógicas para el Instructor -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-6 pb-2 w-full">
+    <div class="bg-gradient-to-r from-slate-900 via-slate-900 to-[#00263A] border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div class="space-y-1">
+        <div class="flex items-center gap-2">
+          <span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[11px] font-extrabold rounded-md">
+            Docente: Ing. Hector David Toledo Garcia
+          </span>
+          <span class="text-[11px] text-slate-400 font-mono">ADSO Semana 1 · Día 5</span>
+        </div>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          Esta vista es una <strong>Single Page Application (SPA) en Vanilla JS</strong> 100% funcional. Sirve como referencia maestra para calificar y proyectar. Implementa los 5 retos de aula y conmuta automáticamente entre la API de Express del Día 04 (`http://localhost:3000/api/productos`) y un simulador en memoria si el servidor local está apagado.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2 shrink-0">
+        <button id="btn-abrir-modal" class="px-4 py-2.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-xs rounded-xl shadow-md transition flex items-center gap-2">
+          <i data-lucide="plus-circle" class="w-4 h-4"></i>
+          <span>Registrar Producto (POST)</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- CONTENEDOR PRINCIPAL DE LA APLICACIÓN      -->
+  <!-- ========================================== -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex-1 w-full space-y-6">
+
+    <!-- Barra de Filtros y Búsqueda en Tiempo Real (Reto 2) -->
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+      
+      <!-- Input de Búsqueda -->
+      <div class="relative w-full sm:w-96">
+        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+        <input 
+          type="text" 
+          id="input-busqueda" 
+          placeholder="Buscar por nombre o SKU en tiempo real..." 
+          class="w-full pl-9 pr-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-xs font-medium text-slate-100 placeholder-slate-500 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:border-transparent transition"
+        >
+      </div>
+
+      <!-- Filtros por Categoría -->
+      <div class="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0" id="contenedor-filtros">
+        <button class="btn-filtro px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition bg-[#39A900] text-white shadow-sm" data-categoria="TODAS">
+          Todas
+        </button>
+        <button class="btn-filtro px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-800 hover:bg-slate-700 text-slate-300" data-categoria="HARDWARE">
+          Hardware
+        </button>
+        <button class="btn-filtro px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-800 hover:bg-slate-700 text-slate-300" data-categoria="PERIFERICOS">
+          Periféricos
+        </button>
+        <button class="btn-filtro px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-800 hover:bg-slate-700 text-slate-300" data-categoria="AUDIO">
+          Audio
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Panel del Catálogo -->
+    <div class="space-y-4">
+      <div class="flex items-center justify-between text-xs font-mono text-slate-400 px-1">
+        <span class="flex items-center gap-1.5">
+          <i data-lucide="boxes" class="w-4 h-4 text-[#39A900]"></i>
+          <span class="font-bold text-slate-200">Inventario de Productos</span>
+        </span>
+        <span id="conteo-productos" class="font-bold text-[#39A900]">Cargando...</span>
+      </div>
+
+      <!-- Estado de Carga -->
+      <div id="estado-carga" class="py-16 text-center space-y-3 bg-slate-900 border border-slate-800 rounded-2xl">
+        <div class="w-10 h-10 border-4 border-slate-700 border-t-[#39A900] rounded-full animate-spin mx-auto"></div>
+        <p class="text-xs font-bold text-slate-300">Consultando API REST con <code class="font-mono text-[#39A900]">fetch()</code>...</p>
+      </div>
+
+      <!-- Estado Vacío -->
+      <div id="estado-vacio" class="hidden py-16 text-center space-y-3 bg-slate-900 border border-slate-800 rounded-2xl">
+        <div class="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center mx-auto text-slate-400">
+          <i data-lucide="package-search" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-sm font-bold text-slate-200">No se encontraron productos</h3>
+        <p class="text-xs text-slate-500 max-w-sm mx-auto">
+          No hay elementos que coincidan con el filtro actual.
+        </p>
+      </div>
+
+      <!-- Grid de Tarjetas de Productos -->
+      <div id="grid-productos" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Renderizado dinámico -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- MODAL DE NUEVO PRODUCTO (POST)             -->
+  <!-- ========================================== -->
+  <div id="modal-producto" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-150 text-slate-100">
+      
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-emerald-950 text-[#39A900] border border-emerald-800 flex items-center justify-center font-bold">
+            <i data-lucide="package-plus" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-extrabold text-white">Registrar Producto (POST)</h3>
+            <span class="text-[10px] text-slate-400">Reto 3 · Validación y Headers JSON</span>
+          </div>
+        </div>
+        <button id="btn-cerrar-modal" class="text-slate-400 hover:text-white transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="form-producto" class="space-y-4">
+        
+        <div class="space-y-1">
+          <label class="block text-xs font-bold text-slate-300" for="input-nombre">Nombre del Producto *</label>
+          <input 
+            type="text" 
+            id="input-nombre" 
+            name="nombre" 
+            required 
+            placeholder="Ej: Teclado Mecánico RGB" 
+            class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white focus:outline-hidden focus:ring-2 focus:ring-[#39A900] transition"
+          >
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-slate-300" for="input-sku">Código SKU *</label>
+            <input 
+              type="text" 
+              id="input-sku" 
+              name="sku" 
+              required 
+              placeholder="TEC-001" 
+              class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs font-mono uppercase text-white focus:outline-hidden focus:ring-2 focus:ring-[#39A900] transition"
+            >
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-slate-300" for="select-categoria">Categoría *</label>
+            <select 
+              id="select-categoria" 
+              name="categoria" 
+              required 
+              class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white focus:outline-hidden focus:ring-2 focus:ring-[#39A900] transition"
+            >
+              <option value="">Seleccione...</option>
+              <option value="HARDWARE">Hardware</option>
+              <option value="PERIFERICOS">Periféricos</option>
+              <option value="AUDIO">Audio</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-slate-300" for="input-precio">Precio (COP) *</label>
+            <input 
+              type="number" 
+              id="input-precio" 
+              name="precio" 
+              min="1" 
+              required 
+              placeholder="150000" 
+              class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white focus:outline-hidden focus:ring-2 focus:ring-[#39A900] transition"
+            >
+          </div>
+
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-slate-300" for="input-stock">Stock Inicial *</label>
+            <input 
+              type="number" 
+              id="input-stock" 
+              name="stock" 
+              min="0" 
+              required 
+              placeholder="10" 
+              class="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-xs text-white focus:outline-hidden focus:ring-2 focus:ring-[#39A900] transition"
+            >
+          </div>
+        </div>
+
+        <div class="pt-3 flex items-center justify-end gap-2 border-t border-slate-800">
+          <button type="button" id="btn-cancelar-modal" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-xl transition">
+            Cancelar
+          </button>
+          <button type="submit" id="btn-guardar-producto" class="px-5 py-2 bg-[#39A900] hover:bg-[#2D8200] text-white font-bold text-xs rounded-xl shadow-sm transition flex items-center gap-1.5">
+            <i data-lucide="send" class="w-3.5 h-3.5"></i>
+            <span>Enviar a la API</span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- Contenedor Toasts -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- ========================================== -->
+  <!-- LÓGICA DE REFERENCIA TÉCNICA (JAVASCRIPT)  -->
+  <!-- ========================================== -->
+  <script>
+    const API_URL = 'http://localhost:3000/api/productos';
+
+    // Base de datos simulada en memoria (Mock Store de Respaldo)
+    let mockDB = [
+      { id: 1, nombre: 'Monitor Gamer 27" QHD 165Hz', sku: 'MON-001', categoria: 'HARDWARE', precio: 1250000, stock: 15 },
+      { id: 2, nombre: 'Teclado Mecánico Switch Blue RGB', sku: 'TEC-001', categoria: 'PERIFERICOS', precio: 220000, stock: 24 },
+      { id: 3, nombre: 'Mouse Inalámbrico Ergonómico 16000 DPI', sku: 'MOU-001', categoria: 'PERIFERICOS', precio: 180000, stock: 4 },
+      { id: 4, nombre: 'Diadema Gamer 7.1 con Cancelación de Ruido', sku: 'AUD-001', categoria: 'AUDIO', precio: 310000, stock: 8 },
+      { id: 5, nombre: 'Procesador Ryzen 7 7800X3D 8-Core', sku: 'CPU-001', categoria: 'HARDWARE', precio: 1950000, stock: 6 },
+      { id: 6, nombre: 'Micrófono de Condensador USB con Brazo', sku: 'MIC-001', categoria: 'AUDIO', precio: 260000, stock: 0 }
+    ];
+
+    let estado = {
+      usarMock: false,
+      productos: [],
+      categoriaActiva: 'TODAS',
+      busqueda: ''
+    };
+
+    // Formateador de moneda en Pesos Colombianos
+    const formateadorCOP = new Intl.NumberFormat('es-CO', {
+      style: 'currency',
+      currency: 'COP',
+      maximumFractionDigits: 0
+    });
+
+    // Elementos del DOM
+    const gridProductos = document.getElementById('grid-productos');
+    const estadoCarga = document.getElementById('estado-carga');
+    const estadoVacio = document.getElementById('estado-vacio');
+    const conteoProductos = document.getElementById('conteo-productos');
+    const inputBusqueda = document.getElementById('input-busqueda');
+    const contenedorFiltros = document.getElementById('contenedor-filtros');
+    const modalProducto = document.getElementById('modal-producto');
+    const formProducto = document.getElementById('form-producto');
+    const btnAbrirModal = document.getElementById('btn-abrir-modal');
+    const btnCerrarModal = document.getElementById('btn-cerrar-modal');
+    const btnCancelarModal = document.getElementById('btn-cancelar-modal');
+    const btnToggleModo = document.getElementById('btn-toggle-modo');
+    const indicadorModo = document.getElementById('indicador-modo');
+    const puntoConexion = document.getElementById('punto-conexion');
+    const labelConexion = document.getElementById('label-conexion');
+    const toastContainer = document.getElementById('toast-container');
+
+    // ========================================================================
+    // RETO 1: Consumo con Fetch API & Renderizado de Tarjetas
+    // ========================================================================
+    async function cargarProductos() {
+      estadoCarga.classList.remove('hidden');
+      gridProductos.classList.add('hidden');
+      estadoVacio.classList.add('hidden');
+
+      if (estado.usarMock) {
+        // Modo simulado para demostración en clase sin backend
+        await new Promise(r => setTimeout(r, 400));
+        estado.productos = [...mockDB];
+        actualizarUIConexion(true, 'Simulador Mock Activo (Demostración)');
+        estadoCarga.classList.add('hidden');
+        aplicarFiltros();
+        return;
+      }
+
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2500);
+
+        const res = await fetch(API_URL, { signal: controller.signal });
+        clearTimeout(timeoutId);
+
+        if (!res.ok) {
+          throw new Error(`HTTP Error ${res.status}: ${res.statusText}`);
+        }
+
+        const data = await res.json();
+        estado.productos = data.datos || data;
+        actualizarUIConexion(true, 'Backend Express Activo (:3000)');
+
+      } catch (err) {
+        console.warn('⚠️ No se pudo conectar a Express en :3000. Conmutando a Mock Store:', err.message);
+        estado.usarMock = true;
+        estado.productos = [...mockDB];
+        actualizarUIConexion(false, 'Express Apagado -> Modo Mock Automático');
+        mostrarToast('Express no responde en :3000. Activando Mock Store para demostración.', 'info');
+      } finally {
+        estadoCarga.classList.add('hidden');
+        aplicarFiltros();
+      }
+    }
+
+    function renderizarGrid(lista) {
+      gridProductos.innerHTML = '';
+
+      if (lista.length === 0) {
+        estadoVacio.classList.remove('hidden');
+        gridProductos.classList.add('hidden');
+        return;
+      }
+
+      estadoVacio.classList.add('hidden');
+      gridProductos.classList.remove('hidden');
+
+      lista.forEach(prod => {
+        const tarjeta = document.createElement('div');
+        tarjeta.className = 'bg-slate-900 border border-slate-800 hover:border-[#39A900] rounded-2xl p-5 shadow-sm transition hover:shadow-md flex flex-col justify-between space-y-4 group';
+
+        // Badge de Stock y Categoría
+        let badgeStockClass = 'bg-emerald-950 text-emerald-400 border-emerald-800';
+        let textoStock = `${prod.stock} en stock`;
+        if (prod.stock === 0) {
+          badgeStockClass = 'bg-rose-950 text-rose-400 border-rose-800';
+          textoStock = 'Agotado';
+        } else if (prod.stock <= 5) {
+          badgeStockClass = 'bg-amber-950 text-amber-400 border-amber-800';
+          textoStock = `Últimas ${prod.stock} u.`;
+        }
+
+        tarjeta.innerHTML = `
+          <div class="space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700">
+                ${prod.sku}
+              </span>
+              <span class="px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-blue-950 text-blue-300 border border-blue-800">
+                ${prod.categoria}
+              </span>
+            </div>
+
+            <h3 class="text-sm font-extrabold text-white group-hover:text-[#39A900] transition line-clamp-2">
+              ${prod.nombre}
+            </h3>
+
+            <p class="text-lg font-black font-mono text-emerald-400">
+              ${formateadorCOP.format(prod.precio)}
+            </p>
+          </div>
+
+          <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-3">
+            <span class="px-2.5 py-1 rounded-full text-xs font-mono font-bold border ${badgeStockClass}">
+              ${textoStock}
+            </span>
+
+            <!-- Control de Stock en Caliente (Reto 4: PATCH) -->
+            <div class="flex items-center gap-1">
+              <button onclick="cambiarStock(${prod.id}, ${prod.stock - 1})" class="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-bold transition disabled:opacity-30" ${prod.stock <= 0 ? 'disabled' : ''} title="Restar stock (-1)">
+                <i data-lucide="minus" class="w-3.5 h-3.5"></i>
+              </button>
+              <button onclick="cambiarStock(${prod.id}, ${prod.stock + 1})" class="p-1.5 bg-slate-800 hover:bg-[#39A900] hover:text-white text-slate-300 rounded-lg text-xs font-bold transition" title="Incrementar stock (+1)">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          </div>
+        `;
+
+        gridProductos.appendChild(tarjeta);
+      });
+
+      lucide.createIcons();
+    }
+
+    // ========================================================================
+    // RETO 2: Filtros Combinados y Búsqueda en Tiempo Real
+    // ========================================================================
+    function aplicarFiltros() {
+      const filtrados = estado.productos.filter(p => {
+        const coincideCat = estado.categoriaActiva === 'TODAS' || p.categoria === estado.categoriaActiva;
+        const texto = `${p.nombre} ${p.sku}`.toLowerCase();
+        const coincideBusqueda = texto.includes(estado.busqueda);
+        return coincideCat && coincideBusqueda;
+      });
+
+      conteoProductos.textContent = `${filtrados.length} de ${estado.productos.length} productos`;
+      renderizarGrid(filtrados);
+    }
+
+    // ========================================================================
+    // RETO 3: Creación de Producto (POST con Headers y JSON.stringify)
+    // ========================================================================
+    async function guardarProducto(e) {
+      e.preventDefault();
+
+      const formData = new FormData(formProducto);
+      const nuevo = {
+        nombre: formData.get('nombre').trim(),
+        sku: formData.get('sku').trim().toUpperCase(),
+        categoria: formData.get('categoria'),
+        precio: Number(formData.get('precio')),
+        stock: Number(formData.get('stock'))
+      };
+
+      if (!nuevo.nombre || !nuevo.sku || !nuevo.categoria || nuevo.precio <= 0) {
+        mostrarToast('Por favor completa todos los campos con valores válidos.', 'error');
+        return;
+      }
+
+      if (estado.usarMock) {
+        // Creación en Mock Store
+        const skuExiste = mockDB.some(p => p.sku === nuevo.sku);
+        if (skuExiste) {
+          mostrarToast(`Error: El SKU "${nuevo.sku}" ya está registrado en el inventario.`, 'error');
+          return;
+        }
+        const creado = { id: Date.now(), ...nuevo };
+        mockDB.unshift(creado);
+        estado.productos = [...mockDB];
+        cerrarModal();
+        aplicarFiltros();
+        mostrarToast(`Producto "${creado.nombre}" registrado exitosamente (Mock 201).`, 'exito');
+        return;
+      }
+
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(nuevo)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || `HTTP ${res.status}: Error al registrar`);
+        }
+
+        cerrarModal();
+        mostrarToast(`Producto registrado exitosamente en Express (201 Created).`, 'exito');
+        cargarProductos();
+
+      } catch (err) {
+        mostrarToast(err.message, 'error');
+      }
+    }
+
+    // ========================================================================
+    // RETO 4: Actualización en Caliente de Stock con PATCH
+    // ========================================================================
+    async function cambiarStock(id, nuevoStock) {
+      if (nuevoStock < 0) return;
+
+      if (estado.usarMock) {
+        const item = mockDB.find(p => p.id === id);
+        if (item) {
+          item.stock = nuevoStock;
+          estado.productos = [...mockDB];
+          aplicarFiltros();
+          mostrarToast(`Stock actualizado a ${nuevoStock} unidades (Mock).`, 'info');
+        }
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_URL}/${id}/stock`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ stock: nuevoStock })
+        });
+
+        if (!res.ok) {
+          const errData = await res.json();
+          throw new Error(errData.error || 'No se pudo actualizar el stock');
+        }
+
+        // Actualización local rápida
+        const prod = estado.productos.find(p => p.id === id);
+        if (prod) prod.stock = nuevoStock;
+        aplicarFiltros();
+        mostrarToast(`Stock actualizado en API REST (200 OK).`, 'exito');
+
+      } catch (err) {
+        mostrarToast(`Fallo al actualizar stock: ${err.message}`, 'error');
+      }
+    }
+
+    // ========================================================================
+    // RETO 5 (PRO): Sistema de Feedback Visual (Toast Notifications)
+    // ========================================================================
+    function mostrarToast(mensaje, tipo = 'info') {
+      const toast = document.createElement('div');
+      
+      let borderClass = 'border-blue-500/40 bg-blue-950/90 text-blue-200';
+      let icon = 'info';
+      if (tipo === 'exito') {
+        borderClass = 'border-emerald-500/40 bg-emerald-950/90 text-emerald-200';
+        icon = 'check-circle-2';
+      } else if (tipo === 'error') {
+        borderClass = 'border-rose-500/40 bg-rose-950/90 text-rose-200';
+        icon = 'alert-triangle';
+      }
+
+      toast.className = `p-3.5 rounded-xl border ${borderClass} shadow-xl backdrop-blur-md flex items-center gap-3 text-xs font-medium max-w-sm pointer-events-auto transition duration-300 transform translate-y-2 opacity-0`;
+      toast.innerHTML = `
+        <i data-lucide="${icon}" class="w-4 h-4 shrink-0"></i>
+        <span class="flex-1">${mensaje}</span>
+      `;
+
+      toastContainer.appendChild(toast);
+      lucide.createIcons();
+
+      // Animación de entrada
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      });
+
+      // Remoción automática tras 3.5 segundos
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    function actualizarUIConexion(conectado, texto) {
+      labelConexion.textContent = texto;
+      if (conectado) {
+        puntoConexion.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400';
+      } else {
+        puntoConexion.className = 'w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse';
+      }
+    }
+
+    function abrirModal() {
+      modalProducto.classList.remove('hidden');
+      document.getElementById('input-nombre').focus();
+    }
+
+    function cerrarModal() {
+      modalProducto.classList.add('hidden');
+      formProducto.reset();
+    }
+
+    // ========================================================================
+    // EVENT LISTENERS
+    // ========================================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      cargarProductos();
+
+      btnAbrirModal.addEventListener('click', abrirModal);
+      btnCerrarModal.addEventListener('click', cerrarModal);
+      btnCancelarModal.addEventListener('click', cerrarModal);
+      formProducto.addEventListener('submit', guardarProducto);
+
+      inputBusqueda.addEventListener('input', (e) => {
+        estado.busqueda = e.target.value.trim().toLowerCase();
+        aplicarFiltros();
+      });
+
+      contenedorFiltros.addEventListener('click', (e) => {
+        const btn = e.target.closest('.btn-filtro');
+        if (!btn) return;
+
+        document.querySelectorAll('.btn-filtro').forEach(b => {
+          b.className = 'btn-filtro px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-slate-800 hover:bg-slate-700 text-slate-300';
+        });
+        btn.className = 'btn-filtro px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition bg-[#39A900] text-white shadow-sm';
+
+        estado.categoriaActiva = btn.dataset.categoria;
+        aplicarFiltros();
+      });
+
+      btnToggleModo.addEventListener('click', () => {
+        estado.usarMock = !estado.usarMock;
+        mostrarToast(`Modo cambiado a: ${estado.usarMock ? 'Simulador Mock Local' : 'API REST Express'}`, 'info');
+        cargarProductos();
+      });
+    });
+  </script>
+</body>
+</html>

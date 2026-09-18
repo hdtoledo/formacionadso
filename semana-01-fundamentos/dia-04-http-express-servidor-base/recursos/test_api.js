@@ -123,6 +123,16 @@ async function runTests() {
     if (res.status !== 404) throw new Error(`Status esperado 404, recibido ${res.status}`);
   });
 
+  // Test 10 [BONUS LIVE MOD]: Eliminar Producto (DELETE /api/productos/5)
+  try {
+    const resDel = await fetch(`${BASE_URL}/api/productos/5`, { method: "DELETE" });
+    if (resDel.status === 200 || resDel.status === 204) {
+      console.log("🌟 [BONUS LIVE MOD PASSED] Endpoint DELETE /api/productos/:id implementado correctamente.");
+    }
+  } catch {
+    // Bonus opcional
+  }
+
   console.log("\n=================================================================");
   console.log(`📊 RESULTADOS: ${passed} Pasadas | ${failed} Fallidas`);
   if (failed === 0) {

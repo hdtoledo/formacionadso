@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taller de Aula · Sesión 05: Catálogo Interactivo con Fetch API | SENA ADSO</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body class="min-h-full flex flex-col text-slate-800 antialiased bg-slate-50">
+
+  <!-- ========================================== -->
+  <!-- 1. CINTILLO INSTITUCIONAL SENA             -->
+  <!-- ========================================== -->
+  <header class="bg-[#00324D] text-white border-b-4 border-[#39A900] shadow-md sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-[#39A900] flex items-center justify-center font-bold text-white text-base shadow-xs">
+          S
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs uppercase tracking-wider font-extrabold text-[#39A900]">SENA CADPH Garzón</span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">ADSO 2026</span>
+          </div>
+          <h1 class="text-sm sm:text-base font-bold text-white tracking-tight">
+            Sesión 05: Catálogo Dinámico con Fetch API y Manipulación del DOM
+          </h1>
+        </div>
+      </div>
+
+      <!-- Estado de conexión con el Backend de Express -->
+      <div class="flex items-center gap-2">
+        <div id="badge-conexion" class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-1.5 shadow-2xs">
+          <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          <span id="texto-conexion">Comprobando API (:3000)...</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================== -->
+  <!-- 2. CONTENEDOR PRINCIPAL                    -->
+  <!-- ========================================== -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full space-y-6">
+
+    <!-- Tarjeta de Instrucciones del Taller -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div class="space-y-1">
+        <div class="flex items-center gap-2">
+          <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-md">Taller Práctico Asistido</span>
+          <span class="text-xs text-slate-500 font-mono">Retos 1 al 5 en app.js</span>
+        </div>
+        <h2 class="text-base font-extrabold text-slate-900">
+          Objetivo: Construir la capa cliente interactiva consumiendo la API de Express (Día 04)
+        </h2>
+        <p class="text-xs text-slate-600">
+          Usa <code class="text-[#00324D] font-bold">fetch()</code>, valida respuestas con <code class="text-[#39A900] font-bold">res.ok</code>, captura formularios con <code class="text-blue-700 font-bold">e.preventDefault()</code> y actualiza el DOM en tiempo real.
+        </p>
+      </div>
+
+      <!-- Botón para Abrir Modal de Registro (Reto 3) -->
+      <button id="btn-abrir-modal" class="px-4 py-2.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center gap-2 shrink-0">
+        <i data-lucide="plus-circle" class="w-4 h-4"></i>
+        <span>Registrar Producto</span>
+      </button>
+    </div>
+
+    <!-- Barra de Controles: Búsqueda y Filtros por Categoría (Reto 2) -->
+    <section class="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+      
+      <!-- Input de Búsqueda por Texto -->
+      <div class="relative w-full sm:w-96">
+        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+        <input 
+          type="text" 
+          id="input-busqueda" 
+          placeholder="Buscar producto por nombre o SKU (Reto 2)..." 
+          class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
+        >
+      </div>
+
+      <!-- Pills de Filtro por Categoría -->
+      <div class="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0" id="contenedor-filtros">
+        <button class="btn-filtro px-3 py-1.5 rounded-lg text-xs font-bold transition bg-[#00324D] text-white" data-categoria="TODAS">
+          Todas
+        </button>
+        <button class="btn-filtro px-3 py-1.5 rounded-lg text-xs font-bold transition bg-slate-100 hover:bg-slate-200 text-slate-700" data-categoria="HARDWARE">
+          Hardware
+        </button>
+        <button class="btn-filtro px-3 py-1.5 rounded-lg text-xs font-bold transition bg-slate-100 hover:bg-slate-200 text-slate-700" data-categoria="PERIFERICOS">
+          Periféricos
+        </button>
+        <button class="btn-filtro px-3 py-1.5 rounded-lg text-xs font-bold transition bg-slate-100 hover:bg-slate-200 text-slate-700" data-categoria="AUDIO">
+          Audio
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 3. CONTENEDOR DE CATÁLOGO / ESTADOS        -->
+    <!-- ========================================== -->
+    <section class="space-y-4">
+      <div class="flex items-center justify-between text-xs font-bold text-slate-500 px-1">
+        <span>Catálogo de Productos en Inventario:</span>
+        <span id="conteo-productos" class="font-mono text-[#00324D]">Cargando items...</span>
+      </div>
+
+      <!-- Spinner de Carga Inicial (Reto 1) -->
+      <div id="estado-carga" class="py-16 text-center space-y-3 bg-white border border-slate-200 rounded-2xl shadow-xs">
+        <div class="w-10 h-10 border-4 border-slate-200 border-t-[#39A900] rounded-full animate-spin mx-auto"></div>
+        <p class="text-xs font-bold text-slate-700">Consultando API REST con <code class="font-mono">fetch('/api/productos')</code>...</p>
+        <p class="text-[11px] text-slate-500">Asegúrate de tener encendido tu servidor del Día 04 en <code class="font-mono text-[#00324D]">http://localhost:3000</code></p>
+      </div>
+
+      <!-- Estado Vacío (Empty State) -->
+      <div id="estado-vacio" class="hidden py-16 text-center space-y-3 bg-white border border-slate-200 rounded-2xl shadow-xs">
+        <div class="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center mx-auto text-slate-400">
+          <i data-lucide="package-search" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-sm font-bold text-slate-800">No se encontraron productos</h3>
+        <p class="text-xs text-slate-500 max-w-sm mx-auto">
+          No hay elementos que coincidan con el criterio de búsqueda o la categoría seleccionada.
+        </p>
+      </div>
+
+      <!-- Estado de Error de Red / API (Reto 5) -->
+      <div id="estado-error" class="hidden p-6 bg-rose-50 border border-rose-200 rounded-2xl text-center space-y-3 shadow-xs">
+        <div class="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center mx-auto text-rose-600">
+          <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-sm font-bold text-rose-900" id="titulo-error">Error al conectar con la API REST</h3>
+        <p class="text-xs text-rose-700 max-w-md mx-auto" id="mensaje-error">
+          No pudimos obtener respuesta del servidor en <code class="font-mono">http://localhost:3000</code>.
+        </p>
+        <button id="btn-reintentar" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl shadow-xs transition inline-flex items-center gap-2">
+          <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
+          <span>Reintentar Conexión</span>
+        </button>
+      </div>
+
+      <!-- Grid de Tarjetas de Productos (Reto 1 & Manipulación del DOM) -->
+      <div id="grid-productos" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Las tarjetas se inyectan dinámicamente con JavaScript -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- 4. MODAL: REGISTRAR PRODUCTO (Reto 3)      -->
+  <!-- ========================================== -->
+  <div id="modal-producto" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+    <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-150">
+      
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-lg bg-emerald-100 text-[#39A900] flex items-center justify-center font-bold">
+            <i data-lucide="package-plus" class="w-4 h-4"></i>
+          </div>
+          <h3 class="text-sm font-extrabold text-slate-900">Nuevo Producto (Reto 3)</h3>
+        </div>
+        <button id="btn-cerrar-modal" class="text-slate-400 hover:text-slate-700 transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Formulario Controlado con e.preventDefault() -->
+      <form id="form-producto" class="space-y-4">
+        
+        <!-- Nombre -->
+        <div class="space-y-1">
+          <label class="block text-xs font-bold text-slate-700" for="input-nombre">Nombre del Producto *</label>
+          <input 
+            type="text" 
+            id="input-nombre" 
+            name="nombre" 
+            required 
+            placeholder="Ej: Teclado Mecánico RGB" 
+            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
+          >
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <!-- SKU -->
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-slate-700" for="input-sku">Código SKU *</label>
+            <input 
+              type="text" 
+              id="input-sku" 
+              name="sku" 
+              required 
+              placeholder="TEC-001" 
+              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono uppercase text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
+            >
+          </div>
+
+          <!-- Categoría -->
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-slate-700" for="select-categoria">Categoría *</label>
+            <select 
+              id="select-categoria" 
+              name="categoria" 
+              required 
+              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
+            >
+              <option value="">Seleccione...</option>
+              <option value="HARDWARE">Hardware</option>
+              <option value="PERIFERICOS">Periféricos</option>
+              <option value="AUDIO">Audio</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <!-- Precio -->
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-slate-700" for="input-precio">Precio (COP) *</label>
+            <input 
+              type="number" 
+              id="input-precio" 
+              name="precio" 
+              min="1" 
+              required 
+              placeholder="150000" 
+              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
+            >
+          </div>
+
+          <!-- Stock Inicial -->
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-slate-700" for="input-stock">Stock Inicial *</label>
+            <input 
+              type="number" 
+              id="input-stock" 
+              name="stock" 
+              min="0" 
+              required 
+              placeholder="10" 
+              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
+            >
+          </div>
+        </div>
+
+        <!-- Botones de Acción -->
+        <div class="pt-3 flex items-center justify-end gap-2 border-t border-slate-100">
+          <button type="button" id="btn-cancelar-modal" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition">
+            Cancelar
+          </button>
+          <button type="submit" id="btn-guardar-producto" class="px-5 py-2 bg-[#39A900] hover:bg-[#2D8200] text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center gap-1.5">
+            <i data-lucide="save" class="w-3.5 h-3.5"></i>
+            <span>Guardar en API</span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 5. NOTIFICACIONES TOAST (Reto 5 UI)        -->
+  <!-- ========================================== -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none">
+    <!-- Los toasts se crean y destruyen dinámicamente -->
+  </div>
+
+  <!-- Script del Taller (Código que deben resolver los aprendices) -->
+  <script src="app.js"></script>
+  <script>
+    // Inicializar iconos lucide al cargar maqueta
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>

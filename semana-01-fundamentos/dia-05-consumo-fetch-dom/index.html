@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sesión 05: Consumo con Fetch API y Manipulación del DOM | SENA ADSO</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- PrismJS Syntax Highlighting (Tema Twilight / Tomorrow Night) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    pre, code, .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .slide-content {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.25s ease-in-out;
+    }
+    .slide-content.active {
+      display: flex;
+      opacity: 1;
+    }
+    /* Estilo del Drawer */
+    #slide-drawer {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #slide-drawer.open {
+      transform: translateX(0);
+    }
+    /* Scrollbar personalizada */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+  </style>
+</head>
+<body class="h-full flex flex-col bg-slate-950 text-slate-100 overflow-hidden select-none">
+
+  <!-- ========================================================================= -->
+  <!-- 1. CINTILLO INSTITUCIONAL SENA (ALTO CONTRASTE)                           -->
+  <!-- ========================================================================= -->
+  <div class="bg-[#00324D] border-b-2 border-[#39A900] text-white px-4 py-1.5 flex items-center justify-between text-xs shrink-0 z-20">
+    <div class="flex items-center space-x-3">
+      <img src="../../assets/logo_green.png" alt="SENA" class="h-5 w-auto">
+      <span class="font-extrabold tracking-wider text-[#39A900] uppercase text-[11px]">SENA · Regional Huila</span>
+      <span class="text-slate-400">|</span>
+      <span class="text-slate-200 font-medium truncate">Centro Agroempresarial y Desarrollo Pecuario del Huila (CADPH Garzón)</span>
+    </div>
+    <div class="flex items-center space-x-4 text-[11px] font-mono text-slate-300">
+      <span class="hidden sm:inline">Tecnólogo en Análisis y Desarrollo de Software (ADSO)</span>
+      <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-[#39A900] font-bold border border-emerald-500/30">Ficha 2026</span>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 2. HEADER DE CONTROL Y PRESENTADOR EN AULA                               -->
+  <!-- ========================================================================= -->
+  <header class="bg-slate-900/95 border-b border-slate-800 px-4 py-2.5 flex items-center justify-between text-xs shrink-0 z-20 backdrop-blur-md">
+    
+    <!-- Info de Sesión & Fecha Dinámica -->
+    <div class="flex items-center space-x-3">
+      <a href="../../index.html" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition flex items-center gap-1.5" title="Volver al Portal Principal">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        <span class="font-bold text-[11px] hidden md:inline">Portal</span>
+      </a>
+
+      <div class="h-5 w-px bg-slate-800"></div>
+
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="px-2 py-0.5 rounded font-mono font-extrabold text-[10px] bg-purple-500/20 text-purple-400 border border-purple-500/30">
+            SEMANA 1 · DÍA 5
+          </span>
+          <span class="font-bold text-white text-xs sm:text-sm tracking-tight">
+            Frontend II: Fetch API & Manipulación del DOM
+          </span>
+        </div>
+        <div class="text-[11px] text-slate-400 flex items-center gap-2">
+          <span>Instructor: <strong class="text-slate-200">Ing. Hector David Toledo Garcia</strong></span>
+          <span>•</span>
+          <span id="fecha-sesion" class="text-emerald-400 font-mono"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controles de Navegación, Temporizador y Utilidades -->
+    <div class="flex items-center space-x-3">
+      
+      <!-- Temporizador de Bloque Formativo -->
+      <div class="flex items-center bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-1 text-slate-300 shadow-inner">
+        <i data-lucide="timer" class="w-3.5 h-3.5 text-[#39A900] mr-1.5"></i>
+        <span id="timer-display" class="font-mono font-bold text-sm text-white tracking-widest">110:00</span>
+        <div class="flex items-center ml-2 space-x-1 border-l border-slate-800 pl-1.5">
+          <button id="timer-toggle-btn" class="p-1 hover:text-[#39A900] text-slate-400 transition" title="Iniciar / Pausar (T)">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i>
+          </button>
+          <button id="timer-reset-btn" class="p-1 hover:text-rose-400 text-slate-400 transition" title="Reiniciar (R)">
+            <i data-lucide="rotate-ccw" class="w-3 h-3"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Menú Drawer de Diapositivas (M) -->
+      <button id="btn-drawer" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-mono text-xs font-bold transition flex items-center gap-1.5 border border-slate-700" title="Índice de Diapositivas (M)">
+        <i data-lucide="menu" class="w-3.5 h-3.5"></i>
+        <span id="slide-indicator" class="text-white">01 / 15</span>
+      </button>
+
+      <!-- Botones Anterior / Siguiente -->
+      <div class="flex items-center space-x-1">
+        <button id="btn-prev" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition disabled:opacity-30 disabled:pointer-events-none" title="Anterior (←)">
+          <i data-lucide="chevron-left" class="w-4 h-4"></i>
+        </button>
+        <button id="btn-next" class="p-2 rounded-lg bg-[#39A900] hover:bg-[#2D8200] text-white font-bold transition shadow-sm" title="Siguiente (→ / Espacio)">
+          <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Ayuda y Pantalla Completa -->
+      <div class="hidden sm:flex items-center space-x-1 pl-1 border-l border-slate-800">
+        <button id="btn-help" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition" title="Atajos de teclado (?)">
+          <i data-lucide="help-circle" class="w-4 h-4"></i>
+        </button>
+        <button id="btn-fullscreen" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition" title="Pantalla Completa (F)">
+          <i data-lucide="maximize" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+    </div>
+
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- 3. ÁREA DE PROYECCIÓN DE DIAPOSITIVAS (16:9 WIDESCREEN)                   -->
+  <!-- ========================================================================= -->
+  <main class="flex-1 relative overflow-hidden flex items-center justify-center p-4 sm:p-8 bg-[#0b0f19]">
+    
+    <!-- SLIDE 1: PORTADA INSTITUCIONAL -->
+    <section class="slide-content active w-full max-w-6xl h-full flex-col justify-between" data-slide="1">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div class="flex items-center space-x-3">
+          <span class="px-3 py-1 bg-purple-500/20 text-purple-300 font-mono font-bold text-xs rounded-full border border-purple-500/30">
+            FRONTEND II · CONSUMO DE APIS
+          </span>
+          <span class="text-xs text-slate-400 font-mono">SEMANA 1 · DÍA 05 · NIVELACIÓN INTENSIVA</span>
+        </div>
+        <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 font-mono text-xs rounded-md border border-emerald-500/20">
+          Cierre de Semana 1 (Fundamentos Completos)
+        </span>
+      </div>
+
+      <div class="my-auto space-y-6 max-w-4xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/60 border border-emerald-800/80 text-emerald-400 text-xs font-mono font-bold">
+          <i data-lucide="network" class="w-3.5 h-3.5"></i>
+          <span>Cliente Asíncrono ↔ Servidor Express</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-tight">
+          Consumo con <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#39A900] to-emerald-400">Fetch API</span> y Manipulación Reactiva del <span class="text-purple-400">DOM</span>
+        </h1>
+
+        <p class="text-base sm:text-xl text-slate-300 leading-relaxed font-normal">
+          Aprende a transformar interfaces estáticas en <strong>Single Page Applications (SPA) dinámicas</strong>. Dominaremos la función nativa <code class="text-emerald-400 font-mono font-bold">fetch()</code>, el control riguroso de <code class="text-purple-400 font-mono font-bold">res.ok</code>, la captura moderna de formularios con <code class="text-amber-400 font-mono font-bold">FormData</code>, y la actualización quirúrgica del DOM sin recargar la página.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+          <div class="p-4 bg-slate-900/80 border border-slate-800 rounded-2xl">
+            <span class="text-xs font-bold text-[#39A900] uppercase block mb-1">1. Ciclo de Red</span>
+            <span class="text-xs text-slate-400">Peticiones asíncronas, headers application/json y parsing con <code class="font-mono">res.json()</code>.</span>
+          </div>
+          <div class="p-4 bg-slate-900/80 border border-slate-800 rounded-2xl">
+            <span class="text-xs font-bold text-purple-400 uppercase block mb-1">2. Manejo Defensivo</span>
+            <span class="text-xs text-slate-400">¿Por qué fetch NO rechaza promesas en 404 o 500? Verificación de <code class="font-mono">res.ok</code>.</span>
+          </div>
+          <div class="p-4 bg-slate-900/80 border border-slate-800 rounded-2xl">
+            <span class="text-xs font-bold text-amber-400 uppercase block mb-1">3. Renderizado y UI</span>
+            <span class="text-xs text-slate-400">Template Literals, prevención de recarga con <code class="font-mono">e.preventDefault()</code> y toasts.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between border-t border-slate-800 pt-4 text-xs text-slate-500 font-mono">
+        <span>Presiona <kbd class="px-2 py-0.5 bg-slate-800 rounded text-slate-300 border border-slate-700">Espacio</kbd> o <kbd class="px-2 py-0.5 bg-slate-800 rounded text-slate-300 border border-slate-700">→</kbd> para comenzar</span>
+        <span>SENA CADPH Garzón · Tecnólogo ADSO</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: METODOLOGÍA FORMATIVA EN 3 BLOQUES -->
+    <section class="slide-content w-full max-w-6xl h-full flex-col justify-between" data-slide="2">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <span class="font-mono text-xs text-purple-400 font-bold uppercase">Metodología Pedagógica</span>
+        <span class="text-xs text-slate-400">Estructura diaria obligatoria de 4 horas</span>
+      </div>
+
+      <div class="my-auto space-y-6">
+        <div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+            Metodología de Aula en 3 Bloques Diarios
+          </h2>
+          <p class="text-sm text-slate-400 mt-1">
+            Garantiza la asimilación profunda de conceptos y erradica la dependencia pasiva de herramientas de IA.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="p-6 bg-slate-900/90 border-2 border-emerald-500/40 rounded-2xl space-y-3 relative overflow-hidden">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 bg-emerald-500/20 text-[#39A900] font-mono text-xs font-black rounded">BLOQUE 1</span>
+              <span class="font-mono text-xs text-slate-400 font-bold">110 Min</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">Teoría & Live Coding</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Explicación de la Fetch API, control de promesas, encabezados HTTP, captura de eventos de formulario y manipulación del DOM escrita línea a línea por el instructor.
+            </p>
+          </div>
+
+          <div class="p-6 bg-slate-900/90 border-2 border-blue-500/40 rounded-2xl space-y-3 relative overflow-hidden">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 bg-blue-500/20 text-blue-400 font-mono text-xs font-black rounded">BLOQUE 2</span>
+              <span class="font-mono text-xs text-slate-400 font-bold">70 Min</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">Taller Práctico Asistido</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              5 Retos progresivos en <code class="font-mono text-blue-300">app.js</code>: consulta GET, barra de búsqueda en tiempo real, modal con POST, actualización de stock con PATCH y feedback de error.
+            </p>
+          </div>
+
+          <div class="p-6 bg-slate-900/90 border-2 border-purple-500/40 rounded-2xl space-y-3 relative overflow-hidden">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 bg-purple-500/20 text-purple-400 font-mono text-xs font-black rounded">BLOQUE 3</span>
+              <span class="font-mono text-xs text-slate-400 font-bold">40 Min</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">Sustentación & Git</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Evaluación en vivo puesto por puesto frente al proyector. Modificación de código en caliente para certificar autoría y commit atómico a GitHub.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between border-t border-slate-800 pt-3 text-xs text-slate-500 font-mono">
+        <span>Diapositiva 02 / 15</span>
+        <span>Alineación Pedagógica Institucional</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: DEL HTML ESTÁTICO A LAS APLICACIONES REACTIVAS (SPA) -->
+    <section class="slide-content w-full max-w-6xl h-full flex-col justify-between" data-slide="3">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <span class="font-mono text-xs text-purple-400 font-bold uppercase">Arquitectura Web</span>
+        <span class="text-xs text-slate-400">Evolución del Cliente Web</span>
+      </div>
+
+      <div class="my-auto space-y-6">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+            El Frontend y la Red: De Páginas Estáticas a SPAs
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">
+            Comprender cómo interactúan el cliente (navegador) y el servidor mediante solicitudes asíncronas.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-5 bg-slate-900/90 border border-slate-800 rounded-2xl space-y-3">
+            <div class="flex items-center gap-2 text-rose-400 font-bold text-sm">
+              <i data-lucide="history" class="w-4 h-4"></i>
+              <span>Modelo Tradicional (Multi-Page / Recarga Total)</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Cada clic en un enlace o envío de formulario <code class="font-mono text-rose-300">&lt;form action="..."&gt;</code> envía una solicitud que destruye la página actual y descarga un nuevo documento HTML completo.
+            </p>
+            <ul class="text-xs text-slate-400 space-y-1.5 list-disc pl-4">
+              <li>Parpadeo visual molesto (*flicker*).</li>
+              <li>Pérdida del estado de la memoria del cliente.</li>
+              <li>Alto consumo de ancho de banda transfiriendo HTML redundante.</li>
+            </ul>
+          </div>
+
+          <div class="p-5 bg-slate-900/90 border border-emerald-500/30 rounded-2xl space-y-3 bg-emerald-950/10">
+            <div class="flex items-center gap-2 text-[#39A900] font-bold text-sm">
+              <i data-lucide="zap" class="w-4 h-4"></i>
+              <span>Modelo Moderno (SPA con Fetch API & DOM)</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              La página inicial se carga una sola vez. Las acciones del usuario disparan peticiones <code class="font-mono text-emerald-300">fetch()</code> que viajan en segundo plano transportando solo <strong>JSON ligero</strong>.
+            </p>
+            <ul class="text-xs text-slate-300 space-y-1.5 list-disc pl-4">
+              <li>Cero recargas de pantalla (<code class="font-mono text-amber-300">e.preventDefault()</code>).</li>
+              <li>Experiencia fluida idéntica a una aplicación de escritorio.</li>
+              <li>Actualización quirúrgica solo en los nodos del DOM que cambiaron.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between border-t border-slate-800 pt-3 text-xs text-slate-500 font-mono">
+        <span>Diapositiva 03 / 15</span>
+        <span>Concepto: Asincronía en el Navegador</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: ANATOMÍA DE LA FETCH API -->
+    <section class="slide-content w-full max-w-6xl h-full flex-col justify-between" data-slide="4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <span class="font-mono text-xs text-emerald-400 font-bold uppercase">Sintaxis Fundamental</span>
+        <span class="text-xs text-slate-400">Estándar Web Moderno</span>
+      </div>
+
+      <div class="my-auto space-y-5">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+            Anatomía de la <code class="text-emerald-400">fetch()</code> API Nativa
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">
+            Función global incorporada en todos los navegadores modernos y en Node.js 18+. Retorna una Promesa que resuelve a un objeto <code class="font-mono text-purple-400">Response</code>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+          <div class="lg:col-span-7">
+            <pre class="rounded-xl border border-slate-800 text-xs p-4 bg-[#1e1e1e] overflow-x-auto"><code class="language-javascript">// Sintaxis estándar con async / await
+async function obtenerProductos() {
+  try {
+    // 1. Inicia la petición de red (por defecto es método GET)
+    const respuesta = await fetch('http://localhost:3000/api/productos');
+
+    // 2. El objeto Response contiene metadatos de cabecera
+    console.log('Status HTTP:', respuesta.status); // ej: 200
+    console.log('¿Fue exitoso?:', respuesta.ok);     // boolean: true / false
+
+    // 3. Extracción asíncrona del cuerpo serializado en JSON
+    const datos = await respuesta.json();
+    return datos;
+
+  } catch (error) {
+    // 4. Captura EXCLUSIVAMENTE errores de red (ej: sin conexión o DNS)
+    console.error('Fallo de red:', error.message);
+  }
+}</code></pre>
+          </div>
+
+          <div class="lg:col-span-5 space-y-3 text-xs">
+            <div class="p-3.5 bg-slate-900 border border-slate-800 rounded-xl space-y-1">
+              <span class="font-mono font-bold text-emerald-400 block">fetch(url, [opciones])</span>
+              <p class="text-slate-300 leading-snug">El primer parámetro es el endpoint. El segundo (opcional) define método, headers y cuerpo.</p>
+            </div>
+            <div class="p-3.5 bg-slate-900 border border-slate-800 rounded-xl space-y-1">
+              <span class="font-mono font-bold text-purple-400 block">await respuesta.json()</span>
+              <p class="text-slate-300 leading-snug">Consume el flujo de bytes de la respuesta y lo transforma en un objeto o arreglo de JavaScript utilizable.</p>
+            </div>
+            <div class="p-3.5 bg-slate-900 border border-slate-800 rounded-xl space-y-1">
+              <span class="font-mono font-bold text-amber-400 block">Doble Await</span>
+              <p class="text-slate-300 leading-snug">Se requiere <code class="font-mono">await</code> tanto para esperar las cabeceras HTTP de <code class="font-mono">fetch()</code> como para esperar la deserialización del stream con <code class="font-mono">.json()</code>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between border-t border-slate-800 pt-3 text-xs text-slate-500 font-mono">
+        <span>Diapositiva 04 / 15</span>
+        <span>Fetch API: Fundamentos de Consumo</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: LA TRAMPA COMÚN DE FETCH (res.ok) -->
+    <section class="slide-content w-full max-w-6xl h-full flex-col justify-between" data-slide="5">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <span class="font-mono text-xs text-rose-400 font-bold uppercase">Trampa Crítica de Red</span>
+        <span class="text-xs text-slate-400">Concepto Esencial de Evaluación</span>
+      </div>
+
+      <div class="my-auto space-y-5">
+        <div class="border-l-4 border-rose-500 pl-4 space-y-1">
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+            ¿Por qué <code class="text-rose-400">fetch()</code> NO rechaza la promesa en errores 404 o 500?
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-300">
+            Uno de los errores más comunes en aprendices de desarrollo web es asumir que un error HTTP viaja al bloque <code class="font-mono text-amber-300">catch</code>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="p-5 bg-rose-950/20 border border-rose-800/40 rounded-2xl space-y-3">
+            <span class="px-2.5 py-1 bg-rose-500/20 text-rose-400 font-mono text-xs font-bold rounded">❌ Error Clásico de Principiante</span>
+            <pre class="text-xs bg-slate-950 p-3 rounded-lg font-mono text-rose-300 overflow-x-auto"><code>try {
+  // Si el servidor responde 404 Not Found o 500 Internal Error:
+  const res = await fetch('/api/productos/999');
+  
+  // ¡ESTA LÍNEA SE EJECUTA IGUALMENTE!
+  // fetch considera que la comunicación HTTP fue exitosa.
+  const data = await res.json();
+} catch (err) {
+  // ⚠️ NUNCA ENTRA AQUÍ ante un error 404 o 500
+  console.log('Error capturado:', err);
+}</code></pre>
+          </div>
+
+          <div class="p-5 bg-emerald-950/20 border border-emerald-800/40 rounded-2xl space-y-3">
+            <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 font-mono text-xs font-bold rounded">✅ Patrón Profesional Defensivo</span>
+            <pre class="text-xs bg-slate-950 p-3 rounded-lg font-mono text-emerald-300 overflow-x-auto"><code>try {
+  const res = await fetch('/api/productos/999');
+
+  // VERIFICACIÓN MANUAL OBLIGATORIA CON res.ok:
+  // res.ok es true solo si el status está entre 200 y 299
+  if (!res.ok) {
+    const errorBody = await res.json();
+    throw new Error(errorBody.error || `HTTP ${res.status}`);
+  }
+
+  const data = await res.json();
+  return data;
+} catch (err) {
+  // ✅ Ahora sí captura tanto fallos de red como errores HTTP
+  mostrarAlertaAlUsuario(err.message);
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between border-t border-slate-800 pt-3 text-xs text-slate-500 font-mono">
+        <span>Diapositiva 05 / 15</span>
+        <span>Validación Defensiva de Estados HTTP</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: PETICIONES GET Y PARSING DE LISTAS -->
+    <section class="slide-content w-full max-w-6xl h-full flex-col justify-between" data-slide="6">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <span class="font-mono text-xs text-[#39A900] font-bold uppercase">Lectura de Datos (GET)</span>
+        <span class="text-xs text-slate-400">Consumo y Extracción</span>
+      </div>
+
+      <div class="my-auto space-y-5">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+            Peticiones <code class="text-[#39A900]">GET</code>: Extracción y Query Parameters
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">
+            Construcción de URLs dinámicas para filtrar por texto o categorías sin recargar la página.
+          </p>
+        </div>
+
+        <pre class="rounded-xl border border-slate-800 text-xs p-4 bg-[#1e1e1e] overflow-x-auto"><code class="language-javascript">// Función genérica para listar o filtrar productos desde el backend
+async function consultarProductos(categoria = '', busqueda = '') {
+  // 1. Usar URL y URLSearchParams nativos para evitar concatenaciones inseguras
+  const url = new URL('http://localhost:3000/api/productos');
+  if (categoria && categoria !== 'TODAS') url.searchParams.append('categoria', categoria);
+  if (busqueda) url.searchParams.append('q', busqueda);
+
+  console.log('Consultando URL:', url.toString());
+  // Genera: http://localhost:3000/api/productos?categoria=HARDWARE&q=teclado
+
+  const respuesta = await fetch(url);
+  if (!respuesta.ok) throw new Error('Error al listar inventario');
+
+  const { datos } = await respuesta.json();
+  return datos; // Retorna el arreglo de objetos de productos
+}</code></pre>
+
+        <div class="p-3.5 bg-blue-950/20 border border-blue-800/40 rounded-xl flex items-center gap-3 text-xs text-blue-200">
+          <i data-lucide="info" class="w-5 h-5 text-blue-400 shrink-0"></i>
+          <span><strong>Buenas Prácticas:</strong> Utiliza siempre <code class="font-mono text-white">new URLSearchParams()</code> para que caracteres especiales (espacios, tildes, símbolos) se codifiquen automáticamente de manera segura en la URI.</span>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between border-t border-slate-800 pt-3 text-xs text-slate-500 font-mono">
+        <span>Diapositiva 06 / 15</span>
+        <span>GET: Query Parameters y Extracción</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: PETICIONES POST Y SERIALIZACIÓN JSON -->
+    <section class="slide-content w-full max-w-6xl h-full flex-col justify-between" data-slide="7">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <span class="font-mono text-xs text-blue-400 font-bold uppercase">Envío de Datos (POST)</span>
+        <span class="text-xs text-slate-400">Creación de Recursos</span>
+      </div>
+
+      <div class="my-auto space-y-5">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+            Peticiones <code class="text-blue-400">POST</code>: Headers y Serialización JSON
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">
+            Para enviar un cuerpo al servidor Express, se deben configurar obligatoriamente tres elementos: método, headers de contenido y serialización.
+          </p>
+        </div>
+
+        <pre class="rounded-xl border border-slate-800 text-xs p-4 bg-[#1e1e1e] overflow-x-auto"><code class="language-javascript">async function crearProducto(nuevoProducto) {
+  const respuesta = await fetch('http://localhost:3000/api/productos', {
+    // 1. Especificar el verbo HTTP en mayúsculas
+    method: 'POST',
+
+    // 2. Cabeceras: Avisa a Express que el payload enviado es JSON (activa express.json())
+    headers: {
+      'Content-Type': 'application/json'
+    },
+
+    // 3. Serializar el objeto de JavaScript a una cadena de texto JSON
+    body: JSON.stringify(nuevoProducto)
+  });
+
+  const data = await respuesta.json();
+
+  // 4. Validar código 201 Created vs 400 Bad Request / 409 Conflict
+  if (!respuesta.ok) {
+    throw new Error(data.error || `Fallo al registrar: HTTP ${respuesta.status}`);
+  }
+
+  return data; // Producto creado con su ID generado por el backend
+}</code></pre>
+
+        <div class="grid grid-cols-2 gap-4 text-xs">
+          <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl">
+            <span class="text-amber-400 font-bold font-mono block mb-1">Content-Type: application/json</span>
+            <span class="text-slate-300 leading-snug">Si olvidas este header, el middleware <code class="font-mono text-slate-100">express.json()</code> del servidor ignorará el body y <code class="font-mono text-slate-100">req.body</code> llegará como <code class="font-mono text-rose-400">undefined</code>.</span>
+          </div>
+          <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl">
+            <span class="text-emerald-400 font-bold font-mono block mb-1">JSON.stringify(objeto)</span>
+            <span class="text-slate-300 leading-snug">No puedes enviar un objeto plano directo en <code class="font-mono">body: objeto</code>. La red solo transmite streams de texto serializado o binarios.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between border-t border-slate-800 pt-3 text-xs text-slate-500 font-mono">
+        <span>Diapositiva 07 / 15</span>
+        <span>POST: Headers, Body y Serialización</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 8: FORMULARIOS MODERNOS Y e.preventDefault() -->
+    <section class="slide-content w-full max-w-6xl h-full flex-col justify-between" data-slide="8">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <span class="font-mono text-xs text-amber-400 font-bold uppercase">Formularios Web Modernos</span>
+        <span class="text-xs text-slate-400">Control de Eventos</span>
+      </div>
+
+      <div class="my-auto space-y-5">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+            Formularios: <code class="text-amber-400">e.preventDefault()</code> y la clase <code class="text-purple-400">FormData</code>
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">
+            Cómo capturar datos de un formulario de forma limpia y profesional sin escribir decenas de <code class="font-mono">document.getElementById()</code>.
+          </p>
+        </div>
+
+        <pre class="rounded-xl border border-slate-800 text-xs p-4 bg-[#1e1e1e] overflow-x-auto"><code class="language-javascript">const formulario = document.querySelector('#form-producto');
+
+formulario.addEventListener('submit', async (e) =&gt; {
+  // 1. OBLIGATORIO: Evitar la recarga automática del navegador
+  e.preventDefault();
+
+  // 2. Extraer todos los campos automáticamente mediante la API FormData
+  const formData = new FormData(formulario);
+
+  const producto = {
+    nombre: formData.get('nombre').trim(),
+    sku: formData.get('sku').trim().toUpperCase(),
+    categoria: formData.get('categoria'),
+    precio: Number(formData.get('precio')),
+    stock: Number(formData.get('stock'))
+  };
+
+  // 3. Validación en el cliente antes de consumir la red
+  if (!producto.nombre || !producto.sku || producto.precio &lt;= 0) {
+    alert('Por favor diligencie todos los campos requeridos con valores válidos');
+    return;
+  }
+
+  // 4. Enviar a la API con fetch POST
+  await enviarProductoAlServidor(producto);
+  formulario.reset(); // Limpiar campos tras registro exitoso
+});</code></pre>
+      </div>
+
+      <div class="flex items-center justify-between border-t border-slate-800 pt-3 text-xs text-slate-500 font-mono">
+        <span>Diapositiva 08 / 15</span>
+        <span>Manejo de Formularios y FormData</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 9: MANIPULACIÓN MODERNA DEL DOM -->
+    <section class="slide-content w-full max-w-6xl h-full flex-col justify-between" data-slide="9">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <span class="font-mono text-xs text-emerald-400 font-bold uppercase">Renderizado Dinámico</span>
+        <span class="text-xs text-slate-400">Document Object Model</span>
+      </div>
+
+      <div class="my-auto space-y-5">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+            Manipulación Moderna del DOM con Template Literals
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">
+            Generar componentes HTML reutilizables, legibles y dinámicos a partir de colecciones de datos en memoria.
+          </p>
+        </div>
+
+        <pre class="rounded-xl border border-slate-800 text-xs p-4 bg-[#1e1e1e] overflow-x-auto"><code class="language-javascript">function renderizarProductos(productos) {
+  const contenedor = document.querySelector('#grid-productos');
+
+  // Limpiar contenido previo para evitar duplicados
+  contenedor.innerHTML = '';
+
+  // Iterar y crear elementos utilizando Template Literals y Tailwind CSS
+  productos.forEach(prod =&gt; {
+    const card = document.createElement('div');
+    card.className = 'p-5 bg-slate-900 border border-slate-800 rounded-2xl space-y-3';
+    
+    card.innerHTML = `
+      &lt;div class="flex justify-between items-center text-xs"&gt;
+        &lt;span class="font-mono text-slate-400"&gt;${prod.sku}&lt;/span&gt;
+        &lt;span class="px-2 py-0.5 rounded bg-blue-900/50 text-blue-300 font-bold"&gt;${prod.categoria}&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;h3 class="font-bold text-white text-base"&gt;${prod.nombre}&lt;/h3&gt;
+      &lt;p class="text-xl font-black font-mono text-emerald-400"&gt;$ ${prod.precio.toLocaleString()}&lt;/p&gt;
+      &lt;div class="pt-2 border-t border-slate-800 flex justify-between items-center text-xs"&gt;
+        &lt;span class="text-slate-400 font-mono"&gt;Stock: ${prod.stock}&lt;/span&gt;
+        &lt;button onclick="actualizarStock(${prod.id})" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-200"&gt;
+          + Stock
+        &lt;/button&gt;
+      &lt;/div&gt;
+    `;
+
+    contenedor.appendChild(card);
+  });
+}</code></pre>
+      </div>
+
+      <div class="flex items-center justify-between border-t border-slate-800 pt-3 text-xs text-slate-500 font-mono">
+        <span>Diapositiva 09 / 15</span>
+        <span>Generación Dinámica de Componentes</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 10: ACTUALIZACIÓN EN CALIENTE (PATCH Y DELETE) -->
+    <section class="slide-content w-full max-w-6xl h-full flex-col justify-between" data-slide="10">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <span class="font-mono text-xs text-purple-400 font-bold uppercase">Actualización Parcial (PATCH)</span>
+        <span class="text-xs text-slate-400">Mutación de Recursos</span>
+      </div>
+
+      <div class="my-auto space-y-5">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+            Peticiones <code class="text-purple-400">PATCH</code>: Actualizaciones Parciales en Tiempo Real
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">
+            Modificar campos específicos (como el stock o estado de inventario) sin tener que reenviar el objeto completo.
+          </p>
+        </div>
+
+        <pre class="rounded-xl border border-slate-800 text-xs p-4 bg-[#1e1e1e] overflow-x-auto"><code class="language-javascript">async function modificarStock(idProducto, nuevoStock) {
+  try {
+    const res = await fetch(`http://localhost:3000/api/productos/${idProducto}/stock`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ stock: nuevoStock })
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error || 'No se pudo actualizar el stock');
+    }
+
+    // Actualización reactiva en memoria para reflejar el cambio inmediato
+    const productoLocal = estadoApp.productos.find(p =&gt; p.id === idProducto);
+    if (productoLocal) {
+      productoLocal.stock = nuevoStock;
+      renderizarProductos(estadoApp.productos);
+    }
+
+    mostrarNotificacionToast('Stock actualizado correctamente (200 OK)');
+
+  } catch (error) {
+    mostrarNotificacionToast(error.message, 'error');
+  }
+}</code></pre>
+      </div>
+
+      <div class="flex items-center justify-between border-t border-slate-800 pt-3 text-xs text-slate-500 font-mono">
+        <span>Diapositiva 10 / 15</span>
+        <span>PATCH: Modificación en Caliente</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 11: ESTADOS DE LA INTERFAZ (UI/UX FEEDBACK) -->
+    <section class="slide-content w-full max-w-6xl h-full flex-col justify-between" data-slide="11">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <span class="font-mono text-xs text-amber-400 font-bold uppercase">Diseño de Experiencia (UI/UX)</span>
+        <span class="text-xs text-slate-400">Estados de Interfaz</span>
+      </div>
+
+      <div class="my-auto space-y-6">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+            Los 4 Estados Fundamentales de la Interfaz Asíncrona
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">
+            Una interfaz profesional nunca deja al usuario esperando a ciegas sin retroalimentación visual.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="p-5 bg-slate-900 border border-slate-800 rounded-2xl space-y-2">
+            <span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono text-[10px] font-bold">1. CARGANDO (Loading)</span>
+            <h4 class="font-bold text-white text-sm">Spinners / Skeletons</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Mostrar animación mientras la promesa de <code class="font-mono">fetch()</code> está pendiente. Ocultar los datos anteriores.
+            </p>
+          </div>
+
+          <div class="p-5 bg-slate-900 border border-slate-800 rounded-2xl space-y-2">
+            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono text-[10px] font-bold">2. ÉXITO (Success)</span>
+            <h4 class="font-bold text-white text-sm">Contenido Renderizado</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              La petición resolvió con <code class="font-mono">res.ok = true</code> y hay datos disponibles para iterar y mostrar en el catálogo.
+            </p>
+          </div>
+
+          <div class="p-5 bg-slate-900 border border-slate-800 rounded-2xl space-y-2">
+            <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono text-[10px] font-bold">3. VACÍO (Empty State)</span>
+            <h4 class="font-bold text-white text-sm">Sin Resultados</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              La consulta fue exitosa pero retornó 0 elementos. Mostrar mensaje amigable: "No hay productos en esta categoría".
+            </p>
+          </div>
+
+          <div class="p-5 bg-slate-900 border border-slate-800 rounded-2xl space-y-2">
+            <span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono text-[10px] font-bold">4. ERROR (Error State)</span>
+            <h4 class="font-bold text-white text-sm">Fallo de Red o API</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              El servidor está apagado o retornó código 500. Notificar con banner de alerta o Toast y botón de "Reintentar".
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between border-t border-slate-800 pt-3 text-xs text-slate-500 font-mono">
+        <span>Diapositiva 11 / 15</span>
+        <span>Retroalimentación Visual Asíncrona</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 12: ARQUITECTURA CLIENTE-SERVIDOR Y CORS -->
+    <section class="slide-content w-full max-w-6xl h-full flex-col justify-between" data-slide="12">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <span class="font-mono text-xs text-emerald-400 font-bold uppercase">Seguridad Web & CORS</span>
+        <span class="text-xs text-slate-400">Cross-Origin Resource Sharing</span>
+      </div>
+
+      <div class="my-auto space-y-6">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+            Arquitectura Cliente-Servidor y el Mecanismo <code class="text-emerald-400">CORS</code>
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">
+            Por qué ocurre el error "Blocked by CORS policy" al conectar el Frontend con el Backend en puertos diferentes.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-5 bg-slate-900 border border-slate-800 rounded-2xl space-y-3">
+            <h3 class="font-bold text-white text-sm flex items-center gap-2">
+              <i data-lucide="shield-alert" class="w-4 h-4 text-amber-400"></i>
+              <span>¿Qué es la Política de Mismo Origen (SOP)?</span>
+            </h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Por seguridad, el navegador bloquea las peticiones de JavaScript que intenten leer datos de un origen diferente (diferente protocolo, dominio o <strong>puerto</strong>).
+            </p>
+            <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl text-[11px] font-mono space-y-1">
+              <div class="text-blue-400">Cliente (Frontend): http://127.0.0.1:5500</div>
+              <div class="text-rose-400">Servidor (Express): http://localhost:3000</div>
+              <div class="text-slate-400">→ ¡Diferente puerto = Origen Cruzado!</div>
+            </div>
+          </div>
+
+          <div class="p-5 bg-slate-900 border border-emerald-500/30 rounded-2xl space-y-3 bg-emerald-950/10">
+            <h3 class="font-bold text-[#39A900] text-sm flex items-center gap-2">
+              <i data-lucide="check-circle" class="w-4 h-4"></i>
+              <span>Solución: Habilitar Cabeceras CORS en Express</span>
+            </h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              El servidor Express debe enviar la cabecera HTTP autorizando el acceso al navegador:
+            </p>
+            <pre class="text-xs bg-slate-950 p-3 rounded-xl font-mono text-emerald-300"><code>// Middleware CORS nativo en Express:
+app.use((req, res, next) =&gt; {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+  next();
+});</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between border-t border-slate-800 pt-3 text-xs text-slate-500 font-mono">
+        <span>Diapositiva 12 / 15</span>
+        <span>CORS y Comunicación Cross-Origin</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 13: LIVE CODING GUIADO -->
+    <section class="slide-content w-full max-w-6xl h-full flex-col justify-between" data-slide="13">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <span class="font-mono text-xs text-[#39A900] font-bold uppercase">Bloque 1 · Live Coding Guiado</span>
+        <span class="text-xs text-slate-400">110 Minutos</span>
+      </div>
+
+      <div class="my-auto space-y-5">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+            Paso a Paso del Instructor: Construcción de la Conexión
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">
+            Demostración en proyector de los 4 pasos clave antes de iniciar el taller práctico asistido.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="p-4 bg-slate-900 border border-slate-800 rounded-xl space-y-2">
+            <span class="text-xs font-mono font-bold text-emerald-400">Paso 1: Levantar Backend (Día 04)</span>
+            <p class="text-xs text-slate-300 leading-snug">
+              Abrir terminal en el directorio del Día 04 y ejecutar <code class="font-mono text-[#39A900]">node plantilla_servidor.js</code> para asegurar el puerto 3000 activo.
+            </p>
+          </div>
+
+          <div class="p-4 bg-slate-900 border border-slate-800 rounded-xl space-y-2">
+            <span class="text-xs font-mono font-bold text-blue-400">Paso 2: Implementar Carga GET Inicial</span>
+            <p class="text-xs text-slate-300 leading-snug">
+              Escribir la función asíncrona <code class="font-mono text-blue-300">cargarProductos()</code>, mostrar spinner y validar <code class="font-mono text-blue-300">res.ok</code>.
+            </p>
+          </div>
+
+          <div class="p-4 bg-slate-900 border border-slate-800 rounded-xl space-y-2">
+            <span class="text-xs font-mono font-bold text-purple-400">Paso 3: Capturar Submit sin Recarga</span>
+            <p class="text-xs text-slate-300 leading-snug">
+              Vincular el formulario modal con <code class="font-mono text-purple-300">e.preventDefault()</code>, leer campos con <code class="font-mono text-purple-300">FormData</code> y enviar POST.
+            </p>
+          </div>
+
+          <div class="p-4 bg-slate-900 border border-slate-800 rounded-xl space-y-2">
+            <span class="text-xs font-mono font-bold text-amber-400">Paso 4: Notificaciones Toast</span>
+            <p class="text-xs text-slate-300 leading-snug">
+              Crear dinámicamente un nodo de alerta temporal flotante que se auto-elimina con <code class="font-mono text-amber-300">setTimeout()</code>.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between border-t border-slate-800 pt-3 text-xs text-slate-500 font-mono">
+        <span>Diapositiva 13 / 15</span>
+        <span>Demostración en Vivo</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 14: TALLER DE AULA (5 RETOS PROGRESIVOS) -->
+    <section class="slide-content w-full max-w-6xl h-full flex-col justify-between" data-slide="14">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <span class="font-mono text-xs text-blue-400 font-bold uppercase">Bloque 2 · Taller Práctico Asistido</span>
+        <span class="text-xs text-slate-400 font-bold">70 Minutos de Ejercitación</span>
+      </div>
+
+      <div class="my-auto space-y-5">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+            Taller en Aula: Catálogo Interactivo con Fetch API (5 Retos)
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">
+            Resuelve los siguientes retos directamente en tu archivo <code class="font-mono text-emerald-400">recursos/app.js</code>:
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 text-xs">
+          <!-- Reto 1 -->
+          <div class="p-4 bg-slate-900 border border-slate-800 rounded-xl space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-[#39A900] font-mono font-bold text-[10px]">RETO 1</span>
+              <span class="font-mono text-[10px] text-slate-400">GET API</span>
+            </div>
+            <h4 class="font-bold text-white text-sm">Carga & Tarjetas</h4>
+            <p class="text-slate-300 text-[11px] leading-relaxed">
+              Consume <code class="font-mono">/api/productos</code>, valida <code class="font-mono">res.ok</code> y renderiza cada producto en el grid con precio en COP y badges de stock.
+            </p>
+          </div>
+
+          <!-- Reto 2 -->
+          <div class="p-4 bg-slate-900 border border-slate-800 rounded-xl space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 font-mono font-bold text-[10px]">RETO 2</span>
+              <span class="font-mono text-[10px] text-slate-400">Filter & Search</span>
+            </div>
+            <h4 class="font-bold text-white text-sm">Buscador y Categorías</h4>
+            <p class="text-slate-300 text-[11px] leading-relaxed">
+              Filtra el arreglo en memoria en tiempo real al escribir en el input o hacer clic en los botones de categoría (Hardware, Periféricos, Audio).
+            </p>
+          </div>
+
+          <!-- Reto 3 -->
+          <div class="p-4 bg-slate-900 border border-slate-800 rounded-xl space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-400 font-mono font-bold text-[10px]">RETO 3</span>
+              <span class="font-mono text-[10px] text-slate-400">POST + Headers</span>
+            </div>
+            <h4 class="font-bold text-white text-sm">Modal de Registro</h4>
+            <p class="text-slate-300 text-[11px] leading-relaxed">
+              Captura el submit con <code class="font-mono">e.preventDefault()</code>, extrae valores con <code class="font-mono">FormData</code>, envía JSON con POST y recarga el inventario.
+            </p>
+          </div>
+
+          <!-- Reto 4 -->
+          <div class="p-4 bg-slate-900 border border-slate-800 rounded-xl space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 font-mono font-bold text-[10px]">RETO 4</span>
+              <span class="font-mono text-[10px] text-slate-400">PATCH Live</span>
+            </div>
+            <h4 class="font-bold text-white text-sm">Modificar Stock (+1/-1)</h4>
+            <p class="text-slate-300 text-[11px] leading-relaxed">
+              Botones interactivos en la tarjeta que envían <code class="font-mono">PATCH /api/productos/:id/stock</code> y actualizan el DOM en caliente.
+            </p>
+          </div>
+
+          <!-- Reto 5 -->
+          <div class="p-4 bg-slate-900 border border-rose-500/30 rounded-xl space-y-1.5 col-span-1 md:col-span-2 lg:col-span-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono font-bold text-[10px]">RETO 5 (PRO)</span>
+              <span class="font-mono text-[10px] text-slate-400">UI Feedback</span>
+            </div>
+            <h4 class="font-bold text-white text-sm">Notificaciones Toast y Manejo de Errores</h4>
+            <p class="text-slate-300 text-[11px] leading-relaxed">
+              Muestra alertas flotantes temporales (éxito en verde, error en rojo) ante cualquier respuesta de la API o fallo de red. Incluye botón de reintentar si el backend está apagado.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between border-t border-slate-800 pt-3 text-xs text-slate-500 font-mono">
+        <span>Diapositiva 14 / 15</span>
+        <span>Taller de Aula en recursos/app.js</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 15: SUSTENTACIÓN EN CALIENTE Y GIT -->
+    <section class="slide-content w-full max-w-6xl h-full flex-col justify-between" data-slide="15">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <span class="font-mono text-xs text-purple-400 font-bold uppercase">Bloque 3 · Evaluación & Control Git</span>
+        <span class="text-xs text-slate-400 font-bold">40 Minutos</span>
+      </div>
+
+      <div class="my-auto space-y-6">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+            Sustentación Individual y Entrega Atómica
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">
+            El instructor revisará puesto por puesto aplicando una modificación en vivo frente a la sala de sistemas.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-5 bg-slate-900 border border-slate-800 rounded-2xl space-y-3">
+            <div class="flex items-center gap-2 text-amber-400 font-bold text-sm">
+              <i data-lucide="terminal" class="w-4 h-4"></i>
+              <span>Examen de Modificación en Caliente (Live Mod)</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              El instructor te solicitará realizar en vivo una de las siguientes pruebas:
+            </p>
+            <ul class="text-xs text-slate-400 space-y-2 list-disc pl-4">
+              <li>Agregar un botón para filtrar productos con stock menor o igual a 5 unidades.</li>
+              <li>Modificar la función de guardado para que el SKU valide mínimo 4 caracteres antes de enviar el fetch.</li>
+              <li>Explicar qué ocurre en la pestaña Network del DevTools al omitir <code class="font-mono text-slate-200">e.preventDefault()</code>.</li>
+            </ul>
+          </div>
+
+          <div class="p-5 bg-slate-900 border border-slate-800 rounded-2xl space-y-3">
+            <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+              <i data-lucide="git-commit" class="w-4 h-4"></i>
+              <span>Entrega Atómica en Git</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Registra tu progreso en el repositorio con un mensaje de commit descriptivo:
+            </p>
+            <pre class="text-xs bg-slate-950 p-3.5 rounded-xl font-mono text-emerald-400 space-y-1"><code>git status
+git add recursos/app.js
+git commit -m "feat(frontend): consumo de api productos con fetch, filtros y modal post"
+git push origin main</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between border-t border-slate-800 pt-3 text-xs text-slate-500 font-mono">
+        <span>Diapositiva 15 / 15</span>
+        <span>¡Felicitaciones! Semana 1 Completada con Éxito</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- 4. MENÚ DRAWER LATERAL (ÍNDICE DE TODAS LAS DIAPOSITIVAS)                -->
+  <!-- ========================================================================= -->
+  <div id="drawer-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-30 hidden transition-opacity"></div>
+  
+  <aside id="slide-drawer" class="fixed top-0 right-0 h-full w-80 bg-slate-900 border-l border-slate-800 shadow-2xl z-40 transform translate-x-full flex flex-col">
+    <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <i data-lucide="list" class="w-4 h-4 text-[#39A900]"></i>
+        <h3 class="text-xs font-bold text-white uppercase tracking-wider">Índice de Diapositivas</h3>
+      </div>
+      <button id="btn-close-drawer" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <div class="flex-1 overflow-y-auto p-3 space-y-1.5" id="drawer-slide-list">
+      <!-- Se inyecta dinámicamente con JavaScript -->
+    </div>
+
+    <div class="p-3 border-t border-slate-800 bg-slate-950 text-center text-[10px] text-slate-500 font-mono">
+      <span>Usa las teclas 1-9 o flechas para saltar</span>
+    </div>
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- 5. MODAL DE AYUDA Y ATAJOS DE TECLADO (?)                                 -->
+  <!-- ========================================================================= -->
+  <div id="modal-help" class="fixed inset-0 bg-black/70 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2 text-white font-bold text-sm">
+          <i data-lucide="keyboard" class="w-4 h-4 text-[#39A900]"></i>
+          <span>Atajos de Teclado (Proyección en Video-beam)</span>
+        </div>
+        <button id="btn-close-help" class="text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="space-y-2 text-xs">
+        <div class="flex items-center justify-between p-2 rounded bg-slate-950/60">
+          <span class="text-slate-300">Avanzar Diapositiva</span>
+          <span class="font-mono font-bold text-emerald-400">Espacio / → / ↓</span>
+        </div>
+        <div class="flex items-center justify-between p-2 rounded bg-slate-950/60">
+          <span class="text-slate-300">Retroceder Diapositiva</span>
+          <span class="font-mono font-bold text-emerald-400">← / ↑</span>
+        </div>
+        <div class="flex items-center justify-between p-2 rounded bg-slate-950/60">
+          <span class="text-slate-300">Pantalla Completa</span>
+          <span class="font-mono font-bold text-purple-400">F</span>
+        </div>
+        <div class="flex items-center justify-between p-2 rounded bg-slate-950/60">
+          <span class="text-slate-300">Iniciar / Pausar Temporizador</span>
+          <span class="font-mono font-bold text-amber-400">T</span>
+        </div>
+        <div class="flex items-center justify-between p-2 rounded bg-slate-950/60">
+          <span class="text-slate-300">Reiniciar Temporizador</span>
+          <span class="font-mono font-bold text-rose-400">R</span>
+        </div>
+        <div class="flex items-center justify-between p-2 rounded bg-slate-950/60">
+          <span class="text-slate-300">Abrir Índice de Diapositivas</span>
+          <span class="font-mono font-bold text-blue-400">M</span>
+        </div>
+        <div class="flex items-center justify-between p-2 rounded bg-slate-950/60">
+          <span class="text-slate-300">Mostrar esta Ayuda</span>
+          <span class="font-mono font-bold text-slate-300">?</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 6. LÓGICA DE CONTROL DEL PRESENTADOR Y TEMPORIZADOR                       -->
+  <!-- ========================================================================= -->
+  <script>
+    const titulosDiapositivas = [
+      "01. Portada Institucional",
+      "02. Metodología en 3 Bloques",
+      "03. De HTML Estático a SPAs",
+      "04. Anatomía de Fetch API",
+      "05. Trampa de Red: res.ok vs Catch",
+      "06. Peticiones GET & Query Params",
+      "07. Peticiones POST & JSON Headers",
+      "08. Formularios & FormData",
+      "09. Manipulación Moderna del DOM",
+      "10. Actualización con PATCH",
+      "11. Estados de Interfaz (UI/UX)",
+      "12. Arquitectura & CORS",
+      "13. Live Coding Guiado",
+      "14. Taller de Aula (5 Retos)",
+      "15. Sustentación & Control Git"
+    ];
+
+    let diapositivaActual = 1;
+    const totalDiapositivas = 15;
+
+    // Elementos DOM
+    const slides = document.querySelectorAll('.slide-content');
+    const slideIndicator = document.getElementById('slide-indicator');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+    const btnDrawer = document.getElementById('btn-drawer');
+    const slideDrawer = document.getElementById('slide-drawer');
+    const drawerBackdrop = document.getElementById('drawer-backdrop');
+    const btnCloseDrawer = document.getElementById('btn-close-drawer');
+    const drawerSlideList = document.getElementById('drawer-slide-list');
+    const btnHelp = document.getElementById('btn-help');
+    const modalHelp = document.getElementById('modal-help');
+    const btnCloseHelp = document.getElementById('btn-close-help');
+    const btnFullscreen = document.getElementById('btn-fullscreen');
+
+    // Inicializar Fecha Dinámica
+    function actualizarFecha() {
+      const fechaEl = document.getElementById('fecha-sesion');
+      if (fechaEl) {
+        const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const hoy = new Date().toLocaleDateString('es-CO', opciones);
+        fechaEl.textContent = `Hoy: ${hoy.charAt(0).toUpperCase() + hoy.slice(1)}`;
+      }
+    }
+
+    // Cambiar de Diapositiva
+    function mostrarDiapositiva(num) {
+      if (num < 1 || num > totalDiapositivas) return;
+      diapositivaActual = num;
+
+      slides.forEach(s => {
+        s.classList.remove('active');
+        if (Number(s.dataset.slide) === num) {
+          s.classList.add('active');
+        }
+      });
+
+      slideIndicator.textContent = `${String(num).padStart(2, '0')} / ${totalDiapositivas}`;
+      btnPrev.disabled = (num === 1);
+      btnNext.disabled = (num === totalDiapositivas);
+
+      // Actualizar highlight en el drawer
+      document.querySelectorAll('.drawer-item').forEach((item, idx) => {
+        if (idx + 1 === num) {
+          item.className = 'drawer-item p-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 bg-[#39A900] text-white shadow-sm';
+        } else {
+          item.className = 'drawer-item p-2.5 rounded-xl text-xs font-semibold transition flex items-center gap-2 text-slate-300 hover:bg-slate-800';
+        }
+      });
+
+      // Actualizar hash en URL sin recargar
+      history.replaceState(null, '', `#slide-${num}`);
+      lucide.createIcons();
+    }
+
+    // Construir Índice en el Drawer
+    function poblarDrawer() {
+      drawerSlideList.innerHTML = titulosDiapositivas.map((titulo, idx) => `
+        <button onclick="mostrarDiapositiva(${idx + 1}); toggleDrawer(false);" class="drawer-item w-full text-left p-2.5 rounded-xl text-xs font-semibold transition flex items-center gap-2 text-slate-300 hover:bg-slate-800">
+          <span class="w-5 font-mono text-[10px] text-slate-500">${idx + 1}</span>
+          <span class="truncate">${titulo}</span>
+        </button>
+      `).join('');
+    }
+
+    function toggleDrawer(abrir) {
+      if (abrir) {
+        slideDrawer.classList.add('open');
+        drawerBackdrop.classList.remove('hidden');
+      } else {
+        slideDrawer.classList.remove('open');
+        drawerBackdrop.classList.add('hidden');
+      }
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => console.warn(err));
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    // ==========================================
+    // TEMPORIZADOR DE AULA
+    // ==========================================
+    let segundosRestantes = 110 * 60; // 110 min Bloque 1 por defecto
+    let timerActivo = false;
+    let timerInterval = null;
+
+    const timerDisplay = document.getElementById('timer-display');
+    const timerToggleBtn = document.getElementById('timer-toggle-btn');
+    const timerResetBtn = document.getElementById('timer-reset-btn');
+
+    function actualizarDisplayTimer() {
+      const min = Math.floor(segundosRestantes / 60);
+      const seg = segundosRestantes % 60;
+      timerDisplay.textContent = `${String(min).padStart(2, '0')}:${String(seg).padStart(2, '0')}`;
+    }
+
+    function toggleTimer() {
+      if (timerActivo) {
+        clearInterval(timerInterval);
+        timerActivo = false;
+        timerToggleBtn.innerHTML = '<i data-lucide="play" class="w-3.5 h-3.5"></i>';
+      } else {
+        timerActivo = true;
+        timerToggleBtn.innerHTML = '<i data-lucide="pause" class="w-3.5 h-3.5"></i>';
+        timerInterval = setInterval(() => {
+          if (segundosRestantes > 0) {
+            segundosRestantes--;
+            actualizarDisplayTimer();
+          } else {
+            clearInterval(timerInterval);
+            timerActivo = false;
+            sonarCampanaFin();
+          }
+        }, 1000);
+      }
+      lucide.createIcons();
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      timerActivo = false;
+      segundosRestantes = 110 * 60;
+      actualizarDisplayTimer();
+      timerToggleBtn.innerHTML = '<i data-lucide="play" class="w-3.5 h-3.5"></i>';
+      lucide.createIcons();
+    }
+
+    function sonarCampanaFin() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.5);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 1.5);
+      } catch (e) {
+        console.log('AudioContext no permitido antes de interacción.');
+      }
+    }
+
+    // ==========================================
+    // ATAJOS DE TECLADO
+    // ==========================================
+    window.addEventListener('keydown', (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        mostrarDiapositiva(diapositivaActual + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        mostrarDiapositiva(diapositivaActual - 1);
+      } else if (e.key === 'f' || e.key === 'F') {
+        e.preventDefault();
+        toggleFullscreen();
+      } else if (e.key === 'm' || e.key === 'M') {
+        e.preventDefault();
+        const isOpen = slideDrawer.classList.contains('open');
+        toggleDrawer(!isOpen);
+      } else if (e.key === 't' || e.key === 'T') {
+        e.preventDefault();
+        toggleTimer();
+      } else if (e.key === 'r' || e.key === 'R') {
+        e.preventDefault();
+        resetTimer();
+      } else if (e.key === '?') {
+        e.preventDefault();
+        modalHelp.classList.toggle('hidden');
+      } else if (e.key === 'Escape') {
+        toggleDrawer(false);
+        modalHelp.classList.add('hidden');
+      }
+    });
+
+    // ==========================================
+    // INICIALIZACIÓN
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', () => {
+      actualizarFecha();
+      poblarDrawer();
+
+      btnPrev.addEventListener('click', () => mostrarDiapositiva(diapositivaActual - 1));
+      btnNext.addEventListener('click', () => mostrarDiapositiva(diapositivaActual + 1));
+      btnDrawer.addEventListener('click', () => toggleDrawer(true));
+      btnCloseDrawer.addEventListener('click', () => toggleDrawer(false));
+      drawerBackdrop.addEventListener('click', () => toggleDrawer(false));
+
+      btnHelp.addEventListener('click', () => modalHelp.classList.remove('hidden'));
+      btnCloseHelp.addEventListener('click', () => modalHelp.classList.add('hidden'));
+      modalHelp.addEventListener('click', (e) => {
+        if (e.target === modalHelp) modalHelp.classList.add('hidden');
+      });
+
+      btnFullscreen.addEventListener('click', toggleFullscreen);
+      timerToggleBtn.addEventListener('click', toggleTimer);
+      timerResetBtn.addEventListener('click', resetTimer);
+
+      // Detectar hash inicial (#slide-X)
+      const hash = window.location.hash;
+      const match = hash.match(/#slide-(\d+)/);
+      if (match && Number(match[1]) <= totalDiapositivas) {
+        mostrarDiapositiva(Number(match[1]));
+      } else {
+        mostrarDiapositiva(1);
+      }
+
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>

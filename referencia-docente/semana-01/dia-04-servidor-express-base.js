@@ -232,6 +232,34 @@ app.patch('/api/productos/:id/stock', (req, res) => {
 
 
 // =============================================================================
+// RETO BONUS: ELIMINAR PRODUCTO POR ID (DELETE /api/productos/:id)
+// =============================================================================
+app.delete('/api/productos/:id', (req, res) => {
+  const id = Number(req.params.id);
+
+  if (isNaN(id)) {
+    return res.status(400).json({ ok: false, error: "El ID debe ser numérico." });
+  }
+
+  const indice = productos.findIndex(p => p.id === id);
+  if (indice === -1) {
+    return res.status(404).json({
+      ok: false,
+      error: `Producto con ID ${id} no encontrado para eliminar.`
+    });
+  }
+
+  const [eliminado] = productos.splice(indice, 1);
+
+  res.status(200).json({
+    ok: true,
+    mensaje: `Producto '${eliminado.nombre}' (SKU: ${eliminado.sku}) eliminado con éxito.`,
+    datos: eliminado
+  });
+});
+
+
+// =============================================================================
 // RETO 6.2: MIDDLEWARE GLOBAL CATCH-ALL (404 NOT FOUND)
 // =============================================================================
 app.use((req, res) => {

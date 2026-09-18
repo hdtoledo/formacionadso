@@ -100,6 +100,10 @@
           <i data-lucide="server" class="w-3.5 h-3.5"></i>
           <span>Sesión 04: Express & Bruno</span>
         </button>
+        <button onclick="cargarSesion(5)" id="tab-5" class="tab-btn px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 text-slate-400 hover:text-white">
+          <i data-lucide="layout" class="w-3.5 h-3.5"></i>
+          <span>Sesión 05: Fetch API & DOM</span>
+        </button>
       </div>
 
       <!-- Controles de Video-beam (Zoom tipográfico, Copiar, Pantalla Completa) -->
@@ -705,6 +709,150 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(\`Servidor corriendo en: http://localhost:\${PORT}\`);
 });`
+      },
+      5: {
+        titulo: "Sesión 05: Consumo con Fetch API, Parsing JSON, e.preventDefault() y Manipulación Reactiva del DOM",
+        archivo: "semana-01/dia-05-catalogo-fetch-dom.html",
+        nombre: "dia-05-catalogo-fetch-dom.html",
+        lenguaje: "language-javascript",
+        badge: "Frontend II · Fetch API & DOM",
+        codigo: `// ==============================================================================
+// SENA - CENTRO AGROEMPRESARIAL Y DESARROLLO PECUARIO DEL HUILA (CADPH GARZÓN)
+// PROGRAMA: ANÁLISIS Y DESARROLLO DE SOFTWARE (ADSO 2026)
+// SEMANA 1: NIVELACIÓN INTENSIVA DE FUNDAMENTOS
+// SESIÓN 05: CONSUMO CON FETCH API Y MANIPULACIÓN DEL DOM (FRONTEND II)
+// SCRIPT DE REFERENCIA TÉCNICA OFICIAL
+// INSTRUCTOR: Ing. Hector David Toledo Garcia (https://www.hdtoledo.dev/)
+// ==============================================================================
+
+const API_URL = 'http://localhost:3000/api/productos';
+
+// ------------------------------------------------------------------------------
+// RETO 1: PETICIÓN GET CON FETCH, VALIDACIÓN DE res.ok Y PARSING JSON
+// ------------------------------------------------------------------------------
+async function cargarProductosDesdeAPI() {
+  mostrarEstadoCarga(true);
+
+  try {
+    const res = await fetch(API_URL);
+
+    // ADVERTENCIA CRÍTICA: fetch() NO dispara catch en errores 404 ni 500
+    if (!res.ok) {
+      throw new Error(\`Error HTTP \${res.status}: \${res.statusText}\`);
+    }
+
+    const payload = await res.json();
+    estadoApp.productos = payload.datos || payload;
+    aplicarFiltrosYRenderizar();
+    actualizarBadgeConexion(true);
+
+  } catch (error) {
+    console.error('Fallo en la comunicación con el servidor:', error);
+    mostrarErrorConexion(error.message);
+  } finally {
+    mostrarEstadoCarga(false);
+  }
+}
+
+// ------------------------------------------------------------------------------
+// RETO 2: BUSCADOR EN TIEMPO REAL Y FILTRO COMBINADO POR CATEGORÍA
+// ------------------------------------------------------------------------------
+function aplicarFiltrosYRenderizar() {
+  const filtrados = estadoApp.productos.filter(prod => {
+    const coincideCat = estadoApp.categoriaActiva === 'TODAS' || prod.categoria === estadoApp.categoriaActiva;
+    const texto = \`\${prod.nombre} \${prod.sku}\`.toLowerCase();
+    const coincideBusqueda = texto.includes(estadoApp.terminoBusqueda);
+    return coincideCat && coincideBusqueda;
+  });
+
+  conteoProductos.textContent = \`\${filtrados.length} de \${estadoApp.productos.length} productos\`;
+  renderizarCatalogo(filtrados);
+}
+
+// ------------------------------------------------------------------------------
+// RETO 3: FORMULARIO POST CON e.preventDefault() Y HEADERS application/json
+// ------------------------------------------------------------------------------
+async function manejarCreacionProducto(e) {
+  // OBLIGATORIO: Evitar que el formulario recargue la página completa
+  e.preventDefault();
+
+  const formData = new FormData(formProducto);
+  const nuevoProducto = {
+    nombre: formData.get('nombre').trim(),
+    sku: formData.get('sku').trim().toUpperCase(),
+    categoria: formData.get('categoria'),
+    precio: Number(formData.get('precio')),
+    stock: Number(formData.get('stock'))
+  };
+
+  // Validación defensiva previa al envío de red
+  if (!nuevoProducto.nombre || !nuevoProducto.sku || nuevoProducto.precio <= 0) {
+    mostrarToast('Diligencie todos los campos requeridos con valores válidos', 'error');
+    return;
+  }
+
+  try {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(nuevoProducto)
+    });
+
+    const respuesta = await res.json();
+
+    if (!res.ok) {
+      throw new Error(respuesta.error || \`Fallo HTTP \${res.status}\`);
+    }
+
+    cerrarModal();
+    formProducto.reset();
+    mostrarToast(\`Producto "\${nuevoProducto.nombre}" registrado exitosamente (201 Created)\`, 'exito');
+    cargarProductosDesdeAPI(); // Recarga automática de la lista actualizada
+
+  } catch (error) {
+    mostrarToast(error.message, 'error');
+  }
+}
+
+// ------------------------------------------------------------------------------
+// RETO 4: ACTUALIZACIÓN DE STOCK CON MÉTODO PATCH EN CALIENTE
+// ------------------------------------------------------------------------------
+async function actualizarStockProducto(id, nuevoStock) {
+  if (nuevoStock < 0) return;
+
+  try {
+    const res = await fetch(\`\${API_URL}/\${id}/stock\`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ stock: nuevoStock })
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || 'No se pudo actualizar el stock');
+    }
+
+    // Actualización local en caliente para fluidez de interfaz
+    const prod = estadoApp.productos.find(p => p.id === id);
+    if (prod) prod.stock = nuevoStock;
+    aplicarFiltrosYRenderizar();
+    mostrarToast('Stock actualizado correctamente (200 OK)', 'exito');
+
+  } catch (error) {
+    mostrarToast(\`Error de stock: \${error.message}\`, 'error');
+  }
+}
+
+// ------------------------------------------------------------------------------
+// RETO 5: SISTEMA DE TOASTS Y MANEJO DEFENSIVO
+// ------------------------------------------------------------------------------
+function mostrarToast(mensaje, tipo = 'info') {
+  const toast = document.createElement('div');
+  toast.className = \`p-3.5 rounded-xl border \${tipo === 'exito' ? 'bg-emerald-950/90 text-emerald-200 border-emerald-500/40' : 'bg-rose-950/90 text-rose-200 border-rose-500/40'} shadow-xl backdrop-blur-md flex items-center gap-3 text-xs font-medium max-w-sm pointer-events-auto transition\`;
+  toast.textContent = mensaje;
+  toastContainer.appendChild(toast);
+  setTimeout(() => toast.remove(), 3500);
+}`
       }
     };
 
@@ -786,6 +934,10 @@ app.listen(PORT, () => {
         cargarSesion(2);
       } else if (e.key === '3') {
         cargarSesion(3);
+      } else if (e.key === '4') {
+        cargarSesion(4);
+      } else if (e.key === '5') {
+        cargarSesion(5);
       }
     });
 

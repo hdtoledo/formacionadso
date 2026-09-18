@@ -81,7 +81,8 @@ NivelacionADSO/
 │       ├── dia-01-sistema-ventas.sql       # Script de referencia validado en MySQL 8 InnoDB
 │       ├── dia-02-consultas-joins.sql      # Consultas analíticas y preguntas de sustentación
 │       ├── dia-03-taller-es6-asincronia.js # Solución técnica validada en Node.js
-│       └── dia-04-servidor-express-base.js # Servidor API Express base con 6 retos resueltos
+│       ├── dia-04-servidor-express-base.js # Servidor API Express base con 6 retos resueltos
+│       └── dia-05-catalogo-fetch-dom.html  # SPA Cliente en Vanilla JS con Fetch API y DOM
 └── semana-01-fundamentos/
     ├── dia-01-bd-sql-ddl-dml/
     │   ├── index.html             # Diapositivas de proyección (Sesión 01: Modelo Relacional & SQL)
@@ -95,13 +96,18 @@ NivelacionADSO/
     │   ├── index.html             # Diapositivas de proyección (Sesión 03: JavaScript ES6+ & Asincronía)
     │   └── recursos/
     │       └── plantilla_aprendiz.js     # Taller starter de 5 retos progresivos
-    └── dia-04-http-express-servidor-base/
-        ├── index.html             # Diapositivas de proyección (Sesión 04: Express & Bruno Client)
+    ├── dia-04-http-express-servidor-base/
+    │   ├── index.html             # Diapositivas de proyección (Sesión 04: Express & Bruno Client)
+    │   └── recursos/
+    │       ├── package.json              # Configuración de dependencias (Express) y scripts
+    │       ├── plantilla_servidor.js     # Servidor base starter para aprendices
+    │       ├── test_api.js               # Suite de 9 pruebas automatizadas para la API
+    │       └── bruno-collection/         # Colección oficial de Bruno (.bru) para Git
+    └── dia-05-consumo-fetch-dom/
+        ├── index.html             # Diapositivas de proyección (Sesión 05: Fetch API & DOM)
         └── recursos/
-            ├── package.json              # Configuración de dependencias (Express) y scripts
-            ├── plantilla_servidor.js     # Servidor base starter para aprendices
-            ├── test_api.js               # Suite de 9 pruebas automatizadas para la API
-            └── bruno-collection/         # Colección oficial de Bruno (.bru) para Git
+            ├── index.html                # Interfaz gráfica starter para aprendices
+            └── app.js                    # Taller starter con 5 retos progresivos
 ```
 
 ---

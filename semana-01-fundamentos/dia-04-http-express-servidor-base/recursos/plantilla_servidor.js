@@ -191,7 +191,36 @@ let productos = [
 // TODO 6.1: Implementa aquí el endpoint PATCH /api/productos/:id/stock
 // app.patch('/api/productos/:id/stock', (req, res) => { ... });
 
-// TODO 6.2: Implementa aquí el middleware 404 global al final de todas las rutas
+
+// =============================================================================
+// RETO BONUS [PREPARACIÓN LIVE MOD]: ELIMINAR PRODUCTO POR ID (DELETE)
+// =============================================================================
+/**
+ * OBJETIVO (Pregunta típica en Sustentación en Caliente):
+ * Implementar el borrado de un producto a partir de su ID.
+ * 
+ * Verbo: DELETE
+ * Ruta: /api/productos/:id
+ * 
+ * Reglas:
+ * 1. Extraer y convertir el id a número (`Number(req.params.id)`).
+ * 2. Buscar si el producto existe en el array.
+ *    Si NO existe -> Retornar Status 404 (Not Found):
+ *    { ok: false, error: "Producto no encontrado para eliminar" }
+ * 3. Si existe:
+ *    - Eliminarlo del array `productos` (usando `.filter()` o `.splice()`).
+ *    - Retornar Status 200 (OK) con JSON:
+ *      { ok: true, mensaje: "Producto eliminado exitosamente", idEliminado: id }
+ *    - (Opcional estándar REST: Retornar Status 204 No Content sin cuerpo).
+ */
+
+// TODO BONUS: Implementa aquí el endpoint DELETE /api/productos/:id
+// app.delete('/api/productos/:id', (req, res) => { ... });
+
+
+// =============================================================================
+// TODO 6.2: Middleware 404 Global (DEBE IR AL FINAL DE TODAS LAS RUTAS)
+// =============================================================================
 // app.use((req, res) => { ... });
 
 

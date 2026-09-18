@@ -1,0 +1,16 @@
+meta {
+  name: 11 - Eliminar Producto por ID (DELETE 200 o 204)
+  type: http
+  seq: 11
+}
+
+delete {
+  url: {{baseUrl}}/api/productos/5
+  body: none
+  auth: none
+}
+
+docs {
+  Elimina el producto con ID 5 del catálogo en memoria.
+  Debe retornar 200 OK con mensaje o 204 No Content.
+}
