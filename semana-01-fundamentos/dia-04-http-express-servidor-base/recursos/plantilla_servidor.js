@@ -11,9 +11,9 @@
  * 1. Asegúrate de instalar dependencias primero con: npm install
  * 2. Inicia tu servidor en la terminal con: npm start (o node plantilla_servidor.js)
  * 3. Resuelve cada uno de los 6 Retos Progresivos completando los bloques // TODO:.
- * 4. Prueba cada endpoint utilizando la colección de BRUNO en la carpeta:
- *    recursos/bruno-collection/
- * 5. También puedes ejecutar la suite de pruebas con: npm run test:api
+ * 4. Prueba cada endpoint creando y configurando manualmente tus peticiones en BRUNO
+ *    (método, URL, query params, headers y body JSON) siguiendo la guía de clase.
+ * 5. También puedes ejecutar la suite de pruebas automatizada con: npm run test:api
  * =============================================================================
  */
 
