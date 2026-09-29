@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Punto 6: Eliminar Producto (DELETE /api/productos/:id) | SENA ADSO</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen p-4 sm:p-8 font-sans">
+
+  <!-- CONTENEDOR PRINCIPAL: max-w-xl mx-auto -->
+  <main class="max-w-xl mx-auto space-y-6">
+
+    <!-- BARRA SUPERIOR -->
+    <div class="flex items-center justify-between">
+      <a href="index.html" class="text-sm font-semibold text-emerald-700 hover:text-emerald-800 transition">
+        &larr; Volver al Hub de Plantillas
+      </a>
+      <span class="text-xs bg-slate-200 text-slate-700 font-mono px-2.5 py-1 rounded-full font-bold">
+        Punto 6 · DELETE /api/productos/:id
+      </span>
+    </div>
+
+    <!-- TARJETA CON TAILWIND -->
+    <div class="bg-white p-6 rounded-2xl shadow border border-slate-200 space-y-4">
+      <div>
+        <span class="text-xs font-mono font-bold text-rose-700 bg-rose-100 px-2 py-0.5 rounded">MÉTODO DELETE</span>
+        <h1 class="text-xl font-bold text-slate-900 mt-1">6. Eliminación Defensiva por ID</h1>
+        <p class="text-xs text-slate-500 mt-1">
+          Petición destructiva <code class="font-mono text-slate-700">DELETE</code> protegida con ventana modal de confirmación antes del envío.
+        </p>
+      </div>
+
+      <!-- FORMULARIO -->
+      <div class="space-y-3">
+        <div>
+          <label for="input-id-eliminar" class="block text-xs font-bold text-slate-600 mb-1">ID del Producto a Eliminar:</label>
+          <input 
+            type="number" 
+            id="input-id-eliminar" 
+            placeholder="Ej: 5" 
+            min="1" 
+            value="5" 
+            class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500">
+        </div>
+
+        <button 
+          id="btn-eliminar" 
+          class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-2.5 px-4 rounded-xl text-sm transition shadow cursor-pointer">
+          Eliminar Producto del Servidor
+        </button>
+      </div>
+
+      <!-- ZONA DE RESULTADO -->
+      <div 
+        id="contenedor-resultado" 
+        class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-500 min-h-[90px] flex items-center justify-center text-center">
+        Ingresa el ID del producto que deseas remover y presiona el botón...
+      </div>
+    </div>
+
+    <!-- GUÍA DE CLASES TAILWIND -->
+    <div class="bg-slate-200/60 p-4 rounded-xl text-xs text-slate-600 space-y-1">
+      <p class="font-bold text-slate-800">💡 Clases clave de Tailwind utilizadas:</p>
+      <p>• <code class="font-mono font-bold">bg-rose-600 hover:bg-rose-700</code>: Color rojo de advertencia para acciones destructivas irreversibles.</p>
+      <p>• <code class="font-mono font-bold">border-rose-500 ring-2</code>: Foco rojo para enfatizar la naturaleza del input.</p>
+    </div>
+
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- JAVASCRIPT DIDÁCTICO PASO A PASO                             -->
+  <!-- ============================================================ -->
+  <script>
+    // PASO 1: Capturar elementos del DOM
+    const inputId = document.getElementById('input-id-eliminar');
+    const btnEliminar = document.getElementById('btn-eliminar');
+    const contenedorResultado = document.getElementById('contenedor-resultado');
+
+    // PASO 2: Función asíncrona de eliminación defensiva
+    async function eliminarProducto() {
+      const id = inputId.value.trim();
+
+      if (!id) {
+        alert('Por favor especifica un ID para eliminar.');
+        return;
+      }
+
+      // 🛑 PASO 3: Confirmación obligatoria del usuario antes de proceder
+      const confirmado = confirm(`¿Estás seguro de que deseas eliminar permanentemente el producto con ID ${id}?`);
+      if (!confirmado) {
+        contenedorResultado.className = 'p-4 rounded-xl bg-slate-100 text-slate-600 text-xs text-center';
+        contenedorResultado.textContent = 'Operación cancelada por el usuario.';
+        return;
+      }
+
+      btnEliminar.disabled = true;
+      btnEliminar.textContent = 'Eliminando del servidor...';
+
+      try {
+        // PASO 4: Petición DELETE a Express
+        const res = await fetch(`http://localhost:3000/api/productos/${id}`, {
+          method: 'DELETE'
+        });
+
+        const data = await res.json();
+
+        // PASO 5: Validar si no existe (404)
+        if (res.status === 404) {
+          contenedorResultado.className = 'p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-left space-y-1';
+          contenedorResultado.innerHTML = `
+            <p class="font-bold text-sm">⚠️ No se pudo eliminar (404)</p>
+            <p class="text-xs">${data.error || 'El producto ya no existe en el catálogo.'}</p>
+          `;
+          return;
+        }
+
+        if (!res.ok) {
+          throw new Error(data.error || `HTTP ${res.status}`);
+        }
+
+        // PASO 6: Pintar confirmación en el DOM
+        contenedorResultado.className = 'p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-950 text-left space-y-1 transition';
+        contenedorResultado.innerHTML = `
+          <p class="font-bold text-sm">🗑️ ${data.mensaje || 'Producto eliminado exitosamente'}</p>
+          <p class="text-xs">Registro eliminado: <strong class="text-slate-800">${data.dato?.nombre || 'ID #' + id}</strong> (SKU: ${data.dato?.sku || 'N/A'})</p>
+          <p class="text-[11px] text-emerald-700">Si vuelves al Punto 2 (Catálogo), verás que este registro ya no aparece.</p>
+        `;
+
+      } catch (error) {
+        contenedorResultado.className = 'p-4 rounded-xl bg-rose-50 border border-rose-300 text-rose-800 text-left space-y-1';
+        contenedorResultado.innerHTML = `
+          <p class="font-bold text-sm">❌ Error al eliminar</p>
+          <p class="text-xs">${error.message}</p>
+        `;
+      } finally {
+        btnEliminar.disabled = false;
+        btnEliminar.textContent = 'Eliminar Producto del Servidor';
+      }
+    }
+
+    // PASO 7: Evento click
+    btnEliminar.addEventListener('click', eliminarProducto);
+  </script>
+
+</body>
+</html>

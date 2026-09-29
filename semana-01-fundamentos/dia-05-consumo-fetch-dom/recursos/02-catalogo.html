@@ -3,184 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Punto 2: Catálogo de Productos (GET /api/productos) | SENA ADSO</title>
-  <!-- Tailwind CSS CDN -->
+  <title>Punto 2: Catálogo y Filtros (GET /api/productos) | Taller Base | SENA ADSO</title>
+  <!-- Tailwind CSS CDN para estilizado rápido -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen p-4 sm:p-8 font-sans">
 
-  <!-- CONTENEDOR PRINCIPAL: max-w-4xl para permitir visualización en columnas -->
+  <!-- ========================================================================= -->
+  <!-- CONTENEDOR PRINCIPAL: Ancho máximo extendido (max-w-4xl) para cuadrícula  -->
+  <!-- ========================================================================= -->
   <main class="max-w-4xl mx-auto space-y-6">
 
-    <!-- BARRA SUPERIOR -->
+    <!-- BARRA SUPERIOR: Navegación de retorno al Hub y Badge del Endpoint -->
     <div class="flex items-center justify-between">
-      <a href="index.html" class="text-sm font-semibold text-emerald-700 hover:text-emerald-800 transition">
+      <a href="index.html" class="text-sm font-semibold text-emerald-700 hover:text-emerald-800 transition flex items-center gap-1.5">
         &larr; Volver al Hub de Plantillas
       </a>
       <span class="text-xs bg-slate-200 text-slate-700 font-mono px-2.5 py-1 rounded-full font-bold">
-        Punto 2 · GET /api/productos
+        Punto 2 · GET /api/productos?categoria=&amp;q=
       </span>
     </div>
 
-    <!-- TARJETA DE CONTROL (FILTROS Y BÚSQUEDA) -->
-    <div class="bg-white p-6 rounded-2xl shadow border border-slate-200 space-y-4">
-      <div>
+    <!-- ENCABEZADO DIDÁCTICO DEL EJERCICIO -->
+    <div class="bg-white p-5 rounded-2xl shadow-xs border border-slate-200 space-y-1.5">
+      <div class="flex items-center gap-2">
         <span class="text-xs font-mono font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">MÉTODO GET</span>
-        <h1 class="text-xl font-bold text-slate-900 mt-1">2. Catálogo y Filtros con Parámetros Query</h1>
-        <p class="text-xs text-slate-500 mt-1">
-          Consume <code class="font-mono text-slate-700">/api/productos?categoria=...&q=...</code> y renderiza tarjetas dinámicas en el DOM.
+        <span class="text-xs text-slate-500 font-mono">http://localhost:3000/api/productos</span>
+      </div>
+      <h1 class="text-lg font-bold text-slate-900">2. Catálogo de Productos y Parámetros Query</h1>
+      <p class="text-xs text-slate-500">
+        Filtrar datos mediante cadenas de consulta en la URL (<code class="font-mono text-slate-700">?categoria=...&amp;q=...</code>) y generar tarjetas en el DOM con <code class="font-mono text-slate-700">.map()</code>.
+      </p>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- PASO 1 (HTML + TAILWIND CSS): ZONA DE TRABAJO                            -->
+    <!-- Reemplaza el bloque de abajo por el código explicado en la Diapositiva 11 -->
+    <!-- Elementos clave requeridos:                                              -->
+    <!--   1. Barra de controles: #input-busqueda, #select-categoria, #btn-consultar-->
+    <!--   2. Contenedor de tarjetas: <div id="grid-productos" class="grid ...">   -->
+    <!-- ========================================================================= -->
+    <div id="zona-trabajo-html" class="border-2 border-dashed border-blue-300 rounded-2xl p-8 text-center bg-white space-y-3">
+      <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-700 mx-auto flex items-center justify-center font-bold text-sm">
+        2
+      </div>
+      <div class="space-y-1">
+        <h3 class="font-bold text-slate-800 text-sm">Paso 1: Barra de Filtros y Cuadrícula Responsiva</h3>
+        <p class="text-xs text-slate-500 max-w-md mx-auto">
+          Pega o escribe aquí la maquetación HTML con Tailwind CSS explicada en la <strong>Diapositiva 11</strong>.
         </p>
       </div>
-
-      <!-- FORMULARIO DE FILTROS EN LÍNEA: grid de 1 columna en móvil y 3 en escritorio -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        
-        <!-- Input de búsqueda por texto -->
-        <div>
-          <label for="input-busqueda" class="block text-xs font-bold text-slate-600 mb-1">Buscar por nombre:</label>
-          <input 
-            type="text" 
-            id="input-busqueda" 
-            placeholder="Ej: Teclado, monitor..." 
-            class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
-        </div>
-
-        <!-- Select de Categoría -->
-        <div>
-          <label for="select-categoria" class="block text-xs font-bold text-slate-600 mb-1">Filtrar por categoría:</label>
-          <select 
-            id="select-categoria" 
-            class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white">
-            <option value="TODAS">Todas las categorías</option>
-            <option value="HARDWARE">Hardware</option>
-            <option value="PANTALLAS">Pantallas</option>
-            <option value="ACCESORIOS">Accesorios</option>
-            <option value="ALMACENAMIENTO">Almacenamiento</option>
-            <option value="REDES">Redes</option>
-          </select>
-        </div>
-
-        <!-- Botón de consulta -->
-        <div class="flex items-end">
-          <button 
-            id="btn-consultar" 
-            class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-xl text-sm transition shadow cursor-pointer">
-            Cargar Catálogo
-          </button>
-        </div>
-
+      <div class="text-[11px] font-mono text-slate-400 bg-slate-50 p-2 rounded-lg inline-block border border-slate-200">
+        Requiere: #input-busqueda, #select-categoria, #btn-consultar y #grid-productos
       </div>
     </div>
 
-    <!-- ZONA DE RESULTADO: Grid responsivo de tarjetas -->
-    <section>
-      <div class="flex items-center justify-between mb-3">
-        <h2 class="text-sm font-bold text-slate-700 uppercase tracking-wider">Productos en Existencia</h2>
-        <span id="contador-productos" class="text-xs font-mono font-bold text-slate-500 bg-white px-2 py-0.5 rounded border">
-          0 productos
-        </span>
-      </div>
-
-      <!-- Contenedor donde JS inyectará las tarjetas -->
-      <div id="grid-productos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <!-- Tarjeta inicial informativa -->
-        <div class="col-span-full p-8 text-center bg-white rounded-2xl border border-dashed border-slate-300 text-slate-400 text-sm">
-          Haz clic en "Cargar Catálogo" para obtener los productos desde Express.
-        </div>
-      </div>
-    </section>
-
-    <!-- GUÍA DE CLASES TAILWIND -->
+    <!-- GUÍA RÁPIDA DE CLASES TAILWIND UTILIZADAS -->
     <div class="bg-slate-200/60 p-4 rounded-xl text-xs text-slate-600 space-y-1">
-      <p class="font-bold text-slate-800">💡 Clases clave de Tailwind utilizadas:</p>
-      <p>• <code class="font-mono font-bold">grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4</code>: Grid que pasa de 1 a 2 y luego a 3 columnas según la pantalla.</p>
-      <p>• <code class="font-mono font-bold">border rounded-xl px-3 py-2</code>: Estilo moderno para inputs y selects.</p>
+      <p class="font-bold text-slate-800">💡 Clases clave de Tailwind que aprenderás en este ejercicio:</p>
+      <p>• <code class="font-mono font-bold text-slate-700">grid grid-cols-1 sm:grid-cols-3 gap-3</code>: Barra de filtros adaptativa (1 columna en móvil, 3 en pantallas medianas).</p>
+      <p>• <code class="font-mono font-bold text-slate-700">grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4</code>: Cuadrícula dinámica de productos.</p>
+      <p>• <code class="font-mono font-bold text-slate-700">focus:ring-2 focus:ring-emerald-500</code>: Accesibilidad y enfoque visual en inputs.</p>
     </div>
 
   </main>
 
-  <!-- ============================================================ -->
-  <!-- JAVASCRIPT DIDÁCTICO PASO A PASO                             -->
-  <!-- ============================================================ -->
+  <!-- ========================================================================= -->
+  <!-- PASO 2 (JAVASCRIPT FETCH Y DOM):                                          -->
+  <!-- Escribe o pega aquí la lógica explicada en la Diapositiva 12             -->
+  <!-- Pasos para la lógica:                                                     -->
+  <!--   1. Capturar los valores de categoría y texto de búsqueda                -->
+  <!--   2. Construir la URL con parámetros: /api/productos?categoria=...&q=...  -->
+  <!--   3. Ejecutar fetch() y deserializar con res.json()                       -->
+  <!--   4. Usar lista.map(prod => `...html...`).join('') para llenar el grid    -->
+  <!--   5. Conectar eventos en el botón o en los inputs con 'change' / 'input'  -->
+  <!-- ========================================================================= -->
   <script>
-    // PASO 1: Capturar los elementos del DOM
-    const btnConsultar = document.getElementById('btn-consultar');
-    const inputBusqueda = document.getElementById('input-busqueda');
-    const selectCategoria = document.getElementById('select-categoria');
-    const gridProductos = document.getElementById('grid-productos');
-    const contadorProductos = document.getElementById('contador-productos');
-
-    // PASO 2: Función asíncrona que hace fetch al backend
-    async function cargarCatalogo() {
-      const categoria = selectCategoria.value;
-      const busqueda = inputBusqueda.value.trim();
-
-      // Construcción dinámica de la URL con parámetros query
-      let url = 'http://localhost:3000/api/productos?';
-      if (categoria !== 'TODAS') url += `categoria=${encodeURIComponent(categoria)}&`;
-      if (busqueda) url += `q=${encodeURIComponent(busqueda)}`;
-
-      gridProductos.innerHTML = `
-        <div class="col-span-full p-8 text-center text-emerald-700 text-sm animate-pulse">
-          Cargando productos desde el servidor...
-        </div>
-      `;
-
-      try {
-        // PASO 3: Petición HTTP GET
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-
-        const lista = data.datos || [];
-        contadorProductos.textContent = `${lista.length} productos`;
-
-        // PASO 4: Si no hay resultados, mostramos un mensaje vacío
-        if (lista.length === 0) {
-          gridProductos.innerHTML = `
-            <div class="col-span-full p-8 text-center bg-white rounded-2xl border border-slate-200 text-slate-500 text-sm">
-              No se encontraron productos con los filtros seleccionados.
-            </div>
-          `;
-          return;
-        }
-
-        // PASO 5: Mapear la lista de productos a tarjetas HTML con Tailwind
-        gridProductos.innerHTML = lista.map(prod => `
-          <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow transition space-y-3">
-            <div>
-              <div class="flex items-center justify-between text-xs mb-1">
-                <span class="font-mono text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-bold">${prod.sku || 'SIN-SKU'}</span>
-                <span class="font-bold text-emerald-700 text-[11px]">${prod.categoria}</span>
-              </div>
-              <h3 class="font-bold text-slate-900 text-sm">${prod.nombre}</h3>
-            </div>
-            
-            <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
-              <span class="font-black text-slate-800 text-base">$${Number(prod.precio).toLocaleString('es-CO')}</span>
-              <span class="font-mono text-[11px] ${prod.stock > 0 ? 'text-slate-600' : 'text-rose-600 font-bold'}">
-                Stock: ${prod.stock}
-              </span>
-            </div>
-          </div>
-        `).join('');
-
-      } catch (error) {
-        gridProductos.innerHTML = `
-          <div class="col-span-full p-6 text-center bg-rose-50 rounded-2xl border border-rose-300 text-rose-800 text-xs">
-            Error al consultar productos: ${error.message}. Asegúrate de iniciar app.js con <code class="font-mono font-bold">npm start</code>.
-          </div>
-        `;
-      }
-    }
-
-    // PASO 6: Eventos
-    btnConsultar.addEventListener('click', cargarCatalogo);
-    selectCategoria.addEventListener('change', cargarCatalogo);
-    inputBusqueda.addEventListener('input', cargarCatalogo);
-
-    // Carga inicial automática al abrir la página
-    cargarCatalogo();
+    // 👇 ESCRIBE AQUÍ EL CÓDIGO JAVASCRIPT DEL PASO 2:
+    
   </script>
 
 </body>

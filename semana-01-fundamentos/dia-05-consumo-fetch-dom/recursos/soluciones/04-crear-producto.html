@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Punto 4: Registrar Producto (POST /api/productos) | SENA ADSO</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen p-4 sm:p-8 font-sans">
+
+  <!-- CONTENEDOR PRINCIPAL: max-w-xl mx-auto -->
+  <main class="max-w-xl mx-auto space-y-6">
+
+    <!-- BARRA SUPERIOR -->
+    <div class="flex items-center justify-between">
+      <a href="index.html" class="text-sm font-semibold text-emerald-700 hover:text-emerald-800 transition">
+        &larr; Volver al Hub de Plantillas
+      </a>
+      <span class="text-xs bg-slate-200 text-slate-700 font-mono px-2.5 py-1 rounded-full font-bold">
+        Punto 4 · POST /api/productos
+      </span>
+    </div>
+
+    <!-- TARJETA DEL FORMULARIO CON TAILWIND -->
+    <div class="bg-white p-6 rounded-2xl shadow border border-slate-200 space-y-4">
+      <div>
+        <span class="text-xs font-mono font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">MÉTODO POST</span>
+        <h1 class="text-xl font-bold text-slate-900 mt-1">4. Registrar Producto en el Servidor</h1>
+        <p class="text-xs text-slate-500 mt-1">
+          Demuestra la prevención de recarga (<code class="font-mono text-slate-700">e.preventDefault()</code>), cabeceras <code class="font-mono text-slate-700">Content-Type: application/json</code> y serialización con <code class="font-mono text-slate-700">JSON.stringify()</code>.
+        </p>
+      </div>
+
+      <!-- FORMULARIO HTML5 -->
+      <form id="form-producto" class="space-y-3">
+
+        <!-- Campo SKU y Categoría en 2 columnas -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="sku" class="block text-xs font-bold text-slate-600 mb-1">Código SKU:</label>
+            <input 
+              type="text" 
+              id="sku" 
+              name="sku" 
+              placeholder="Ej: AUD-006" 
+              required 
+              class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 uppercase">
+          </div>
+
+          <div>
+            <label for="categoria" class="block text-xs font-bold text-slate-600 mb-1">Categoría:</label>
+            <select 
+              id="categoria" 
+              name="categoria" 
+              required 
+              class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white">
+              <option value="HARDWARE">HARDWARE</option>
+              <option value="PANTALLAS">PANTALLAS</option>
+              <option value="ACCESORIOS">ACCESORIOS</option>
+              <option value="ALMACENAMIENTO">ALMACENAMIENTO</option>
+              <option value="REDES">REDES</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Campo Nombre -->
+        <div>
+          <label for="nombre" class="block text-xs font-bold text-slate-600 mb-1">Nombre del Producto:</label>
+          <input 
+            type="text" 
+            id="nombre" 
+            name="nombre" 
+            placeholder="Ej: Auriculares Inalámbricos Pro" 
+            required 
+            class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        </div>
+
+        <!-- Campo Precio y Stock en 2 columnas -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="precio" class="block text-xs font-bold text-slate-600 mb-1">Precio Unitario ($):</label>
+            <input 
+              type="number" 
+              id="precio" 
+              name="precio" 
+              min="1" 
+              placeholder="Ej: 145000" 
+              required 
+              class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          </div>
+
+          <div>
+            <label for="stock" class="block text-xs font-bold text-slate-600 mb-1">Cantidad Inicial (Stock):</label>
+            <input 
+              type="number" 
+              id="stock" 
+              name="stock" 
+              min="0" 
+              placeholder="Ej: 10" 
+              required 
+              class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          </div>
+        </div>
+
+        <!-- Botón de Envío -->
+        <button 
+          type="submit" 
+          id="btn-guardar" 
+          class="w-full mt-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-4 rounded-xl text-sm transition shadow cursor-pointer">
+          Guardar Producto en el Servidor
+        </button>
+
+      </form>
+
+      <!-- ZONA DE RESULTADO / RESPUESTA -->
+      <div 
+        id="mensaje-respuesta" 
+        class="hidden p-4 rounded-xl text-xs space-y-1 transition">
+      </div>
+
+    </div>
+
+    <!-- GUÍA DE CLASES TAILWIND -->
+    <div class="bg-slate-200/60 p-4 rounded-xl text-xs text-slate-600 space-y-1">
+      <p class="font-bold text-slate-800">💡 Clases clave de Tailwind utilizadas:</p>
+      <p>• <code class="font-mono font-bold">space-y-3</code>: Añade margen vertical uniforme entre los campos del formulario sin CSS adicional.</p>
+      <p>• <code class="font-mono font-bold">grid grid-cols-1 sm:grid-cols-2 gap-3</code>: Adapta campos en parejas responsivas.</p>
+    </div>
+
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- JAVASCRIPT DIDÁCTICO PASO A PASO                             -->
+  <!-- ============================================================ -->
+  <script>
+    // PASO 1: Capturar el formulario y el contenedor del resultado
+    const formProducto = document.getElementById('form-producto');
+    const mensajeRespuesta = document.getElementById('mensaje-respuesta');
+    const btnGuardar = document.getElementById('btn-guardar');
+
+    // PASO 2: Escuchar el evento 'submit' del formulario
+    formProducto.addEventListener('submit', async (e) => {
+      // 🛑 PASO 3: ¡VITAL! Frena el comportamiento nativo del navegador que recargaría la página
+      e.preventDefault();
+
+      // PASO 4: Extraer los datos de los inputs y construir el objeto a enviar
+      const nuevoProducto = {
+        sku: document.getElementById('sku').value.trim().toUpperCase(),
+        categoria: document.getElementById('categoria').value,
+        nombre: document.getElementById('nombre').value.trim(),
+        precio: Number(document.getElementById('precio').value),
+        stock: Number(document.getElementById('stock').value)
+      };
+
+      // Deshabilitar botón temporalmente
+      btnGuardar.disabled = true;
+      btnGuardar.textContent = 'Enviando al servidor...';
+
+      try {
+        // PASO 5: Realizar la petición POST con Fetch
+        const res = await fetch('http://localhost:3000/api/productos', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json' // 🏷️ Indica al servidor Express que el body es JSON
+          },
+          body: JSON.stringify(nuevoProducto)  // 📦 Convierte el objeto JS a una cadena de texto JSON
+        });
+
+        const data = await res.json();
+
+        // PASO 6: Si el servidor responde con 201 Created (Éxito)
+        if (res.status === 201) {
+          mensajeRespuesta.className = 'p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 block space-y-1';
+          mensajeRespuesta.innerHTML = `
+            <p class="font-bold text-sm">✅ ${data.mensaje || '¡Producto registrado con éxito!'}</p>
+            <p class="text-xs">ID asignado: <strong class="font-mono">#${data.dato.id}</strong> | SKU: <strong class="font-mono">${data.dato.sku}</strong></p>
+            <p class="text-[11px] text-emerald-700">Puedes verificarlo consultando el catálogo en el Punto 2.</p>
+          `;
+          
+          // Limpiar los campos del formulario
+          formProducto.reset();
+
+        } else if (res.status === 409) {
+          // En caso de SKU duplicado (Conflicto)
+          mensajeRespuesta.className = 'p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 block space-y-1';
+          mensajeRespuesta.innerHTML = `
+            <p class="font-bold text-sm">⚠️ Conflicto (HTTP 409)</p>
+            <p class="text-xs">${data.error || 'El código SKU ya existe en la base de datos.'}</p>
+          `;
+
+        } else {
+          // Error 400 por validación
+          throw new Error(data.error || `HTTP ${res.status}`);
+        }
+
+      } catch (error) {
+        mensajeRespuesta.className = 'p-4 rounded-xl bg-rose-50 border border-rose-300 text-rose-800 block space-y-1';
+        mensajeRespuesta.innerHTML = `
+          <p class="font-bold text-sm">❌ Error al registrar</p>
+          <p class="text-xs">${error.message}</p>
+        `;
+      } finally {
+        btnGuardar.disabled = false;
+        btnGuardar.textContent = 'Guardar Producto en el Servidor';
+      }
+    });
+  </script>
+
+</body>
+</html>

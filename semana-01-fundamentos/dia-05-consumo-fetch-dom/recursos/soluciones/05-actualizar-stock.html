@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Punto 5: Actualizar Stock (PATCH /api/productos/:id/stock) | SENA ADSO</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen p-4 sm:p-8 font-sans">
+
+  <!-- CONTENEDOR PRINCIPAL: max-w-xl mx-auto -->
+  <main class="max-w-xl mx-auto space-y-6">
+
+    <!-- BARRA SUPERIOR -->
+    <div class="flex items-center justify-between">
+      <a href="index.html" class="text-sm font-semibold text-emerald-700 hover:text-emerald-800 transition">
+        &larr; Volver al Hub de Plantillas
+      </a>
+      <span class="text-xs bg-slate-200 text-slate-700 font-mono px-2.5 py-1 rounded-full font-bold">
+        Punto 5 · PATCH /api/productos/:id/stock
+      </span>
+    </div>
+
+    <!-- TARJETA CON TAILWIND -->
+    <div class="bg-white p-6 rounded-2xl shadow border border-slate-200 space-y-4">
+      <div>
+        <span class="text-xs font-mono font-bold text-amber-800 bg-amber-100 px-2 py-0.5 rounded">MÉTODO PATCH</span>
+        <h1 class="text-xl font-bold text-slate-900 mt-1">5. Modificación Parcial de Atributos (Stock)</h1>
+        <p class="text-xs text-slate-500 mt-1">
+          Actualiza únicamente el stock de un producto sin sobrescribir el resto de sus propiedades.
+        </p>
+      </div>
+
+      <!-- FORMULARIO -->
+      <form id="form-stock" class="space-y-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="id-producto" class="block text-xs font-bold text-slate-600 mb-1">ID del Producto:</label>
+            <input 
+              type="number" 
+              id="id-producto" 
+              value="1" 
+              min="1" 
+              required 
+              class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+          </div>
+
+          <div>
+            <label for="nuevo-stock" class="block text-xs font-bold text-slate-600 mb-1">Nuevo Stock (>= 0):</label>
+            <input 
+              type="number" 
+              id="nuevo-stock" 
+              value="15" 
+              min="0" 
+              required 
+              class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+          </div>
+        </div>
+
+        <button 
+          type="submit" 
+          id="btn-actualizar" 
+          class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 px-4 rounded-xl text-sm transition shadow cursor-pointer">
+          Actualizar Stock con PATCH
+        </button>
+      </form>
+
+      <!-- ZONA DE RESULTADO -->
+      <div 
+        id="contenedor-resultado" 
+        class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-500 min-h-[90px] flex items-center justify-center text-center">
+        Modifica el stock y haz clic en "Actualizar Stock"...
+      </div>
+    </div>
+
+    <!-- GUÍA DE CLASES TAILWIND -->
+    <div class="bg-slate-200/60 p-4 rounded-xl text-xs text-slate-600 space-y-1">
+      <p class="font-bold text-slate-800">💡 Clases clave de Tailwind utilizadas:</p>
+      <p>• <code class="font-mono font-bold">bg-amber-600 hover:bg-amber-700</code>: Código visual cálido reservado para modificaciones parciales (PATCH).</p>
+      <p>• <code class="font-mono font-bold">focus:ring-2 focus:ring-amber-500</code>: Accesibilidad visual al interactuar con el formulario.</p>
+    </div>
+
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- JAVASCRIPT DIDÁCTICO PASO A PASO                             -->
+  <!-- ============================================================ -->
+  <script>
+    // PASO 1: Capturar elementos
+    const formStock = document.getElementById('form-stock');
+    const idProducto = document.getElementById('id-producto');
+    const nuevoStock = document.getElementById('nuevo-stock');
+    const contenedorResultado = document.getElementById('contenedor-resultado');
+    const btnActualizar = document.getElementById('btn-actualizar');
+
+    // PASO 2: Manejar el envío
+    formStock.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const id = idProducto.value.trim();
+      const stock = Number(nuevoStock.value);
+
+      if (stock < 0 || isNaN(stock)) {
+        alert('El stock debe ser un número igual o mayor a cero.');
+        return;
+      }
+
+      btnActualizar.disabled = true;
+      btnActualizar.textContent = 'Actualizando en Express...';
+
+      try {
+        // PASO 3: Fetch con método PATCH
+        const res = await fetch(`http://localhost:3000/api/productos/${id}/stock`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ nuevoStock: stock })
+        });
+
+        const data = await res.json();
+
+        // PASO 4: Validar respuesta de app.js
+        if (!res.ok) {
+          throw new Error(data.error || `HTTP ${res.status}`);
+        }
+
+        // PASO 5: Pintar resultado en el DOM
+        contenedorResultado.className = 'p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-950 text-left space-y-1 transition';
+        contenedorResultado.innerHTML = `
+          <p class="font-bold text-sm">✅ ${data.mensaje || 'Stock actualizado correctamente'}</p>
+          <div class="text-xs pt-1 flex items-center gap-4">
+            <span>Stock anterior: <strong class="line-through text-slate-500">${data.stockAnterior}</strong></span>
+            <span>➔</span>
+            <span>Stock nuevo: <strong class="text-emerald-700 text-sm font-black">${data.stockActual}</strong></span>
+          </div>
+          <p class="text-[11px] text-slate-500 mt-1">Producto: ${data.dato?.nombre || 'ID #' + id}</p>
+        `;
+
+      } catch (error) {
+        contenedorResultado.className = 'p-4 rounded-xl bg-rose-50 border border-rose-300 text-rose-800 text-left space-y-1';
+        contenedorResultado.innerHTML = `
+          <p class="font-bold text-sm">❌ No se pudo actualizar</p>
+          <p class="text-xs">${error.message}</p>
+        `;
+      } finally {
+        btnActualizar.disabled = false;
+        btnActualizar.textContent = 'Actualizar Stock con PATCH';
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Punto 1: Health Check (GET /api/status) | SENA ADSO</title>
-  <!-- Tailwind CSS CDN para estilizado rápido con clases utilitarias -->
+  <title>Punto 1: Health Check (GET /api/status) | Taller Base | SENA ADSO</title>
+  <!-- Tailwind CSS CDN para estilizado con clases utilitarias -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen p-4 sm:p-8 font-sans">
 
-  <!-- ============================================================ -->
-  <!-- CONTENEDOR PRINCIPAL: max-w-xl (ancho máximo), mx-auto (centrado) -->
-  <!-- ============================================================ -->
+  <!-- ========================================================================= -->
+  <!-- CONTENEDOR PRINCIPAL: Ancho máximo responsivo y centrado horizontal       -->
+  <!-- ========================================================================= -->
   <main class="max-w-xl mx-auto space-y-6">
 
-    <!-- BARRA SUPERIOR: Navegación de regreso al Hub -->
+    <!-- BARRA SUPERIOR: Navegación de retorno al Hub y Badge del Endpoint -->
     <div class="flex items-center justify-between">
-      <a href="index.html" class="text-sm font-semibold text-emerald-700 hover:text-emerald-800 transition">
+      <a href="index.html" class="text-sm font-semibold text-emerald-700 hover:text-emerald-800 transition flex items-center gap-1.5">
         &larr; Volver al Hub de Plantillas
       </a>
       <span class="text-xs bg-slate-200 text-slate-700 font-mono px-2.5 py-1 rounded-full font-bold">
@@ -24,103 +24,63 @@
       </span>
     </div>
 
-    <!-- TARJETA EXPLICATIVA: bg-white (fondo blanco), p-6 (padding), rounded-2xl (bordes redondeados), shadow (sombra) -->
-    <div class="bg-white p-6 rounded-2xl shadow border border-slate-200 space-y-4">
-      
-      <!-- Encabezado de la tarjeta -->
-      <div>
+    <!-- ENCABEZADO DIDÁCTICO DEL EJERCICIO -->
+    <div class="bg-white p-5 rounded-2xl shadow-xs border border-slate-200 space-y-1.5">
+      <div class="flex items-center gap-2">
         <span class="text-xs font-mono font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">MÉTODO GET</span>
-        <h1 class="text-xl font-bold text-slate-900 mt-1">1. Diagnóstico del Servidor (Health Check)</h1>
-        <p class="text-xs text-slate-500 mt-1">
-          Valida si el servidor Express en <code class="font-mono text-slate-700">http://localhost:3000</code> está encendido y respondiendo.
-        </p>
+        <span class="text-xs text-slate-500 font-mono">http://localhost:3000/api/status</span>
       </div>
-
-      <!-- BOTÓN DE ACCIÓN CON TAILWIND:
-           w-full: ancho completo | bg-emerald-600: color verde SENA
-           hover:bg-emerald-700: oscurece al pasar el cursor
-           text-white: texto blanco | font-bold: negrita | py-2.5: padding vertical -->
-      <button 
-        id="btn-verificar" 
-        class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-4 rounded-xl transition duration-150 shadow hover:shadow-md cursor-pointer">
-        Verificar Estado del Servidor
-      </button>
-
-      <!-- ZONA DE RESULTADO DEL DOM:
-           Aquí JavaScript inyectará la respuesta recibida desde app.js.
-           Inicialmente tiene un estilo neutro (bg-slate-50). -->
-      <div 
-        id="contenedor-resultado" 
-        class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-500 min-h-[90px] flex items-center justify-center text-center">
-        Presiona el botón para consultar el endpoint...
-      </div>
-
+      <h1 class="text-lg font-bold text-slate-900">1. Diagnóstico del Servidor (Health Check)</h1>
+      <p class="text-xs text-slate-500">
+        Comprobar si la API REST de Express en el puerto 3000 está en ejecución y responder con status 200 OK.
+      </p>
     </div>
 
-    <!-- GUÍA DE CLASES TAILWIND PARA EL APRENDIZ -->
+    <!-- ========================================================================= -->
+    <!-- PASO 1 (HTML + TAILWIND CSS): ZONA DE TRABAJO                            -->
+    <!-- Reemplaza el bloque de abajo por el código explicado en la Diapositiva 10 -->
+    <!-- Elementos clave requeridos:                                              -->
+    <!--   1. <button id="btn-verificar" class="...">Verificar Estado</button>     -->
+    <!--   2. <div id="contenedor-resultado" class="...">Respuesta aquí...</div>    -->
+    <!-- ========================================================================= -->
+    <div id="zona-trabajo-html" class="border-2 border-dashed border-emerald-300 rounded-2xl p-8 text-center bg-white space-y-3">
+      <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 mx-auto flex items-center justify-center font-bold text-sm">
+        1
+      </div>
+      <div class="space-y-1">
+        <h3 class="font-bold text-slate-800 text-sm">Paso 1: Construcción de la Interfaz</h3>
+        <p class="text-xs text-slate-500 max-w-md mx-auto">
+          Pega o escribe aquí el código HTML con clases de Tailwind CSS explicado en la <strong>Diapositiva 10</strong>.
+        </p>
+      </div>
+      <div class="text-[11px] font-mono text-slate-400 bg-slate-50 p-2 rounded-lg inline-block border border-slate-200">
+        Requiere: #btn-verificar y #contenedor-resultado
+      </div>
+    </div>
+
+    <!-- GUÍA RÁPIDA DE CLASES TAILWIND UTILIZADAS -->
     <div class="bg-slate-200/60 p-4 rounded-xl text-xs text-slate-600 space-y-1">
-      <p class="font-bold text-slate-800">💡 Clases clave de Tailwind utilizadas:</p>
-      <p>• <code class="font-mono font-bold">max-w-xl mx-auto</code>: Limita el ancho y centra horizontalmente.</p>
-      <p>• <code class="font-mono font-bold">bg-white p-6 rounded-2xl shadow</code>: Crea el efecto de tarjeta moderna.</p>
-      <p>• <code class="font-mono font-bold">bg-emerald-600 hover:bg-emerald-700</code>: Botón interactivo con color primario.</p>
+      <p class="font-bold text-slate-800">💡 Clases clave de Tailwind que aprenderás en este ejercicio:</p>
+      <p>• <code class="font-mono font-bold text-slate-700">max-w-xl mx-auto</code>: Ancho máximo uniforme y centrado horizontal.</p>
+      <p>• <code class="font-mono font-bold text-slate-700">bg-white p-6 rounded-2xl shadow</code>: Estructura de tarjeta moderna.</p>
+      <p>• <code class="font-mono font-bold text-slate-700">bg-emerald-600 hover:bg-emerald-700</code>: Estado interactivo para botones.</p>
     </div>
 
   </main>
 
-  <!-- ============================================================ -->
-  <!-- JAVASCRIPT DIDÁCTICO PASO A PASO                             -->
-  <!-- ============================================================ -->
+  <!-- ========================================================================= -->
+  <!-- PASO 2 (JAVASCRIPT FETCH Y DOM):                                          -->
+  <!-- Escribe o pega aquí la lógica explicada en la Diapositiva 10             -->
+  <!-- Pasos para la lógica:                                                     -->
+  <!--   1. Capturar #btn-verificar y #contenedor-resultado                      -->
+  <!--   2. Crear función asíncrona: fetch('http://localhost:3000/api/status')   -->
+  <!--   3. Validar res.ok y deserializar res.json()                             -->
+  <!--   4. Inyectar datos en contenedor-resultado con innerHTML                 -->
+  <!--   5. Conectar el evento click del botón                                   -->
+  <!-- ========================================================================= -->
   <script>
-    // PASO 1: Capturar los elementos del HTML mediante su atributo 'id'
-    const btnVerificar = document.getElementById('btn-verificar');
-    const contenedorResultado = document.getElementById('contenedor-resultado');
-
-    // PASO 2: Definir la función asíncrona para consultar el servidor
-    async function consultarEstadoServidor() {
-      // Indicador visual de espera
-      contenedorResultado.className = 'p-4 rounded-xl bg-blue-50 border border-blue-200 text-xs text-blue-700 text-center font-medium animate-pulse';
-      contenedorResultado.textContent = 'Enviando petición GET a http://localhost:3000/api/status...';
-
-      try {
-        // PASO 3: Ejecutar fetch() hacia la URL de Express
-        const res = await fetch('http://localhost:3000/api/status');
-
-        // PASO 4: Validar si la respuesta HTTP es exitosa (código 200-299)
-        if (!res.ok) {
-          throw new Error(`El servidor respondió con error: HTTP ${res.status}`);
-        }
-
-        // PASO 5: Deserializar el JSON recibido
-        const data = await res.json();
-
-        // PASO 6: Modificar el DOM con clases Tailwind para mostrar éxito
-        contenedorResultado.className = 'p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-slate-800 text-left space-y-1.5 transition';
-        contenedorResultado.innerHTML = `
-          <div class="flex items-center justify-between border-b border-emerald-200 pb-2">
-            <span class="font-bold text-emerald-800 text-sm flex items-center gap-1.5">
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block animate-ping"></span>
-              Servidor Activo (HTTP 200 OK)
-            </span>
-            <span class="text-[10px] font-mono bg-emerald-200 text-emerald-900 px-2 py-0.5 rounded font-bold">ONLINE</span>
-          </div>
-          <p class="text-xs"><strong>Mensaje:</strong> ${data.mensaje}</p>
-          <p class="text-xs"><strong>Tiempo activo:</strong> ${data.uptime} segundos</p>
-          <p class="text-[11px] text-slate-500 font-mono">Timestamp: ${data.timestamp}</p>
-        `;
-
-      } catch (error) {
-        // En caso de que app.js esté apagado o falle la conexión
-        contenedorResultado.className = 'p-4 rounded-xl bg-rose-50 border border-rose-300 text-rose-800 text-left space-y-1 transition';
-        contenedorResultado.innerHTML = `
-          <p class="font-bold text-sm">❌ No se pudo conectar al servidor</p>
-          <p class="text-xs">Verifica que Express esté encendido en la terminal con: <code class="font-mono bg-rose-100 px-1 rounded font-bold">npm start</code></p>
-          <p class="text-[11px] text-rose-600 font-mono">Detalle: ${error.message}</p>
-        `;
-      }
-    }
-
-    // PASO 7: Escuchar el evento 'click' en el botón para ejecutar la función
-    btnVerificar.addEventListener('click', consultarEstadoServidor);
+    // 👇 ESCRIBE AQUÍ EL CÓDIGO JAVASCRIPT DEL PASO 2:
+    
   </script>
 
 </body>
