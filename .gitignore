@@ -110,3 +110,6 @@ planSesiones.md
 # ==============================================================================
 !semana-*/dia-*/recursos/*.sql
 !semana-*/dia-*/recursos/*
+!semana-*/dia-*/*.zip
+!dia-05-fetch-dom-taller.zip
+

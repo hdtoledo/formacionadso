@@ -3,18 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Punto 1: Health Check (GET /api/status) | Taller Base | SENA ADSO</title>
-  <!-- Tailwind CSS CDN para estilizado con clases utilitarias -->
+  <title>Punto 1: Health Check (GET /api/status) | SENA ADSO</title>
+  <!-- Tailwind CSS CDN para estilizado rápido -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen p-4 sm:p-8 font-sans">
 
-  <!-- ========================================================================= -->
-  <!-- CONTENEDOR PRINCIPAL: Ancho máximo responsivo y centrado horizontal       -->
-  <!-- ========================================================================= -->
   <main class="max-w-xl mx-auto space-y-6">
 
-    <!-- BARRA SUPERIOR: Navegación de retorno al Hub y Badge del Endpoint -->
+    <!-- Navegación de retorno al Hub -->
     <div class="flex items-center justify-between">
       <a href="index.html" class="text-sm font-semibold text-emerald-700 hover:text-emerald-800 transition flex items-center gap-1.5">
         &larr; Volver al Hub de Plantillas
@@ -24,63 +21,55 @@
       </span>
     </div>
 
-    <!-- ENCABEZADO DIDÁCTICO DEL EJERCICIO -->
-    <div class="bg-white p-5 rounded-2xl shadow-xs border border-slate-200 space-y-1.5">
-      <div class="flex items-center gap-2">
+    <!-- TARJETA DEL COMPONENTE (Plantilla Lista con Tailwind CSS) -->
+    <div class="bg-white p-6 rounded-2xl shadow border border-slate-200 space-y-4">
+      <div>
         <span class="text-xs font-mono font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">MÉTODO GET</span>
-        <span class="text-xs text-slate-500 font-mono">http://localhost:3000/api/status</span>
-      </div>
-      <h1 class="text-lg font-bold text-slate-900">1. Diagnóstico del Servidor (Health Check)</h1>
-      <p class="text-xs text-slate-500">
-        Comprobar si la API REST de Express en el puerto 3000 está en ejecución y responder con status 200 OK.
-      </p>
-    </div>
-
-    <!-- ========================================================================= -->
-    <!-- PASO 1 (HTML + TAILWIND CSS): ZONA DE TRABAJO                            -->
-    <!-- Reemplaza el bloque de abajo por el código explicado en la Diapositiva 10 -->
-    <!-- Elementos clave requeridos:                                              -->
-    <!--   1. <button id="btn-verificar" class="...">Verificar Estado</button>     -->
-    <!--   2. <div id="contenedor-resultado" class="...">Respuesta aquí...</div>    -->
-    <!-- ========================================================================= -->
-    <div id="zona-trabajo-html" class="border-2 border-dashed border-emerald-300 rounded-2xl p-8 text-center bg-white space-y-3">
-      <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 mx-auto flex items-center justify-center font-bold text-sm">
-        1
-      </div>
-      <div class="space-y-1">
-        <h3 class="font-bold text-slate-800 text-sm">Paso 1: Construcción de la Interfaz</h3>
-        <p class="text-xs text-slate-500 max-w-md mx-auto">
-          Pega o escribe aquí el código HTML con clases de Tailwind CSS explicado en la <strong>Diapositiva 10</strong>.
+        <h1 class="text-xl font-bold text-slate-900 mt-1">1. Diagnóstico del Servidor (Health Check)</h1>
+        <p class="text-xs text-slate-500 mt-1">
+          Valida si el servidor Express en <code class="font-mono text-slate-700">http://localhost:3000</code> está encendido y respondiendo.
         </p>
       </div>
-      <div class="text-[11px] font-mono text-slate-400 bg-slate-50 p-2 rounded-lg inline-block border border-slate-200">
-        Requiere: #btn-verificar y #contenedor-resultado
+
+      <!-- Botón de Acción -->
+      <button 
+        id="btn-verificar" 
+        class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-4 rounded-xl transition shadow cursor-pointer">
+        Verificar Estado del Servidor
+      </button>
+
+      <!-- Zona de Respuesta del DOM -->
+      <div 
+        id="contenedor-resultado" 
+        class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-500 min-h-[80px] flex items-center justify-center text-center">
+        Presiona el botón para consultar el endpoint...
       </div>
     </div>
 
-    <!-- GUÍA RÁPIDA DE CLASES TAILWIND UTILIZADAS -->
+    <!-- Guía didáctica de clases Tailwind -->
     <div class="bg-slate-200/60 p-4 rounded-xl text-xs text-slate-600 space-y-1">
-      <p class="font-bold text-slate-800">💡 Clases clave de Tailwind que aprenderás en este ejercicio:</p>
-      <p>• <code class="font-mono font-bold text-slate-700">max-w-xl mx-auto</code>: Ancho máximo uniforme y centrado horizontal.</p>
-      <p>• <code class="font-mono font-bold text-slate-700">bg-white p-6 rounded-2xl shadow</code>: Estructura de tarjeta moderna.</p>
-      <p>• <code class="font-mono font-bold text-slate-700">bg-emerald-600 hover:bg-emerald-700</code>: Estado interactivo para botones.</p>
+      <p class="font-bold text-slate-800">💡 Clases clave de Tailwind utilizadas:</p>
+      <p>• <code class="font-mono font-bold text-slate-700">max-w-xl mx-auto</code>: Ancho máximo centrado.</p>
+      <p>• <code class="font-mono font-bold text-slate-700">bg-white p-6 rounded-2xl shadow</code>: Estructura de tarjeta.</p>
+      <p>• <code class="font-mono font-bold text-slate-700">bg-emerald-600 hover:bg-emerald-700</code>: Botón interactivo.</p>
     </div>
 
   </main>
 
-  <!-- ========================================================================= -->
-  <!-- PASO 2 (JAVASCRIPT FETCH Y DOM):                                          -->
-  <!-- Escribe o pega aquí la lógica explicada en la Diapositiva 10             -->
-  <!-- Pasos para la lógica:                                                     -->
-  <!--   1. Capturar #btn-verificar y #contenedor-resultado                      -->
-  <!--   2. Crear función asíncrona: fetch('http://localhost:3000/api/status')   -->
-  <!--   3. Validar res.ok y deserializar res.json()                             -->
-  <!--   4. Inyectar datos en contenedor-resultado con innerHTML                 -->
-  <!--   5. Conectar el evento click del botón                                   -->
-  <!-- ========================================================================= -->
+  <!-- ============================================================ -->
+  <!-- JAVASCRIPT: PROGRAMA AQUÍ LA LÓGICA DE CONSUMO CON FETCH     -->
+  <!-- (Sigue la explicación paso a paso de la Diapositiva 10)     -->
+  <!-- ============================================================ -->
   <script>
-    // 👇 ESCRIBE AQUÍ EL CÓDIGO JAVASCRIPT DEL PASO 2:
-    
+    // PASO 1: Capturar los elementos del DOM por su id (#btn-verificar y #contenedor-resultado)
+
+
+    // PASO 2: Crear la función asíncrona para consultar http://localhost:3000/api/status
+    // Recuerda validar res.ok, deserializar con res.json() e inyectar el HTML en el contenedor
+
+
+    // PASO 3: Conectar el evento click del botón para ejecutar la función
+
   </script>
 
 </body>

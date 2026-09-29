@@ -3,18 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Punto 2: Catálogo y Filtros (GET /api/productos) | Taller Base | SENA ADSO</title>
+  <title>Punto 2: Catálogo y Filtros (GET /api/productos) | SENA ADSO</title>
   <!-- Tailwind CSS CDN para estilizado rápido -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen p-4 sm:p-8 font-sans">
 
-  <!-- ========================================================================= -->
-  <!-- CONTENEDOR PRINCIPAL: Ancho máximo extendido (max-w-4xl) para cuadrícula  -->
-  <!-- ========================================================================= -->
   <main class="max-w-4xl mx-auto space-y-6">
 
-    <!-- BARRA SUPERIOR: Navegación de retorno al Hub y Badge del Endpoint -->
+    <!-- Navegación de retorno al Hub -->
     <div class="flex items-center justify-between">
       <a href="index.html" class="text-sm font-semibold text-emerald-700 hover:text-emerald-800 transition flex items-center gap-1.5">
         &larr; Volver al Hub de Plantillas
@@ -24,63 +21,79 @@
       </span>
     </div>
 
-    <!-- ENCABEZADO DIDÁCTICO DEL EJERCICIO -->
-    <div class="bg-white p-5 rounded-2xl shadow-xs border border-slate-200 space-y-1.5">
-      <div class="flex items-center gap-2">
+    <!-- ENCABEZADO Y CONTROLES DEL CATÁLOGO (Plantilla Lista con Tailwind CSS) -->
+    <div class="bg-white p-6 rounded-2xl shadow border border-slate-200 space-y-4">
+      <div>
         <span class="text-xs font-mono font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">MÉTODO GET</span>
-        <span class="text-xs text-slate-500 font-mono">http://localhost:3000/api/productos</span>
-      </div>
-      <h1 class="text-lg font-bold text-slate-900">2. Catálogo de Productos y Parámetros Query</h1>
-      <p class="text-xs text-slate-500">
-        Filtrar datos mediante cadenas de consulta en la URL (<code class="font-mono text-slate-700">?categoria=...&amp;q=...</code>) y generar tarjetas en el DOM con <code class="font-mono text-slate-700">.map()</code>.
-      </p>
-    </div>
-
-    <!-- ========================================================================= -->
-    <!-- PASO 1 (HTML + TAILWIND CSS): ZONA DE TRABAJO                            -->
-    <!-- Reemplaza el bloque de abajo por el código explicado en la Diapositiva 11 -->
-    <!-- Elementos clave requeridos:                                              -->
-    <!--   1. Barra de controles: #input-busqueda, #select-categoria, #btn-consultar-->
-    <!--   2. Contenedor de tarjetas: <div id="grid-productos" class="grid ...">   -->
-    <!-- ========================================================================= -->
-    <div id="zona-trabajo-html" class="border-2 border-dashed border-blue-300 rounded-2xl p-8 text-center bg-white space-y-3">
-      <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-700 mx-auto flex items-center justify-center font-bold text-sm">
-        2
-      </div>
-      <div class="space-y-1">
-        <h3 class="font-bold text-slate-800 text-sm">Paso 1: Barra de Filtros y Cuadrícula Responsiva</h3>
-        <p class="text-xs text-slate-500 max-w-md mx-auto">
-          Pega o escribe aquí la maquetación HTML con Tailwind CSS explicada en la <strong>Diapositiva 11</strong>.
+        <h1 class="text-xl font-bold text-slate-900 mt-1">2. Catálogo de Productos con Filtros Query</h1>
+        <p class="text-xs text-slate-500 mt-1">
+          Consume el endpoint <code class="font-mono text-slate-700">/api/productos</code> enviando parámetros de consulta y renderizando tarjetas dinámicas.
         </p>
       </div>
-      <div class="text-[11px] font-mono text-slate-400 bg-slate-50 p-2 rounded-lg inline-block border border-slate-200">
-        Requiere: #input-busqueda, #select-categoria, #btn-consultar y #grid-productos
+
+      <!-- Barra de Filtros: 1 columna en móvil, 3 en pantallas medianas -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <!-- 1. Input para buscar por texto -->
+        <input 
+          type="text" 
+          id="input-busqueda" 
+          placeholder="Buscar por nombre..." 
+          class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+
+        <!-- 2. Select para filtrar por categoría -->
+        <select 
+          id="select-categoria" 
+          class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          <option value="TODAS">Todas las categorías</option>
+          <option value="HARDWARE">Hardware</option>
+          <option value="PANTALLAS">Pantallas</option>
+          <option value="ACCESORIOS">Accesorios</option>
+          <option value="ALMACENAMIENTO">Almacenamiento</option>
+          <option value="REDES">Redes</option>
+        </select>
+
+        <!-- 3. Botón de consulta -->
+        <button 
+          id="btn-consultar" 
+          class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-4 rounded-xl transition shadow cursor-pointer">
+          Cargar Catálogo
+        </button>
       </div>
     </div>
 
-    <!-- GUÍA RÁPIDA DE CLASES TAILWIND UTILIZADAS -->
+    <!-- CONTENEDOR RESPONSIVO PARA TARJETAS DEL CATÁLOGO -->
+    <div id="grid-productos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="col-span-full p-8 text-center bg-white rounded-2xl border border-slate-200 text-slate-400 text-sm">
+        Haz clic en "Cargar Catálogo" para renderizar los productos desde Express...
+      </div>
+    </div>
+
+    <!-- Guía didáctica de clases Tailwind -->
     <div class="bg-slate-200/60 p-4 rounded-xl text-xs text-slate-600 space-y-1">
-      <p class="font-bold text-slate-800">💡 Clases clave de Tailwind que aprenderás en este ejercicio:</p>
-      <p>• <code class="font-mono font-bold text-slate-700">grid grid-cols-1 sm:grid-cols-3 gap-3</code>: Barra de filtros adaptativa (1 columna en móvil, 3 en pantallas medianas).</p>
-      <p>• <code class="font-mono font-bold text-slate-700">grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4</code>: Cuadrícula dinámica de productos.</p>
-      <p>• <code class="font-mono font-bold text-slate-700">focus:ring-2 focus:ring-emerald-500</code>: Accesibilidad y enfoque visual en inputs.</p>
+      <p class="font-bold text-slate-800">💡 Clases clave de Tailwind utilizadas:</p>
+      <p>• <code class="font-mono font-bold text-slate-700">grid grid-cols-1 sm:grid-cols-3 gap-3</code>: Barra de filtros adaptativa.</p>
+      <p>• <code class="font-mono font-bold text-slate-700">grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4</code>: Cuadrícula responsiva para las tarjetas.</p>
     </div>
 
   </main>
 
-  <!-- ========================================================================= -->
-  <!-- PASO 2 (JAVASCRIPT FETCH Y DOM):                                          -->
-  <!-- Escribe o pega aquí la lógica explicada en la Diapositiva 12             -->
-  <!-- Pasos para la lógica:                                                     -->
-  <!--   1. Capturar los valores de categoría y texto de búsqueda                -->
-  <!--   2. Construir la URL con parámetros: /api/productos?categoria=...&q=...  -->
-  <!--   3. Ejecutar fetch() y deserializar con res.json()                       -->
-  <!--   4. Usar lista.map(prod => `...html...`).join('') para llenar el grid    -->
-  <!--   5. Conectar eventos en el botón o en los inputs con 'change' / 'input'  -->
-  <!-- ========================================================================= -->
+  <!-- ============================================================ -->
+  <!-- JAVASCRIPT: PROGRAMA AQUÍ LA LÓGICA DE CONSUMO CON FETCH     -->
+  <!-- (Sigue la explicación paso a paso de la Diapositiva 12)     -->
+  <!-- ============================================================ -->
   <script>
-    // 👇 ESCRIBE AQUÍ EL CÓDIGO JAVASCRIPT DEL PASO 2:
-    
+    // PASO 1: Capturar los elementos del DOM (#select-categoria, #input-busqueda, #btn-consultar, #grid-productos)
+
+
+    // PASO 2: Crear la función asíncrona cargarCatalogo()
+    // 1. Construir URL con parámetros: /api/productos?categoria=...&q=...
+    // 2. Ejecutar fetch(url) y obtener data.datos
+    // 3. Mapear cada producto con .map() a una tarjeta HTML con Tailwind
+    // 4. Inyectar con innerHTML usando .join('')
+
+
+    // PASO 3: Conectar eventos al botón y a los inputs (click, change, input)
+
   </script>
 
 </body>
