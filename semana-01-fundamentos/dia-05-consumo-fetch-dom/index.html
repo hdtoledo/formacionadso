@@ -992,77 +992,246 @@ console.log(typeof respuesta); // 'object'</code></pre>
           <strong>Dirección Frontend ➔ Backend:</strong> <code class="font-mono text-blue-700 font-bold">JSON.stringify()</code> + Header <code class="font-mono text-emerald-700 font-bold">'Content-Type': 'application/json'</code>.
         </div>
         <div>
-          <strong>Dirección Backend ➔ Frontend:</strong> Servidor usa <code class="font-mono font-bold">res.json()</code> y Cliente usa <code class="font-mono font-bold">await res.json()</code>.
+          <strong>Dirección Backend ➔ Frontend:</strong> <code class="font-mono text-emerald-700 font-bold">res.json()</code> del lado del navegador al leer la respuesta HTTP.
         </div>
       </div>
     </section>
 
 
-    <!-- SLIDE 9: ARQUITECTURA DE LA SPA: ESTADO LOCAL -->
+    <!-- SLIDE 9: ANATOMÍA DE INTERFAZ CON TAILWIND CSS PARA CONSUMO DE APIS -->
     <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="9" data-block="2">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3 xl:mb-4">
           <div class="flex items-center space-x-2.5">
             <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Arquitectura de Software en Cliente</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Estilizado Moderno &amp; Layout</span>
           </div>
           <span class="text-xs font-mono font-bold text-slate-400">SLIDE 09 / 25</span>
         </div>
 
         <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
-          Arquitectura de la SPA: <span class="text-blue-700">El Estado Local como Fuente de la Verdad</span>
+          Anatomía de Interfaz con Tailwind CSS: <span class="text-blue-700">De la Etiqueta al Componente</span>
         </h2>
-        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-4 leading-relaxed">
-          Principio fundamental de ingeniería frontend: <strong>El DOM no es la base de datos</strong>. El DOM es únicamente la proyección visual de una estructura de datos en memoria llamada <em>Estado</em>.
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          En lugar de escribir cientos de líneas en hojas <code class="font-mono text-slate-800">.css</code> separadas, <strong>Tailwind CSS</strong> aplica clases atómicas directas en el HTML. Cada plantilla del taller utiliza esta misma estructura limpia y predecible:
         </p>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center my-2">
+        <!-- Los 4 Pilares de Tailwind para el Aprendiz -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 my-2">
           
-          <!-- Código de Estado Global en app.js -->
-          <div class="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
-            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-              <span class="text-xs font-mono font-bold text-slate-700">recursos/cliente.js (Estado Reactivo Frontend)</span>
-              <span class="text-[10px] text-blue-600 font-mono font-bold">Variables DOM + Estado Central</span>
-            </div>
-            <pre class="bg-slate-900 text-slate-100 p-3.5 rounded-xl text-xs font-mono overflow-x-auto"><code class="language-javascript">// 1. Captura de elementos del HTML por ID (definidos en index.html)
-const gridProductos = document.getElementById('grid-productos');
-const estadoCarga   = document.getElementById('estado-carga');
-const estadoError   = document.getElementById('estado-error');
-
-// 2. Estado reactivo en memoria de la SPA (cliente.js)
-let estadoApp = {
-  productos: [],             // Catálogo descargado del backend
-  categoriaActiva: 'TODAS',  // Filtro seleccionado (TODAS, HARDWARE, etc.)
-  terminoBusqueda: '',       // Texto ingresado en el buscador
-  conectadoABackend: false   // Bandera de conectividad con Express
-};
-
-// 3. Cada vez que cambia el estado, se renderiza la UI:
-function aplicarFiltrosYRenderizar() {
-  const filtrados = estadoApp.productos.filter(/* condiciones */);
-  renderizarCatalogo(filtrados);
-}</code></pre>
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-3.5 shadow-2xs space-y-1.5">
+            <span class="text-xs font-mono font-bold bg-slate-100 text-slate-800 px-2 py-0.5 rounded inline-block">1. Layout / Tarjeta</span>
+            <pre class="bg-slate-900 text-slate-100 p-2.5 rounded-lg text-[11px] font-mono"><code class="language-html">&lt;div class="max-w-xl mx-auto
+     bg-white p-6 
+     rounded-2xl shadow"&gt;</code></pre>
+            <p class="text-[11px] text-slate-500">Centra la vista con ancho máximo (<code class="font-mono">max-w-xl mx-auto</code>) y crea elevación moderna con <code class="font-mono">shadow</code>.</p>
           </div>
 
-          <!-- Beneficios Arquitectónicos -->
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-3.5 shadow-2xs space-y-1.5">
+            <span class="text-xs font-mono font-bold bg-blue-100 text-blue-800 px-2 py-0.5 rounded inline-block">2. Espaciado / Form</span>
+            <pre class="bg-slate-900 text-slate-100 p-2.5 rounded-lg text-[11px] font-mono"><code class="language-html">&lt;form class="space-y-3"&gt;
+  &lt;div class="grid 
+       grid-cols-2 gap-3"&gt;</code></pre>
+            <p class="text-[11px] text-slate-500"><code class="font-mono">space-y-3</code> separa inputs verticalmente y <code class="font-mono">grid-cols-2</code> organiza campos en 2 columnas sin CSS manual.</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-3.5 shadow-2xs space-y-1.5">
+            <span class="text-xs font-mono font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded inline-block">3. Inputs &amp; Focus</span>
+            <pre class="bg-slate-900 text-slate-100 p-2.5 rounded-lg text-[11px] font-mono"><code class="language-html">&lt;input class="w-full border
+       border-slate-300
+       rounded-xl px-3 py-2
+       focus:ring-2"&gt;</code></pre>
+            <p class="text-[11px] text-slate-500">Bordes suaves (<code class="font-mono">rounded-xl</code>) y anillo de foco accesible (<code class="font-mono">focus:ring-2</code>) al interactuar.</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-3.5 shadow-2xs space-y-1.5">
+            <span class="text-xs font-mono font-bold bg-purple-100 text-purple-800 px-2 py-0.5 rounded inline-block">4. Botones Semánticos</span>
+            <pre class="bg-slate-900 text-slate-100 p-2.5 rounded-lg text-[11px] font-mono"><code class="language-html">&lt;button class="w-full 
+       bg-emerald-600 
+       hover:bg-emerald-700 
+       text-white font-bold"&gt;</code></pre>
+            <p class="text-[11px] text-slate-500">Código de color según acción: Verde=Éxito/POST, Azul=Buscar, Ámbar=PATCH, Rojo=DELETE.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- El Elemento Clave: Contenedor de Salida para el DOM -->
+      <div class="mt-2.5 bg-gradient-to-r from-emerald-50 via-teal-50 to-blue-50 border border-emerald-300 rounded-xl p-3 flex items-center justify-between text-xs text-slate-700">
+        <div class="flex items-center gap-2">
+          <i data-lucide="crosshair" class="w-4 h-4 text-[#39A900] shrink-0"></i>
+          <span><strong>El Puente con JavaScript:</strong> La etiqueta <code class="font-mono font-bold text-slate-900">&lt;div id="contenedor-resultado" class="..."&gt;</code> actúa como zona de inyección donde JavaScript escribirá con <code class="font-mono font-bold text-emerald-800">.innerHTML</code> la respuesta recibida desde <code class="font-mono font-bold text-blue-800">app.js</code>.</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 10: PUNTO 1: HEALTH CHECK (GET /api/status) -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="10" data-block="2">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3 xl:mb-4">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 2</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Punto 1 · Diagnóstico y Estado</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 10 / 25</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Punto 1: Health Check (<code class="text-[#39A900]">GET /api/status</code>)
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          El endpoint más simple para iniciar: valida que el servidor Express (<code class="font-mono text-slate-800 font-bold">app.js</code> en el puerto 3000) esté respondiendo antes de realizar operaciones de datos.
+        </p>
+
+        <!-- Dos Columnas: HTML+Tailwind a la izquierda, JavaScript a la derecha -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 my-2">
+          
+          <!-- Columna Izquierda: HTML con Tailwind -->
+          <div class="lg:col-span-5 bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+              <span class="text-xs font-mono font-bold text-slate-700">recursos/01-status.html</span>
+              <span class="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-mono font-bold">HTML + Tailwind</span>
+            </div>
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-[11px] font-mono overflow-x-auto"><code class="language-html">&lt;div class="bg-white p-6 rounded-2xl shadow"&gt;
+  &lt;h1 class="text-xl font-bold"&gt;Health Check&lt;/h1&gt;
+  
+  &lt;!-- Botón con Tailwind --&gt;
+  &lt;button 
+    id="btn-verificar" 
+    class="w-full bg-emerald-600 hover:bg-emerald-700 
+           text-white font-bold py-2.5 px-4 rounded-xl"&gt;
+    Verificar Estado del Servidor
+  &lt;/button&gt;
+
+  &lt;!-- Zona de Respuesta del DOM --&gt;
+  &lt;div 
+    id="contenedor-resultado" 
+    class="p-4 rounded-xl bg-slate-50 border text-xs"&gt;
+    Presiona el botón para consultar...
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            <p class="text-[11px] text-slate-500">Todo el componente está contenido en ~20 líneas de HTML limpio y directo.</p>
+          </div>
+
+          <!-- Columna Derecha: JavaScript Paso a Paso -->
+          <div class="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+              <span class="text-xs font-mono font-bold text-slate-700">Lógica Fetch en &lt;script&gt;</span>
+              <span class="text-[10px] text-blue-700 bg-blue-50 px-2 py-0.5 rounded font-mono font-bold">JavaScript Paso a Paso</span>
+            </div>
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-[11px] font-mono overflow-x-auto"><code class="language-javascript">// 1. Capturar elementos por ID
+const btnVerificar = document.getElementById('btn-verificar');
+const contenedorResultado = document.getElementById('contenedor-resultado');
+
+// 2. Función asíncrona conectada al servidor app.js
+async function consultarEstadoServidor() {
+  try {
+    // 3. Petición GET a Express (:3000)
+    const res = await fetch('http://localhost:3000/api/status');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+
+    // 4. Modificar el DOM con clases de Tailwind
+    contenedorResultado.className = 'p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-slate-800';
+    contenedorResultado.innerHTML = `
+      &lt;p class="font-bold text-emerald-800"&gt;🟢 Servidor Activo (HTTP 200 OK)&lt;/p&gt;
+      &lt;p class="text-xs mt-1"&gt;&lt;strong&gt;Mensaje:&lt;/strong&gt; ${data.mensaje}&lt;/p&gt;
+      &lt;p class="text-xs"&gt;&lt;strong&gt;Tiempo Activo:&lt;/strong&gt; ${data.uptime} segundos&lt;/p&gt;
+    `;
+  } catch (error) {
+    contenedorResultado.className = 'p-4 rounded-xl bg-rose-50 border border-rose-300 text-rose-800';
+    contenedorResultado.innerHTML = `&lt;p class="font-bold"&gt;❌ Sin conexión: ${error.message}&lt;/p&gt;`;
+  }
+}
+btnVerificar.addEventListener('click', consultarEstadoServidor);</code></pre>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Resumen de Ejecución -->
+      <div class="mt-2.5 bg-slate-50 border border-slate-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-slate-700">
+        <span><strong>Plantilla en el proyecto:</strong> <code class="font-mono text-emerald-800 font-bold">recursos/01-status.html</code> (Ábrela con Live Server y ejecuta <code class="font-mono font-bold">npm start</code> en terminal).</span>
+        <a href="dia-05-fetch-dom-taller.zip" download="dia-05-fetch-dom-taller.zip" class="text-emerald-700 hover:text-emerald-800 font-bold flex items-center gap-1 font-mono">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i> Descargar ZIP
+        </a>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 11: PUNTO 2: CATÁLOGO DE PRODUCTOS (GET /api/productos) - ESTRUCTURA HTML + GRID -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="11" data-block="2">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3 xl:mb-4">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Punto 2 · Catálogo y Filtros (HTML)</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 11 / 25</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Punto 2: Catálogo de Productos · <span class="text-blue-700">Maquetación HTML + Grid con Tailwind</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          Para mostrar una lista de productos necesitamos una barra de controles con <code class="font-mono text-slate-800 font-bold">&lt;input&gt;</code> y <code class="font-mono text-slate-800 font-bold">&lt;select&gt;</code>, y un contenedor responsivo con el sistema de grillas de Tailwind CSS (<code class="font-mono text-blue-700 font-bold">02-catalogo.html</code>):
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 my-2">
+          
+          <!-- Código HTML Estructurado -->
+          <div class="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+              <span class="text-xs font-mono font-bold text-slate-700">recursos/02-catalogo.html</span>
+              <span class="text-[10px] text-blue-700 bg-blue-50 px-2 py-0.5 rounded font-mono font-bold">Maquetación del Catálogo</span>
+            </div>
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-[11px] font-mono overflow-x-auto"><code class="language-html">&lt;!-- Barra de Filtros: 1 columna en móvil, 3 en pantallas medianas --&gt;
+&lt;div class="grid grid-cols-1 sm:grid-cols-3 gap-3"&gt;
+  &lt;!-- 1. Input para buscar por texto --&gt;
+  &lt;input 
+    type="text" 
+    id="input-busqueda" 
+    placeholder="Buscar por nombre..." 
+    class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"&gt;
+
+  &lt;!-- 2. Select para filtrar por categoría --&gt;
+  &lt;select 
+    id="select-categoria" 
+    class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm bg-white"&gt;
+    &lt;option value="TODAS"&gt;Todas las categorías&lt;/option&gt;
+    &lt;option value="HARDWARE"&gt;Hardware&lt;/option&gt;
+    &lt;option value="PANTALLAS"&gt;Pantallas&lt;/option&gt;
+  &lt;/select&gt;
+
+  &lt;!-- 3. Botón de consulta --&gt;
+  &lt;button id="btn-consultar" class="w-full bg-emerald-600 text-white font-bold py-2 rounded-xl"&gt;
+    Cargar Catálogo
+  &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- Contenedor Responsivo para Tarjetas del Catálogo --&gt;
+&lt;div id="grid-productos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6"&gt;
+  &lt;!-- JavaScript inyectará las tarjetas aquí con .innerHTML --&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+
+          <!-- Explicación de Clases Tailwind -->
           <div class="lg:col-span-5 space-y-3">
-            <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-2xs space-y-2">
-              <h4 class="font-extrabold text-sm text-slate-900 flex items-center gap-1.5">
-                <i data-lucide="layers" class="w-4 h-4 text-blue-600"></i>
-                ¿Por qué trabajar con un objeto de Estado?
-              </h4>
-              <ul class="text-xs sm:text-sm text-slate-600 space-y-2">
-                <li class="flex items-start gap-1.5">
-                  <i data-lucide="check" class="w-4 h-4 text-blue-600 shrink-0 mt-0.5"></i>
-                  <span><strong>Filtrado instantáneo en memoria:</strong> No necesitas volver a consultar el servidor para buscar o filtrar por categoría.</span>
+            <div class="bg-white border-2 border-blue-100 rounded-xl p-4 shadow-2xs space-y-2">
+              <h4 class="font-extrabold text-sm text-slate-900">¿Por qué este diseño con Tailwind?</h4>
+              <ul class="text-xs text-slate-600 space-y-2">
+                <li class="flex items-start gap-2">
+                  <span class="font-mono text-blue-700 font-bold shrink-0">•</span>
+                  <span><code class="font-mono font-bold">grid-cols-1 sm:grid-cols-3</code>: La barra de controles se apila verticalmente en celulares y se expande en 3 columnas en laptops.</span>
                 </li>
-                <li class="flex items-start gap-1.5">
-                  <i data-lucide="check" class="w-4 h-4 text-blue-600 shrink-0 mt-0.5"></i>
-                  <span><strong>Sincronización Predecible:</strong> Cuando el backend responde 201 Created o 200 OK, actualizas el array y re-renderizas sin F5.</span>
+                <li class="flex items-start gap-2">
+                  <span class="font-mono text-blue-700 font-bold shrink-0">•</span>
+                  <span><code class="font-mono font-bold">grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4</code>: Distribuye las tarjetas de productos de 1 a 2 y luego a 3 por fila automáticamente.</span>
                 </li>
-                <li class="flex items-start gap-1.5">
-                  <i data-lucide="check" class="w-4 h-4 text-blue-600 shrink-0 mt-0.5"></i>
-                  <span><strong>Puente a React (Semana 2):</strong> Este patrón es exactamente la antesala del hook <code class="font-mono font-bold text-purple-700">useState()</code> que aprenderemos en el Día 14.</span>
+                <li class="flex items-start gap-2">
+                  <span class="font-mono text-blue-700 font-bold shrink-0">•</span>
+                  <span><code class="font-mono font-bold">id="grid-productos"</code>: Es el ancla DOM que captura el script para inyectar las tarjetas resultantes.</span>
                 </li>
               </ul>
             </div>
@@ -1071,356 +1240,182 @@ function aplicarFiltrosYRenderizar() {
         </div>
       </div>
 
-      <!-- Resumen de Ciclo -->
-      <div class="mt-3 bg-blue-50 border border-blue-200 rounded-xl p-3 flex items-center justify-between text-xs text-blue-900">
-        <div class="flex items-center gap-2">
-          <i data-lucide="refresh-cw" class="w-4 h-4 text-blue-700"></i>
-          <span><strong>El Flujo Unidireccional:</strong> Petición Fetch ➔ Actualizar `estadoApp` ➔ Ejecutar `renderizarCatalogo()` ➔ El DOM se actualiza de forma limpia.</span>
-        </div>
+      <!-- Resumen -->
+      <div class="mt-2.5 bg-blue-50 border border-blue-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-blue-900">
+        <span><strong>Objetivo del Aprendiz:</strong> Crear los inputs y el <code class="font-mono font-bold">&lt;div id="grid-productos"&gt;</code> en HTML antes de escribir la lógica Fetch.</span>
       </div>
     </section>
 
 
-    <!-- SLIDE 10: PASO 1: READ (GET) Y MANEJO DE ESTADOS DE UI -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="10" data-block="2">
-      <div>
-        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3 xl:mb-4">
-          <div class="flex items-center space-x-2.5">
-            <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Reto 1: Carga Inicial</span>
-          </div>
-          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 10 / 25</span>
-        </div>
-
-        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
-          Paso 1: READ (GET) y <span class="text-blue-700">Coordinación de Estados Visuales</span>
-        </h2>
-        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-2.5 leading-relaxed">
-          Al abrir la SPA, debemos mostrar un indicador de carga (spinner), consultar el endpoint <code class="font-mono text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded font-bold">GET /api/productos</code> y procesar el resultado de forma segura.
-        </p>
-
-        <!-- Banner de Descarga de Recursos y Paso a Paso para el Aprendiz -->
-        <div class="bg-gradient-to-r from-emerald-50 via-blue-50 to-indigo-50 border-2 border-emerald-300 rounded-2xl p-3 my-2 shadow-xs">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="px-2.5 py-1 rounded-lg bg-[#00324D] text-white font-mono font-bold text-xs flex items-center gap-1.5 shadow-xs">
-                <i data-lucide="file-code" class="w-3.5 h-3.5 text-[#39A900]"></i>
-                <span>recursos/cliente.js</span>
-              </span>
-              <span class="text-xs font-extrabold text-slate-800">Ubicación Frontend:</span>
-              <code class="font-mono text-xs font-bold text-blue-800 bg-white px-2 py-0.5 rounded border border-blue-200">Línea ~30 · cargarProductosDesdeAPI()</code>
-            </div>
-            
-            <div class="flex items-center gap-2 shrink-0">
-              <a href="dia-05-fetch-dom-taller.zip" download="dia-05-fetch-dom-taller.zip" class="px-3.5 py-1.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-xs rounded-xl shadow-xs transition flex items-center gap-1.5" title="Descargar paquete ZIP del taller">
-                <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                <span>Descargar Recursos (.ZIP)</span>
-              </a>
-              <a href="recursos/index.html" target="_blank" class="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-bold text-xs rounded-xl transition flex items-center gap-1.5 shadow-2xs">
-                <i data-lucide="external-link" class="w-3.5 h-3.5 text-blue-600"></i>
-                <span>Abrir Hub</span>
-              </a>
-            </div>
-          </div>
-
-          <div class="mt-2 pt-2 border-t border-blue-200/60 flex flex-col md:flex-row items-start md:items-center justify-between gap-2 text-[11px] text-slate-700">
-            <div class="flex items-center gap-1.5 flex-wrap">
-              <span class="font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded">Paso a Paso:</span>
-              <span>1. En terminal: <code class="font-mono font-bold bg-white px-1 rounded border">npm install && npm start</code> (inicia <code class="font-mono text-slate-900 font-bold">app.js</code> en :3000) ➔ 2. Abre <code class="font-mono text-slate-900 font-bold">index.html</code> con Live Server ➔ 3. Edita <code class="font-mono text-slate-900 font-bold">cliente.js</code> o <code class="font-mono text-slate-900 font-bold">02-catalogo.html</code>.</span>
-            </div>
-            <div class="flex items-center gap-1 text-blue-900 shrink-0">
-              <i data-lucide="server" class="w-3.5 h-3.5 text-emerald-600"></i>
-              <span><strong>Backend:</strong> <code class="font-mono font-bold text-emerald-800">app.js</code> activo en <code class="font-mono font-bold">:3000</code></span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Código de cargarProductosDesdeAPI() -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2 my-2">
-          <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-            <span class="text-xs font-mono font-bold text-slate-700">recursos/cliente.js (o 02-catalogo.html) · Función cargarProductosDesdeAPI()</span>
-            <span class="text-[10px] text-[#39A900] font-mono font-bold">Solución Completa Reto 1</span>
-          </div>
-          <pre class="bg-slate-900 text-slate-100 p-3.5 rounded-xl text-xs font-mono overflow-x-auto"><code class="language-javascript">async function cargarProductosDesdeAPI() {
-  // 1. Mostrar estado de carga y ocultar otros contenedores
-  estadoCarga.classList.remove('hidden');
-  gridProductos.classList.add('hidden');
-  estadoError.classList.add('hidden');
-
-  try {
-    // 2. Realizar la petición GET a Express
-    const res = await fetch(API_URL);
-
-    // 3. Validar defensivamente el código de estado HTTP
-    if (!res.ok) {
-      throw new Error(`Error en servidor: HTTP ${res.status} (${res.statusText})`);
-    }
-
-    // 4. Deserializar la respuesta JSON recibida
-    const data = await res.json();
-
-    // 5. Guardar en el estado local (Express retorna { ok: true, datos: [...] })
-    estadoApp.productos = data.datos || data;
-    estadoApp.conectadoABackend = true;
-
-    // 6. Actualizar UI y badges
-    actualizarBadgeConexion(true);
-    estadoCarga.classList.add('hidden');
-    aplicarFiltrosYRenderizar();
-
-  } catch (error) {
-    console.error('❌ Error al consultar la API:', error);
-    mostrarErrorConexion(error.message);
-  }
-}</code></pre>
-        </div>
-      </div>
-
-      <!-- Puntos Clave de Verificación -->
-      <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-        <div class="bg-slate-50 border border-slate-200 p-2.5 rounded-xl">
-          <span class="font-bold text-slate-800">1. Feedback Inmediato:</span>
-          <p class="text-slate-500 text-[11px]">El usuario nunca debe ver una pantalla en blanco o congelada.</p>
-        </div>
-        <div class="bg-slate-50 border border-slate-200 p-2.5 rounded-xl">
-          <span class="font-bold text-slate-800">2. Normalización de Datos:</span>
-          <p class="text-slate-500 text-[11px]"><code class="font-mono">data.datos || data</code> soporta respuestas con o sin envoltorio.</p>
-        </div>
-        <div class="bg-slate-50 border border-slate-200 p-2.5 rounded-xl">
-          <span class="font-bold text-slate-800">3. Badge de Estado:</span>
-          <p class="text-slate-500 text-[11px]">Un indicador verde/rojo en el header alerta si el backend está activo.</p>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- SLIDE 11: PASO 2: RENDERIZADO DINÁMICO CON TEMPLATE LITERALS -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="11" data-block="2">
-      <div>
-        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3 xl:mb-4">
-          <div class="flex items-center space-x-2.5">
-            <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Manipulación del DOM</span>
-          </div>
-          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 11 / 25</span>
-        </div>
-
-        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
-          Paso 2: Inyección Reactiva en el DOM con <span class="text-blue-700">Template Literals</span>
-        </h2>
-        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
-          Construir elementos nodo a nodo con <code class="font-mono text-slate-800">document.createElement()</code> es tedioso e ineficiente para tarjetas complejas. Usamos <strong>Template Literals (`...`)</strong> combinados con <code class="font-mono text-blue-700 font-bold">.map().join('')</code>.
-        </p>
-
-        <!-- Indicador de Ubicación y Paso a Paso -->
-        <div class="bg-gradient-to-r from-blue-50 via-indigo-50 to-emerald-50 border border-blue-200 rounded-xl p-2.5 my-2 shadow-2xs">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="px-2.5 py-1 rounded-lg bg-blue-600 text-white font-mono font-bold text-xs flex items-center gap-1.5 shadow-xs">
-                <i data-lucide="file-code" class="w-3.5 h-3.5"></i>
-                <span>recursos/cliente.js (o 02-catalogo.html)</span>
-              </span>
-              <span class="font-extrabold text-slate-800">Ubicación:</span>
-              <code class="font-mono text-blue-900 bg-white px-2 py-0.5 rounded border border-blue-200 font-bold">Línea ~105 · renderizarCatalogo(lista)</code>
-            </div>
-            <div class="flex items-center gap-2 text-slate-600 text-[11px]">
-              <span class="font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded">Instrucción:</span>
-              <span>Construye las tarjetas con <code class="font-mono font-bold">.map().join('')</code> y asígnalas a <code class="font-mono font-bold">gridProductos.innerHTML</code>.</span>
-            </div>
-          </div>
-          <div class="mt-2 pt-1.5 border-t border-blue-100 flex items-center justify-between text-[11px] text-blue-900">
-            <div class="flex items-center gap-1.5">
-              <i data-lucide="link" class="w-3.5 h-3.5 text-blue-600"></i>
-              <span><strong>Conexión DOM:</strong> Inyecta tarjetas dentro de <code class="font-mono font-bold">&lt;div id="grid-productos"&gt;</code> y conmuta <code class="font-mono font-bold">#estado-vacio</code></span>
-            </div>
-            <a href="dia-05-fetch-dom-taller.zip" download="dia-05-fetch-dom-taller.zip" class="text-emerald-700 hover:text-emerald-800 font-bold flex items-center gap-1 text-[11px] transition">
-              <i data-lucide="download" class="w-3 h-3"></i>
-              <span>Recursos (.ZIP)</span>
-            </a>
-          </div>
-        </div>
-
-        <!-- Código de renderizarCatalogo -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2 my-2">
-          <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-            <span class="text-xs font-mono font-bold text-slate-700">recursos/cliente.js · Función renderizarCatalogo(lista)</span>
-            <span class="text-[10px] text-blue-600 font-mono font-bold">Generación de Tarjetas</span>
-          </div>
-          <pre class="bg-slate-900 text-slate-100 p-3.5 rounded-xl text-xs font-mono overflow-x-auto"><code class="language-javascript">function renderizarCatalogo(lista) {
-  gridProductos.innerHTML = ''; // Limpiar tarjetas previas
-
-  if (lista.length === 0) {
-    estadoVacio.classList.remove('hidden');
-    gridProductos.classList.add('hidden');
-    return;
-  }
-
-  estadoVacio.classList.add('hidden');
-  gridProductos.classList.remove('hidden');
-
-  // Mapear cada producto a un string HTML estructurado
-  const tarjetasHTML = lista.map(prod => {
-    const precioCOP = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(prod.precio);
-    const badgeStock = prod.stock > 5 ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
-                       prod.stock > 0 ? 'bg-amber-50 text-amber-700 border-amber-200' :
-                       'bg-rose-50 text-rose-700 border-rose-200';
-
-    return `
-      &lt;div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs hover:shadow-md transition space-y-3"&gt;
-        &lt;div class="flex items-center justify-between"&gt;
-          &lt;span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-bold"&gt;${prod.sku}&lt;/span&gt;
-          &lt;span class="text-[10px] font-mono px-2 py-0.5 rounded border ${badgeStock}"&gt;Stock: ${prod.stock}&lt;/span&gt;
-        &lt;/div&gt;
-        &lt;h3 class="font-bold text-slate-900 text-sm truncate"&gt;${prod.nombre}&lt;/h3&gt;
-        &lt;div class="text-base font-extrabold text-[#00324D]"&gt;${precioCOP}&lt;/div&gt;
-        &lt;div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-2"&gt;
-          &lt;button onclick="actualizarStockRapido(${prod.id}, ${prod.stock + 1})" class="text-xs px-2.5 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg font-bold"&gt;+1 Stock&lt;/button&gt;
-          &lt;button onclick="eliminarProductoConfirmado(${prod.id})" class="text-xs text-rose-600 hover:bg-rose-50 p-1.5 rounded-lg"&gt;Eliminar&lt;/button&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
-    `;
-  }).join('');
-
-  gridProductos.innerHTML = tarjetasHTML;
-}</code></pre>
-        </div>
-      </div>
-
-      <!-- Detalle Técnico de Intl.NumberFormat -->
-      <div class="mt-3 bg-emerald-50 border border-emerald-200 rounded-xl p-3 flex items-center justify-between text-xs text-emerald-950">
-        <div class="flex items-center gap-2">
-          <i data-lucide="check-circle-2" class="w-4 h-4 text-[#39A900]"></i>
-          <span><strong>Estándar Internacional:</strong> <code class="font-mono font-bold">Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' })</code> formatea el valor <code class="font-mono">150000</code> como <code class="font-mono font-bold">$ 150.000</code> automáticamente.</span>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- SLIDE 12: PASO 3: FILTROS REACTIVOS EN CLIENTE -->
+    <!-- SLIDE 12: PUNTO 2: CATÁLOGO DE PRODUCTOS - LÓGICA JS Y .MAP() -->
     <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="12" data-block="2">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3 xl:mb-4">
           <div class="flex items-center space-x-2.5">
             <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Reto 2: Filtros Locales</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Punto 2 · Catálogo y Filtros (JS)</span>
           </div>
           <span class="text-xs font-mono font-bold text-slate-400">SLIDE 12 / 25</span>
         </div>
 
         <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
-          Paso 3: Buscador en Tiempo Real y <span class="text-blue-700">Filtros por Categoría</span>
+          Punto 2: Catálogo de Productos · <span class="text-blue-700">Fetch con Query Params y `.map()`</span>
         </h2>
         <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
-          Como ya tenemos todo el catálogo en <code class="font-mono text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded font-bold">estadoApp.productos</code>, podemos filtrar a la velocidad del procesador local sin saturar el servidor con peticiones GET adicionales.
+          Enviamos los filtros al backend usando <strong>parámetros de consulta (query params)</strong> y recorremos el arreglo recibido con <code class="font-mono text-blue-700 font-bold">.map().join('')</code> para construir las tarjetas dinámicas:
         </p>
 
-        <!-- Indicador de Ubicación y Paso a Paso -->
-        <div class="bg-gradient-to-r from-blue-50 via-indigo-50 to-emerald-50 border border-blue-200 rounded-xl p-2.5 my-2 shadow-2xs">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="px-2.5 py-1 rounded-lg bg-blue-600 text-white font-mono font-bold text-xs flex items-center gap-1.5 shadow-xs">
-                <i data-lucide="file-code" class="w-3.5 h-3.5"></i>
-                <span>recursos/cliente.js (o 03-buscar-id.html)</span>
-              </span>
-              <span class="font-extrabold text-slate-800">Ubicación:</span>
-              <code class="font-mono text-blue-900 bg-white px-2 py-0.5 rounded border border-blue-200 font-bold">Línea ~145 · aplicarFiltrosYRenderizar()</code>
-            </div>
-            <div class="flex items-center gap-2 text-slate-600 text-[11px]">
-              <span class="font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded">Instrucción:</span>
-              <span>Filtra con <code class="font-mono font-bold">.filter()</code> en memoria y pasa la lista resultante a <code class="font-mono font-bold">renderizarCatalogo()</code>.</span>
-            </div>
+        <!-- Código Completo del Script -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2 my-2">
+          <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+            <span class="text-xs font-mono font-bold text-slate-700">Lógica en &lt;script&gt; de recursos/02-catalogo.html</span>
+            <span class="text-[10px] text-emerald-600 font-mono font-bold">Array.prototype.map + innerHTML</span>
           </div>
-          <div class="mt-2 pt-1.5 border-t border-blue-100 flex items-center justify-between text-[11px] text-blue-900">
-            <div class="flex items-center gap-1.5">
-              <i data-lucide="link" class="w-3.5 h-3.5 text-blue-600"></i>
-              <span><strong>Conexión DOM:</strong> Listener de <code class="font-mono font-bold">#input-busqueda</code> (evento input) y botones <code class="font-mono font-bold">.btn-filtro</code></span>
-            </div>
-            <a href="dia-05-fetch-dom-taller.zip" download="dia-05-fetch-dom-taller.zip" class="text-emerald-700 hover:text-emerald-800 font-bold flex items-center gap-1 text-[11px] transition">
-              <i data-lucide="download" class="w-3 h-3"></i>
-              <span>Recursos (.ZIP)</span>
-            </a>
-          </div>
-        </div>
+          <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-[11px] font-mono overflow-x-auto"><code class="language-javascript">async function cargarCatalogo() {
+  const cat = document.getElementById('select-categoria').value;
+  const busqueda = document.getElementById('input-busqueda').value.trim();
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center my-2">
-          
-          <!-- Código del Filtro Combinado -->
-          <div class="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
-            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-              <span class="text-xs font-mono font-bold text-slate-700">recursos/cliente.js · aplicarFiltrosYRenderizar()</span>
-              <span class="text-[10px] text-blue-600 font-mono font-bold">Lógica de Filtrado Local</span>
-            </div>
-            <pre class="bg-slate-900 text-slate-100 p-3.5 rounded-xl text-xs font-mono overflow-x-auto"><code class="language-javascript">function aplicarFiltrosYRenderizar() {
-  const termino = estadoApp.terminoBusqueda.toLowerCase().trim();
-  const categoria = estadoApp.categoriaActiva;
+  // 1. Construir la URL con parámetros Query hacia Express
+  let url = 'http://localhost:3000/api/productos?';
+  if (cat !== 'TODAS') url += `categoria=${encodeURIComponent(cat)}&`;
+  if (busqueda) url += `q=${encodeURIComponent(busqueda)}`;
 
-  // Filtrado compuesto con Array.prototype.filter():
-  const filtrados = estadoApp.productos.filter(prod => {
-    // 1. Coincidencia por categoría
-    const coincideCategoria = categoria === 'TODAS' || prod.categoria === categoria;
+  // 2. Petición HTTP GET
+  const res = await fetch(url);
+  const data = await res.json();
+  const lista = data.datos || [];
 
-    // 2. Coincidencia por texto en nombre o SKU
-    const coincideTexto = !termino ||
-      prod.nombre.toLowerCase().includes(termino) ||
-      prod.sku.toLowerCase().includes(termino);
-
-    return coincideCategoria &amp;&amp; coincideTexto;
-  });
-
-  // Actualizar contador visual de resultados
-  conteoProductos.textContent = `${filtrados.length} de ${estadoApp.productos.length} productos`;
-
-  // Enviar arreglo filtrado a pintar en el DOM
-  renderizarCatalogo(filtrados);
+  // 3. Mapear cada objeto producto a una tarjeta HTML con Tailwind CSS
+  document.getElementById('grid-productos').innerHTML = lista.map(prod => `
+    &lt;div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-3"&gt;
+      &lt;div class="flex items-center justify-between text-xs"&gt;
+        &lt;span class="font-mono text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-bold"&gt;${prod.sku}&lt;/span&gt;
+        &lt;span class="font-bold text-emerald-700"&gt;${prod.categoria}&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;h3 class="font-bold text-slate-900 text-sm"&gt;${prod.nombre}&lt;/h3&gt;
+      &lt;div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs"&gt;
+        &lt;span class="font-black text-slate-800 text-base"&gt;$${Number(prod.precio).toLocaleString('es-CO')}&lt;/span&gt;
+        &lt;span class="font-mono ${prod.stock > 0 ? 'text-slate-600' : 'text-rose-600 font-bold'}"&gt;Stock: ${prod.stock}&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  `).join('');
 }</code></pre>
-          </div>
-
-          <!-- Asignación de Listeners -->
-          <div class="lg:col-span-5 space-y-3">
-            <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-2xs space-y-2">
-              <h4 class="font-extrabold text-sm text-slate-900">Eventos de Entrada del Usuario</h4>
-              
-              <div class="space-y-2 text-xs sm:text-sm">
-                <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                  <span class="font-bold text-blue-700 font-mono">input en #input-busqueda:</span>
-                  <p class="text-slate-600 text-xs mt-1">Se dispara con cada pulsación de tecla sin necesidad de presionar Enter.</p>
-                </div>
-
-                <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
-                  <span class="font-bold text-[#39A900] font-mono">click en .btn-filtro:</span>
-                  <p class="text-slate-600 text-xs mt-1">A través de delegación de eventos en <code class="font-mono">#contenedor-filtros</code>, extrae <code class="font-mono">boton.dataset.categoria</code>.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
 
-      <!-- Diferencia Clave -->
-      <div class="mt-3 bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-center gap-2.5 text-xs text-amber-900">
-        <i data-lucide="info" class="w-4 h-4 text-amber-600 shrink-0"></i>
-        <span><strong>¿Cuándo filtrar en cliente vs servidor?</strong> Si el catálogo tiene cientos de elementos, filtrar en cliente es instantáneo. Si tiene cientos de miles de registros con paginación, el filtrado debe hacerse en backend con <code class="font-mono font-bold">req.query</code>.</span>
+      <!-- Resumen Técnico -->
+      <div class="mt-2.5 bg-emerald-50 border border-emerald-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-emerald-950 font-medium">
+        <span><strong>¿Por qué .join('') al final de .map()?</strong> Porque <code class="font-mono">.map()</code> devuelve un arreglo de strings <code class="font-mono">['&lt;div&gt;...&lt;/div&gt;', '&lt;div&gt;...&lt;/div&gt;']</code>. El método <code class="font-mono">.join('')</code> los concatena en una única cadena continua de texto para inyectarla en el DOM.</span>
       </div>
     </section>
 
 
-    <!-- SLIDE 13: FORMULARIOS HTML5 Y E.PREVENTDEFAULT() -->
+    <!-- SLIDE 13: PUNTO 3: BÚSQUEDA POR ID (GET /api/productos/:id) -->
     <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="13" data-block="2">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3 xl:mb-4">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Punto 3 · Parámetros de Ruta</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 13 / 25</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Punto 3: Búsqueda por ID (<code class="text-blue-700">:id</code>) · <span class="text-blue-700">200 OK vs 404 Not Found</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          En <code class="font-mono text-slate-800 font-bold">03-buscar-id.html</code> interpolamos variables en la ruta (<code class="font-mono text-blue-700 font-bold">/api/productos/${id}</code>) y manejamos respuestas condicionales en el DOM:
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 my-2">
+          
+          <!-- Columna HTML + Tailwind -->
+          <div class="lg:col-span-5 bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+              <span class="text-xs font-mono font-bold text-slate-700">recursos/03-buscar-id.html</span>
+              <span class="text-[10px] text-blue-700 bg-blue-50 px-2 py-0.5 rounded font-mono font-bold">HTML + Tailwind</span>
+            </div>
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-[11px] font-mono overflow-x-auto"><code class="language-html">&lt;div class="flex items-end gap-3"&gt;
+  &lt;div class="flex-1"&gt;
+    &lt;label class="block text-xs font-bold"&gt;ID:&lt;/label&gt;
+    &lt;input 
+      type="number" 
+      id="input-id" 
+      value="1" 
+      class="w-full border rounded-xl px-3 py-2 text-sm"&gt;
+  &lt;/div&gt;
+  &lt;button 
+    id="btn-buscar" 
+    class="bg-blue-600 text-white font-bold py-2 px-5 rounded-xl text-sm"&gt;
+    Buscar
+  &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- Contenedor donde se pinta la ficha o el error 404 --&gt;
+&lt;div id="contenedor-resultado" class="mt-4"&gt;&lt;/div&gt;</code></pre>
+          </div>
+
+          <!-- Columna JavaScript Asíncrono Defensivo -->
+          <div class="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+              <span class="text-xs font-mono font-bold text-slate-700">Manejo de 200 vs 404</span>
+              <span class="text-[10px] text-emerald-600 font-mono font-bold">JavaScript Fetch</span>
+            </div>
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-[11px] font-mono overflow-x-auto"><code class="language-javascript">async function buscarPorId() {
+  const id = document.getElementById('input-id').value;
+  const res = await fetch(`http://localhost:3000/api/productos/${id}`);
+  const data = await res.json();
+
+  const contenedor = document.getElementById('contenedor-resultado');
+
+  // CASO A: Producto no encontrado (HTTP 404)
+  if (res.status === 404) {
+    contenedor.className = 'p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-900';
+    contenedor.innerHTML = `&lt;p class="font-bold text-sm"&gt;⚠️ 404 Not Found&lt;/p&gt;&lt;p class="text-xs"&gt;${data.error}&lt;/p&gt;`;
+    return;
+  }
+
+  // CASO B: Éxito (HTTP 200 OK)
+  const p = data.dato || data.datos;
+  contenedor.className = 'p-5 rounded-xl bg-white border-2 border-emerald-300 shadow-sm';
+  contenedor.innerHTML = `
+    &lt;div class="flex justify-between text-xs"&gt;&lt;span&gt;ID: #${p.id}&lt;/span&gt;&lt;span class="text-emerald-700 font-bold"&gt;${p.categoria}&lt;/span&gt;&lt;/div&gt;
+    &lt;h3 class="font-bold text-base mt-1"&gt;${p.nombre}&lt;/h3&gt;
+    &lt;div class="flex justify-between mt-2 pt-2 border-t text-sm font-bold"&gt;
+      &lt;span&gt;$${Number(p.precio).toLocaleString('es-CO')}&lt;/span&gt;
+      &lt;span&gt;Stock: ${p.stock}&lt;/span&gt;
+    &lt;/div&gt;
+  `;
+}</code></pre>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Resumen -->
+      <div class="mt-2.5 bg-slate-50 border border-slate-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-slate-700">
+        <span><strong>Concepto Clave:</strong> Un <code class="font-mono text-amber-800 font-bold">404 Not Found</code> NO es un error de JavaScript ni del navegador; es una respuesta válida del backend indicando que el ID no existe.</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 14: FORMULARIOS HTML5 Y E.PREVENTDEFAULT() -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="14" data-block="2">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3 xl:mb-4">
           <div class="flex items-center space-x-2.5">
             <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
             <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Concepto Clave de Arquitectura</span>
           </div>
-          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 13 / 25</span>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 14 / 25</span>
         </div>
 
         <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
           Formularios HTML5: El Peligro del Recargo y <span class="text-blue-700">`e.preventDefault()`</span>
         </h2>
         <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-4 leading-relaxed">
-          Por diseño histórico de los años 90, cuando un formulario HTML se envía (<code class="font-mono text-slate-800">submit</code>), el navegador recarga la página por completo enviando una petición síncrona. <strong>En una SPA, esto destruye toda la memoria JavaScript.</strong>
+          Por diseño histórico de los años 90, cuando un formulario HTML se envía (<code class="font-mono text-slate-800">submit</code>), el navegador recarga la página por completo enviando una petición síncrona. <strong>En una SPA, esto destruiría toda la memoria JavaScript.</strong>
         </p>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5 my-2">
@@ -1437,7 +1432,7 @@ function aplicarFiltrosYRenderizar() {
             <ol class="text-xs sm:text-sm text-slate-600 space-y-2 list-decimal list-inside">
               <li>El usuario pulsa el botón <code class="font-mono text-slate-800">&lt;button type="submit"&gt;</code>.</li>
               <li>El navegador intenta navegar hacia la URL del atributo <code class="font-mono">action="..."</code>.</li>
-              <li>Se descarga el HTML desde cero, <strong>perdiendo todas las variables y el estado en memoria</strong> (<code class="font-mono text-rose-600">estadoApp</code> se reinicia).</li>
+              <li>Se descarga el HTML desde cero, <strong>perdiendo todas las variables y el estado en memoria</strong>.</li>
               <li>La petición Fetch asíncrona que intentaste disparar se cancela bruscamente.</li>
             </ol>
           </div>
@@ -1456,7 +1451,7 @@ function aplicarFiltrosYRenderizar() {
               <li><code class="font-mono text-emerald-700 font-bold">e.preventDefault()</code> frena la recarga del navegador.</li>
               <li>Leemos los valores de los inputs con JavaScript en memoria.</li>
               <li>Enviamos la petición <code class="font-mono text-slate-800">fetch()</code> asíncronamente en segundo plano.</li>
-              <li>La página <strong>NUNCA parpadea ni recarga</strong>; el modal se cierra y la nueva tarjeta aparece al instante.</li>
+              <li>La página <strong>NUNCA parpadea ni recarga</strong>; el resultado aparece al instante.</li>
             </ol>
           </div>
 
@@ -1473,376 +1468,87 @@ function aplicarFiltrosYRenderizar() {
     </section>
 
 
-    <!-- SLIDE 14: CAPTURA DE DATOS: FORMDATA VS INPUTS DIRECTOS -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="14" data-block="2">
-      <div>
-        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3 xl:mb-4">
-          <div class="flex items-center space-x-2.5">
-            <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Extracción y Tipado de Datos</span>
-          </div>
-          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 14 / 25</span>
-        </div>
-
-        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
-          Captura de Datos de Formularios: <span class="text-blue-700">`new FormData()` vs Selección Directa</span>
-        </h2>
-        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-4 leading-relaxed">
-          Para construir el payload que viajará al backend, debemos leer los campos del formulario. Existen dos aproximaciones principales en JavaScript Vanilla.
-        </p>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 my-2">
-          
-          <!-- Método 1: new FormData() -->
-          <div class="bg-white border-2 border-emerald-200 rounded-2xl p-4 shadow-2xs space-y-2">
-            <div class="flex items-center justify-between pb-2 border-b border-emerald-100">
-              <span class="text-xs font-bold text-[#39A900] flex items-center gap-1.5">
-                <i data-lucide="sparkles" class="w-4 h-4"></i>
-                Método Moderno: new FormData(form)
-              </span>
-              <span class="text-[10px] font-mono bg-emerald-50 text-[#39A900] px-2 py-0.5 rounded font-bold">Usa atributo 'name'</span>
-            </div>
-            <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-xs font-mono overflow-x-auto"><code class="language-javascript">const formData = new FormData(e.target);
-
-const nuevoProducto = {
-  nombre: formData.get('nombre').trim(),
-  sku: formData.get('sku').trim().toUpperCase(),
-  categoria: formData.get('categoria'),
-  precio: Number(formData.get('precio')),
-  stock: Number(formData.get('stock'))
-};</code></pre>
-            <p class="text-xs text-slate-500">
-              <strong>Ventaja:</strong> No requiere buscar cada input por ID. Solo exige que cada campo tenga un atributo <code class="font-mono text-slate-800">name="..."</code> en el HTML.
-            </p>
-          </div>
-
-          <!-- Método 2: Selección Directa de Inputs -->
-          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
-            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-              <span class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                <i data-lucide="mouse-pointer" class="w-4 h-4"></i>
-                Método Clásico: Selección por ID
-              </span>
-              <span class="text-[10px] font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-bold">Usa getElementById</span>
-            </div>
-            <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-xs font-mono overflow-x-auto"><code class="language-javascript">const nuevoProducto = {
-  nombre: document.getElementById('input-nombre').value.trim(),
-  sku: document.getElementById('input-sku').value.trim().toUpperCase(),
-  categoria: document.getElementById('select-categoria').value,
-  precio: Number(document.getElementById('input-precio').value),
-  stock: Number(document.getElementById('input-stock').value)
-};</code></pre>
-            <p class="text-xs text-slate-500">
-              <strong>Válido pero verboso:</strong> Requiere una variable o query por cada campo. Si el formulario tiene 15 campos, el código se vuelve muy extenso.
-            </p>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Advertencia de Tipos -->
-      <div class="mt-3 bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-center gap-2.5 text-xs text-amber-900">
-        <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600 shrink-0"></i>
-        <span><strong>¡Cuidado con los tipos!</strong> Todo valor extraído de un input HTML es siempre un <code class="font-mono font-bold">string</code> (incluso en <code class="font-mono">&lt;input type="number"&gt;</code>). Debes convertir explícitamente con <code class="font-mono font-bold">Number(valor)</code> para evitar que Express rechace la petición con 400 Bad Request.</span>
-      </div>
-    </section>
-
-
-    <!-- SLIDE 15: PASO 4: CREATE (POST) CON HEADERS JSON -->
+    <!-- SLIDE 15: PUNTO 4: REGISTRAR PRODUCTO (POST) - ESTRUCTURA HTML + TAILWIND -->
     <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="15" data-block="2">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3 xl:mb-4">
           <div class="flex items-center space-x-2.5">
-            <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Reto 3: Creación de Registros</span>
+            <span class="px-2.5 py-1 bg-emerald-50 text-emerald-800 font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 2</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Punto 4 · Formulario POST (HTML)</span>
           </div>
           <span class="text-xs font-mono font-bold text-slate-400">SLIDE 15 / 25</span>
         </div>
 
         <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
-          Paso 4: CREATE (POST) con Headers <span class="text-emerald-700">`application/json`</span>
+          Punto 4: Registrar Producto (<code class="text-emerald-700">POST</code>) · <span class="text-emerald-700">Maquetación del Formulario</span>
         </h2>
         <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
-          Para enviar datos al servidor necesitamos configurar el <strong>segundo argumento de `fetch()`</strong>: definir el método HTTP, el encabezado que anuncia el formato y el cuerpo serializado.
+          En <code class="font-mono text-slate-800 font-bold">04-crear-producto.html</code> creamos un formulario controlado con Tailwind CSS. Observa cómo <code class="font-mono text-emerald-800 font-bold">space-y-3</code> y <code class="font-mono text-blue-800 font-bold">grid-cols-2</code> estructuran los campos sin CSS personalizado:
         </p>
 
-        <!-- Indicador de Ubicación y Paso a Paso -->
-        <div class="bg-gradient-to-r from-emerald-50 via-teal-50 to-blue-50 border border-emerald-300 rounded-xl p-2.5 my-2 shadow-2xs">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="px-2.5 py-1 rounded-lg bg-emerald-700 text-white font-mono font-bold text-xs flex items-center gap-1.5 shadow-xs">
-                <i data-lucide="file-code" class="w-3.5 h-3.5"></i>
-                <span>recursos/cliente.js (o 04-crear-producto.html)</span>
-              </span>
-              <span class="font-extrabold text-slate-800">Ubicación:</span>
-              <code class="font-mono text-emerald-950 bg-white px-2 py-0.5 rounded border border-emerald-200 font-bold">Línea ~185 · manejarCreacionProducto(e)</code>
-            </div>
-            <div class="flex items-center gap-2 text-slate-600 text-[11px]">
-              <span class="font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded">Instrucción:</span>
-              <span>1. <code class="font-mono font-bold text-slate-900">e.preventDefault()</code> ➔ 2. <code class="font-mono font-bold text-slate-900">new FormData(form)</code> ➔ 3. <code class="font-mono font-bold text-slate-900">fetch(POST)</code> con headers JSON.</span>
-            </div>
-          </div>
-          <div class="mt-2 pt-1.5 border-t border-emerald-100 flex items-center justify-between text-[11px] text-emerald-950">
-            <div class="flex items-center gap-1.5">
-              <i data-lucide="link" class="w-3.5 h-3.5 text-[#39A900]"></i>
-              <span><strong>Conexión DOM:</strong> Listener en <code class="font-mono font-bold">#form-producto</code> (submit) o plantilla <code class="font-mono font-bold">04-crear-producto.html</code></span>
-            </div>
-            <a href="dia-05-fetch-dom-taller.zip" download="dia-05-fetch-dom-taller.zip" class="text-emerald-700 hover:text-emerald-800 font-bold flex items-center gap-1 text-[11px] transition">
-              <i data-lucide="download" class="w-3 h-3"></i>
-              <span>Recursos (.ZIP)</span>
-            </a>
-          </div>
-        </div>
-
-        <!-- Código de manejarCreacionProducto -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2 my-2">
-          <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-            <span class="text-xs font-mono font-bold text-slate-700">recursos/cliente.js · Función manejarCreacionProducto(e)</span>
-            <span class="text-[10px] text-emerald-600 font-mono font-bold">Petición POST Completa</span>
-          </div>
-          <pre class="bg-slate-900 text-slate-100 p-3.5 rounded-xl text-xs font-mono overflow-x-auto"><code class="language-javascript">async function manejarCreacionProducto(e) {
-  e.preventDefault(); // 1. Evitar recarga de página
-
-  // 2. Extraer y estructurar datos del formulario
-  const formData = new FormData(formProducto);
-  const nuevoProducto = {
-    sku: formData.get('sku').trim().toUpperCase(),
-    nombre: formData.get('nombre').trim(),
-    categoria: formData.get('categoria'),
-    precio: Number(formData.get('precio')),
-    stock: Number(formData.get('stock'))
-  };
-
-  try {
-    // 3. Ejecutar fetch() con el objeto de opciones configurado
-    const res = await fetch(API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json' // 🚨 OBLIGATORIO: Informa a express.json()
-      },
-      body: JSON.stringify(nuevoProducto)  // 🚨 OBLIGATORIO: Texto serializado
-    });
-
-    // 4. Validar status (Express responderá 201 Created si tuvo éxito)
-    if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(errorData.error || 'Error al guardar el producto');
-    }
-
-    const resultado = await res.json();
-    console.log("Servidor respondió 201:", resultado.mensaje);
-
-    // 5. Flujo de éxito en UI (cerrar modal, resetear formulario y recargar)...
-  } catch (error) {
-    mostrarToast(error.message, 'error');
-  }
-}</code></pre>
-        </div>
-      </div>
-
-      <!-- Pregunta Clave de Aprendizaje -->
-      <div class="mt-3 bg-rose-50 border border-rose-200 rounded-xl p-3 flex items-center gap-2.5 text-xs text-rose-900">
-        <i data-lucide="help-circle" class="w-5 h-5 text-rose-600 shrink-0"></i>
-        <span><strong>¿Qué ocurre si olvidas poner <code class="font-mono font-bold">'Content-Type': 'application/json'</code>?</strong> El middleware <code class="font-mono font-bold">express.json()</code> del servidor ignorará la petición y en el backend <code class="font-mono font-bold">req.body</code> llegará como <code class="font-mono font-bold">undefined</code>, provocando un error 400 Bad Request.</span>
-      </div>
-    </section>
-
-
-    <!-- SLIDE 16: PASO 5: VERIFICACIÓN 201 CREATED Y SINCRONIZACIÓN -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="16" data-block="2">
-      <div>
-        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3 xl:mb-4">
-          <div class="flex items-center space-x-2.5">
-            <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Feedback de Éxito en UI</span>
-          </div>
-          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 16 / 25</span>
-        </div>
-
-        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
-          Paso 5: Manejo del Status 201 Created y <span class="text-emerald-700">Actualización del DOM</span>
-        </h2>
-        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
-          Una vez que el backend confirma la creación del registro con status <code class="font-mono text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded font-bold">201 Created</code>, debemos orquestar la interfaz para que el usuario sienta una respuesta inmediata.
-        </p>
-
-        <!-- Indicador de Ubicación y Paso a Paso -->
-        <div class="bg-gradient-to-r from-emerald-50 via-teal-50 to-blue-50 border border-emerald-300 rounded-xl p-2.5 my-2 shadow-2xs">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="px-2.5 py-1 rounded-lg bg-emerald-700 text-white font-mono font-bold text-xs flex items-center gap-1.5 shadow-xs">
-                <i data-lucide="file-code" class="w-3.5 h-3.5"></i>
-                <span>recursos/cliente.js (o 04-crear-producto.html)</span>
-              </span>
-              <span class="font-extrabold text-slate-800">Ubicación:</span>
-              <code class="font-mono text-emerald-950 bg-white px-2 py-0.5 rounded border border-emerald-200 font-bold">Línea ~210 · Bloque try/éxito en manejarCreacionProducto</code>
-            </div>
-            <div class="flex items-center gap-2 text-slate-600 text-[11px]">
-              <span class="font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded">Instrucción:</span>
-              <span>Al recibir <code class="font-mono font-bold text-emerald-800">201 Created</code>, ejecuta los 4 pasos secuenciales para cerrar la experiencia de usuario.</span>
-            </div>
-          </div>
-          <div class="mt-2 pt-1.5 border-t border-emerald-100 flex items-center justify-between text-[11px] text-emerald-950">
-            <div class="flex items-center gap-1.5">
-              <i data-lucide="link" class="w-3.5 h-3.5 text-[#39A900]"></i>
-              <span><strong>Conexión DOM:</strong> <code class="font-mono font-bold">#modal-producto</code> (ocultar) y <code class="font-mono font-bold">#form-producto</code> (resetear)</span>
-            </div>
-            <a href="dia-05-fetch-dom-taller.zip" download="dia-05-fetch-dom-taller.zip" class="text-emerald-700 hover:text-emerald-800 font-bold flex items-center gap-1 text-[11px] transition">
-              <i data-lucide="download" class="w-3 h-3"></i>
-              <span>Recursos (.ZIP)</span>
-            </a>
-          </div>
-        </div>
-
-        <!-- 4 Pasos de Cierre en UI -->
-        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 my-2">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 my-2">
           
-          <div class="bg-white border-2 border-emerald-100 rounded-xl p-4 shadow-2xs space-y-2">
-            <div class="w-7 h-7 rounded-lg bg-emerald-100 text-[#39A900] flex items-center justify-center font-bold text-xs">1</div>
-            <h4 class="font-extrabold text-slate-900 text-sm">Cerrar el Modal</h4>
-            <pre class="bg-slate-900 text-slate-100 p-2 rounded text-[11px] font-mono"><code class="language-javascript">modalProducto.classList
-  .add('hidden');</code></pre>
-            <p class="text-xs text-slate-500">Oculta la ventana emergente devolviendo el foco visual al catálogo.</p>
-          </div>
-
-          <div class="bg-white border-2 border-blue-100 rounded-xl p-4 shadow-2xs space-y-2">
-            <div class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs">2</div>
-            <h4 class="font-extrabold text-slate-900 text-sm">Limpiar Formulario</h4>
-            <pre class="bg-slate-900 text-slate-100 p-2 rounded text-[11px] font-mono"><code class="language-javascript">formProducto.reset();</code></pre>
-            <p class="text-xs text-slate-500">Resetea todos los campos para que la próxima creación inicie limpia.</p>
-          </div>
-
-          <div class="bg-white border-2 border-purple-100 rounded-xl p-4 shadow-2xs space-y-2">
-            <div class="w-7 h-7 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-xs">3</div>
-            <h4 class="font-extrabold text-slate-900 text-sm">Notificación Toast</h4>
-            <pre class="bg-slate-900 text-slate-100 p-2 rounded text-[11px] font-mono"><code class="language-javascript">mostrarToast(
-  'Producto creado',
-  'exito'
-);</code></pre>
-            <p class="text-xs text-slate-500">Muestra un banner flotante en la esquina por 3.5 segundos.</p>
-          </div>
-
-          <div class="bg-white border-2 border-amber-100 rounded-xl p-4 shadow-2xs space-y-2">
-            <div class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-xs">4</div>
-            <h4 class="font-extrabold text-slate-900 text-sm">Sincronizar Catálogo</h4>
-            <pre class="bg-slate-900 text-slate-100 p-2 rounded text-[11px] font-mono"><code class="language-javascript">await cargarProductos
-  DesdeAPI();</code></pre>
-            <p class="text-xs text-slate-500">Opcional: puedes re-consultar o hacer push inmutable a <code class="font-mono">estadoApp.productos</code>.</p>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Resumen Profesional -->
-      <div class="mt-3 bg-emerald-50 border border-emerald-200 rounded-xl p-3 flex items-center gap-2.5 text-xs text-emerald-950 font-medium">
-        <i data-lucide="sparkles" class="w-4 h-4 text-[#39A900] shrink-0"></i>
-        <span><strong>Experiencia de Usuario (UX) de Nivel Senior:</strong> El usuario vio que su producto se guardó en la base de datos sin un solo parpadeo de pantalla y con confirmación visual inequívoca.</span>
-      </div>
-    </section>
-
-
-    <!-- SLIDE 17: PASO 6: UPDATE (PATCH) EN CALIENTE -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="17" data-block="2">
-      <div>
-        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3 xl:mb-4">
-          <div class="flex items-center space-x-2.5">
-            <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Reto 4: Modificación Parcial</span>
-          </div>
-          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 17 / 25</span>
-        </div>
-
-        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
-          Paso 6: UPDATE (PATCH) para <span class="text-amber-600">Modificar Stock en Caliente</span>
-        </h2>
-        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
-          En la Sesión 04 implementamos el endpoint <code class="font-mono text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded font-bold">PATCH /api/productos/:id/stock</code>. En frontend usamos el verbo PATCH cuando solo queremos alterar un subconjunto de propiedades sin re-enviar todo el objeto.
-        </p>
-
-        <!-- Indicador de Ubicación y Paso a Paso -->
-        <div class="bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 border border-amber-300 rounded-xl p-2.5 my-2 shadow-2xs">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="px-2.5 py-1 rounded-lg bg-amber-600 text-white font-mono font-bold text-xs flex items-center gap-1.5 shadow-xs">
-                <i data-lucide="file-code" class="w-3.5 h-3.5"></i>
-                <span>recursos/cliente.js (o 05-actualizar-stock.html)</span>
-              </span>
-              <span class="font-extrabold text-slate-800">Ubicación:</span>
-              <code class="font-mono text-amber-950 bg-white px-2 py-0.5 rounded border border-amber-200 font-bold">Línea ~240 · actualizarStockProducto(id, nuevoStock)</code>
-            </div>
-            <div class="flex items-center gap-2 text-slate-600 text-[11px]">
-              <span class="font-bold text-amber-800 bg-amber-100 px-2 py-0.5 rounded">Instrucción:</span>
-              <span>Envía <code class="font-mono font-bold text-slate-900">PATCH</code> con <code class="font-mono font-bold text-slate-900">{ nuevoStock }</code> y muta el objeto local para respuesta a 60 FPS.</span>
-            </div>
-          </div>
-          <div class="mt-2 pt-1.5 border-t border-amber-100 flex items-center justify-between text-[11px] text-amber-950">
-            <div class="flex items-center gap-1.5">
-              <i data-lucide="link" class="w-3.5 h-3.5 text-amber-600"></i>
-              <span><strong>Conexión DOM:</strong> Botones en tarjeta o formulario en plantilla <code class="font-mono font-bold">05-actualizar-stock.html</code></span>
-            </div>
-            <a href="dia-05-fetch-dom-taller.zip" download="dia-05-fetch-dom-taller.zip" class="text-amber-800 hover:text-amber-950 font-bold flex items-center gap-1 text-[11px] transition">
-              <i data-lucide="download" class="w-3 h-3"></i>
-              <span>Recursos (.ZIP)</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center my-2">
-          
-          <!-- Código de actualizarStockProducto -->
+          <!-- Código HTML del Formulario -->
           <div class="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
             <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-              <span class="text-xs font-mono font-bold text-slate-700">recursos/cliente.js · actualizarStockProducto(id, nuevoStock)</span>
-              <span class="text-[10px] text-amber-600 font-mono font-bold">Petición PATCH</span>
+              <span class="text-xs font-mono font-bold text-slate-700">recursos/04-crear-producto.html</span>
+              <span class="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-mono font-bold">Estructura del Formulario</span>
             </div>
-            <pre class="bg-slate-900 text-slate-100 p-3.5 rounded-xl text-xs font-mono overflow-x-auto"><code class="language-javascript">async function actualizarStockProducto(id, nuevoStock) {
-  if (nuevoStock &lt; 0 || isNaN(nuevoStock)) {
-    mostrarToast('El stock no puede ser negativo', 'error');
-    return;
-  }
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-[11px] font-mono overflow-x-auto"><code class="language-html">&lt;form id="form-producto" class="space-y-3"&gt;
+  &lt;!-- Fila 1: SKU y Categoría en 2 columnas --&gt;
+  &lt;div class="grid grid-cols-1 sm:grid-cols-2 gap-3"&gt;
+    &lt;div&gt;
+      &lt;label class="block text-xs font-bold"&gt;SKU:&lt;/label&gt;
+      &lt;input type="text" id="sku" placeholder="AUD-006" required
+             class="w-full border rounded-xl px-3 py-2 text-sm uppercase"&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;label class="block text-xs font-bold"&gt;Categoría:&lt;/label&gt;
+      &lt;select id="categoria" required class="w-full border rounded-xl px-3 py-2 text-sm bg-white"&gt;
+        &lt;option value="HARDWARE"&gt;HARDWARE&lt;/option&gt;
+        &lt;option value="PANTALLAS"&gt;PANTALLAS&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
 
-  try {
-    const res = await fetch(`${API_URL}/${id}/stock`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nuevoStock: Number(nuevoStock) })
-    });
+  &lt;!-- Fila 2: Nombre Completo --&gt;
+  &lt;div&gt;
+    &lt;label class="block text-xs font-bold"&gt;Nombre del Producto:&lt;/label&gt;
+    &lt;input type="text" id="nombre" required class="w-full border rounded-xl px-3 py-2 text-sm"&gt;
+  &lt;/div&gt;
 
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.error || 'No se pudo actualizar el stock');
-    }
+  &lt;!-- Fila 3: Precio y Stock en 2 columnas --&gt;
+  &lt;div class="grid grid-cols-1 sm:grid-cols-2 gap-3"&gt;
+    &lt;input type="number" id="precio" min="1" placeholder="Precio ($)" required class="border rounded-xl px-3 py-2 text-sm"&gt;
+    &lt;input type="number" id="stock" min="0" placeholder="Stock" required class="border rounded-xl px-3 py-2 text-sm"&gt;
+  &lt;/div&gt;
 
-    // Actualización local in-place para máxima velocidad:
-    const producto = estadoApp.productos.find(p => p.id === id);
-    if (producto) producto.stock = nuevoStock;
-
-    aplicarFiltrosYRenderizar();
-    mostrarToast('Stock actualizado correctamente', 'exito');
-
-  } catch (error) {
-    mostrarToast(error.message, 'error');
-  }
-}</code></pre>
+  &lt;!-- Botón de Envío y Contenedor de Respuesta --&gt;
+  &lt;button type="submit" id="btn-guardar" class="w-full bg-emerald-600 text-white font-bold py-2.5 rounded-xl shadow"&gt;
+    Guardar Producto en el Servidor
+  &lt;/button&gt;
+  &lt;div id="mensaje-respuesta" class="hidden p-4 rounded-xl text-xs"&gt;&lt;/div&gt;
+&lt;/form&gt;</code></pre>
           </div>
 
-          <!-- Diferencia PUT vs PATCH -->
+          <!-- Puntos Clave de Maquetación -->
           <div class="lg:col-span-5 space-y-3">
-            <div class="bg-white border-2 border-amber-100 rounded-xl p-4 shadow-2xs space-y-2">
-              <h4 class="font-extrabold text-sm text-amber-900 flex items-center gap-1.5">
-                <i data-lucide="git-compare" class="w-4 h-4 text-amber-600"></i>
-                Diferencia Semántica: PUT vs PATCH
-              </h4>
-              <div class="space-y-2 text-xs sm:text-sm text-slate-600">
-                <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-100">
-                  <strong class="text-blue-700 font-mono">PUT /api/productos/:id</strong>
-                  <p class="text-xs mt-0.5">Reemplazo COMPLETO del recurso. Exige enviar todos los campos (nombre, precio, stock, categoria, sku).</p>
-                </div>
-                <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-100">
-                  <strong class="text-amber-700 font-mono">PATCH /api/productos/:id/stock</strong>
-                  <p class="text-xs mt-0.5">Modificación PARCIAL. Solo enviamos el campo específico que cambió (<code class="font-mono">{ nuevoStock: 15 }</code>).</p>
-                </div>
-              </div>
+            <div class="bg-white border-2 border-emerald-100 rounded-xl p-4 shadow-2xs space-y-2">
+              <h4 class="font-extrabold text-sm text-slate-900">Puntos Clave para el Aprendiz</h4>
+              <ul class="text-xs text-slate-600 space-y-2">
+                <li class="flex items-start gap-1.5">
+                  <span class="font-mono text-emerald-600 font-bold shrink-0">•</span>
+                  <span><strong>IDs identificables:</strong> Cada campo tiene un <code class="font-mono font-bold text-slate-900">id</code> único (<code class="font-mono">sku</code>, <code class="font-mono">nombre</code>, <code class="font-mono">precio</code>, <code class="font-mono">stock</code>) para ser capturado en JS.</span>
+                </li>
+                <li class="flex items-start gap-1.5">
+                  <span class="font-mono text-emerald-600 font-bold shrink-0">•</span>
+                  <span><strong>Validación HTML5:</strong> El uso de <code class="font-mono font-bold text-blue-700">required</code> y <code class="font-mono font-bold text-blue-700">min="1"</code> previene envíos con campos vacíos antes de tocar JavaScript.</span>
+                </li>
+                <li class="flex items-start gap-1.5">
+                  <span class="font-mono text-emerald-600 font-bold shrink-0">•</span>
+                  <span><strong>Contenedor Oculto:</strong> <code class="font-mono font-bold text-slate-900">#mensaje-respuesta</code> inicia con <code class="font-mono font-bold text-rose-700">hidden</code> y JS lo mostrará al recibir la respuesta de Express.</span>
+                </li>
+              </ul>
             </div>
           </div>
 
@@ -1850,135 +1556,255 @@ const nuevoProducto = {
       </div>
 
       <!-- Resumen -->
-      <div class="mt-3 bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-center justify-between text-xs text-slate-700">
-        <span class="flex items-center gap-1.5">
-          <i data-lucide="zap" class="w-4 h-4 text-amber-500"></i>
-          <span><strong>Actualización Optimista:</strong> Modificar el objeto en memoria antes o inmediatamente después de la confirmación hace que la UI responda a 60 FPS sin recargar el catálogo.</span>
-        </span>
+      <div class="mt-2.5 bg-emerald-50 border border-emerald-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-emerald-950">
+        <span><strong>Siguiente paso:</strong> Escuchar el evento <code class="font-mono font-bold text-slate-900">'submit'</code> y despachar la petición POST con Fetch.</span>
       </div>
     </section>
 
 
-    <!-- SLIDE 18: PASO 7: DELETE POR ID Y CONFIRMACIÓN -->
+    <!-- SLIDE 16: PUNTO 4: REGISTRAR PRODUCTO (POST) - FETCH Y RESPUESTA 201 -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="16" data-block="2">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3 xl:mb-4">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-emerald-50 text-emerald-800 font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 2</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Punto 4 · Fetch POST y 201 Created</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 16 / 25</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Punto 4: Registrar Producto · <span class="text-emerald-700">Fetch POST, Headers y 201 Created</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          Para crear el recurso en el servidor Express (<code class="font-mono text-slate-800 font-bold">app.js</code>), enviamos la petición con método <code class="font-mono text-emerald-700 font-bold">POST</code>, cabecera <code class="font-mono text-emerald-700 font-bold">'Content-Type': 'application/json'</code> y el payload serializado con <code class="font-mono font-bold">JSON.stringify()</code>:
+        </p>
+
+        <!-- Código JavaScript del POST -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2 my-2">
+          <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+            <span class="text-xs font-mono font-bold text-slate-700">Lógica en &lt;script&gt; de recursos/04-crear-producto.html</span>
+            <span class="text-[10px] text-emerald-600 font-mono font-bold">POST + JSON.stringify + form.reset()</span>
+          </div>
+          <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-[11px] font-mono overflow-x-auto"><code class="language-javascript">formProducto.addEventListener('submit', async (e) => {
+  e.preventDefault(); // 1. Detener recarga de página
+
+  // 2. Construir el objeto JavaScript con los valores del formulario
+  const nuevoProducto = {
+    sku: document.getElementById('sku').value.trim().toUpperCase(),
+    categoria: document.getElementById('categoria').value,
+    nombre: document.getElementById('nombre').value.trim(),
+    precio: Number(document.getElementById('precio').value),
+    stock: Number(document.getElementById('stock').value)
+  };
+
+  // 3. Petición POST hacia Express (puerto 3000)
+  const res = await fetch('http://localhost:3000/api/productos', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(nuevoProducto)
+  });
+  const data = await res.json();
+  const mensajeEl = document.getElementById('mensaje-respuesta');
+
+  // 4. Manejar 201 Created (Éxito)
+  if (res.status === 201) {
+    mensajeEl.className = 'p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 block';
+    mensajeEl.innerHTML = `&lt;p class="font-bold"&gt;✅ ${data.mensaje}&lt;/p&gt;&lt;p class="text-xs"&gt;ID #${data.dato.id} registrado.&lt;/p&gt;`;
+    formProducto.reset(); // Limpia los campos del formulario
+  } else if (res.status === 409) {
+    // 5. Manejar 409 Conflict (SKU duplicado)
+    mensajeEl.className = 'p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 block';
+    mensajeEl.innerHTML = `&lt;p class="font-bold"&gt;⚠️ Conflicto (409)&lt;/p&gt;&lt;p class="text-xs"&gt;${data.error}&lt;/p&gt;`;
+  }
+});</code></pre>
+        </div>
+      </div>
+
+      <!-- Resumen -->
+      <div class="mt-2.5 bg-slate-50 border border-slate-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-slate-700">
+        <span><strong>Validación en Vivo:</strong> Una vez creado el producto con 201 Created, puedes ir a <code class="font-mono text-emerald-700 font-bold">02-catalogo.html</code> y verás el nuevo registro listado de inmediato.</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 17: PUNTO 5: ACTUALIZAR STOCK (PATCH /api/productos/:id/stock) -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="17" data-block="2">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3 xl:mb-4">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-amber-50 text-amber-800 font-mono text-xs font-extrabold rounded-lg border border-amber-200">BLOQUE 2</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Punto 5 · Modificación Parcial (PATCH)</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 17 / 25</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Punto 5: Actualizar Stock (<code class="text-amber-700">PATCH</code>) · <span class="text-amber-700">Modificación Parcial</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          En <code class="font-mono text-slate-800 font-bold">05-actualizar-stock.html</code> usamos el verbo <code class="font-mono text-amber-800 font-bold">PATCH</code> cuando solo queremos modificar un atributo específico (<code class="font-mono font-bold">{ nuevoStock }</code>) sin re-enviar el resto de datos del producto:
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 my-2">
+          
+          <!-- Columna HTML + Tailwind -->
+          <div class="lg:col-span-5 bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+              <span class="text-xs font-mono font-bold text-slate-700">recursos/05-actualizar-stock.html</span>
+              <span class="text-[10px] text-amber-800 bg-amber-50 px-2 py-0.5 rounded font-mono font-bold">HTML + Tailwind</span>
+            </div>
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-[11px] font-mono overflow-x-auto"><code class="language-html">&lt;form id="form-stock" class="space-y-3"&gt;
+  &lt;div class="grid grid-cols-2 gap-3"&gt;
+    &lt;div&gt;
+      &lt;label class="block text-xs font-bold"&gt;ID:&lt;/label&gt;
+      &lt;input type="number" id="id-producto" value="1" 
+             class="w-full border rounded-xl px-3 py-2 text-sm"&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;label class="block text-xs font-bold"&gt;Nuevo Stock:&lt;/label&gt;
+      &lt;input type="number" id="nuevo-stock" value="15" 
+             class="w-full border rounded-xl px-3 py-2 text-sm"&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-xl shadow"&gt;
+    Actualizar Stock con PATCH
+  &lt;/button&gt;
+&lt;/form&gt;
+
+&lt;div id="contenedor-resultado" class="mt-3 p-4 rounded-xl bg-slate-50"&gt;&lt;/div&gt;</code></pre>
+          </div>
+
+          <!-- Columna JavaScript Asíncrono con PATCH -->
+          <div class="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+              <span class="text-xs font-mono font-bold text-slate-700">Envío con Método PATCH</span>
+              <span class="text-[10px] text-amber-800 bg-amber-50 px-2 py-0.5 rounded font-mono font-bold">JavaScript Asíncrono</span>
+            </div>
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-[11px] font-mono overflow-x-auto"><code class="language-javascript">formStock.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const id = document.getElementById('id-producto').value;
+  const stock = Number(document.getElementById('nuevo-stock').value);
+
+  // Petición PATCH enviando únicamente { nuevoStock }
+  const res = await fetch(`http://localhost:3000/api/productos/${id}/stock`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nuevoStock: stock })
+  });
+  const data = await res.json();
+  const contenedor = document.getElementById('contenedor-resultado');
+
+  if (res.ok) {
+    contenedor.className = 'p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-950 space-y-1';
+    contenedor.innerHTML = `
+      &lt;p class="font-bold text-sm"&gt;✅ ${data.mensaje}&lt;/p&gt;
+      &lt;p class="text-xs"&gt;Stock anterior: &lt;strong class="line-through text-slate-500"&gt;${data.stockAnterior}&lt;/strong&gt; ➔ Nuevo: &lt;strong class="text-emerald-700 font-bold"&gt;${data.stockActual}&lt;/strong&gt;&lt;/p&gt;
+    `;
+  }
+});</code></pre>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Comparativa PUT vs PATCH -->
+      <div class="mt-2.5 bg-amber-50 border border-amber-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-amber-950">
+        <span><strong>Semántica REST:</strong> <code class="font-mono font-bold">PUT</code> reemplaza todo el recurso (exigiendo enviar precio, nombre, categoría), mientras que <code class="font-mono font-bold">PATCH</code> solo muta el atributo indicado.</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 18: PUNTO 6: ELIMINACIÓN DEFENSIVA POR ID (DELETE /api/productos/:id) -->
     <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="18" data-block="2">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3 xl:mb-4">
           <div class="flex items-center space-x-2.5">
-            <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Operación DELETE</span>
+            <span class="px-2.5 py-1 bg-rose-50 text-rose-700 font-mono text-xs font-extrabold rounded-lg border border-rose-200">BLOQUE 2</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Punto 6 · Borrado Defensivo (DELETE)</span>
           </div>
           <span class="text-xs font-mono font-bold text-slate-400">SLIDE 18 / 25</span>
         </div>
 
         <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
-          Paso 7: DELETE por ID y <span class="text-rose-600">Flujo de Confirmación Segura</span>
+          Punto 6: Eliminación por ID (<code class="text-rose-700">DELETE</code>) · <span class="text-rose-700">Operaciones Destructivas</span>
         </h2>
         <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
-          El borrado es una operación destructiva e irreversible. Nunca dispares una petición DELETE directamente sin una confirmación explícita del usuario.
+          En <code class="font-mono text-slate-800 font-bold">06-eliminar-producto.html</code> enviamos una petición <code class="font-mono text-rose-700 font-bold">DELETE</code> a Express. Como es una operación destructiva, <strong>siempre debe mediar una confirmación previa</strong> del usuario antes de ejecutar el fetch:
         </p>
 
-        <!-- Indicador de Ubicación y Paso a Paso -->
-        <div class="bg-gradient-to-r from-rose-50 via-pink-50 to-rose-50 border border-rose-300 rounded-xl p-2.5 my-2 shadow-2xs">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="px-2.5 py-1 rounded-lg bg-rose-700 text-white font-mono font-bold text-xs flex items-center gap-1.5 shadow-xs">
-                <i data-lucide="file-code" class="w-3.5 h-3.5"></i>
-                <span>recursos/cliente.js (o 06-eliminar-producto.html)</span>
-              </span>
-              <span class="font-extrabold text-slate-800">Ubicación:</span>
-              <code class="font-mono text-rose-950 bg-white px-2 py-0.5 rounded border border-rose-200 font-bold">Línea ~275 · eliminarProductoConfirmado(id)</code>
-            </div>
-            <div class="flex items-center gap-2 text-slate-600 text-[11px]">
-              <span class="font-bold text-rose-800 bg-rose-100 px-2 py-0.5 rounded">Instrucción:</span>
-              <span>1. <code class="font-mono font-bold text-slate-900">confirm()</code> ➔ 2. <code class="font-mono font-bold text-slate-900">fetch(DELETE)</code> ➔ 3. <code class="font-mono font-bold text-slate-900">filter(p => p.id !== id)</code> ➔ 4. Toast de éxito.</span>
-            </div>
-          </div>
-          <div class="mt-2 pt-1.5 border-t border-rose-100 flex items-center justify-between text-[11px] text-rose-950">
-            <div class="flex items-center gap-1.5">
-              <i data-lucide="link" class="w-3.5 h-3.5 text-rose-600"></i>
-              <span><strong>Conexión DOM:</strong> Botón Eliminar en tarjeta o formulario en plantilla <code class="font-mono font-bold">06-eliminar-producto.html</code></span>
-            </div>
-            <a href="dia-05-fetch-dom-taller.zip" download="dia-05-fetch-dom-taller.zip" class="text-rose-800 hover:text-rose-950 font-bold flex items-center gap-1 text-[11px] transition">
-              <i data-lucide="download" class="w-3 h-3"></i>
-              <span>Recursos (.ZIP)</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center my-2">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 my-2">
           
-          <!-- Código de eliminarProducto -->
+          <!-- Columna HTML + Tailwind -->
+          <div class="lg:col-span-5 bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+              <span class="text-xs font-mono font-bold text-slate-700">recursos/06-eliminar-producto.html</span>
+              <span class="text-[10px] text-rose-700 bg-rose-50 px-2 py-0.5 rounded font-mono font-bold">HTML + Tailwind</span>
+            </div>
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-[11px] font-mono overflow-x-auto"><code class="language-html">&lt;div class="space-y-3"&gt;
+  &lt;label class="block text-xs font-bold"&gt;
+    ID del Producto a Eliminar:
+  &lt;/label&gt;
+  &lt;input 
+    type="number" 
+    id="input-id-eliminar" 
+    value="5" 
+    class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-rose-500"&gt;
+
+  &lt;!-- Botón con color rojo de advertencia --&gt;
+  &lt;button 
+    id="btn-eliminar" 
+    class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-2.5 px-4 rounded-xl shadow"&gt;
+    Eliminar Producto del Servidor
+  &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div id="contenedor-resultado" class="mt-4"&gt;&lt;/div&gt;</code></pre>
+          </div>
+
+          <!-- Columna JavaScript con confirm() y DELETE -->
           <div class="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
             <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-              <span class="text-xs font-mono font-bold text-slate-700">recursos/cliente.js · eliminarProductoConfirmado(id)</span>
-              <span class="text-[10px] text-rose-600 font-mono font-bold">Petición DELETE</span>
+              <span class="text-xs font-mono font-bold text-slate-700">Flujo de Borrado con confirm()</span>
+              <span class="text-[10px] text-rose-700 bg-rose-50 px-2 py-0.5 rounded font-mono font-bold">JavaScript Asíncrono</span>
             </div>
-            <pre class="bg-slate-900 text-slate-100 p-3.5 rounded-xl text-xs font-mono overflow-x-auto"><code class="language-javascript">async function eliminarProductoConfirmado(id) {
-  // 1. Confirmación de seguridad defensiva
-  const confirmar = confirm(`¿Estás seguro de eliminar el producto con ID ${id}?`);
-  if (!confirmar) return; // Si cancela, no se envía nada
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-[11px] font-mono overflow-x-auto"><code class="language-javascript">async function eliminarProducto() {
+  const id = document.getElementById('input-id-eliminar').value;
 
-  try {
-    // 2. Enviar petición DELETE a la ruta parametrizada de Express
-    const res = await fetch(`${API_URL}/${id}`, {
-      method: 'DELETE'
-    });
+  // 1. Confirmación de seguridad nativa
+  const confirmado = confirm(`¿Estás seguro de eliminar el ID ${id}?`);
+  if (!confirmado) return; // Si cancela, no se envía nada
 
-    // 3. Validar respuesta del servidor (Status 200 o 204)
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.error || 'No se pudo eliminar el producto');
-    }
+  // 2. Petición DELETE a la ruta parametrizada de Express
+  const res = await fetch(`http://localhost:3000/api/productos/${id}`, {
+    method: 'DELETE'
+  });
+  const data = await res.json();
+  const contenedor = document.getElementById('contenedor-resultado');
 
-    // 4. Remover del estado local en memoria
-    estadoApp.productos = estadoApp.productos.filter(p => p.id !== id);
-
-    // 5. Re-renderizar catálogo y notificar al usuario
-    aplicarFiltrosYRenderizar();
-    mostrarToast('Producto eliminado exitosamente', 'exito');
-
-  } catch (error) {
-    mostrarToast(error.message, 'error');
+  if (res.ok) {
+    contenedor.className = 'p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-950 space-y-1';
+    contenedor.innerHTML = `
+      &lt;p class="font-bold text-sm"&gt;🗑️ ${data.mensaje}&lt;/p&gt;
+      &lt;p class="text-xs"&gt;Producto &lt;strong&gt;${data.dato.nombre}&lt;/strong&gt; removido del catálogo.&lt;/p&gt;
+    `;
+  } else if (res.status === 404) {
+    contenedor.className = 'p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-900';
+    contenedor.innerHTML = `&lt;p class="font-bold text-sm"&gt;⚠️ Error: ${data.error}&lt;/p&gt;`;
   }
-}</code></pre>
-          </div>
-
-          <!-- Ciclo de Seguridad -->
-          <div class="lg:col-span-5 space-y-3">
-            <div class="bg-white border-2 border-rose-100 rounded-xl p-4 shadow-2xs space-y-2">
-              <h4 class="font-extrabold text-sm text-rose-900 flex items-center gap-1.5">
-                <i data-lucide="shield-alert" class="w-4 h-4 text-rose-600"></i>
-                Flujo Seguro de Eliminación
-              </h4>
-              <div class="space-y-2 text-xs sm:text-sm text-slate-600">
-                <div class="flex items-start gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-100">
-                  <span class="font-mono font-bold text-rose-700">Paso 1:</span>
-                  <span>Diálogo modal o nativo <code class="font-mono">confirm()</code>.</span>
-                </div>
-                <div class="flex items-start gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-100">
-                  <span class="font-mono font-bold text-rose-700">Paso 2:</span>
-                  <span>Petición <code class="font-mono">DELETE /api/productos/:id</code> al servidor.</span>
-                </div>
-                <div class="flex items-start gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-100">
-                  <span class="font-mono font-bold text-rose-700">Paso 3:</span>
-                  <span>Filtrado local del array (<code class="font-mono">filter(p =&gt; p.id !== id)</code>).</span>
-                </div>
-                <div class="flex items-start gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-100">
-                  <span class="font-mono font-bold text-rose-700">Paso 4:</span>
-                  <span>Actualización del contador y Toast informativo.</span>
-                </div>
-              </div>
-            </div>
+}
+document.getElementById('btn-eliminar').addEventListener('click', eliminarProducto);</code></pre>
           </div>
 
         </div>
       </div>
 
-      <!-- Resumen de CRUD Completo -->
-      <div class="mt-3 bg-emerald-50 border border-emerald-200 rounded-xl p-3 flex items-center justify-between text-xs text-emerald-950 font-medium">
+      <!-- Resumen -->
+      <div class="mt-2.5 bg-emerald-50 border border-emerald-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-emerald-950 font-medium">
         <span class="flex items-center gap-1.5">
           <i data-lucide="check-circle" class="w-4 h-4 text-[#39A900]"></i>
-          <span><strong>¡CRUD Completo Dominado!</strong> Has conectado las 4 operaciones (Create = POST, Read = GET, Update = PATCH, Delete = DELETE) desde la interfaz de usuario.</span>
+          <span><strong>¡6 Puntos Modulares y CRUD Dominado!</strong> Has visto el HTML con Tailwind CSS y el JavaScript Fetch paso a paso para cada uno de los endpoints de la API REST de Express.</span>
         </span>
       </div>
     </section>

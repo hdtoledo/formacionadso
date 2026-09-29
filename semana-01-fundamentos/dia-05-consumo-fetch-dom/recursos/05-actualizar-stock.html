@@ -1,338 +1,155 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full bg-slate-50">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Punto 5: Modificar Stock (PATCH /api/productos/:id/stock) | SENA ADSO</title>
+  <title>Punto 5: Actualizar Stock (PATCH /api/productos/:id/stock) | SENA ADSO</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    code, pre { font-family: 'JetBrains Mono', monospace; }
-  </style>
 </head>
-<body class="min-h-full flex flex-col text-slate-800 antialiased bg-slate-50">
+<body class="bg-slate-100 text-slate-800 min-h-screen p-4 sm:p-8 font-sans">
 
-  <!-- ========================================== -->
-  <!-- 1. ENCABEZADO INSTITUCIONAL SENA           -->
-  <!-- ========================================== -->
-  <header class="bg-[#00324D] text-white border-b-4 border-[#39A900] shadow-md sticky top-0 z-30">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <a href="index.html" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 flex items-center justify-center font-bold text-white text-sm transition group" title="Volver al Hub">
-          <i data-lucide="arrow-left" class="w-4 h-4 text-slate-300 group-hover:text-white transition"></i>
-        </a>
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="text-xs uppercase tracking-wider font-extrabold text-[#39A900]">SENA CADPH Garzón</span>
-            <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">Sesión 05 · Punto 5</span>
-          </div>
-          <h1 class="text-sm sm:text-base font-bold text-white tracking-tight">
-            Actualización Parcial en Caliente: <code class="text-[#39A900] font-mono">PATCH /api/productos/:id/stock</code>
-          </h1>
-        </div>
-      </div>
+  <!-- CONTENEDOR PRINCIPAL: max-w-xl mx-auto -->
+  <main class="max-w-xl mx-auto space-y-6">
 
-      <div class="flex items-center gap-2">
-        <div id="badge-conexion" class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-1.5 shadow-2xs">
-          <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-          <span id="texto-conexion">Comprobando API (:3000)...</span>
-        </div>
-        <a href="index.html" class="hidden sm:flex items-center gap-1.5 px-3 py-1 bg-white/10 hover:bg-white/20 text-white rounded-lg text-xs font-bold transition">
-          <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
-          <span>Hub Principal</span>
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <!-- ========================================== -->
-  <!-- 2. CONTENIDO PRINCIPAL                     -->
-  <!-- ========================================== -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex-1 w-full space-y-6">
-
-    <!-- Ficha Técnica -->
-    <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs space-y-2">
-      <div class="flex items-center justify-between flex-wrap gap-2">
-        <div class="flex items-center gap-2">
-          <span class="px-2.5 py-0.5 bg-amber-100 text-amber-900 text-xs font-black rounded-md font-mono">PATCH</span>
-          <span class="text-xs sm:text-sm font-mono font-bold text-slate-900 bg-slate-100 px-2 py-0.5 rounded">/api/productos/:id/stock</span>
-          <span class="text-[11px] text-slate-500 font-mono">Combina req.params y req.body</span>
-        </div>
-        <div class="flex items-center gap-1.5">
-          <span class="text-[11px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-            200 OK (Actualizado)
-          </span>
-          <span class="text-[11px] font-mono font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">
-            404 Not Found
-          </span>
-        </div>
-      </div>
-      <p class="text-xs text-slate-600 max-w-4xl leading-relaxed">
-        A diferencia de <code class="font-mono text-purple-700 font-bold">PUT</code> (que reemplaza el objeto completo), el verbo <code class="font-mono text-amber-700 font-bold">PATCH</code> modifica únicamente un atributo específico (en este caso el stock). Requiere enviar <code class="font-mono text-slate-800">{ "nuevoStock": N }</code> en formato JSON.
-      </p>
+    <!-- BARRA SUPERIOR -->
+    <div class="flex items-center justify-between">
+      <a href="index.html" class="text-sm font-semibold text-emerald-700 hover:text-emerald-800 transition">
+        &larr; Volver al Hub de Plantillas
+      </a>
+      <span class="text-xs bg-slate-200 text-slate-700 font-mono px-2.5 py-1 rounded-full font-bold">
+        Punto 5 · PATCH /api/productos/:id/stock
+      </span>
     </div>
 
-    <!-- Panel de Edición y Auditoría -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <!-- TARJETA CON TAILWIND -->
+    <div class="bg-white p-6 rounded-2xl shadow border border-slate-200 space-y-4">
+      <div>
+        <span class="text-xs font-mono font-bold text-amber-800 bg-amber-100 px-2 py-0.5 rounded">MÉTODO PATCH</span>
+        <h1 class="text-xl font-bold text-slate-900 mt-1">5. Modificación Parcial de Atributos (Stock)</h1>
+        <p class="text-xs text-slate-500 mt-1">
+          Actualiza únicamente el stock de un producto sin sobrescribir el resto de sus propiedades.
+        </p>
+      </div>
 
-      <!-- Formulario de Actualización (6 Cols) -->
-      <div class="lg:col-span-6 bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-5">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-          <div class="flex items-center gap-2">
-            <div class="w-7 h-7 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center font-bold">
-              <i data-lucide="package-check" class="w-4 h-4"></i>
-            </div>
-            <h3 class="text-sm font-extrabold text-slate-900">Modificador de Existencias</h3>
-          </div>
-          <span class="text-xs font-mono font-bold text-slate-400">Petición PATCH</span>
-        </div>
-
-        <form id="form-stock" class="space-y-4">
-          
-          <!-- ID del Producto -->
-          <div class="space-y-1">
-            <label class="block text-xs font-bold text-slate-700" for="input-id">ID del Producto en Catálogo</label>
-            <div class="flex gap-2">
-              <input 
-                type="number" 
-                id="input-id" 
-                min="1" 
-                value="1" 
-                required 
-                class="w-32 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono font-bold text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
-              >
-              <button type="button" id="btn-ver-actual" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition flex items-center gap-1.5">
-                <i data-lucide="eye" class="w-3.5 h-3.5"></i>
-                <span>Ver Stock Actual</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Nuevo Stock -->
-          <div class="space-y-1">
-            <label class="block text-xs font-bold text-slate-700" for="input-nuevo-stock">Nuevo Valor de Stock</label>
+      <!-- FORMULARIO -->
+      <form id="form-stock" class="space-y-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="id-producto" class="block text-xs font-bold text-slate-600 mb-1">ID del Producto:</label>
             <input 
               type="number" 
-              id="input-nuevo-stock" 
-              min="0" 
-              value="15" 
+              id="id-producto" 
+              value="1" 
+              min="1" 
               required 
-              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono font-bold text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
-            >
+              class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
           </div>
 
-          <!-- Presets Rápidos de Simulación -->
-          <div class="space-y-1.5 pt-1">
-            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Ajustes Rápidos de Prueba:</span>
-            <div class="flex flex-wrap gap-2">
-              <button type="button" id="btn-add-5" class="px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold rounded-lg transition">+5 Unidades</button>
-              <button type="button" id="btn-sub-1" class="px-2.5 py-1 bg-amber-50 hover:bg-amber-100 text-amber-800 text-xs font-bold rounded-lg transition">-1 Venta</button>
-              <button type="button" id="btn-cero" class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-800 text-xs font-bold rounded-lg transition">Agotar (0)</button>
-              <button type="button" id="btn-negativo" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition">Negativo (-5) [Test 400]</button>
-            </div>
-          </div>
-
-          <!-- Botón de Envío -->
-          <div class="pt-4 border-t border-slate-100 flex justify-end">
-            <button type="submit" id="btn-patch" class="px-6 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center gap-2">
-              <i data-lucide="check" class="w-4 h-4"></i>
-              <span>Enviar Petición PATCH</span>
-            </button>
-          </div>
-
-        </form>
-      </div>
-
-      <!-- Auditoría y Estado en Vivo (6 Cols) -->
-      <div class="lg:col-span-6 bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4 flex flex-col justify-between">
-        <div class="space-y-3">
-          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-            <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-1.5">
-              <i data-lucide="terminal" class="w-4 h-4 text-amber-600"></i>
-              <span>Inspector de Petición PATCH</span>
-            </h3>
-            <span id="badge-status" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-500">
-              Listo
-            </span>
-          </div>
-
-          <!-- URL y Payload enviados -->
-          <div class="space-y-1">
-            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Petición Preparada:</span>
-            <div class="bg-slate-900 text-slate-200 p-2.5 rounded-xl font-mono text-xs space-y-1">
-              <div class="text-amber-400 font-bold" id="preview-patch-url">PATCH http://localhost:3000/api/productos/1/stock</div>
-              <div class="text-slate-400 text-[11px]">Content-Type: application/json</div>
-              <div class="text-emerald-400 text-[11px] pt-1" id="preview-patch-body">{ "nuevoStock": 15 }</div>
-            </div>
-          </div>
-
-          <!-- Respuesta de Express -->
-          <div class="space-y-1">
-            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Respuesta de la API:</span>
-            <pre id="preview-patch-res" class="bg-slate-900 text-slate-100 p-3 rounded-xl text-[11px] font-mono overflow-x-auto min-h-[110px] text-slate-400">// La respuesta del backend aparecerá aquí</pre>
+          <div>
+            <label for="nuevo-stock" class="block text-xs font-bold text-slate-600 mb-1">Nuevo Stock (>= 0):</label>
+            <input 
+              type="number" 
+              id="nuevo-stock" 
+              value="15" 
+              min="0" 
+              required 
+              class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
           </div>
         </div>
 
-        <div id="banner-feedback" class="hidden p-3 rounded-xl border text-xs font-medium"></div>
-      </div>
+        <button 
+          type="submit" 
+          id="btn-actualizar" 
+          class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 px-4 rounded-xl text-sm transition shadow cursor-pointer">
+          Actualizar Stock con PATCH
+        </button>
+      </form>
 
+      <!-- ZONA DE RESULTADO -->
+      <div 
+        id="contenedor-resultado" 
+        class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-500 min-h-[90px] flex items-center justify-center text-center">
+        Modifica el stock y haz clic en "Actualizar Stock"...
+      </div>
     </div>
 
-    <!-- Navegación -->
-    <div class="flex items-center justify-between pt-4 border-t border-slate-200">
-      <a href="04-crear-producto.html" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition flex items-center gap-1.5">
-        <i data-lucide="chevron-left" class="w-4 h-4"></i>
-        <span>Anterior: 04 - Crear Producto (POST)</span>
-      </a>
-      <a href="06-eliminar-producto.html" class="px-4 py-2 bg-[#00324D] hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5">
-        <span>Siguiente: 06 - Eliminar Producto (DELETE)</span>
-        <i data-lucide="chevron-right" class="w-4 h-4"></i>
-      </a>
+    <!-- GUÍA DE CLASES TAILWIND -->
+    <div class="bg-slate-200/60 p-4 rounded-xl text-xs text-slate-600 space-y-1">
+      <p class="font-bold text-slate-800">💡 Clases clave de Tailwind utilizadas:</p>
+      <p>• <code class="font-mono font-bold">bg-amber-600 hover:bg-amber-700</code>: Código visual cálido reservado para modificaciones parciales (PATCH).</p>
+      <p>• <code class="font-mono font-bold">focus:ring-2 focus:ring-amber-500</code>: Accesibilidad visual al interactuar con el formulario.</p>
     </div>
 
   </main>
 
-  <!-- ========================================== -->
-  <!-- 3. SCRIPT DEL PUNTO 5                      -->
-  <!-- ========================================== -->
+  <!-- ============================================================ -->
+  <!-- JAVASCRIPT DIDÁCTICO PASO A PASO                             -->
+  <!-- ============================================================ -->
   <script>
-    const BASE_URL = 'http://localhost:3000/api/productos';
-
+    // PASO 1: Capturar elementos
     const formStock = document.getElementById('form-stock');
-    const inputId = document.getElementById('input-id');
-    const inputNuevoStock = document.getElementById('input-nuevo-stock');
-    const btnPatch = document.getElementById('btn-patch');
-    const btnVerActual = document.getElementById('btn-ver-actual');
-    const previewPatchUrl = document.getElementById('preview-patch-url');
-    const previewPatchBody = document.getElementById('preview-patch-body');
-    const previewPatchRes = document.getElementById('preview-patch-res');
-    const badgeStatus = document.getElementById('badge-status');
-    const bannerFeedback = document.getElementById('banner-feedback');
-    const badgeConexion = document.getElementById('badge-conexion');
-    const textoConexion = document.getElementById('texto-conexion');
+    const idProducto = document.getElementById('id-producto');
+    const nuevoStock = document.getElementById('nuevo-stock');
+    const contenedorResultado = document.getElementById('contenedor-resultado');
+    const btnActualizar = document.getElementById('btn-actualizar');
 
-    function actualizarPreview() {
-      const id = inputId.value.trim() || '1';
-      const stock = inputNuevoStock.value;
-      previewPatchUrl.textContent = `PATCH ${BASE_URL}/${id}/stock`;
-      previewPatchBody.textContent = JSON.stringify({ nuevoStock: Number(stock) }, null, 2);
-    }
-
-    [inputId, inputNuevoStock].forEach(el => {
-      el.addEventListener('input', actualizarPreview);
-    });
-
-    btnVerActual.addEventListener('click', async () => {
-      const id = inputId.value.trim();
-      if (!id) return;
-      try {
-        const res = await fetch(`${BASE_URL}/${id}`);
-        const data = await res.json();
-        if (res.ok) {
-          const prod = data.datos || data;
-          inputNuevoStock.value = prod.stock;
-          actualizarPreview();
-          alert(`Producto "${prod.nombre}": Stock actual = ${prod.stock}`);
-        } else {
-          alert(`No se encontró el producto con ID ${id}`);
-        }
-      } catch (err) {
-        alert('Error de conexión con Express: ' + err.message);
-      }
-    });
-
+    // PASO 2: Manejar el envío
     formStock.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const id = inputId.value.trim();
-      const nuevoStock = Number(inputNuevoStock.value);
+      const id = idProducto.value.trim();
+      const stock = Number(nuevoStock.value);
 
-      btnPatch.disabled = true;
-      btnPatch.innerHTML = `<span class="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span> Actualizando...`;
+      if (stock < 0 || isNaN(stock)) {
+        alert('El stock debe ser un número igual o mayor a cero.');
+        return;
+      }
+
+      btnActualizar.disabled = true;
+      btnActualizar.textContent = 'Actualizando en Express...';
 
       try {
-        const res = await fetch(`${BASE_URL}/${id}/stock`, {
+        // PASO 3: Fetch con método PATCH
+        const res = await fetch(`http://localhost:3000/api/productos/${id}/stock`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ nuevoStock })
+          body: JSON.stringify({ nuevoStock: stock })
         });
 
         const data = await res.json();
-        previewPatchRes.textContent = JSON.stringify(data, null, 2);
 
-        badgeConexion.className = 'px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-700 flex items-center gap-1.5 shadow-2xs';
-        textoConexion.textContent = 'API Conectada (:3000)';
-
-        if (res.ok) {
-          badgeStatus.className = 'text-xs font-mono font-bold px-2.5 py-0.5 rounded bg-emerald-100 text-emerald-800';
-          badgeStatus.textContent = 'HTTP 200 OK';
-
-          bannerFeedback.className = 'p-3.5 rounded-xl border border-emerald-300 bg-emerald-50 text-emerald-900 text-xs block space-y-1';
-          bannerFeedback.innerHTML = `
-            <div class="font-bold flex items-center gap-1.5">
-              <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
-              <span>¡Stock Actualizado Correctamente!</span>
-            </div>
-            <p>El producto ID #${id} ahora tiene <span class="font-bold font-mono">${nuevoStock}</span> unidades en inventario.</p>
-          `;
-        } else {
-          badgeStatus.className = 'text-xs font-mono font-bold px-2.5 py-0.5 rounded bg-rose-100 text-rose-800';
-          badgeStatus.textContent = `HTTP ${res.status}`;
-
-          bannerFeedback.className = 'p-3.5 rounded-xl border border-rose-300 bg-rose-50 text-rose-900 text-xs block';
-          bannerFeedback.innerHTML = `<strong>Error en la Actualización:</strong> ${data.error || 'No se pudo actualizar el stock.'}`;
+        // PASO 4: Validar respuesta de app.js
+        if (!res.ok) {
+          throw new Error(data.error || `HTTP ${res.status}`);
         }
 
-      } catch (err) {
-        badgeConexion.className = 'px-3 py-1 rounded-full text-xs font-mono font-bold bg-rose-950/80 text-rose-300 border border-rose-700 flex items-center gap-1.5 shadow-2xs';
-        textoConexion.textContent = 'Sin conexión (:3000)';
+        // PASO 5: Pintar resultado en el DOM
+        contenedorResultado.className = 'p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-950 text-left space-y-1 transition';
+        contenedorResultado.innerHTML = `
+          <p class="font-bold text-sm">✅ ${data.mensaje || 'Stock actualizado correctamente'}</p>
+          <div class="text-xs pt-1 flex items-center gap-4">
+            <span>Stock anterior: <strong class="line-through text-slate-500">${data.stockAnterior}</strong></span>
+            <span>➔</span>
+            <span>Stock nuevo: <strong class="text-emerald-700 text-sm font-black">${data.stockActual}</strong></span>
+          </div>
+          <p class="text-[11px] text-slate-500 mt-1">Producto: ${data.dato?.nombre || 'ID #' + id}</p>
+        `;
 
-        badgeStatus.className = 'text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-900 text-rose-400';
-        badgeStatus.textContent = 'Error de Red';
-        previewPatchRes.textContent = `// Error: ${err.message}`;
-
-        bannerFeedback.className = 'p-3.5 rounded-xl border border-rose-300 bg-rose-50 text-rose-900 text-xs block';
-        bannerFeedback.innerHTML = `<strong>Error de Red:</strong> No pudimos conectar con Express en el puerto 3000.`;
+      } catch (error) {
+        contenedorResultado.className = 'p-4 rounded-xl bg-rose-50 border border-rose-300 text-rose-800 text-left space-y-1';
+        contenedorResultado.innerHTML = `
+          <p class="font-bold text-sm">❌ No se pudo actualizar</p>
+          <p class="text-xs">${error.message}</p>
+        `;
       } finally {
-        btnPatch.disabled = false;
-        btnPatch.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i> <span>Enviar Petición PATCH</span>`;
-        if (window.lucide) lucide.createIcons();
+        btnActualizar.disabled = false;
+        btnActualizar.textContent = 'Actualizar Stock con PATCH';
       }
     });
-
-    // Presets
-    document.getElementById('btn-add-5').addEventListener('click', () => {
-      inputNuevoStock.value = Number(inputNuevoStock.value || 0) + 5;
-      actualizarPreview();
-    });
-    document.getElementById('btn-sub-1').addEventListener('click', () => {
-      const actual = Number(inputNuevoStock.value || 0);
-      if (actual > 0) inputNuevoStock.value = actual - 1;
-      actualizarPreview();
-    });
-    document.getElementById('btn-cero').addEventListener('click', () => {
-      inputNuevoStock.value = 0;
-      actualizarPreview();
-    });
-    document.getElementById('btn-negativo').addEventListener('click', () => {
-      inputNuevoStock.value = -5;
-      actualizarPreview();
-    });
-
-    document.addEventListener('DOMContentLoaded', () => {
-      if (window.lucide) lucide.createIcons();
-      actualizarPreview();
-    });
   </script>
+
 </body>
 </html>

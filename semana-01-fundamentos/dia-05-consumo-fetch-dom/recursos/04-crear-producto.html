@@ -1,408 +1,211 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full bg-slate-50">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Punto 4: Registrar Producto (POST /api/productos) | SENA ADSO</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    code, pre { font-family: 'JetBrains Mono', monospace; }
-  </style>
 </head>
-<body class="min-h-full flex flex-col text-slate-800 antialiased bg-slate-50">
+<body class="bg-slate-100 text-slate-800 min-h-screen p-4 sm:p-8 font-sans">
 
-  <!-- ========================================== -->
-  <!-- 1. ENCABEZADO INSTITUCIONAL SENA           -->
-  <!-- ========================================== -->
-  <header class="bg-[#00324D] text-white border-b-4 border-[#39A900] shadow-md sticky top-0 z-30">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <a href="index.html" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 flex items-center justify-center font-bold text-white text-sm transition group" title="Volver al Hub">
-          <i data-lucide="arrow-left" class="w-4 h-4 text-slate-300 group-hover:text-white transition"></i>
-        </a>
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="text-xs uppercase tracking-wider font-extrabold text-[#39A900]">SENA CADPH Garzón</span>
-            <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">Sesión 05 · Punto 4</span>
-          </div>
-          <h1 class="text-sm sm:text-base font-bold text-white tracking-tight">
-            Creación con Headers JSON: <code class="text-[#39A900] font-mono">POST /api/productos</code>
-          </h1>
-        </div>
-      </div>
+  <!-- CONTENEDOR PRINCIPAL: max-w-xl mx-auto -->
+  <main class="max-w-xl mx-auto space-y-6">
 
-      <div class="flex items-center gap-2">
-        <div id="badge-conexion" class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-1.5 shadow-2xs">
-          <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-          <span id="texto-conexion">Comprobando API (:3000)...</span>
-        </div>
-        <a href="index.html" class="hidden sm:flex items-center gap-1.5 px-3 py-1 bg-white/10 hover:bg-white/20 text-white rounded-lg text-xs font-bold transition">
-          <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
-          <span>Hub Principal</span>
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <!-- ========================================== -->
-  <!-- 2. CONTENIDO PRINCIPAL                     -->
-  <!-- ========================================== -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex-1 w-full space-y-6">
-
-    <!-- Ficha Técnica -->
-    <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs space-y-2">
-      <div class="flex items-center justify-between flex-wrap gap-2">
-        <div class="flex items-center gap-2">
-          <span class="px-2.5 py-0.5 bg-blue-100 text-blue-800 text-xs font-black rounded-md font-mono">POST</span>
-          <span class="text-xs sm:text-sm font-mono font-bold text-slate-900 bg-slate-100 px-2 py-0.5 rounded">/api/productos</span>
-          <span class="text-[11px] text-slate-500 font-mono">Requiere: Content-Type: application/json</span>
-        </div>
-        <div class="flex items-center gap-1.5">
-          <span class="text-[11px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-            201 Created (Éxito)
-          </span>
-          <span class="text-[11px] font-mono font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
-            400 Bad Request
-          </span>
-          <span class="text-[11px] font-mono font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">
-            409 Conflict (SKU repetido)
-          </span>
-        </div>
-      </div>
-      <p class="text-xs text-slate-600 max-w-4xl leading-relaxed">
-        El cliente previene la recarga del formulario con <code class="font-mono text-purple-700 font-bold">e.preventDefault()</code>, serializa el objeto a JSON con <code class="font-mono text-blue-700 font-bold">JSON.stringify()</code> y lo envía en el <code class="font-mono text-[#00324D]">body</code> con cabeceras estrictas.
-      </p>
+    <!-- BARRA SUPERIOR -->
+    <div class="flex items-center justify-between">
+      <a href="index.html" class="text-sm font-semibold text-emerald-700 hover:text-emerald-800 transition">
+        &larr; Volver al Hub de Plantillas
+      </a>
+      <span class="text-xs bg-slate-200 text-slate-700 font-mono px-2.5 py-1 rounded-full font-bold">
+        Punto 4 · POST /api/productos
+      </span>
     </div>
 
-    <!-- Formulario y Panel de Auditoría -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <!-- TARJETA DEL FORMULARIO CON TAILWIND -->
+    <div class="bg-white p-6 rounded-2xl shadow border border-slate-200 space-y-4">
+      <div>
+        <span class="text-xs font-mono font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">MÉTODO POST</span>
+        <h1 class="text-xl font-bold text-slate-900 mt-1">4. Registrar Producto en el Servidor</h1>
+        <p class="text-xs text-slate-500 mt-1">
+          Demuestra la prevención de recarga (<code class="font-mono text-slate-700">e.preventDefault()</code>), cabeceras <code class="font-mono text-slate-700">Content-Type: application/json</code> y serialización con <code class="font-mono text-slate-700">JSON.stringify()</code>.
+        </p>
+      </div>
 
-      <!-- Columna Formulario (7 Cols) -->
-      <div class="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-5">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-          <div class="flex items-center gap-2">
-            <div class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold">
-              <i data-lucide="edit-3" class="w-4 h-4"></i>
-            </div>
-            <h3 class="text-sm font-extrabold text-slate-900">Formulario Controlado de Registro</h3>
-          </div>
-          <!-- Presets de Prueba -->
-          <div class="flex items-center gap-1.5">
-            <button type="button" id="btn-demo-ok" class="text-[10px] px-2 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold rounded-md transition">
-              Datos Válidos (201)
-            </button>
-            <button type="button" id="btn-demo-duplicado" class="text-[10px] px-2 py-1 bg-rose-50 hover:bg-rose-100 text-rose-800 font-bold rounded-md transition">
-              SKU Duplicado (409)
-            </button>
-          </div>
-        </div>
+      <!-- FORMULARIO HTML5 -->
+      <form id="form-producto" class="space-y-3">
 
-        <form id="form-crear-producto" class="space-y-4">
-          
-          <!-- Nombre -->
-          <div class="space-y-1">
-            <label class="block text-xs font-bold text-slate-700" for="input-nombre">
-              Nombre del Producto <span class="text-rose-500">*</span>
-            </label>
+        <!-- Campo SKU y Categoría en 2 columnas -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="sku" class="block text-xs font-bold text-slate-600 mb-1">Código SKU:</label>
             <input 
               type="text" 
-              id="input-nombre" 
+              id="sku" 
+              name="sku" 
+              placeholder="Ej: AUD-006" 
               required 
-              placeholder="Ej: Teclado Mecánico Inalámbrico" 
-              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
-            >
+              class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 uppercase">
           </div>
 
-          <!-- SKU y Categoría -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div class="space-y-1">
-              <label class="block text-xs font-bold text-slate-700" for="input-sku">
-                Código SKU Único <span class="text-rose-500">*</span>
-              </label>
-              <input 
-                type="text" 
-                id="input-sku" 
-                required 
-                placeholder="TEC-88" 
-                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono uppercase text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
-              >
-            </div>
-
-            <div class="space-y-1">
-              <label class="block text-xs font-bold text-slate-700" for="select-categoria">
-                Categoría <span class="text-rose-500">*</span>
-              </label>
-              <select 
-                id="select-categoria" 
-                required 
-                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
-              >
-                <option value="">Seleccione...</option>
-                <option value="HARDWARE">HARDWARE</option>
-                <option value="PANTALLAS">PANTALLAS</option>
-                <option value="ACCESORIOS">ACCESORIOS</option>
-                <option value="ALMACENAMIENTO">ALMACENAMIENTO</option>
-                <option value="REDES">REDES</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Precio y Stock -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div class="space-y-1">
-              <label class="block text-xs font-bold text-slate-700" for="input-precio">
-                Precio (COP) <span class="text-rose-500">*</span>
-              </label>
-              <input 
-                type="number" 
-                id="input-precio" 
-                min="1000" 
-                step="500" 
-                required 
-                placeholder="150000" 
-                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
-              >
-            </div>
-
-            <div class="space-y-1">
-              <label class="block text-xs font-bold text-slate-700" for="input-stock">
-                Stock Inicial <span class="text-rose-500">*</span>
-              </label>
-              <input 
-                type="number" 
-                id="input-stock" 
-                min="0" 
-                required 
-                placeholder="10" 
-                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
-              >
-            </div>
-          </div>
-
-          <!-- Botones de Acción -->
-          <div class="pt-3 flex items-center justify-between border-t border-slate-100">
-            <button type="reset" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition">
-              Limpiar Campos
-            </button>
-            <button type="submit" id="btn-submit" class="px-6 py-2.5 bg-[#39A900] hover:bg-[#2D8200] text-white text-xs font-bold rounded-xl shadow-xs transition flex items-center gap-2">
-              <i data-lucide="send" class="w-4 h-4"></i>
-              <span>Enviar Petición POST</span>
-            </button>
-          </div>
-
-        </form>
-      </div>
-
-      <!-- Columna Auditoría HTTP (5 Cols) -->
-      <div class="lg:col-span-5 bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4 flex flex-col justify-between">
-        <div class="space-y-3">
-          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-            <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-1.5">
-              <i data-lucide="terminal" class="w-4 h-4 text-emerald-600"></i>
-              <span>Auditoría de Petición y Respuesta</span>
-            </h3>
-            <span id="badge-status" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-500">
-              Listo
-            </span>
-          </div>
-
-          <!-- Payload que se va a enviar -->
-          <div class="space-y-1">
-            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Payload JSON Saliente (Body):</span>
-            <pre id="preview-payload" class="bg-slate-900 text-emerald-400 p-2.5 rounded-xl text-[11px] font-mono overflow-x-auto min-h-[90px]">{
-  // Escribe en el formulario para previsualizar el JSON
-}</pre>
-          </div>
-
-          <!-- Respuesta del Servidor -->
-          <div class="space-y-1">
-            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Respuesta de Express:</span>
-            <pre id="preview-respuesta" class="bg-slate-900 text-slate-100 p-2.5 rounded-xl text-[11px] font-mono overflow-x-auto min-h-[120px] text-slate-400">// La respuesta del backend aparecerá aquí</pre>
+          <div>
+            <label for="categoria" class="block text-xs font-bold text-slate-600 mb-1">Categoría:</label>
+            <select 
+              id="categoria" 
+              name="categoria" 
+              required 
+              class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white">
+              <option value="HARDWARE">HARDWARE</option>
+              <option value="PANTALLAS">PANTALLAS</option>
+              <option value="ACCESORIOS">ACCESORIOS</option>
+              <option value="ALMACENAMIENTO">ALMACENAMIENTO</option>
+              <option value="REDES">REDES</option>
+            </select>
           </div>
         </div>
 
-        <!-- Banner de Feedback -->
-        <div id="banner-feedback" class="hidden p-3.5 rounded-xl border text-xs font-medium transition">
-          <!-- Inyectado dinámicamente -->
+        <!-- Campo Nombre -->
+        <div>
+          <label for="nombre" class="block text-xs font-bold text-slate-600 mb-1">Nombre del Producto:</label>
+          <input 
+            type="text" 
+            id="nombre" 
+            name="nombre" 
+            placeholder="Ej: Auriculares Inalámbricos Pro" 
+            required 
+            class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
         </div>
+
+        <!-- Campo Precio y Stock en 2 columnas -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="precio" class="block text-xs font-bold text-slate-600 mb-1">Precio Unitario ($):</label>
+            <input 
+              type="number" 
+              id="precio" 
+              name="precio" 
+              min="1" 
+              placeholder="Ej: 145000" 
+              required 
+              class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          </div>
+
+          <div>
+            <label for="stock" class="block text-xs font-bold text-slate-600 mb-1">Cantidad Inicial (Stock):</label>
+            <input 
+              type="number" 
+              id="stock" 
+              name="stock" 
+              min="0" 
+              placeholder="Ej: 10" 
+              required 
+              class="w-full border border-slate-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          </div>
+        </div>
+
+        <!-- Botón de Envío -->
+        <button 
+          type="submit" 
+          id="btn-guardar" 
+          class="w-full mt-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-4 rounded-xl text-sm transition shadow cursor-pointer">
+          Guardar Producto en el Servidor
+        </button>
+
+      </form>
+
+      <!-- ZONA DE RESULTADO / RESPUESTA -->
+      <div 
+        id="mensaje-respuesta" 
+        class="hidden p-4 rounded-xl text-xs space-y-1 transition">
       </div>
 
     </div>
 
-    <!-- Navegación -->
-    <div class="flex items-center justify-between pt-4 border-t border-slate-200">
-      <a href="03-buscar-id.html" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition flex items-center gap-1.5">
-        <i data-lucide="chevron-left" class="w-4 h-4"></i>
-        <span>Anterior: 03 - Buscar por ID</span>
-      </a>
-      <a href="05-actualizar-stock.html" class="px-4 py-2 bg-[#00324D] hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5">
-        <span>Siguiente: 05 - Actualizar Stock (PATCH)</span>
-        <i data-lucide="chevron-right" class="w-4 h-4"></i>
-      </a>
+    <!-- GUÍA DE CLASES TAILWIND -->
+    <div class="bg-slate-200/60 p-4 rounded-xl text-xs text-slate-600 space-y-1">
+      <p class="font-bold text-slate-800">💡 Clases clave de Tailwind utilizadas:</p>
+      <p>• <code class="font-mono font-bold">space-y-3</code>: Añade margen vertical uniforme entre los campos del formulario sin CSS adicional.</p>
+      <p>• <code class="font-mono font-bold">grid grid-cols-1 sm:grid-cols-2 gap-3</code>: Adapta campos en parejas responsivas.</p>
     </div>
 
   </main>
 
-  <!-- ========================================== -->
-  <!-- 3. SCRIPT DEL PUNTO 4                      -->
-  <!-- ========================================== -->
+  <!-- ============================================================ -->
+  <!-- JAVASCRIPT DIDÁCTICO PASO A PASO                             -->
+  <!-- ============================================================ -->
   <script>
-    const API_URL = 'http://localhost:3000/api/productos';
+    // PASO 1: Capturar el formulario y el contenedor del resultado
+    const formProducto = document.getElementById('form-producto');
+    const mensajeRespuesta = document.getElementById('mensaje-respuesta');
+    const btnGuardar = document.getElementById('btn-guardar');
 
-    const form = document.getElementById('form-crear-producto');
-    const inputNombre = document.getElementById('input-nombre');
-    const inputSku = document.getElementById('input-sku');
-    const selectCategoria = document.getElementById('select-categoria');
-    const inputPrecio = document.getElementById('input-precio');
-    const inputStock = document.getElementById('input-stock');
-    const btnSubmit = document.getElementById('btn-submit');
-    const previewPayload = document.getElementById('preview-payload');
-    const previewRespuesta = document.getElementById('preview-respuesta');
-    const badgeStatus = document.getElementById('badge-status');
-    const bannerFeedback = document.getElementById('banner-feedback');
-    const badgeConexion = document.getElementById('badge-conexion');
-    const textoConexion = document.getElementById('texto-conexion');
-
-    function actualizarPayloadPreview() {
-      const objeto = {
-        nombre: inputNombre.value.trim() || undefined,
-        sku: inputSku.value.trim().toUpperCase() || undefined,
-        categoria: selectCategoria.value || undefined,
-        precio: inputPrecio.value ? Number(inputPrecio.value) : undefined,
-        stock: inputStock.value !== '' ? Number(inputStock.value) : undefined
-      };
-      previewPayload.textContent = JSON.stringify(objeto, null, 2);
-    }
-
-    [inputNombre, inputSku, selectCategoria, inputPrecio, inputStock].forEach(el => {
-      el.addEventListener('input', actualizarPayloadPreview);
-      el.addEventListener('change', actualizarPayloadPreview);
-    });
-
-    form.addEventListener('submit', async (e) => {
-      // 1. REGLA DE ORO: Prevenir la recarga del navegador
+    // PASO 2: Escuchar el evento 'submit' del formulario
+    formProducto.addEventListener('submit', async (e) => {
+      // 🛑 PASO 3: ¡VITAL! Frena el comportamiento nativo del navegador que recargaría la página
       e.preventDefault();
 
+      // PASO 4: Extraer los datos de los inputs y construir el objeto a enviar
       const nuevoProducto = {
-        nombre: inputNombre.value.trim(),
-        sku: inputSku.value.trim().toUpperCase(),
-        categoria: selectCategoria.value,
-        precio: Number(inputPrecio.value),
-        stock: Number(inputStock.value)
+        sku: document.getElementById('sku').value.trim().toUpperCase(),
+        categoria: document.getElementById('categoria').value,
+        nombre: document.getElementById('nombre').value.trim(),
+        precio: Number(document.getElementById('precio').value),
+        stock: Number(document.getElementById('stock').value)
       };
 
-      btnSubmit.disabled = true;
-      btnSubmit.innerHTML = `<span class="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span> Registrando...`;
+      // Deshabilitar botón temporalmente
+      btnGuardar.disabled = true;
+      btnGuardar.textContent = 'Enviando al servidor...';
 
       try {
-        // 2. Ejecutar Fetch con POST y Headers JSON
-        const res = await fetch(API_URL, {
+        // PASO 5: Realizar la petición POST con Fetch
+        const res = await fetch('http://localhost:3000/api/productos', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json' // 🏷️ Indica al servidor Express que el body es JSON
           },
-          body: JSON.stringify(nuevoProducto)
+          body: JSON.stringify(nuevoProducto)  // 📦 Convierte el objeto JS a una cadena de texto JSON
         });
 
         const data = await res.json();
-        previewRespuesta.textContent = JSON.stringify(data, null, 2);
 
-        // Actualizar badges
-        badgeConexion.className = 'px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-700 flex items-center gap-1.5 shadow-2xs';
-        textoConexion.textContent = 'API Conectada (:3000)';
-
+        // PASO 6: Si el servidor responde con 201 Created (Éxito)
         if (res.status === 201) {
-          // Éxito 201 Created
-          badgeStatus.className = 'text-xs font-mono font-bold px-2.5 py-0.5 rounded bg-emerald-100 text-emerald-800';
-          badgeStatus.textContent = 'HTTP 201 Created';
-
-          bannerFeedback.className = 'p-3.5 rounded-xl border border-emerald-300 bg-emerald-50 text-emerald-900 text-xs space-y-1 block';
-          bannerFeedback.innerHTML = `
-            <div class="font-bold flex items-center gap-1.5">
-              <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
-              <span>¡Producto Creado Exitosamente!</span>
-            </div>
-            <p>Se le asignó el ID <span class="font-mono font-bold">#${data.datos?.id || '?'}</span> en el backend.</p>
+          mensajeRespuesta.className = 'p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 block space-y-1';
+          mensajeRespuesta.innerHTML = `
+            <p class="font-bold text-sm">✅ ${data.mensaje || '¡Producto registrado con éxito!'}</p>
+            <p class="text-xs">ID asignado: <strong class="font-mono">#${data.dato.id}</strong> | SKU: <strong class="font-mono">${data.dato.sku}</strong></p>
+            <p class="text-[11px] text-emerald-700">Puedes verificarlo consultando el catálogo en el Punto 2.</p>
           `;
-          form.reset();
-          actualizarPayloadPreview();
+          
+          // Limpiar los campos del formulario
+          formProducto.reset();
 
         } else if (res.status === 409) {
-          // Conflicto: SKU duplicado
-          badgeStatus.className = 'text-xs font-mono font-bold px-2.5 py-0.5 rounded bg-rose-100 text-rose-800';
-          badgeStatus.textContent = 'HTTP 409 Conflict';
-
-          bannerFeedback.className = 'p-3.5 rounded-xl border border-rose-300 bg-rose-50 text-rose-900 text-xs space-y-1 block';
-          bannerFeedback.innerHTML = `
-            <div class="font-bold flex items-center gap-1.5">
-              <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-600"></i>
-              <span>Conflicto: SKU Duplicado</span>
-            </div>
-            <p>${data.error || 'Ya existe un producto con este código SKU.'}</p>
+          // En caso de SKU duplicado (Conflicto)
+          mensajeRespuesta.className = 'p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 block space-y-1';
+          mensajeRespuesta.innerHTML = `
+            <p class="font-bold text-sm">⚠️ Conflicto (HTTP 409)</p>
+            <p class="text-xs">${data.error || 'El código SKU ya existe en la base de datos.'}</p>
           `;
 
         } else {
-          // Error 400 u otro
-          badgeStatus.className = 'text-xs font-mono font-bold px-2.5 py-0.5 rounded bg-amber-100 text-amber-800';
-          badgeStatus.textContent = `HTTP ${res.status} Bad Request`;
-
-          bannerFeedback.className = 'p-3.5 rounded-xl border border-amber-300 bg-amber-50 text-amber-900 text-xs space-y-1 block';
-          bannerFeedback.innerHTML = `
-            <div class="font-bold">Error en la Solicitud</div>
-            <p>${data.error || 'Revisa los campos enviados.'}</p>
-          `;
+          // Error 400 por validación
+          throw new Error(data.error || `HTTP ${res.status}`);
         }
 
-      } catch (err) {
-        badgeConexion.className = 'px-3 py-1 rounded-full text-xs font-mono font-bold bg-rose-950/80 text-rose-300 border border-rose-700 flex items-center gap-1.5 shadow-2xs';
-        textoConexion.textContent = 'Sin conexión (:3000)';
-
-        badgeStatus.className = 'text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-900 text-rose-400';
-        badgeStatus.textContent = 'Error de Red';
-        previewRespuesta.textContent = `// Error: ${err.message}`;
-
-        bannerFeedback.className = 'p-3.5 rounded-xl border border-rose-300 bg-rose-50 text-rose-900 text-xs block';
-        bannerFeedback.innerHTML = `<strong>Error de Red:</strong> No pudimos conectar con el servidor Express en el puerto 3000.`;
+      } catch (error) {
+        mensajeRespuesta.className = 'p-4 rounded-xl bg-rose-50 border border-rose-300 text-rose-800 block space-y-1';
+        mensajeRespuesta.innerHTML = `
+          <p class="font-bold text-sm">❌ Error al registrar</p>
+          <p class="text-xs">${error.message}</p>
+        `;
       } finally {
-        btnSubmit.disabled = false;
-        btnSubmit.innerHTML = `<i data-lucide="send" class="w-4 h-4"></i> <span>Enviar Petición POST</span>`;
-        if (window.lucide) lucide.createIcons();
+        btnGuardar.disabled = false;
+        btnGuardar.textContent = 'Guardar Producto en el Servidor';
       }
     });
-
-    // Presets Pedagógicos
-    document.getElementById('btn-demo-ok').addEventListener('click', () => {
-      const randomNum = Math.floor(100 + Math.random() * 900);
-      inputNombre.value = `Audífonos Diadema Gamer Pro ${randomNum}`;
-      inputSku.value = `AUD-${randomNum}`;
-      selectCategoria.value = 'ACCESORIOS';
-      inputPrecio.value = 180000;
-      inputStock.value = 15;
-      actualizarPayloadPreview();
-    });
-
-    document.getElementById('btn-demo-duplicado').addEventListener('click', () => {
-      inputNombre.value = 'Teclado Mecánico RGB Intento Duplicado';
-      inputSku.value = 'TEC-01'; // SKU que ya existe en la BD inicial
-      selectCategoria.value = 'HARDWARE';
-      inputPrecio.value = 120000;
-      inputStock.value = 5;
-      actualizarPayloadPreview();
-    });
-
-    document.addEventListener('DOMContentLoaded', () => {
-      if (window.lucide) lucide.createIcons();
-      actualizarPayloadPreview();
-    });
   </script>
+
 </body>
 </html>
