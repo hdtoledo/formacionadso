@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Taller de Aula · Sesión 05: Catálogo Interactivo con Fetch API | SENA ADSO</title>
+  <title>Hub de Endpoints · Suite de Clientes Fetch API | SENA ADSO</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons CDN -->
@@ -35,13 +35,17 @@
             <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">ADSO 2026</span>
           </div>
           <h1 class="text-sm sm:text-base font-bold text-white tracking-tight">
-            Sesión 05: Catálogo Dinámico con Fetch API y Manipulación del DOM
+            Sesión 05: Suite de Clientes Web y Validación de Endpoints con Fetch API
           </h1>
         </div>
       </div>
 
       <!-- Estado de conexión con el Backend de Express -->
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-3">
+        <button id="btn-recheck" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-white/10 hover:bg-white/20 text-white rounded-lg text-xs font-bold transition" title="Recomprobar servidor">
+          <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
+          <span>Recomprobar</span>
+        </button>
         <div id="badge-conexion" class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-1.5 shadow-2xs">
           <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
           <span id="texto-conexion">Comprobando API (:3000)...</span>
@@ -53,235 +57,378 @@
   <!-- ========================================== -->
   <!-- 2. CONTENEDOR PRINCIPAL                    -->
   <!-- ========================================== -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full space-y-6">
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full space-y-8">
 
-    <!-- Tarjeta de Instrucciones del Taller -->
-    <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-      <div class="space-y-1">
-        <div class="flex items-center gap-2">
-          <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-md">Taller Práctico Asistido</span>
-          <span class="text-xs text-slate-500 font-mono">Retos 1 al 5 en app.js</span>
+    <!-- Hero / Presentación del Hub -->
+    <div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+      <div class="space-y-2 max-w-3xl">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-extrabold rounded-lg font-mono">ARQUITECTURA CLIENTE-SERVIDOR</span>
+          <span class="px-2.5 py-1 bg-blue-100 text-blue-800 text-xs font-bold rounded-lg font-mono">DÍA 05 · TALLER MODULAR</span>
         </div>
-        <h2 class="text-base font-extrabold text-slate-900">
-          Objetivo: Construir la capa cliente interactiva consumiendo la API de Express (Día 04)
+        <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          Hub de Pruebas: Plantillas HTML + Tailwind para Cada Endpoint
         </h2>
-        <p class="text-xs text-slate-600">
-          Usa <code class="text-[#00324D] font-bold">fetch()</code>, valida respuestas con <code class="text-[#39A900] font-bold">res.ok</code>, captura formularios con <code class="text-blue-700 font-bold">e.preventDefault()</code> y actualiza el DOM en tiempo real.
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+          Cada tarjeta representa una vista o plantilla independiente para interactuar con la API REST de Express construida en la Sesión 04. Haz clic en cualquiera de los botones para abrir la interfaz dedicada con formularios, inspectores de tráfico HTTP y renderizado dinámico en el DOM.
         </p>
+        <div class="pt-3 flex flex-wrap items-center gap-3">
+          <a href="dia-05-fetch-dom-taller.zip" download="dia-05-fetch-dom-taller.zip" class="px-5 py-2.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-xs rounded-xl shadow-xs transition flex items-center gap-2">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span>Descargar Proyecto Completo (.ZIP)</span>
+          </a>
+          <span class="text-xs text-slate-500 font-mono">(Incluye las 6 plantillas modulares + SPA + README)</span>
+        </div>
       </div>
 
-      <!-- Botón para Abrir Modal de Registro (Reto 3) -->
-      <button id="btn-abrir-modal" class="px-4 py-2.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center gap-2 shrink-0">
-        <i data-lucide="plus-circle" class="w-4 h-4"></i>
-        <span>Registrar Producto</span>
-      </button>
+      <!-- Métricas del Proyecto -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-3 shrink-0">
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 text-center">
+          <span class="text-xl font-black text-[#00324D] block font-mono">6</span>
+          <span class="text-[10px] text-slate-500 font-bold uppercase">Plantillas Dedicadas</span>
+        </div>
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 text-center">
+          <span class="text-xl font-black text-[#39A900] block font-mono">4</span>
+          <span class="text-[10px] text-slate-500 font-bold uppercase">Métodos HTTP</span>
+        </div>
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 text-center">
+          <span class="text-xl font-black text-blue-600 block font-mono">1</span>
+          <span class="text-[10px] text-slate-500 font-bold uppercase">SPA Completa</span>
+        </div>
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 text-center">
+          <span class="text-xl font-black text-purple-600 block font-mono">100%</span>
+          <span class="text-[10px] text-slate-500 font-bold uppercase">Nativo Fetch API</span>
+        </div>
+      </div>
     </div>
 
-    <!-- Barra de Controles: Búsqueda y Filtros por Categoría (Reto 2) -->
-    <section class="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
-      
-      <!-- Input de Búsqueda por Texto -->
-      <div class="relative w-full sm:w-96">
-        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
-        <input 
-          type="text" 
-          id="input-busqueda" 
-          placeholder="Buscar producto por nombre o SKU (Reto 2)..." 
-          class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
-        >
+    <!-- Guía Rápida de Ejecución -->
+    <div class="bg-slate-900 text-slate-200 rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 border border-slate-800">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-[#39A900]/20 text-[#39A900] flex items-center justify-center font-bold shrink-0">
+          <i data-lucide="terminal" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h4 class="text-xs sm:text-sm font-bold text-white">Requisito para Pruebas en Vivo:</h4>
+          <p class="text-xs text-slate-400">
+            Asegúrate de tener encendido tu servidor Express en otra terminal:
+            <code class="text-emerald-400 font-mono ml-1">cd dia-04-http-express-servidor-base/recursos &amp;&amp; node plantilla_servidor.js</code>
+          </p>
+        </div>
       </div>
-
-      <!-- Pills de Filtro por Categoría -->
-      <div class="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0" id="contenedor-filtros">
-        <button class="btn-filtro px-3 py-1.5 rounded-lg text-xs font-bold transition bg-[#00324D] text-white" data-categoria="TODAS">
-          Todas
-        </button>
-        <button class="btn-filtro px-3 py-1.5 rounded-lg text-xs font-bold transition bg-slate-100 hover:bg-slate-200 text-slate-700" data-categoria="HARDWARE">
-          Hardware
-        </button>
-        <button class="btn-filtro px-3 py-1.5 rounded-lg text-xs font-bold transition bg-slate-100 hover:bg-slate-200 text-slate-700" data-categoria="PERIFERICOS">
-          Periféricos
-        </button>
-        <button class="btn-filtro px-3 py-1.5 rounded-lg text-xs font-bold transition bg-slate-100 hover:bg-slate-200 text-slate-700" data-categoria="AUDIO">
-          Audio
-        </button>
-      </div>
-
-    </section>
+      <a href="../index.html#slide-21" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl transition flex items-center gap-1.5 shrink-0 self-start md:self-auto border border-slate-700">
+        <i data-lucide="presentation" class="w-3.5 h-3.5 text-[#39A900]"></i>
+        <span>Ver Guía en Diapositivas</span>
+      </a>
+    </div>
 
     <!-- ========================================== -->
-    <!-- 3. CONTENEDOR DE CATÁLOGO / ESTADOS        -->
+    <!-- 3. MATRIZ DE PLANTILLAS Y ENDPOINTS        -->
     <!-- ========================================== -->
     <section class="space-y-4">
-      <div class="flex items-center justify-between text-xs font-bold text-slate-500 px-1">
-        <span>Catálogo de Productos en Inventario:</span>
-        <span id="conteo-productos" class="font-mono text-[#00324D]">Cargando items...</span>
+      <div class="flex items-center justify-between">
+        <h3 class="text-base sm:text-lg font-black text-slate-900 flex items-center gap-2">
+          <i data-lucide="layers" class="w-5 h-5 text-[#39A900]"></i>
+          <span>Plantillas Individuales para Cada Punto de los Endpoints</span>
+        </h3>
+        <span class="text-xs text-slate-500 font-mono">Selecciona un endpoint para abrir su vista</span>
       </div>
 
-      <!-- Spinner de Carga Inicial (Reto 1) -->
-      <div id="estado-carga" class="py-16 text-center space-y-3 bg-white border border-slate-200 rounded-2xl shadow-xs">
-        <div class="w-10 h-10 border-4 border-slate-200 border-t-[#39A900] rounded-full animate-spin mx-auto"></div>
-        <p class="text-xs font-bold text-slate-700">Consultando API REST con <code class="font-mono">fetch('/api/productos')</code>...</p>
-        <p class="text-[11px] text-slate-500">Asegúrate de tener encendido tu servidor del Día 04 en <code class="font-mono text-[#00324D]">http://localhost:3000</code></p>
-      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
 
-      <!-- Estado Vacío (Empty State) -->
-      <div id="estado-vacio" class="hidden py-16 text-center space-y-3 bg-white border border-slate-200 rounded-2xl shadow-xs">
-        <div class="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center mx-auto text-slate-400">
-          <i data-lucide="package-search" class="w-6 h-6"></i>
+        <!-- TARJETA 1: GET /api/status -->
+        <div class="bg-white border-2 border-slate-200 hover:border-emerald-500 rounded-3xl p-6 shadow-xs hover:shadow-md transition flex flex-col justify-between group space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 font-mono text-xs font-black rounded-lg">GET</span>
+              <span class="text-[11px] font-mono text-slate-400 font-bold">PUNTO 1</span>
+            </div>
+            <div>
+              <div class="font-mono text-xs font-bold text-slate-800 bg-slate-100 px-2.5 py-1 rounded-lg inline-block mb-2">
+                /api/status
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 group-hover:text-emerald-700 transition">
+                Health Check y Diagnóstico
+              </h4>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                Verifica si el backend está activo, mide latencia en ms, inspecciona timestamp y calcula uptime en pantalla.
+              </p>
+            </div>
+            <div class="space-y-1 text-[11px] text-slate-600 font-medium pt-2 border-t border-slate-100">
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>Status 200 OK y parsing JSON</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>Manejo de desconexión sin crash</span>
+              </div>
+            </div>
+          </div>
+
+          <a href="01-status.html" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center gap-2">
+            <span>Abrir Vista Health Check</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
         </div>
-        <h3 class="text-sm font-bold text-slate-800">No se encontraron productos</h3>
-        <p class="text-xs text-slate-500 max-w-sm mx-auto">
-          No hay elementos que coincidan con el criterio de búsqueda o la categoría seleccionada.
-        </p>
-      </div>
 
-      <!-- Estado de Error de Red / API (Reto 5) -->
-      <div id="estado-error" class="hidden p-6 bg-rose-50 border border-rose-200 rounded-2xl text-center space-y-3 shadow-xs">
-        <div class="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center mx-auto text-rose-600">
-          <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+        <!-- TARJETA 2: GET /api/productos -->
+        <div class="bg-white border-2 border-slate-200 hover:border-emerald-500 rounded-3xl p-6 shadow-xs hover:shadow-md transition flex flex-col justify-between group space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 font-mono text-xs font-black rounded-lg">GET</span>
+              <span class="text-[11px] font-mono text-slate-400 font-bold">PUNTO 2</span>
+            </div>
+            <div>
+              <div class="font-mono text-xs font-bold text-slate-800 bg-slate-100 px-2.5 py-1 rounded-lg inline-block mb-2">
+                /api/productos?categoria=&amp;q=
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 group-hover:text-emerald-700 transition">
+                Catálogo y Filtros Query
+              </h4>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                Construcción dinámica de URLs con parámetros query, renderizado de tarjetas en el DOM y filtros por categoría.
+              </p>
+            </div>
+            <div class="space-y-1 text-[11px] text-slate-600 font-medium pt-2 border-t border-slate-100">
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>Uso de URLSearchParams</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>Empty states y spinners de carga</span>
+              </div>
+            </div>
+          </div>
+
+          <a href="02-catalogo.html" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center gap-2">
+            <span>Abrir Vista de Catálogo</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
         </div>
-        <h3 class="text-sm font-bold text-rose-900" id="titulo-error">Error al conectar con la API REST</h3>
-        <p class="text-xs text-rose-700 max-w-md mx-auto" id="mensaje-error">
-          No pudimos obtener respuesta del servidor en <code class="font-mono">http://localhost:3000</code>.
-        </p>
-        <button id="btn-reintentar" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl shadow-xs transition inline-flex items-center gap-2">
-          <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
-          <span>Reintentar Conexión</span>
-        </button>
-      </div>
 
-      <!-- Grid de Tarjetas de Productos (Reto 1 & Manipulación del DOM) -->
-      <div id="grid-productos" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        <!-- Las tarjetas se inyectan dinámicamente con JavaScript -->
+        <!-- TARJETA 3: GET /api/productos/:id -->
+        <div class="bg-white border-2 border-slate-200 hover:border-blue-500 rounded-3xl p-6 shadow-xs hover:shadow-md transition flex flex-col justify-between group space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 font-mono text-xs font-black rounded-lg">GET</span>
+              <span class="text-[11px] font-mono text-slate-400 font-bold">PUNTO 3</span>
+            </div>
+            <div>
+              <div class="font-mono text-xs font-bold text-slate-800 bg-slate-100 px-2.5 py-1 rounded-lg inline-block mb-2">
+                /api/productos/:id
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 group-hover:text-blue-700 transition">
+                Búsqueda por Parámetro :id
+              </h4>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                Interpolación de variables en la URL, validación de status 200 OK y manejo defensivo de respuestas 404 Not Found.
+              </p>
+            </div>
+            <div class="space-y-1 text-[11px] text-slate-600 font-medium pt-2 border-t border-slate-100">
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-blue-600"></i>
+                <span>Prueba de existencia vs 404</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-blue-600"></i>
+                <span>Renderizado condicional en DOM</span>
+              </div>
+            </div>
+          </div>
+
+          <a href="03-buscar-id.html" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center gap-2">
+            <span>Abrir Vista de Búsqueda por ID</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+
+        <!-- TARJETA 4: POST /api/productos -->
+        <div class="bg-white border-2 border-slate-200 hover:border-blue-500 rounded-3xl p-6 shadow-xs hover:shadow-md transition flex flex-col justify-between group space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 bg-blue-100 text-blue-800 font-mono text-xs font-black rounded-lg">POST</span>
+              <span class="text-[11px] font-mono text-slate-400 font-bold">PUNTO 4</span>
+            </div>
+            <div>
+              <div class="font-mono text-xs font-bold text-slate-800 bg-slate-100 px-2.5 py-1 rounded-lg inline-block mb-2">
+                /api/productos
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 group-hover:text-blue-700 transition">
+                Formulario y Headers JSON
+              </h4>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                Envío de payloads JSON, uso obligatorio de e.preventDefault(), validación 201 Created y detección de 409 Conflict.
+              </p>
+            </div>
+            <div class="space-y-1 text-[11px] text-slate-600 font-medium pt-2 border-t border-slate-100">
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-blue-600"></i>
+                <span>Headers: application/json</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-blue-600"></i>
+                <span>Pruebas de SKU duplicado (409)</span>
+              </div>
+            </div>
+          </div>
+
+          <a href="04-crear-producto.html" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center gap-2">
+            <span>Abrir Vista Crear Producto</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+
+        <!-- TARJETA 5: PATCH /api/productos/:id/stock -->
+        <div class="bg-white border-2 border-slate-200 hover:border-amber-500 rounded-3xl p-6 shadow-xs hover:shadow-md transition flex flex-col justify-between group space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 bg-amber-100 text-amber-900 font-mono text-xs font-black rounded-lg">PATCH</span>
+              <span class="text-[11px] font-mono text-slate-400 font-bold">PUNTO 5</span>
+            </div>
+            <div>
+              <div class="font-mono text-xs font-bold text-slate-800 bg-slate-100 px-2.5 py-1 rounded-lg inline-block mb-2">
+                /api/productos/:id/stock
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 group-hover:text-amber-700 transition">
+                Actualización Parcial de Stock
+              </h4>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                Modificación de un solo campo del recurso en el servidor, validación de stock positivo y retroalimentación visual en vivo.
+              </p>
+            </div>
+            <div class="space-y-1 text-[11px] text-slate-600 font-medium pt-2 border-t border-slate-100">
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-amber-600"></i>
+                <span>Combinación req.params y body</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-amber-600"></i>
+                <span>Presets para +5, -1 o agotar</span>
+              </div>
+            </div>
+          </div>
+
+          <a href="05-actualizar-stock.html" class="w-full py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center gap-2">
+            <span>Abrir Vista Actualizar Stock</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+
+        <!-- TARJETA 6: DELETE /api/productos/:id -->
+        <div class="bg-white border-2 border-slate-200 hover:border-rose-500 rounded-3xl p-6 shadow-xs hover:shadow-md transition flex flex-col justify-between group space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 bg-rose-100 text-rose-800 font-mono text-xs font-black rounded-lg">DELETE</span>
+              <span class="text-[11px] font-mono text-slate-400 font-bold">PUNTO 6</span>
+            </div>
+            <div>
+              <div class="font-mono text-xs font-bold text-slate-800 bg-slate-100 px-2.5 py-1 rounded-lg inline-block mb-2">
+                /api/productos/:id
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 group-hover:text-rose-700 transition">
+                Eliminación Segura por ID
+              </h4>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                Solicitud destructiva con diálogo de confirmación, manejo de respuestas 200 OK y actualización de UI.
+              </p>
+            </div>
+            <div class="space-y-1 text-[11px] text-slate-600 font-medium pt-2 border-t border-slate-100">
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-rose-600"></i>
+                <span>Confirmación con window.confirm</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-rose-600"></i>
+                <span>Remoción de tarjetas del DOM</span>
+              </div>
+            </div>
+          </div>
+
+          <a href="06-eliminar-producto.html" class="w-full py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center gap-2">
+            <span>Abrir Vista Eliminar Producto</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+
       </div>
     </section>
+
+    <!-- ========================================== -->
+    <!-- 4. SPA INTEGRAL (CATÁLOGO COMPLETO)        -->
+    <!-- ========================================== -->
+    <div class="bg-gradient-to-r from-[#00324D] to-[#004d77] text-white rounded-3xl p-6 sm:p-8 shadow-md flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="space-y-2 text-center md:text-left">
+        <div class="flex items-center justify-center md:justify-start gap-2">
+          <span class="px-2.5 py-0.5 bg-[#39A900] text-white text-[10px] font-mono font-bold rounded">APLICACIÓN COMPLETA</span>
+          <span class="text-xs font-bold text-emerald-300">Taller Integrado de Aula</span>
+        </div>
+        <h3 class="text-xl sm:text-2xl font-black">
+          ¿Deseas ver todo funcionando en una sola SPA?
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-200 max-w-2xl leading-relaxed">
+          Accede al Catálogo Interactivo Completo que combina en una sola pantalla: carga inicial GET, buscador y filtros en tiempo real, modal de creación POST, modificación rápida PATCH de stock y notificaciones Toast flotantes.
+        </p>
+      </div>
+
+      <a href="07-crud-completo.html" class="px-6 py-3.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-xs sm:text-sm rounded-2xl shadow-lg transition flex items-center gap-2 shrink-0">
+        <i data-lucide="sparkles" class="w-4 h-4"></i>
+        <span>Abrir Catálogo Completo (SPA)</span>
+      </a>
+    </div>
 
   </main>
 
   <!-- ========================================== -->
-  <!-- 4. MODAL: REGISTRAR PRODUCTO (Reto 3)      -->
+  <!-- 5. PIE DE PÁGINA                           -->
   <!-- ========================================== -->
-  <div id="modal-producto" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
-    <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-150">
-      
-      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-        <div class="flex items-center gap-2">
-          <div class="w-7 h-7 rounded-lg bg-emerald-100 text-[#39A900] flex items-center justify-center font-bold">
-            <i data-lucide="package-plus" class="w-4 h-4"></i>
-          </div>
-          <h3 class="text-sm font-extrabold text-slate-900">Nuevo Producto (Reto 3)</h3>
-        </div>
-        <button id="btn-cerrar-modal" class="text-slate-400 hover:text-slate-700 transition">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-2 font-mono">
+        <span class="font-bold text-[#00324D]">SENA ADSO 2026</span>
+        <span>•</span>
+        <span>Nivelación de Fundamentos</span>
       </div>
-
-      <!-- Formulario Controlado con e.preventDefault() -->
-      <form id="form-producto" class="space-y-4">
-        
-        <!-- Nombre -->
-        <div class="space-y-1">
-          <label class="block text-xs font-bold text-slate-700" for="input-nombre">Nombre del Producto *</label>
-          <input 
-            type="text" 
-            id="input-nombre" 
-            name="nombre" 
-            required 
-            placeholder="Ej: Teclado Mecánico RGB" 
-            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
-          >
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <!-- SKU -->
-          <div class="space-y-1">
-            <label class="block text-xs font-bold text-slate-700" for="input-sku">Código SKU *</label>
-            <input 
-              type="text" 
-              id="input-sku" 
-              name="sku" 
-              required 
-              placeholder="TEC-001" 
-              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono uppercase text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
-            >
-          </div>
-
-          <!-- Categoría -->
-          <div class="space-y-1">
-            <label class="block text-xs font-bold text-slate-700" for="select-categoria">Categoría *</label>
-            <select 
-              id="select-categoria" 
-              name="categoria" 
-              required 
-              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
-            >
-              <option value="">Seleccione...</option>
-              <option value="HARDWARE">Hardware</option>
-              <option value="PERIFERICOS">Periféricos</option>
-              <option value="AUDIO">Audio</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <!-- Precio -->
-          <div class="space-y-1">
-            <label class="block text-xs font-bold text-slate-700" for="input-precio">Precio (COP) *</label>
-            <input 
-              type="number" 
-              id="input-precio" 
-              name="precio" 
-              min="1" 
-              required 
-              placeholder="150000" 
-              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
-            >
-          </div>
-
-          <!-- Stock Inicial -->
-          <div class="space-y-1">
-            <label class="block text-xs font-bold text-slate-700" for="input-stock">Stock Inicial *</label>
-            <input 
-              type="number" 
-              id="input-stock" 
-              name="stock" 
-              min="0" 
-              required 
-              placeholder="10" 
-              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
-            >
-          </div>
-        </div>
-
-        <!-- Botones de Acción -->
-        <div class="pt-3 flex items-center justify-end gap-2 border-t border-slate-100">
-          <button type="button" id="btn-cancelar-modal" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition">
-            Cancelar
-          </button>
-          <button type="submit" id="btn-guardar-producto" class="px-5 py-2 bg-[#39A900] hover:bg-[#2D8200] text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center gap-1.5">
-            <i data-lucide="save" class="w-3.5 h-3.5"></i>
-            <span>Guardar en API</span>
-          </button>
-        </div>
-
-      </form>
+      <div class="flex items-center gap-4">
+        <a href="../index.html" class="text-slate-600 hover:text-[#39A900] font-bold transition flex items-center gap-1">
+          <i data-lucide="presentation" class="w-3.5 h-3.5"></i>
+          <span>Presentación de Diapositivas</span>
+        </a>
+        <a href="../../../index.html" class="text-slate-600 hover:text-[#00324D] font-bold transition flex items-center gap-1">
+          <i data-lucide="home" class="w-3.5 h-3.5"></i>
+          <span>Portal Principal</span>
+        </a>
+      </div>
     </div>
-  </div>
+  </footer>
 
-  <!-- ========================================== -->
-  <!-- 5. NOTIFICACIONES TOAST (Reto 5 UI)        -->
-  <!-- ========================================== -->
-  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none">
-    <!-- Los toasts se crean y destruyen dinámicamente -->
-  </div>
-
-  <!-- Script del Taller (Código que deben resolver los aprendices) -->
-  <script src="app.js"></script>
+  <!-- Script Verificador de Estado General -->
   <script>
-    // Inicializar iconos lucide al cargar maqueta
+    const badgeConexion = document.getElementById('badge-conexion');
+    const textoConexion = document.getElementById('texto-conexion');
+    const btnRecheck = document.getElementById('btn-recheck');
+
+    async function verificarConexionGeneral() {
+      try {
+        const res = await fetch('http://localhost:3000/api/status');
+        if (res.ok) {
+          badgeConexion.className = 'px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-700 flex items-center gap-1.5 shadow-2xs';
+          badgeConexion.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span><span>API Conectada (:3000)</span>';
+        } else {
+          throw new Error('Status no 200');
+        }
+      } catch (err) {
+        badgeConexion.className = 'px-3 py-1 rounded-full text-xs font-mono font-bold bg-rose-950/80 text-rose-300 border border-rose-700 flex items-center gap-1.5 shadow-2xs';
+        badgeConexion.innerHTML = '<span class="w-2 h-2 rounded-full bg-rose-400 animate-pulse"></span><span>Sin conexión (:3000)</span>';
+      }
+    }
+
+    if (btnRecheck) btnRecheck.addEventListener('click', verificarConexionGeneral);
+
     document.addEventListener('DOMContentLoaded', () => {
-      lucide.createIcons();
+      if (window.lucide) lucide.createIcons();
+      verificarConexionGeneral();
     });
   </script>
 </body>

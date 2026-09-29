@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Punto 1: Health Check (GET /api/status) | SENA ADSO</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body class="min-h-full flex flex-col text-slate-800 antialiased bg-slate-50">
+
+  <!-- ========================================== -->
+  <!-- 1. ENCABEZADO INSTITUCIONAL SENA           -->
+  <!-- ========================================== -->
+  <header class="bg-[#00324D] text-white border-b-4 border-[#39A900] shadow-md sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 flex items-center justify-center font-bold text-white text-sm transition group" title="Volver al Hub">
+          <i data-lucide="arrow-left" class="w-4 h-4 text-slate-300 group-hover:text-white transition"></i>
+        </a>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs uppercase tracking-wider font-extrabold text-[#39A900]">SENA CADPH Garzón</span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">Sesión 05 · Punto 1</span>
+          </div>
+          <h1 class="text-sm sm:text-base font-bold text-white tracking-tight">
+            Diagnóstico del Servidor: Health Check con <code class="text-[#39A900] font-mono">GET /api/status</code>
+          </h1>
+        </div>
+      </div>
+
+      <!-- Conexión y Navegación Rápida -->
+      <div class="flex items-center gap-2">
+        <div id="badge-conexion" class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-1.5 shadow-2xs">
+          <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          <span id="texto-conexion">Comprobando API (:3000)...</span>
+        </div>
+        <a href="index.html" class="hidden sm:flex items-center gap-1.5 px-3 py-1 bg-white/10 hover:bg-white/20 text-white rounded-lg text-xs font-bold transition">
+          <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+          <span>Hub Principal</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================== -->
+  <!-- 2. CONTENIDO PRINCIPAL                     -->
+  <!-- ========================================== -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex-1 w-full space-y-6">
+
+    <!-- Tarjeta de Ficha Técnica del Endpoint -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div class="space-y-1.5">
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 text-xs font-black rounded-md font-mono">GET</span>
+          <span class="text-xs sm:text-sm font-mono font-bold text-slate-900 bg-slate-100 px-2 py-0.5 rounded">/api/status</span>
+          <span class="text-[11px] text-slate-500 font-mono">Puerto: 3000</span>
+        </div>
+        <h2 class="text-base font-extrabold text-slate-900">
+          Verificación de Operatividad y Diagnóstico (Health Check)
+        </h2>
+        <p class="text-xs text-slate-600 max-w-3xl leading-relaxed">
+          Este endpoint valida que el backend en Express esté encendido y recibiendo peticiones. Permite al frontend determinar si el servidor responde con <strong>HTTP 200 OK</strong> y conocer el tiempo activo (<code class="font-mono text-emerald-700">process.uptime()</code>).
+        </p>
+      </div>
+
+      <!-- Botón de Ejecución Rápida -->
+      <button id="btn-ejecutar" class="px-5 py-2.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center gap-2 shrink-0">
+        <i data-lucide="play" class="w-4 h-4"></i>
+        <span>Ejecutar Petición Fetch</span>
+      </button>
+    </div>
+
+    <!-- Panel de Dos Columnas: Auditoría HTTP y Resultado en el DOM -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      <!-- Columna Izquierda: Auditoría HTTP (Inspector de Petición y Respuesta) -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold">
+              <i data-lucide="radio" class="w-4 h-4"></i>
+            </div>
+            <h3 class="text-sm font-extrabold text-slate-900">Auditoría HTTP en Tiempo Real</h3>
+          </div>
+          <span id="badge-status-code" class="text-xs font-mono font-bold px-2.5 py-0.5 rounded bg-slate-100 text-slate-500">
+            En espera
+          </span>
+        </div>
+
+        <!-- Detalles de la Petición -->
+        <div class="space-y-1.5 text-xs">
+          <span class="font-bold text-slate-600 uppercase tracking-wider text-[10px]">Petición Enviada por el Navegador:</span>
+          <div class="bg-slate-900 text-slate-200 p-3 rounded-xl font-mono text-[11px] space-y-1">
+            <div class="text-emerald-400 font-bold">GET http://localhost:3000/api/status</div>
+            <div class="text-slate-400">Accept: application/json</div>
+            <div class="text-slate-500 text-[10px] pt-1">// Sin cuerpo (Body vacío en solicitudes GET)</div>
+          </div>
+        </div>
+
+        <!-- Respuesta Recibida -->
+        <div class="space-y-1.5 text-xs">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-slate-600 uppercase tracking-wider text-[10px]">Payload JSON Devuelto por Express:</span>
+            <span id="tiempo-respuesta" class="text-[10px] font-mono text-slate-400">Latencia: -- ms</span>
+          </div>
+          <pre id="codigo-respuesta" class="bg-slate-900 text-slate-100 p-3 rounded-xl text-xs font-mono overflow-x-auto min-h-[140px] flex items-center justify-center text-slate-500 text-center">
+Presiona "Ejecutar Petición Fetch" para capturar la respuesta del servidor.
+          </pre>
+        </div>
+      </div>
+
+      <!-- Columna Derecha: Renderizado Dinámico en el DOM -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs space-y-4 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-lg bg-emerald-100 text-[#39A900] flex items-center justify-center font-bold">
+                <i data-lucide="monitor" class="w-4 h-4"></i>
+              </div>
+              <h3 class="text-sm font-extrabold text-slate-900">Tarjeta Renderizada en el DOM</h3>
+            </div>
+            <span class="text-[11px] text-slate-400 font-mono">Manipulación DOM</span>
+          </div>
+
+          <!-- Contenedor Visual de Estado del Servidor -->
+          <div id="contenedor-visual" class="my-4 p-5 rounded-2xl border-2 border-dashed border-slate-200 text-center space-y-3">
+            <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mx-auto text-slate-400">
+              <i data-lucide="server" class="w-6 h-6"></i>
+            </div>
+            <h4 class="text-sm font-bold text-slate-700">Sin datos de servidor aún</h4>
+            <p class="text-xs text-slate-500 max-w-sm mx-auto">
+              Al ejecutar fetch, esta tarjeta se actualizará en tiempo real con los valores deserializados de la API.
+            </p>
+          </div>
+        </div>
+
+        <!-- Código Pedagógico Usado -->
+        <div class="pt-3 border-t border-slate-100">
+          <div class="text-[11px] font-bold text-slate-700 mb-1 flex items-center gap-1.5">
+            <i data-lucide="code" class="w-3.5 h-3.5 text-blue-600"></i>
+            <span>Código JavaScript Didáctico (Fetch Nativo):</span>
+          </div>
+          <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-[11px] font-mono overflow-x-auto"><code class="language-javascript">const res = await fetch('http://localhost:3000/api/status');
+if (!res.ok) throw new Error(`HTTP ${res.status}`);
+const data = await res.json();
+console.log('Servidor en línea:', data.mensaje, data.uptimeSegundos);</code></pre>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Navegación entre Vistas -->
+    <div class="flex items-center justify-between pt-2">
+      <a href="index.html" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition flex items-center gap-1.5">
+        <i data-lucide="chevron-left" class="w-4 h-4"></i>
+        <span>Volver al Hub</span>
+      </a>
+      <a href="02-catalogo.html" class="px-4 py-2 bg-[#00324D] hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5">
+        <span>Siguiente: 02 - Catálogo y Filtros (GET)</span>
+        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- 3. SCRIPT DEL PUNTO 1                      -->
+  <!-- ========================================== -->
+  <script>
+    const API_URL = 'http://localhost:3000/api/status';
+
+    const btnEjecutar = document.getElementById('btn-ejecutar');
+    const badgeStatusCode = document.getElementById('badge-status-code');
+    const codigoRespuesta = document.getElementById('codigo-respuesta');
+    const tiempoRespuesta = document.getElementById('tiempo-respuesta');
+    const contenedorVisual = document.getElementById('contenedor-visual');
+    const badgeConexion = document.getElementById('badge-conexion');
+    const textoConexion = document.getElementById('texto-conexion');
+
+    async function ejecutarStatus() {
+      const inicio = performance.now();
+      btnEjecutar.disabled = true;
+      btnEjecutar.innerHTML = `<span class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span> Consultando...`;
+      codigoRespuesta.innerHTML = `<span class="text-slate-400 animate-pulse">// Enviando solicitud HTTP GET a ${API_URL}...</span>`;
+
+      try {
+        const res = await fetch(API_URL);
+        const fin = performance.now();
+        const duracion = Math.round(fin - inicio);
+        tiempoRespuesta.textContent = `Latencia: ${duracion} ms`;
+
+        const data = await res.json();
+
+        // Actualizar Badge de Código HTTP
+        badgeStatusCode.className = 'text-xs font-mono font-bold px-2.5 py-0.5 rounded bg-emerald-100 text-emerald-800';
+        badgeStatusCode.textContent = `HTTP ${res.status} OK`;
+
+        // Mostrar JSON con formato en la auditoría
+        codigoRespuesta.textContent = JSON.stringify(data, null, 2);
+
+        // Actualizar Badge General
+        badgeConexion.className = 'px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-700 flex items-center gap-1.5 shadow-2xs';
+        textoConexion.textContent = 'API Conectada (:3000)';
+
+        // Renderizar Tarjeta Dinámica en el DOM
+        const uptimeMin = Math.floor((data.uptimeSegundos || 0) / 60);
+        const uptimeSeg = (data.uptimeSegundos || 0) % 60;
+
+        contenedorVisual.className = 'my-4 p-5 rounded-2xl border-2 border-emerald-300 bg-emerald-50/50 text-left space-y-4 shadow-xs transition';
+        contenedorVisual.innerHTML = `
+          <div class="flex items-center justify-between border-b border-emerald-200 pb-3">
+            <div class="flex items-center gap-2.5">
+              <span class="w-3 h-3 rounded-full bg-emerald-500 animate-ping"></span>
+              <span class="font-extrabold text-emerald-950 text-sm">Servidor Activo y Operativo</span>
+            </div>
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-emerald-200 text-emerald-900 font-bold">${data.entorno || 'desarrollo'}</span>
+          </div>
+          <div class="grid grid-cols-2 gap-3 text-xs">
+            <div class="bg-white p-3 rounded-xl border border-emerald-200">
+              <span class="text-slate-500 text-[10px] block">Mensaje de Diagnóstico:</span>
+              <span class="font-bold text-slate-800">${data.mensaje || 'Servidor en funcionamiento'}</span>
+            </div>
+            <div class="bg-white p-3 rounded-xl border border-emerald-200">
+              <span class="text-slate-500 text-[10px] block">Tiempo Activo (Uptime):</span>
+              <span class="font-mono font-bold text-emerald-800">${uptimeMin} min ${uptimeSeg} seg (${data.uptimeSegundos}s)</span>
+            </div>
+          </div>
+          <div class="text-[11px] text-slate-500 font-mono bg-white p-2.5 rounded-lg border border-emerald-100 flex items-center justify-between">
+            <span>Timestamp del Servidor:</span>
+            <span class="text-slate-700 font-bold">${data.timestamp || new Date().toISOString()}</span>
+          </div>
+        `;
+
+      } catch (err) {
+        const fin = performance.now();
+        tiempoRespuesta.textContent = `Fallo tras: ${Math.round(fin - inicio)} ms`;
+
+        badgeStatusCode.className = 'text-xs font-mono font-bold px-2.5 py-0.5 rounded bg-rose-100 text-rose-800';
+        badgeStatusCode.textContent = 'Error de Conexión';
+
+        codigoRespuesta.innerHTML = `<span class="text-rose-400">❌ Error: No se pudo conectar con ${API_URL}\n\nDetalle: ${err.message}\n\nPosibles causas:\n1. El servidor Express de la Sesión 04 no está encendido.\n2. Inícialo con: cd dia-04-http-express-servidor-base/recursos && node plantilla_servidor.js</span>`;
+
+        badgeConexion.className = 'px-3 py-1 rounded-full text-xs font-mono font-bold bg-rose-950/80 text-rose-300 border border-rose-700 flex items-center gap-1.5 shadow-2xs';
+        textoConexion.textContent = 'Sin conexión (:3000)';
+
+        contenedorVisual.className = 'my-4 p-5 rounded-2xl border-2 border-rose-300 bg-rose-50 text-left space-y-3';
+        contenedorVisual.innerHTML = `
+          <div class="flex items-center gap-2 text-rose-800 font-bold text-sm">
+            <i data-lucide="alert-triangle" class="w-5 h-5 text-rose-600"></i>
+            <span>Backend no responde en http://localhost:3000</span>
+          </div>
+          <p class="text-xs text-rose-700 leading-relaxed">
+            Asegúrate de encender el servidor Express ejecutando <code class="bg-rose-100 px-1 rounded font-mono font-bold">node plantilla_servidor.js</code> en una terminal independiente.
+          </p>
+        `;
+        if (window.lucide) lucide.createIcons();
+
+      } finally {
+        btnEjecutar.disabled = false;
+        btnEjecutar.innerHTML = `<i data-lucide="play" class="w-4 h-4"></i> <span>Ejecutar Petición Fetch</span>`;
+        if (window.lucide) lucide.createIcons();
+      }
+    }
+
+    btnEjecutar.addEventListener('click', ejecutarStatus);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) lucide.createIcons();
+      // Verificación inicial automática
+      ejecutarStatus();
+    });
+  </script>
+</body>
+</html>

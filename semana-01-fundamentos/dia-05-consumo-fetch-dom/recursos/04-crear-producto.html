@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Punto 4: Registrar Producto (POST /api/productos) | SENA ADSO</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body class="min-h-full flex flex-col text-slate-800 antialiased bg-slate-50">
+
+  <!-- ========================================== -->
+  <!-- 1. ENCABEZADO INSTITUCIONAL SENA           -->
+  <!-- ========================================== -->
+  <header class="bg-[#00324D] text-white border-b-4 border-[#39A900] shadow-md sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 flex items-center justify-center font-bold text-white text-sm transition group" title="Volver al Hub">
+          <i data-lucide="arrow-left" class="w-4 h-4 text-slate-300 group-hover:text-white transition"></i>
+        </a>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs uppercase tracking-wider font-extrabold text-[#39A900]">SENA CADPH Garzón</span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">Sesión 05 · Punto 4</span>
+          </div>
+          <h1 class="text-sm sm:text-base font-bold text-white tracking-tight">
+            Creación con Headers JSON: <code class="text-[#39A900] font-mono">POST /api/productos</code>
+          </h1>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <div id="badge-conexion" class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-1.5 shadow-2xs">
+          <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          <span id="texto-conexion">Comprobando API (:3000)...</span>
+        </div>
+        <a href="index.html" class="hidden sm:flex items-center gap-1.5 px-3 py-1 bg-white/10 hover:bg-white/20 text-white rounded-lg text-xs font-bold transition">
+          <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+          <span>Hub Principal</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================== -->
+  <!-- 2. CONTENIDO PRINCIPAL                     -->
+  <!-- ========================================== -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex-1 w-full space-y-6">
+
+    <!-- Ficha Técnica -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs space-y-2">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-0.5 bg-blue-100 text-blue-800 text-xs font-black rounded-md font-mono">POST</span>
+          <span class="text-xs sm:text-sm font-mono font-bold text-slate-900 bg-slate-100 px-2 py-0.5 rounded">/api/productos</span>
+          <span class="text-[11px] text-slate-500 font-mono">Requiere: Content-Type: application/json</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <span class="text-[11px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+            201 Created (Éxito)
+          </span>
+          <span class="text-[11px] font-mono font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+            400 Bad Request
+          </span>
+          <span class="text-[11px] font-mono font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">
+            409 Conflict (SKU repetido)
+          </span>
+        </div>
+      </div>
+      <p class="text-xs text-slate-600 max-w-4xl leading-relaxed">
+        El cliente previene la recarga del formulario con <code class="font-mono text-purple-700 font-bold">e.preventDefault()</code>, serializa el objeto a JSON con <code class="font-mono text-blue-700 font-bold">JSON.stringify()</code> y lo envía en el <code class="font-mono text-[#00324D]">body</code> con cabeceras estrictas.
+      </p>
+    </div>
+
+    <!-- Formulario y Panel de Auditoría -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+      <!-- Columna Formulario (7 Cols) -->
+      <div class="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-5">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold">
+              <i data-lucide="edit-3" class="w-4 h-4"></i>
+            </div>
+            <h3 class="text-sm font-extrabold text-slate-900">Formulario Controlado de Registro</h3>
+          </div>
+          <!-- Presets de Prueba -->
+          <div class="flex items-center gap-1.5">
+            <button type="button" id="btn-demo-ok" class="text-[10px] px-2 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold rounded-md transition">
+              Datos Válidos (201)
+            </button>
+            <button type="button" id="btn-demo-duplicado" class="text-[10px] px-2 py-1 bg-rose-50 hover:bg-rose-100 text-rose-800 font-bold rounded-md transition">
+              SKU Duplicado (409)
+            </button>
+          </div>
+        </div>
+
+        <form id="form-crear-producto" class="space-y-4">
+          
+          <!-- Nombre -->
+          <div class="space-y-1">
+            <label class="block text-xs font-bold text-slate-700" for="input-nombre">
+              Nombre del Producto <span class="text-rose-500">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="input-nombre" 
+              required 
+              placeholder="Ej: Teclado Mecánico Inalámbrico" 
+              class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
+            >
+          </div>
+
+          <!-- SKU y Categoría -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="space-y-1">
+              <label class="block text-xs font-bold text-slate-700" for="input-sku">
+                Código SKU Único <span class="text-rose-500">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="input-sku" 
+                required 
+                placeholder="TEC-88" 
+                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono uppercase text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
+              >
+            </div>
+
+            <div class="space-y-1">
+              <label class="block text-xs font-bold text-slate-700" for="select-categoria">
+                Categoría <span class="text-rose-500">*</span>
+              </label>
+              <select 
+                id="select-categoria" 
+                required 
+                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
+              >
+                <option value="">Seleccione...</option>
+                <option value="HARDWARE">HARDWARE</option>
+                <option value="PANTALLAS">PANTALLAS</option>
+                <option value="ACCESORIOS">ACCESORIOS</option>
+                <option value="ALMACENAMIENTO">ALMACENAMIENTO</option>
+                <option value="REDES">REDES</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Precio y Stock -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="space-y-1">
+              <label class="block text-xs font-bold text-slate-700" for="input-precio">
+                Precio (COP) <span class="text-rose-500">*</span>
+              </label>
+              <input 
+                type="number" 
+                id="input-precio" 
+                min="1000" 
+                step="500" 
+                required 
+                placeholder="150000" 
+                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
+              >
+            </div>
+
+            <div class="space-y-1">
+              <label class="block text-xs font-bold text-slate-700" for="input-stock">
+                Stock Inicial <span class="text-rose-500">*</span>
+              </label>
+              <input 
+                type="number" 
+                id="input-stock" 
+                min="0" 
+                required 
+                placeholder="10" 
+                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
+              >
+            </div>
+          </div>
+
+          <!-- Botones de Acción -->
+          <div class="pt-3 flex items-center justify-between border-t border-slate-100">
+            <button type="reset" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition">
+              Limpiar Campos
+            </button>
+            <button type="submit" id="btn-submit" class="px-6 py-2.5 bg-[#39A900] hover:bg-[#2D8200] text-white text-xs font-bold rounded-xl shadow-xs transition flex items-center gap-2">
+              <i data-lucide="send" class="w-4 h-4"></i>
+              <span>Enviar Petición POST</span>
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Columna Auditoría HTTP (5 Cols) -->
+      <div class="lg:col-span-5 bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4 flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-1.5">
+              <i data-lucide="terminal" class="w-4 h-4 text-emerald-600"></i>
+              <span>Auditoría de Petición y Respuesta</span>
+            </h3>
+            <span id="badge-status" class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-500">
+              Listo
+            </span>
+          </div>
+
+          <!-- Payload que se va a enviar -->
+          <div class="space-y-1">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Payload JSON Saliente (Body):</span>
+            <pre id="preview-payload" class="bg-slate-900 text-emerald-400 p-2.5 rounded-xl text-[11px] font-mono overflow-x-auto min-h-[90px]">{
+  // Escribe en el formulario para previsualizar el JSON
+}</pre>
+          </div>
+
+          <!-- Respuesta del Servidor -->
+          <div class="space-y-1">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Respuesta de Express:</span>
+            <pre id="preview-respuesta" class="bg-slate-900 text-slate-100 p-2.5 rounded-xl text-[11px] font-mono overflow-x-auto min-h-[120px] text-slate-400">// La respuesta del backend aparecerá aquí</pre>
+          </div>
+        </div>
+
+        <!-- Banner de Feedback -->
+        <div id="banner-feedback" class="hidden p-3.5 rounded-xl border text-xs font-medium transition">
+          <!-- Inyectado dinámicamente -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Navegación -->
+    <div class="flex items-center justify-between pt-4 border-t border-slate-200">
+      <a href="03-buscar-id.html" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition flex items-center gap-1.5">
+        <i data-lucide="chevron-left" class="w-4 h-4"></i>
+        <span>Anterior: 03 - Buscar por ID</span>
+      </a>
+      <a href="05-actualizar-stock.html" class="px-4 py-2 bg-[#00324D] hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5">
+        <span>Siguiente: 05 - Actualizar Stock (PATCH)</span>
+        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- 3. SCRIPT DEL PUNTO 4                      -->
+  <!-- ========================================== -->
+  <script>
+    const API_URL = 'http://localhost:3000/api/productos';
+
+    const form = document.getElementById('form-crear-producto');
+    const inputNombre = document.getElementById('input-nombre');
+    const inputSku = document.getElementById('input-sku');
+    const selectCategoria = document.getElementById('select-categoria');
+    const inputPrecio = document.getElementById('input-precio');
+    const inputStock = document.getElementById('input-stock');
+    const btnSubmit = document.getElementById('btn-submit');
+    const previewPayload = document.getElementById('preview-payload');
+    const previewRespuesta = document.getElementById('preview-respuesta');
+    const badgeStatus = document.getElementById('badge-status');
+    const bannerFeedback = document.getElementById('banner-feedback');
+    const badgeConexion = document.getElementById('badge-conexion');
+    const textoConexion = document.getElementById('texto-conexion');
+
+    function actualizarPayloadPreview() {
+      const objeto = {
+        nombre: inputNombre.value.trim() || undefined,
+        sku: inputSku.value.trim().toUpperCase() || undefined,
+        categoria: selectCategoria.value || undefined,
+        precio: inputPrecio.value ? Number(inputPrecio.value) : undefined,
+        stock: inputStock.value !== '' ? Number(inputStock.value) : undefined
+      };
+      previewPayload.textContent = JSON.stringify(objeto, null, 2);
+    }
+
+    [inputNombre, inputSku, selectCategoria, inputPrecio, inputStock].forEach(el => {
+      el.addEventListener('input', actualizarPayloadPreview);
+      el.addEventListener('change', actualizarPayloadPreview);
+    });
+
+    form.addEventListener('submit', async (e) => {
+      // 1. REGLA DE ORO: Prevenir la recarga del navegador
+      e.preventDefault();
+
+      const nuevoProducto = {
+        nombre: inputNombre.value.trim(),
+        sku: inputSku.value.trim().toUpperCase(),
+        categoria: selectCategoria.value,
+        precio: Number(inputPrecio.value),
+        stock: Number(inputStock.value)
+      };
+
+      btnSubmit.disabled = true;
+      btnSubmit.innerHTML = `<span class="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span> Registrando...`;
+
+      try {
+        // 2. Ejecutar Fetch con POST y Headers JSON
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(nuevoProducto)
+        });
+
+        const data = await res.json();
+        previewRespuesta.textContent = JSON.stringify(data, null, 2);
+
+        // Actualizar badges
+        badgeConexion.className = 'px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-700 flex items-center gap-1.5 shadow-2xs';
+        textoConexion.textContent = 'API Conectada (:3000)';
+
+        if (res.status === 201) {
+          // Éxito 201 Created
+          badgeStatus.className = 'text-xs font-mono font-bold px-2.5 py-0.5 rounded bg-emerald-100 text-emerald-800';
+          badgeStatus.textContent = 'HTTP 201 Created';
+
+          bannerFeedback.className = 'p-3.5 rounded-xl border border-emerald-300 bg-emerald-50 text-emerald-900 text-xs space-y-1 block';
+          bannerFeedback.innerHTML = `
+            <div class="font-bold flex items-center gap-1.5">
+              <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+              <span>¡Producto Creado Exitosamente!</span>
+            </div>
+            <p>Se le asignó el ID <span class="font-mono font-bold">#${data.datos?.id || '?'}</span> en el backend.</p>
+          `;
+          form.reset();
+          actualizarPayloadPreview();
+
+        } else if (res.status === 409) {
+          // Conflicto: SKU duplicado
+          badgeStatus.className = 'text-xs font-mono font-bold px-2.5 py-0.5 rounded bg-rose-100 text-rose-800';
+          badgeStatus.textContent = 'HTTP 409 Conflict';
+
+          bannerFeedback.className = 'p-3.5 rounded-xl border border-rose-300 bg-rose-50 text-rose-900 text-xs space-y-1 block';
+          bannerFeedback.innerHTML = `
+            <div class="font-bold flex items-center gap-1.5">
+              <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-600"></i>
+              <span>Conflicto: SKU Duplicado</span>
+            </div>
+            <p>${data.error || 'Ya existe un producto con este código SKU.'}</p>
+          `;
+
+        } else {
+          // Error 400 u otro
+          badgeStatus.className = 'text-xs font-mono font-bold px-2.5 py-0.5 rounded bg-amber-100 text-amber-800';
+          badgeStatus.textContent = `HTTP ${res.status} Bad Request`;
+
+          bannerFeedback.className = 'p-3.5 rounded-xl border border-amber-300 bg-amber-50 text-amber-900 text-xs space-y-1 block';
+          bannerFeedback.innerHTML = `
+            <div class="font-bold">Error en la Solicitud</div>
+            <p>${data.error || 'Revisa los campos enviados.'}</p>
+          `;
+        }
+
+      } catch (err) {
+        badgeConexion.className = 'px-3 py-1 rounded-full text-xs font-mono font-bold bg-rose-950/80 text-rose-300 border border-rose-700 flex items-center gap-1.5 shadow-2xs';
+        textoConexion.textContent = 'Sin conexión (:3000)';
+
+        badgeStatus.className = 'text-xs font-mono font-bold px-2 py-0.5 rounded bg-slate-900 text-rose-400';
+        badgeStatus.textContent = 'Error de Red';
+        previewRespuesta.textContent = `// Error: ${err.message}`;
+
+        bannerFeedback.className = 'p-3.5 rounded-xl border border-rose-300 bg-rose-50 text-rose-900 text-xs block';
+        bannerFeedback.innerHTML = `<strong>Error de Red:</strong> No pudimos conectar con el servidor Express en el puerto 3000.`;
+      } finally {
+        btnSubmit.disabled = false;
+        btnSubmit.innerHTML = `<i data-lucide="send" class="w-4 h-4"></i> <span>Enviar Petición POST</span>`;
+        if (window.lucide) lucide.createIcons();
+      }
+    });
+
+    // Presets Pedagógicos
+    document.getElementById('btn-demo-ok').addEventListener('click', () => {
+      const randomNum = Math.floor(100 + Math.random() * 900);
+      inputNombre.value = `Audífonos Diadema Gamer Pro ${randomNum}`;
+      inputSku.value = `AUD-${randomNum}`;
+      selectCategoria.value = 'ACCESORIOS';
+      inputPrecio.value = 180000;
+      inputStock.value = 15;
+      actualizarPayloadPreview();
+    });
+
+    document.getElementById('btn-demo-duplicado').addEventListener('click', () => {
+      inputNombre.value = 'Teclado Mecánico RGB Intento Duplicado';
+      inputSku.value = 'TEC-01'; // SKU que ya existe en la BD inicial
+      selectCategoria.value = 'HARDWARE';
+      inputPrecio.value = 120000;
+      inputStock.value = 5;
+      actualizarPayloadPreview();
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) lucide.createIcons();
+      actualizarPayloadPreview();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "name": "sena-adso-backend-express",
+  "version": "1.0.0",
+  "description": "Servidor API REST Express para el Taller de Consumo con Fetch API y DOM - SENA ADSO",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "start": "node --watch app.js",
+    "dev": "node --watch app.js"
+  },
+  "keywords": [
+    "sena",
+    "adso",
+    "express",
+    "fetch",
+    "api-rest"
+  ],
+  "author": "ADSO Ficha 3293992 - SENA CADPH Garzón",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

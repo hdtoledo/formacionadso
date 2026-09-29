@@ -42,7 +42,7 @@ code, pre, .font-mono {
   opacity: 0;
   transform: translateY(8px) scale(0.997);
   transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-  display: none;
+  display: none !important;
   width: 100%;
   flex: 1;
 }
@@ -50,7 +50,7 @@ code, pre, .font-mono {
 .slide-content.active {
   opacity: 1;
   transform: translateY(0) scale(1);
-  display: flex;
+  display: flex !important;
 }
 
 /* Widescreen 16:9 enhancements for Video-beam projection */

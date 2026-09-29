@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Punto 3: Búsqueda por ID (GET /api/productos/:id) | SENA ADSO</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body class="min-h-full flex flex-col text-slate-800 antialiased bg-slate-50">
+
+  <!-- ========================================== -->
+  <!-- 1. ENCABEZADO INSTITUCIONAL SENA           -->
+  <!-- ========================================== -->
+  <header class="bg-[#00324D] text-white border-b-4 border-[#39A900] shadow-md sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 flex items-center justify-center font-bold text-white text-sm transition group" title="Volver al Hub">
+          <i data-lucide="arrow-left" class="w-4 h-4 text-slate-300 group-hover:text-white transition"></i>
+        </a>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs uppercase tracking-wider font-extrabold text-[#39A900]">SENA CADPH Garzón</span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">Sesión 05 · Punto 3</span>
+          </div>
+          <h1 class="text-sm sm:text-base font-bold text-white tracking-tight">
+            Consulta por Parámetro de Ruta: <code class="text-[#39A900] font-mono">GET /api/productos/:id</code>
+          </h1>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <div id="badge-conexion" class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-1.5 shadow-2xs">
+          <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          <span id="texto-conexion">Comprobando API (:3000)...</span>
+        </div>
+        <a href="index.html" class="hidden sm:flex items-center gap-1.5 px-3 py-1 bg-white/10 hover:bg-white/20 text-white rounded-lg text-xs font-bold transition">
+          <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+          <span>Hub Principal</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================== -->
+  <!-- 2. CONTENIDO PRINCIPAL                     -->
+  <!-- ========================================== -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex-1 w-full space-y-6">
+
+    <!-- Ficha Técnica -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs space-y-2">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 text-xs font-black rounded-md font-mono">GET</span>
+          <span class="text-xs sm:text-sm font-mono font-bold text-slate-900 bg-slate-100 px-2 py-0.5 rounded">/api/productos/:id</span>
+          <span class="text-[11px] text-slate-500 font-mono">Parámetro de Ruta (req.params.id)</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <span class="text-[11px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+            200 OK (Si existe)
+          </span>
+          <span class="text-[11px] font-mono font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">
+            404 Not Found (Si no existe)
+          </span>
+        </div>
+      </div>
+      <p class="text-xs text-slate-600 max-w-4xl leading-relaxed">
+        Demuestra cómo el frontend interpola el identificador en la URL (<code class="font-mono text-blue-700">fetch(`${API_URL}/${id}`)</code>) y cómo maneja tanto la respuesta exitosa como el código <code class="font-mono text-rose-600 font-bold">404 Not Found</code> validando <code class="font-mono text-[#39A900] font-bold">res.ok</code>.
+      </p>
+    </div>
+
+    <!-- Controles de Consulta por ID -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-700 flex items-center gap-2">
+          <i data-lucide="search" class="w-4 h-4 text-emerald-600"></i>
+          <span>Ingreso de Parámetro :id</span>
+        </h3>
+        <!-- Presets para testing pedagógico -->
+        <div class="flex items-center gap-2">
+          <button id="btn-id-1" class="text-[11px] px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold rounded-lg transition">ID 1 (Existe)</button>
+          <button id="btn-id-2" class="text-[11px] px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold rounded-lg transition">ID 2 (Existe)</button>
+          <button id="btn-id-999" class="text-[11px] px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold rounded-lg transition">ID 999 (Simular 404)</button>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center gap-3">
+        <div class="relative w-full sm:w-80">
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 font-mono text-xs font-bold text-slate-400">ID:</span>
+          <input 
+            type="number" 
+            id="input-id" 
+            min="1" 
+            value="1" 
+            placeholder="Ej: 1, 2, 3..." 
+            class="w-full pl-10 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono font-bold text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-[#39A900] focus:bg-white transition"
+          >
+        </div>
+
+        <button id="btn-buscar" class="w-full sm:w-auto px-6 py-2.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center justify-center gap-2">
+          <i data-lucide="search" class="w-4 h-4"></i>
+          <span>Consultar Endpoint</span>
+        </button>
+
+        <!-- Preview URL -->
+        <div class="flex-1 p-2 rounded-xl bg-slate-900 text-slate-300 font-mono text-xs overflow-x-auto w-full">
+          <span class="text-emerald-400">fetch('</span><span id="preview-url" class="text-amber-300 font-bold">http://localhost:3000/api/productos/1</span><span class="text-emerald-400">')</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Auditoría HTTP y Tarjeta de Resultado -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      <!-- Columna Izquierda: Auditoría HTTP -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="cpu" class="w-4 h-4 text-blue-600"></i>
+            <h3 class="text-sm font-extrabold text-slate-900">Respuesta del Servidor Express</h3>
+          </div>
+          <span id="badge-status" class="text-xs font-mono font-bold px-2.5 py-0.5 rounded bg-slate-100 text-slate-600">
+            En espera
+          </span>
+        </div>
+
+        <div class="space-y-1 text-xs">
+          <span class="font-bold text-slate-500 uppercase tracking-wider text-[10px]">Cuerpo JSON (Response Payload):</span>
+          <pre id="codigo-json" class="bg-slate-900 text-slate-100 p-4 rounded-xl text-xs font-mono overflow-x-auto min-h-[160px] flex items-center justify-center text-slate-500 text-center">
+Presiona "Consultar Endpoint" para ver la respuesta.
+          </pre>
+        </div>
+
+        <div class="pt-2 border-t border-slate-100">
+          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">Manejo en Código JS:</span>
+          <pre class="bg-slate-900 text-slate-300 p-2.5 rounded-lg text-[11px] font-mono overflow-x-auto"><code>const res = await fetch(`http://localhost:3000/api/productos/${id}`);
+if (!res.ok) {
+  // Manejo de 404 Not Found sin romper la aplicación
+  const errorData = await res.json();
+  mostrarError(errorData.error);
+}</code></pre>
+        </div>
+      </div>
+
+      <!-- Columna Derecha: Tarjeta Renderizada en DOM -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs space-y-4 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <i data-lucide="layout" class="w-4 h-4 text-emerald-600"></i>
+              <h3 class="text-sm font-extrabold text-slate-900">Detalle Visual en el DOM</h3>
+            </div>
+            <span class="text-[11px] text-slate-400 font-mono">Renderizado Condicional</span>
+          </div>
+
+          <div id="resultado-dom" class="my-4">
+            <!-- Inyectado por JS -->
+            <div class="p-8 border-2 border-dashed border-slate-200 rounded-2xl text-center text-slate-400 space-y-2">
+              <i data-lucide="package" class="w-8 h-8 mx-auto text-slate-300"></i>
+              <p class="text-xs">Los datos del producto consultado aparecerán aquí.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-xs text-blue-900 flex items-start gap-2.5">
+          <i data-lucide="info" class="w-4 h-4 text-blue-600 shrink-0 mt-0.5"></i>
+          <span>
+            <strong>Nota Didáctica:</strong> Un error <code class="font-mono font-bold">404</code> es una respuesta HTTP perfectamente válida del servidor. Por ello, <code class="font-mono text-purple-700">fetch()</code> NO lo lanza en el <code class="font-mono">catch</code>; debes validarlo con <code class="font-mono text-emerald-700 font-bold">if (!res.ok)</code>.
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Navegación -->
+    <div class="flex items-center justify-between pt-4 border-t border-slate-200">
+      <a href="02-catalogo.html" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition flex items-center gap-1.5">
+        <i data-lucide="chevron-left" class="w-4 h-4"></i>
+        <span>Anterior: 02 - Catálogo y Filtros</span>
+      </a>
+      <a href="04-crear-producto.html" class="px-4 py-2 bg-[#00324D] hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5">
+        <span>Siguiente: 04 - Crear Producto (POST)</span>
+        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- 3. SCRIPT DEL PUNTO 3                      -->
+  <!-- ========================================== -->
+  <script>
+    const BASE_URL = 'http://localhost:3000/api/productos';
+
+    const inputId = document.getElementById('input-id');
+    const btnBuscar = document.getElementById('btn-buscar');
+    const previewUrl = document.getElementById('preview-url');
+    const badgeStatus = document.getElementById('badge-status');
+    const codigoJson = document.getElementById('codigo-json');
+    const resultadoDom = document.getElementById('resultado-dom');
+    const badgeConexion = document.getElementById('badge-conexion');
+    const textoConexion = document.getElementById('texto-conexion');
+
+    const formatoCOP = new Intl.NumberFormat('es-CO', {
+      style: 'currency',
+      currency: 'COP',
+      maximumFractionDigits: 0
+    });
+
+    function actualizarPreviewUrl() {
+      const id = inputId.value.trim();
+      previewUrl.textContent = `${BASE_URL}/${id || ':id'}`;
+    }
+
+    async function buscarPorId(idConsultar) {
+      const id = idConsultar !== undefined ? idConsultar : inputId.value.trim();
+      if (!id) {
+        alert('Por favor ingresa un ID válido.');
+        return;
+      }
+
+      inputId.value = id;
+      actualizarPreviewUrl();
+
+      btnBuscar.disabled = true;
+      btnBuscar.innerHTML = `<span class="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span> Consultando...`;
+      codigoJson.innerHTML = `<span class="text-slate-400 animate-pulse">// Enviando GET ${BASE_URL}/${id}...</span>`;
+
+      try {
+        const res = await fetch(`${BASE_URL}/${id}`);
+        const data = await res.json();
+
+        // Actualizar badges de conexión
+        badgeConexion.className = 'px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-700 flex items-center gap-1.5 shadow-2xs';
+        textoConexion.textContent = 'API Conectada (:3000)';
+
+        if (res.ok) {
+          // Status 200 OK
+          badgeStatus.className = 'text-xs font-mono font-bold px-2.5 py-0.5 rounded bg-emerald-100 text-emerald-800';
+          badgeStatus.textContent = `HTTP ${res.status} OK`;
+          codigoJson.textContent = JSON.stringify(data, null, 2);
+
+          const prod = data.datos || data;
+          resultadoDom.innerHTML = `
+            <div class="bg-gradient-to-br from-emerald-50 to-white border-2 border-emerald-300 rounded-2xl p-5 shadow-xs space-y-4">
+              <div class="flex items-center justify-between border-b border-emerald-100 pb-3">
+                <span class="px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-mono text-xs font-bold">ID #${prod.id}</span>
+                <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 font-bold text-[10px]">${prod.categoria}</span>
+              </div>
+              <div>
+                <span class="text-[10px] font-mono text-slate-400 font-bold">SKU: ${prod.sku}</span>
+                <h4 class="text-base font-extrabold text-slate-900 mt-0.5">${prod.nombre}</h4>
+                <div class="text-2xl font-black text-slate-900 mt-2">${formatoCOP.format(prod.precio || 0)}</div>
+              </div>
+              <div class="pt-3 border-t border-emerald-100 flex items-center justify-between text-xs">
+                <span class="text-slate-500">Unidades en Stock:</span>
+                <span class="font-mono font-bold ${prod.stock > 0 ? 'text-emerald-700' : 'text-rose-700'}">${prod.stock} disponibles</span>
+              </div>
+            </div>
+          `;
+        } else {
+          // Status 404 u otro error controlado
+          badgeStatus.className = 'text-xs font-mono font-bold px-2.5 py-0.5 rounded bg-rose-100 text-rose-800';
+          badgeStatus.textContent = `HTTP ${res.status} Not Found`;
+          codigoJson.textContent = JSON.stringify(data, null, 2);
+
+          resultadoDom.innerHTML = `
+            <div class="bg-rose-50 border-2 border-rose-300 rounded-2xl p-5 shadow-xs space-y-3">
+              <div class="flex items-center gap-2 text-rose-800 font-bold text-sm">
+                <i data-lucide="alert-circle" class="w-5 h-5 text-rose-600"></i>
+                <span>Producto No Encontrado (HTTP 404)</span>
+              </div>
+              <p class="text-xs text-rose-700">
+                ${data.error || `No existe un producto con el identificador ${id} en la base de datos.`}
+              </p>
+              <div class="text-[11px] font-mono bg-white p-2.5 rounded-lg border border-rose-200 text-rose-900">
+                { ok: false, error: "${data.error || 'Producto no encontrado'}" }
+              </div>
+            </div>
+          `;
+        }
+
+      } catch (err) {
+        badgeConexion.className = 'px-3 py-1 rounded-full text-xs font-mono font-bold bg-rose-950/80 text-rose-300 border border-rose-700 flex items-center gap-1.5 shadow-2xs';
+        textoConexion.textContent = 'Sin conexión (:3000)';
+
+        badgeStatus.className = 'text-xs font-mono font-bold px-2.5 py-0.5 rounded bg-slate-900 text-rose-400';
+        badgeStatus.textContent = 'Error de Red';
+        codigoJson.textContent = `// Error: ${err.message}`;
+
+        resultadoDom.innerHTML = `
+          <div class="bg-rose-50 border border-rose-200 rounded-2xl p-5 text-rose-800 text-xs space-y-2">
+            <strong>Error de Red:</strong> No pudimos conectar con Express en el puerto 3000.
+          </div>
+        `;
+      } finally {
+        btnBuscar.disabled = false;
+        btnBuscar.innerHTML = `<i data-lucide="search" class="w-4 h-4"></i> <span>Consultar Endpoint</span>`;
+        if (window.lucide) lucide.createIcons();
+      }
+    }
+
+    // Eventos
+    inputId.addEventListener('input', actualizarPreviewUrl);
+    btnBuscar.addEventListener('click', () => buscarPorId());
+
+    document.getElementById('btn-id-1').addEventListener('click', () => buscarPorId(1));
+    document.getElementById('btn-id-2').addEventListener('click', () => buscarPorId(2));
+    document.getElementById('btn-id-999').addEventListener('click', () => buscarPorId(999));
+
+    // Lectura de query string si vino de la vista de catálogo: ?id=X
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const idQuery = urlParams.get('id');
+      if (idQuery) {
+        inputId.value = idQuery;
+        buscarPorId(idQuery);
+      } else {
+        buscarPorId(1);
+      }
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
