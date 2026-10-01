@@ -279,12 +279,12 @@
             </div>
             <h3 class="text-xl xl:text-2xl font-extrabold text-slate-900 mb-2">Taller de Aula &amp; Live Mod</h3>
             <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
-              Implementación guiada de los 5 retos en <code class="font-mono text-emerald-700 font-bold">cliente.js</code> (conectado al servidor <code class="font-mono text-purple-700 font-bold">app.js</code>), depuración con Chrome DevTools y sustentación en videobeam.
+              Evidencia práctica conectada a la empresa ficticia <strong>AgroHuila S.A.S.</strong> (<code class="font-mono text-emerald-700 font-bold">server.js</code> en Express), 6 plantillas con Tailwind CSS, depuración con DevTools y sustentación en videobeam.
             </p>
             <ul class="space-y-1.5 text-xs xl:text-sm font-medium text-slate-700">
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-4 h-4 text-purple-600 shrink-0"></i>
-                <span>Toasts flotantes y manejo de estado de error</span>
+                <span>6 plantillas HTML + Tailwind CSS listas para codificar</span>
               </li>
               <li class="flex items-center gap-2">
                 <i data-lucide="check" class="w-4 h-4 text-purple-600 shrink-0"></i>
@@ -1996,22 +1996,27 @@ document.getElementById('btn-eliminar').addEventListener('click', eliminarProduc
     </section>
 
 
-    <!-- SLIDE 21: ESPECIFICACIÓN DEL TALLER DE AULA -->
+    <!-- SLIDE 21: ESPECIFICACIÓN DEL TALLER DE AULA - EMPRESA FICTICIA AGROHUILA S.A.S. -->
     <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="21" data-block="3">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3 xl:mb-4">
           <div class="flex items-center space-x-2.5">
             <span class="px-2.5 py-1 bg-purple-50 text-purple-700 font-mono text-xs font-extrabold rounded-lg border border-purple-200">BLOQUE 3</span>
-            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Guía de Laboratorio</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Evidencia Evaluativa de Aprendizaje</span>
           </div>
           <span class="text-xs font-mono font-bold text-slate-400">SLIDE 21 / 25</span>
         </div>
 
-        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
-          Proyecto de Aula: <span class="text-purple-700">Hub Central y 6 Plantillas Modulares HTML + Tailwind</span>
-        </h2>
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+          <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight">
+            Evidencia Práctica: <span class="text-emerald-700">AgroHuila S.A.S.</span> <span class="text-slate-600 text-lg sm:text-xl font-bold">(Insumos Agropecuarios)</span>
+          </h2>
+          <span class="px-3 py-1 rounded-full text-xs font-mono font-extrabold bg-emerald-100 text-emerald-900 border border-emerald-300 shrink-0 self-start sm:self-auto">
+            🌾 Caso Empresarial CADPH
+          </span>
+        </div>
         <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
-          Para facilitar la comprensión aislada de cada verbo HTTP, la carpeta <code class="font-mono text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded font-bold">recursos/</code> incluye un <strong>Hub Principal (index.html)</strong> con botones a 6 plantillas dedicadas y 1 SPA completa:
+          Para esta evidencia, <strong>les suministramos un servidor básico en Express (<code class="font-mono text-emerald-800 font-bold">server.js</code>)</strong> con los datos y endpoints de la empresa ficticia <strong>AgroHuila S.A.S.</strong>, junto con las <strong>plantillas HTML maquetadas con Tailwind CSS</strong> para que programen la lógica <code class="font-mono font-bold text-blue-700">fetch()</code> paso a paso:
         </p>
 
         <!-- Las 6 Plantillas Modulares en Grid -->
@@ -2022,9 +2027,9 @@ document.getElementById('btn-eliminar').addEventListener('click', eliminarProduc
               <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold">01-status.html</span>
               <span class="text-[9px] font-mono font-bold text-emerald-600">GET</span>
             </div>
-            <h4 class="font-extrabold text-xs text-slate-900">Health Check</h4>
+            <h4 class="font-extrabold text-xs text-slate-900">Salud del Servidor</h4>
             <p class="text-[11px] text-slate-500 leading-tight">
-              Diagnóstico, latencia, uptime y validación 200 OK de <code class="font-mono text-[10px]">/api/status</code>.
+              Consumir <code class="font-mono text-[10px]">/api/status</code>, medir latencia y validar el estado operativo de AgroHuila.
             </p>
           </div>
 
@@ -2033,9 +2038,9 @@ document.getElementById('btn-eliminar').addEventListener('click', eliminarProduc
               <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold">02-catalogo.html</span>
               <span class="text-[9px] font-mono font-bold text-emerald-600">GET</span>
             </div>
-            <h4 class="font-extrabold text-xs text-slate-900">Catálogo &amp; Query</h4>
+            <h4 class="font-extrabold text-xs text-slate-900">Catálogo Insumos</h4>
             <p class="text-[11px] text-slate-500 leading-tight">
-              Filtros <code class="font-mono text-[10px]">?categoria=&amp;q=</code> y tarjetas dinámicas en el DOM.
+              Filtros por categoría (café, maquinaria, bioinsumos) y buscador con <code class="font-mono text-[10px]">URLSearchParams</code>.
             </p>
           </div>
 
@@ -2044,9 +2049,9 @@ document.getElementById('btn-eliminar').addEventListener('click', eliminarProduc
               <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-blue-100 text-blue-800 font-bold">03-buscar-id.html</span>
               <span class="text-[9px] font-mono font-bold text-blue-600">GET :id</span>
             </div>
-            <h4 class="font-extrabold text-xs text-slate-900">Consulta por ID</h4>
+            <h4 class="font-extrabold text-xs text-slate-900">Ficha por ID</h4>
             <p class="text-[11px] text-slate-500 leading-tight">
-              Parámetros de ruta, respuesta 200 OK y manejo defensivo de 404 Not Found.
+              Consulta por parámetro de ruta. Ficha técnica con 200 OK y banner defensivo si es 404 Not Found.
             </p>
           </div>
 
@@ -2055,9 +2060,9 @@ document.getElementById('btn-eliminar').addEventListener('click', eliminarProduc
               <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-blue-100 text-blue-800 font-bold">04-crear-producto.html</span>
               <span class="text-[9px] font-mono font-bold text-blue-600">POST</span>
             </div>
-            <h4 class="font-extrabold text-xs text-slate-900">Registro con Body</h4>
+            <h4 class="font-extrabold text-xs text-slate-900">Registrar Insumo</h4>
             <p class="text-[11px] text-slate-500 leading-tight">
-              <code class="font-mono text-[10px]">preventDefault()</code>, headers JSON, status 201 y error 409 por SKU.
+              Formulario con <code class="font-mono text-[10px]">preventDefault()</code>, body JSON, 201 Created y error 409 por SKU duplicado.
             </p>
           </div>
 
@@ -2066,9 +2071,9 @@ document.getElementById('btn-eliminar').addEventListener('click', eliminarProduc
               <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 font-bold">05-actualizar-stock.html</span>
               <span class="text-[9px] font-mono font-bold text-amber-600">PATCH</span>
             </div>
-            <h4 class="font-extrabold text-xs text-slate-900">Actualizar Stock</h4>
+            <h4 class="font-extrabold text-xs text-slate-900">Ajuste de Stock</h4>
             <p class="text-[11px] text-slate-500 leading-tight">
-              Modificación parcial de atributo con <code class="font-mono text-[10px]">{ nuevoStock }</code> y feedback en vivo.
+              Modificación parcial de inventario enviando <code class="font-mono text-[10px]">{ nuevoStock }</code> y reflejo de existencias en el DOM.
             </p>
           </div>
 
@@ -2077,9 +2082,9 @@ document.getElementById('btn-eliminar').addEventListener('click', eliminarProduc
               <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 font-bold">06-eliminar-producto.html</span>
               <span class="text-[9px] font-mono font-bold text-rose-600">DELETE</span>
             </div>
-            <h4 class="font-extrabold text-xs text-slate-900">Eliminar por ID</h4>
+            <h4 class="font-extrabold text-xs text-slate-900">Baja de Insumo</h4>
             <p class="text-[11px] text-slate-500 leading-tight">
-              Confirmación de usuario previa, borrado destructivo y remoción visual en DOM.
+              Confirmación con <code class="font-mono text-[10px]">confirm()</code>, borrado seguro con DELETE y notificación de retiro de catálogo.
             </p>
           </div>
 
@@ -2087,15 +2092,22 @@ document.getElementById('btn-eliminar').addEventListener('click', eliminarProduc
       </div>
 
       <!-- Instrucciones de Ubicación y Descarga -->
-      <div class="mt-3 bg-slate-50 border border-slate-200 rounded-xl p-3 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-700">
-        <div class="flex items-center gap-2">
-          <i data-lucide="folder-archive" class="w-4 h-4 text-emerald-600 shrink-0"></i>
-          <span><strong>Paquete de Aula:</strong> <code class="font-mono text-blue-700 font-bold">recursos/index.html</code> (Hub Central), 6 plantillas y <code class="font-mono text-purple-700 font-bold">07-crud-completo.html</code>.</span>
+      <div class="mt-3 bg-emerald-50 border-2 border-emerald-300 rounded-xl p-3.5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-800 shadow-2xs">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-emerald-700 text-white flex items-center justify-center font-bold shrink-0">
+            📦
+          </div>
+          <div>
+            <p class="font-extrabold text-emerald-950">Paquete Descargable de la Evidencia (AgroHuila S.A.S.):</p>
+            <p class="text-slate-600 text-[11px]">Incluye: <code class="font-mono font-bold text-slate-800">INSTRUCCIONES.md</code>, <code class="font-mono font-bold text-slate-800">server.js</code> (Express), <code class="font-mono font-bold text-slate-800">package.json</code> y los 6 HTML con Tailwind CSS.</p>
+          </div>
         </div>
-        <a href="dia-05-fetch-dom-taller.zip" download="dia-05-fetch-dom-taller.zip" class="px-3.5 py-1.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-xs rounded-xl shadow-xs transition flex items-center gap-2 shrink-0">
-          <i data-lucide="download" class="w-3.5 h-3.5"></i>
-          <span>Descargar Proyecto (.ZIP)</span>
-        </a>
+        <div class="flex items-center gap-2 shrink-0">
+          <a href="taller-evidencia-agrohuila.zip" download="taller-evidencia-agrohuila.zip" class="px-4 py-2 bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-xs rounded-xl shadow-xs transition flex items-center gap-2">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span>Descargar Taller AgroHuila (.ZIP)</span>
+          </a>
+        </div>
       </div>
     </section>
 
@@ -2112,50 +2124,48 @@ document.getElementById('btn-eliminar').addEventListener('click', eliminarProduc
         </div>
 
         <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
-          Configuración en Aula: <span class="text-purple-700">Dos Servidores Trabajando en Paralelo</span>
+          Puesta en Marcha: <span class="text-emerald-700">Servidor AgroHuila &amp; Live Server en Paralelo</span>
         </h2>
         <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-4 leading-relaxed">
-          El desarrollo full-stack moderno requiere ejecutar dos procesos independientes: el <strong>servidor de datos (Express)</strong> y el <strong>servidor web de desarrollo (Live Server)</strong>.
+          Para realizar la evidencia, debes mantener en ejecución dos procesos simultáneos: el <strong>servidor backend de AgroHuila (Express)</strong> y el <strong>servidor cliente de desarrollo (Live Server)</strong>:
         </p>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5 my-2">
           
-          <!-- Terminal 1: Backend Express -->
-          <div class="bg-white border-2 border-purple-200 rounded-2xl p-4 shadow-2xs space-y-2">
-            <div class="flex items-center justify-between pb-2 border-b border-purple-100">
-              <span class="text-xs font-bold text-purple-800 flex items-center gap-1.5">
-                <i data-lucide="terminal" class="w-4 h-4"></i>
-                Terminal 1: Servidor Express (recursos/)
+          <!-- Terminal 1: Backend Express de AgroHuila -->
+          <div class="bg-white border-2 border-emerald-300 rounded-2xl p-4 shadow-2xs space-y-2">
+            <div class="flex items-center justify-between pb-2 border-b border-emerald-100">
+              <span class="text-xs font-bold text-emerald-900 flex items-center gap-1.5">
+                <i data-lucide="terminal" class="w-4 h-4 text-emerald-700"></i>
+                Terminal 1: Servidor AgroHuila S.A.S.
               </span>
-              <span class="text-[10px] font-mono bg-purple-50 text-purple-700 px-2 py-0.5 rounded font-bold">Puerto 3000</span>
+              <span class="text-[10px] font-mono bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded font-bold">Puerto 3000</span>
             </div>
-            <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-xs font-mono overflow-x-auto"><code class="language-bash"># 1. Abrir terminal en la carpeta de recursos del taller
-cd recursos
-
-# 2. Instalar dependencias (Express)
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-xs font-mono overflow-x-auto"><code class="language-bash"># 1. Descomprime el ZIP y abre una terminal en la carpeta
+# 2. Instala dependencias (Express y CORS)
 npm install
 
-# 3. Iniciar servidor con recarga automática (--watch)
-npm start
-# O directamente: node --watch app.js</code></pre>
-            <p class="text-xs text-slate-500">Debe imprimir en consola: <code class="font-mono text-emerald-600 font-bold">🚀 Servidor Express ADSO activo en http://localhost:3000</code>.</p>
+# 3. Inicia el servidor con recarga automática
+npm run dev
+# O directamente: npm start</code></pre>
+            <p class="text-xs text-slate-600">Debe imprimir en consola: <code class="font-mono text-emerald-700 font-bold">🌾 SERVIDOR AGROHUILA S.A.S. ACTIVO EN: http://localhost:3000</code>.</p>
           </div>
 
           <!-- Terminal 2 / VS Code: Live Server -->
-          <div class="bg-white border-2 border-emerald-200 rounded-2xl p-4 shadow-2xs space-y-2">
-            <div class="flex items-center justify-between pb-2 border-b border-emerald-100">
-              <span class="text-xs font-bold text-[#39A900] flex items-center gap-1.5">
-                <i data-lucide="globe" class="w-4 h-4"></i>
-                VS Code: Live Server (Frontend)
+          <div class="bg-white border-2 border-blue-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <div class="flex items-center justify-between pb-2 border-b border-blue-100">
+              <span class="text-xs font-bold text-blue-900 flex items-center gap-1.5">
+                <i data-lucide="globe" class="w-4 h-4 text-blue-700"></i>
+                VS Code: Live Server (Cliente Frontend)
               </span>
-              <span class="text-[10px] font-mono bg-emerald-50 text-[#39A900] px-2 py-0.5 rounded font-bold">Puerto 5500 / 127.0.0.1</span>
+              <span class="text-[10px] font-mono bg-blue-50 text-blue-800 px-2 py-0.5 rounded font-bold">Puerto 5500 / 127.0.0.1</span>
             </div>
             <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-xs font-mono overflow-x-auto"><code class="language-bash"># 1. Abre VS Code en la carpeta del taller
-# 2. Haz clic derecho sobre: index.html (Hub Principal)
+# 2. Haz clic derecho sobre: index.html (Hub de AgroHuila)
 # 3. Selecciona: "Open with Live Server"
 # 4. Se abrirá en el navegador en:
 #    http://127.0.0.1:5500/index.html</code></pre>
-            <p class="text-xs text-slate-500">El badge en el encabezado cambiará a verde: <code class="font-mono text-emerald-600 font-bold">● API Conectada (:3000)</code>.</p>
+            <p class="text-xs text-slate-600">El badge en el encabezado cambiará a verde: <code class="font-mono text-emerald-700 font-bold">● Servidor Conectado (AgroHuila S.A.S.)</code>.</p>
           </div>
 
         </div>
@@ -2164,7 +2174,7 @@ npm start
       <!-- Nota sobre CORS -->
       <div class="mt-3 bg-blue-50 border border-blue-200 rounded-xl p-3 flex items-center gap-2.5 text-xs text-blue-900">
         <i data-lucide="shield-check" class="w-5 h-5 text-blue-600 shrink-0"></i>
-        <span><strong>¿Por qué se comunican sin error si están en puertos distintos?</strong> Porque en <code class="font-mono font-bold text-slate-900">app.js</code> habilitamos las cabeceras <code class="font-mono font-bold">Access-Control-Allow-Origin: *</code> (CORS), permitiendo que el navegador (<code class="font-mono">127.0.0.1:5500</code>) consuma la API (<code class="font-mono">localhost:3000</code>) sin ser bloqueado.</span>
+        <span><strong>CORS Habilitado en AgroHuila:</strong> El archivo <code class="font-mono font-bold text-slate-900">server.js</code> incluye <code class="font-mono font-bold">app.use(cors())</code>, por lo cual tu navegador ejecutando en <code class="font-mono">127.0.0.1:5500</code> podrá despachar peticiones a <code class="font-mono">localhost:3000</code> sin bloqueos de seguridad de origen cruzado.</span>
       </div>
     </section>
 
@@ -2184,7 +2194,7 @@ npm start
           Rúbrica de Evaluación Formativa <span class="text-[#39A900]">(Checklist al 100%)</span>
         </h2>
         <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-4 leading-relaxed">
-          Criterios técnicos observables para la calificación del taller individual en aula y sustentación técnica.
+          Criterios técnicos observables para la calificación del taller evaluativo de <strong>AgroHuila S.A.S.</strong> en aula y sustentación técnica:
         </p>
 
         <!-- Tabla de Criterios -->
@@ -2193,7 +2203,7 @@ npm start
             <thead class="bg-slate-50 border-b border-slate-200 text-slate-700 font-bold">
               <tr>
                 <th class="p-3">Criterio Técnico Observable</th>
-                <th class="p-3">Evidencia en Código</th>
+                <th class="p-3">Evidencia en Código (AgroHuila)</th>
                 <th class="p-3 text-center">Peso</th>
                 <th class="p-3 text-center">Estado</th>
               </tr>
@@ -2201,31 +2211,31 @@ npm start
             <tbody class="divide-y divide-slate-100 text-slate-600">
               <tr>
                 <td class="p-3 font-bold text-slate-800">1. Consumo GET y validación de status</td>
-                <td class="p-3 font-mono text-xs">Uso de <code class="text-blue-700">fetch()</code>, <code class="text-[#39A900]">if (!res.ok)</code> y asignación a <code class="text-slate-800">estadoApp.productos</code>.</td>
+                <td class="p-3 font-mono text-xs">Uso de <code class="text-blue-700">fetch()</code>, validación con <code class="text-[#39A900]">if (!res.ok)</code> y lectura JSON en <code class="text-slate-800">01-status</code> y <code class="text-slate-800">02-catalogo</code>.</td>
                 <td class="p-3 text-center font-mono font-bold text-slate-800">20%</td>
                 <td class="p-3 text-center"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[10px]">Obligatorio</span></td>
               </tr>
               <tr>
                 <td class="p-3 font-bold text-slate-800">2. Inyección Dinámica en el DOM</td>
-                <td class="p-3 font-mono text-xs">Template literals, formateo <code class="text-emerald-700">Intl.NumberFormat</code> y badges de stock con clases condicionales.</td>
+                <td class="p-3 font-mono text-xs">Template literals para tarjetas de insumos, formato moneda <code class="text-emerald-700">toLocaleString('es-CO')</code> y badges de stock.</td>
                 <td class="p-3 text-center font-mono font-bold text-slate-800">20%</td>
                 <td class="p-3 text-center"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[10px]">Obligatorio</span></td>
               </tr>
               <tr>
                 <td class="p-3 font-bold text-slate-800">3. Formulario POST con preventDefault</td>
-                <td class="p-3 font-mono text-xs"><code class="text-blue-700">e.preventDefault()</code>, headers <code class="text-emerald-700">'Content-Type': 'application/json'</code> y parseo 201 Created.</td>
+                <td class="p-3 font-mono text-xs"><code class="text-blue-700">e.preventDefault()</code>, headers <code class="text-emerald-700">'Content-Type': 'application/json'</code>, 201 Created y error 409 por SKU duplicado.</td>
                 <td class="p-3 text-center font-mono font-bold text-slate-800">25%</td>
                 <td class="p-3 text-center"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[10px]">Obligatorio</span></td>
               </tr>
               <tr>
                 <td class="p-3 font-bold text-slate-800">4. Actualización PATCH y Borrado DELETE</td>
-                <td class="p-3 font-mono text-xs">Petición <code class="text-amber-700">PATCH</code> para stock y <code class="text-rose-700">DELETE</code> por ID con diálogo confirm previo.</td>
+                <td class="p-3 font-mono text-xs">Petición <code class="text-amber-700">PATCH</code> para actualizar bodega y <code class="text-rose-700">DELETE</code> de insumo con confirmación previa.</td>
                 <td class="p-3 text-center font-mono font-bold text-slate-800">20%</td>
                 <td class="p-3 text-center"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[10px]">Obligatorio</span></td>
               </tr>
               <tr>
-                <td class="p-3 font-bold text-slate-800">5. UX Defensiva, Toasts y Empty States</td>
-                <td class="p-3 font-mono text-xs">Feedback ante caída del backend, temporizadores con <code class="text-purple-700">setTimeout()</code> y empty state.</td>
+                <td class="p-3 font-bold text-slate-800">5. UX Defensiva y Sustentación Live Mod</td>
+                <td class="p-3 font-mono text-xs">Feedback claro ante servidor apagado, empty states y aprobación del reto en vivo en videobeam.</td>
                 <td class="p-3 text-center font-mono font-bold text-slate-800">15%</td>
                 <td class="p-3 text-center"><span class="px-2 py-0.5 bg-blue-100 text-blue-800 rounded font-bold text-[10px]">Calidad</span></td>
               </tr>
@@ -2254,13 +2264,13 @@ npm start
         </div>
 
         <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
-          Banco de Preguntas "Live Mod" <span class="text-purple-700">(Sustentación Individual en Videobeam)</span>
+          Banco de Preguntas "Live Mod" <span class="text-purple-700">(Sustentación AgroHuila S.A.S.)</span>
         </h2>
         <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-4 leading-relaxed">
-          Para garantizar la autoría individual, cada aprendiz pasará al frente y el instructor solicitará una de estas <strong>modificaciones en vivo en caliente</strong> sobre su propio código:
+          Para garantizar la autoría individual y evitar copias, cada aprendiz pasa al frente y el instructor asignará una de estas <strong>modificaciones en caliente (3 a 5 min)</strong> sobre su código:
         </p>
 
-        <!-- 6 Preguntas Live Mod -->
+        <!-- 6 Preguntas Live Mod adaptadas a AgroHuila -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 my-2">
           
           <div class="bg-white border-2 border-slate-200 hover:border-[#39A900] transition rounded-xl p-3.5 shadow-2xs space-y-1.5">
@@ -2268,9 +2278,9 @@ npm start
               <span class="w-6 h-6 rounded bg-emerald-100 text-[#39A900] font-bold text-xs flex items-center justify-center font-mono">LM 1</span>
               <span class="text-[10px] font-mono text-slate-500">DOM & Formatos</span>
             </div>
-            <h4 class="font-bold text-xs sm:text-sm text-slate-900">Alerta de Stock Crítico</h4>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900">Insumo Agotado</h4>
             <p class="text-xs text-slate-500 leading-relaxed">
-              "Modifica la plantilla de tarjetas para que si el stock es igual a 0, la tarjeta tenga un borde rojo grueso y el botón '+1 Stock' diga 'Agotado'."
+              "En <code class="font-mono text-xs">02-catalogo.html</code>, si el stock del insumo es 0, añade un borde rojo grueso a la tarjeta y un badge de texto 'Sin existencias en AgroHuila'."
             </p>
           </div>
 
@@ -2279,9 +2289,9 @@ npm start
               <span class="w-6 h-6 rounded bg-blue-100 text-blue-700 font-bold text-xs flex items-center justify-center font-mono">LM 2</span>
               <span class="text-[10px] font-mono text-slate-500">Filtrado en Memoria</span>
             </div>
-            <h4 class="font-bold text-xs sm:text-sm text-slate-900">Filtro por Rango de Precio</h4>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900">Filtro por Precio Económico</h4>
             <p class="text-xs text-slate-500 leading-relaxed">
-              "Agrega un checkbox 'Solo menores a $100.000 COP' y haz que <code class="font-mono text-xs">aplicarFiltrosYRenderizar()</code> respete esa condición adicional."
+              "Agrega un checkbox 'Insumos menores a $50.000 COP' y filtra el arreglo devuelto por la API antes de mapear las tarjetas al DOM."
             </p>
           </div>
 
@@ -2290,9 +2300,9 @@ npm start
               <span class="w-6 h-6 rounded bg-purple-100 text-purple-700 font-bold text-xs flex items-center justify-center font-mono">LM 3</span>
               <span class="text-[10px] font-mono text-slate-500">Validación Cliente</span>
             </div>
-            <h4 class="font-bold text-xs sm:text-sm text-slate-900">Validación de Nombre</h4>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900">Validación de Nombre Insumo</h4>
             <p class="text-xs text-slate-500 leading-relaxed">
-              "En el formulario POST, si el nombre tiene menos de 5 caracteres, lanza un Toast de error antes de llamar a fetch y frena el envío."
+              "En <code class="font-mono text-xs">04-crear-producto.html</code>, valida que el nombre del insumo tenga al menos 6 caracteres antes de despachar el fetch; si no, muestra una alerta."
             </p>
           </div>
 
@@ -2301,9 +2311,9 @@ npm start
               <span class="w-6 h-6 rounded bg-amber-100 text-amber-700 font-bold text-xs flex items-center justify-center font-mono">LM 4</span>
               <span class="text-[10px] font-mono text-slate-500">Petición PATCH</span>
             </div>
-            <h4 class="font-bold text-xs sm:text-sm text-slate-900">Botón de Reducción (-1 Stock)</h4>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900">Bajar Stock en Bodega</h4>
             <p class="text-xs text-slate-500 leading-relaxed">
-              "Agrega un botón '-1 Stock' al lado del de incrementar. Asegúrate de que no permita enviar números negativos."
+              "En <code class="font-mono text-xs">05-actualizar-stock.html</code>, añade un botón para restar 5 unidades de stock protegiendo que la cantidad nunca sea menor a 0."
             </p>
           </div>
 
@@ -2312,9 +2322,9 @@ npm start
               <span class="w-6 h-6 rounded bg-rose-100 text-rose-700 font-bold text-xs flex items-center justify-center font-mono">LM 5</span>
               <span class="text-[10px] font-mono text-slate-500">DevTools Live</span>
             </div>
-            <h4 class="font-bold text-xs sm:text-sm text-slate-900">Auditoría en Red (DevTools)</h4>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900">Auditoría de Conflicto (409)</h4>
             <p class="text-xs text-slate-500 leading-relaxed">
-              "Abre Network en vivo, crea un producto con SKU duplicado y explícame en qué pestaña se ve el mensaje de error 409 que envió Express."
+              "Abre Network en vivo, intenta crear un insumo con el SKU repetido 'FER-101' y muéstrame en pantalla el payload y el JSON de error 409 que devuelve Express."
             </p>
           </div>
 
@@ -2323,9 +2333,9 @@ npm start
               <span class="w-6 h-6 rounded bg-emerald-100 text-[#39A900] font-bold text-xs flex items-center justify-center font-mono">LM 6</span>
               <span class="text-[10px] font-mono text-slate-500">Ordenamiento Local</span>
             </div>
-            <h4 class="font-bold text-xs sm:text-sm text-slate-900">Ordenamiento por Precio</h4>
+            <h4 class="font-bold text-xs sm:text-sm text-slate-900">Ordenar por Precio</h4>
             <p class="text-xs text-slate-500 leading-relaxed">
-              "Agrega un selector para ordenar los productos de mayor a menor precio con <code class="font-mono text-xs">Array.prototype.sort()</code> antes de renderizar."
+              "Agrega un selector para ordenar los insumos de mayor a menor precio con <code class="font-mono text-xs">data.sort((a,b) => b.precio - a.precio)</code> antes de renderizar."
             </p>
           </div>
 

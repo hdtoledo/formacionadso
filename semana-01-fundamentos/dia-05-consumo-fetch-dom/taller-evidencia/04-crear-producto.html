@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Módulo 04: Registrar Insumo | AgroHuila S.A.S.</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-full flex flex-col font-sans text-slate-800 bg-slate-50 p-4 sm:p-8">
+
+  <div class="max-w-xl mx-auto w-full space-y-6">
+    <!-- Navegación -->
+    <a href="index.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 hover:text-emerald-950 transition">
+      &larr; Volver al Hub de AgroHuila
+    </a>
+
+    <!-- Encabezado de la Actividad -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-2">
+      <div class="flex items-center justify-between">
+        <span class="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-800">MÓDULO 04</span>
+        <span class="text-xs font-mono font-bold text-slate-400">POST /api/insumos</span>
+      </div>
+      <h1 class="text-2xl font-black text-slate-900 tracking-tight">Registro de Insumo Agropecuario</h1>
+      <p class="text-xs text-slate-600 leading-relaxed">
+        Envía un formulario con <code class="font-mono text-emerald-700 font-bold">e.preventDefault()</code>, serializa los datos con <code class="font-mono font-bold">JSON.stringify()</code>, añade la cabecera <code class="font-mono font-bold">'Content-Type': 'application/json'</code> y procesa las respuestas <strong class="text-emerald-700">201 Created</strong> y <strong class="text-amber-700">409 Conflict</strong> (SKU duplicado).
+      </p>
+    </div>
+
+    <!-- Formulario de Registro -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
+      <form id="form-insumo" class="space-y-4">
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="sku" class="block text-xs font-bold text-slate-700 mb-1">Código SKU:</label>
+            <input type="text" id="sku" placeholder="Ej: FER-901" required
+                   class="w-full border border-slate-300 rounded-xl px-3 py-2 text-xs uppercase font-mono focus:ring-2 focus:ring-emerald-500 outline-none">
+          </div>
+
+          <div>
+            <label for="categoria" class="block text-xs font-bold text-slate-700 mb-1">Categoría:</label>
+            <select id="categoria" required
+                    class="w-full border border-slate-300 rounded-xl px-3 py-2 text-xs bg-white focus:ring-2 focus:ring-emerald-500 outline-none">
+              <option value="FERTILIZANTES">FERTILIZANTES</option>
+              <option value="MAQUINARIA">MAQUINARIA</option>
+              <option value="HERRAMIENTAS">HERRAMIENTAS</option>
+              <option value="BIOINSUMOS">BIOINSUMOS</option>
+              <option value="VETERINARIA">VETERINARIA</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="nombre" class="block text-xs font-bold text-slate-700 mb-1">Nombre Comercial del Insumo:</label>
+          <input type="text" id="nombre" placeholder="Ej: Abono Orgánico Compostado 40kg" required
+                 class="w-full border border-slate-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="precio" class="block text-xs font-bold text-slate-700 mb-1">Precio Unitario ($ COP):</label>
+            <input type="number" id="precio" min="100" placeholder="Ej: 85000" required
+                   class="w-full border border-slate-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+          </div>
+
+          <div>
+            <label for="stock" class="block text-xs font-bold text-slate-700 mb-1">Stock Inicial:</label>
+            <input type="number" id="stock" min="0" placeholder="Ej: 20" required
+                   class="w-full border border-slate-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label for="descripcion" class="block text-xs font-bold text-slate-700 mb-1">Descripción / Recomendación Técnica:</label>
+          <textarea id="descripcion" rows="2" placeholder="Indicaciones para el cultivo..."
+                    class="w-full border border-slate-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-emerald-500 outline-none"></textarea>
+        </div>
+
+        <button type="submit" id="btn-guardar" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold py-3 px-4 rounded-xl text-xs shadow transition">
+          Guardar Insumo en AgroHuila
+        </button>
+      </form>
+
+      <!-- Feedback de Respuesta -->
+      <div id="mensaje-respuesta" class="hidden p-4 rounded-xl text-xs space-y-1"></div>
+    </div>
+  </div>
+
+  <script>
+    // ========================================================================
+    // RETO 04: ENVÍO CON POST, E.PREVENTDEFAULT() Y VALIDACIONES
+    // ========================================================================
+    const formInsumo = document.getElementById('form-insumo');
+    const mensajeRespuesta = document.getElementById('mensaje-respuesta');
+
+    formInsumo.addEventListener('submit', async (e) => {
+      // PASO 1: Cancelar la recarga natural del formulario
+      e.preventDefault();
+
+      // PASO 2: Construir el objeto JavaScript con los valores de los inputs
+      const nuevoInsumo = {
+        sku: document.getElementById('sku').value.trim().toUpperCase(),
+        categoria: document.getElementById('categoria').value,
+        nombre: document.getElementById('nombre').value.trim(),
+        precio: Number(document.getElementById('precio').value),
+        stock: Number(document.getElementById('stock').value),
+        descripcion: document.getElementById('descripcion').value.trim()
+      };
+
+      mensajeRespuesta.className = 'block p-3 rounded-xl bg-blue-50 text-blue-900 border border-blue-200 text-xs font-mono';
+      mensajeRespuesta.textContent = '⏳ Enviando nuevo insumo a AgroHuila...';
+
+      try {
+        // PASO 3: Ejecutar la petición POST con Fetch
+        // const res = await fetch('http://localhost:3000/api/insumos', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json'
+        //   },
+        //   body: JSON.stringify(nuevoInsumo)
+        // });
+        // const data = await res.json();
+
+        // PASO 4: Manejar respuesta 201 Created (Éxito)
+        // if (res.status === 201) {
+        //   mensajeRespuesta.className = 'block p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs space-y-1';
+        //   mensajeRespuesta.innerHTML = `
+        //     <p class="font-bold text-sm">✅ ${data.mensaje}</p>
+        //     <p>Asignado ID #${data.data.id} · Código: ${data.data.sku}</p>
+        //   `;
+        //   formInsumo.reset(); // Limpia los campos del formulario
+        //   return;
+        // }
+
+        // PASO 5: Manejar respuesta 409 Conflict (SKU duplicado)
+        // if (res.status === 409) {
+        //   mensajeRespuesta.className = 'block p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-xs space-y-1';
+        //   mensajeRespuesta.innerHTML = `
+        //     <p class="font-bold text-sm">⚠️ Conflicto de Código SKU</p>
+        //     <p>${data.error}</p>
+        //   `;
+        //   return;
+        // }
+
+        // TODO: Completa el código eliminando los comentarios guiados.
+
+      } catch (error) {
+        mensajeRespuesta.className = 'block p-3 rounded-xl bg-rose-50 border border-rose-300 text-rose-900 text-xs';
+        mensajeRespuesta.innerHTML = `❌ Error de conexión al intentar registrar el insumo.`;
+      }
+    });
+  </script>
+</body>
+</html>

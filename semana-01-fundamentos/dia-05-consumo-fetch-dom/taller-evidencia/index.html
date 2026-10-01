@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgroHuila S.A.S. | Panel de Evidencia ADSO - Consumo Fetch API & DOM</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-full flex flex-col font-sans text-slate-800 bg-slate-50">
+
+  <!-- Encabezado Institucional & Corporativo -->
+  <header class="bg-emerald-900 text-white border-b border-emerald-950 shadow-md sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-xl font-black text-emerald-300">
+          🌾
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-lg font-black tracking-tight text-white">AgroHuila S.A.S.</h1>
+            <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-emerald-700/80 text-emerald-200 border border-emerald-600 font-bold">Empresa Ficticia</span>
+          </div>
+          <p class="text-xs text-emerald-200/90 font-medium">Taller Evaluativo: Consumo Fetch API &amp; DOM Reactivo · SENA ADSO CADPH Garzón</p>
+        </div>
+      </div>
+
+      <!-- Badge de Estado del Servidor -->
+      <div class="flex items-center gap-3">
+        <div id="badge-api" class="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+          <span>Verificando Backend (:3000)...</span>
+        </div>
+        <button id="btn-reprobar-api" class="text-xs bg-emerald-800 hover:bg-emerald-700 px-3 py-1.5 rounded-lg text-emerald-100 font-bold transition">
+          Revisar API
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenido Central -->
+  <main class="max-w-6xl w-full mx-auto px-4 py-8 flex-1 space-y-8">
+    
+    <!-- Banner de Contexto de la Evidencia -->
+    <div class="bg-gradient-to-r from-emerald-800 to-teal-900 text-white rounded-2xl p-6 sm:p-8 shadow-sm">
+      <div class="max-w-3xl space-y-3">
+        <span class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 inline-block">
+          EVIDENCIA DE APRENDIZAJE · DÍA 05
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-white">
+          Sistema de Inventario de Insumos Agropecuarios
+        </h2>
+        <p class="text-sm text-emerald-100 leading-relaxed">
+          Has sido contratado por la empresa ficticia <strong>AgroHuila S.A.S.</strong> en Garzón para construir la capa cliente (Frontend) que interactúa con su servidor Express. Debes programar el código JavaScript con <code class="bg-emerald-950/60 px-1.5 py-0.5 rounded font-mono text-emerald-300">fetch()</code> en cada una de las 6 plantillas modulares para dar vida a la plataforma sin recargar la página.
+        </p>
+        
+        <div class="pt-2 flex flex-wrap gap-2 text-xs font-mono">
+          <span class="bg-emerald-950/40 border border-emerald-700/60 px-2.5 py-1 rounded-md text-emerald-200">
+            📡 Servidor: http://localhost:3000
+          </span>
+          <span class="bg-emerald-950/40 border border-emerald-700/60 px-2.5 py-1 rounded-md text-emerald-200">
+            📦 Recurso: /api/insumos
+          </span>
+          <span class="bg-emerald-950/40 border border-emerald-700/60 px-2.5 py-1 rounded-md text-emerald-200">
+            🎨 Tailwind CSS Nativo
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Guía Rápida de Arranque -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs space-y-3">
+      <h3 class="text-sm font-black text-slate-800 uppercase tracking-wider flex items-center gap-2">
+        <span>⚡ Pasos para Iniciar tu Taller en Clase:</span>
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1.5">
+          <span class="w-6 h-6 rounded-md bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center font-mono">1</span>
+          <h4 class="font-bold text-slate-900">Instalar y Ejecutar Backend</h4>
+          <p class="text-slate-600 font-mono text-[11px]">npm install<br>npm start</p>
+          <p class="text-[11px] text-slate-500">Debe correr en <code class="text-emerald-700 font-bold">http://localhost:3000</code>.</p>
+        </div>
+
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1.5">
+          <span class="w-6 h-6 rounded-md bg-blue-100 text-blue-800 font-bold flex items-center justify-center font-mono">2</span>
+          <h4 class="font-bold text-slate-900">Abrir con Live Server</h4>
+          <p class="text-slate-600 font-mono text-[11px]">Click derecho -> Open with Live Server</p>
+          <p class="text-[11px] text-slate-500">El frontend corre en el puerto <code class="text-blue-700 font-bold">:5500</code>.</p>
+        </div>
+
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1.5">
+          <span class="w-6 h-6 rounded-md bg-purple-100 text-purple-800 font-bold flex items-center justify-center font-mono">3</span>
+          <h4 class="font-bold text-slate-900">Programar el JavaScript</h4>
+          <p class="text-slate-600">Abre cada archivo <code class="font-mono text-purple-700 font-bold">01</code> a <code class="font-mono text-purple-700 font-bold">06</code> y completa los bloques <code class="font-mono">&lt;script&gt;</code> guiados.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Las 6 Plantillas Modulares del Taller -->
+    <div class="space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+        <h3 class="text-base font-black text-slate-900 flex items-center gap-2">
+          <span>📋 Módulos a Desarrollar (Evidencias de Código)</span>
+        </h3>
+        <span class="text-xs font-mono font-bold text-slate-500">6 Plantillas HTML + Tailwind CSS</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+        <!-- Módulo 1 -->
+        <div class="bg-white border-2 border-slate-200 hover:border-emerald-500 transition rounded-2xl p-5 shadow-xs flex flex-col justify-between space-y-4 group">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-mono text-xs font-extrabold">01-status.html</span>
+              <span class="text-xs font-mono font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">GET /api/status</span>
+            </div>
+            <h4 class="font-black text-base text-slate-900 group-hover:text-emerald-700 transition">1. Diagnóstico del Servidor</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Consumir la ruta de salud, calcular latencia en milisegundos y renderizar la información de la empresa AgroHuila en pantalla.
+            </p>
+          </div>
+          <a href="01-status.html" class="w-full text-center py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-emerald-700 text-white font-bold text-xs transition">
+            Abrir Plantilla 01 &rarr;
+          </a>
+        </div>
+
+        <!-- Módulo 2 -->
+        <div class="bg-white border-2 border-slate-200 hover:border-emerald-500 transition rounded-2xl p-5 shadow-xs flex flex-col justify-between space-y-4 group">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-mono text-xs font-extrabold">02-catalogo.html</span>
+              <span class="text-xs font-mono font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">GET /api/insumos</span>
+            </div>
+            <h4 class="font-black text-base text-slate-900 group-hover:text-emerald-700 transition">2. Catálogo &amp; Filtros</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Listar los insumos con grilla responsiva, buscador en tiempo real y selector de categoría con <code class="font-mono">URLSearchParams</code>.
+            </p>
+          </div>
+          <a href="02-catalogo.html" class="w-full text-center py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-emerald-700 text-white font-bold text-xs transition">
+            Abrir Plantilla 02 &rarr;
+          </a>
+        </div>
+
+        <!-- Módulo 3 -->
+        <div class="bg-white border-2 border-slate-200 hover:border-blue-500 transition rounded-2xl p-5 shadow-xs flex flex-col justify-between space-y-4 group">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-md bg-blue-100 text-blue-800 font-mono text-xs font-extrabold">03-buscar-id.html</span>
+              <span class="text-xs font-mono font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">GET /api/insumos/:id</span>
+            </div>
+            <h4 class="font-black text-base text-slate-900 group-hover:text-blue-700 transition">3. Consulta por ID</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Consultar un insumo por su ID numérico con validación defensiva: renderizar tarjeta detallada con 200 OK o alerta con 404 Not Found.
+            </p>
+          </div>
+          <a href="03-buscar-id.html" class="w-full text-center py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-blue-700 text-white font-bold text-xs transition">
+            Abrir Plantilla 03 &rarr;
+          </a>
+        </div>
+
+        <!-- Módulo 4 -->
+        <div class="bg-white border-2 border-slate-200 hover:border-emerald-500 transition rounded-2xl p-5 shadow-xs flex flex-col justify-between space-y-4 group">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-mono text-xs font-extrabold">04-crear-producto.html</span>
+              <span class="text-xs font-mono font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">POST /api/insumos</span>
+            </div>
+            <h4 class="font-black text-base text-slate-900 group-hover:text-emerald-700 transition">4. Registrar Insumo</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Formulario controlado con <code class="font-mono">e.preventDefault()</code>, headers JSON, manejo de respuesta 201 Created y error 409 por SKU duplicado.
+            </p>
+          </div>
+          <a href="04-crear-producto.html" class="w-full text-center py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-emerald-700 text-white font-bold text-xs transition">
+            Abrir Plantilla 04 &rarr;
+          </a>
+        </div>
+
+        <!-- Módulo 5 -->
+        <div class="bg-white border-2 border-slate-200 hover:border-amber-500 transition rounded-2xl p-5 shadow-xs flex flex-col justify-between space-y-4 group">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-md bg-amber-100 text-amber-800 font-mono text-xs font-extrabold">05-actualizar-stock.html</span>
+              <span class="text-xs font-mono font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded">PATCH :id/stock</span>
+            </div>
+            <h4 class="font-black text-base text-slate-900 group-hover:text-amber-700 transition">5. Actualizar Existencias</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Modificación parcial de stock con verbo PATCH, enviando <code class="font-mono">{ nuevoStock }</code> y reflejando el cambio inmediato en la interfaz.
+            </p>
+          </div>
+          <a href="05-actualizar-stock.html" class="w-full text-center py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-amber-700 text-white font-bold text-xs transition">
+            Abrir Plantilla 05 &rarr;
+          </a>
+        </div>
+
+        <!-- Módulo 6 -->
+        <div class="bg-white border-2 border-slate-200 hover:border-rose-500 transition rounded-2xl p-5 shadow-xs flex flex-col justify-between space-y-4 group">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-md bg-rose-100 text-rose-800 font-mono text-xs font-extrabold">06-eliminar-producto.html</span>
+              <span class="text-xs font-mono font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded">DELETE :id</span>
+            </div>
+            <h4 class="font-black text-base text-slate-900 group-hover:text-rose-700 transition">6. Dar de Baja Insumo</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Baja de insumos mediante el verbo DELETE con diálogo de confirmación previo y remoción instantánea del elemento visual en el DOM.
+            </p>
+          </div>
+          <a href="06-eliminar-producto.html" class="w-full text-center py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-rose-700 text-white font-bold text-xs transition">
+            Abrir Plantilla 06 &rarr;
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
+    <p>AgroHuila S.A.S. · SENA Regional Huila · Centro Agroempresarial y Desarrollo Pecuario (CADPH Garzón)</p>
+  </footer>
+
+  <!-- Script de Verificación de Salud del Servidor -->
+  <script>
+    const badgeApi = document.getElementById('badge-api');
+    const btnReprobar = document.getElementById('btn-reprobar-api');
+
+    async function verificarServidor() {
+      badgeApi.className = 'flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700';
+      badgeApi.innerHTML = '<span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span><span>Verificando Backend (:3000)...</span>';
+
+      try {
+        const respuesta = await fetch('http://localhost:3000/api/status');
+        if (respuesta.ok) {
+          const datos = await respuesta.json();
+          badgeApi.className = 'flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono font-bold bg-emerald-800 text-emerald-100 border border-emerald-600';
+          badgeApi.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span><span>● Servidor Conectado (${datos.empresa})</span>`;
+        } else {
+          badgeApi.className = 'flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono font-bold bg-rose-900 text-rose-100 border border-rose-700';
+          badgeApi.innerHTML = '<span class="w-2.5 h-2.5 rounded-full bg-rose-400"></span><span>✕ Error en API (Status ' + respuesta.status + ')</span>';
+        }
+      } catch (error) {
+        badgeApi.className = 'flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono font-bold bg-rose-900 text-rose-100 border border-rose-700';
+        badgeApi.innerHTML = '<span class="w-2.5 h-2.5 rounded-full bg-rose-400"></span><span>✕ Backend Apagado (Ejecuta: npm start)</span>';
+      }
+    }
+
+    btnReprobar.addEventListener('click', verificarServidor);
+    verificarServidor();
+  </script>
+</body>
+</html>

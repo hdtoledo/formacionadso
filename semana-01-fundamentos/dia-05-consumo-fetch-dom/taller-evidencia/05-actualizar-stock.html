@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Módulo 05: Actualizar Stock | AgroHuila S.A.S.</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-full flex flex-col font-sans text-slate-800 bg-slate-50 p-4 sm:p-8">
+
+  <div class="max-w-xl mx-auto w-full space-y-6">
+    <!-- Navegación -->
+    <a href="index.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 hover:text-emerald-950 transition">
+      &larr; Volver al Hub de AgroHuila
+    </a>
+
+    <!-- Encabezado de la Actividad -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-2">
+      <div class="flex items-center justify-between">
+        <span class="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-amber-100 text-amber-800">MÓDULO 05</span>
+        <span class="text-xs font-mono font-bold text-slate-400">PATCH /api/insumos/:id/stock</span>
+      </div>
+      <h1 class="text-2xl font-black text-slate-900 tracking-tight">Ajuste Parcial de Stock en Bodega</h1>
+      <p class="text-xs text-slate-600 leading-relaxed">
+        Aplica el verbo <code class="font-mono text-amber-700 font-bold">PATCH</code> para modificar únicamente la propiedad <code class="font-mono font-bold">{ nuevoStock }</code> de un insumo sin retransmitir todo el registro, y muestra el stock anterior vs. el nuevo en el DOM.
+      </p>
+    </div>
+
+    <!-- Panel de Actualización -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label for="input-id" class="block text-xs font-bold text-slate-700 mb-1">ID del Insumo:</label>
+          <input type="number" id="input-id" min="1" placeholder="Ej: 1" required
+                 class="w-full border border-slate-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-amber-500 outline-none">
+        </div>
+
+        <div>
+          <label for="input-stock" class="block text-xs font-bold text-slate-700 mb-1">Nueva Cantidad en Bodega:</label>
+          <input type="number" id="input-stock" min="0" placeholder="Ej: 45" required
+                 class="w-full border border-slate-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-amber-500 outline-none">
+        </div>
+      </div>
+
+      <button id="btn-actualizar" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-extrabold py-3 px-4 rounded-xl text-xs shadow transition">
+        Actualizar Stock con PATCH
+      </button>
+
+      <!-- Feedback de Respuesta -->
+      <div id="mensaje-stock" class="hidden p-4 rounded-xl text-xs space-y-1"></div>
+    </div>
+  </div>
+
+  <script>
+    // ========================================================================
+    // RETO 05: ACTUALIZACIÓN PARCIAL CON PATCH
+    // ========================================================================
+    const inputId = document.getElementById('input-id');
+    const inputStock = document.getElementById('input-stock');
+    const btnActualizar = document.getElementById('btn-actualizar');
+    const mensajeStock = document.getElementById('mensaje-stock');
+
+    btnActualizar.addEventListener('click', async () => {
+      const id = inputId.value.trim();
+      const nuevoStock = Number(inputStock.value);
+
+      if (!id || inputStock.value === '' || nuevoStock < 0) {
+        alert('Ingresa un ID válido y una cantidad de stock mayor o igual a 0.');
+        return;
+      }
+
+      mensajeStock.className = 'block p-3 rounded-xl bg-blue-50 text-blue-900 border border-blue-200 text-xs font-mono';
+      mensajeStock.textContent = `⏳ Enviando actualización PATCH a /api/insumos/${id}/stock...`;
+
+      try {
+        // PASO 1: Petición PATCH con cuerpo JSON
+        // const res = await fetch(`http://localhost:3000/api/insumos/${id}/stock`, {
+        //   method: 'PATCH',
+        //   headers: {
+        //     'Content-Type': 'application/json'
+        //   },
+        //   body: JSON.stringify({ nuevoStock: nuevoStock })
+        // });
+        // const datos = await res.json();
+
+        // PASO 2: Manejo de 404 (ID no existe)
+        // if (res.status === 404) {
+        //   mensajeStock.className = 'block p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-xs';
+        //   mensajeStock.innerHTML = `⚠️ ${datos.error}`;
+        //   return;
+        // }
+
+        // PASO 3: Manejo de 200 OK (Éxito)
+        // if (res.ok) {
+        //   mensajeStock.className = 'block p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs space-y-1';
+        //   mensajeStock.innerHTML = `
+        //     <p class="font-bold text-sm">✅ ${datos.mensaje}</p>
+        //     <p>Stock anterior: <del class="text-slate-500">${datos.stockAnterior}</del> ➔ <strong>Nuevo stock: ${datos.nuevoStock} unidades</strong></p>
+        //   `;
+        //   return;
+        // }
+
+        // TODO: Completa el código retirando los comentarios anteriores.
+
+      } catch (error) {
+        mensajeStock.className = 'block p-3 rounded-xl bg-rose-50 border border-rose-300 text-rose-900 text-xs';
+        mensajeStock.innerHTML = `❌ Error al conectar con el servidor de AgroHuila.`;
+      }
+    });
+  </script>
+</body>
+</html>

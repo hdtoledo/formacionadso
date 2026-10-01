@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Módulo 03: Consulta por ID | AgroHuila S.A.S.</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-full flex flex-col font-sans text-slate-800 bg-slate-50 p-4 sm:p-8">
+
+  <div class="max-w-xl mx-auto w-full space-y-6">
+    <!-- Navegación -->
+    <a href="index.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 hover:text-emerald-950 transition">
+      &larr; Volver al Hub de AgroHuila
+    </a>
+
+    <!-- Encabezado de la Actividad -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-2">
+      <div class="flex items-center justify-between">
+        <span class="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-blue-100 text-blue-800">MÓDULO 03</span>
+        <span class="text-xs font-mono font-bold text-slate-400">GET /api/insumos/:id</span>
+      </div>
+      <h1 class="text-2xl font-black text-slate-900 tracking-tight">Ficha Técnica de Insumo por ID</h1>
+      <p class="text-xs text-slate-600 leading-relaxed">
+        Consulta un insumo por parámetro de ruta en la URL. Maneja defensivamente la respuesta: si es <strong class="text-emerald-700">200 OK</strong> renderiza la ficha técnica, y si es <strong class="text-rose-700">404 Not Found</strong> muestra una alerta visual sin colapsar el navegador.
+      </p>
+    </div>
+
+    <!-- Buscador de ID -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
+      <div class="flex gap-2">
+        <input type="number" id="input-id" min="1" placeholder="Ingresa ID numérico (ej: 1, 2, 99...)"
+               class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+        <button id="btn-buscar" class="bg-blue-700 hover:bg-blue-800 text-white font-extrabold px-6 py-2.5 rounded-xl text-sm transition shrink-0">
+          Buscar
+        </button>
+      </div>
+
+      <!-- Contenedor del Resultado -->
+      <div id="resultado-insumo" class="hidden">
+        <!-- El aprendiz inyectará aquí la ficha o el error 404 con JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ========================================================================
+    // RETO 03: CONSULTA POR ID Y MANEJO DEFENSIVO DE 404
+    // ========================================================================
+    const inputId = document.getElementById('input-id');
+    const btnBuscar = document.getElementById('btn-buscar');
+    const resultadoInsumo = document.getElementById('resultado-insumo');
+
+    async function buscarInsumoPorId() {
+      const id = inputId.value.trim();
+
+      if (!id) {
+        alert('Por favor digita un número de ID válido.');
+        return;
+      }
+
+      resultadoInsumo.className = 'block p-4 rounded-xl text-xs font-mono bg-blue-50 text-blue-900 border border-blue-200';
+      resultadoInsumo.innerHTML = `⏳ Consultando insumo con ID #${id}...`;
+
+      try {
+        // PASO 1: Realizar la petición Fetch interpolando el ID en la URL
+        // const res = await fetch(`http://localhost:3000/api/insumos/${id}`);
+        // const datos = await res.json();
+
+        // PASO 2: Manejo de 404 Not Found
+        // if (res.status === 404) {
+        //   resultadoInsumo.className = 'block p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-xs space-y-1';
+        //   resultadoInsumo.innerHTML = `
+        //     <p class="font-bold">⚠️ Insumo No Encontrado (404)</p>
+        //     <p>${datos.error}</p>
+        //   `;
+        //   return;
+        // }
+
+        // PASO 3: Manejo de 200 OK (Renderizar Ficha Técnica)
+        // const item = datos.data;
+        // resultadoInsumo.className = 'block bg-white border border-emerald-300 rounded-2xl p-5 shadow-sm space-y-3';
+        // resultadoInsumo.innerHTML = `
+        //   <div class="flex items-center justify-between border-b pb-2">
+        //     <span class="text-xs font-mono font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">ID #${item.id} · ${item.sku}</span>
+        //     <span class="text-xs uppercase font-extrabold text-emerald-700">${item.categoria}</span>
+        //   </div>
+        //   <h3 class="text-lg font-black text-slate-900">${item.nombre}</h3>
+        //   <p class="text-xs text-slate-600">${item.descripcion}</p>
+        //   <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+        //     <span class="text-base font-black text-emerald-800">$${item.precio.toLocaleString('es-CO')} COP</span>
+        //     <span class="px-2.5 py-1 rounded-full font-bold ${item.stock > 0 ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-rose-50 text-rose-800 border border-rose-200'}">
+        //       ${item.stock > 0 ? `${item.stock} unidades disponibles` : 'Sin existencias'}
+        //     </span>
+        //   </div>
+        // `;
+
+        // TODO: Retira los comentarios y completa el código guiado.
+
+      } catch (error) {
+        resultadoInsumo.className = 'block p-4 rounded-xl bg-rose-50 border border-rose-300 text-rose-900 text-xs';
+        resultadoInsumo.innerHTML = `❌ Error al conectar con el servidor de AgroHuila.`;
+      }
+    }
+
+    btnBuscar.addEventListener('click', buscarInsumoPorId);
+    inputId.addEventListener('keyup', (e) => {
+      if (e.key === 'Enter') buscarInsumoPorId();
+    });
+  </script>
+</body>
+</html>

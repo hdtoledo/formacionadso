@@ -1,0 +1,17 @@
+{
+  "name": "agrohuila-api-evidencia",
+  "version": "1.0.0",
+  "description": "Servidor backend de la empresa ficticia AgroHuila S.A.S. para la evidencia de consumo Fetch API y DOM - SENA ADSO",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": ["sena", "adso", "fetch", "express", "agrohuila"],
+  "author": "SENA Regional Huila - CADPH Garzón",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}

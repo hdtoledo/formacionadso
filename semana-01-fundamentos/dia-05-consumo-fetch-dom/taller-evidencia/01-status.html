@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Módulo 01: Estado del Servidor | AgroHuila S.A.S.</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-full flex flex-col font-sans text-slate-800 bg-slate-50 p-4 sm:p-8">
+
+  <div class="max-w-xl mx-auto w-full space-y-6">
+    <!-- Navegación -->
+    <a href="index.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 hover:text-emerald-950 transition">
+      &larr; Volver al Hub de AgroHuila
+    </a>
+
+    <!-- Encabezado de la Actividad -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-2">
+      <div class="flex items-center justify-between">
+        <span class="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-800">MÓDULO 01</span>
+        <span class="text-xs font-mono font-bold text-slate-400">GET /api/status</span>
+      </div>
+      <h1 class="text-2xl font-black text-slate-900 tracking-tight">Diagnóstico del Servidor AgroHuila</h1>
+      <p class="text-xs text-slate-600 leading-relaxed">
+        Verifica si la API REST de Express está activa en el puerto 3000, mide la latencia de respuesta y renderiza los datos corporativos de la empresa.
+      </p>
+    </div>
+
+    <!-- Panel de Acción y Resultados -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
+      <button id="btn-comprobar" class="w-full bg-emerald-700 hover:bg-emerald-800 active:scale-[0.99] text-white font-extrabold py-3 px-4 rounded-xl shadow transition">
+        Comprobar Estado del Servidor
+      </button>
+
+      <!-- Contenedor donde debes inyectar la información -->
+      <div id="resultado-servidor" class="hidden p-4 rounded-xl text-xs font-mono space-y-2 border">
+        <!-- El aprendiz inyectará aquí los datos con JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ========================================================================
+    // RETO 01: CONSUMO CON FETCH API (GET /api/status)
+    // ========================================================================
+    // PASO 1: Capturar los elementos del DOM (btnComprobar y resultadoServidor)
+    const btnComprobar = document.getElementById('btn-comprobar');
+    const resultadoServidor = document.getElementById('resultado-servidor');
+
+    // PASO 2: Escuchar el evento 'click' en el botón
+    btnComprobar.addEventListener('click', async () => {
+      // Indicador de carga
+      resultadoServidor.className = 'block p-4 rounded-xl text-xs font-mono bg-blue-50 text-blue-900 border border-blue-200';
+      resultadoServidor.textContent = '⏳ Conectando con http://localhost:3000/api/status...';
+
+      const inicio = performance.now();
+
+      try {
+        // PASO 3: Realizar la petición Fetch a la API de AgroHuila
+        // const res = await fetch('http://localhost:3000/api/status');
+
+        // PASO 4: Validar si la respuesta fue exitosa (res.ok)
+        // if (!res.ok) throw new Error('Status HTTP no exitoso: ' + res.status);
+
+        // PASO 5: Parsear la respuesta a JSON
+        // const data = await res.json();
+        // const fin = performance.now();
+        // const latencia = Math.round(fin - inicio);
+
+        // PASO 6: Renderizar los datos en el contenedor #resultado-servidor
+        // resultadoServidor.className = 'block p-4 rounded-xl text-xs font-mono bg-emerald-50 text-emerald-950 border border-emerald-300 space-y-2';
+        // resultadoServidor.innerHTML = `
+        //   <p class="font-bold text-sm text-emerald-800">✅ Servidor ${data.estado}</p>
+        //   <p><strong>Empresa:</strong> ${data.empresa}</p>
+        //   <p><strong>Lema:</strong> ${data.lema}</p>
+        //   <p><strong>Latencia:</strong> ${latencia} ms</p>
+        //   <p><strong>Tiempo activo:</strong> ${data.uptime}</p>
+        // `;
+
+        // TODO: Completa el código anterior retirando los comentarios y probando en el navegador.
+
+      } catch (error) {
+        resultadoServidor.className = 'block p-4 rounded-xl text-xs font-mono bg-rose-50 text-rose-900 border border-rose-300';
+        resultadoServidor.innerHTML = `
+          <p class="font-bold text-rose-800">❌ Servidor Inaccesible</p>
+          <p>Verifica que ejecutaste 'npm start' en la carpeta del servidor.</p>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>
