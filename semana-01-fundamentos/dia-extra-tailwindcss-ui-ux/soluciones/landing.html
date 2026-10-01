@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADSO DevHub | Plataforma Formativa SENA Regional Huila</title>
+  
+  <!-- Tailwind CSS CDN con configuración personalizada -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sena: {
+              green: '#39A900',
+              'green-dark': '#2D8200',
+              'green-light': '#4CD600',
+              navy: '#00324D',
+              'navy-dark': '#00263A',
+              'navy-light': '#004A73'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="min-h-full flex flex-col font-sans antialiased text-slate-800 bg-white selection:bg-sena-green selection:text-white">
+
+  <!-- ========================================================================= -->
+  <!-- 1. BARRA DE NAVEGACIÓN SUPERIOR (STICKY + GLASSMORPHISM) -->
+  <!-- ========================================================================= -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/90 border-b border-slate-200/80 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
+      
+      <!-- Marca y Logotipo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sena-navy to-sena-green text-white flex items-center justify-center shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform">
+          <i data-lucide="code-2" class="w-6 h-6 text-white"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="text-base font-black text-slate-900 tracking-tight">ADSO</span>
+            <span class="text-base font-black text-sena-green tracking-tight">DevHub</span>
+            <span class="text-[9px] font-mono font-extrabold uppercase px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800">CADPH</span>
+          </div>
+          <p class="text-[10px] text-slate-400 font-semibold tracking-wider uppercase">SENA Regional Huila</p>
+        </div>
+      </a>
+
+      <!-- Menú de Navegación de Escritorio -->
+      <nav class="hidden md:flex items-center gap-8 text-xs sm:text-sm font-bold text-slate-600">
+        <a href="#inicio" class="hover:text-sena-green transition-colors">Inicio</a>
+        <a href="#pilares" class="hover:text-sena-green transition-colors">Pilares Técnicos</a>
+        <a href="#metodologia" class="hover:text-sena-green transition-colors">Metodología</a>
+        <a href="#metricas" class="hover:text-sena-green transition-colors">Impacto</a>
+      </nav>
+
+      <!-- Botones de Acción / Auth -->
+      <div class="hidden sm:flex items-center gap-3">
+        <a href="login.html" class="px-4 py-2 text-xs sm:text-sm font-bold text-slate-700 hover:text-sena-green transition-colors">
+          Iniciar Sesión
+        </a>
+        <a href="register.html" class="px-5 py-2.5 bg-sena-green hover:bg-sena-green-dark active:scale-[0.99] text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-md shadow-emerald-600/20 hover:shadow-lg hover:shadow-emerald-600/30 transition-all flex items-center gap-2">
+          <span>Registrarme</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+      <!-- Botón de Menú Móvil -->
+      <button onclick="alternarMenuMovil()" class="md:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 focus:outline-none" aria-label="Abrir menú">
+        <i id="icono-menu" data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+
+    </div>
+
+    <!-- Menú Desplegable Móvil -->
+    <div id="menu-movil" class="hidden md:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-3 shadow-xl animate-in slide-in-from-top">
+      <nav class="flex flex-col space-y-2 text-sm font-bold text-slate-700">
+        <a href="#inicio" onclick="alternarMenuMovil()" class="p-2 rounded-lg hover:bg-slate-50">Inicio</a>
+        <a href="#pilares" onclick="alternarMenuMovil()" class="p-2 rounded-lg hover:bg-slate-50">Pilares Técnicos</a>
+        <a href="#metodologia" onclick="alternarMenuMovil()" class="p-2 rounded-lg hover:bg-slate-50">Metodología</a>
+        <a href="#metricas" onclick="alternarMenuMovil()" class="p-2 rounded-lg hover:bg-slate-50">Impacto</a>
+      </nav>
+      <div class="pt-3 border-t border-slate-100 flex flex-col gap-2">
+        <a href="login.html" class="w-full text-center py-2.5 rounded-xl border border-slate-300 font-bold text-xs text-slate-700">
+          Iniciar Sesión
+        </a>
+        <a href="register.html" class="w-full text-center py-2.5 rounded-xl bg-sena-green text-white font-extrabold text-xs shadow">
+          Registrarme
+        </a>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- ========================================================================= -->
+  <!-- 2. HERO SECTION CON ALTO IMPACTO VISUAL -->
+  <!-- ========================================================================= -->
+  <section id="inicio" class="relative overflow-hidden pt-12 pb-20 sm:pt-20 sm:pb-28 bg-gradient-to-b from-slate-50 via-white to-white">
+    
+    <!-- Elementos Decorativos de Fondo con Blur -->
+    <div class="absolute top-10 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-r from-emerald-100/40 via-teal-100/30 to-blue-100/40 blur-3xl -z-10 rounded-full pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+      
+      <!-- Badge de Convocatoria -->
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-sena-green font-mono text-xs font-bold shadow-2xs hover:bg-emerald-100 transition cursor-default">
+        <span class="w-2 h-2 rounded-full bg-sena-green animate-ping"></span>
+        <span>Nivelación Técnica Intensiva · Ficha ADSO 2026</span>
+      </div>
+
+      <!-- Título Principal de Impacto -->
+      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black text-slate-900 tracking-tight max-w-4xl mx-auto leading-[1.1]">
+        Aprende a Crear Software Real con <span class="bg-gradient-to-r from-sena-navy via-emerald-600 to-sena-green bg-clip-text text-transparent">Arquitectura Profesional</span>
+      </h1>
+
+      <!-- Subtítulo Explicativo -->
+      <p class="text-base sm:text-lg lg:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+        Domina los pilares esenciales del desarrollo moderno: <strong>Bases de Datos Relacionales (SQL)</strong>, <strong>APIs con Node.js &amp; Express</strong> y <strong>Frontend Reactivo con Tailwind CSS</strong> sin dependencia ciega de IA.
+      </p>
+
+      <!-- Grupo de Botones de Llamado a la Acción (CTA) -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+        <a href="register.html" class="w-full sm:w-auto px-8 py-4 bg-sena-green hover:bg-sena-green-dark active:scale-[0.99] text-white font-extrabold text-sm sm:text-base rounded-2xl shadow-xl shadow-emerald-600/25 hover:shadow-2xl hover:shadow-emerald-600/35 transition-all duration-300 flex items-center justify-center gap-3 group">
+          <span>Comenzar Mi Formación</span>
+          <i data-lucide="sparkles" class="w-5 h-5 group-hover:rotate-12 transition-transform"></i>
+        </a>
+        <a href="#pilares" class="w-full sm:w-auto px-8 py-4 bg-white hover:bg-slate-50 border-2 border-slate-200 text-slate-700 font-bold text-sm sm:text-base rounded-2xl transition shadow-xs flex items-center justify-center gap-2">
+          <i data-lucide="book-open" class="w-5 h-5 text-sena-navy"></i>
+          <span>Explorar Temario</span>
+        </a>
+      </div>
+
+      <!-- Preview de Interfaz / Código en Tarjeta Flotante -->
+      <div class="pt-8 max-w-4xl mx-auto">
+        <div class="relative bg-slate-900 border border-slate-800 rounded-3xl p-4 sm:p-6 shadow-2xl shadow-slate-900/40 text-left overflow-hidden">
+          
+          <!-- Barra de Ventana Mac/Terminal -->
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+              <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+              <span class="text-xs font-mono text-slate-400 ml-2">app.js · Servidor Express + Tailwind UI</span>
+            </div>
+            <span class="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800/60">
+              ● HTTP 200 OK
+            </span>
+          </div>
+
+          <!-- Snippet de Código Representativo -->
+          <pre class="text-xs sm:text-sm font-mono text-slate-300 overflow-x-auto leading-relaxed"><code><span class="text-slate-500">// Arquitectura Limpia: Componente UI con Tailwind CSS</span>
+<span class="text-purple-400">const</span> <span class="text-blue-400">CardProducto</span> = ({ nombre, precio, stock }) => {
+  <span class="text-purple-400">return</span> (
+    <span class="text-emerald-300">&lt;div class="p-6 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition"&gt;</span>
+      <span class="text-emerald-300">&lt;h3 class="text-lg font-bold text-slate-900"&gt;</span>{nombre}<span class="text-emerald-300">&lt;/h3&gt;</span>
+      <span class="text-emerald-300">&lt;span class="text-sm font-black text-emerald-600"&gt;</span>${precio}<span class="text-emerald-300">&lt;/span&gt;</span>
+    <span class="text-emerald-300">&lt;/div&gt;</span>
+  );
+};</code></pre>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ========================================================================= -->
+  <!-- 3. PILARES TÉCNICOS EN GRID RESPONSIVO (3 COLUMNAS) -->
+  <!-- ========================================================================= -->
+  <section id="pilares" class="py-16 sm:py-24 bg-slate-50/70 border-y border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      
+      <!-- Encabezado de Sección -->
+      <div class="text-center max-w-2xl mx-auto space-y-3">
+        <span class="text-xs font-mono font-extrabold uppercase px-3 py-1 rounded-full bg-emerald-100 text-sena-green">
+          Ruta de Aprendizaje
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          Tres Ejes Formativos de Clase Mundial
+        </h2>
+        <p class="text-sm sm:text-base text-slate-500">
+          Un plan de estudios diseñado para cerrar la brecha entre la teoría académica y las exigencias reales de la industria tecnológica.
+        </p>
+      </div>
+
+      <!-- Grilla de Tarjetas de Características -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+        
+        <!-- Pilar 1: SQL & Datos Relacionales -->
+        <div class="bg-white border-2 border-slate-200/80 hover:border-emerald-500 rounded-3xl p-6 sm:p-8 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+          <div class="space-y-4">
+            <div class="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-200 text-sena-green flex items-center justify-center group-hover:scale-110 group-hover:bg-sena-green group-hover:text-white transition-all">
+              <i data-lucide="database" class="w-7 h-7"></i>
+            </div>
+            <h3 class="text-xl font-extrabold text-slate-900 group-hover:text-sena-green transition-colors">
+              1. SQL Relacional Riguroso
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Diseño de esquemas, llaves primarias, foráneas, restricciones de integridad, consultas optimizadas con <code class="font-mono text-slate-800">INNER JOIN</code> y prevención de borrados masivos.
+            </p>
+          </div>
+          <div class="pt-6 border-t border-slate-100 mt-6 flex items-center justify-between text-xs font-bold text-slate-400">
+            <span>MySQL &amp; PostgreSQL</span>
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-sena-green"></i>
+          </div>
+        </div>
+
+        <!-- Pilar 2: Backend Node.js & Express -->
+        <div class="bg-white border-2 border-slate-200/80 hover:border-blue-500 rounded-3xl p-6 sm:p-8 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+          <div class="space-y-4">
+            <div class="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-200 text-blue-700 flex items-center justify-center group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <i data-lucide="server" class="w-7 h-7"></i>
+            </div>
+            <h3 class="text-xl font-extrabold text-slate-900 group-hover:text-blue-700 transition-colors">
+              2. Backend REST con Express
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Protocolo HTTP a fondo, middlewares de validación, arquitectura de controladores, control riguroso de códigos de estado (2xx, 4xx, 5xx) y pruebas con Bruno.
+            </p>
+          </div>
+          <div class="pt-6 border-t border-slate-100 mt-6 flex items-center justify-between text-xs font-bold text-slate-400">
+            <span>Node.js &amp; Bruno Client</span>
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-blue-600"></i>
+          </div>
+        </div>
+
+        <!-- Pilar 3: Frontend Moderno con Tailwind -->
+        <div class="bg-white border-2 border-slate-200/80 hover:border-purple-500 rounded-3xl p-6 sm:p-8 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+          <div class="space-y-4">
+            <div class="w-14 h-14 rounded-2xl bg-purple-50 border border-purple-200 text-purple-700 flex items-center justify-center group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white transition-all">
+              <i data-lucide="layout" class="w-7 h-7"></i>
+            </div>
+            <h3 class="text-xl font-extrabold text-slate-900 group-hover:text-purple-700 transition-colors">
+              3. Frontend &amp; Tailwind CSS
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Interfaces altamente estéticas y adaptables con Tailwind CSS, reglas de UI/UX, animaciones fluidas, accesibilidad y consumo asíncrono con Fetch API.
+            </p>
+          </div>
+          <div class="pt-6 border-t border-slate-100 mt-6 flex items-center justify-between text-xs font-bold text-slate-400">
+            <span>Tailwind &amp; Vanilla / React</span>
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-purple-600"></i>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ========================================================================= -->
+  <!-- 4. MÉTRICAS E IMPACTO FORMATIVO -->
+  <!-- ========================================================================= -->
+  <section id="metricas" class="py-16 sm:py-20 bg-sena-navy text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 text-center">
+        
+        <div class="space-y-1.5 p-4 rounded-2xl bg-white/5 border border-white/10">
+          <span class="text-4xl sm:text-5xl font-black text-emerald-400 font-mono">40</span>
+          <p class="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-200">Sesiones de Clase</p>
+          <span class="text-[11px] text-slate-400">Plan diario estructurado</span>
+        </div>
+
+        <div class="space-y-1.5 p-4 rounded-2xl bg-white/5 border border-white/10">
+          <span class="text-4xl sm:text-5xl font-black text-emerald-400 font-mono">8</span>
+          <p class="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-200">Semanas Intensivas</p>
+          <span class="text-[11px] text-slate-400">Nivelación Full-Stack</span>
+        </div>
+
+        <div class="space-y-1.5 p-4 rounded-2xl bg-white/5 border border-white/10">
+          <span class="text-4xl sm:text-5xl font-black text-emerald-400 font-mono">100%</span>
+          <p class="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-200">Live Coding en Vivo</p>
+          <span class="text-[11px] text-slate-400">Construcción paso a paso</span>
+        </div>
+
+        <div class="space-y-1.5 p-4 rounded-2xl bg-white/5 border border-white/10">
+          <span class="text-4xl sm:text-5xl font-black text-emerald-400 font-mono">0%</span>
+          <p class="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-200">Dependencia Ciega</p>
+          <span class="text-[11px] text-slate-400">Sustentación individual</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================================= -->
+  <!-- 5. CALL TO ACTION FINAL (BANNER DE CONVERSIÓN) -->
+  <!-- ========================================================================= -->
+  <section class="py-16 sm:py-24">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="relative bg-gradient-to-tr from-sena-navy via-sena-navy-light to-emerald-800 rounded-3xl p-8 sm:p-12 lg:p-16 text-white text-center space-y-6 overflow-hidden shadow-2xl">
+        
+        <div class="max-w-2xl mx-auto space-y-4">
+          <span class="px-3 py-1 rounded-full text-xs font-mono font-bold bg-white/15 text-emerald-300 border border-white/20 inline-block">
+            SENA CADPH Garzón · Huila
+          </span>
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
+            ¿Listo para transformar tu futuro como Desarrollador?
+          </h2>
+          <p class="text-sm sm:text-base text-slate-200 max-w-xl mx-auto">
+            Crea tu cuenta de aprendiz hoy mismo y comienza a maquetar interfaces con estándares profesionales.
+          </p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+          <a href="register.html" class="w-full sm:w-auto px-8 py-3.5 bg-sena-green hover:bg-sena-green-dark text-white font-extrabold text-sm rounded-xl shadow-lg transition flex items-center justify-center gap-2">
+            <span>Crear Mi Cuenta Formativa</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+          <a href="login.html" class="w-full sm:w-auto px-8 py-3.5 bg-white/10 hover:bg-white/20 text-white font-bold text-sm rounded-xl border border-white/20 transition">
+            Ya tengo cuenta
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================================= -->
+  <!-- 6. PIE DE PÁGINA (FOOTER SEMÁNTICO) -->
+  <!-- ========================================================================= -->
+  <footer class="bg-slate-900 text-slate-400 text-xs border-t border-slate-800 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        
+        <!-- Columna 1: Marca -->
+        <div class="space-y-3">
+          <div class="flex items-center gap-2 text-white font-black text-base">
+            <span class="text-sena-green">ADSO</span> DevHub
+          </div>
+          <p class="text-slate-400 text-xs leading-relaxed">
+            Plataforma formativa oficial para la nivelación y aceleración técnica de los aprendices de Software del Huila.
+          </p>
+        </div>
+
+        <!-- Columna 2: Enlaces Rápidos -->
+        <div class="space-y-2.5">
+          <h4 class="font-bold text-white uppercase text-[11px] tracking-wider">Enlaces Rápidos</h4>
+          <ul class="space-y-1.5">
+            <li><a href="#inicio" class="hover:text-white transition">Inicio</a></li>
+            <li><a href="#pilares" class="hover:text-white transition">Pilares Curriculares</a></li>
+            <li><a href="#metricas" class="hover:text-white transition">Estadísticas</a></li>
+          </ul>
+        </div>
+
+        <!-- Columna 3: Ejercicios del Taller -->
+        <div class="space-y-2.5">
+          <h4 class="font-bold text-white uppercase text-[11px] tracking-wider">Módulos Prácticos</h4>
+          <ul class="space-y-1.5">
+            <li><a href="login.html" class="hover:text-sena-green transition">1. Pantalla de Login</a></li>
+            <li><a href="register.html" class="hover:text-sena-green transition">2. Pantalla de Registro</a></li>
+            <li><a href="landing.html" class="hover:text-sena-green transition">3. Landing Page</a></li>
+          </ul>
+        </div>
+
+        <!-- Columna 4: Ubicación -->
+        <div class="space-y-2.5">
+          <h4 class="font-bold text-white uppercase text-[11px] tracking-wider">Centro de Formación</h4>
+          <p class="text-slate-400 text-xs">
+            Centro Agroempresarial y Desarrollo Pecuario del Huila (CADPH)<br>
+            Sede Garzón · Regional Huila
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Copyright -->
+      <div class="pt-8 border-t border-slate-800 text-center text-slate-500 text-[11px]">
+        <p>&copy; 2026 Servicio Nacional de Aprendizaje SENA · Tecnólogo en Análisis y Desarrollo de Software (ADSO)</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    function alternarMenuMovil() {
+      const menu = document.getElementById('menu-movil');
+      menu.classList.toggle('hidden');
+    }
+  </script>
+</body>
+</html>

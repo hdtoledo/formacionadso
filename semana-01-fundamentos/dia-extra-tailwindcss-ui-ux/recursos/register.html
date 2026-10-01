@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taller: Registro de Cuenta | Tailwind CSS & UI/UX</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sena: {
+              green: '#39A900',
+              'green-dark': '#2D8200',
+              navy: '#00324D',
+              'navy-dark': '#00263A'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="min-h-full flex flex-col justify-center items-center font-sans antialiased text-slate-800 bg-slate-100 p-4 sm:p-6 lg:p-8">
+
+  <div class="w-full max-w-2xl mb-4 flex items-center justify-between text-xs">
+    <a href="login.html" class="inline-flex items-center gap-1.5 font-bold text-slate-500 hover:text-sena-green transition">
+      <i data-lucide="arrow-left" class="w-4 h-4"></i>
+      <span>¿Ya tienes cuenta? Inicia Sesión</span>
+    </a>
+    <span class="font-mono text-[11px] text-slate-400 bg-white px-2 py-0.5 rounded-md border border-slate-200">Práctica 02</span>
+  </div>
+
+  <!-- PASO 1: Tarjeta Principal Ancha con Padding Responsivo -->
+  <main class="w-full max-w-2xl bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
+    
+    <!-- Encabezado -->
+    <div class="border-b border-slate-100 pb-4">
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Registro de Aprendiz ADSO</h1>
+      <p class="text-xs sm:text-sm text-slate-500 mt-1">Crea tu cuenta formativa completando los campos obligatorios.</p>
+    </div>
+
+    <!-- Formulario en Grid de 2 Columnas Responsivo -->
+    <form id="register-form" class="space-y-4" onsubmit="event.preventDefault(); simularRegistro();">
+      
+      <!-- TODO 1: Crea un grid responsivo con grid grid-cols-1 sm:grid-cols-2 gap-4 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        
+        <!-- Nombres -->
+        <div class="space-y-1.5">
+          <label for="nombres" class="block text-xs font-bold text-slate-700">Nombres Completos</label>
+          <input type="text" id="nombres" required placeholder="Carlos Andrés"
+                 class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 focus:border-sena-green rounded-xl text-xs sm:text-sm outline-none focus:ring-4 focus:ring-emerald-500/15">
+        </div>
+
+        <!-- Apellidos -->
+        <div class="space-y-1.5">
+          <label for="apellidos" class="block text-xs font-bold text-slate-700">Apellidos</label>
+          <input type="text" id="apellidos" required placeholder="Gómez Perdomo"
+                 class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 focus:border-sena-green rounded-xl text-xs sm:text-sm outline-none focus:ring-4 focus:ring-emerald-500/15">
+        </div>
+
+      </div>
+
+      <!-- TODO 2: Fila de Documento con grid-cols-12 para dar proporciones personalizadas -->
+      <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
+        
+        <div class="sm:col-span-4 space-y-1.5">
+          <label for="tipo-doc" class="block text-xs font-bold text-slate-700">Tipo Documento</label>
+          <select id="tipo-doc" required class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm outline-none">
+            <option value="CC">Cédula (CC)</option>
+            <option value="TI">Tarjeta Identidad (TI)</option>
+            <option value="CE">Cédula Extranjería (CE)</option>
+          </select>
+        </div>
+
+        <div class="sm:col-span-8 space-y-1.5">
+          <label for="num-doc" class="block text-xs font-bold text-slate-700">Número de Identificación</label>
+          <input type="number" id="num-doc" required placeholder="1083900123"
+                 class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 focus:border-sena-green rounded-xl text-xs sm:text-sm outline-none focus:ring-4 focus:ring-emerald-500/15">
+        </div>
+
+      </div>
+
+      <!-- Correo y Teléfono -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="space-y-1.5">
+          <label for="email" class="block text-xs font-bold text-slate-700">Correo Electrónico</label>
+          <input type="email" id="email" required placeholder="aprendiz@soy.sena.edu.co"
+                 class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 focus:border-sena-green rounded-xl text-xs sm:text-sm outline-none focus:ring-4 focus:ring-emerald-500/15">
+        </div>
+
+        <div class="space-y-1.5">
+          <label for="telefono" class="block text-xs font-bold text-slate-700">Teléfono / Celular</label>
+          <input type="tel" id="telefono" required placeholder="310 123 4567"
+                 class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 focus:border-sena-green rounded-xl text-xs sm:text-sm outline-none focus:ring-4 focus:ring-emerald-500/15">
+        </div>
+      </div>
+
+      <!-- Contraseñas -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="space-y-1.5">
+          <label for="password" class="block text-xs font-bold text-slate-700">Contraseña</label>
+          <input type="password" id="password" required placeholder="Mínimo 8 caracteres"
+                 class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 focus:border-sena-green rounded-xl text-xs sm:text-sm outline-none focus:ring-4 focus:ring-emerald-500/15">
+        </div>
+
+        <div class="space-y-1.5">
+          <label for="confirm-password" class="block text-xs font-bold text-slate-700">Confirmar Contraseña</label>
+          <input type="password" id="confirm-password" required placeholder="Repite la clave"
+                 class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 focus:border-sena-green rounded-xl text-xs sm:text-sm outline-none focus:ring-4 focus:ring-emerald-500/15">
+        </div>
+      </div>
+
+      <!-- Checkbox Términos -->
+      <div class="pt-2">
+        <label class="flex items-start gap-2.5 cursor-pointer">
+          <input type="checkbox" required class="w-4 h-4 mt-0.5 rounded border-slate-300 text-sena-green focus:ring-sena-green cursor-pointer">
+          <span class="text-xs text-slate-600">Acepto los términos del Reglamento del Aprendiz SENA.</span>
+        </label>
+      </div>
+
+      <!-- Botón de Envío -->
+      <button type="submit" id="btn-submit"
+              class="w-full py-3 px-4 bg-sena-green hover:bg-sena-green-dark text-white font-extrabold text-sm rounded-xl shadow-md transition flex items-center justify-center gap-2 cursor-pointer">
+        <span>Completar Registro Formativo</span>
+        <i data-lucide="check" class="w-4 h-4"></i>
+      </button>
+
+      <div id="feedback-msg" class="hidden p-3 rounded-xl text-xs font-medium text-center"></div>
+
+    </form>
+
+    <div class="pt-2 text-center text-xs text-slate-500 border-t border-slate-100">
+      <span>¿Ya tienes cuenta?</span>
+      <a href="login.html" class="font-extrabold text-sena-green hover:underline ml-1">Inicia sesión aquí &rarr;</a>
+    </div>
+
+  </main>
+
+  <script>
+    lucide.createIcons();
+
+    function simularRegistro() {
+      const feedback = document.getElementById('feedback-msg');
+      feedback.className = 'block p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-bold text-center';
+      feedback.textContent = '🎉 ¡Registro completado con éxito!';
+    }
+  </script>
+</body>
+</html>

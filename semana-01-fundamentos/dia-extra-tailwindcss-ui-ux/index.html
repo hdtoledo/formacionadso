@@ -1,0 +1,2275 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50 text-slate-900 antialiased">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sesión Extra | Diseño Web Moderno con Tailwind CSS, Principios UI/UX & Interfaces Responsivas | SENA ADSO</title>
+  <meta name="description" content="Sesión Extra Semana 1: Dominio de Tailwind CSS, Fundamentos de UI/UX, Componentes Básicos, Animaciones y Maquetación de Login, Register y Landing Page. Diapositivas interactivas para videobeam SENA ADSO CADPH Garzón.">
+  <link rel="icon" type="image/png" href="../../assets/logo_green.png">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            sena: {
+              green: '#39A900',
+              'green-hover': '#2D8200',
+              'green-light': '#4CD600',
+              navy: '#00324D',
+              'navy-dark': '#00263A',
+              'navy-light': '#004164'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- PrismJS para resaltado de sintaxis HTML, CSS y JS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+
+  <!-- Google Fonts: Plus Jakarta Sans y JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Estilos de presentación institucional -->
+  <link rel="stylesheet" href="../../assets/css/presenter.css">
+</head>
+<body class="min-h-full flex flex-col bg-[#F8FAFC] text-slate-900 overflow-x-hidden selection:bg-[#39A900] selection:text-white">
+
+  <!-- ========================================================================= -->
+  <!-- 1. CINTILLO INSTITUCIONAL SENA (UBICACIÓN & FECHA DINÁMICA) -->
+  <!-- ========================================================================= -->
+  <div class="bg-[#00324D] text-white text-[11px] sm:text-xs py-1.5 px-4 sm:px-8 xl:px-12 border-b border-[#00263a] sticky top-0 z-50">
+    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <span class="font-extrabold tracking-wide uppercase text-emerald-400">SENA</span>
+        <span class="text-slate-400 hidden sm:inline">|</span>
+        <span class="font-medium text-slate-200 hidden sm:inline">Centro Agroempresarial y Desarrollo Pecuario del Huila</span>
+        <span class="text-slate-400">|</span>
+        <span class="text-emerald-300 font-medium">Regional Huila</span>
+      </div>
+      <div class="flex items-center space-x-2 sm:space-x-4 text-[10px] sm:text-xs text-slate-300">
+        <span class="hidden sm:inline">Sede Garzón</span>
+        <span>•</span>
+        <span class="text-emerald-300 font-medium" id="slide-cintillo-fecha">Hoy: Cargando...</span>
+        <span class="hidden md:inline">•</span>
+        <span class="hidden md:inline font-mono">ADSO · Proyección en Aula</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 2. HEADER DE CONTROL DE PRESENTACIÓN & TEMPORIZADOR -->
+  <!-- ========================================================================= -->
+  <header class="bg-white border-b border-slate-200 px-4 sm:px-8 xl:px-12 py-3 sticky top-[33px] sm:top-[35px] z-40 shadow-xs">
+    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-3">
+      
+      <!-- Marca SENA & Título de la Lección -->
+      <div class="flex items-center space-x-3">
+        <a href="../../index.html" class="flex items-center space-x-2.5 text-slate-600 hover:text-slate-900 transition-colors group" title="Volver al Portal Principal">
+          <img src="../../assets/logo_green.png" alt="Logo SENA" class="h-9 w-auto object-contain shrink-0">
+          <div class="hidden sm:block border-l border-slate-200 pl-3">
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm font-extrabold text-slate-900">NIVELACIÓN</span>
+              <span class="text-sm font-black text-[#39A900]">ADSO</span>
+              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300">SESIÓN EXTRA</span>
+            </div>
+            <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Centro Agroempresarial y Desarrollo Pecuario del Huila</p>
+          </div>
+        </a>
+        <span class="text-slate-300 hidden md:inline">/</span>
+        <div class="hidden md:flex items-center space-x-2">
+          <span class="px-2.5 py-0.5 text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 rounded">Semana 1</span>
+          <span class="text-xs font-bold text-slate-800">Sesión Extra: Tailwind CSS, UI/UX &amp; Diseño Responsivo</span>
+        </div>
+        <div class="hidden xl:flex items-center">
+          <a href="dia-extra-tailwindcss-taller.zip" download="dia-extra-tailwindcss-taller.zip" class="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-[#39A900] rounded-lg text-xs font-extrabold shadow-2xs transition" title="Descargar paquete ZIP con los recursos del taller">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Taller Práctico (.ZIP)</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Controles de Clase & Temporizador -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        
+        <!-- Temporizador Institucional -->
+        <div class="flex items-center bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 space-x-2 shadow-2xs">
+          <i data-lucide="clock" class="w-4 h-4 text-[#39A900]"></i>
+          <span id="timer-display" class="font-mono text-sm font-bold text-slate-800 tracking-wider">00:00</span>
+          <button id="btn-timer-start" class="px-2.5 py-1 rounded bg-white hover:bg-slate-100 border border-slate-200 text-xs font-bold text-slate-700 transition-colors flex items-center space-x-1">
+            <i data-lucide="play" class="w-3 h-3 text-[#39A900]"></i>
+            <span>Iniciar</span>
+          </button>
+          <button id="btn-timer-reset" class="p-1 rounded hover:bg-slate-200 text-slate-400 hover:text-slate-700" title="Reiniciar temporizador">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+
+        <div class="h-6 w-px bg-slate-200"></div>
+
+        <!-- Contador de Diapositivas -->
+        <div class="flex items-center space-x-2 bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 shadow-2xs">
+          <i data-lucide="layers" class="w-4 h-4 text-[#00324D]"></i>
+          <span id="slide-indicator" class="font-mono text-sm font-extrabold text-slate-800">1 / 32</span>
+          <span id="slide-block-badge" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold ml-1">BLOQUE 1</span>
+        </div>
+
+        <!-- Botones de Navegación -->
+        <div class="flex items-center space-x-1">
+          <button id="btn-prev-slide" class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="Diapositiva Anterior (←)">
+            <i data-lucide="chevron-left" class="w-5 h-5"></i>
+          </button>
+          <button id="btn-next-slide" class="p-2 rounded-lg bg-[#39A900] hover:bg-[#2D8200] text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors shadow-2xs" title="Siguiente Diapositiva (→ o Espacio)">
+            <i data-lucide="chevron-right" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Botones de Utilidad -->
+        <button id="btn-menu" class="p-2 rounded-lg hover:bg-slate-100 text-slate-600 transition" title="Índice de Diapositivas (M)">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <button id="btn-help" class="p-2 rounded-lg hover:bg-slate-100 text-slate-600 transition hidden sm:inline-flex" title="Atajos de Teclado (?)">
+          <i data-lucide="help-circle" class="w-5 h-5"></i>
+        </button>
+        <button id="btn-fullscreen" class="p-2 rounded-lg hover:bg-slate-100 text-slate-600 transition" title="Pantalla Completa (F)">
+          <i data-lucide="maximize" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- 3. CONTENEDOR PRINCIPAL DE DIAPOSITIVAS (SLIDES 1 A 32) -->
+  <!-- ========================================================================= -->
+  <main id="slide-container" class="max-w-[1860px] w-full mx-auto px-4 sm:px-8 xl:px-12 py-3 sm:py-4 xl:py-6 flex-1 flex flex-col justify-center relative">
+
+    <!-- ===================================================================== -->
+    <!-- BLOQUE 1: FUNDAMENTOS DE TAILWIND CSS & REGLAS UI/UX (SLIDES 01 - 11) -->
+    <!-- ===================================================================== -->
+
+    <!-- SLIDE 01: PORTADA INSTITUCIONAL SENA -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full active" data-slide="1" data-block="1">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[#39A900] text-xs font-bold font-mono shadow-2xs mb-2">
+          <span class="w-2 h-2 rounded-full bg-[#39A900] animate-pulse"></span>
+          <span>SENA Regional Huila · Centro Agroempresarial y Desarrollo Pecuario del Huila (CADPH Garzón)</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-5xl xl:text-6xl font-black text-slate-900 tracking-tight leading-tight mt-1 mb-2">
+          Diseño Web Moderno con <span class="text-[#39A900]">Tailwind CSS</span> &amp; <span class="text-[#00324D]">UI/UX</span>
+        </h1>
+        <p class="text-sm sm:text-base xl:text-lg text-slate-600 max-w-4xl font-normal leading-relaxed mb-4">
+          Tecnólogo en Análisis y Desarrollo de Software (ADSO) · Sesión Extra Curricular de Nivelación · Ficha 2026
+        </p>
+
+        <!-- Los 3 Bloques de la Sesión en Tarjetas Modernas -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 xl:gap-6 my-2">
+          
+          <!-- Bloque 1 -->
+          <div class="bg-white border-2 border-slate-200 hover:border-[#39A900] border-t-4 border-t-[#39A900] rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-2.5 py-0.5 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+                <span class="text-xs font-mono font-bold text-slate-400">FUNDAMENTOS</span>
+              </div>
+              <h3 class="text-lg xl:text-xl font-extrabold text-slate-900 mb-1.5">Utility-First &amp; Reglas UI/UX</h3>
+              <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                Por qué Tailwind reemplazó a Bootstrap y CSS tradicional. Motor JIT, escala de 4px, jerarquía visual, psicología del color, contraste WCAG y micro-estados.
+              </p>
+              <ul class="space-y-1.5 text-xs text-slate-700">
+                <li class="flex items-center gap-1.5">
+                  <i data-lucide="check" class="w-4 h-4 text-[#39A900] shrink-0"></i>
+                  <span>Play CDN vs. CLI y script tailwind.config</span>
+                </li>
+                <li class="flex items-center gap-1.5">
+                  <i data-lucide="check" class="w-4 h-4 text-[#39A900] shrink-0"></i>
+                  <span>Iconografía moderna con Lucide Icons</span>
+                </li>
+              </ul>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-[#39A900]">
+              <span>Principios de Diseño</span>
+              <span class="px-2 py-0.5 rounded bg-emerald-50 font-mono text-[11px]">4px Scale</span>
+            </div>
+          </div>
+
+          <!-- Bloque 2 -->
+          <div class="bg-white border-2 border-slate-200 hover:border-blue-600 border-t-4 border-t-blue-600 rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-2.5 py-0.5 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
+                <span class="text-xs font-mono font-bold text-slate-400">LAYOUT &amp; ANIM</span>
+              </div>
+              <h3 class="text-lg xl:text-xl font-extrabold text-slate-900 mb-1.5">Responsividad &amp; Componentes</h3>
+              <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                Filosofía Mobile-First con breakpoints (sm, md, lg, xl). Flexbox y CSS Grid reactivos, componentes atómicos (botones, inputs, cards, navbars) y animaciones fluidas.
+              </p>
+              <ul class="space-y-1.5 text-xs text-slate-700">
+                <li class="flex items-center gap-1.5">
+                  <i data-lucide="check" class="w-4 h-4 text-blue-600 shrink-0"></i>
+                  <span>Transiciones suaves y transformaciones hover</span>
+                </li>
+                <li class="flex items-center gap-1.5">
+                  <i data-lucide="check" class="w-4 h-4 text-blue-600 shrink-0"></i>
+                  <span>Animaciones nativas: spin, pulse, bounce</span>
+                </li>
+              </ul>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-blue-700">
+              <span>Mobile-First</span>
+              <span class="px-2 py-0.5 rounded bg-blue-50 font-mono text-[11px]">Breakpoints</span>
+            </div>
+          </div>
+
+          <!-- Bloque 3 -->
+          <div class="bg-white border-2 border-slate-200 hover:border-purple-600 border-t-4 border-t-purple-600 rounded-2xl p-5 shadow-xs flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-2.5 py-0.5 bg-purple-50 text-purple-700 font-mono text-xs font-extrabold rounded-lg border border-purple-200">BLOQUE 3</span>
+                <span class="text-xs font-mono font-bold text-slate-400">LAB EN AULA</span>
+              </div>
+              <h3 class="text-lg xl:text-xl font-extrabold text-slate-900 mb-1.5">Taller: 3 Vistas Completas</h3>
+              <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                Construcción guiada paso a paso en el aula: <strong>Login moderno</strong>, <strong>Formulario de Registro en 2 columnas</strong> y <strong>Landing Page profesional</strong> 100% responsiva.
+              </p>
+              <ul class="space-y-1.5 text-xs text-slate-700">
+                <li class="flex items-center gap-1.5">
+                  <i data-lucide="check" class="w-4 h-4 text-purple-600 shrink-0"></i>
+                  <span>Evidencia 100% en clase: lo realizado en el aula</span>
+                </li>
+                <li class="flex items-center gap-1.5">
+                  <i data-lucide="check" class="w-4 h-4 text-purple-600 shrink-0"></i>
+                  <span>Sustentación en videobeam con Live Mod</span>
+                </li>
+              </ul>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-purple-700">
+              <span>Evidencia Formativa</span>
+              <span class="px-2 py-0.5 rounded bg-purple-50 font-mono text-[11px]">3 Vistas en Aula</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Pie de Portada -->
+      <div class="flex flex-wrap items-center justify-between gap-4 text-xs font-medium text-slate-500 border-t border-slate-200 pt-3 w-full">
+        <div class="flex items-center space-x-2">
+          <i data-lucide="user" class="w-4 h-4 text-[#39A900]"></i>
+          <span>Instructor: <strong>Ing. Hector David Toledo Garcia</strong></span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <i data-lucide="map-pin" class="w-4 h-4 text-[#00324D]"></i>
+          <span>CADPH Garzón · Huila</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="dia-extra-tailwindcss-taller.zip" download class="px-3.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-[#39A900] border border-emerald-300 font-extrabold rounded-xl transition flex items-center gap-1.5 text-xs">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Descargar Taller (.ZIP)</span>
+          </a>
+          <button onclick="window.presenter?.nextSlide()" class="px-4 py-1.5 bg-[#00324D] hover:bg-[#39A900] text-white font-extrabold rounded-xl transition flex items-center gap-1.5 text-xs">
+            <span>Iniciar Lección</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 02: DE CSS TRADICIONAL/BEM A UTILITY-FIRST -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="2" data-block="1">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Evolución del CSS en la Industria</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 02 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          De CSS Tradicional a <span class="text-[#39A900]">Utility-First</span>: El Cambio de Paradigma
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          Históricamente, los desarrolladores escribían archivos <code class="font-mono text-slate-800">styles.css</code> kilométricos inventando nombres de clases arbitrarios (<code class="font-mono text-slate-800">.btn-primary-card-wrapper</code>). Tailwind CSS propone componer diseños directamente en el HTML usando **clases utilitarias atómicas**.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-2">
+          
+          <!-- Enfoque Antiguo / Tradicional -->
+          <div class="bg-white border-2 border-rose-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <div class="flex items-center justify-between pb-2 border-b border-rose-100">
+              <span class="text-xs font-bold text-rose-800 flex items-center gap-1.5">
+                <i data-lucide="x-circle" class="w-4 h-4 text-rose-600"></i>
+                CSS Tradicional / Metodología BEM
+              </span>
+              <span class="text-[10px] font-mono bg-rose-50 text-rose-700 px-2 py-0.5 rounded font-bold">Lento y Frágil</span>
+            </div>
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-xs font-mono overflow-x-auto"><code class="language-css">/* styles.css crece sin control hasta miles de líneas */
+.tarjeta-usuario {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.tarjeta-usuario__boton--activo {
+  background-color: #39A900;
+  color: white;
+  padding: 8px 16px;
+}</code></pre>
+            <p class="text-xs text-slate-500">Problemas: "Miedo a borrar CSS", nombres inventados, archivos pesados y especificidad descontrolada.</p>
+          </div>
+
+          <!-- Enfoque Moderno: Tailwind Utility-First -->
+          <div class="bg-white border-2 border-emerald-300 rounded-2xl p-4 shadow-2xs space-y-2">
+            <div class="flex items-center justify-between pb-2 border-b border-emerald-100">
+              <span class="text-xs font-bold text-emerald-900 flex items-center gap-1.5">
+                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+                Tailwind CSS (Utility-First)
+              </span>
+              <span class="text-[10px] font-mono bg-emerald-50 text-emerald-800 px-2 py-0.5 rounded font-bold">Rápido y Escalable</span>
+            </div>
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-xs font-mono overflow-x-auto"><code class="language-html">&lt;!-- Clases atómicas universales directamente en el markup --&gt;
+&lt;div class="bg-white rounded-2xl p-6 shadow-md"&gt;
+  &lt;h3 class="text-lg font-bold text-slate-900"&gt;Carlos Gómez&lt;/h3&gt;
+  &lt;button class="bg-[#39A900] hover:bg-[#2D8200] text-white px-4 py-2 rounded-xl text-xs font-bold transition"&gt;
+    Ver Perfil
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+            <p class="text-xs text-slate-500">Ventajas: Sin inventar nombres, tamaño final minúsculo, consistencia total y fácil mantenimiento.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-2 bg-emerald-50 border border-emerald-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-emerald-950 font-medium">
+        <span><strong>Regla de Oro:</strong> En Tailwind no inventas nombres de clases; compones la interfaz usando un vocabulario visual estandarizado.</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 03: CÓMO FUNCIONA TAILWIND INTERNAMENTE (JIT & COMPILACIÓN) -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="3" data-block="1">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Arquitectura del Framework</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 03 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          ¿Cómo Funciona Tailwind? <span class="text-[#39A900]">Motor JIT (Just-in-Time)</span> y Purge
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          A diferencia de Bootstrap (que descarga un archivo CSS gigantesco con miles de estilos que jamás usarás), Tailwind utiliza un **motor JIT** que escanea tu código HTML y genera **únicamente** el CSS que realmente estás utilizando.
+        </p>
+
+        <!-- Diagrama del Flujo JIT -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 my-2">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <span class="w-7 h-7 rounded-xl bg-blue-100 text-blue-700 font-bold flex items-center justify-center font-mono text-xs">1</span>
+            <h4 class="font-extrabold text-sm text-slate-900">Escaneo de Archivos</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              El compilador lee tus archivos (<code class="font-mono text-xs">.html</code>, <code class="font-mono text-xs">.jsx</code>, <code class="font-mono text-xs">.vue</code>) buscando cadenas de texto con nombres de clases utilitarias.
+            </p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <span class="w-7 h-7 rounded-xl bg-emerald-100 text-[#39A900] font-bold flex items-center justify-center font-mono text-xs">2</span>
+            <h4 class="font-extrabold text-sm text-slate-900">Generación On-Demand</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Si escribes <code class="font-mono text-xs">p-4</code> o un valor arbitrario <code class="font-mono text-xs">w-[312px]</code>, Tailwind genera el CSS exacto en ese milisegundo en memoria.
+            </p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <span class="w-7 h-7 rounded-xl bg-purple-100 text-purple-700 font-bold flex items-center justify-center font-mono text-xs">3</span>
+            <h4 class="font-extrabold text-sm text-slate-900">Bundle Mínimo (&lt; 15 KB)</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              En producción, todo el CSS no utilizado se descarta por completo. Tu sitio web carga a velocidad instantánea en cualquier conexión móvil.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-2 bg-slate-900 text-slate-200 rounded-xl p-3 text-xs font-mono flex items-center justify-between">
+        <span>⚡ En producción, un sitio web gigante con Tailwind suele pesar menos de <strong>12 KB comprimido</strong> (gzip).</span>
+        <span class="text-emerald-400 font-bold">Ultra Optimizado</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 04: MÉTODOS DE INTEGRACIÓN: CDN VS CLI/VITE -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="4" data-block="1">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Entornos de Ejecución</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 04 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Métodos de Integración: <span class="text-blue-700">Play CDN</span> vs. <span class="text-purple-700">Tailwind CLI / Vite</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          Para prototipado rápido en aula utilizamos el <strong>Play CDN oficial</strong> (sin compiladores pesados). En la Semana 2, cuando integremos React y Vite, usaremos el pipeline de compilación profesional:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-2">
+          
+          <!-- Método 1: Play CDN para Aula -->
+          <div class="bg-white border-2 border-emerald-300 rounded-2xl p-4 shadow-2xs space-y-2">
+            <div class="flex items-center justify-between pb-1 border-b border-emerald-100">
+              <span class="text-xs font-bold text-emerald-900">Método 1: Play CDN (El que usaremos hoy)</span>
+              <span class="text-[10px] font-mono bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">Cero Config</span>
+            </div>
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-xs font-mono overflow-x-auto"><code class="language-html">&lt;!-- En el &lt;head&gt; de tu archivo HTML --&gt;
+&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;
+
+&lt;!-- Opcional: Personalizar tema en línea --&gt;
+&lt;script&gt;
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: { 'sena-green': '#39A900' }
+      }
+    }
+  }
+&lt;/script&gt;</code></pre>
+            <p class="text-xs text-slate-500">Perfecto para aprender, realizar talleres en clase y abrir con Live Server sin Node.js.</p>
+          </div>
+
+          <!-- Método 2: CLI / PostCSS para Producción -->
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <div class="flex items-center justify-between pb-1 border-b border-slate-100">
+              <span class="text-xs font-bold text-slate-800">Método 2: Tailwind CLI / Vite (Semana 2)</span>
+              <span class="text-[10px] font-mono bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-bold">Industrial</span>
+            </div>
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-xs font-mono overflow-x-auto"><code class="language-bash"># 1. Instalar dependencias en el proyecto
+npm install -D tailwindcss postcss autoprefixer
+
+# 2. Inicializar archivo de configuración
+npx tailwindcss init -p
+
+# 3. Compilar en vivo
+npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
+            <p class="text-xs text-slate-500">Lo utilizaremos en proyectos de React, Next.js o cuando el bundler optimice para producción.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-2 bg-blue-50 border border-blue-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-blue-950 font-medium">
+        <span>💡 El script de Play CDN compila en tiempo real dentro del propio navegador. ¡Ideal para el taller de hoy!</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 05: CONFIGURACIÓN PERSONALIZADA CON TAILWIND.CONFIG -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="5" data-block="1">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Identidad de Marca &amp; Tokens</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 05 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Personalización del Tema: Objeto <span class="text-emerald-700">tailwind.config</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          No tienes que limitarte a los colores por defecto. Con <code class="font-mono text-emerald-800 font-bold">theme.extend</code> puedes inyectar los colores institucionales del SENA, tipografías y sombras personalizadas:
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 my-2">
+          
+          <div class="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <div class="flex items-center justify-between pb-1 border-b border-slate-100">
+              <span class="text-xs font-mono font-bold text-slate-700">Script en el &lt;head&gt; de tus vistas</span>
+              <span class="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-mono font-bold">Tokens Oficiales</span>
+            </div>
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-[11px] font-mono overflow-x-auto"><code class="language-javascript">tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        sena: {
+          green: '#39A900',        // bg-sena-green, text-sena-green
+          'green-dark': '#2D8200', // hover:bg-sena-green-dark
+          navy: '#00324D',         // bg-sena-navy
+          'navy-dark': '#00263A'
+        }
+      },
+      fontFamily: {
+        sans: ['Plus Jakarta Sans', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace']
+      }
+    }
+  }
+}</code></pre>
+          </div>
+
+          <!-- Muestrario de Tokens Generados -->
+          <div class="lg:col-span-5 space-y-2.5">
+            <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 space-y-2">
+              <h4 class="text-xs font-extrabold text-slate-800 uppercase tracking-wider">Clases Creadas Automáticamente:</h4>
+              <div class="space-y-2 text-xs">
+                <div class="flex items-center justify-between p-2 rounded-xl bg-emerald-50 border border-emerald-200">
+                  <code class="font-mono font-bold text-[#39A900]">bg-sena-green</code>
+                  <span class="w-6 h-6 rounded-lg bg-[#39A900] shadow-xs"></span>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-slate-200">
+                  <code class="font-mono font-bold text-[#00324D]">bg-sena-navy</code>
+                  <span class="w-6 h-6 rounded-lg bg-[#00324D] shadow-xs"></span>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-slate-200">
+                  <code class="font-mono font-bold text-slate-700">font-sans</code>
+                  <span class="text-xs font-bold font-sans">Plus Jakarta Sans</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-2 bg-slate-100 border border-slate-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-slate-700">
+        <span>🎨 Al extender el tema, Tailwind mantiene intacta toda su paleta nativa (<code class="font-mono">slate</code>, <code class="font-mono">emerald</code>, <code class="font-mono">blue</code>, <code class="font-mono">rose</code>).</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 06: PRINCIPIOS FUNDAMENTALES DE UI VS UX -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="6" data-block="1">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Fundamentos de Diseño</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 06 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Principios de <span class="text-blue-700">UI</span> (Interfaz) vs. <span class="text-purple-700">UX</span> (Experiencia)
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          Un software no es profesional si es difícil de usar o visualmente caótico. Como tecnólogos ADSO, debemos dominar la dualidad entre cómo se ve y cómo se siente la aplicación:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-2">
+          
+          <div class="bg-white border-2 border-blue-200 rounded-2xl p-4 shadow-2xs space-y-2.5">
+            <div class="flex items-center gap-2 pb-2 border-b border-blue-100">
+              <span class="w-7 h-7 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold font-mono text-xs">UI</span>
+              <h3 class="font-black text-base text-slate-900">User Interface (Lo que el usuario ve)</h3>
+            </div>
+            <ul class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
+              <li><strong>Tipografía:</strong> Legibilidad, tamaños armónicos y pesos claros.</li>
+              <li><strong>Color y Estética:</strong> Paletas armoniosas, sombras y bordes redondeados.</li>
+              <li><strong>Consistencia:</strong> Todos los botones primarios tienen la misma forma y color.</li>
+              <li><strong>Iconografía:</strong> Metáforas universales (correo = sobre, buscar = lupa).</li>
+            </ul>
+          </div>
+
+          <div class="bg-white border-2 border-purple-200 rounded-2xl p-4 shadow-2xs space-y-2.5">
+            <div class="flex items-center gap-2 pb-2 border-b border-purple-100">
+              <span class="w-7 h-7 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold font-mono text-xs">UX</span>
+              <h3 class="font-black text-base text-slate-900">User Experience (Lo que el usuario siente)</h3>
+            </div>
+            <ul class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
+              <li><strong>Fricción Cero:</strong> Formularios simples con pocos campos requeridos.</li>
+              <li><strong>Feedback Inmediato:</strong> Spinners mientras carga y mensajes de éxito claros.</li>
+              <li><strong>Accesibilidad:</strong> Textos con alto contraste para personas con debilidad visual.</li>
+              <li><strong>Ley de Fitts:</strong> Los botones importantes son grandes y fáciles de tocar en móvil.</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-2 bg-purple-50 border border-purple-200 rounded-xl p-2.5 flex items-center gap-2 text-xs text-purple-950 font-medium">
+        <i data-lucide="sparkles" class="w-4 h-4 text-purple-600 shrink-0"></i>
+        <span><strong>Conclusión:</strong> La UI atrae al usuario por los ojos; la UX hace que el usuario logre su objetivo sin frustrarse.</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 07: JERARQUÍA VISUAL Y TIPOGRAFÍA -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="7" data-block="1">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Regla UI #1: Tipografía</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 07 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Jerarquía Visual: <span class="text-emerald-700">El Ojo del Usuario No Lee Todo, Escanea</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          Si todos los textos de tu pantalla tienen el mismo tamaño y peso, el usuario experimenta fatiga visual y se pierde. Con Tailwind aplicamos **3 niveles de escala tipográfica**:
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-2">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-700">Nivel 1: Títulos (H1 / H2)</span>
+            <p class="text-xl sm:text-2xl font-black text-slate-900 leading-tight">
+              Título Dominante
+            </p>
+            <p class="font-mono text-xs text-emerald-700 font-bold">text-2xl sm:text-4xl font-black</p>
+            <p class="text-xs text-slate-500">Captura la atención primaria en menos de 0.5 segundos.</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-700">Nivel 2: Subtítulos y Labels</span>
+            <p class="text-sm font-extrabold text-slate-800">
+              Etiquetas y Secciones Clave
+            </p>
+            <p class="font-mono text-xs text-blue-700 font-bold">text-sm font-extrabold text-slate-800</p>
+            <p class="text-xs text-slate-500">Guía al usuario hacia las acciones y campos del formulario.</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-700">Nivel 3: Textos Secundarios</span>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Descripciones de apoyo, placeholders y metadatos.
+            </p>
+            <p class="font-mono text-xs text-purple-700 font-bold">text-xs font-normal text-slate-500</p>
+            <p class="text-xs text-slate-500">No compite con el título principal; ofrece contexto.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-2 bg-slate-900 text-slate-100 p-2.5 rounded-xl text-xs font-mono flex items-center justify-between">
+        <span>💡 <strong>Consejo Pro:</strong> Nunca uses más de 2 familias tipográficas en un proyecto (una Sans para lectura y una Mono para código o cifras).</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 08: SISTEMA DE ESPACIADO Y RITMO ARMÓNICO (ESCALA DE 4PX) -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="8" data-block="1">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Regla UI #2: Espaciado</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 08 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Espaciado Armónico: <span class="text-[#39A900]">La Regla Sagrada de los 4 Píxeles</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          El diseño amateur se reconoce porque usa medidas aleatorias (<code class="font-mono">13px</code>, <code class="font-mono">19px</code>, <code class="font-mono">37px</code>). Los sistemas de diseño profesionales (Google Material, Apple HIG) se basan estrictamente en **múltiplos de 4px**:
+        </p>
+
+        <!-- Tabla visual de la escala de 4px -->
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-2xs my-2">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 border-b border-slate-200 text-slate-700 font-bold">
+              <tr>
+                <th class="p-2.5">Clase Tailwind</th>
+                <th class="p-2.5 font-mono">Píxeles</th>
+                <th class="p-2.5">Uso Recomendado en UI/UX</th>
+                <th class="p-2.5 text-center">Muestra Visual</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 text-slate-600 font-mono">
+              <tr>
+                <td class="p-2.5 text-emerald-700 font-bold">p-1 / m-1 / gap-1</td>
+                <td class="p-2.5">4 px</td>
+                <td class="p-2.5 font-sans">Micro-espaciados (badges, chips internos).</td>
+                <td class="p-2.5 text-center"><div class="h-1 w-8 bg-emerald-500 rounded mx-auto"></div></td>
+              </tr>
+              <tr>
+                <td class="p-2.5 text-emerald-700 font-bold">p-2 / m-2 / gap-2</td>
+                <td class="p-2.5">8 px</td>
+                <td class="p-2.5 font-sans">Distancia entre icono y texto en botones.</td>
+                <td class="p-2.5 text-center"><div class="h-2 w-8 bg-emerald-500 rounded mx-auto"></div></td>
+              </tr>
+              <tr>
+                <td class="p-2.5 text-emerald-700 font-bold">p-4 / m-4 / gap-4</td>
+                <td class="p-2.5">16 px</td>
+                <td class="p-2.5 font-sans">Padding estándar de tarjetas y gap de grillas.</td>
+                <td class="p-2.5 text-center"><div class="h-4 w-8 bg-emerald-500 rounded mx-auto"></div></td>
+              </tr>
+              <tr>
+                <td class="p-2.5 text-emerald-700 font-bold">p-6 / m-6 / gap-6</td>
+                <td class="p-2.5">24 px</td>
+                <td class="p-2.5 font-sans">Separación entre bloques mayores y contenedores.</td>
+                <td class="p-2.5 text-center"><div class="h-6 w-8 bg-emerald-500 rounded mx-auto"></div></td>
+              </tr>
+              <tr>
+                <td class="p-2.5 text-emerald-700 font-bold">p-8 / m-8 / space-y-8</td>
+                <td class="p-2.5">32 px</td>
+                <td class="p-2.5 font-sans">Padding de modales amplios y secciones.</td>
+                <td class="p-2.5 text-center"><div class="h-8 w-8 bg-emerald-500 rounded mx-auto"></div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="mt-2 bg-emerald-50 border border-emerald-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-emerald-950 font-medium">
+        <span>📐 <strong>Ley de Proximidad:</strong> Elementos relacionados van juntos (<code class="font-mono">gap-1.5</code> entre label e input); secciones distintas van separadas (<code class="font-mono">space-y-6</code>).</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 09: PSICOLOGÍA DEL COLOR Y CONTRASTE WCAG -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="9" data-block="1">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Regla UI #3: Color &amp; Accesibilidad</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 09 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Teoría del Color y Accesibilidad: <span class="text-emerald-700">Contraste WCAG 2.1</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          Los colores en una interfaz transmiten significado de forma instantánea. Un software profesional usa una paleta semántica estricta:
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 my-2">
+          
+          <div class="bg-white border-2 border-emerald-200 rounded-2xl p-3.5 space-y-1.5">
+            <div class="w-full h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-bold text-xs">
+              Éxito / Acción
+            </div>
+            <h4 class="font-extrabold text-xs text-slate-900">bg-emerald-600</h4>
+            <p class="text-[11px] text-slate-500">Botones primarios, confirmaciones y estados completados.</p>
+          </div>
+
+          <div class="bg-white border-2 border-blue-200 rounded-2xl p-3.5 space-y-1.5">
+            <div class="w-full h-10 rounded-xl bg-[#00324D] flex items-center justify-center text-white font-bold text-xs">
+              Institucional / Info
+            </div>
+            <h4 class="font-extrabold text-xs text-slate-900">bg-[#00324D]</h4>
+            <p class="text-[11px] text-slate-500">Cabeceras institucionales, enlaces neutrales e información.</p>
+          </div>
+
+          <div class="bg-white border-2 border-amber-200 rounded-2xl p-3.5 space-y-1.5">
+            <div class="w-full h-10 rounded-xl bg-amber-500 flex items-center justify-center text-white font-bold text-xs">
+              Alerta / Warning
+            </div>
+            <h4 class="font-extrabold text-xs text-slate-900">bg-amber-500</h4>
+            <p class="text-[11px] text-slate-500">Advertencias de stock bajo, conflictos y cambios irreversibles.</p>
+          </div>
+
+          <div class="bg-white border-2 border-rose-200 rounded-2xl p-3.5 space-y-1.5">
+            <div class="w-full h-10 rounded-xl bg-rose-600 flex items-center justify-center text-white font-bold text-xs">
+              Peligro / Destructivo
+            </div>
+            <h4 class="font-extrabold text-xs text-slate-900">bg-rose-600</h4>
+            <p class="text-[11px] text-slate-500">Errores 404/500, borrado con DELETE y validaciones fallidas.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-2 bg-amber-50 border border-amber-200 rounded-xl p-2.5 flex items-center gap-2 text-xs text-amber-950 font-medium">
+        <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600 shrink-0"></i>
+        <span><strong>Regla de Accesibilidad:</strong> Nunca uses texto gris claro sobre fondo blanco. Usa <code class="font-mono font-bold">text-slate-600</code> o <code class="font-mono font-bold">text-slate-800</code> para cumplir el ratio de contraste mínimo 4.5:1 (WCAG AA).</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 10: MICRO-INTERACCIONES Y ESTADOS DEL ELEMENTO -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="10" data-block="1">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Regla UI #4: Estados Interactivos</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 10 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Micro-interacciones: <span class="text-emerald-700">Los 6 Estados Obligatorios de Todo Control</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          En una interfaz moderna, ningún botón o input es estático. Todo elemento debe responder al usuario en cada interacción:
+        </p>
+
+        <!-- Demostración interactiva de estados -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 my-2">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-3 text-center space-y-2">
+            <span class="text-[10px] font-mono font-bold text-slate-400 uppercase">1. Normal</span>
+            <button class="w-full py-2 bg-emerald-600 text-white font-bold rounded-lg text-xs shadow-xs">Botón</button>
+            <code class="text-[10px] text-slate-500 font-mono block">bg-emerald-600</code>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-3 text-center space-y-2">
+            <span class="text-[10px] font-mono font-bold text-slate-400 uppercase">2. Hover (Cursor)</span>
+            <button class="w-full py-2 bg-emerald-700 text-white font-bold rounded-lg text-xs shadow-md">Hover</button>
+            <code class="text-[10px] text-slate-500 font-mono block">hover:bg-emerald-700</code>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-3 text-center space-y-2">
+            <span class="text-[10px] font-mono font-bold text-slate-400 uppercase">3. Active (Clic)</span>
+            <button class="w-full py-2 bg-emerald-800 text-white font-bold rounded-lg text-xs scale-95 shadow-inner">Clic</button>
+            <code class="text-[10px] text-slate-500 font-mono block">active:scale-95</code>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-3 text-center space-y-2">
+            <span class="text-[10px] font-mono font-bold text-slate-400 uppercase">4. Focus (Teclado)</span>
+            <button class="w-full py-2 bg-emerald-600 text-white font-bold rounded-lg text-xs ring-4 ring-emerald-300">Tab Focus</button>
+            <code class="text-[10px] text-slate-500 font-mono block">focus:ring-4</code>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-3 text-center space-y-2">
+            <span class="text-[10px] font-mono font-bold text-slate-400 uppercase">5. Disabled</span>
+            <button disabled class="w-full py-2 bg-slate-200 text-slate-400 font-bold rounded-lg text-xs cursor-not-allowed">Inactivo</button>
+            <code class="text-[10px] text-slate-500 font-mono block">disabled:opacity-50</code>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-3 text-center space-y-2">
+            <span class="text-[10px] font-mono font-bold text-slate-400 uppercase">6. Group Hover</span>
+            <div class="group p-1.5 rounded-lg border hover:border-emerald-500 cursor-pointer">
+              <span class="text-[10px] font-bold text-slate-600 group-hover:text-emerald-700 transition">Card &rarr;</span>
+            </div>
+            <code class="text-[10px] text-slate-500 font-mono block">group-hover:text-...</code>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-2 bg-emerald-50 border border-emerald-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-emerald-950 font-medium">
+        <span>✨ Combina siempre con <code class="font-mono font-bold">transition-all duration-200</code> para que el cambio no sea brusco sino fluido.</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 11: INTEGRACIÓN DE ICONOGRAFÍA MODERNA CON LUCIDE ICONS -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="11" data-block="1">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-extrabold rounded-lg border border-emerald-200">BLOQUE 1</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Iconografía SVG</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 11 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Iconografía Moderna: <span class="text-emerald-700">Integración de Lucide Icons</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          Los iconos reducen la carga cognitiva y guían la navegación. En lugar de imágenes pesadas PNG, usamos **Lucide Icons** (vectorial, ligero y estilizable con Tailwind):
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 my-2">
+          
+          <div class="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <div class="flex items-center justify-between pb-1 border-b border-slate-100">
+              <span class="text-xs font-mono font-bold text-slate-700">Cómo usar Lucide Icons con CDN</span>
+              <span class="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-mono font-bold">Librería Ligera</span>
+            </div>
+            <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-xs font-mono overflow-x-auto"><code class="language-html">&lt;!-- 1. Cargar script en el &lt;head&gt; --&gt;
+&lt;script src="https://unpkg.com/lucide@latest"&gt;&lt;/script&gt;
+
+&lt;!-- 2. Insertar etiquetas con el atributo data-lucide --&gt;
+&lt;button class="inline-flex items-center gap-2 bg-[#39A900] text-white px-4 py-2.5 rounded-xl font-bold text-xs"&gt;
+  &lt;i data-lucide="mail" class="w-4 h-4"&gt;&lt;/i&gt;
+  &lt;span&gt;Enviar Correo&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- 3. Inicializar al final del &lt;body&gt; --&gt;
+&lt;script&gt;lucide.createIcons();&lt;/script&gt;</code></pre>
+          </div>
+
+          <!-- Muestra de alineación correcta de iconos -->
+          <div class="lg:col-span-5 space-y-2.5">
+            <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 space-y-3">
+              <h4 class="text-xs font-extrabold text-slate-900">Regla de Alineación Icono + Texto:</h4>
+              <p class="text-xs text-slate-600">
+                Usa siempre <code class="font-mono font-bold text-emerald-700">inline-flex items-center gap-2</code>. Esto evita que el icono quede desalineado o subido respecto al texto:
+              </p>
+              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                <span class="inline-flex items-center gap-2 text-xs font-bold text-slate-800">
+                  <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+                  <span>Alineación Perfecta</span>
+                </span>
+                <span class="text-[10px] font-mono bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">items-center</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-2 bg-emerald-50 border border-emerald-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-emerald-950 font-medium">
+        <span>🚀 <strong>Cierre Bloque 1:</strong> ¡Ahora que dominas la teoría UI/UX, entramos a la maquetación responsiva y componentes!</span>
+      </div>
+    </section>
+
+
+    <!-- ===================================================================== -->
+    <!-- BLOQUE 2: LAYOUT RESPONSIVO, COMPONENTES & ANIMACIONES (SLIDES 12 - 22) -->
+    <!-- ===================================================================== -->
+
+    <!-- SLIDE 12: ARQUITECTURA MOBILE-FIRST Y BREAKPOINTS -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="12" data-block="2">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Diseño Adaptativo</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 12 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Arquitectura <span class="text-blue-700">Mobile-First</span> y Breakpoints
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          En Tailwind, **las clases sin prefijo aplican primero a pantallas móviles**. Solo cuando la pantalla supera un breakpoint determinado, se activan los prefijos responsivos:
+        </p>
+
+        <!-- Los 5 Breakpoints de Tailwind -->
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 my-2">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-3 space-y-1">
+            <span class="text-[10px] font-mono font-extrabold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">sm:</span>
+            <p class="text-sm font-black text-slate-900">640 px</p>
+            <p class="text-[11px] text-slate-500">Móviles horizontales y tablets pequeñas.</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-3 space-y-1">
+            <span class="text-[10px] font-mono font-extrabold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">md:</span>
+            <p class="text-sm font-black text-slate-900">768 px</p>
+            <p class="text-[11px] text-slate-500">Tablets estándar (iPad) en vertical.</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-3 space-y-1">
+            <span class="text-[10px] font-mono font-extrabold text-purple-600 bg-purple-50 px-2 py-0.5 rounded">lg:</span>
+            <p class="text-sm font-black text-slate-900">1024 px</p>
+            <p class="text-[11px] text-slate-500">Laptops y pantallas de escritorio.</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-3 space-y-1">
+            <span class="text-[10px] font-mono font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded">xl:</span>
+            <p class="text-sm font-black text-slate-900">1280 px</p>
+            <p class="text-[11px] text-slate-500">Monitores Full HD de aula.</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-3 space-y-1">
+            <span class="text-[10px] font-mono font-extrabold text-rose-600 bg-rose-50 px-2 py-0.5 rounded">2xl:</span>
+            <p class="text-sm font-black text-slate-900">1536 px</p>
+            <p class="text-[11px] text-slate-500">Pantallas Ultra-Wide y 4K.</p>
+          </div>
+
+        </div>
+
+        <div class="mt-3 bg-slate-900 text-slate-100 p-3 rounded-xl text-xs font-mono">
+          <code class="language-html">&lt;!-- En móvil es 1 columna; a partir de tablet (md) se convierte en 3 columnas --&gt;
+&lt;div class="grid grid-cols-1 md:grid-cols-3 gap-4"&gt; ... &lt;/div&gt;</code>
+        </div>
+      </div>
+
+      <div class="mt-2 bg-blue-50 border border-blue-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-blue-950 font-medium">
+        <span>📱 <strong>Regla:</strong> Diseña primero cómo se verá en un celular, luego añade <code class="font-mono font-bold">md:</code> y <code class="font-mono font-bold">lg:</code> para expandir.</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 13: FLEXBOX CON TAILWIND -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="13" data-block="2">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Layout 1D: Flexbox</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 13 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Flexbox en Acción: <span class="text-blue-700">Alineación, Dirección y Gaps</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          Flexbox es ideal para **layouts unidimensionales** (filas o columnas). Olvídate de los antiguos <code class="font-mono">float: left</code> o márgenes negativos:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-2">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <h4 class="font-extrabold text-sm text-slate-900">Centrado Absoluto</h4>
+            <div class="h-24 bg-slate-100 rounded-xl flex items-center justify-center border border-slate-200">
+              <span class="px-3 py-1 bg-blue-600 text-white font-bold text-xs rounded-lg shadow-xs">Centrado</span>
+            </div>
+            <code class="text-[11px] font-mono text-blue-700 font-bold block">flex items-center justify-center</code>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <h4 class="font-extrabold text-sm text-slate-900">Extremos (Navbar)</h4>
+            <div class="h-24 bg-slate-100 rounded-xl flex items-center justify-between p-3 border border-slate-200">
+              <span class="text-xs font-bold text-slate-800">Logo</span>
+              <span class="text-xs font-bold text-emerald-600">Menú</span>
+            </div>
+            <code class="text-[11px] font-mono text-blue-700 font-bold block">flex items-center justify-between</code>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <h4 class="font-extrabold text-sm text-slate-900">Columna a Fila</h4>
+            <div class="h-24 bg-slate-100 rounded-xl flex flex-col sm:flex-row items-center justify-center gap-2 border border-slate-200">
+              <span class="text-[10px] bg-white px-2 py-0.5 rounded font-bold border">A</span>
+              <span class="text-[10px] bg-white px-2 py-0.5 rounded font-bold border">B</span>
+            </div>
+            <code class="text-[11px] font-mono text-blue-700 font-bold block">flex-col sm:flex-row gap-2</code>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-2 bg-slate-900 text-slate-100 p-2.5 rounded-xl text-xs font-mono">
+        <span>💡 El atributo <code class="text-emerald-400 font-bold">gap-4</code> maneja el espacio entre elementos automáticamente sin ensuciar márgenes hijos.</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 14: CSS GRID RESPONSIVO -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="14" data-block="2">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Layout 2D: CSS Grid</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 14 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          CSS Grid Responsivo: <span class="text-blue-700">Catálogos, Dashboards y Galerías</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          CSS Grid es la herramienta perfecta para **layouts bidimensionales** (filas y columnas simultáneas). En Tailwind es tan sencillo como declarar el número de columnas deseadas:
+        </p>
+
+        <!-- Demostración de Grilla 1 -> 2 -> 3 Columnas -->
+        <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs space-y-3 my-2">
+          <div class="flex items-center justify-between border-b pb-2">
+            <span class="text-xs font-mono font-bold text-slate-700">&lt;div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"&gt;</span>
+            <span class="text-[10px] font-mono bg-blue-50 text-blue-700 px-2 py-0.5 rounded font-bold">1 col móvil ➔ 3 cols desktop</span>
+          </div>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-center">
+            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 font-bold text-xs text-emerald-800">Tarjeta 1</div>
+            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 font-bold text-xs text-emerald-800">Tarjeta 2</div>
+            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 font-bold text-xs text-emerald-800">Tarjeta 3</div>
+          </div>
+        </div>
+
+        <div class="bg-slate-900 text-slate-100 p-3 rounded-xl text-xs font-mono">
+          <code class="language-html">&lt;!-- Fusión de columnas con col-span --&gt;
+&lt;div class="grid grid-cols-12 gap-4"&gt;
+  &lt;div class="col-span-12 md:col-span-4"&gt;Sidebar (4 de 12)&lt;/div&gt;
+  &lt;div class="col-span-12 md:col-span-8"&gt;Contenido Principal (8 de 12)&lt;/div&gt;
+&lt;/div&gt;</code>
+        </div>
+      </div>
+
+      <div class="mt-2 bg-blue-50 border border-blue-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-blue-950 font-medium">
+        <span>📊 Usa **Flexbox** para componentes (botones, navbars) y **Grid** para la distribución de la página (catálogos, formularios).</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 15: COMPONENTES BÁSICOS I: BOTONES PROFESIONALES -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="15" data-block="2">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Componente #1: Botones</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 15 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Componentes I: <span class="text-emerald-700">Botones Profesionales y Estados</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          Un botón profesional tiene padding táctil adecuado (<code class="font-mono">py-2.5 px-4</code>), sombra de elevación, micro-animación de clic y estado de carga:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-2">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs space-y-3 text-center">
+            <span class="text-xs font-extrabold text-slate-900">Botón Primario (CTA)</span>
+            <button class="w-full py-3 px-4 bg-[#39A900] hover:bg-[#2D8200] active:scale-[0.99] text-white font-extrabold text-xs rounded-xl shadow-md transition flex items-center justify-center gap-2">
+              <span>Guardar Registro</span>
+              <i data-lucide="check" class="w-4 h-4"></i>
+            </button>
+            <p class="text-[11px] text-slate-500 font-mono">bg-[#39A900] hover:bg-[#2D8200] shadow-md</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs space-y-3 text-center">
+            <span class="text-xs font-extrabold text-slate-900">Botón Secundario / Outline</span>
+            <button class="w-full py-3 px-4 bg-white hover:bg-slate-50 border-2 border-slate-200 text-slate-700 font-bold text-xs rounded-xl transition flex items-center justify-center gap-2">
+              <i data-lucide="x" class="w-4 h-4"></i>
+              <span>Cancelar Acción</span>
+            </button>
+            <p class="text-[11px] text-slate-500 font-mono">border-2 border-slate-200 hover:bg-slate-50</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs space-y-3 text-center">
+            <span class="text-xs font-extrabold text-slate-900">Estado de Carga (Loading)</span>
+            <button disabled class="w-full py-3 px-4 bg-slate-800 text-slate-300 font-bold text-xs rounded-xl transition flex items-center justify-center gap-2 cursor-not-allowed opacity-80">
+              <i data-lucide="loader-2" class="w-4 h-4 animate-spin text-emerald-400"></i>
+              <span>Procesando...</span>
+            </button>
+            <p class="text-[11px] text-slate-500 font-mono">animate-spin + opacity-80</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-2 bg-emerald-50 border border-emerald-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-emerald-950 font-medium">
+        <span>🖱️ <strong>Tip:</strong> Añade siempre <code class="font-mono font-bold">active:scale-[0.98]</code> para dar feedback táctil realista en móviles.</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 16: COMPONENTES BÁSICOS II: INPUTS Y FORMULARIOS -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="16" data-block="2">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Componente #2: Formularios</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 16 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Componentes II: <span class="text-blue-700">Inputs con Iconos y Anillos de Enfoque</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          Los campos de texto por defecto del navegador se ven desactualizados. Con Tailwind los transformamos en inputs elegantes con padding izquierdo para iconos y <code class="font-mono font-bold text-blue-700">focus:ring</code>:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-2">
+          
+          <!-- Demostración del Input -->
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 shadow-2xs space-y-3">
+            <div class="space-y-1.5">
+              <label class="block text-xs font-bold text-slate-700">Correo Electrónico:</label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                  <i data-lucide="mail" class="w-4 h-4"></i>
+                </div>
+                <input type="email" placeholder="aprendiz@sena.edu.co"
+                       class="w-full pl-10 pr-4 py-2.5 bg-slate-50 focus:bg-white border border-slate-200 focus:border-[#39A900] rounded-xl text-xs outline-none focus:ring-4 focus:ring-emerald-500/20 transition-all">
+              </div>
+            </div>
+            <p class="text-xs text-slate-500">Haz clic sobre el input para ver cómo reacciona el anillo de enfoque suave.</p>
+          </div>
+
+          <!-- Código Explicativo -->
+          <div class="bg-slate-900 text-slate-100 p-4 rounded-2xl text-xs font-mono space-y-2">
+            <span class="text-emerald-400 font-bold">// Anatomía del Input Moderno</span>
+            <pre class="overflow-x-auto"><code class="language-html">&lt;div class="relative"&gt;
+  &lt;!-- Icono absoluto centrado --&gt;
+  &lt;div class="absolute inset-y-0 left-0 pl-3.5 flex items-center"&gt;
+    &lt;i data-lucide="mail" class="w-4 h-4 text-slate-400"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Input con pl-10 para no tapar el icono --&gt;
+  &lt;input type="email" class="w-full pl-10 pr-4 py-2.5 border rounded-xl focus:ring-4 focus:ring-emerald-500/20"&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-2 bg-blue-50 border border-blue-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-blue-950 font-medium">
+        <span>🎯 <code class="font-mono font-bold">focus:ring-4 focus:ring-emerald-500/20</code> crea un halo de luz moderno en lugar del tosco borde azul por defecto de Windows.</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 17: COMPONENTES BÁSICOS III: CARDS, SOMBRAS Y BORDES -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="17" data-block="2">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Componente #3: Tarjetas (Cards)</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 17 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Componentes III: <span class="text-purple-700">Cards, Elevación &amp; Sombras</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          Las tarjetas agrupan información contextualizada. En Tailwind combinamos **bordes sutiles**, **radios amplios** y **sombras escaladas** para generar sensación de tridimensionalidad:
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-2">
+          
+          <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-xs space-y-2">
+            <span class="text-[10px] font-mono font-bold text-slate-400">shadow-xs · rounded-xl</span>
+            <h4 class="font-extrabold text-sm text-slate-900">Elevación Baja</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">Ideal para elementos de lista o campos dentro de formularios.</p>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-md hover:shadow-lg transition space-y-2">
+            <span class="text-[10px] font-mono font-bold text-emerald-600">shadow-md ➔ shadow-lg</span>
+            <h4 class="font-extrabold text-sm text-slate-900">Elevación Media (Hover)</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">Perfecto para tarjetas interactivas de catálogos y productos.</p>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-2xl space-y-2">
+            <span class="text-[10px] font-mono font-bold text-purple-600">shadow-2xl · rounded-3xl</span>
+            <h4 class="font-extrabold text-sm text-slate-900">Elevación Máxima</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">Utilizado en modales flotantes, popups y tarjetas de login.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-2 bg-purple-50 border border-purple-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-purple-950 font-medium">
+        <span>✨ <strong>Regla Estética:</strong> A mayor tamaño del contenedor, mayor radio de borde (<code class="font-mono font-bold">rounded-2xl</code> o <code class="font-mono font-bold">rounded-3xl</code>).</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 18: COMPONENTES BÁSICOS IV: BADGES, PÍLDORAS Y ALERTAS -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="18" data-block="2">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Componente #4: Feedback Visual</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 18 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Componentes IV: <span class="text-emerald-700">Badges, Píldoras de Estado y Alertas</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          Los badges comunican metadatos breves (estados, categorías, roles). Las alertas entregan mensajes completos del sistema:
+        </p>
+
+        <!-- Galería de Badges y Alertas -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-2">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs space-y-3">
+            <h4 class="font-extrabold text-sm text-slate-900">Badges y Píldoras Semánticas</h4>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2.5 py-1 rounded-full text-xs font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300">● Activo</span>
+              <span class="px-2.5 py-1 rounded-full text-xs font-extrabold bg-blue-100 text-blue-800 border border-blue-300">Aprendiz ADSO</span>
+              <span class="px-2.5 py-1 rounded-full text-xs font-extrabold bg-amber-100 text-amber-800 border border-amber-300">Stock Bajo (3)</span>
+              <span class="px-2.5 py-1 rounded-full text-xs font-extrabold bg-rose-100 text-rose-800 border border-rose-300">✕ Agotado</span>
+            </div>
+            <code class="text-[11px] font-mono text-slate-500 block">px-2.5 py-1 rounded-full text-xs font-extrabold border</code>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2.5">
+            <h4 class="font-extrabold text-sm text-slate-900">Alerta Informativa con Icono</h4>
+            <div class="p-3 rounded-xl bg-blue-50 border border-blue-200 flex items-start gap-2.5 text-xs text-blue-900">
+              <i data-lucide="info" class="w-4 h-4 text-blue-600 shrink-0 mt-0.5"></i>
+              <div>
+                <p class="font-bold">Información de Seguridad</p>
+                <p class="text-blue-700 text-[11px]">Tu contraseña debe tener al menos 8 caracteres y un número.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-2 bg-emerald-50 border border-emerald-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-emerald-950 font-medium">
+        <span>💡 Para badges con dot pulsante: <code class="font-mono font-bold">&lt;span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"&gt;&lt;/span&gt;</code>.</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 19: COMPONENTES BÁSICOS V: NAVBARS RESPONSIVAS -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="19" data-block="2">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Componente #5: Navegación</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 19 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Componentes V: <span class="text-blue-700">Navbar con Efecto Glassmorphism</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          Las barras de navegación fijas modernas usan <code class="font-mono text-emerald-700 font-bold">backdrop-blur-md bg-white/90</code> para crear el efecto de "vidrio esmerilado" que deja entrever el contenido que pasa por debajo:
+        </p>
+
+        <!-- Código de la Navbar Moderna -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2 my-2">
+          <div class="flex items-center justify-between pb-1 border-b border-slate-100">
+            <span class="text-xs font-mono font-bold text-slate-700">Estructura de la Navbar en landing.html</span>
+            <span class="text-[10px] text-blue-600 font-mono font-bold">Sticky + Blur + Responsive</span>
+          </div>
+          <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-xs font-mono overflow-x-auto"><code class="language-html">&lt;header class="sticky top-0 z-50 backdrop-blur-md bg-white/90 border-b border-slate-200"&gt;
+  &lt;div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between"&gt;
+    &lt;!-- 1. Logo --&gt;
+    &lt;a href="#" class="font-black text-slate-900 text-lg"&gt;ADSO DevHub&lt;/a&gt;
+
+    &lt;!-- 2. Links (ocultos en móvil con hidden, visibles en md con md:flex) --&gt;
+    &lt;nav class="hidden md:flex items-center gap-6 text-xs font-bold text-slate-600"&gt;
+      &lt;a href="#inicio" class="hover:text-emerald-600 transition"&gt;Inicio&lt;/a&gt;
+      &lt;a href="#modulos" class="hover:text-emerald-600 transition"&gt;Módulos&lt;/a&gt;
+    &lt;/nav&gt;
+
+    &lt;!-- 3. Botón de menú móvil visible solo en móvil (md:hidden) --&gt;
+    &lt;button class="md:hidden p-2"&gt;&lt;i data-lucide="menu"&gt;&lt;/i&gt;&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/header&gt;</code></pre>
+        </div>
+      </div>
+
+      <div class="mt-2 bg-slate-900 text-slate-100 p-2.5 rounded-xl text-xs font-mono">
+        <span>✨ El valor de opacidad <code class="text-emerald-400 font-bold">bg-white/90</code> indica 90% de opacidad y 10% de transparencia con desenfoque de fondo.</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 20: TRANSICIONES Y TRANSFORMACIONES SUAVES -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="20" data-block="2">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Micro-Animaciones</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 20 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Transiciones Suaves: <span class="text-emerald-700">El Toque "Mágico" que Da Vida a la Web</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          Sin transiciones, los cambios en hover ocurren de forma seca e instantánea (0ms). Al agregar la directiva <code class="font-mono text-emerald-800 font-bold">transition-all duration-300</code>, el navegador interpola suavemente los frames:
+        </p>
+
+        <!-- Ejemplos Interactivos de Transformación -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-2">
+          
+          <div class="bg-white border-2 border-slate-200 hover:border-emerald-500 rounded-2xl p-5 shadow-xs hover:shadow-xl hover:scale-105 transition-all duration-300 text-center cursor-pointer space-y-2">
+            <i data-lucide="zoom-in" class="w-8 h-8 text-emerald-600 mx-auto"></i>
+            <h4 class="font-extrabold text-sm text-slate-900">Escalado Suave</h4>
+            <p class="text-xs text-slate-500">Pasa el cursor por encima para ver cómo crece suavemente.</p>
+            <code class="text-[10px] font-mono text-emerald-700 font-bold block">hover:scale-105 duration-300</code>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 hover:border-blue-500 rounded-2xl p-5 shadow-xs hover:shadow-xl hover:-translate-y-2 transition-all duration-300 text-center cursor-pointer space-y-2">
+            <i data-lucide="arrow-up" class="w-8 h-8 text-blue-600 mx-auto"></i>
+            <h4 class="font-extrabold text-sm text-slate-900">Elevación Vertical</h4>
+            <p class="text-xs text-slate-500">La tarjeta parece levitar 8 píxeles hacia arriba.</p>
+            <code class="text-[10px] font-mono text-blue-700 font-bold block">hover:-translate-y-2 duration-300</code>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 hover:border-purple-500 rounded-2xl p-5 shadow-xs hover:shadow-xl hover:rotate-2 transition-all duration-300 text-center cursor-pointer space-y-2">
+            <i data-lucide="refresh-cw" class="w-8 h-8 text-purple-600 mx-auto"></i>
+            <h4 class="font-extrabold text-sm text-slate-900">Rotación Sutil</h4>
+            <p class="text-xs text-slate-500">Rotación angular de 2 grados para añadir dinamismo.</p>
+            <code class="text-[10px] font-mono text-purple-700 font-bold block">hover:rotate-2 duration-300</code>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-2 bg-emerald-50 border border-emerald-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-emerald-950 font-medium">
+        <span>⏱️ <strong>Duración Recomendada:</strong> Entre <code class="font-mono font-bold">duration-200</code> y <code class="font-mono font-bold">duration-300</code>. Menos es imperceptible; más de 500ms se siente lento y pesado.</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 21: ANIMACIONES NATIVAS DE TAILWIND -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="21" data-block="2">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Animaciones Clave</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 21 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Animaciones Nativas: <span class="text-purple-700">Spin, Pulse, Bounce &amp; Ping</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          Tailwind incluye 4 animaciones pre-configuradas listas para usar que comunican estados del sistema sin necesidad de escribir keyframes en CSS:
+        </p>
+
+        <!-- Galería de las 4 animaciones -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 my-2 text-center">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs space-y-3">
+            <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center mx-auto">
+              <i data-lucide="loader-2" class="w-6 h-6 animate-spin"></i>
+            </div>
+            <h4 class="font-extrabold text-sm text-slate-900">animate-spin</h4>
+            <p class="text-[11px] text-slate-500">Para spinners de carga durante peticiones <code class="font-mono">fetch()</code>.</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs space-y-3">
+            <div class="w-12 h-12 rounded-xl bg-emerald-100 text-[#39A900] flex items-center justify-center mx-auto">
+              <span class="w-6 h-6 rounded-full bg-[#39A900] animate-pulse"></span>
+            </div>
+            <h4 class="font-extrabold text-sm text-slate-900">animate-pulse</h4>
+            <p class="text-[11px] text-slate-500">Para skeleton loaders y badges de estado activo/online.</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs space-y-3">
+            <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center mx-auto">
+              <i data-lucide="arrow-down" class="w-6 h-6 animate-bounce"></i>
+            </div>
+            <h4 class="font-extrabold text-sm text-slate-900">animate-bounce</h4>
+            <p class="text-[11px] text-slate-500">Para flechas de scroll "Conoce más" en la landing page.</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs space-y-3">
+            <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center mx-auto relative">
+              <span class="w-4 h-4 rounded-full bg-amber-500 animate-ping absolute"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-600"></span>
+            </div>
+            <h4 class="font-extrabold text-sm text-slate-900">animate-ping</h4>
+            <p class="text-[11px] text-slate-500">Para notificaciones y radar de novedades o alertas.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-2 bg-purple-50 border border-purple-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-purple-950 font-medium">
+        <span>🎬 <strong>Regla de Moderación:</strong> Usa animaciones solo para guiar al usuario; un exceso de movimiento distrae y reduce la accesibilidad.</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 22: BUENAS PRÁCTICAS Y ANTIPATRONES -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="22" data-block="2">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-xs font-extrabold rounded-lg border border-blue-200">BLOQUE 2</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Calidad de Código</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 22 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Buenas Prácticas vs. <span class="text-rose-600">Antipatrones en Tailwind</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          Escribir clases utilitarias no significa escribir desorden. Sigue estas 4 reglas para mantener un código limpio y legible:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-2">
+          
+          <div class="bg-white border-2 border-emerald-300 rounded-2xl p-4 shadow-2xs space-y-2">
+            <h4 class="font-extrabold text-sm text-emerald-900 flex items-center gap-1.5">
+              <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+              Prácticas Recomendadas
+            </h4>
+            <ul class="text-xs text-slate-600 space-y-2 list-disc list-inside">
+              <li><strong>Orden Lógico de Clases:</strong> Layout &rarr; Espaciado &rarr; Tipografía &rarr; Colores &rarr; Efectos (<code class="font-mono text-slate-800">flex items-center p-4 text-sm bg-white shadow</code>).</li>
+              <li><strong>Mobile-First Estricto:</strong> Pon siempre el estilo móvil primero y luego las variantes <code class="font-mono text-slate-800">md:</code>.</li>
+              <li><strong>Componentes Reutilizables:</strong> Cuando un botón se repite 10 veces, es señal de que en React será un componente <code class="font-mono text-slate-800">&lt;Button /&gt;</code>.</li>
+            </ul>
+          </div>
+
+          <div class="bg-white border-2 border-rose-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <h4 class="font-extrabold text-sm text-rose-800 flex items-center gap-1.5">
+              <i data-lucide="x" class="w-4 h-4 text-rose-600"></i>
+              Antipatrones a Evitar
+            </h4>
+            <ul class="text-xs text-slate-600 space-y-2 list-disc list-inside">
+              <li><strong>Abuso de Valores Arbitrarios:</strong> No abuses de <code class="font-mono text-rose-600">w-[317px]</code> o <code class="font-mono text-rose-600">p-[19px]</code>; respeta la escala de 4px (<code class="font-mono">w-80</code>, <code class="font-mono">p-5</code>).</li>
+              <li><strong>Olvidar focus-visible:</strong> Todo botón interactivo debe poder seleccionarse con la tecla Tab del teclado.</li>
+              <li><strong>Uso de !important:</strong> En Tailwind casi nunca necesitas <code class="font-mono text-rose-600">!p-4</code> si la jerarquía está bien construida.</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-2 bg-emerald-50 border border-emerald-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-emerald-950 font-medium">
+        <span>🚀 <strong>Cierre Bloque 2:</strong> ¡Llegamos al taller práctico! Ahora construiremos las 3 interfaces en el aula.</span>
+      </div>
+    </section>
+
+
+    <!-- ===================================================================== -->
+    <!-- BLOQUE 3: TALLER PRÁCTICO EN AULA & 3 INTERFACES (SLIDES 23 - 32) -->
+    <!-- ===================================================================== -->
+
+    <!-- SLIDE 23: ESPECIFICACIÓN DEL TALLER DE AULA -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="23" data-block="3">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-purple-50 text-purple-700 font-mono text-xs font-extrabold rounded-lg border border-purple-200">BLOQUE 3</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Laboratorio de Aula</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 23 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Laboratorio en Aula: <span class="text-purple-700">Construcción de las 3 Vistas</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          En esta lección adicional, **la evidencia obligatoria es lo realizado durante la sesión de clase**. Construiremos tres vistas modernas aplicando todos los conceptos vistos:
+        </p>
+
+        <!-- Las 3 Interfaces a Construir -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-2">
+          
+          <div class="bg-white border-2 border-emerald-300 rounded-2xl p-4 shadow-xs space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">recursos/login.html</span>
+              <span class="text-xs font-mono font-bold text-emerald-600">30%</span>
+            </div>
+            <h4 class="font-extrabold text-sm text-slate-900">1. Pantalla de Login</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Tarjeta centrada, inputs con iconos, toggle de contraseña y botón animado con micro-interacciones.
+            </p>
+          </div>
+
+          <div class="bg-white border-2 border-blue-300 rounded-2xl p-4 shadow-xs space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800">recursos/register.html</span>
+              <span class="text-xs font-mono font-bold text-blue-600">30%</span>
+            </div>
+            <h4 class="font-extrabold text-sm text-slate-900">2. Registro de Cuenta</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Grid responsivo de 2 columnas en desktop, medidor visual de clave, términos y feedback de envío.
+            </p>
+          </div>
+
+          <div class="bg-white border-2 border-purple-300 rounded-2xl p-4 shadow-xs space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-purple-100 text-purple-800">recursos/landing.html</span>
+              <span class="text-xs font-mono font-bold text-purple-600">40%</span>
+            </div>
+            <h4 class="font-extrabold text-sm text-slate-900">3. Landing Page Completa</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Navbar con efecto vidrio, Hero de impacto, grid de pilares técnicos con iconos, métricas y footer.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Barra de Descarga del Paquete -->
+      <div class="mt-3 bg-purple-50 border-2 border-purple-300 rounded-2xl p-3.5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-800 shadow-2xs">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-purple-700 text-white flex items-center justify-center font-bold shrink-0">
+            📦
+          </div>
+          <div>
+            <p class="font-extrabold text-purple-950">Paquete de Aula para el Aprendiz:</p>
+            <p class="text-slate-600 text-[11px]">Incluye las 3 plantillas starter con comentarios paso a paso y la guía <code class="font-mono font-bold text-slate-800">INSTRUCCIONES.md</code>.</p>
+          </div>
+        </div>
+        <a href="dia-extra-tailwindcss-taller.zip" download class="px-4 py-2 bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-xs rounded-xl shadow-xs transition flex items-center gap-2 shrink-0">
+          <i data-lucide="download" class="w-4 h-4"></i>
+          <span>Descargar Taller (.ZIP)</span>
+        </a>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 24: EJERCICIO 1: ANATOMÍA UI/UX DEL LOGIN -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="24" data-block="3">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-purple-50 text-purple-700 font-mono text-xs font-extrabold rounded-lg border border-purple-200">BLOQUE 3</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Ejercicio 1 · Login</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 24 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Ejercicio 1: <span class="text-emerald-700">Anatomía UI/UX de la Pantalla de Login</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          En <code class="font-mono text-slate-800 font-bold">login.html</code> descomponemos la pantalla en 4 capas estructurales:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-2">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2.5">
+            <h4 class="font-extrabold text-sm text-slate-900">Estructura Externa: Centrado</h4>
+            <p class="text-xs text-slate-600">
+              El <code class="font-mono font-bold text-slate-800">&lt;body&gt;</code> actúa como un flex container de pantalla completa:
+            </p>
+            <div class="p-2.5 rounded-xl bg-slate-900 text-slate-100 font-mono text-xs">
+              min-h-full flex flex-col justify-center items-center bg-gradient-to-br p-4
+            </div>
+            <p class="text-xs text-slate-500">Garantiza que la tarjeta quede matemáticamente centrada en cualquier monitor.</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2.5">
+            <h4 class="font-extrabold text-sm text-slate-900">Estructura Interna: La Card</h4>
+            <p class="text-xs text-slate-600">
+              La tarjeta blanca usa <code class="font-mono font-bold text-slate-800">max-w-md w-full</code> para no deformarse en pantallas gigantes:
+            </p>
+            <div class="p-2.5 rounded-xl bg-slate-900 text-slate-100 font-mono text-xs">
+              max-w-md w-full bg-white rounded-3xl p-6 sm:p-8 shadow-xl space-y-6
+            </div>
+            <p class="text-xs text-slate-500">En móvil ocupa todo el ancho con padding de 16px; en escritorio se fija en 448px.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-2 bg-emerald-50 border border-emerald-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-emerald-950 font-medium">
+        <span>👁️ <strong>Micro-Feature:</strong> Incluimos el botón para mostrar u ocultar contraseña cambiando <code class="font-mono">input.type = 'text'</code> dinámicamente.</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 25: EJERCICIO 1: CÓDIGO PASO A PASO DEL LOGIN -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="25" data-block="3">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-purple-50 text-purple-700 font-mono text-xs font-extrabold rounded-lg border border-purple-200">BLOQUE 3</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Código · Login</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 25 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Ejercicio 1: <span class="text-emerald-700">Implementación de login.html</span>
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 max-w-5xl mb-2 leading-relaxed">
+          Copia y traslada este bloque a tu archivo <code class="font-mono text-slate-800 font-bold">recursos/login.html</code>:
+        </p>
+
+        <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+          <pre class="bg-slate-900 text-slate-100 p-3.5 rounded-xl text-[11px] font-mono overflow-x-auto"><code class="language-html">&lt;!-- Formulario estilizado de Login --&gt;
+&lt;form class="space-y-4"&gt;
+  &lt;div class="space-y-1.5"&gt;
+    &lt;label class="block text-xs font-bold text-slate-700"&gt;Correo Institucional&lt;/label&gt;
+    &lt;div class="relative"&gt;
+      &lt;i data-lucide="mail" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"&gt;&lt;/i&gt;
+      &lt;input type="email" required placeholder="aprendiz@sena.edu.co" 
+             class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border rounded-xl text-xs focus:ring-4 focus:ring-emerald-500/15 outline-none"&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class="space-y-1.5"&gt;
+    &lt;label class="block text-xs font-bold text-slate-700"&gt;Contraseña&lt;/label&gt;
+    &lt;div class="relative"&gt;
+      &lt;i data-lucide="lock" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"&gt;&lt;/i&gt;
+      &lt;input type="password" id="pass" required placeholder="••••••••" 
+             class="w-full pl-10 pr-10 py-2.5 bg-slate-50 border rounded-xl text-xs focus:ring-4 focus:ring-emerald-500/15 outline-none"&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;button type="submit" class="w-full py-3 bg-[#39A900] hover:bg-[#2D8200] active:scale-[0.99] text-white font-extrabold text-sm rounded-xl shadow-md transition"&gt;
+    Ingresar a la Plataforma &rarr;
+  &lt;/button&gt;
+&lt;/form&gt;</code></pre>
+        </div>
+      </div>
+
+      <div class="mt-2 bg-slate-100 border border-slate-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-slate-700">
+        <span>✅ Abre el archivo con Live Server y comprueba que se adapte al cambiar el tamaño de la ventana.</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 26: EJERCICIO 2: ANATOMÍA UI/UX DEL REGISTRO -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="26" data-block="3">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-purple-50 text-purple-700 font-mono text-xs font-extrabold rounded-lg border border-purple-200">BLOQUE 3</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Ejercicio 2 · Registro</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 26 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Ejercicio 2: <span class="text-blue-700">Anatomía UI/UX del Formulario de Registro</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          En <code class="font-mono text-slate-800 font-bold">register.html</code> resolvemos el desafío de un formulario extenso: en móvil es 1 columna cómoda de tocar; en escritorio se divide en **2 columnas equilibradas**:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-2">
+          
+          <div class="bg-white border-2 border-blue-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <h4 class="font-extrabold text-sm text-slate-900">Layout Adaptativo con Grid</h4>
+            <div class="p-2.5 rounded-xl bg-slate-900 text-slate-100 font-mono text-xs">
+              &lt;div class="grid grid-cols-1 sm:grid-cols-2 gap-4"&gt;
+            </div>
+            <p class="text-xs text-slate-600">
+              Permite emparejar: Nombres con Apellidos, Correo con Teléfono, y Contraseña con Confirmación.
+            </p>
+          </div>
+
+          <div class="bg-white border-2 border-emerald-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <h4 class="font-extrabold text-sm text-slate-900">Medidor de Seguridad en Tiempo Real</h4>
+            <p class="text-xs text-slate-600">
+              Una barra dividida en 3 segmentos con <code class="font-mono font-bold text-slate-800">h-1.5 rounded-full</code> que cambia de color mediante JavaScript según la longitud:
+            </p>
+            <div class="flex h-2 w-full bg-slate-100 rounded-full gap-1">
+              <div class="h-full w-1/3 bg-emerald-500 rounded"></div>
+              <div class="h-full w-1/3 bg-emerald-500 rounded"></div>
+              <div class="h-full w-1/3 bg-emerald-500 rounded"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-2 bg-blue-50 border border-blue-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-blue-950 font-medium">
+        <span>📋 El checkbox de términos incluye un enlace con <code class="font-mono font-bold text-[#39A900]">hover:underline</code> para que el usuario conozca sus derechos.</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 27: EJERCICIO 2: CÓDIGO PASO A PASO DEL REGISTRO -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="27" data-block="3">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-purple-50 text-purple-700 font-mono text-xs font-extrabold rounded-lg border border-purple-200">BLOQUE 3</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Código · Registro</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 27 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Ejercicio 2: <span class="text-blue-700">Implementación de register.html</span>
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 max-w-5xl mb-2 leading-relaxed">
+          Copia y traslada la estructura de dos columnas a tu archivo <code class="font-mono text-slate-800 font-bold">recursos/register.html</code>:
+        </p>
+
+        <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+          <pre class="bg-slate-900 text-slate-100 p-3.5 rounded-xl text-[11px] font-mono overflow-x-auto"><code class="language-html">&lt;!-- Fila 1: Nombres y Apellidos en 2 columnas --&gt;
+&lt;div class="grid grid-cols-1 sm:grid-cols-2 gap-4"&gt;
+  &lt;div class="space-y-1.5"&gt;
+    &lt;label class="block text-xs font-bold text-slate-700"&gt;Nombres&lt;/label&gt;
+    &lt;input type="text" required placeholder="Carlos Andrés" class="w-full px-3 py-2 bg-slate-50 border rounded-xl text-xs"&gt;
+  &lt;/div&gt;
+  &lt;div class="space-y-1.5"&gt;
+    &lt;label class="block text-xs font-bold text-slate-700"&gt;Apellidos&lt;/label&gt;
+    &lt;input type="text" required placeholder="Gómez" class="w-full px-3 py-2 bg-slate-50 border rounded-xl text-xs"&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Fila 2: Documento con proporciones 4 / 8 --&gt;
+&lt;div class="grid grid-cols-1 sm:grid-cols-12 gap-4"&gt;
+  &lt;div class="sm:col-span-4 space-y-1.5"&gt;
+    &lt;label class="block text-xs font-bold text-slate-700"&gt;Tipo Doc.&lt;/label&gt;
+    &lt;select class="w-full px-3 py-2 bg-slate-50 border rounded-xl text-xs"&gt;
+      &lt;option&gt;Cédula (CC)&lt;/option&gt;&lt;option&gt;Tarjeta Identidad (TI)&lt;/option&gt;
+    &lt;/select&gt;
+  &lt;/div&gt;
+  &lt;div class="sm:col-span-8 space-y-1.5"&gt;
+    &lt;label class="block text-xs font-bold text-slate-700"&gt;Número de Identificación&lt;/label&gt;
+    &lt;input type="number" required placeholder="1083900123" class="w-full px-3 py-2 bg-slate-50 border rounded-xl text-xs"&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+
+      <div class="mt-2 bg-slate-100 border border-slate-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-slate-700">
+        <span>✅ Observa cómo <code class="font-mono text-blue-700 font-bold">sm:col-span-4</code> y <code class="font-mono text-blue-700 font-bold">sm:col-span-8</code> suman exactamente 12 columnas.</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 28: EJERCICIO 3: ANATOMÍA UI/UX DE LA LANDING PAGE -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="28" data-block="3">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-purple-50 text-purple-700 font-mono text-xs font-extrabold rounded-lg border border-purple-200">BLOQUE 3</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Ejercicio 3 · Landing</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 28 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Ejercicio 3: <span class="text-purple-700">Anatomía UI/UX de la Landing Page Completa</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          En <code class="font-mono text-slate-800 font-bold">landing.html</code> ensamblamos una página comercial completa estructurada en 5 secciones semánticas:
+        </p>
+
+        <!-- Las 5 Secciones de la Landing -->
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 my-2 text-center">
+          
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-3 space-y-1">
+            <span class="text-[10px] font-mono font-bold text-slate-400 uppercase">Sección 1</span>
+            <h4 class="font-extrabold text-xs text-slate-900">Navbar Sticky</h4>
+            <p class="text-[11px] text-slate-500">Logo, links y botones con backdrop-blur.</p>
+          </div>
+
+          <div class="bg-white border-2 border-emerald-300 rounded-xl p-3 space-y-1">
+            <span class="text-[10px] font-mono font-bold text-emerald-600 uppercase">Sección 2</span>
+            <h4 class="font-extrabold text-xs text-slate-900">Hero Section</h4>
+            <p class="text-[11px] text-slate-500">H1 gigante, badge animado y botones CTA.</p>
+          </div>
+
+          <div class="bg-white border-2 border-blue-300 rounded-xl p-3 space-y-1">
+            <span class="text-[10px] font-mono font-bold text-blue-600 uppercase">Sección 3</span>
+            <h4 class="font-extrabold text-xs text-slate-900">Features Grid</h4>
+            <p class="text-[11px] text-slate-500">3 tarjetas con iconos (SQL, Express, Tailwind).</p>
+          </div>
+
+          <div class="bg-white border-2 border-purple-300 rounded-xl p-3 space-y-1">
+            <span class="text-[10px] font-mono font-bold text-purple-600 uppercase">Sección 4</span>
+            <h4 class="font-extrabold text-xs text-slate-900">Banner CTA</h4>
+            <p class="text-[11px] text-slate-500">Fondo degradado y botón de registro rápido.</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 rounded-xl p-3 space-y-1">
+            <span class="text-[10px] font-mono font-bold text-slate-400 uppercase">Sección 5</span>
+            <h4 class="font-extrabold text-xs text-slate-900">Footer 4 Cols</h4>
+            <p class="text-[11px] text-slate-500">Enlaces, copyright y datos de Garzón.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-2 bg-purple-50 border border-purple-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-purple-950 font-medium">
+        <span>✨ <strong>UX de Alto Nivel:</strong> Añade <code class="font-mono font-bold">&lt;html class="scroll-smooth"&gt;</code> para que el scroll a los enlaces internos sea fluido y suave.</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 29: EJERCICIO 3: CÓDIGO PASO A PASO DE LA LANDING -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="29" data-block="3">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-purple-50 text-purple-700 font-mono text-xs font-extrabold rounded-lg border border-purple-200">BLOQUE 3</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Código · Landing</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 29 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Ejercicio 3: <span class="text-purple-700">Implementación de landing.html</span>
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 max-w-5xl mb-2 leading-relaxed">
+          Código clave para el Hero Section y el Grid de 3 columnas en <code class="font-mono text-slate-800 font-bold">recursos/landing.html</code>:
+        </p>
+
+        <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+          <pre class="bg-slate-900 text-slate-100 p-3.5 rounded-xl text-[11px] font-mono overflow-x-auto"><code class="language-html">&lt;!-- Hero Section --&gt;
+&lt;section class="py-20 text-center px-4 max-w-4xl mx-auto space-y-6"&gt;
+  &lt;span class="px-3 py-1 rounded-full bg-emerald-50 text-[#39A900] text-xs font-bold border border-emerald-200"&gt;
+    ● Nivelación Intensiva ADSO
+  &lt;/span&gt;
+  &lt;h1 class="text-4xl sm:text-6xl font-black text-slate-900 tracking-tight"&gt;
+    Aprende a Crear Software Real con &lt;span class="text-[#39A900]"&gt;Tailwind CSS&lt;/span&gt;
+  &lt;/h1&gt;
+  &lt;div class="flex flex-col sm:flex-row items-center justify-center gap-3"&gt;
+    &lt;a href="register.html" class="px-6 py-3 bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold rounded-xl shadow-md"&gt;
+      Registrarme Ahora &rarr;
+    &lt;/a&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;!-- Grid de 3 Columnas --&gt;
+&lt;section class="py-16 bg-slate-50 border-y border-slate-200"&gt;
+  &lt;div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6"&gt;
+    &lt;div class="bg-white p-6 rounded-2xl border shadow-sm"&gt;SQL Relacional&lt;/div&gt;
+    &lt;div class="bg-white p-6 rounded-2xl border shadow-sm"&gt;Backend Express&lt;/div&gt;
+    &lt;div class="bg-white p-6 rounded-2xl border shadow-sm"&gt;Frontend Tailwind&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+        </div>
+      </div>
+
+      <div class="mt-2 bg-slate-100 border border-slate-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-slate-700">
+        <span>✅ Conecta la Landing con <code class="font-mono font-bold text-slate-900">login.html</code> y <code class="font-mono font-bold text-slate-900">register.html</code> en los enlaces de la navbar y el hero.</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 30: RÚBRICA FORMATIVA DE LA SESIÓN EXTRA (100% EN CLASE) -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="30" data-block="3">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-purple-50 text-purple-700 font-mono text-xs font-extrabold rounded-lg border border-purple-200">BLOQUE 3</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Criterios Evaluativos</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 30 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Rúbrica de Evaluación Formativa <span class="text-[#39A900]">(100% de la Práctica en Aula)</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          La evidencia obligatoria consiste en **las 3 interfaces completadas y sustentadas en el aula** al finalizar la clase:
+        </p>
+
+        <!-- Tabla de Calificación -->
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-2xs my-2">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 border-b border-slate-200 text-slate-700 font-bold">
+              <tr>
+                <th class="p-3">Módulo / Vista Evaluada</th>
+                <th class="p-3">Criterios Técnicos Observables</th>
+                <th class="p-3 text-center">Peso</th>
+                <th class="p-3 text-center">Estado</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 text-slate-600">
+              <tr>
+                <td class="p-3 font-bold text-slate-800">1. Pantalla de Login</td>
+                <td class="p-3">Tarjeta centrada, inputs con iconos Lucide, focus:ring estilizado y toggle de contraseña.</td>
+                <td class="p-3 text-center font-mono font-bold text-slate-800">30%</td>
+                <td class="p-3 text-center"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[10px]">Obligatorio</span></td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-slate-800">2. Pantalla de Registro</td>
+                <td class="p-3">Grid responsivo de 2 columnas, medidor visual de fortaleza de clave y checkbox de términos.</td>
+                <td class="p-3 text-center font-mono font-bold text-slate-800">30%</td>
+                <td class="p-3 text-center"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[10px]">Obligatorio</span></td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-slate-800">3. Landing Page Completa</td>
+                <td class="p-3">Navbar sticky con blur, Hero con badge animado, grid de 3 columnas, métricas y footer.</td>
+                <td class="p-3 text-center font-mono font-bold text-slate-800">40%</td>
+                <td class="p-3 text-center"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[10px]">Obligatorio</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="mt-2 bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-center justify-between text-xs">
+        <span class="text-slate-600 font-medium">Total de la Evidencia Formativa en Aula:</span>
+        <span class="font-mono text-base font-extrabold text-[#39A900]">100% de la Calificación de la Sesión Extra</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 31: BANCO DE PREGUNTAS LIVE MOD EN VIDEOBEAM -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="31" data-block="3">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-purple-50 text-purple-700 font-mono text-xs font-extrabold rounded-lg border border-purple-200">BLOQUE 3</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Sustentación Técnica</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 31 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          Banco de Preguntas "Live Mod" <span class="text-purple-700">(Sustentación en Videobeam)</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          Para garantizar la autoría individual, cada aprendiz pasa al frente y resuelve en vivo en **3 a 5 minutos** una de estas modificaciones sobre su código:
+        </p>
+
+        <!-- 6 Preguntas Live Mod -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 my-2">
+          
+          <div class="bg-white border-2 border-slate-200 hover:border-[#39A900] transition rounded-xl p-3 shadow-2xs space-y-1">
+            <span class="w-6 h-6 rounded bg-emerald-100 text-[#39A900] font-bold text-xs flex items-center justify-center font-mono">LM 1</span>
+            <h4 class="font-bold text-xs text-slate-900">Cambio de Tema en Caliente</h4>
+            <p class="text-[11px] text-slate-500 leading-snug">"Modifica el botón principal de login para que use un degradado de azul marino a morado con sombras violetas."</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 hover:border-blue-500 transition rounded-xl p-3 shadow-2xs space-y-1">
+            <span class="w-6 h-6 rounded bg-blue-100 text-blue-700 font-bold text-xs flex items-center justify-center font-mono">LM 2</span>
+            <h4 class="font-bold text-xs text-slate-900">Ajuste de Breakpoint</h4>
+            <p class="text-[11px] text-slate-500 leading-snug">"En register.html, haz que la división de 2 columnas no ocurra en 'sm:' sino a partir de 'lg:' (1024px)."</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 hover:border-purple-500 transition rounded-xl p-3 shadow-2xs space-y-1">
+            <span class="w-6 h-6 rounded bg-purple-100 text-purple-700 font-bold text-xs flex items-center justify-center font-mono">LM 3</span>
+            <h4 class="font-bold text-xs text-slate-900">Micro-Interacción Card</h4>
+            <p class="text-[11px] text-slate-500 leading-snug">"Agrega en las tarjetas de la landing una micro-animación para que al hacer hover se eleven y el borde cambie a verde SENA."</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 hover:border-amber-500 transition rounded-xl p-3 shadow-2xs space-y-1">
+            <span class="w-6 h-6 rounded bg-amber-100 text-amber-700 font-bold text-xs flex items-center justify-center font-mono">LM 4</span>
+            <h4 class="font-bold text-xs text-slate-900">Estado de Error en Input</h4>
+            <p class="text-[11px] text-slate-500 leading-snug">"Crea una clase condicional para que si el email es inválido, el input tenga borde rojo y anillo de enfoque rose-500."</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 hover:border-rose-500 transition rounded-xl p-3 shadow-2xs space-y-1">
+            <span class="w-6 h-6 rounded bg-rose-100 text-rose-700 font-bold text-xs flex items-center justify-center font-mono">LM 5</span>
+            <h4 class="font-bold text-xs text-slate-900">Animación Pulse de Radar</h4>
+            <p class="text-[11px] text-slate-500 leading-snug">"Agrega en la navbar un badge 'En Vivo' que contenga un punto circular con animación ping o pulse de color verde."</p>
+          </div>
+
+          <div class="bg-white border-2 border-slate-200 hover:border-emerald-500 transition rounded-xl p-3 shadow-2xs space-y-1">
+            <span class="w-6 h-6 rounded bg-emerald-100 text-[#39A900] font-bold text-xs flex items-center justify-center font-mono">LM 6</span>
+            <h4 class="font-bold text-xs text-slate-900">Icono Dinámico</h4>
+            <p class="text-[11px] text-slate-500 leading-snug">"Reemplaza el icono de candado en el input de contraseña por un icono de escudo de Lucide Icons alineado correctamente."</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-2 bg-purple-50 border border-purple-200 rounded-xl p-2.5 flex items-center justify-between text-xs text-purple-950 font-medium">
+        <span>⏱️ Cada aprendiz cuenta con 3 a 5 minutos frente al videobeam para demostrar la autoría de su trabajo.</span>
+      </div>
+    </section>
+
+
+    <!-- SLIDE 32: SÍNTESIS Y PUENTE HACIA LA SEMANA 2 -->
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="32" data-block="3">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+          <div class="flex items-center space-x-2.5">
+            <span class="px-2.5 py-1 bg-purple-50 text-purple-700 font-mono text-xs font-extrabold rounded-lg border border-purple-200">BLOQUE 3</span>
+            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Cierre &amp; Próximos Pasos</span>
+          </div>
+          <span class="text-xs font-mono font-bold text-slate-400">SLIDE 32 / 32</span>
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl xl:text-4xl font-black text-slate-900 tracking-tight mb-2">
+          ¡Dominio Completo de Tailwind! <span class="text-[#39A900]">Puente Hacia React (Semana 2)</span>
+        </h2>
+        <p class="text-xs sm:text-sm xl:text-base text-slate-600 max-w-5xl mb-3 leading-relaxed">
+          Has completado una inmersión integral en maquetación moderna. En la Semana 2, todo este conocimiento se potenciará al encapsular estas clases dentro de **componentes reutilizables de React**:
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-2">
+          
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">HOY</span>
+            <h4 class="font-extrabold text-sm text-slate-900">HTML + Tailwind</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">Dominaste los estilos atómicos, la escala de 4px, la jerarquía visual y la responsividad.</p>
+          </div>
+
+          <div class="bg-white border-2 border-emerald-500 rounded-2xl p-4 shadow-2xs space-y-2 bg-emerald-50/30">
+            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#39A900] text-white">SEMANA 2</span>
+            <h4 class="font-extrabold text-sm text-[#00324D]">Componentes React</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">Transformarás estos botones y cards en componentes con props: <code class="font-mono text-xs">&lt;Button variant="primary" /&gt;</code>.</p>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-2xs space-y-2">
+            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-purple-100 text-purple-800">SEMANA 3 A 8</span>
+            <h4 class="font-extrabold text-sm text-slate-900">Full-Stack MERN</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">Conectarás interfaces hermosas con bases de datos MongoDB y APIs seguras con JWT.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Banner de Retorno al Portal -->
+      <div class="mt-3 bg-gradient-to-r from-[#00324D] to-[#004d77] text-white rounded-2xl p-4 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="space-y-1 text-center sm:text-left">
+          <div class="flex items-center justify-center sm:justify-start gap-2">
+            <span class="px-2 py-0.5 bg-[#39A900] text-white text-[10px] font-mono font-bold rounded">Sesión Completada</span>
+            <span class="text-xs font-bold text-emerald-300">¡Felicitaciones por culminar la Sesión Extra!</span>
+          </div>
+          <p class="text-xs text-slate-200">
+            Guarda tus 3 archivos terminados en tu repositorio personal de GitHub.
+          </p>
+        </div>
+
+        <a href="../../index.html" class="px-5 py-2.5 bg-white hover:bg-slate-100 text-[#00324D] font-extrabold text-xs rounded-xl shadow-xs transition shrink-0 flex items-center gap-1.5">
+          <i data-lucide="home" class="w-4 h-4"></i>
+          <span>Volver al Portal Principal</span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- 4. MODAL DE AYUDA DE ATAJOS DE TECLADO -->
+  <!-- ========================================================================= -->
+  <div id="help-modal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-2xs flex items-center justify-center p-4 hidden">
+    <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center space-x-2">
+          <i data-lucide="keyboard" class="w-5 h-5 text-[#39A900]"></i>
+          <h3 class="font-extrabold text-slate-900 text-sm sm:text-base">Atajos de Teclado del Presentador</h3>
+        </div>
+        <button id="btn-close-help" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-2 text-xs">
+        <div class="flex items-center justify-between py-1 border-b border-slate-50">
+          <span class="text-slate-600">Siguiente diapositiva</span>
+          <div class="flex gap-1"><kbd class="px-2 py-0.5 rounded bg-slate-100 border text-slate-700 font-mono">→</kbd><kbd class="px-2 py-0.5 rounded bg-slate-100 border text-slate-700 font-mono">Espacio</kbd></div>
+        </div>
+        <div class="flex items-center justify-between py-1 border-b border-slate-50">
+          <span class="text-slate-600">Diapositiva anterior</span>
+          <kbd class="px-2 py-0.5 rounded bg-slate-100 border text-slate-700 font-mono">←</kbd>
+        </div>
+        <div class="flex items-center justify-between py-1 border-b border-slate-50">
+          <span class="text-slate-600">Alternar pantalla completa</span>
+          <kbd class="px-2 py-0.5 rounded bg-slate-100 border text-slate-700 font-mono">F</kbd>
+        </div>
+        <div class="flex items-center justify-between py-1 border-b border-slate-50">
+          <span class="text-slate-600">Abrir índice de diapositivas</span>
+          <kbd class="px-2 py-0.5 rounded bg-slate-100 border text-slate-700 font-mono">M</kbd>
+        </div>
+        <div class="flex items-center justify-between py-1 border-b border-slate-50">
+          <span class="text-slate-600">Iniciar / Pausar temporizador</span>
+          <kbd class="px-2 py-0.5 rounded bg-slate-100 border text-slate-700 font-mono">T</kbd>
+        </div>
+        <div class="flex items-center justify-between py-1">
+          <span class="text-slate-600">Buscar contenido</span>
+          <kbd class="px-2 py-0.5 rounded bg-slate-100 border text-slate-700 font-mono">/</kbd>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 5. DRAWER LATERAL DE ÍNDICE DE DIAPOSITIVAS -->
+  <!-- ========================================================================= -->
+  <div id="slide-drawer" class="fixed inset-y-0 right-0 z-50 w-80 sm:w-96 bg-white border-l border-slate-200 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+    <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+      <div class="flex items-center space-x-2">
+        <i data-lucide="list" class="w-5 h-5 text-[#39A900]"></i>
+        <h3 class="font-extrabold text-slate-900 text-sm">Índice de la Sesión Extra</h3>
+      </div>
+      <button id="btn-close-drawer" class="p-1.5 rounded-lg hover:bg-slate-200 text-slate-500">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- Lista de Diapositivas Generada Dinámicamente -->
+    <div id="drawer-slide-list" class="flex-1 overflow-y-auto p-3 space-y-1.5">
+      <!-- Se inyecta con JavaScript -->
+    </div>
+  </div>
+
+  <!-- Script Presenter de Diapositivas -->
+  <script src="../../assets/js/presenter.js"></script>
+
+  <!-- Lógica de Sesión Extra & Fecha Dinámica -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Inicializar iconos Lucide
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+
+      // 2. Fecha Dinámica Institucional en Español
+      const fechaEl = document.getElementById('slide-cintillo-fecha');
+      if (fechaEl) {
+        const ahora = new Date();
+        const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const fechaFormateada = ahora.toLocaleDateString('es-CO', opciones);
+        fechaEl.textContent = 'Hoy: ' + fechaFormateada.charAt(0).toUpperCase() + fechaFormateada.slice(1);
+      }
+
+      // 3. Generar Índice Dinámico en el Drawer Menu
+      const slides = document.querySelectorAll('.slide-content');
+      const drawerList = document.getElementById('drawer-slide-list');
+      if (drawerList && slides.length > 0) {
+        drawerList.innerHTML = Array.from(slides).map((s, idx) => {
+          const num = idx + 1;
+          const h2 = s.querySelector('h2');
+          let titulo = 'Diapositiva ' + num;
+          if (num === 1) titulo = "Portada Institucional (3 Bloques)";
+          else if (h2) titulo = h2.textContent.replace(/\s+/g, ' ').trim();
+
+          const blockNum = s.getAttribute('data-block') || '1';
+          const badgeClass = blockNum === '1' ? 'bg-emerald-50 text-[#39A900] border-emerald-200' :
+                             blockNum === '2' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+                             'bg-purple-50 text-purple-700 border-purple-200';
+
+          return `
+            <button onclick="window.presenter?.goToSlide(${num}); window.presenter?.toggleDrawerMenu();" 
+                    class="w-full text-left p-2.5 rounded-xl hover:bg-slate-100 transition flex items-center justify-between text-xs group">
+              <div class="flex items-center gap-2.5 overflow-hidden">
+                <span class="w-6 h-6 rounded-lg bg-slate-100 group-hover:bg-[#39A900] group-hover:text-white font-mono font-bold flex items-center justify-center text-[11px] shrink-0 transition">
+                  ${num}
+                </span>
+                <span class="font-bold text-slate-800 truncate">${titulo}</span>
+              </div>
+              <span class="text-[10px] font-mono px-1.5 py-0.5 rounded border ${badgeClass} shrink-0 ml-2">B${blockNum}</span>
+            </button>
+          `;
+        }).join('');
+      }
+
+      // 4. Botón "Copiar Código" automático en bloques de código didácticos
+      document.querySelectorAll('.slide-content pre').forEach(pre => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'copy-code-btn absolute top-2 right-2 px-2.5 py-1 bg-slate-800 hover:bg-[#39A900] text-slate-300 hover:text-white text-[10px] font-mono font-bold rounded-lg transition shadow-xs flex items-center gap-1.5 border border-slate-700 opacity-75 hover:opacity-100 cursor-pointer z-10';
+        btn.innerHTML = `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg><span>Copiar</span>`;
+
+        btn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          const code = pre.querySelector('code');
+          const texto = code ? code.innerText : pre.innerText;
+          try {
+            await navigator.clipboard.writeText(texto);
+            btn.innerHTML = `<span class="text-emerald-400 font-bold">✓ ¡Copiado!</span>`;
+            btn.classList.add('bg-emerald-900', 'border-emerald-500');
+            setTimeout(() => {
+              btn.classList.remove('bg-emerald-900', 'border-emerald-500');
+              btn.innerHTML = `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg><span>Copiar</span>`;
+            }, 2000);
+          } catch (err) {
+            console.error('Error al copiar:', err);
+          }
+        });
+
+        pre.classList.add('relative');
+        pre.appendChild(btn);
+      });
+    });
+  </script>
+</body>
+</html>
