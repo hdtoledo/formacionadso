@@ -105,7 +105,7 @@
         <button id="btn-proyeccion-menu" type="button" class="px-4 sm:px-5 py-2.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-xs sm:text-sm rounded-xl transition-all shadow-sm hover:shadow-md flex items-center gap-2">
           <i data-lucide="projector" class="w-4 h-4"></i>
           <span>Proyectar Aula</span>
-          <span class="px-1.5 py-0.5 rounded-full bg-white/20 text-[10px] font-mono">6</span>
+          <span class="px-1.5 py-0.5 rounded-full bg-white/20 text-[10px] font-mono">7</span>
           <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform group-hover:rotate-180"></i>
         </button>
 
@@ -113,7 +113,7 @@
         <div class="absolute right-0 mt-2 w-72 sm:w-80 bg-white border border-slate-200 rounded-2xl shadow-xl p-2 hidden group-hover:block hover:block z-50 transition-all max-h-[85vh] overflow-y-auto">
           <div class="px-3 py-2 border-b border-slate-100 flex items-center justify-between">
             <span class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Lecciones Disponibles</span>
-            <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">6 Listas (S1 + Extra)</span>
+            <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">7 Listas (S1 + S06)</span>
           </div>
           <div class="py-1 space-y-1">
             <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/index.html" class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-slate-50 transition group/item">
@@ -173,9 +173,21 @@
                 <p class="text-[10px] text-indigo-700 truncate">Semana 1 · Sesión Extra (32 Diapositivas)</p>
               </div>
             </a>
+            <a href="semana-02-arquitectura-persistencia/dia-06-postgresql-relacional/index.html" class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-blue-50/60 transition group/item bg-blue-50/20 border border-blue-200">
+              <div class="w-7 h-7 rounded-lg bg-[#00324D] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
+                <span class="font-mono font-bold text-xs">06</span>
+              </div>
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5">
+                  <p class="text-xs font-bold text-slate-800 truncate">PostgreSQL: Identidad & Tokens</p>
+                  <span class="px-1.5 py-0.5 bg-emerald-100 text-emerald-900 text-[9px] font-bold rounded">Nueva S2</span>
+                </div>
+                <p class="text-[10px] text-slate-500 truncate">Semana 2 · Día 6 (17 Diapositivas)</p>
+              </div>
+            </a>
           </div>
           <div class="pt-2 border-t border-slate-100 px-3 pb-1 flex items-center justify-between text-[10px] text-slate-400 font-medium">
-            <span>Atajo: Teclas <kbd class="px-1 py-0.5 bg-slate-100 border border-slate-200 rounded font-mono font-bold text-slate-700">1</kbd> a <kbd class="px-1 py-0.5 bg-slate-100 border border-slate-200 rounded font-mono font-bold text-slate-700">6</kbd></span>
+            <span>Atajo: Teclas <kbd class="px-1 py-0.5 bg-slate-100 border border-slate-200 rounded font-mono font-bold text-slate-700">1</kbd> a <kbd class="px-1 py-0.5 bg-slate-100 border border-slate-200 rounded font-mono font-bold text-slate-700">7</kbd></span>
           </div>
         </div>
       </div>
@@ -462,7 +474,7 @@
         <div class="flex items-center gap-2 text-xs shrink-0">
           <span class="inline-flex items-center gap-1.5 text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 font-bold text-[11px]">
             <span class="w-2 h-2 rounded-full bg-[#39A900] animate-pulse"></span>
-            6 Lecciones Listas (Semana 1 + Extra)
+            7 Lecciones Listas (Semana 1 + S06)
           </span>
         </div>
       </div>
@@ -906,36 +918,103 @@
       <!-- ===================================================================== -->
       <!-- PANELES DE SEMANAS 2 A 8 (PLAN CURRICULAR) -->
       <!-- ===================================================================== -->
-      <div id="panel-semana-2" class="semana-panel space-y-4 hidden">
-        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-900 flex items-center gap-2">
-          <i data-lucide="info" class="w-4 h-4 text-[#39A900]"></i>
-          <span>Semana 2: Arquitectura Backend en Capas y React Base (Sesiones 06 a 10)</span>
+      <div id="panel-semana-2" class="semana-panel space-y-5 hidden">
+        <div class="p-4 bg-blue-50 border border-blue-200 rounded-xl text-xs font-bold text-blue-900 flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <i data-lucide="database" class="w-4 h-4 text-[#00324D]"></i>
+            <span>Semana 2: Persistencia Políglota — PostgreSQL (Relacional) y MongoDB (NoSQL) desde Cero</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-full bg-blue-200 text-blue-900 text-[10px] font-mono font-bold">1 / 5 Sesiones Listas</span>
         </div>
+
+        <!-- Tarjeta Destacada: Sesión 06 (LISTA PARA PROYECTAR · SEMANA 2) -->
+        <div class="bg-white border-2 border-[#00324D] rounded-2xl p-6 sm:p-7 shadow-xs hover:shadow-md transition">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div class="space-y-3 flex-1">
+              
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#00324D] font-mono text-xs font-extrabold border border-blue-200">
+                  SESIÓN 06 · DÍA 06
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-xs font-bold">
+                  PERSISTENCIA RELACIONAL (POSTGRESQL)
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold flex items-center gap-1">
+                  <i data-lucide="check" class="w-3.5 h-3.5"></i> Disponible para Proyección
+                </span>
+                <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-900 text-[10px] font-mono font-black uppercase flex items-center gap-1">
+                  <i data-lucide="sparkles" class="w-3 h-3"></i> ✨ Nueva Lección S2
+                </span>
+              </div>
+
+              <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+                PostgreSQL en Profundidad: Identidad, UUIDs y Seguridad Relacional
+              </h3>
+
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                Arquitectura de PostgreSQL, tipos de datos avanzados (<code class="font-mono text-[#00324D] font-bold">UUID</code>, <code class="font-mono text-[#00324D] font-bold">TIMESTAMPTZ</code>, <code class="font-mono text-[#00324D] font-bold">BOOLEAN</code>), prevención de enumeración IDOR mediante identificadores criptográficos universales, diseño relacional de las tablas <code class="font-mono">users</code> y <code class="font-mono">verification_tokens</code> para el flujo de Resend, llaves foráneas con <code class="font-mono text-[#39A900] font-bold">ON DELETE CASCADE</code>, índices B-Tree para alta concurrencia y transacciones ACID.
+              </p>
+
+              <!-- Desglose de los 3 bloques de la sesión -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs">
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-extrabold text-[#39A900] block mb-1">Bloque 1: Teoría & Live Coding</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">PostgreSQL vs MySQL, arquitectura de procesos, UUIDv4 y DDL guiado en video-beam.</span>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-extrabold text-[#00324D] block mb-1">Bloque 2: Taller de Aula (5 Retos)</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">Construcción en plantilla_aprendiz.sql de tablas, restricciones, índices y transacciones.</span>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-purple-200 bg-purple-50/40">
+                  <span class="font-extrabold text-purple-700 block mb-1">Bloque 3: Sustentación</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">Modificación en caliente en vivo (ALTER TABLE / nueva regla) y prueba de borrado en cascada.</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Botones de Acción de la Sesión -->
+            <div class="flex flex-col gap-2.5 shrink-0 lg:w-56">
+              <a href="semana-02-arquitectura-persistencia/dia-06-postgresql-relacional/index.html" class="w-full px-5 py-3 bg-[#00324D] hover:bg-[#00263A] text-white font-extrabold text-xs sm:text-sm rounded-xl transition shadow-sm flex items-center justify-center gap-2 text-center group">
+                <i data-lucide="projector" class="w-4 h-4 group-hover:scale-110 transition-transform"></i>
+                <span>Proyectar Sesión 06</span>
+              </a>
+
+              <a href="semana-02-arquitectura-persistencia/dia-06-postgresql-relacional/recursos/plantilla_aprendiz.sql" download class="w-full px-4 py-2.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-xl transition flex items-center justify-center gap-2 text-center">
+                <i data-lucide="download" class="w-3.5 h-3.5 text-[#00324D]"></i>
+                <span>Plantilla Aprendiz (.sql)</span>
+              </a>
+
+              <a href="semana-02-arquitectura-persistencia/dia-06-postgresql-relacional/dia-06-postgresql-taller.zip" download class="w-full px-4 py-2.5 bg-blue-50/50 border border-blue-200 hover:bg-blue-100 text-blue-900 font-bold text-xs rounded-xl transition flex items-center justify-center gap-2 text-center">
+                <i data-lucide="folder-archive" class="w-3.5 h-3.5 text-blue-700"></i>
+                <span>Paquete Taller (.zip)</span>
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Roadmap de Próximas Sesiones de Semana 2 -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-1.5">
-            <span class="text-[11px] font-mono font-bold text-slate-500">SESIÓN 06 · DÍA 06 (BD)</span>
-            <h4 class="text-sm font-bold text-slate-900">Integridad Referencial y Reglas de Borrado</h4>
-            <p class="text-xs text-slate-600"><code class="font-mono">ON DELETE CASCADE</code> vs <code class="font-mono">RESTRICT</code>, llaves compuestas y transacciones básicas (<code class="font-mono">COMMIT</code>, <code class="font-mono">ROLLBACK</code>).</p>
+            <span class="text-[11px] font-mono font-bold text-slate-500">SESIÓN 07 · DÍA 07 (BD NoSQL)</span>
+            <h4 class="text-sm font-bold text-slate-900">Introducción a MongoDB & Paradigma NoSQL</h4>
+            <p class="text-xs text-slate-600">Colecciones, documentos BSON, Mongoose y esquemas dinámicos para el catálogo de la Landing Page.</p>
           </div>
           <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-1.5">
-            <span class="text-[11px] font-mono font-bold text-slate-500">SESIÓN 07 · DÍA 07 (Backend I)</span>
-            <h4 class="text-sm font-bold text-slate-900">Arquitectura en Capas en Express</h4>
-            <p class="text-xs text-slate-600">Separación estricta de responsabilidades: carpetas de rutas (<code class="font-mono">routes/</code>) y controladores (<code class="font-mono">controllers/</code>).</p>
+            <span class="text-[11px] font-mono font-bold text-slate-500">SESIÓN 08 · DÍA 08 (Backend I)</span>
+            <h4 class="text-sm font-bold text-slate-900">Arquitectura en Capas & Conexión Dual</h4>
+            <p class="text-xs text-slate-600">Configuración simultánea de Pool PostgreSQL (<code class="font-mono">pg</code>) y ODM Mongoose en el mismo servidor Express.</p>
           </div>
           <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-1.5">
-            <span class="text-[11px] font-mono font-bold text-slate-500">SESIÓN 08 · DÍA 08 (Backend II)</span>
-            <h4 class="text-sm font-bold text-slate-900">Conexión de Node.js a BD Relacional</h4>
-            <p class="text-xs text-slate-600">Pools de conexión (<code class="font-mono">mysql2</code>), queries parametrizadas de seguridad y variables de entorno con <code class="font-mono">dotenv</code>.</p>
+            <span class="text-[11px] font-mono font-bold text-slate-500">SESIÓN 09 · DÍA 09 (Backend II)</span>
+            <h4 class="text-sm font-bold text-slate-900">Persistencia Relacional en PostgreSQL</h4>
+            <p class="text-xs text-slate-600">Repositorio de usuarios, consultas parametrizadas seguras y validaciones a nivel de base de datos.</p>
           </div>
           <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-1.5">
-            <span class="text-[11px] font-mono font-bold text-slate-500">SESIÓN 09 · DÍA 09 (Frontend I)</span>
-            <h4 class="text-sm font-bold text-slate-900">Introducción a Vite + React</h4>
-            <p class="text-xs text-slate-600">Estructura de proyecto, sintaxis JSX, paso de <code class="font-mono">props</code> y composición de componentes reutilizables.</p>
-          </div>
-          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-1.5 sm:col-span-2">
-            <span class="text-[11px] font-mono font-bold text-slate-500">SESIÓN 10 · DÍA 10 (Frontend II)</span>
-            <h4 class="text-sm font-bold text-slate-900">Maquetación con Tailwind CSS Mobile-First</h4>
-            <p class="text-xs text-slate-600">Flexbox, Grid, breakpoints responsivos (<code class="font-mono">sm:</code>, <code class="font-mono">md:</code>, <code class="font-mono">lg:</code>) y diseño adaptativo sin CSS tradicional.</p>
+            <span class="text-[11px] font-mono font-bold text-slate-500">SESIÓN 10 · DÍA 10 (Backend III)</span>
+            <h4 class="text-sm font-bold text-slate-900">Persistencia Documental en MongoDB</h4>
+            <p class="text-xs text-slate-600">Esquemas de contenido, operaciones CRUD con Mongoose y comparación operativa SQL vs NoSQL.</p>
           </div>
         </div>
       </div>
@@ -1341,7 +1420,7 @@
         const badges = Array.from(tarjeta.querySelectorAll('span, code')).map(el => el.textContent.trim()).join(' ');
         
         // Determinar enlace de proyección si existe
-        const linkProyeccion = tarjeta.querySelector('a[href*="semana-01-fundamentos"]');
+        const linkProyeccion = tarjeta.querySelector('a[href*="semana-01-fundamentos"], a[href*="semana-02-arquitectura-persistencia"]');
         const hrefProyeccion = linkProyeccion ? linkProyeccion.getAttribute('href') : null;
 
         catalogoSesiones.push({
@@ -1444,6 +1523,8 @@
         window.location.href = 'semana-01-fundamentos/dia-05-consumo-fetch-dom/index.html';
       } else if (e.key === '6') {
         window.location.href = 'semana-01-fundamentos/dia-extra-tailwindcss-ui-ux/index.html';
+      } else if (e.key === '7') {
+        window.location.href = 'semana-02-arquitectura-persistencia/dia-06-postgresql-relacional/index.html';
       } else if (e.key === '/' || e.key === 'k' && (e.ctrlKey || e.metaKey)) {
         e.preventDefault();
         if (inputBusqueda) inputBusqueda.focus();

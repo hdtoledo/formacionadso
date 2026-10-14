@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50 text-slate-900 antialiased">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sesión 06 | PostgreSQL Relacional en Profundidad | SENA ADSO</title>
+  <meta name="description" content="Sesión 06: Arquitectura de PostgreSQL, tipos de datos avanzados, modelado de usuarios y tokens con integridad referencial estricta. Diapositivas interactivas para videobeam SENA ADSO.">
+  <link rel="icon" type="image/png" href="../../assets/logo_green.png">
+  
+  <!-- Tailwind CSS CDN con configuración de identidad institucional SENA -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            sena: {
+              green: '#39A900',
+              'green-hover': '#2D8200',
+              navy: '#00324D',
+              'navy-dark': '#00263A',
+              'navy-light': '#004164'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- PrismJS para sintaxis SQL -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Estilos de presentación -->
+  <link rel="stylesheet" href="../../assets/css/presenter.css">
+</head>
+<body class="min-h-full flex flex-col bg-[#F8FAFC] text-slate-900 overflow-x-hidden selection:bg-[#39A900] selection:text-white">
+
+  <!-- ========================================================================= -->
+  <!-- 1. CINTILLO INSTITUCIONAL SENA -->
+  <!-- ========================================================================= -->
+  <div class="bg-[#00324D] text-white text-[11px] sm:text-xs py-2 px-4 sm:px-8 xl:px-12 border-b border-[#00263a] sticky top-0 z-50">
+    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2 truncate">
+        <span class="font-bold tracking-wide shrink-0">SENA</span>
+        <span class="text-slate-400">|</span>
+        <span class="text-slate-200 truncate font-medium">Regional Huila • CADPH Garzón</span>
+      </div>
+      <div class="flex items-center gap-4 text-slate-300 font-medium shrink-0 text-xs">
+        <span class="hidden md:inline">Sede Garzón</span>
+        <span class="text-emerald-400 font-semibold flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#39A900] animate-pulse"></span>
+          <span id="slide-cintillo-fecha">Hoy</span>
+        </span>
+        <span class="hidden sm:inline">ADSO · Proyección en Aula</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 2. HEADER DE CONTROL PARA EL INSTRUCTOR (VIDEOBEAM) -->
+  <!-- ========================================================================= -->
+  <header class="bg-white border-b border-slate-200 px-4 sm:px-8 xl:px-12 py-3 sticky top-[33px] sm:top-[35px] z-40 shadow-xs">
+    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-3">
+      
+      <!-- Marca SENA & Título de la Lección -->
+      <div class="flex items-center space-x-3">
+        <a href="../../index.html" class="flex items-center space-x-2.5 text-slate-600 hover:text-slate-900 transition-colors group" title="Volver al Portal Central">
+          <img src="../../assets/logo_green.png" alt="Logo SENA" class="h-9 w-auto object-contain shrink-0">
+          <div class="hidden sm:block border-l border-slate-200 pl-3">
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm font-extrabold text-slate-900">FORMACIÓN</span>
+              <span class="text-sm font-black text-[#39A900]">ADSO</span>
+              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">CADPH</span>
+            </div>
+            <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Centro Agroempresarial y Desarrollo Pecuario del Huila</p>
+          </div>
+        </a>
+        <span class="text-slate-300 hidden md:inline">/</span>
+        <div class="hidden md:flex items-center space-x-2">
+          <span class="px-2.5 py-0.5 text-xs font-bold bg-blue-50 text-[#00324D] border border-blue-200 rounded">Semana 2</span>
+          <span class="text-xs font-bold text-slate-800">Sesión 06 · Día 6: PostgreSQL Relacional en Profundidad</span>
+        </div>
+      </div>
+
+      <!-- Controles de Clase & Temporizador -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        
+        <!-- Temporizador Institucional -->
+        <div class="flex items-center bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 space-x-2 shadow-2xs">
+          <i data-lucide="clock" class="w-4 h-4 text-[#39A900]"></i>
+          <span id="timer-display" class="font-mono text-sm font-bold text-slate-800 tracking-wider">00:00</span>
+          <button id="btn-timer-start" class="px-2.5 py-1 rounded bg-white hover:bg-slate-100 border border-slate-200 text-xs font-bold text-slate-700 transition-colors flex items-center space-x-1">
+            <i data-lucide="play" class="w-3 h-3 text-[#39A900]"></i>
+            <span>Iniciar</span>
+          </button>
+          <button id="btn-timer-reset" class="p-1 rounded hover:bg-slate-200 text-slate-400 hover:text-slate-700" title="Reiniciar temporizador">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+
+        <!-- Descargar Taller Starter -->
+        <a href="dia-06-postgresql-taller.zip" download class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-xs font-bold text-emerald-800 transition shadow-2xs" title="Descargar paquete de taller para aprendices (.zip)">
+          <i data-lucide="download" class="w-3.5 h-3.5 text-[#39A900]"></i>
+          <span>Descargar Taller (.zip)</span>
+        </a>
+
+        <!-- Índice de Diapositivas (M) -->
+        <button id="btn-open-menu" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition" title="Índice de Diapositivas (M)">
+          <i data-lucide="list" class="w-4 h-4 text-[#00324D]"></i>
+        </button>
+
+        <!-- Pantalla Completa (F) -->
+        <button id="btn-fullscreen" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition" title="Pantalla Completa (F)">
+          <i data-lucide="maximize" class="w-4 h-4 text-slate-600"></i>
+        </button>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- 3. CONTENEDOR PRINCIPAL DE DIAPOSITIVAS (PRESENTADOR) -->
+  <!-- ========================================================================= -->
+  <main class="flex-1 max-w-[1860px] w-full mx-auto px-4 sm:px-8 xl:px-12 py-6 flex flex-col justify-between">
+    
+    <!-- ÁREA DE DIAPOSITIVA ACTIVA -->
+    <div id="presentation-container" class="relative w-full flex-1 flex flex-col justify-center min-h-[560px]">
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 01: PORTADA OFICIAL DE LA LECCIÓN -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item active flex flex-col justify-center items-center text-center py-8">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-900 text-xs font-bold mb-6">
+          <span class="w-2 h-2 rounded-full bg-[#00324D] animate-pulse"></span>
+          <span>SEMANA 2 · SESIÓN 06 · EJE BASES DE DATOS RELACIONALES</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight max-w-4xl mb-6">
+          PostgreSQL en Profundidad: <span class="text-[#00324D]">Identidad, UUIDs</span> & <span class="text-[#39A900]">Seguridad Relacional</span>
+        </h1>
+
+        <p class="text-base sm:text-lg text-slate-600 max-w-3xl leading-relaxed mb-8">
+          Iniciamos el proyecto Full Stack construyendo la base de datos para el sistema de autenticación: arquitectura de PostgreSQL, tipos de datos avanzados, identificadores criptográficos universales (<code class="font-mono text-[#00324D] font-bold">UUIDv4</code>), tablas relacionales de usuarios y tokens de activación con integridad estricta (<code class="font-mono text-[#39A900] font-bold">ON DELETE CASCADE</code>).
+        </p>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl w-full text-left">
+          <div class="p-3.5 rounded-xl bg-white border border-slate-200 shadow-2xs">
+            <span class="text-[10px] font-mono text-slate-400 uppercase font-bold block">Motor Relacional</span>
+            <span class="text-xs font-extrabold text-slate-800">PostgreSQL 14+</span>
+          </div>
+          <div class="p-3.5 rounded-xl bg-white border border-slate-200 shadow-2xs">
+            <span class="text-[10px] font-mono text-slate-400 uppercase font-bold block">Identificadores</span>
+            <span class="text-xs font-extrabold text-[#00324D]">UUID v4 Seguro</span>
+          </div>
+          <div class="p-3.5 rounded-xl bg-white border border-slate-200 shadow-2xs">
+            <span class="text-[10px] font-mono text-slate-400 uppercase font-bold block">Correo Transaccional</span>
+            <span class="text-xs font-extrabold text-[#39A900]">Tokens Resend</span>
+          </div>
+          <div class="p-3.5 rounded-xl bg-white border border-slate-200 shadow-2xs">
+            <span class="text-[10px] font-mono text-slate-400 uppercase font-bold block">Integridad</span>
+            <span class="text-xs font-extrabold text-purple-700">ACID + Cascadas</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 02: EL PROYECTO TRANSVERSAL Y LA ARQUITECTURA POLÍGLOTA -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
+          <i data-lucide="layers" class="w-4 h-4"></i>
+          <span>Visión General de Arquitectura</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+          Arquitectura Políglota: ¿Por qué Usamos PostgreSQL y MongoDB Juntos?
+        </h2>
+        <p class="text-sm sm:text-base text-slate-600 mb-6 max-w-4xl">
+          En la industria moderna de software, un solo motor de base de datos rara vez resuelve eficientemente todos los problemas. En nuestro proyecto aplicamos el principio de <strong>Persistencia Políglota</strong>: la herramienta adecuada para el requerimiento adecuado.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-6 bg-white border-2 border-[#00324D]/30 hover:border-[#00324D] rounded-2xl shadow-xs transition space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 bg-blue-50 text-[#00324D] font-mono text-xs font-bold rounded">CAPA DE IDENTIDAD & ACCESO</span>
+              <span class="text-xs font-extrabold text-[#00324D]">PostgreSQL (SQL)</span>
+            </div>
+            <h3 class="text-lg font-extrabold text-slate-900">Usuarios, Roles & Tokens de Activación</h3>
+            <ul class="text-xs sm:text-sm text-slate-600 space-y-2">
+              <li class="flex items-start gap-2">
+                <i data-lucide="check-circle" class="w-4 h-4 text-[#39A900] shrink-0 mt-0.5"></i>
+                <span><strong>Consistencia Estricta (ACID):</strong> No se permiten duplicados de correo bajo ninguna condición (<code class="font-mono">UNIQUE</code>).</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i data-lucide="check-circle" class="w-4 h-4 text-[#39A900] shrink-0 mt-0.5"></i>
+                <span><strong>Integridad Referencial:</strong> Tokens de verificación estrictamente atados a un usuario real (<code class="font-mono">FOREIGN KEY</code>).</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i data-lucide="check-circle" class="w-4 h-4 text-[#39A900] shrink-0 mt-0.5"></i>
+                <span><strong>Borrado en Cascada:</strong> Si un usuario es eliminado, sus tokens temporales se destruyen automáticamente.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="p-6 bg-white border-2 border-emerald-500/30 hover:border-[#39A900] rounded-2xl shadow-xs transition space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 bg-emerald-50 text-[#39A900] font-mono text-xs font-bold rounded">CAPA DE CONTENIDO DINÁMICO</span>
+              <span class="text-xs font-extrabold text-[#39A900]">MongoDB (NoSQL)</span>
+            </div>
+            <h3 class="text-lg font-extrabold text-slate-900">Landing Page, Banners & Publicaciones</h3>
+            <ul class="text-xs sm:text-sm text-slate-600 space-y-2">
+              <li class="flex items-start gap-2">
+                <i data-lucide="check-circle" class="w-4 h-4 text-[#39A900] shrink-0 mt-0.5"></i>
+                <span><strong>Esquema Flexible:</strong> El Administrador puede crear banners, testimonios, posts o cards con campos variables sin alterar tablas rígidas.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i data-lucide="check-circle" class="w-4 h-4 text-[#39A900] shrink-0 mt-0.5"></i>
+                <span><strong>Lectura Ultrarrápida:</strong> Consulta de la Landing Page en un solo documento BSON sin JOINs costosos.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i data-lucide="check-circle" class="w-4 h-4 text-[#39A900] shrink-0 mt-0.5"></i>
+                <span><strong>Evolución Ágil:</strong> Nuevas secciones de marketing no requieren migraciones complejas de DDL.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 03: POSTGRESQL VS MYSQL / MARIADB -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
+          <i data-lucide="scale" class="w-4 h-4"></i>
+          <span>Fundamentación Técnica</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+          PostgreSQL vs MySQL: ¿Por qué es el Estándar de la Industria?
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-6 max-w-4xl">
+          PostgreSQL es un Sistema Manejador de Bases de Datos Objeto-Relacional (ORDBMS) conocido como la base de datos de código abierto más avanzada del mundo.
+        </p>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs sm:text-sm bg-white rounded-xl overflow-hidden border border-slate-200 shadow-2xs">
+            <thead>
+              <tr class="bg-slate-100 text-slate-700 font-extrabold border-b border-slate-200">
+                <th class="p-3">Característica</th>
+                <th class="p-3 text-[#00324D]">PostgreSQL</th>
+                <th class="p-3 text-slate-500">MySQL / MariaDB</th>
+                <th class="p-3 text-slate-700">Impacto en Producción</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 font-medium">
+              <tr>
+                <td class="p-3 font-bold text-slate-800">Concurrencia & Bloqueos</td>
+                <td class="p-3 text-[#00324D] font-bold">MVCC Avanzado (Lecturas nunca bloquean escrituras)</td>
+                <td class="p-3 text-slate-600">Bloqueo a nivel de fila (InnoDB)</td>
+                <td class="p-3 text-slate-600">Excelente escalabilidad en registros masivos simultáneos.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-slate-800">Identificadores UUID</td>
+                <td class="p-3 text-[#00324D] font-bold">Tipo nativo <code class="font-mono text-[#00324D]">UUID</code> de 16 bytes</td>
+                <td class="p-3 text-slate-600">Almacenado como <code class="font-mono">VARCHAR(36)</code> o BINARY(16)</td>
+                <td class="p-3 text-slate-600">50% menos espacio y búsquedas optimizadas en índices.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-slate-800">Zonas Horarias</td>
+                <td class="p-3 text-[#00324D] font-bold"><code class="font-mono text-[#00324D]">TIMESTAMPTZ</code> automático a UTC</td>
+                <td class="p-3 text-slate-600">TIMESTAMP limitado (año 2038) / DATETIME sin TZ</td>
+                <td class="p-3 text-slate-600">Cero desajustes temporales al expirar tokens de verificación.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold text-slate-800">Datos Semi-estructurados</td>
+                <td class="p-3 text-[#00324D] font-bold"><code class="font-mono text-[#00324D]">JSONB</code> binario indexable (GIN)</td>
+                <td class="p-3 text-slate-600">JSON básico sin índices invertidos avanzados</td>
+                <td class="p-3 text-slate-600">Permite almacenar metadatos de auditoría con alta velocidad.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 04: ARQUITECTURA INTERNA DE POSTGRESQL -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
+          <i data-lucide="cpu" class="w-4 h-4"></i>
+          <span>Modelo de Procesamiento</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+          ¿Cómo Opera PostgreSQL por Debajo? Arquitectura de Procesos
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-6 max-w-4xl">
+          A diferencia de los servidores multi-hilo como MySQL, PostgreSQL utiliza una arquitectura robusta basada en procesos independientes coordinados por el demonio principal <strong>Postmaster</strong>.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="p-5 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2">
+            <div class="w-9 h-9 rounded-xl bg-blue-50 text-[#00324D] flex items-center justify-center font-bold text-sm">
+              <i data-lucide="server" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-sm font-extrabold text-slate-900">Postmaster & Backend Processes</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              El proceso principal escucha en el puerto <code class="font-mono font-bold text-[#00324D]">5432</code>. Cada vez que Express abre una conexión, PostgreSQL levanta un proceso dedicado aislado de memoria.
+            </p>
+          </div>
+
+          <div class="p-5 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2">
+            <div class="w-9 h-9 rounded-xl bg-emerald-50 text-[#39A900] flex items-center justify-center font-bold text-sm">
+              <i data-lucide="hard-drive" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-sm font-extrabold text-slate-900">Shared Buffers & WAL</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              <strong>WAL (Write-Ahead Logging):</strong> Toda transacción se escribe primero en un registro secuencial en disco antes de alterar tablas. Si la luz se va, PostgreSQL se recupera sin pérdida de datos.
+            </p>
+          </div>
+
+          <div class="p-5 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2">
+            <div class="w-9 h-9 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center font-bold text-sm">
+              <i data-lucide="database" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-sm font-extrabold text-slate-900">Schemas (public vs otros)</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Dentro de una base de datos existen <strong>schemas</strong> (espacios de nombres). Por defecto todo se crea en <code class="font-mono font-bold text-purple-700">public</code>, permitiendo separar módulos sin crear bases de datos distintas.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-5 p-4 rounded-xl bg-amber-50 border border-amber-200 flex items-start gap-3 text-xs text-amber-900">
+          <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600 shrink-0 mt-0.5"></i>
+          <span><strong>Regla de Rendimiento para Backend:</strong> Como cada conexión es un proceso, abrir y cerrar conexiones en cada petición tumbaría el servidor. Por eso en la Sesión 08 implementaremos un <strong>Connection Pool (`pg.Pool`)</strong>.</span>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 05: CONEXIÓN LOCAL VS CLOUD (NEON & SUPABASE) -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
+          <i data-lucide="cloud" class="w-4 h-4"></i>
+          <span>Entorno de Trabajo</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+          Entornos de Ejecución: Local vs Cloud Serverless (Neon.tech)
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-6 max-w-4xl">
+          Los aprendices pueden trabajar tanto con una instalación local como con una base de datos Postgres serverless en la nube, garantizando disponibilidad 24/7 sin consumir recursos de su computador.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-5 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-3">
+            <div class="flex items-center gap-2 text-slate-900 font-extrabold text-sm">
+              <i data-lucide="laptop" class="w-4 h-4 text-[#00324D]"></i>
+              <span>Opción A: Instalación Local (pgAdmin / psql)</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              PostgreSQL instalado en Windows/Linux. Ideal para trabajar sin conexión a Internet en la sala de sistemas.
+            </p>
+            <div class="p-3 bg-slate-900 rounded-xl font-mono text-[11px] text-slate-200">
+              <code>psql -U postgres -h localhost -p 5432 -d postgres</code>
+            </div>
+          </div>
+
+          <div class="p-5 bg-white border border-emerald-200 rounded-2xl shadow-2xs space-y-3">
+            <div class="flex items-center gap-2 text-slate-900 font-extrabold text-sm">
+              <i data-lucide="zap" class="w-4 h-4 text-[#39A900]"></i>
+              <span>Opción B: Cloud Serverless (Neon.tech / Supabase)</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Base de datos gratuita en la nube con SSL obligatorio, escalado automático a cero y conexión mediante Connection String URI estándar:
+            </p>
+            <div class="p-3 bg-slate-900 rounded-xl font-mono text-[11px] text-emerald-400 break-all">
+              <code>postgresql://adso_user:Secret2026@ep-cool-db.us-east-2.aws.neon.tech/adso_db?sslmode=require</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-5 p-3.5 bg-slate-100 rounded-xl border border-slate-200 text-xs text-slate-600 flex items-center gap-2">
+          <i data-lucide="info" class="w-4 h-4 text-[#00324D]"></i>
+          <span><strong>Estandarización:</strong> La URI de conexión funciona de forma exactamente idéntica en el backend de Node.js, ya sea local o cloud.</span>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 06: TIPOS DE DATOS AVANZADOS EN POSTGRESQL -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
+          <i data-lucide="database" class="w-4 h-4"></i>
+          <span>Tipado Fuerte</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+          Tipos de Datos Críticos para el Sistema de Usuarios
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-6 max-w-4xl">
+          Elegir los tipos de datos correctos previene desbordamientos, optimiza el almacenamiento en disco y garantiza la precisión en la validación de seguridad.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2 shadow-2xs">
+            <span class="px-2 py-0.5 bg-blue-50 text-[#00324D] font-mono text-[11px] font-bold rounded">UUID</span>
+            <h3 class="text-xs font-extrabold text-slate-900">Identificador Universal</h3>
+            <p class="text-[11px] text-slate-600">
+              128 bits únicos en el mundo (ej. <code class="font-mono text-[10px]">a0eebc99-9c0b...</code>). Previene la enumeración secuencial de usuarios.
+            </p>
+          </div>
+
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2 shadow-2xs">
+            <span class="px-2 py-0.5 bg-emerald-50 text-[#39A900] font-mono text-[11px] font-bold rounded">TIMESTAMPTZ</span>
+            <h3 class="text-xs font-extrabold text-slate-900">Timestamp con Zona Horaria</h3>
+            <p class="text-[11px] text-slate-600">
+              Almacena la fecha en UTC y la convierte a la zona del cliente. Vital para calcular la expiración de 24 horas del correo.
+            </p>
+          </div>
+
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2 shadow-2xs">
+            <span class="px-2 py-0.5 bg-purple-50 text-purple-700 font-mono text-[11px] font-bold rounded">BOOLEAN</span>
+            <h3 class="text-xs font-extrabold text-slate-900">Tipo Booleano Real</h3>
+            <p class="text-[11px] text-slate-600">
+              PostgreSQL soporta valores nativos <code class="font-mono">TRUE</code> o <code class="font-mono">FALSE</code> de 1 byte (a diferencia de MySQL que usa TINYINT(1)).
+            </p>
+          </div>
+
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2 shadow-2xs">
+            <span class="px-2 py-0.5 bg-amber-50 text-amber-800 font-mono text-[11px] font-bold rounded">VARCHAR(N)</span>
+            <h3 class="text-xs font-extrabold text-slate-900">Longitud Controlada</h3>
+            <p class="text-[11px] text-slate-600">
+              <code class="font-mono">VARCHAR(150)</code> para correos y <code class="font-mono">VARCHAR(255)</code> para hashes de contraseña generados con bcrypt.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 07: UUIDS Y SEGURIDAD CONTRA ENUMERACIÓN -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
+          <i data-lucide="shield-check" class="w-4 h-4"></i>
+          <span>Seguridad Defensiva</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+          ¿Por qué NUNCA Usar IDs Numéricos (1, 2, 3...) en Usuarios?
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-6 max-w-4xl">
+          El uso de <code class="font-mono font-bold text-rose-700">SERIAL</code> o autoincrementables expone al sistema a la vulnerabilidad conocida como <strong>Insecure Direct Object Reference (IDOR)</strong> y permite a competidores o atacantes escanear la base de datos completa.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-5 bg-rose-50/50 border border-rose-200 rounded-2xl space-y-2 text-xs">
+            <span class="text-rose-700 font-extrabold uppercase text-[10px] tracking-wider block flex items-center gap-1">
+              <i data-lucide="x-circle" class="w-3.5 h-3.5"></i> Peligro: ID Secuencial (INT)
+            </span>
+            <h3 class="text-sm font-bold text-slate-900">Vulnerabilidad de Enumeración IDOR</h3>
+            <p class="text-slate-600 leading-relaxed">
+              Si un usuario se registra y recibe la URL <code class="font-mono bg-white px-1.5 py-0.5 rounded border border-rose-200">/api/users/45</code>, sabe que existen 44 usuarios antes de él y con un bucle simple puede acceder o consultar perfiles ajenos:
+            </p>
+            <div class="p-2.5 bg-slate-900 rounded-lg text-rose-300 font-mono text-[11px]">
+              for (let i = 1; i &lt;= 100; i++) fetch(`/api/users/${i}`);
+            </div>
+          </div>
+
+          <div class="p-5 bg-emerald-50/50 border border-emerald-200 rounded-2xl space-y-2 text-xs">
+            <span class="text-emerald-800 font-extrabold uppercase text-[10px] tracking-wider block flex items-center gap-1">
+              <i data-lucide="check-circle" class="w-3.5 h-3.5 text-[#39A900]"></i> Solución: UUID v4 Aleatorio Criptográfico
+            </span>
+            <h3 class="text-sm font-bold text-slate-900">Impredecible e Imposible de Adivinar</h3>
+            <p class="text-slate-600 leading-relaxed">
+              Con un UUID v4 hay <code class="font-mono font-bold">5.3 × 10³⁶</code> combinaciones posibles. Es matemáticamente imposible deducir el ID de otro usuario:
+            </p>
+            <div class="p-2.5 bg-slate-900 rounded-lg text-emerald-400 font-mono text-[11px]">
+              id UUID PRIMARY KEY DEFAULT gen_random_uuid()
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 08: MODELADO DE LA TABLA USERS -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
+          <i data-lucide="user-check" class="w-4 h-4"></i>
+          <span>Diseño DDL</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+          Estructura de la Tabla: <code class="text-[#00324D] font-mono">users</code>
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-6 max-w-4xl">
+          Diseño del esquema de identidad principal con validación de roles y control de activación por email:
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <div class="lg:col-span-7">
+            <div class="code-block-wrapper">
+              <pre class="rounded-2xl shadow-md text-xs sm:text-sm leading-relaxed"><code class="language-sql">CREATE TABLE users (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    email VARCHAR(150) NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role VARCHAR(20) NOT NULL DEFAULT 'user',
+    is_verified BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    
+    -- Restricción de unicidad para correo
+    CONSTRAINT uq_users_email UNIQUE (email),
+    
+    -- Restricción de dominio: solo roles autorizados
+    CONSTRAINT chk_users_role CHECK (role IN ('admin', 'user'))
+);</code></pre>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 space-y-3 text-xs">
+            <div class="p-3 bg-white border border-slate-200 rounded-xl">
+              <span class="font-extrabold text-[#00324D] block mb-0.5">uq_users_email:</span>
+              <span class="text-slate-600">Garantiza a nivel de motor físico que ningún correo se registre dos veces en la plataforma.</span>
+            </div>
+            <div class="p-3 bg-white border border-slate-200 rounded-xl">
+              <span class="font-extrabold text-[#39A900] block mb-0.5">is_verified (DEFAULT FALSE):</span>
+              <span class="text-slate-600">Todo usuario recién registrado nace bloqueado hasta que confirme su correo mediante el enlace de Resend.</span>
+            </div>
+            <div class="p-3 bg-white border border-slate-200 rounded-xl">
+              <span class="font-extrabold text-purple-700 block mb-0.5">chk_users_role:</span>
+              <span class="text-slate-600">Evita que se inserten roles arbitrarios que vulneren los permisos del sistema.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 09: MODELADO DE LA TABLA VERIFICATION_TOKENS -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
+          <i data-lucide="mail" class="w-4 h-4"></i>
+          <span>Diseño DDL</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+          Estructura de la Tabla: <code class="text-[#00324D] font-mono">verification_tokens</code>
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-6 max-w-4xl">
+          Esta tabla desacoplada almacena los tokens criptográficos de un solo uso enviados por Resend, garantizando que el usuario tenga un tiempo límite para activarse:
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <div class="lg:col-span-7">
+            <div class="code-block-wrapper">
+              <pre class="rounded-2xl shadow-md text-xs sm:text-sm leading-relaxed"><code class="language-sql">CREATE TABLE verification_tokens (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL,
+    token VARCHAR(64) NOT NULL,
+    expires_at TIMESTAMPTZ NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    
+    -- Llave foránea estricta hacia users con eliminación en cascada
+    CONSTRAINT fk_tokens_user FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+        
+    -- Token estrictamente único
+    CONSTRAINT uq_tokens_token UNIQUE (token)
+);</code></pre>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 space-y-3 text-xs">
+            <div class="p-3 bg-white border border-slate-200 rounded-xl">
+              <span class="font-extrabold text-[#00324D] block mb-0.5">user_id (UUID NOT NULL):</span>
+              <span class="text-slate-600">Vínculo relacional exacto con el usuario que inició el registro.</span>
+            </div>
+            <div class="p-3 bg-white border border-slate-200 rounded-xl">
+              <span class="font-extrabold text-[#39A900] block mb-0.5">expires_at (TIMESTAMPTZ):</span>
+              <span class="text-slate-600">Permite rechazar automáticamente peticiones de activación si transcurrieron más de 24 horas.</span>
+            </div>
+            <div class="p-3 bg-white border border-slate-200 rounded-xl">
+              <span class="font-extrabold text-rose-700 block mb-0.5">ON DELETE CASCADE:</span>
+              <span class="text-slate-600">Elimina el token automáticamente si el usuario es purgado, impidiendo referencias fantasmas.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 10: INTEGRIDAD REFERENCIAL Y ON DELETE CASCADE -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
+          <i data-lucide="git-merge" class="w-4 h-4"></i>
+          <span>Integridad Referencial</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+          Reglas de Eliminación: ¿Por qué <code class="font-mono text-[#39A900]">CASCADE</code> y no <code class="font-mono text-slate-500">RESTRICT</code>?
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-6 max-w-4xl">
+          Al definir una relación <code class="font-mono">1:N</code> o <code class="font-mono">1:1</code> entre dos tablas relacionales, la regla de borrado determina el comportamiento ante la destrucción de la entidad padre.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-5 bg-white border-2 border-[#39A900] rounded-2xl shadow-xs space-y-3">
+            <span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-[#39A900] font-mono text-[11px] font-extrabold">
+              USADO EN TOKENS: ON DELETE CASCADE
+            </span>
+            <h3 class="text-base font-extrabold text-slate-900">Eliminación en Cascada</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Un token de verificación <strong>carece de sentido</strong> sin el usuario al que pertenece. Si un usuario cancela su cuenta o es purgado por el Administrador, PostgreSQL destruye en la misma transacción física todos sus tokens asociados.
+            </p>
+            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200 text-xs font-mono text-emerald-800">
+              DELETE FROM users WHERE id = '...'; -- Tokens borrados automáticamente
+            </div>
+          </div>
+
+          <div class="p-5 bg-white border border-slate-200 rounded-2xl shadow-xs space-y-3">
+            <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-bold">
+              USADO EN FINANZAS: ON DELETE RESTRICT
+            </span>
+            <h3 class="text-base font-extrabold text-slate-900">Bloqueo Preventivo</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              En tablas contables o de facturación, no se debe permitir borrar a un cliente si tiene facturas emitidas. El motor aborta la operación con un error de violación de integridad referencial.
+            </p>
+            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200 text-xs font-mono text-slate-600">
+              ERROR: update or delete on table violates foreign key
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 11: OPTIMIZACIÓN CON ÍNDICES B-TREE -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
+          <i data-lucide="search" class="w-4 h-4"></i>
+          <span>Rendimiento y Escalabilidad</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+          Índices B-Tree: De <code class="font-mono text-rose-600">O(N)</code> a <code class="font-mono text-[#39A900]">O(log N)</code> en Login y Verificación
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-6 max-w-4xl">
+          Sin índices, cada vez que un usuario intenta iniciar sesión, PostgreSQL debe realizar un <strong>Seq Scan</strong> (escanear fila por fila millones de registros). Con índices B-Tree, la búsqueda es instantánea.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <div class="lg:col-span-7">
+            <div class="code-block-wrapper">
+              <pre class="rounded-2xl shadow-md text-xs sm:text-sm leading-relaxed"><code class="language-sql">-- Índice para acelerar la búsqueda por correo en el Login:
+CREATE UNIQUE INDEX IF NOT EXISTS idx_users_email 
+ON users(email);
+
+-- Índice para acelerar la verificación de token en el link de Resend:
+CREATE UNIQUE INDEX IF NOT EXISTS idx_tokens_token 
+ON verification_tokens(token);
+
+-- Índice para acelerar el borrado en cascada y JOINs:
+CREATE INDEX IF NOT EXISTS idx_tokens_user_id 
+ON verification_tokens(user_id);</code></pre>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 space-y-3 text-xs">
+            <div class="p-3 bg-white border border-slate-200 rounded-xl">
+              <span class="font-extrabold text-[#00324D] block mb-1">Índice en `users(email)`:</span>
+              <span class="text-slate-600">El endpoint <code class="font-mono text-[11px]">POST /api/auth/login</code> responde en milisegundos incluso con cientos de miles de aprendices registrados.</span>
+            </div>
+            <div class="p-3 bg-white border border-slate-200 rounded-xl">
+              <span class="font-extrabold text-[#39A900] block mb-1">Índice en `verification_tokens(token)`:</span>
+              <span class="text-slate-600">El endpoint <code class="font-mono text-[11px]">GET /api/auth/verify-email</code> localiza de inmediato el token sin demoras en la pantalla del usuario.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 12: LIVE CODING GUIADO DDL -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
+          <i data-lucide="terminal" class="w-4 h-4"></i>
+          <span>Live Coding en Video-Beam</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+          Construcción del Script DDL Completo en el Aula
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-6 max-w-4xl">
+          El instructor guiará la ejecución secuencial en vivo en pgAdmin / DBeaver / psql paso a paso:
+        </p>
+
+        <div class="code-block-wrapper">
+          <pre class="rounded-2xl shadow-md text-xs sm:text-sm leading-relaxed"><code class="language-sql">-- 1. Activar extensión para UUIDs criptográficos
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+-- 2. Tabla Principal de Usuarios
+CREATE TABLE users (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    email VARCHAR(150) NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role VARCHAR(20) NOT NULL DEFAULT 'user',
+    is_verified BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    CONSTRAINT uq_users_email UNIQUE (email),
+    CONSTRAINT chk_users_role CHECK (role IN ('admin', 'user'))
+);
+
+-- 3. Tabla de Tokens con Cascada
+CREATE TABLE verification_tokens (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL,
+    token VARCHAR(64) NOT NULL,
+    expires_at TIMESTAMPTZ NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    CONSTRAINT fk_tokens_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT uq_tokens_token UNIQUE (token)
+);
+
+-- 4. Índices B-Tree
+CREATE UNIQUE INDEX idx_users_email ON users(email);
+CREATE UNIQUE INDEX idx_tokens_token ON verification_tokens(token);
+CREATE INDEX idx_tokens_user_id ON verification_tokens(user_id);</code></pre>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 13: TRANSACCIONES ACID (REGISTRO ATÓMICO) -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
+          <i data-lucide="lock" class="w-4 h-4"></i>
+          <span>Atomicidad Relacional</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+          Transacciones ACID: ¿Qué Pasa si Falla la Emisión del Token?
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-6 max-w-4xl">
+          El registro de usuario y la generación del token deben ser <strong>atómicos</strong>: o se completan ambas operaciones, o no se guarda ninguna en la base de datos (<code class="font-mono">ROLLBACK</code>).
+        </p>
+
+        <div class="code-block-wrapper mb-4">
+          <pre class="rounded-2xl shadow-md text-xs sm:text-sm leading-relaxed"><code class="language-sql">BEGIN; -- Inicia bloque atómico
+
+-- Paso 1: Insertar usuario aprendiz pendiente de verificación
+INSERT INTO users (id, email, password_hash, role, is_verified) 
+VALUES (
+    'b0000000-0000-0000-0000-000000000002',
+    'aprendiz.adso@misena.edu.co',
+    '$2a$12$k9L2m4n6p8q0r2t4v6x8.z0a2c4e6g8i0k2m4n6p8q0r2t4v6x8z0',
+    'user',
+    FALSE
+);
+
+-- Paso 2: Emitir token con expiración calculada a 24 horas exactas
+INSERT INTO verification_tokens (user_id, token, expires_at)
+VALUES (
+    'b0000000-0000-0000-0000-000000000002',
+    encode(gen_random_bytes(32), 'hex'), -- 64 caracteres hexadecimales
+    NOW() + INTERVAL '24 hours'
+);
+
+COMMIT; -- Consolida físicamente en disco</code></pre>
+        </div>
+
+        <div class="p-3 bg-slate-100 rounded-xl border border-slate-200 text-xs text-slate-700 flex items-center gap-2">
+          <i data-lucide="check" class="w-4 h-4 text-[#39A900]"></i>
+          <span>Si el paso 2 falla (ej. error de clave foránea), el paso 1 se deshace automáticamente y el sistema no acumula usuarios huérfanos sin token.</span>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 14: RETOS DEL TALLER PRÁCTICO (70 MINUTOS) -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#39A900] uppercase tracking-wider mb-2">
+          <i data-lucide="code" class="w-4 h-4"></i>
+          <span>Bloque 2: Taller de Aula</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+          Taller de Laboratorio en Aula (70 Minutos)
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-6 max-w-4xl">
+          Abra en su editor o DBMS el archivo <code class="font-mono text-[#00324D] font-bold">plantilla_aprendiz.sql</code> y complete los 5 retos de desarrollo guiado:
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
+            <span class="font-mono font-bold text-[#00324D]">RETO 1: Tabla Users</span>
+            <p class="text-slate-600">Crear tabla con UUID, email único, hash de clave, rol ('admin'/'user') y marcas de tiempo.</p>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
+            <span class="font-mono font-bold text-[#39A900]">RETO 2: Tabla Tokens</span>
+            <p class="text-slate-600">Crear tabla relacional vinculada con llave foránea estricta y regla <code class="font-mono">ON DELETE CASCADE</code>.</p>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
+            <span class="font-mono font-bold text-purple-700">RETO 3: Índices B-Tree</span>
+            <p class="text-slate-600">Crear índices para acelerar el Login (por email) y la confirmación de cuenta (por token).</p>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
+            <span class="font-mono font-bold text-amber-700">RETO 4: Inserción Transaccional</span>
+            <p class="text-slate-600">Ejecutar bloque <code class="font-mono">BEGIN ... COMMIT</code> con Admin activo y User pendiente a 24 horas.</p>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs sm:col-span-2">
+            <span class="font-mono font-bold text-emerald-800">RETO 5: Consultas Analíticas & Prueba de Cascada</span>
+            <p class="text-slate-600">Consulta con <code class="font-mono">INNER JOIN</code> para calcular horas restantes del token y prueba destructiva de usuario verificando la cascada.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 15: DICCIONARIO DE DATOS Y CONTRATO PARA EXPRESS -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
+          <i data-lucide="file-text" class="w-4 h-4"></i>
+          <span>Contrato Técnico</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+          Diccionario de Datos: Especificación para el Backend Express
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-6 max-w-4xl">
+          Este contrato formal de base de datos será consumido en la Sesión 08 y 09 mediante el driver <code class="font-mono font-bold text-[#00324D]">pg</code>:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+          <div class="p-5 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2">
+            <h3 class="font-extrabold text-slate-900 text-sm flex items-center gap-1.5">
+              <i data-lucide="table" class="w-4 h-4 text-[#00324D]"></i>
+              <span>users (Campos en Express)</span>
+            </h3>
+            <ul class="space-y-1.5 text-slate-600 font-mono text-[11px]">
+              <li>• <strong class="text-slate-800">id:</strong> String UUID (36 caracteres)</li>
+              <li>• <strong class="text-slate-800">email:</strong> String normalizado en minúsculas</li>
+              <li>• <strong class="text-slate-800">password_hash:</strong> String (hash generado por bcrypt)</li>
+              <li>• <strong class="text-slate-800">role:</strong> 'admin' | 'user'</li>
+              <li>• <strong class="text-slate-800">is_verified:</strong> Boolean (true / false)</li>
+              <li>• <strong class="text-slate-800">created_at / updated_at:</strong> ISO Date strings</li>
+            </ul>
+          </div>
+
+          <div class="p-5 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2">
+            <h3 class="font-extrabold text-slate-900 text-sm flex items-center gap-1.5">
+              <i data-lucide="table" class="w-4 h-4 text-[#39A900]"></i>
+              <span>verification_tokens (Campos en Express)</span>
+            </h3>
+            <ul class="space-y-1.5 text-slate-600 font-mono text-[11px]">
+              <li>• <strong class="text-slate-800">id:</strong> String UUID</li>
+              <li>• <strong class="text-slate-800">user_id:</strong> String UUID (FK a users)</li>
+              <li>• <strong class="text-slate-800">token:</strong> Hex string de 64 caracteres</li>
+              <li>• <strong class="text-slate-800">expires_at:</strong> ISO Date string (comparable con <code class="text-emerald-700">&gt; NOW()</code>)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 16: SUSTENTACIÓN Y MODIFICACIÓN EN CALIENTE -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="flex items-center space-x-2 text-xs font-bold text-purple-700 uppercase tracking-wider mb-2">
+          <i data-lucide="award" class="w-4 h-4"></i>
+          <span>Bloque 3: Evaluación y Sustentación</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
+          Rúbrica de Sustentación Individual (40 Minutos)
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-6 max-w-4xl">
+          El instructor revisará puesto por puesto la ejecución limpia en consola/DBMS y solicitará una modificación en vivo sin IA generativa:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2 shadow-2xs">
+            <span class="text-lg font-black text-[#00324D] block">30%</span>
+            <span class="font-extrabold text-slate-800 block">DDL & UUIDs</span>
+            <span class="text-slate-500 block">Ambas tablas creadas con tipos de datos correctos y generación automática de UUIDv4.</span>
+          </div>
+
+          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2 shadow-2xs">
+            <span class="text-lg font-black text-[#39A900] block">30%</span>
+            <span class="font-extrabold text-slate-800 block">Integridad & Cascada</span>
+            <span class="text-slate-500 block">Demostración en vivo de eliminación de usuario con borrado automático de su token asociado.</span>
+          </div>
+
+          <div class="p-4 bg-white border border-purple-200 bg-purple-50/30 rounded-xl space-y-2 shadow-2xs">
+            <span class="text-lg font-black text-purple-700 block">40%</span>
+            <span class="font-extrabold text-slate-800 block">Live Mod en Caliente</span>
+            <span class="text-slate-500 block">Modificación inmediata solicitada por el instructor (ej. agregar columna de auditoría o nuevo índice).</span>
+          </div>
+        </div>
+
+        <div class="mt-5 p-4 rounded-xl bg-purple-50 border border-purple-200 text-xs text-purple-900">
+          <strong>Ejemplo de Live Mod de Examen:</strong> "Agregue a la tabla <code class="font-mono">users</code> un campo <code class="font-mono">last_login TIMESTAMPTZ NULL</code> sin recrear la tabla ni perder los usuarios existentes".
+          <div class="mt-1 font-mono text-[11px] text-purple-800">
+            Respuesta esperada: <code>ALTER TABLE users ADD COLUMN last_login TIMESTAMPTZ NULL;</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 17: CIERRE Y CONEXIÓN CON LA SESIÓN 07 (MONGODB) -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center items-center text-center py-8">
+        <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-[#39A900] flex items-center justify-center font-black text-2xl mb-4 shadow-xs">
+          <i data-lucide="check-check" class="w-7 h-7"></i>
+        </div>
+
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">
+          ¡Capa Relacional PostgreSQL Lista!
+        </h2>
+
+        <p class="text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed mb-8">
+          Hemos blindado la base de datos de usuarios y tokens con consistencia ACID, identificadores seguros e integridad referencial estricta.
+        </p>
+
+        <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm max-w-xl w-full text-left space-y-2 mb-8">
+          <span class="text-xs font-bold text-[#00324D] uppercase tracking-wider block">Próxima Sesión (Sesión 07):</span>
+          <h3 class="text-base font-extrabold text-slate-900">Introducción a MongoDB & Paradigma NoSQL Documental</h3>
+          <p class="text-xs text-slate-600">
+            Aprenderemos a modelar el catálogo de contenidos dinámicos de la Landing Page con colecciones, documentos BSON y esquemas de Mongoose.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <a href="../../index.html" class="px-5 py-2.5 bg-[#00324D] hover:bg-[#00263A] text-white text-xs font-extrabold rounded-xl transition shadow-xs flex items-center gap-2">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>Volver al Portal Central</span>
+          </a>
+          <button onclick="window.presenter?.goToSlide(0)" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-xl transition">
+            <span>Reiniciar Presentación</span>
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- 4. BARRA DE CONTROL INFERIOR (PRESENTADOR) -->
+    <!-- ======================================================================= -->
+    <footer class="mt-6 pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+      <div class="flex items-center space-x-2">
+        <span class="font-extrabold text-slate-800 font-mono" id="slide-current-label">SLIDE 01 / 17</span>
+        <span>•</span>
+        <span class="text-slate-500" id="slide-block-label">BLOQUE 1: TEORÍA & LIVE CODING</span>
+      </div>
+
+      <!-- Botones de Navegación -->
+      <div class="flex items-center space-x-2">
+        <button id="btn-prev-slide" class="px-3.5 py-2 rounded-lg bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold text-xs transition flex items-center space-x-1 shadow-2xs">
+          <i data-lucide="chevron-left" class="w-4 h-4"></i>
+          <span>Anterior</span>
+        </button>
+        <button id="btn-next-slide" class="px-4 py-2 rounded-lg bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-xs transition flex items-center space-x-1 shadow-xs">
+          <span>Siguiente</span>
+          <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Ayuda de Teclado -->
+      <div class="hidden lg:flex items-center space-x-3 text-[11px] text-slate-400 font-mono">
+        <span>Navegar: <kbd class="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-700">Espacio</kbd> / <kbd class="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-700">←</kbd> <kbd class="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-700">→</kbd></span>
+        <span>Menú: <kbd class="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-700">M</kbd></span>
+        <span>Ayuda: <kbd class="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-700">?</kbd></span>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- DRAWER / ÍNDICE DE DIAPOSITIVAS (M) -->
+  <!-- ========================================================================= -->
+  <aside id="menu-drawer" class="fixed inset-y-0 right-0 z-50 w-80 bg-white border-l border-slate-200 shadow-2xl p-5 overflow-y-auto hidden flex flex-col">
+    <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
+      <h3 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
+        <i data-lucide="layers" class="w-4 h-4 text-[#39A900]"></i>
+        <span>Índice de Diapositivas</span>
+      </h3>
+      <button id="btn-close-menu" class="text-slate-400 hover:text-slate-700">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <div class="space-y-1 text-xs font-mono flex-1">
+      <button onclick="window.presenter?.goToSlide(0)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">01</span><span>Portada Oficial SENA</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(1)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">02</span><span>Arquitectura Políglota</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(2)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">03</span><span>PostgreSQL vs MySQL</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(3)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">04</span><span>Arquitectura de Procesos</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(4)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">05</span><span>Conexión Local vs Cloud</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(5)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">06</span><span>Tipos de Datos Clave</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(6)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-rose-700 font-bold">
+        <span class="text-rose-400">07</span><span>Seguridad contra IDOR</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(7)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">08</span><span>Tabla users (DDL)</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(8)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">09</span><span>Tabla verification_tokens</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(9)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">10</span><span>ON DELETE CASCADE</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(10)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">11</span><span>Índices B-Tree</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(11)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">12</span><span>Live Coding DDL</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(12)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">13</span><span>Transacciones ACID</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(13)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
+        <span class="text-emerald-500">14</span><span>Taller Práctico (70 min)</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(14)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">15</span><span>Diccionario de Datos</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(15)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-purple-700 font-bold">
+        <span class="text-purple-400">16</span><span>Sustentación & Live Mod</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(16)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">17</span><span>Cierre & Sesión 07</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Script del Presentador, Lucide Icons y Fecha Dinámica -->
+  <script src="../../assets/js/presenter.js"></script>
+  <script>
+    lucide.createIcons();
+
+    // Fecha dinámica de hoy en el cintillo de la presentación
+    (function renderFechaSlide() {
+      const hoy = new Date();
+      const opciones = { weekday: 'short', day: 'numeric', month: 'short' };
+      const fechaTxt = hoy.toLocaleDateString('es-CO', opciones);
+      const el = document.getElementById('slide-cintillo-fecha');
+      if (el) el.textContent = 'Hoy: ' + fechaTxt.charAt(0).toUpperCase() + fechaTxt.slice(1);
+    })();
+  </script>
+</body>
+</html>
