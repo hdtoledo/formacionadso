@@ -103,11 +103,16 @@ NivelacionADSO/
     │       ├── plantilla_servidor.js     # Servidor base starter para aprendices
     │       ├── test_api.js               # Suite de 9 pruebas automatizadas para la API
     │       └── bruno-collection/         # Colección oficial de Bruno (.bru) para Git
-    └── dia-05-consumo-fetch-dom/
-        ├── index.html             # Diapositivas de proyección (Sesión 05: Fetch API & DOM)
-        └── recursos/
-            ├── index.html                # Interfaz gráfica starter para aprendices
-            └── app.js                    # Taller starter con 5 retos progresivos
+    ├── dia-05-consumo-fetch-dom/
+    │   ├── index.html             # Diapositivas de proyección (Sesión 05: Fetch API & DOM)
+    │   └── recursos/
+    │       ├── index.html                # Interfaz gráfica starter para aprendices
+    │       └── app.js                    # Taller starter con 5 retos progresivos
+    └── dia-extra-tailwindcss-ui-ux/
+        ├── index.html             # Diapositivas de proyección (Sesión Extra: Tailwind CSS & UI/UX)
+        ├── dia-extra-tailwindcss-taller.zip # Taller empaquetado para aprendices
+        ├── recursos/              # Plantillas starter (Login, Register, Landing)
+        └── soluciones/            # Soluciones de referencia docente completas
 ```
 
 ---
