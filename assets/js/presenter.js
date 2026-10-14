@@ -5,7 +5,7 @@
 
 class SlidePresenter {
   constructor() {
-    this.slides = document.querySelectorAll('.slide-content');
+    this.slides = document.querySelectorAll('.slide-content, .slide-item');
     this.totalSlides = this.slides.length;
     this.currentSlideIndex = 0;
     
@@ -56,9 +56,11 @@ class SlidePresenter {
     this.slides.forEach((slide, idx) => {
       if (idx === this.currentSlideIndex) {
         slide.classList.add('active');
+        slide.classList.remove('hidden');
         slide.setAttribute('aria-hidden', 'false');
       } else {
         slide.classList.remove('active');
+        slide.classList.add('hidden');
         slide.setAttribute('aria-hidden', 'true');
       }
     });
@@ -67,9 +69,34 @@ class SlidePresenter {
       window.lucide.createIcons();
     }
 
-    // Actualizar Contador
-    if (this.counterEl) {
-      this.counterEl.textContent = `${this.currentSlideIndex + 1} / ${this.totalSlides}`;
+    // Actualizar Contadores
+    const counterEl = document.getElementById('slide-counter') || this.counterEl;
+    const currentLabelEl = document.getElementById('slide-current-label');
+    const blockLabelEl = document.getElementById('slide-block-label');
+    
+    const curNum = String(this.currentSlideIndex + 1).padStart(2, '0');
+    const totNum = String(this.totalSlides).padStart(2, '0');
+
+    if (counterEl) {
+      counterEl.textContent = `${this.currentSlideIndex + 1} / ${this.totalSlides}`;
+    }
+    if (currentLabelEl) {
+      currentLabelEl.textContent = `SLIDE ${curNum} / ${totNum}`;
+    }
+
+    // Actualizar Bloque pedagógico dinámicamente si existe
+    if (blockLabelEl) {
+      if (this.currentSlideIndex === 0) {
+        blockLabelEl.textContent = 'PORTADA DE LECCIÓN';
+      } else if (this.currentSlideIndex <= 12) {
+        blockLabelEl.textContent = 'BLOQUE 1: TEORÍA & LIVE CODING';
+      } else if (this.currentSlideIndex <= 14) {
+        blockLabelEl.textContent = 'BLOQUE 2: MONTAJE EN AULA & GIT';
+      } else if (this.currentSlideIndex === 15) {
+        blockLabelEl.textContent = 'BLOQUE 3: EVALUACIÓN & SUSTENTACIÓN';
+      } else {
+        blockLabelEl.textContent = 'CIERRE & SIGUIENTE SESIÓN';
+      }
     }
 
     // Actualizar Barra de Progreso
@@ -382,7 +409,11 @@ class SlidePresenter {
   }
 }
 
-// Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', () => {
+// Inicializar cuando el DOM esté listo o inmediatamente si ya cargó
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    window.presenter = new SlidePresenter();
+  });
+} else {
   window.presenter = new SlidePresenter();
-});
+}

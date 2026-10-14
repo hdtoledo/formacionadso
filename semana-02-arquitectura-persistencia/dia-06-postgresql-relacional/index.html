@@ -113,11 +113,11 @@
           </button>
         </div>
 
-        <!-- Descargar Taller Starter -->
-        <a href="dia-06-postgresql-taller.zip" download class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-xs font-bold text-emerald-800 transition shadow-2xs" title="Descargar paquete de taller para aprendices (.zip)">
-          <i data-lucide="download" class="w-3.5 h-3.5 text-[#39A900]"></i>
-          <span>Descargar Taller (.zip)</span>
-        </a>
+        <!-- Metodología: Montaje en Vivo & Repositorio Personal Git -->
+        <div class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-900 shadow-2xs" title="Metodología Activa: Montaje paso a paso en repositorio personal GitHub">
+          <i data-lucide="git-branch" class="w-3.5 h-3.5 text-[#39A900]"></i>
+          <span>Montaje en Vivo · Git Personal</span>
+        </div>
 
         <!-- Índice de Diapositivas (M) -->
         <button id="btn-open-menu" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition" title="Índice de Diapositivas (M)">
@@ -133,6 +133,11 @@
 
     </div>
   </header>
+
+  <!-- Barra de progreso institucional verde SENA -->
+  <div class="w-full bg-slate-200 h-1 fixed top-[83px] sm:top-[87px] left-0 z-40">
+    <div id="presentation-progress" class="bg-[#39A900] h-full w-0 transition-all duration-300 ease-out"></div>
+  </div>
 
   <!-- ========================================================================= -->
   <!-- 3. CONTENEDOR PRINCIPAL DE DIAPOSITIVAS (PRESENTADOR) -->
@@ -783,40 +788,73 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 14: RETOS DEL TALLER PRÁCTICO (70 MINUTOS) -->
+      <!-- SLIDE 14: MONTAJE GUIADO PASO A PASO & COMMITS EN GIT PERSONAL -->
       <!-- --------------------------------------------------------------------- -->
       <section class="slide-item hidden flex flex-col justify-center py-6">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#39A900] uppercase tracking-wider mb-2">
-          <i data-lucide="code" class="w-4 h-4"></i>
-          <span>Bloque 2: Taller de Aula</span>
+          <i data-lucide="git-commit" class="w-4 h-4"></i>
+          <span>Bloque 2: Montaje Guiado en Aula (70 Minutos)</span>
         </div>
-        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
-          Taller de Laboratorio en Aula (70 Minutos)
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-3">
+          Montaje Paso a Paso: Construcción en Repositorio Personal
         </h2>
-        <p class="text-xs sm:text-sm text-slate-600 mb-6 max-w-4xl">
-          Abra en su editor o DBMS el archivo <code class="font-mono text-[#00324D] font-bold">plantilla_aprendiz.sql</code> y complete los 5 retos de desarrollo guiado:
+
+        <!-- Aclaración pedagógica obligatoria -->
+        <div class="p-3.5 bg-amber-50 border-2 border-amber-300 rounded-xl mb-4 text-xs text-amber-950 flex items-start gap-3">
+          <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-700 shrink-0 mt-0.5"></i>
+          <div>
+            <strong class="font-extrabold text-amber-900">Aclaración Metodológica Importante:</strong> No existe plantilla ni taller descargable prefabricado. El taller formativo es <strong>realizar cada montaje paso a paso lección tras lección</strong> en su entorno de desarrollo local y cargar todo el proceso a su <strong>repositorio personal de GitHub</strong> con sus respectivos commits atómicos.
+          </div>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-600 mb-4 max-w-4xl">
+          Estructure en su proyecto local el script DDL (<code class="font-mono text-[#00324D] font-bold">database/migrations/01_auth_schema.sql</code>) y complete los 5 hitos registrando cada commit atómico:
         </p>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
-            <span class="font-mono font-bold text-[#00324D]">RETO 1: Tabla Users</span>
-            <p class="text-slate-600">Crear tabla con UUID, email único, hash de clave, rol ('admin'/'user') y marcas de tiempo.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 text-xs">
+          <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
+            <div class="flex items-center justify-between">
+              <span class="font-mono font-bold text-[#00324D]">HITO 1: Tabla Users</span>
+              <span class="px-1.5 py-0.5 rounded bg-blue-50 text-blue-800 text-[10px] font-mono font-bold">Commit 1</span>
+            </div>
+            <p class="text-slate-600 text-[11px]">Crear tabla con UUIDv4 nativo, email único, hash bcrypt, rol ('admin'/'user') y marcas de tiempo.</p>
+            <div class="text-[10px] font-mono text-slate-600 bg-slate-50 p-1.5 rounded border border-slate-100">git commit -m "feat(db): crear tabla users con id uuid v4 y constrains"</div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
-            <span class="font-mono font-bold text-[#39A900]">RETO 2: Tabla Tokens</span>
-            <p class="text-slate-600">Crear tabla relacional vinculada con llave foránea estricta y regla <code class="font-mono">ON DELETE CASCADE</code>.</p>
+          
+          <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
+            <div class="flex items-center justify-between">
+              <span class="font-mono font-bold text-[#39A900]">HITO 2: Tabla Tokens</span>
+              <span class="px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-800 text-[10px] font-mono font-bold">Commit 2</span>
+            </div>
+            <p class="text-slate-600 text-[11px]">Crear tabla relacional vinculada con llave foránea estricta y regla <code class="font-mono">ON DELETE CASCADE</code>.</p>
+            <div class="text-[10px] font-mono text-slate-600 bg-slate-50 p-1.5 rounded border border-slate-100">git commit -m "feat(db): crear tabla tokens con fk y on delete cascade"</div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
-            <span class="font-mono font-bold text-purple-700">RETO 3: Índices B-Tree</span>
-            <p class="text-slate-600">Crear índices para acelerar el Login (por email) y la confirmación de cuenta (por token).</p>
+
+          <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
+            <div class="flex items-center justify-between">
+              <span class="font-mono font-bold text-purple-700">HITO 3: Índices B-Tree</span>
+              <span class="px-1.5 py-0.5 rounded bg-purple-50 text-purple-800 text-[10px] font-mono font-bold">Commit 3</span>
+            </div>
+            <p class="text-slate-600 text-[11px]">Crear índices estratégicos para acelerar el Login (por email) y confirmación de cuenta (por token).</p>
+            <div class="text-[10px] font-mono text-slate-600 bg-slate-50 p-1.5 rounded border border-slate-100">git commit -m "perf(db): agregar indices b-tree para email y token"</div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
-            <span class="font-mono font-bold text-amber-700">RETO 4: Inserción Transaccional</span>
-            <p class="text-slate-600">Ejecutar bloque <code class="font-mono">BEGIN ... COMMIT</code> con Admin activo y User pendiente a 24 horas.</p>
+
+          <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
+            <div class="flex items-center justify-between">
+              <span class="font-mono font-bold text-amber-700">HITO 4: Inserción ACID</span>
+              <span class="px-1.5 py-0.5 rounded bg-amber-50 text-amber-800 text-[10px] font-mono font-bold">Commit 4</span>
+            </div>
+            <p class="text-slate-600 text-[11px]">Ejecutar bloque transaccional atómico <code class="font-mono">BEGIN ... COMMIT</code> con Admin activo y User pendiente a 24h.</p>
+            <div class="text-[10px] font-mono text-slate-600 bg-slate-50 p-1.5 rounded border border-slate-100">git commit -m "test(db): seed transaccional de usuarios y tokens resend"</div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs sm:col-span-2">
-            <span class="font-mono font-bold text-emerald-800">RETO 5: Consultas Analíticas & Prueba de Cascada</span>
-            <p class="text-slate-600">Consulta con <code class="font-mono">INNER JOIN</code> para calcular horas restantes del token y prueba destructiva de usuario verificando la cascada.</p>
+
+          <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs sm:col-span-2">
+            <div class="flex items-center justify-between">
+              <span class="font-mono font-bold text-emerald-800">HITO 5: JOINs, Prueba de Cascada & Push al Repo Personal</span>
+              <span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-mono font-bold">Commit 5 + Push</span>
+            </div>
+            <p class="text-slate-600 text-[11px]">Consulta con <code class="font-mono">INNER JOIN</code> calculando horas de vigencia y prueba destructiva de usuario verificando la cascada en consola.</p>
+            <div class="text-[10px] font-mono text-slate-600 bg-slate-50 p-1.5 rounded border border-slate-100">git commit -m "test(db): verificar integridad referencial y delete cascade" && git push origin main</div>
           </div>
         </div>
       </section>
@@ -873,32 +911,32 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
       <section class="slide-item hidden flex flex-col justify-center py-6">
         <div class="flex items-center space-x-2 text-xs font-bold text-purple-700 uppercase tracking-wider mb-2">
           <i data-lucide="award" class="w-4 h-4"></i>
-          <span>Bloque 3: Evaluación y Sustentación</span>
+          <span>Bloque 3: Evaluación y Sustentación Individual</span>
         </div>
         <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
           Rúbrica de Sustentación Individual (40 Minutos)
         </h2>
         <p class="text-xs sm:text-sm text-slate-600 mb-6 max-w-4xl">
-          El instructor revisará puesto por puesto la ejecución limpia en consola/DBMS y solicitará una modificación en vivo sin IA generativa:
+          El instructor revisará puesto por puesto la ejecución limpia en consola/DBMS, verificará el historial de commits en el <strong>repositorio personal de GitHub</strong> y solicitará una modificación en caliente sin IA generativa:
         </p>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
           <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2 shadow-2xs">
             <span class="text-lg font-black text-[#00324D] block">30%</span>
-            <span class="font-extrabold text-slate-800 block">DDL & UUIDs</span>
-            <span class="text-slate-500 block">Ambas tablas creadas con tipos de datos correctos y generación automática de UUIDv4.</span>
+            <span class="font-extrabold text-slate-800 block">DDL, UUIDs & Esquema</span>
+            <span class="text-slate-500 block">Tablas creadas con tipos de datos correctos, restricciones <code class="font-mono">UNIQUE</code> y generación automática de UUIDv4.</span>
           </div>
 
           <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2 shadow-2xs">
             <span class="text-lg font-black text-[#39A900] block">30%</span>
-            <span class="font-extrabold text-slate-800 block">Integridad & Cascada</span>
-            <span class="text-slate-500 block">Demostración en vivo de eliminación de usuario con borrado automático de su token asociado.</span>
+            <span class="font-extrabold text-slate-800 block">Cascada & Repo Personal Git</span>
+            <span class="text-slate-500 block">Comprobación de commits atómicos en GitHub personal y demostración de borrado en cascada (<code class="font-mono">ON DELETE CASCADE</code>) en vivo.</span>
           </div>
 
           <div class="p-4 bg-white border border-purple-200 bg-purple-50/30 rounded-xl space-y-2 shadow-2xs">
             <span class="text-lg font-black text-purple-700 block">40%</span>
             <span class="font-extrabold text-slate-800 block">Live Mod en Caliente</span>
-            <span class="text-slate-500 block">Modificación inmediata solicitada por el instructor (ej. agregar columna de auditoría o nuevo índice).</span>
+            <span class="text-slate-500 block">Modificación inmediata solicitada por el instructor en el puesto de trabajo (ej. agregar columna de auditoría o nuevo índice sin recrear tablas).</span>
           </div>
         </div>
 
@@ -1034,7 +1072,7 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
         <span class="text-slate-400">13</span><span>Transacciones ACID</span>
       </button>
       <button onclick="window.presenter?.goToSlide(13)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">14</span><span>Taller Práctico (70 min)</span>
+        <span class="text-emerald-500">14</span><span>Montaje Guiado & Commits Git</span>
       </button>
       <button onclick="window.presenter?.goToSlide(14)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
         <span class="text-slate-400">15</span><span>Diccionario de Datos</span>
