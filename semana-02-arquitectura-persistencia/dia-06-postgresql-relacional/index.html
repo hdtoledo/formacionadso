@@ -185,7 +185,139 @@
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 02: EL PROYECTO TRANSVERSAL Y LA ARQUITECTURA POLÍGLOTA -->
+      <!-- SLIDE 02: HOJA DE RUTA Y EXPLICACIÓN DEL MONTAJE COMPLETO (SESIÓN 06) -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
+          <i data-lucide="map" class="w-4 h-4 text-[#39A900]"></i>
+          <span>Introducción & Visión General del Montaje</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-2">
+          Hoja de Ruta del Montaje: Lo que Construiremos en el Repositorio Personal
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-5 max-w-4xl">
+          Antes de profundizar en los conceptos de PostgreSQL, visualicemos el montaje completo que cada aprendiz realizará paso a paso en su entorno local, su integración con el backend Express y los 5 commits atómicos en GitHub:
+        </p>
+
+        <!-- Grilla de 3 Pilares del Montaje -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          
+          <!-- Pilar 1: Estructura Local de Carpetas -->
+          <div class="p-4 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2 flex flex-col justify-between">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 rounded bg-blue-50 text-[#00324D] font-mono text-[10px] font-extrabold border border-blue-200">
+                  PASO 1 · ESTRUCTURA
+                </span>
+                <i data-lucide="folder-tree" class="w-4 h-4 text-[#00324D]"></i>
+              </div>
+              <h3 class="text-sm font-extrabold text-slate-900">1. Árbol de Proyecto en Git</h3>
+              <p class="text-xs text-slate-600">
+                Cada aprendiz inicializa su carpeta de base de datos sin plantillas descargables:
+              </p>
+              <div class="font-mono text-[11px] bg-slate-900 text-slate-200 p-2.5 rounded-xl space-y-0.5">
+                <div class="text-emerald-400">mi-proyecto-adso/</div>
+                <div class="text-slate-400 pl-2">├── database/</div>
+                <div class="text-slate-400 pl-4">├── migrations/</div>
+                <div class="text-blue-300 pl-6">│   └── 01_auth_schema.sql</div>
+                <div class="text-slate-400 pl-4">└── seeds/</div>
+                <div class="text-amber-300 pl-6">    └── 01_test_seed.sql</div>
+                <div class="text-slate-500 pl-2">└── .gitignore</div>
+              </div>
+            </div>
+            <div class="text-[10px] text-slate-500 bg-slate-50 p-2 rounded-lg border border-slate-100">
+              📌 <strong>Regla:</strong> Los scripts se escriben desde cero en VS Code / DBMS.
+            </div>
+          </div>
+
+          <!-- Pilar 2: El Modelo Relacional que Construiremos -->
+          <div class="p-4 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2 flex flex-col justify-between">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 font-mono text-[10px] font-extrabold border border-emerald-200">
+                  PASO 2 · ESQUEMA RELACIONAL
+                </span>
+                <i data-lucide="database" class="w-4 h-4 text-[#39A900]"></i>
+              </div>
+              <h3 class="text-sm font-extrabold text-slate-900">2. Dos Tablas Críticas de Seguridad</h3>
+              <p class="text-xs text-slate-600">
+                Modelaremos la capa de identidad resistente a manipulaciones:
+              </p>
+              <div class="space-y-1.5 text-xs">
+                <div class="p-2 bg-slate-50 rounded-lg border border-slate-200">
+                  <strong class="text-slate-800 font-mono text-[11px] block text-[#00324D]">users</strong>
+                  <span class="text-[11px] text-slate-600 block">UUIDv4 nativo, email único normalizado, password_hash (bcrypt) y roles ('admin'/'user').</span>
+                </div>
+                <div class="p-2 bg-slate-50 rounded-lg border border-slate-200">
+                  <strong class="text-slate-800 font-mono text-[11px] block text-[#39A900]">verification_tokens</strong>
+                  <span class="text-[11px] text-slate-600 block">Token de 64 bytes para Resend, expiración a 24h y regla estricta <code class="font-mono text-emerald-800 font-bold">ON DELETE CASCADE</code>.</span>
+                </div>
+              </div>
+            </div>
+            <div class="text-[10px] text-slate-500 bg-slate-50 p-2 rounded-lg border border-slate-100">
+              🛡️ <strong>Seguridad:</strong> UUIDv4 previene ataques de enumeración IDOR.
+            </div>
+          </div>
+
+          <!-- Pilar 3: Trazabilidad en GitHub (5 Commits) -->
+          <div class="p-4 bg-white border border-purple-200 bg-purple-50/20 rounded-2xl shadow-2xs space-y-2 flex flex-col justify-between">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 rounded bg-purple-100 text-purple-900 font-mono text-[10px] font-extrabold border border-purple-200">
+                  PASO 3 · COMMITS GIT
+                </span>
+                <i data-lucide="git-commit" class="w-4 h-4 text-purple-700"></i>
+              </div>
+              <h3 class="text-sm font-extrabold text-slate-900">3. Los 5 Commits del Día</h3>
+              <p class="text-xs text-slate-600">
+                Cada hito completado se commitea individualmente al repositorio:
+              </p>
+              <ul class="text-[11px] space-y-1 font-mono text-slate-700">
+                <li class="flex items-center gap-1.5">
+                  <span class="w-4 h-4 rounded-full bg-blue-100 text-[#00324D] font-bold text-[9px] flex items-center justify-center">1</span>
+                  <span>feat(db): tabla users + uuidv4</span>
+                </li>
+                <li class="flex items-center gap-1.5">
+                  <span class="w-4 h-4 rounded-full bg-emerald-100 text-[#39A900] font-bold text-[9px] flex items-center justify-center">2</span>
+                  <span>feat(db): tokens con delete cascade</span>
+                </li>
+                <li class="flex items-center gap-1.5">
+                  <span class="w-4 h-4 rounded-full bg-purple-100 text-purple-700 font-bold text-[9px] flex items-center justify-center">3</span>
+                  <span>perf(db): indices b-tree estrategicos</span>
+                </li>
+                <li class="flex items-center gap-1.5">
+                  <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-800 font-bold text-[9px] flex items-center justify-center">4</span>
+                  <span>test(db): seed transaccional acid</span>
+                </li>
+                <li class="flex items-center gap-1.5">
+                  <span class="w-4 h-4 rounded-full bg-emerald-200 text-emerald-950 font-bold text-[9px] flex items-center justify-center">5</span>
+                  <span>test(db): joins y cascade + push git</span>
+                </li>
+              </ul>
+            </div>
+            <div class="text-[10px] text-purple-800 bg-purple-100/60 p-2 rounded-lg border border-purple-200">
+              🚀 <strong>Evaluación:</strong> Se sustentará el historial de commits en vivo.
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Banner de Conexión Transversal -->
+        <div class="p-3.5 bg-gradient-to-r from-blue-50 via-slate-50 to-emerald-50 rounded-xl border border-slate-200 text-xs text-slate-700 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div class="flex items-center gap-2.5">
+            <div class="w-7 h-7 rounded-lg bg-[#00324D] text-white flex items-center justify-center font-bold text-xs shrink-0">
+              <i data-lucide="link" class="w-3.5 h-3.5"></i>
+            </div>
+            <span><strong>Conexión con el Sistema Transversal:</strong> Esta base de datos será conectada con Express (<code class="font-mono text-[#00324D]">pg.Pool</code>) en Sesión 08, disparada por Resend en Sesión 12 y consumida en React en Semana 4.</span>
+          </div>
+          <span class="px-2.5 py-1 rounded-full bg-white border border-slate-200 text-slate-600 font-mono text-[10px] font-bold shrink-0">
+            100% Manos a la Obra
+          </span>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 03: EL PROYECTO TRANSVERSAL Y LA ARQUITECTURA POLÍGLOTA -->
       <!-- --------------------------------------------------------------------- -->
       <section class="slide-item hidden flex flex-col justify-center py-6">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
@@ -990,9 +1122,9 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
     <!-- ======================================================================= -->
     <footer class="mt-6 pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
       <div class="flex items-center space-x-2">
-        <span class="font-extrabold text-slate-800 font-mono" id="slide-current-label">SLIDE 01 / 17</span>
+        <span class="font-extrabold text-slate-800 font-mono" id="slide-current-label">SLIDE 01 / 18</span>
         <span>•</span>
-        <span class="text-slate-500" id="slide-block-label">BLOQUE 1: TEORÍA & LIVE CODING</span>
+        <span class="text-slate-500" id="slide-block-label">PORTADA DE LECCIÓN</span>
       </div>
 
       <!-- Botones de Navegación -->
@@ -1035,53 +1167,56 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
       <button onclick="window.presenter?.goToSlide(0)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
         <span class="text-slate-400">01</span><span>Portada Oficial SENA</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(1)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">02</span><span>Arquitectura Políglota</span>
+      <button onclick="window.presenter?.goToSlide(1)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
+        <span class="text-blue-500">02</span><span>Hoja de Ruta del Montaje</span>
       </button>
       <button onclick="window.presenter?.goToSlide(2)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">03</span><span>PostgreSQL vs MySQL</span>
+        <span class="text-slate-400">03</span><span>Arquitectura Políglota</span>
       </button>
       <button onclick="window.presenter?.goToSlide(3)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">04</span><span>Arquitectura de Procesos</span>
+        <span class="text-slate-400">04</span><span>PostgreSQL vs MySQL</span>
       </button>
       <button onclick="window.presenter?.goToSlide(4)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">05</span><span>Conexión Local vs Cloud</span>
+        <span class="text-slate-400">05</span><span>Arquitectura de Procesos</span>
       </button>
       <button onclick="window.presenter?.goToSlide(5)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">06</span><span>Tipos de Datos Clave</span>
+        <span class="text-slate-400">06</span><span>Conexión Local vs Cloud</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(6)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-rose-700 font-bold">
-        <span class="text-rose-400">07</span><span>Seguridad contra IDOR</span>
+      <button onclick="window.presenter?.goToSlide(6)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">07</span><span>Tipos de Datos Clave</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(7)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">08</span><span>Tabla users (DDL)</span>
+      <button onclick="window.presenter?.goToSlide(7)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-rose-700 font-bold">
+        <span class="text-rose-400">08</span><span>Seguridad contra IDOR</span>
       </button>
       <button onclick="window.presenter?.goToSlide(8)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">09</span><span>Tabla verification_tokens</span>
+        <span class="text-slate-400">09</span><span>Tabla users (DDL)</span>
       </button>
       <button onclick="window.presenter?.goToSlide(9)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">10</span><span>ON DELETE CASCADE</span>
+        <span class="text-slate-400">10</span><span>Tabla verification_tokens</span>
       </button>
       <button onclick="window.presenter?.goToSlide(10)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">11</span><span>Índices B-Tree</span>
+        <span class="text-slate-400">11</span><span>ON DELETE CASCADE</span>
       </button>
       <button onclick="window.presenter?.goToSlide(11)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">12</span><span>Live Coding DDL</span>
+        <span class="text-slate-400">12</span><span>Índices B-Tree</span>
       </button>
       <button onclick="window.presenter?.goToSlide(12)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">13</span><span>Transacciones ACID</span>
+        <span class="text-slate-400">13</span><span>Live Coding DDL</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(13)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">14</span><span>Montaje Guiado & Commits Git</span>
+      <button onclick="window.presenter?.goToSlide(13)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">14</span><span>Transacciones ACID</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(14)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">15</span><span>Diccionario de Datos</span>
+      <button onclick="window.presenter?.goToSlide(14)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
+        <span class="text-emerald-500">15</span><span>Montaje Guiado & Commits Git</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(15)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-purple-700 font-bold">
-        <span class="text-purple-400">16</span><span>Sustentación & Live Mod</span>
+      <button onclick="window.presenter?.goToSlide(15)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">16</span><span>Diccionario de Datos</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(16)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">17</span><span>Cierre & Sesión 07</span>
+      <button onclick="window.presenter?.goToSlide(16)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-purple-700 font-bold">
+        <span class="text-purple-400">17</span><span>Sustentación & Live Mod</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(17)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">18</span><span>Cierre & Sesión 07</span>
       </button>
     </div>
   </aside>

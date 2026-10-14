@@ -88,11 +88,13 @@ class SlidePresenter {
     if (blockLabelEl) {
       if (this.currentSlideIndex === 0) {
         blockLabelEl.textContent = 'PORTADA DE LECCIÓN';
-      } else if (this.currentSlideIndex <= 12) {
+      } else if (this.currentSlideIndex === 1) {
+        blockLabelEl.textContent = 'HOJA DE RUTA DEL MONTAJE';
+      } else if (this.currentSlideIndex <= 13) {
         blockLabelEl.textContent = 'BLOQUE 1: TEORÍA & LIVE CODING';
-      } else if (this.currentSlideIndex <= 14) {
+      } else if (this.currentSlideIndex <= 15) {
         blockLabelEl.textContent = 'BLOQUE 2: MONTAJE EN AULA & GIT';
-      } else if (this.currentSlideIndex === 15) {
+      } else if (this.currentSlideIndex === 16) {
         blockLabelEl.textContent = 'BLOQUE 3: EVALUACIÓN & SUSTENTACIÓN';
       } else {
         blockLabelEl.textContent = 'CIERRE & SIGUIENTE SESIÓN';
