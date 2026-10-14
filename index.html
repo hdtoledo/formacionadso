@@ -312,7 +312,7 @@
                 <span>Talleres Starter de Aula:</span>
                 <span class="text-[10px] font-mono text-[#00324D] font-bold">Descarga Directa</span>
               </div>
-              <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+              <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
                 <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/recursos/plantilla_aprendiz.sql" download class="py-2.5 px-2 bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 rounded-xl text-[11px] font-bold text-slate-700 hover:text-emerald-800 transition flex items-center justify-center gap-1.5 shadow-2xs" title="Descargar Plantilla Sesión 01 (SQL DDL/DML)">
                   <i data-lucide="download" class="w-3.5 h-3.5 text-[#39A900]"></i>
                   <span>Taller S01</span>
@@ -336,6 +336,10 @@
                 <a href="semana-01-fundamentos/dia-extra-tailwindcss-ui-ux/dia-extra-tailwindcss-taller.zip" download class="py-2.5 px-2 bg-indigo-50/70 hover:bg-indigo-100 border border-indigo-200 rounded-xl text-[11px] font-bold text-indigo-900 transition flex items-center justify-center gap-1.5 shadow-2xs" title="Descargar Taller Sesión Extra (Tailwind CSS, UI/UX, Login, Register, Landing .zip)">
                   <i data-lucide="palette" class="w-3.5 h-3.5 text-indigo-600"></i>
                   <span>Taller Extra</span>
+                </a>
+                <a href="semana-02-arquitectura-persistencia/dia-06-postgresql-relacional/dia-06-postgresql-taller.zip" download class="py-2.5 px-2 bg-blue-50/70 hover:bg-blue-100 border border-blue-200 rounded-xl text-[11px] font-bold text-blue-900 transition flex items-center justify-center gap-1.5 shadow-2xs" title="Descargar Taller Sesión 06 (PostgreSQL Relacional, users, tokens, UUIDs .zip)">
+                  <i data-lucide="database" class="w-3.5 h-3.5 text-blue-700"></i>
+                  <span>Taller S06</span>
                 </a>
               </div>
             </div>
@@ -445,16 +449,33 @@
         </div>
 
         <!-- Buscador en Vivo de Sesiones -->
-        <div class="w-full md:w-80">
+        <div class="w-full md:w-96">
           <label for="input-busqueda-sesiones" class="sr-only">Buscar sesión o tecnología</label>
           <div class="relative">
             <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
-            <input id="input-busqueda-sesiones" type="text" placeholder="Buscar: JOIN, Express, React, DDL, Git..." class="w-full pl-10 pr-9 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#39A900] focus:bg-white transition shadow-2xs placeholder:text-slate-400">
+            <input id="input-busqueda-sesiones" type="text" placeholder="Buscar: PostgreSQL, MongoDB, Resend, JWT, useAuth..." class="w-full pl-10 pr-9 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#39A900] focus:bg-white transition shadow-2xs placeholder:text-slate-400">
             <button id="btn-limpiar-busqueda" type="button" onclick="window.limpiarBusqueda()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5">
               <i data-lucide="x" class="w-3.5 h-3.5"></i>
             </button>
           </div>
         </div>
+      </div>
+
+      <!-- Filtros Rápidos por Tecnología / Concepto Clave -->
+      <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs scrollbar-none">
+        <span class="text-slate-400 font-bold text-[11px] shrink-0 mr-1 flex items-center gap-1">
+          <i data-lucide="sliders-horizontal" class="w-3 h-3 text-[#39A900]"></i> Filtrar por:
+        </span>
+        <button onclick="window.filtrarPorTema('')" data-tema="" class="chip-filter px-3 py-1 rounded-full text-xs font-extrabold bg-[#00324D] text-white shadow-xs transition shrink-0">Todos</button>
+        <button onclick="window.filtrarPorTema('postgresql')" data-tema="postgresql" class="chip-filter px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-blue-100 text-slate-700 hover:text-blue-900 border border-slate-200/80 transition shrink-0">🐘 PostgreSQL</button>
+        <button onclick="window.filtrarPorTema('mongodb')" data-tema="mongodb" class="chip-filter px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-emerald-100 text-slate-700 hover:text-emerald-900 border border-slate-200/80 transition shrink-0">🍃 MongoDB</button>
+        <button onclick="window.filtrarPorTema('jwt')" data-tema="jwt" class="chip-filter px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-amber-100 text-slate-700 hover:text-amber-900 border border-slate-200/80 transition shrink-0">🔐 JWT & Cookies</button>
+        <button onclick="window.filtrarPorTema('resend')" data-tema="resend" class="chip-filter px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-rose-100 text-slate-700 hover:text-rose-900 border border-slate-200/80 transition shrink-0">✉️ Resend (Emails)</button>
+        <button onclick="window.filtrarPorTema('react')" data-tema="react" class="chip-filter px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-cyan-100 text-slate-700 hover:text-cyan-900 border border-slate-200/80 transition shrink-0">⚛️ React & Context</button>
+        <button onclick="window.filtrarPorTema('tailwind')" data-tema="tailwind" class="chip-filter px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-indigo-100 text-slate-700 hover:text-indigo-900 border border-slate-200/80 transition shrink-0">🎨 Tailwind & UI/UX</button>
+        <button onclick="window.filtrarPorTema('express')" data-tema="express" class="chip-filter px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 border border-slate-200/80 transition shrink-0">⚡ Express REST</button>
+        <button onclick="window.filtrarPorTema('seguridad')" data-tema="seguridad" class="chip-filter px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-red-100 text-slate-700 hover:text-red-900 border border-slate-200/80 transition shrink-0">🛡️ Zero Brechas</button>
+        <button onclick="window.filtrarPorTema('despliegue')" data-tema="despliegue" class="chip-filter px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-teal-100 text-slate-700 hover:text-teal-900 border border-slate-200/80 transition shrink-0">🚀 Cloud & Deploy</button>
       </div>
 
       <!-- Barra de Filtros y Selector de Semanas -->
@@ -995,211 +1016,1049 @@
         </div>
 
         <!-- Roadmap de Próximas Sesiones de Semana 2 -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-1.5">
-            <span class="text-[11px] font-mono font-bold text-slate-500">SESIÓN 07 · DÍA 07 (BD NoSQL)</span>
-            <h4 class="text-sm font-bold text-slate-900">Introducción a MongoDB & Paradigma NoSQL</h4>
-            <p class="text-xs text-slate-600">Colecciones, documentos BSON, Mongoose y esquemas dinámicos para el catálogo de la Landing Page.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Sesión 07 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 07 · DÍA 07</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">BD NOSQL (MONGODB)</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-blue-50 text-blue-800 border border-blue-200 font-bold text-[10px] flex items-center gap-1">
+                  <i data-lucide="compass" class="w-3 h-3 text-blue-600"></i> Próxima Sesión
+                </span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Introducción a MongoDB Atlas & Paradigma NoSQL Documental</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Colecciones, documentos BSON vs Tablas SQL, esquemas dinámicos y matriz de decisión técnica: ¿Cuándo usar PostgreSQL (identidad, transacciones, roles) vs cuándo MongoDB (landing flexible, catálogo dinámico)? Configuración en MongoDB Atlas y cliente local Compass.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-mono font-bold border border-emerald-200">BSON</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">MongoDB Atlas</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Compass</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Matriz SQL vs NoSQL</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>BSON vs Tablas SQL</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Atlas Cluster & Compass</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Consultas en Compass</div>
+            </div>
           </div>
-          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-1.5">
-            <span class="text-[11px] font-mono font-bold text-slate-500">SESIÓN 08 · DÍA 08 (Backend I)</span>
-            <h4 class="text-sm font-bold text-slate-900">Arquitectura en Capas & Conexión Dual</h4>
-            <p class="text-xs text-slate-600">Configuración simultánea de Pool PostgreSQL (<code class="font-mono">pg</code>) y ODM Mongoose en el mismo servidor Express.</p>
+
+          <!-- Sesión 08 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 08 · DÍA 08</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">BACKEND I (ARQUITECTURA)</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px] flex items-center gap-1">
+                  <i data-lucide="layers" class="w-3 h-3 text-slate-400"></i> Planificada
+                </span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Arquitectura en Capas en Express & Conexión Dual Simultánea</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Separación estricta de responsabilidades (<code class="font-mono">routes</code>, <code class="font-mono">controllers</code>, <code class="font-mono">services</code>, <code class="font-mono">models</code>, <code class="font-mono">middlewares</code>, <code class="font-mono">config</code>). Configuración paralela de Pool PostgreSQL (<code class="font-mono">pg</code>) y ODM Mongoose en el mismo servidor Express con variables de entorno defensivas (<code class="font-mono">dotenv</code>).
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-[10px] font-mono font-bold border border-blue-200">pg.Pool</span>
+                <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-mono font-bold border border-emerald-200">mongoose.connect()</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Capas MVC</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Dual Connection</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Arquitectura Modular</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Conexión dual PG + Mongo</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Endpoint /api/health</div>
+            </div>
           </div>
-          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-1.5">
-            <span class="text-[11px] font-mono font-bold text-slate-500">SESIÓN 09 · DÍA 09 (Backend II)</span>
-            <h4 class="text-sm font-bold text-slate-900">Persistencia Relacional en PostgreSQL</h4>
-            <p class="text-xs text-slate-600">Repositorio de usuarios, consultas parametrizadas seguras y validaciones a nivel de base de datos.</p>
+
+          <!-- Sesión 09 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 09 · DÍA 09</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">BACKEND II (POSTGRESQL REPO)</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px] flex items-center gap-1">
+                  <i data-lucide="shield" class="w-3 h-3 text-slate-400"></i> Planificada
+                </span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Persistencia Relacional en PostgreSQL: Repositorio de Usuarios y Prevención de SQLi</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Consultas parametrizadas (<code class="font-mono">$1, $2</code>) para mitigación de SQL Injection, operaciones CRUD de usuarios, búsqueda por email y manejo defensivo de errores con códigos de estado HTTP coherentes.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-[10px] font-mono font-bold border border-blue-200">Parameterized Queries</span>
+                <span class="px-2 py-0.5 rounded-md bg-red-50 text-red-700 text-[10px] font-mono font-bold border border-red-200">SQLi Prevention</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">UserRepository</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">findUserByEmail</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Peligros de Concatenación SQL</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Módulo UserRepository</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Testing en Bruno</div>
+            </div>
           </div>
-          <div class="p-5 bg-white border border-slate-200 rounded-xl space-y-1.5">
-            <span class="text-[11px] font-mono font-bold text-slate-500">SESIÓN 10 · DÍA 10 (Backend III)</span>
-            <h4 class="text-sm font-bold text-slate-900">Persistencia Documental en MongoDB</h4>
-            <p class="text-xs text-slate-600">Esquemas de contenido, operaciones CRUD con Mongoose y comparación operativa SQL vs NoSQL.</p>
+
+          <!-- Sesión 10 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 10 · DÍA 10</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">BACKEND III (MONGOOSE SCHEMAS)</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px] flex items-center gap-1">
+                  <i data-lucide="file-code-2" class="w-3 h-3 text-slate-400"></i> Planificada
+                </span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Persistencia Documental en MongoDB: Esquemas de Contenido con Mongoose</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Definición del <code class="font-mono">ContentSchema</code> para la Landing Page (título, descripción, icono/imagen, categoría, estado 'draft'/'published', autor). Métodos Mongoose <code class="font-mono">.create()</code>, <code class="font-mono">.find()</code>, <code class="font-mono">.findByIdAndUpdate()</code>, <code class="font-mono">.findByIdAndDelete()</code>.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-mono font-bold border border-emerald-200">ContentSchema</span>
+                <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-mono font-bold border border-emerald-200">CRUD Mongoose</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Draft vs Published</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Landing Sync</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Tipos y Validadores Mongoose</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>ContentController & Rutas</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Filtrado por publicado</div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div id="panel-semana-3" class="semana-panel space-y-4 hidden">
-        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-900 flex items-center gap-2">
-          <i data-lucide="info" class="w-4 h-4 text-[#39A900]"></i>
-          <span>Semana 3: Persistencia SQL Completa y Estado en React (Sesiones 11 a 15)</span>
+      <!-- ===================================================================== -->
+      <!-- PANELES DE SEMANA 3 A 8 (CURRÍCULO ACTUALIZADO MERN + ZERO BRECHAS) -->
+      <!-- ===================================================================== -->
+
+      <!-- PANEL SEMANA 3 -->
+      <div id="panel-semana-3" class="semana-panel space-y-5 hidden">
+        <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl text-xs font-bold text-amber-900 flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <i data-lucide="lock" class="w-4 h-4 text-amber-700"></i>
+            <span>Semana 3: Seguridad, Autenticación JWT, Cookies httpOnly y Envío de Correo con Resend</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-full bg-amber-200 text-amber-900 text-[10px] font-mono font-bold">5 Sesiones Planificadas</span>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 11 (BD):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Normalización Práctica (1FN a 3FN)</h4>
-            <p class="text-slate-600">Eliminación de anomalías y redundancias para proyectos formativos.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Sesión 11 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 11 · DÍA 11</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">SEGURIDAD BACKEND</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px] flex items-center gap-1">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Criptografía de Contraseñas con bcryptjs & Pre-registro de Usuarios</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Salt rounds, funciones hash unidireccionales, por qué jamás almacenar texto plano. Inserción en PostgreSQL con estado pendiente (<code class="font-mono">is_verified = false</code>) y generación de tokens de activación criptográficos temporales con <code class="font-mono">crypto.randomBytes</code>.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 text-[10px] font-mono font-bold border border-amber-200">bcryptjs</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">saltRounds</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">crypto.randomBytes</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">is_verified: false</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Hashing vs Encriptación</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Pre-registro en PostgreSQL</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Verificación de salt</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 12 (Back I):</span>
-            <h4 class="font-bold text-slate-900 text-sm">CRUD en Express + SQL (POST & GET)</h4>
-            <p class="text-slate-600">Endpoints para inserción y lectura con filtros por ID.</p>
+
+          <!-- Sesión 12 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 12 · DÍA 12</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">CORREO TRANSACCIONAL</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px] flex items-center gap-1">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Integración de la API de Resend & Plantillas de Correo HTML Responsivas</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Obtención de API Key segura, configuración del SDK oficial de Resend en Node.js, diseño de plantilla transaccional HTML responsiva con botón de activación apuntando a la URL del frontend (<code class="font-mono">/verify-email?token=...</code>).
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-rose-50 text-rose-800 text-[10px] font-mono font-bold border border-rose-200">Resend SDK</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">API Key Segura</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">HTML Email Template</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Activation Link</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>HTTP API vs SMTP Tradicional</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Servicio de correos Resend</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Envío real a bandeja</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 13 (Back II):</span>
-            <h4 class="font-bold text-slate-900 text-sm">CRUD en Express + SQL (PUT & DELETE)</h4>
-            <p class="text-slate-600">Actualización y borrado físico vs lógico (<code class="font-mono">is_active</code>).</p>
+
+          <!-- Sesión 13 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 13 · DÍA 13</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">VERIFICACIÓN & ACTIVACIÓN</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px] flex items-center gap-1">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Endpoint de Activación de Cuenta & Mitigación de Replay Attacks</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Endpoint <code class="font-mono">GET /api/auth/verify-email?token=...</code>: Búsqueda del token en PostgreSQL, comprobación de expiración temporal (24 horas), activación atómica del usuario (<code class="font-mono">is_verified = true</code>) e invalidación inmediata del token usado.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-[10px] font-mono font-bold border border-blue-200">verify-email</span>
+                <span class="px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 text-[10px] font-mono font-bold border border-amber-200">Replay Attack Prevention</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">TIMESTAMPTZ</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Atomic Update</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Ciclo de vida de tokens</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Endpoint de verificación</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Prueba token expirado</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 14 (Front I):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Manejo de Estado con useState</h4>
-            <p class="text-slate-600">Formularios controlados, eventos onChange y mutación inmutable.</p>
+
+          <!-- Sesión 14 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 14 · DÍA 14</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">AUTH JWT & COOKIES</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px] flex items-center gap-1">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Login & Autenticación con Cookies httpOnly (Mitigación Total de XSS)</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Endpoint <code class="font-mono">POST /api/auth/login</code>: Comparación con <code class="font-mono">bcrypt.compare</code>, validación de cuenta verificada, firma de JWT con <code class="font-mono">jsonwebtoken</code> e inyección directa en Cookie segura <code class="font-mono">httpOnly</code>. Explicación de por qué <strong>NUNCA</strong> usar localStorage.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 text-[10px] font-mono font-bold border border-amber-200">JWT</span>
+                <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 text-[10px] font-mono font-bold border border-emerald-200">httpOnly Cookies</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">sameSite: strict</span>
+                <span class="px-2 py-0.5 rounded-md bg-red-50 text-red-700 text-[10px] font-mono font-bold border border-red-200">Anti-XSS</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>JWT y Flags de Cookies</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Inyección res.cookie()</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Auditoría en DevTools</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1 sm:col-span-2">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 15 (Front II):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Ciclo de Vida y useEffect</h4>
-            <p class="text-slate-600">Sincronización, dependencias estrictas y prevención de bucles infinitos.</p>
+
+          <!-- Sesión 15 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs md:col-span-2">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 15 · DÍA 15</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">AUTORIZACIÓN & ROLES</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px] flex items-center gap-1">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Middlewares de Autorización por Rol (admin vs user) & Logout Seguro</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Middleware <code class="font-mono">verifyAuth</code> para lectura automática de JWT desde <code class="font-mono">req.cookies</code>, middleware de control de acceso <code class="font-mono">requireRole(['admin', 'user'])</code>, y endpoint <code class="font-mono">POST /api/auth/logout</code> con <code class="font-mono">res.clearCookie()</code> y reseteo integral de sesión.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-[10px] font-mono font-bold border border-blue-200">verifyAuth</span>
+                <span class="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 text-[10px] font-mono font-bold border border-purple-200">requireRole</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">admin vs user</span>
+                <span class="px-2 py-0.5 rounded-md bg-red-50 text-red-700 text-[10px] font-mono font-bold border border-red-200">res.clearCookie()</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Middleware Pipeline en Express</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Guardia de rutas y logout</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Bloqueo de rol user en admin</div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div id="panel-semana-4" class="semana-panel space-y-4 hidden">
-        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-900 flex items-center gap-2">
-          <i data-lucide="info" class="w-4 h-4 text-[#39A900]"></i>
-          <span>Semana 4: Transición a MongoDB, NoSQL y Conexión Frontend-Backend (Sesiones 16 a 20)</span>
+      <!-- PANEL SEMANA 4 -->
+      <div id="panel-semana-4" class="semana-panel space-y-5 hidden">
+        <div class="p-4 bg-cyan-50 border border-cyan-200 rounded-xl text-xs font-bold text-cyan-900 flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <i data-lucide="code" class="w-4 h-4 text-cyan-700"></i>
+            <span>Semana 4: Frontend Base con Vite + React, Tailwind CSS y Enrutamiento SPA</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-full bg-cyan-200 text-cyan-900 text-[10px] font-mono font-bold">5 Sesiones Planificadas</span>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 16 (BD):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Paradigma NoSQL y MongoDB Atlas</h4>
-            <p class="text-slate-600">Tablas vs Colecciones, Filas vs Documentos BSON y Compass.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Sesión 16 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 16 · DÍA 16</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">FRONTEND SETUP</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Inicialización de Proyecto Vite + React, Tailwind CSS y Lucide Icons</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Scaffolding con Vite, configuración de utilidades Tailwind CSS, jerarquía de carpetas escalable (<code class="font-mono">components/</code>, <code class="font-mono">pages/</code>, <code class="font-mono">context/</code>, <code class="font-mono">services/</code>, <code class="font-mono">layouts/</code>) y variables de entorno del cliente (<code class="font-mono">VITE_API_URL</code>).
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-cyan-50 text-cyan-800 text-[10px] font-mono font-bold border border-cyan-200">Vite + React</span>
+                <span class="px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 text-[10px] font-mono font-bold border border-indigo-200">Tailwind CSS</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Lucide Icons</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">VITE_API_URL</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Vite vs CRA moderno</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Setup de arquitectura</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Componente responsivo</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 17 (Back I):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Mongoose ODM: Esquemas y Modelos</h4>
-            <p class="text-slate-600">Conexión URI, Schema, tipos de datos y validaciones estrictas.</p>
+
+          <!-- Sesión 17 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 17 · DÍA 17</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">ENRUTAMIENTO SPA</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Enrutamiento SPA con react-router-dom & Layouts Maestros</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Configuración de <code class="font-mono">BrowserRouter</code>, <code class="font-mono">Routes</code>, <code class="font-mono">Route</code>, <code class="font-mono">NavLink</code>. Creación de Layout Público (Navbar sticky con Glassmorphism y Footer) y Layout de Dashboard (Sidebar colapsable y Header con avatar).
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-[10px] font-mono font-bold border border-blue-200">react-router-dom</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">PublicLayout</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">DashboardLayout</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Glassmorphism</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Principios de Enrutamiento SPA</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Layouts público y privado</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Navegación sin recargas</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 18 (Back II):</span>
-            <h4 class="font-bold text-slate-900 text-sm">CRUD REST con Mongoose</h4>
-            <p class="text-slate-600">Operaciones find, findById, create, findByIdAndUpdate.</p>
+
+          <!-- Sesión 18 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 18 · DÍA 18</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">CLIENTE HTTP & COOKIES</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Cliente Axios / Fetch con withCredentials: true & Manejo de Errores</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Configuración centralizada del cliente HTTP para envío y recepción transparente de cookies <code class="font-mono">httpOnly</code>, e interceptores para control global de errores 401 (no autenticado) y 403 (prohibido).
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 text-[10px] font-mono font-bold border border-emerald-200">withCredentials: true</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Axios Interceptors</span>
+                <span class="px-2 py-0.5 rounded-md bg-red-50 text-red-700 text-[10px] font-mono font-bold border border-red-200">Error 401 & 403</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">API Service</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Credenciales en CORS</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Cliente HTTP centralizado</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Interceptores de error</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 19 (Front I):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Consumo de la API Express desde React</h4>
-            <p class="text-slate-600">Integración con useEffect y manejo de estados loading y error.</p>
+
+          <!-- Sesión 19 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 19 · DÍA 19</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">LANDING DINÁMICA</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Landing Page Dinámica: Maquetación y Consumo del Catálogo MongoDB</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Hero Section moderno con Tailwind CSS, grid de características y consumo del endpoint público <code class="font-mono">GET /api/content/published</code> de MongoDB para renderizar dinámicamente el catálogo de contenidos.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 text-[10px] font-mono font-bold border border-indigo-200">Landing Page</span>
+                <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 text-[10px] font-mono font-bold border border-emerald-200">MongoDB Consumer</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Dynamic Content</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Microanimations</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Estructura visual de Landing</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Consumo de MongoDB API</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Renderizado reactivo</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1 sm:col-span-2">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 20 (Front II):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Formularios de Mutación e Inmutabilidad</h4>
-            <p class="text-slate-600">Envíos POST y DELETE con actualización reactiva en pantalla.</p>
+
+          <!-- Sesión 20 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs md:col-span-2">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 20 · DÍA 20</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">UI/UX DINÁMICA</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Experiencia de Usuario Avanzada: Skeleton Loaders & Mobile-First</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Implementación de Skeleton Loaders durante la espera del backend, microanimaciones de entrada, transiciones suaves hover/focus y maquetación adaptativa 100% responsiva para smartphones, tablets y desktops.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 text-[10px] font-mono font-bold border border-purple-200">Skeleton Loaders</span>
+                <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-[10px] font-mono font-bold border border-blue-200">Mobile-First</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">UI/UX Dinámica</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">WCAG Accesibilidad</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Patrones de Carga Asíncrona</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Componente SkeletonCard</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Prueba throttling en DevTools</div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div id="panel-semana-5" class="semana-panel space-y-4 hidden">
-        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-900 flex items-center gap-2">
-          <i data-lucide="info" class="w-4 h-4 text-[#39A900]"></i>
-          <span>Semana 5: Relaciones NoSQL, Validaciones y Enrutamiento SPA (Sesiones 21 a 25)</span>
+      <!-- PANEL SEMANA 5 -->
+      <div id="panel-semana-5" class="semana-panel space-y-5 hidden">
+        <div class="p-4 bg-purple-50 border border-purple-200 rounded-xl text-xs font-bold text-purple-900 flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <i data-lucide="user-check" class="w-4 h-4 text-purple-700"></i>
+            <span>Semana 5: Estado Global Sencillo, Formularios de Auth y Flujo de Verificación con Resend</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-full bg-purple-200 text-purple-900 text-[10px] font-mono font-bold">5 Sesiones Planificadas</span>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 21 (BD):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Relaciones en MongoDB: Embebidos vs Referencias</h4>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Sesión 21 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 21 · DÍA 21</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">ESTADO GLOBAL</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Estado Global Sencillo con React Context API: Hook useAuth()</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Creación de <code class="font-mono">AuthContext</code> y hook personalizado <code class="font-mono">useAuth()</code>. Gestión reactiva de <code class="font-mono">user</code>, <code class="font-mono">isAuthenticated</code>, <code class="font-mono">role</code>, <code class="font-mono">loading</code> y sincronización automática al recargar mediante <code class="font-mono">GET /api/auth/me</code> sin almacenar datos en localStorage.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 text-[10px] font-mono font-bold border border-purple-200">AuthContext</span>
+                <span class="px-2 py-0.5 rounded-md bg-cyan-50 text-cyan-800 text-[10px] font-mono font-bold border border-cyan-200">useAuth()</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Context API</span>
+                <span class="px-2 py-0.5 rounded-md bg-red-50 text-red-700 text-[10px] font-mono font-bold border border-red-200">Cero localStorage</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Context vs Redux</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>AuthProvider & useAuth</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Persistencia segura en recarga</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 22 (Back I):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Consultas con Referencias (.populate()) y Paginación</h4>
+
+          <!-- Sesión 22 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 22 · DÍA 22</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">FORMULARIO REGISTRO</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Formulario de Registro Reactivo & Feedback Visual de Envío con Resend</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Validaciones de entrada en tiempo real, estados de carga (<code class="font-mono">isSubmitting</code>), prevención de doble submit y notificación toast informando al usuario que debe revisar su bandeja de entrada para activar su cuenta.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-[10px] font-mono font-bold border border-blue-200">Register Form</span>
+                <span class="px-2 py-0.5 rounded-md bg-rose-50 text-rose-800 text-[10px] font-mono font-bold border border-rose-200">Resend Feedback</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Toast Alerts</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Loading State</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Formularios Controlados</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Llamada a /register</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Modal de confirmación</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 23 (Back II):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Middlewares de Validación y Control de Errores</h4>
+
+          <!-- Sesión 23 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 23 · DÍA 23</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">PANTALLA ACTIVACIÓN</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Pantalla Interactiva de Verificación de Email (/verify-email)</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Captura del query param con <code class="font-mono">useSearchParams</code> (<code class="font-mono">?token=...</code>), llamada asíncrona de confirmación al backend, estados animados en pantalla (validando, cuenta activada con éxito, enlace caducado) y botón para ir a Login.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 text-[10px] font-mono font-bold border border-purple-200">useSearchParams</span>
+                <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 text-[10px] font-mono font-bold border border-emerald-200">Token Validation UI</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Email Activation Flow</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Error Fallback</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Captura de Query Params</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Llamada a verify-email</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Vistas condicionales</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 24 (Front I):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Enrutamiento SPA con react-router-dom</h4>
+
+          <!-- Sesión 24 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 24 · DÍA 24</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">FORMULARIO LOGIN & LOGOUT</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Pantalla de Login, Visualizador de Password & Redirección por Rol</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Toggle interactivo para ver/ocultar contraseña, feedback de errores (credenciales incorrectas o cuenta no confirmada), redirección automática inteligente (<code class="font-mono">/admin/dashboard</code> o <code class="font-mono">/user/dashboard</code>) y botón de Logout seguro.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-[10px] font-mono font-bold border border-blue-200">Login Form</span>
+                <span class="px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 text-[10px] font-mono font-bold border border-indigo-200">Role-based Redirect</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Password Toggle</span>
+                <span class="px-2 py-0.5 rounded-md bg-red-50 text-red-700 text-[10px] font-mono font-bold border border-red-200">Logout Handler</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Flujo de Inicio de Sesión</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Redirección por roles</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Prueba de logout limpio</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1 sm:col-span-2">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 25 (Front II):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Parámetros Dinámicos (useParams) y Navegación</h4>
+
+          <!-- Sesión 25 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs md:col-span-2">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 25 · DÍA 25</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">RUTAS PROTEGIDAS</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Componentes de Seguridad de Rutas: &lt;ProtectedRoute /&gt; y &lt;AdminRoute /&gt;</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Bloqueo de acceso a usuarios anónimos, redirección suave a <code class="font-mono">/login</code> preservando la ruta previa, y restricción de secciones administrativas exclusivas para usuarios con <code class="font-mono">role === 'admin'</code>.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-red-50 text-red-700 text-[10px] font-mono font-bold border border-red-200">&lt;ProtectedRoute&gt;</span>
+                <span class="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 text-[10px] font-mono font-bold border border-purple-200">&lt;AdminRoute&gt;</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Role Authorization</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Route Guards</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Guardias de Navegación SPA</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Componente AdminRoute</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Bloqueo de acceso forzado</div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div id="panel-semana-6" class="semana-panel space-y-4 hidden">
-        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-900 flex items-center gap-2">
-          <i data-lucide="info" class="w-4 h-4 text-[#39A900]"></i>
-          <span>Semana 6: Autenticación, Seguridad y Estado Global (Sesiones 26 a 30)</span>
+      <!-- PANEL SEMANA 6 -->
+      <div id="panel-semana-6" class="semana-panel space-y-5 hidden">
+        <div class="p-4 bg-indigo-50 border border-indigo-200 rounded-xl text-xs font-bold text-indigo-900 flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <i data-lucide="layout-dashboard" class="w-4 h-4 text-indigo-700"></i>
+            <span>Semana 6: Dashboards por Rol (Admin vs User), Métricas y CRUD de Contenido</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-full bg-indigo-200 text-indigo-900 text-[10px] font-mono font-bold">5 Sesiones Planificadas</span>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 26 (BD):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Modelado Seguro de Usuarios y Roles</h4>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Sesión 26 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 26 · DÍA 26</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">DASHBOARD ADMIN</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Layout Moderno del Panel de Administración con Tailwind CSS</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Sidebar colapsable con estado activo de navegación, barra superior con perfil del administrador activo, badge de rol y menú desplegable de usuario con acción de cierre de sesión seguro.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 text-[10px] font-mono font-bold border border-indigo-200">Admin Dashboard</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Sidebar Colapsable</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Role Badge</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Responsive Menu</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Layouts Administrativos Modernos</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Sidebar y Header interactivo</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Perfil y logout en vivo</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 27 (Back I):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Hashing de Contraseñas con bcryptjs</h4>
+
+          <!-- Sesión 27 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 27 · DÍA 27</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">MÉTRICAS DEL SISTEMA</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Visualización de Métricas de Negocio Agregadas (PostgreSQL + MongoDB)</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Endpoint del backend agregador y tarjetas de estadísticas dinámicas en React: Total usuarios registrados y verificados (desde PostgreSQL) y total de contenidos publicados y en borrador (desde MongoDB).
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-[10px] font-mono font-bold border border-blue-200">PostgreSQL Users</span>
+                <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 text-[10px] font-mono font-bold border border-emerald-200">MongoDB Contents</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">KPI Cards</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">GET /api/metrics</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Agregaciones Políglotas</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Endpoint agregador de KPIs</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Render de tarjetas de métricas</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 28 (Back II):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Autenticación Stateless con JWT y Middleware</h4>
+
+          <!-- Sesión 28 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 28 · DÍA 28</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">CRUD CONTENIDO ADMIN</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Gestión de Contenido Dinámico: Listado y Modal de Creación en MongoDB</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Tabla de contenidos con estados (borrador/publicado), paginación y modal interactivo para publicar nuevos artículos con campos de título, descripción, icono y categoría en MongoDB.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 text-[10px] font-mono font-bold border border-emerald-200">Content CRUD</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Modal Component</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Formulario Mongoose</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">POST /api/content</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Diseño de Modales Accesibles</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Creación de contenido MongoDB</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Inserción y actualización en UI</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 29 (Front I):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Estado Global con React Context API (AuthContext)</h4>
+
+          <!-- Sesión 29 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 29 · DÍA 29</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">CRUD & IMPACTO EN LANDING</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Edición, Eliminación de Contenidos & Sincronización en la Landing Page</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Modales de edición y confirmación de borrado. Demostración en vivo de cómo una modificación realizada por el admin en su panel impacta instantáneamente en la Landing Page pública.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-[10px] font-mono font-bold border border-blue-200">PUT /api/content/:id</span>
+                <span class="px-2 py-0.5 rounded-md bg-red-50 text-red-700 text-[10px] font-mono font-bold border border-red-200">DELETE /api/content/:id</span>
+                <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 text-[10px] font-mono font-bold border border-emerald-200">Landing Sync</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Optimistic UI</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Sincronización en Tiempo Real</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Edición y borrado modal</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Impacto en Landing Page</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1 sm:col-span-2">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 30 (Front II):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Rutas Protegidas en React (&lt;ProtectedRoute /&gt;)</h4>
+
+          <!-- Sesión 30 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs md:col-span-2">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 30 · DÍA 30</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">DASHBOARD USUARIO NORMAL</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Experiencia del Usuario Común (role === 'user'): Contenido Exclusivo</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Panel para el aprendiz/usuario registrado con visualización de recursos exclusivos, historial de actividad y perfil personal, demostrando el contraste y separación visual de roles.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-teal-50 text-teal-800 text-[10px] font-mono font-bold border border-teal-200">User Dashboard</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Exclusive Content</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Profile View</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Role Separation</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Diseño por Roles de Usuario</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Vista de contenido exclusivo</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Verificación de permisos</div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div id="panel-semana-7" class="semana-panel space-y-4 hidden">
-        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-900 flex items-center gap-2">
-          <i data-lucide="info" class="w-4 h-4 text-[#39A900]"></i>
-          <span>Semana 7: Sprint de Proyectos Formativos SENA (Sesiones 31 a 35)</span>
+      <!-- PANEL SEMANA 7 -->
+      <div id="panel-semana-7" class="semana-panel space-y-5 hidden">
+        <div class="p-4 bg-red-50 border border-red-200 rounded-xl text-xs font-bold text-red-900 flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <i data-lucide="shield-alert" class="w-4 h-4 text-red-700"></i>
+            <span>Semana 7: Blindaje de Seguridad Integral, Auditoría y Conexión End-to-End</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-full bg-red-200 text-red-900 text-[10px] font-mono font-bold">5 Sesiones Planificadas</span>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 31 (BD):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Optimización de Esquemas de Proyecto y Seeds</h4>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Sesión 31 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 31 · DÍA 31</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">BLINDAJE BACKEND</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Hardening del Servidor Express: Helmet, Rate Limiting y CORS con Credenciales</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Protección de cabeceras HTTP con <code class="font-mono">helmet</code>, prevención de ataques de fuerza bruta en login/registro con <code class="font-mono">express-rate-limit</code>, sanitización estricta de payloads y control defensivo de orígenes CORS con credenciales.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-red-50 text-red-700 text-[10px] font-mono font-bold border border-red-200">helmet</span>
+                <span class="px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 text-[10px] font-mono font-bold border border-amber-200">express-rate-limit</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">CORS credentials</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Zero Brechas</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Vulnerabilidades OWASP Top 10</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Configuración de seguridad</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Ataque de fuerza bruta simulado</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 32 (Back I):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Lógica de Negocio y Endpoints Específicos</h4>
+
+          <!-- Sesión 32 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 32 · DÍA 32</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">BLINDAJE FRONTEND</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Sanitización en Frontend, Mitigación XSS y Expiración Silenciosa de Sesión</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Prevención de ataques XSS en renderizado de contenidos, detección de expiración de token en cookies mediante interceptores y mensajes de error orientados al usuario sin filtrar datos internos de BD.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-red-50 text-red-700 text-[10px] font-mono font-bold border border-red-200">XSS Prevention</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Sanitization</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Token Expiration Handler</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Defensive UI</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Vector de Ataque XSS</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Interceptor de sesión expirada</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Redirección suave al login</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 33 (Back II):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Cierre y Pruebas del Backend (CORS y Postman)</h4>
+
+          <!-- Sesión 33 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 33 · DÍA 33</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">PRUEBA END-TO-END</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Ensayo del Flujo Completo de Negocio de la Aplicación en el Aula</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Recorrido completo en vivo: Landing -> Registro -> Correo Resend -> Activación -> Login -> Dashboard por Rol -> CRUD Admin -> Sincronización Landing -> Logout seguro.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 text-[10px] font-mono font-bold border border-emerald-200">End-to-End Test</span>
+                <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-[10px] font-mono font-bold border border-blue-200">Integración Completa</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Flujo Transaccional</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Live Demo Aula</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Arquitectura Transversal</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Ensayo del ciclo completo</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Auditoría de cookies y token</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 34 (Front I):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Dashboard de Proyecto con Tailwind CSS</h4>
+
+          <!-- Sesión 34 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 34 · DÍA 34</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">OPTIMIZACIÓN & BUILD</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Code Splitting, React.lazy, Suspense y Build Optimizado con Vite</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Carga diferida de rutas de Dashboard, optimización de bundles JS/CSS con Vite (<code class="font-mono">npm run build</code>), compresión de assets y preparación de variables de entorno de producción.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-cyan-50 text-cyan-800 text-[10px] font-mono font-bold border border-cyan-200">React.lazy</span>
+                <span class="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 text-[10px] font-mono font-bold border border-purple-200">Suspense</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Vite Build</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Production ENV</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Code Splitting y Bundles</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>npm run build en Vite</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Lighthouse Audit</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1 sm:col-span-2">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 35 (Front II):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Integración Total Frontend-Backend (Auth + CRUD)</h4>
+
+          <!-- Sesión 35 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs md:col-span-2">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 35 · DÍA 35</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">TRANSFERENCIA SENA</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Taller Guiado de Transferencia a los Proyectos Formativos de Titulación ADSO</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Estrategia y acompañamiento para que cada equipo de aprendices replique la arquitectura (PostgreSQL para Auth + MongoDB para Contenido + Resend + Cookies JWT) en su respectivo software formativo.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 text-[10px] font-mono font-bold border border-emerald-200">Transferencia SENA</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Proyectos ADSO</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Arquitectura Modular</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Guía de Implementación</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Adaptación de Modelos</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Integración en proyectos de equipo</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Revisión puesto a puesto</div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div id="panel-semana-8" class="semana-panel space-y-4 hidden">
-        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-900 flex items-center gap-2">
-          <i data-lucide="info" class="w-4 h-4 text-[#39A900]"></i>
-          <span>Semana 8: Despliegue en la Nube y Sustentación Final (Sesiones 36 a 40)</span>
+      <!-- PANEL SEMANA 8 -->
+      <div id="panel-semana-8" class="semana-panel space-y-5 hidden">
+        <div class="p-4 bg-teal-50 border border-teal-200 rounded-xl text-xs font-bold text-teal-900 flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <i data-lucide="cloud" class="w-4 h-4 text-teal-700"></i>
+            <span>Semana 8: Despliegue en la Nube y Sustentación Técnica Final</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-full bg-teal-200 text-teal-900 text-[10px] font-mono font-bold">5 Sesiones Planificadas</span>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 36 (DevOps):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Base de Datos en Producción (MongoDB Atlas)</h4>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Sesión 36 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 36 · DÍA 36</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">BD EN LA NUBE</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Aprovisionamiento de BD Cloud: PostgreSQL (Neon / Supabase) y MongoDB Atlas</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Creación de bases de datos seguras en la nube, asignación de strings de conexión URI, configuración de IP Access Lists y pruebas de conectividad remota segura.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-[10px] font-mono font-bold border border-blue-200">Neon PostgreSQL</span>
+                <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 text-[10px] font-mono font-bold border border-emerald-200">MongoDB Atlas Cloud</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Connection Strings</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Cloud DB Security</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Bases de Datos Servidas</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Aprovisionamiento Cloud</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Conexión remota verificada</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 37 (DevOps):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Despliegue del Backend en Railway con HTTPS</h4>
+
+          <!-- Sesión 37 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 37 · DÍA 37</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">DESPLIEGUE BACKEND</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Despliegue de la API Node.js/Express en la Nube (Render / Railway) con HTTPS</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Vinculación con GitHub, configuración de variables de entorno de producción (<code class="font-mono">DATABASE_URL</code>, <code class="font-mono">MONGO_URI</code>, <code class="font-mono">JWT_SECRET</code>, <code class="font-mono">RESEND_API_KEY</code>, <code class="font-mono">CLIENT_URL</code>), scripts de inicio y pruebas de endpoints con HTTPS.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-teal-50 text-teal-800 text-[10px] font-mono font-bold border border-teal-200">Render / Railway</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Express Deploy</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">HTTPS Enforced</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Production ENV</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Hosting PaaS vs VPS</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Despliegue en Render</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Health check en vivo</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 38 (DevOps):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Build de Producción en Vite (SPA Vercel)</h4>
+
+          <!-- Sesión 38 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 38 · DÍA 38</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">DESPLIEGUE FRONTEND</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Despliegue de la Aplicación Vite + React en Vercel con Reglas SPA</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Vinculación con GitHub, configuración de <code class="font-mono">vercel.json</code> para enrutamiento SPA sin errores 404 en refresh, inyección de variables <code class="font-mono">VITE_API_URL</code> y verificación de build en la nube.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-slate-900 text-white text-[10px] font-mono font-bold">Vercel Deploy</span>
+                <span class="px-2 py-0.5 rounded-md bg-cyan-50 text-cyan-800 text-[10px] font-mono font-bold border border-cyan-200">Vite React</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">vercel.json SPA rewrite</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Production Frontend</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>CDN Edge y SPA Rewrites</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Conexión GitHub a Vercel</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Navegación directa sin 404</div>
+            </div>
           </div>
-          <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1">
-            <span class="font-mono font-bold text-slate-500">SESIÓN 39 (DevOps):</span>
-            <h4 class="font-bold text-slate-900 text-sm">Despliegue del Frontend en Vercel & E2E Test</h4>
+
+          <!-- Sesión 39 -->
+          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 39 · DÍA 39</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">INTEGRACIÓN PRODUCCIÓN</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px]">Planificada</span>
+              </div>
+              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Cookies Seguras entre Dominios (sameSite: 'none', secure: true) & Correo Real</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Configuración fina de cookies cross-site en HTTPS de producción, prueba en vivo de envío de correo real a través de Resend desde la nube y comprobación en vivo en teléfonos móviles y PCs.
+              </p>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 text-[10px] font-mono font-bold border border-amber-200">Cross-Domain Cookies</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">sameSite: none</span>
+                <span class="px-2 py-0.5 rounded-md bg-rose-50 text-rose-800 text-[10px] font-mono font-bold border border-rose-200">Resend Production</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Live Mobile Test</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Seguridad Cross-Origin HTTPS</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Prueba de correo en vivo</div>
+              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Acceso desde smartphone</div>
+            </div>
           </div>
-          <div class="p-4 bg-emerald-100 border border-emerald-300 rounded-xl space-y-1 sm:col-span-2 text-emerald-950">
-            <span class="font-mono font-extrabold text-emerald-800">SESIÓN 40 (CIERRE SENA):</span>
-            <h4 class="font-extrabold text-base">Jornada de Sustentación Técnica Individual SENA</h4>
-            <p>Demostración en vivo en producción y examen de modificación de código en caliente sin IA.</p>
+
+          <!-- Sesión 40 (Hito Final SENA) -->
+          <div class="sesion-card bg-gradient-to-r from-emerald-50 via-teal-50 to-blue-50 border-2 border-emerald-400 rounded-2xl p-6 sm:p-7 shadow-xs space-y-3 flex flex-col justify-between transition hover:shadow-md md:col-span-2">
+            <div class="space-y-2.5">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="px-3 py-1 rounded-full bg-[#39A900] text-white font-mono text-xs font-black shadow-2xs">SESIÓN 40 · DÍA 40</span>
+                  <span class="px-2.5 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-xs font-bold">HITO FINAL DE EVALUACIÓN SENA</span>
+                </div>
+                <span class="px-2.5 py-1 rounded-full bg-emerald-200 text-emerald-950 font-extrabold text-xs flex items-center gap-1.5 shadow-2xs">
+                  <i data-lucide="award" class="w-4 h-4 text-[#39A900]"></i> Certificación Técnica ADSO
+                </span>
+              </div>
+              <h4 class="text-xl sm:text-2xl font-black text-slate-900 leading-tight">Jornada Oficial de Sustentación Individual SENA y Examen en Caliente</h4>
+              <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
+                Demostración individual del aplicativo completo funcionando en producción frente a video-beam: Landing dinámica, registro con Resend, activación por email, login con cookies httpOnly, autorización de roles admin/user, dashboard con métricas agregadas y CRUD de MongoDB. Cada aprendiz realiza una modificación de código en caliente solicitada por el instructor (Live Mod) para validar autoría sin IA generativa.
+              </p>
+              <div class="flex flex-wrap gap-2 pt-1">
+                <span class="px-2.5 py-1 rounded-md bg-white text-emerald-900 text-xs font-mono font-extrabold border border-emerald-300 shadow-2xs">Sustentación SENA</span>
+                <span class="px-2.5 py-1 rounded-md bg-white text-[#00324D] text-xs font-mono font-extrabold border border-slate-300 shadow-2xs">Live Mod en Video-Beam</span>
+                <span class="px-2.5 py-1 rounded-md bg-white text-purple-900 text-xs font-mono font-extrabold border border-purple-300 shadow-2xs">Evaluación Individual</span>
+                <span class="px-2.5 py-1 rounded-md bg-white text-teal-900 text-xs font-mono font-extrabold border border-teal-300 shadow-2xs">Producción Total</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t border-emerald-200/80 text-xs font-semibold text-slate-800">
+              <div class="p-3 bg-white/80 rounded-xl border border-emerald-200"><span class="font-extrabold text-[#39A900] block text-xs mb-0.5">Fase 1: Demo en Vivo</span>Despliegue verificado en producción</div>
+              <div class="p-3 bg-white/80 rounded-xl border border-emerald-200"><span class="font-extrabold text-[#00324D] block text-xs mb-0.5">Fase 2: Live Mod</span>Modificación en caliente sin IA</div>
+              <div class="p-3 bg-white/80 rounded-xl border border-emerald-200"><span class="font-extrabold text-purple-700 block text-xs mb-0.5">Fase 3: Calificación</span>Juicio evaluativo institucional</div>
+            </div>
           </div>
         </div>
       </div>
@@ -1215,79 +2074,153 @@
       
       <div class="flex items-center justify-between mb-6">
         <div>
-          <h3 class="text-xl font-extrabold text-slate-900">Repositorio Técnico de Laboratorio</h3>
-          <p class="text-xs text-slate-500">Archivos oficiales listos para ejecución en MySQL Workbench y editores de código.</p>
+          <h3 class="text-xl font-extrabold text-slate-900">Repositorio Técnico de Laboratorios</h3>
+          <p class="text-xs text-slate-500">Archivos oficiales listos para ejecución en entornos locales, editores y gestores de bases de datos.</p>
         </div>
-        <span class="text-xs font-mono font-bold text-[#39A900] bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-200">MySQL 8.0</span>
+        <span class="text-xs font-mono font-bold text-[#39A900] bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-200">PostgreSQL · MySQL · Node · React</span>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         
-        <!-- Sesión 01: Plantilla Aprendiz -->
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 flex items-start justify-between gap-4 shadow-2xs">
+        <!-- Sesión 01 -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 flex flex-col justify-between gap-3 shadow-2xs">
           <div class="space-y-1">
             <div class="flex items-center gap-2">
               <span class="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-emerald-50 text-[#39A900] border border-emerald-200">SESIÓN 01</span>
               <h4 class="text-sm font-bold text-slate-900">plantilla_aprendiz.sql</h4>
             </div>
             <p class="text-xs text-slate-600">
-              Plantilla starter guiada con bloques <code class="font-mono font-semibold">[TODO]</code> para modelar el esquema DDL y poblar datos DML en MySQL Workbench.
+              Plantilla DDL/DML guiada con bloques <code class="font-mono font-semibold">[TODO]</code> para el Sistema de Ventas en MySQL.
             </p>
           </div>
-          <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/recursos/plantilla_aprendiz.sql" download class="px-4 py-2 bg-[#00324D] hover:bg-[#00263A] text-white font-bold text-xs rounded-xl transition shrink-0 flex items-center gap-1.5 shadow-2xs">
+          <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/recursos/plantilla_aprendiz.sql" download class="w-full py-2 bg-[#00324D] hover:bg-[#00263A] text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5 shadow-2xs">
             <i data-lucide="download" class="w-3.5 h-3.5 text-emerald-400"></i>
-            <span>Descargar</span>
+            <span>Descargar .sql</span>
           </a>
         </div>
 
-        <!-- Sesión 02: Plantilla Aprendiz -->
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 flex items-start justify-between gap-4 shadow-2xs">
+        <!-- Sesión 02 -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 flex flex-col justify-between gap-3 shadow-2xs">
           <div class="space-y-1">
             <div class="flex items-center gap-2">
               <span class="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-emerald-50 text-[#39A900] border border-emerald-200">SESIÓN 02</span>
               <h4 class="text-sm font-bold text-slate-900">plantilla_aprendiz (JOINs).sql</h4>
             </div>
             <p class="text-xs text-slate-600">
-              Base de datos precargada con datos de ventas y enunciados de los 5 retos de consultas relacionales y cruces para resolver en aula.
+              Dataset con ventas precargadas y enunciados de los 5 retos de analítica y cruces <code class="font-mono">INNER/LEFT JOIN</code>.
             </p>
           </div>
-          <a href="semana-01-fundamentos/dia-02-consultas-sql-joins/recursos/plantilla_aprendiz.sql" download class="px-4 py-2 bg-[#00324D] hover:bg-[#00263A] text-white font-bold text-xs rounded-xl transition shrink-0 flex items-center gap-1.5 shadow-2xs">
+          <a href="semana-01-fundamentos/dia-02-consultas-sql-joins/recursos/plantilla_aprendiz.sql" download class="w-full py-2 bg-[#00324D] hover:bg-[#00263A] text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5 shadow-2xs">
             <i data-lucide="download" class="w-3.5 h-3.5 text-emerald-400"></i>
-            <span>Descargar</span>
+            <span>Descargar .sql</span>
           </a>
         </div>
 
-        <!-- Sesión 03: Plantilla Aprendiz -->
-        <div class="bg-white p-5 rounded-2xl border border-blue-200 flex items-start justify-between gap-4 shadow-2xs">
+        <!-- Sesión 03 -->
+        <div class="bg-white p-5 rounded-2xl border border-blue-200 flex flex-col justify-between gap-3 shadow-2xs">
           <div class="space-y-1">
             <div class="flex items-center gap-2">
               <span class="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-blue-50 text-blue-800 border border-blue-200">SESIÓN 03</span>
               <h4 class="text-sm font-bold text-slate-900">plantilla_aprendiz.js (ES6+)</h4>
             </div>
             <p class="text-xs text-slate-600">
-              Plantilla de laboratorio con dataset de pedidos en memoria y los 5 retos guiados con bloques <code class="font-mono font-semibold">[TODO]</code> para resolver en Node.js.
+              Laboratorio en memoria con dataset de pedidos y retos guiados con <code class="font-mono">map/filter/reduce</code> y <code class="font-mono">async/await</code>.
             </p>
           </div>
-          <a href="semana-01-fundamentos/dia-03-javascript-es6-asincronia/recursos/plantilla_aprendiz.js" download class="px-4 py-2 bg-[#00324D] hover:bg-[#00263A] text-white font-bold text-xs rounded-xl transition shrink-0 flex items-center gap-1.5 shadow-2xs">
-            <i data-lucide="download" class="w-3.5 h-3.5 text-emerald-400"></i>
-            <span>Descargar</span>
+          <a href="semana-01-fundamentos/dia-03-javascript-es6-asincronia/recursos/plantilla_aprendiz.js" download class="w-full py-2 bg-[#00324D] hover:bg-[#00263A] text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5 shadow-2xs">
+            <i data-lucide="download" class="w-3.5 h-3.5 text-blue-400"></i>
+            <span>Descargar .js</span>
           </a>
         </div>
 
-        <!-- Protocolo Institucional de Sustentación -->
-        <div class="bg-emerald-50/60 p-5 rounded-2xl border border-emerald-200 flex items-start justify-between gap-4 shadow-2xs">
+        <!-- Sesión 04 -->
+        <div class="bg-white p-5 rounded-2xl border border-emerald-200 flex flex-col justify-between gap-3 shadow-2xs">
           <div class="space-y-1">
             <div class="flex items-center gap-2">
-              <span class="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300">METODOLOGÍA</span>
-              <h4 class="text-sm font-bold text-slate-900">Validación de Evidencias en Vivo</h4>
+              <span class="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200">SESIÓN 04</span>
+              <h4 class="text-sm font-bold text-slate-900">plantilla_servidor.js (Express)</h4>
             </div>
             <p class="text-xs text-slate-600">
-              Cada aprendiz sustenta individualmente en su puesto de trabajo modificando código en caliente ante el instructor previo al commit y push oficial en Git.
+              Servidor base en Node.js/Express con middleware <code class="font-mono">express.json()</code> y endpoints CRUD listos para probar en Bruno.
             </p>
           </div>
-          <div class="px-3.5 py-2 bg-white text-emerald-800 border border-emerald-300 font-extrabold text-[11px] rounded-xl shrink-0 flex items-center gap-1">
+          <a href="semana-01-fundamentos/dia-04-http-express-servidor-base/recursos/plantilla_servidor.js" download class="w-full py-2 bg-[#00324D] hover:bg-[#00263A] text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5 shadow-2xs">
+            <i data-lucide="download" class="w-3.5 h-3.5 text-emerald-400"></i>
+            <span>Descargar .js</span>
+          </a>
+        </div>
+
+        <!-- Sesión 05 -->
+        <div class="bg-white p-5 rounded-2xl border border-purple-200 flex flex-col justify-between gap-3 shadow-2xs">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-purple-50 text-purple-800 border border-purple-200">SESIÓN 05</span>
+              <h4 class="text-sm font-bold text-slate-900">Taller Interactivo (DOM)</h4>
+            </div>
+            <p class="text-xs text-slate-600">
+              Aplicativo interactivo que consume la API de Express :3000 con Fetch API, renderizado dinámico de tarjetas y toasts.
+            </p>
+          </div>
+          <a href="semana-01-fundamentos/dia-05-consumo-fetch-dom/recursos/index.html" class="w-full py-2 bg-[#00324D] hover:bg-[#00263A] text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5 shadow-2xs">
+            <i data-lucide="layout" class="w-3.5 h-3.5 text-purple-400"></i>
+            <span>Abrir Taller (.html)</span>
+          </a>
+        </div>
+
+        <!-- Sesión Extra Tailwind -->
+        <div class="bg-white p-5 rounded-2xl border border-indigo-200 flex flex-col justify-between gap-3 shadow-2xs">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-indigo-50 text-indigo-900 border border-indigo-200">SESIÓN EXTRA</span>
+              <h4 class="text-sm font-bold text-slate-900">dia-extra-tailwindcss-taller.zip</h4>
+            </div>
+            <p class="text-xs text-slate-600">
+              Paquete completo de taller con las 3 interfaces (Login, Register con medidor y Landing Page moderna) con Lucide Icons.
+            </p>
+          </div>
+          <a href="semana-01-fundamentos/dia-extra-tailwindcss-ui-ux/dia-extra-tailwindcss-taller.zip" download class="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-1.5 shadow-2xs">
+            <i data-lucide="folder-archive" class="w-3.5 h-3.5 text-indigo-200"></i>
+            <span>Descargar Taller (.zip)</span>
+          </a>
+        </div>
+
+        <!-- Sesión 06 PostgreSQL -->
+        <div class="bg-white p-5 rounded-2xl border border-blue-300 flex flex-col justify-between gap-3 shadow-2xs">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-blue-100 text-blue-900 border border-blue-300">SESIÓN 06</span>
+              <h4 class="text-sm font-bold text-slate-900">dia-06-postgresql-taller.zip</h4>
+            </div>
+            <p class="text-xs text-slate-600">
+              Plantilla .sql y guía de taller de 5 retos para modelar <code class="font-mono">users</code>, <code class="font-mono">verification_tokens</code> y UUIDv4 en PostgreSQL.
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <a href="semana-02-arquitectura-persistencia/dia-06-postgresql-relacional/recursos/plantilla_aprendiz.sql" download class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs rounded-xl transition flex items-center justify-center gap-1">
+              <i data-lucide="download" class="w-3 h-3 text-[#00324D]"></i>
+              <span>.sql</span>
+            </a>
+            <a href="semana-02-arquitectura-persistencia/dia-06-postgresql-relacional/dia-06-postgresql-taller.zip" download class="flex-1 py-2 bg-[#00324D] hover:bg-[#00263A] text-white font-bold text-xs rounded-xl transition flex items-center justify-center gap-1">
+              <i data-lucide="folder-archive" class="w-3 h-3 text-blue-400"></i>
+              <span>.zip</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Protocolo Institucional de Sustentación -->
+        <div class="bg-emerald-50/70 p-5 rounded-2xl border border-emerald-200 flex flex-col justify-between gap-3 shadow-2xs md:col-span-2">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300">METODOLOGÍA SENA</span>
+              <h4 class="text-sm font-bold text-slate-900">Validación de Evidencias en Vivo (Live Mod)</h4>
+            </div>
+            <p class="text-xs text-slate-600">
+              Cada aprendiz sustenta individualmente en su puesto de trabajo modificando código en caliente ante el instructor previo al commit y push oficial en Git, erradicando la dependencia ciega de IA generativa.
+            </p>
+          </div>
+          <div class="px-3.5 py-2 bg-white text-emerald-800 border border-emerald-300 font-extrabold text-[11px] rounded-xl self-start flex items-center gap-1.5 shadow-2xs">
             <i data-lucide="shield-check" class="w-4 h-4 text-[#39A900]"></i>
-            <span>Puesto a Puesto</span>
+            <span>Evaluación Puesto a Puesto sin IA</span>
           </div>
         </div>
 
@@ -1412,9 +2345,13 @@
       
       // Buscar todas las tarjetas de sesiones en el panel
       panel.querySelectorAll('h3, h4').forEach(headerEl => {
-        const tarjeta = headerEl.closest('.p-5, .p-6, .p-7, .p-4');
+        const tarjeta = headerEl.closest('.sesion-card, .p-6, .p-7, .p-5, .p-4');
         if (!tarjeta) return;
         
+        // Evitar duplicados si hay subtítulos dentro de la misma tarjeta
+        if (tarjeta.dataset.indexed) return;
+        tarjeta.dataset.indexed = "true";
+
         const titulo = headerEl.textContent.trim();
         const descripcion = tarjeta.querySelector('p') ? tarjeta.querySelector('p').textContent.trim() : '';
         const badges = Array.from(tarjeta.querySelectorAll('span, code')).map(el => el.textContent.trim()).join(' ');
@@ -1423,8 +2360,13 @@
         const linkProyeccion = tarjeta.querySelector('a[href*="semana-01-fundamentos"], a[href*="semana-02-arquitectura-persistencia"]');
         const hrefProyeccion = linkProyeccion ? linkProyeccion.getAttribute('href') : null;
 
+        // Extraer número de sesión o badge temático
+        const badgeEl = tarjeta.querySelector('span[class*="font-mono"]');
+        const sesionBadge = badgeEl ? badgeEl.textContent.trim() : `Semana ${semanaId}`;
+
         catalogoSesiones.push({
           semana: semanaId,
+          sesionBadge,
           titulo,
           descripcion,
           textoCompleto: `${titulo} ${descripcion} ${badges} semana ${semanaId}`.toLowerCase(),
@@ -1433,6 +2375,33 @@
         });
       });
     });
+
+    window.filtrarPorTema = function(tema) {
+      document.querySelectorAll('.chip-filter').forEach(btn => {
+        if (btn.getAttribute('data-tema') === tema) {
+          btn.className = "chip-filter px-3 py-1 rounded-full text-xs font-extrabold bg-[#00324D] text-white shadow-xs transition shrink-0";
+        } else {
+          btn.className = "chip-filter px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200/80 transition shrink-0";
+        }
+      });
+
+      if (!tema) {
+        window.limpiarBusqueda();
+        return;
+      }
+
+      inputBusqueda.value = tema;
+      ejecutarBusqueda();
+    };
+
+    window.irASemana = function(semanaNum) {
+      window.limpiarBusqueda();
+      window.cambiarSemana(parseInt(semanaNum));
+      const el = document.getElementById('panel-semana-' + semanaNum);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
 
     function ejecutarBusqueda() {
       const termino = inputBusqueda.value.trim().toLowerCase();
@@ -1459,30 +2428,36 @@
         listaResultados.innerHTML = `
           <div class="col-span-full py-8 text-center space-y-2">
             <p class="text-sm font-bold text-slate-700">No encontramos lecciones que coincidan con tu búsqueda.</p>
-            <p class="text-xs text-slate-500">Prueba con palabras como: <code>JOIN</code>, <code>Express</code>, <code>React</code>, <code>DDL</code>, <code>Token</code>, <code>Docker</code>.</p>
+            <p class="text-xs text-slate-500">Prueba con palabras como: <code>PostgreSQL</code>, <code>MongoDB</code>, <code>Resend</code>, <code>JWT</code>, <code>useAuth</code>, <code>Tailwind</code>.</p>
           </div>
         `;
         return;
       }
 
       listaResultados.innerHTML = coincidencias.map(item => `
-        <div class="bg-white border border-slate-200 hover:border-[#39A900] rounded-xl p-4 shadow-2xs space-y-2 transition">
-          <div class="flex items-center justify-between gap-2">
-            <span class="px-2 py-0.5 rounded bg-emerald-50 text-[#39A900] font-mono text-[10px] font-extrabold border border-emerald-200">
-              SEMANA ${item.semana}
-            </span>
-            ${item.hrefProyeccion ? '<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold">🟢 Lista</span>' : '<span class="text-[10px] font-semibold text-slate-400">🔒 Planificada</span>'}
+        <div class="bg-white border border-slate-200 hover:border-[#39A900] rounded-2xl p-5 shadow-2xs space-y-3 transition flex flex-col justify-between hover:shadow-xs">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-[#39A900] font-mono text-[10px] font-extrabold border border-emerald-200">
+                ${item.sesionBadge}
+              </span>
+              ${item.hrefProyeccion ? '<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Lista</span>' : '<span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 text-[10px] font-semibold flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i> Planificada</span>'}
+            </div>
+            <h4 class="text-sm font-extrabold text-slate-900 leading-snug">${item.titulo}</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">${item.descripcion}</p>
           </div>
-          <h4 class="text-sm font-extrabold text-slate-900">${item.titulo}</h4>
-          <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">${item.descripcion}</p>
-          ${item.hrefProyeccion ? `
-            <div class="pt-2 border-t border-slate-100">
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-2 flex-wrap">
+            <button onclick="window.irASemana('${item.semana}')" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-500"></i>
+              <span>Ver en Semana ${item.semana}</span>
+            </button>
+            ${item.hrefProyeccion ? `
               <a href="${item.hrefProyeccion}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#39A900] hover:bg-[#2D8200] text-white text-xs font-bold rounded-lg transition shadow-2xs">
                 <i data-lucide="projector" class="w-3.5 h-3.5"></i>
                 <span>Proyectar en Aula</span>
               </a>
-            </div>
-          ` : ''}
+            ` : ''}
+          </div>
         </div>
       `).join('');
 
@@ -1497,6 +2472,13 @@
       if (inputBusqueda) inputBusqueda.value = '';
       if (btnLimpiar) btnLimpiar.classList.add('hidden');
       if (panelResultados) panelResultados.classList.add('hidden');
+      document.querySelectorAll('.chip-filter').forEach(btn => {
+        if (btn.getAttribute('data-tema') === '') {
+          btn.className = "chip-filter px-3 py-1 rounded-full text-xs font-extrabold bg-[#00324D] text-white shadow-xs transition shrink-0";
+        } else {
+          btn.className = "chip-filter px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200/80 transition shrink-0";
+        }
+      });
       window.cambiarSemana(semanaActivaActual);
     };
 
