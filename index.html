@@ -939,17 +939,13 @@
       <!-- ===================================================================== -->
       <!-- PANELES DE SEMANAS 2 A 8 (PLAN CURRICULAR) -->
       <!-- ===================================================================== -->
+      <!-- ===================================================================== -->
+      <!-- CONTENIDO DE SEMANA 2 (PERSISTENCIA POLÍGLOTA: POSTGRESQL & MONGODB) -->
+      <!-- ===================================================================== -->
       <div id="panel-semana-2" class="semana-panel space-y-5 hidden">
-        <div class="p-4 bg-blue-50 border border-blue-200 rounded-xl text-xs font-bold text-blue-900 flex items-center justify-between gap-2">
-          <div class="flex items-center gap-2">
-            <i data-lucide="database" class="w-4 h-4 text-[#00324D]"></i>
-            <span>Semana 2: Persistencia Políglota — PostgreSQL (Relacional) y MongoDB (NoSQL) desde Cero</span>
-          </div>
-          <span class="px-2 py-0.5 rounded-full bg-blue-200 text-blue-900 text-[10px] font-mono font-bold">1 / 5 Sesiones Listas</span>
-        </div>
 
         <!-- Tarjeta Destacada: Sesión 06 (LISTA PARA PROYECTAR · SEMANA 2) -->
-        <div class="bg-white border-2 border-[#00324D] rounded-2xl p-6 sm:p-7 shadow-xs hover:shadow-md transition">
+        <div class="sesion-card bg-white border-2 border-[#00324D] rounded-2xl p-6 sm:p-7 shadow-xs hover:shadow-md transition">
           <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div class="space-y-3 flex-1">
               
@@ -1015,128 +1011,300 @@
           </div>
         </div>
 
-        <!-- Roadmap de Próximas Sesiones de Semana 2 -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Sesión 07 -->
-          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
-            <div class="space-y-2.5">
-              <div class="flex flex-wrap items-center justify-between gap-2">
-                <div class="flex items-center gap-1.5 flex-wrap">
-                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 07 · DÍA 07</span>
-                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">BD NOSQL (MONGODB)</span>
-                </div>
-                <span class="px-2 py-0.5 rounded-full bg-blue-50 text-blue-800 border border-blue-200 font-bold text-[10px] flex items-center gap-1">
-                  <i data-lucide="compass" class="w-3 h-3 text-blue-600"></i> Próxima Sesión
+        <!-- Tarjeta: Sesión 07 -->
+        <div class="sesion-card bg-white border-2 border-emerald-500/80 rounded-2xl p-6 sm:p-7 shadow-xs hover:shadow-md transition">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div class="space-y-3 flex-1">
+              
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-mono text-xs font-extrabold border border-emerald-200">
+                  SESIÓN 07 · DÍA 07
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-xs font-bold">
+                  BD NOSQL (MONGODB)
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-800 text-xs font-extrabold border border-blue-200 flex items-center gap-1">
+                  <i data-lucide="compass" class="w-3.5 h-3.5 text-blue-600"></i> Próxima Sesión
+                </span>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[10px] font-mono font-bold">
+                  Catálogo NoSQL
                 </span>
               </div>
-              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Introducción a MongoDB Atlas & Paradigma NoSQL Documental</h4>
-              <p class="text-xs text-slate-600 leading-relaxed">
+
+              <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+                Introducción a MongoDB Atlas & Paradigma NoSQL Documental
+              </h3>
+
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
                 Colecciones, documentos BSON vs Tablas SQL, esquemas dinámicos y matriz de decisión técnica: ¿Cuándo usar PostgreSQL (identidad, transacciones, roles) vs cuándo MongoDB (landing flexible, catálogo dinámico)? Configuración en MongoDB Atlas y cliente local Compass.
               </p>
-              <div class="flex flex-wrap gap-1.5 pt-1">
-                <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-mono font-bold border border-emerald-200">BSON</span>
-                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">MongoDB Atlas</span>
-                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Compass</span>
-                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Matriz SQL vs NoSQL</span>
-              </div>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
-              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>BSON vs Tablas SQL</div>
-              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Atlas Cluster & Compass</div>
-              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Consultas en Compass</div>
-            </div>
-          </div>
 
-          <!-- Sesión 08 -->
-          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
-            <div class="space-y-2.5">
-              <div class="flex flex-wrap items-center justify-between gap-2">
-                <div class="flex items-center gap-1.5 flex-wrap">
-                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 08 · DÍA 08</span>
-                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">BACKEND I (ARQUITECTURA)</span>
+              <!-- Desglose de los 3 bloques de la sesión -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs">
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-extrabold text-[#39A900] block mb-1">Bloque 1: Teoría & Live Coding</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">BSON vs Tablas SQL, tipos polimórficos y arquitectura NoSQL sin bloqueo de esquemas.</span>
                 </div>
-                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px] flex items-center gap-1">
-                  <i data-lucide="layers" class="w-3 h-3 text-slate-400"></i> Planificada
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-extrabold text-[#00324D] block mb-1">Bloque 2: Taller en Aula</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">Creación de Cluster en Atlas, String de Conexión SRV e inserción de colecciones en Compass.</span>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-purple-200 bg-purple-50/40">
+                  <span class="font-extrabold text-purple-700 block mb-1">Bloque 3: Sustentación</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">Consultas en Compass con operadores ($eq, $in, $gt) y justificación de selección NoSQL.</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Botones de Acción de la Sesión -->
+            <div class="flex flex-col gap-2.5 shrink-0 lg:w-56">
+              <div class="w-full px-5 py-3 bg-emerald-50 border border-emerald-200 text-emerald-900 font-extrabold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 text-center">
+                <i data-lucide="compass" class="w-4 h-4 text-[#39A900]"></i>
+                <span>Próxima a Dictar</span>
+              </div>
+
+              <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-center">
+                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Entorno de Datos</span>
+                <span class="text-xs font-extrabold text-slate-800 flex items-center justify-center gap-1 mt-0.5">
+                  <i data-lucide="database" class="w-3.5 h-3.5 text-emerald-600"></i> MongoDB Atlas & Compass
                 </span>
               </div>
-              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Arquitectura en Capas en Express & Conexión Dual Simultánea</h4>
-              <p class="text-xs text-slate-600 leading-relaxed">
-                Separación estricta de responsabilidades (<code class="font-mono">routes</code>, <code class="font-mono">controllers</code>, <code class="font-mono">services</code>, <code class="font-mono">models</code>, <code class="font-mono">middlewares</code>, <code class="font-mono">config</code>). Configuración paralela de Pool PostgreSQL (<code class="font-mono">pg</code>) y ODM Mongoose en el mismo servidor Express con variables de entorno defensivas (<code class="font-mono">dotenv</code>).
-              </p>
-              <div class="flex flex-wrap gap-1.5 pt-1">
-                <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-[10px] font-mono font-bold border border-blue-200">pg.Pool</span>
-                <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-mono font-bold border border-emerald-200">mongoose.connect()</span>
-                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Capas MVC</span>
-                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Dual Connection</span>
-              </div>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
-              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Arquitectura Modular</div>
-              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Conexión dual PG + Mongo</div>
-              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Endpoint /api/health</div>
-            </div>
-          </div>
 
-          <!-- Sesión 09 -->
-          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
-            <div class="space-y-2.5">
-              <div class="flex flex-wrap items-center justify-between gap-2">
-                <div class="flex items-center gap-1.5 flex-wrap">
-                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 09 · DÍA 09</span>
-                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">BACKEND II (POSTGRESQL REPO)</span>
-                </div>
-                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px] flex items-center gap-1">
-                  <i data-lucide="shield" class="w-3 h-3 text-slate-400"></i> Planificada
-                </span>
-              </div>
-              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Persistencia Relacional en PostgreSQL: Repositorio de Usuarios y Prevención de SQLi</h4>
-              <p class="text-xs text-slate-600 leading-relaxed">
-                Consultas parametrizadas (<code class="font-mono">$1, $2</code>) para mitigación de SQL Injection, operaciones CRUD de usuarios, búsqueda por email y manejo defensivo de errores con códigos de estado HTTP coherentes.
-              </p>
-              <div class="flex flex-wrap gap-1.5 pt-1">
-                <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-[10px] font-mono font-bold border border-blue-200">Parameterized Queries</span>
-                <span class="px-2 py-0.5 rounded-md bg-red-50 text-red-700 text-[10px] font-mono font-bold border border-red-200">SQLi Prevention</span>
-                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">UserRepository</span>
-                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">findUserByEmail</span>
+              <div class="p-2 bg-slate-50 border border-slate-200 rounded-xl text-center text-[10px] text-slate-600 font-medium">
+                <span>Colección <code class="font-mono font-bold text-slate-800">contents</code></span>
               </div>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
-              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Peligros de Concatenación SQL</div>
-              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>Módulo UserRepository</div>
-              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Testing en Bruno</div>
-            </div>
-          </div>
 
-          <!-- Sesión 10 -->
-          <div class="sesion-card bg-white border border-slate-200 hover:border-slate-300 rounded-2xl p-5 sm:p-6 shadow-2xs space-y-3 flex flex-col justify-between transition hover:shadow-xs">
-            <div class="space-y-2.5">
-              <div class="flex flex-wrap items-center justify-between gap-2">
-                <div class="flex items-center gap-1.5 flex-wrap">
-                  <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-[11px] font-extrabold border border-slate-200">SESIÓN 10 · DÍA 10</span>
-                  <span class="px-2 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[10px] font-bold">BACKEND III (MONGOOSE SCHEMAS)</span>
-                </div>
-                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold text-[10px] flex items-center gap-1">
-                  <i data-lucide="file-code-2" class="w-3 h-3 text-slate-400"></i> Planificada
-                </span>
-              </div>
-              <h4 class="text-base font-extrabold text-slate-900 leading-snug">Persistencia Documental en MongoDB: Esquemas de Contenido con Mongoose</h4>
-              <p class="text-xs text-slate-600 leading-relaxed">
-                Definición del <code class="font-mono">ContentSchema</code> para la Landing Page (título, descripción, icono/imagen, categoría, estado 'draft'/'published', autor). Métodos Mongoose <code class="font-mono">.create()</code>, <code class="font-mono">.find()</code>, <code class="font-mono">.findByIdAndUpdate()</code>, <code class="font-mono">.findByIdAndDelete()</code>.
-              </p>
-              <div class="flex flex-wrap gap-1.5 pt-1">
-                <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-mono font-bold border border-emerald-200">ContentSchema</span>
-                <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-mono font-bold border border-emerald-200">CRUD Mongoose</span>
-                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Draft vs Published</span>
-                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-mono font-bold border border-slate-200">Landing Sync</span>
-              </div>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 text-[11px] border-t border-slate-100 text-slate-600">
-              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#39A900] block text-[10px]">B1: Teoría</span>Tipos y Validadores Mongoose</div>
-              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-[#00324D] block text-[10px]">B2: Taller</span>ContentController & Rutas</div>
-              <div class="p-2 bg-slate-50 rounded-lg"><span class="font-bold text-purple-700 block text-[10px]">B3: Sustentación</span>Filtrado por publicado</div>
-            </div>
           </div>
         </div>
+
+        <!-- Tarjeta: Sesión 08 -->
+        <div class="sesion-card bg-white border-2 border-slate-200 hover:border-slate-300 rounded-2xl p-6 sm:p-7 shadow-xs hover:shadow-md transition">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div class="space-y-3 flex-1">
+              
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-xs font-extrabold border border-slate-200">
+                  SESIÓN 08 · DÍA 08
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-xs font-bold">
+                  BACKEND I (ARQUITECTURA)
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-bold flex items-center gap-1">
+                  <i data-lucide="layers" class="w-3.5 h-3.5 text-slate-400"></i> Planificada
+                </span>
+                <span class="px-2 py-0.5 rounded-full bg-blue-50 text-blue-900 text-[10px] font-mono font-bold">
+                  Dual Pool PG + Mongo
+                </span>
+              </div>
+
+              <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+                Arquitectura en Capas en Express & Conexión Dual Simultánea
+              </h3>
+
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                Separación estricta de responsabilidades (<code class="font-mono">routes</code>, <code class="font-mono">controllers</code>, <code class="font-mono">services</code>, <code class="font-mono">models</code>, <code class="font-mono">middlewares</code>, <code class="font-mono">config</code>). Configuración paralela de Pool PostgreSQL (<code class="font-mono">pg</code>) y ODM Mongoose en el mismo servidor Express con variables de entorno defensivas (<code class="font-mono">dotenv</code>).
+              </p>
+
+              <!-- Desglose de los 3 bloques de la sesión -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs">
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-extrabold text-[#39A900] block mb-1">Bloque 1: Teoría & Live Coding</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">Arquitectura Modular Enterprise, inyección de dependencias y pool lifecycle.</span>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-extrabold text-[#00324D] block mb-1">Bloque 2: Taller en Aula</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">Scaffolding de carpetas, config/db.js híbrido y prueba de conexión concurrente.</span>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-purple-200 bg-purple-50/40">
+                  <span class="font-extrabold text-purple-700 block mb-1">Bloque 3: Sustentación</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">Endpoint /api/health con status de ambos pools en caliente y test de reconexión.</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Botones de Acción de la Sesión -->
+            <div class="flex flex-col gap-2.5 shrink-0 lg:w-56">
+              <div class="w-full px-5 py-3 bg-slate-100 text-slate-700 font-extrabold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 text-center border border-slate-200">
+                <i data-lucide="calendar" class="w-4 h-4 text-slate-500"></i>
+                <span>Semana 2 · Día 8</span>
+              </div>
+
+              <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-center">
+                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Arquitectura Backend</span>
+                <span class="text-xs font-extrabold text-slate-800 flex items-center justify-center gap-1 mt-0.5">
+                  <i data-lucide="server" class="w-3.5 h-3.5 text-blue-600"></i> pg.Pool + Mongoose
+                </span>
+              </div>
+
+              <div class="p-2 bg-slate-50 border border-slate-200 rounded-xl text-center text-[10px] text-slate-600 font-medium">
+                <span>Salud del Servidor: <code class="font-mono font-bold text-blue-700">/api/health</code></span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Tarjeta: Sesión 09 -->
+        <div class="sesion-card bg-white border-2 border-slate-200 hover:border-slate-300 rounded-2xl p-6 sm:p-7 shadow-xs hover:shadow-md transition">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div class="space-y-3 flex-1">
+              
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-xs font-extrabold border border-slate-200">
+                  SESIÓN 09 · DÍA 09
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-xs font-bold">
+                  BACKEND II (POSTGRESQL REPO)
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-bold flex items-center gap-1">
+                  <i data-lucide="shield" class="w-3.5 h-3.5 text-slate-400"></i> Planificada
+                </span>
+                <span class="px-2 py-0.5 rounded-full bg-amber-50 text-amber-900 text-[10px] font-mono font-bold">
+                  Anti-SQL Injection
+                </span>
+              </div>
+
+              <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+                Persistencia Relacional en PostgreSQL: Repositorio de Usuarios y Prevención de SQLi
+              </h3>
+
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                Consultas parametrizadas (<code class="font-mono text-[#00324D] font-bold">$1, $2</code>) para mitigación de SQL Injection, operaciones CRUD de usuarios, búsqueda por email y manejo defensivo de errores con códigos de estado HTTP coherentes.
+              </p>
+
+              <!-- Desglose de los 3 bloques de la sesión -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs">
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-extrabold text-[#39A900] block mb-1">Bloque 1: Teoría & Live Coding</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">Peligros de concatenación de strings, SQL Injection (SQLi) y prepared statements nativos.</span>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-extrabold text-[#00324D] block mb-1">Bloque 2: Taller en Aula</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">Módulo UserRepository.js: createUser, findByEmail, findById con transacciones BEGIN/COMMIT.</span>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-purple-200 bg-purple-50/40">
+                  <span class="font-extrabold text-purple-700 block mb-1">Bloque 3: Sustentación</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">Demostración en Bruno intentando inyección SQL maliciosa sin éxito.</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Botones de Acción de la Sesión -->
+            <div class="flex flex-col gap-2.5 shrink-0 lg:w-56">
+              <div class="w-full px-5 py-3 bg-slate-100 text-slate-700 font-extrabold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 text-center border border-slate-200">
+                <i data-lucide="calendar" class="w-4 h-4 text-slate-500"></i>
+                <span>Semana 2 · Día 9</span>
+              </div>
+
+              <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-center">
+                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Seguridad Relacional</span>
+                <span class="text-xs font-extrabold text-slate-800 flex items-center justify-center gap-1 mt-0.5">
+                  <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i> Parameterized Queries ($1)
+                </span>
+              </div>
+
+              <div class="p-2 bg-slate-50 border border-slate-200 rounded-xl text-center text-[10px] text-slate-600 font-medium">
+                <span>Testing API: <code class="font-mono font-bold text-amber-700">Bruno Collection</code></span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Tarjeta: Sesión 10 -->
+        <div class="sesion-card bg-white border-2 border-slate-200 hover:border-slate-300 rounded-2xl p-6 sm:p-7 shadow-xs hover:shadow-md transition">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div class="space-y-3 flex-1">
+              
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono text-xs font-extrabold border border-slate-200">
+                  SESIÓN 10 · DÍA 10
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-xs font-bold">
+                  BACKEND III (MONGOOSE SCHEMAS)
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs font-bold flex items-center gap-1">
+                  <i data-lucide="file-code-2" class="w-3.5 h-3.5 text-slate-400"></i> Planificada
+                </span>
+                <span class="px-2 py-0.5 rounded-full bg-purple-50 text-purple-900 text-[10px] font-mono font-bold">
+                  ✨ Cierre Semana 2
+                </span>
+              </div>
+
+              <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+                Persistencia Documental en MongoDB: Esquemas de Contenido con Mongoose
+              </h3>
+
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                Definición del <code class="font-mono text-emerald-700 font-bold">ContentSchema</code> para la Landing Page (título, descripción, icono/imagen, categoría, estado 'draft'/'published', autor). Métodos Mongoose <code class="font-mono">.create()</code>, <code class="font-mono">.find()</code>, <code class="font-mono">.findByIdAndUpdate()</code>, <code class="font-mono">.findByIdAndDelete()</code>.
+              </p>
+
+              <!-- Desglose de los 3 bloques de la sesión -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs">
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-extrabold text-[#39A900] block mb-1">Bloque 1: Teoría & Live Coding</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">Tipos de datos y validadores nativos de Mongoose (required, trim, enum, timestamps).</span>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-extrabold text-[#00324D] block mb-1">Bloque 2: Taller en Aula</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">Implementación de ContentController y endpoints REST para catálogo de la landing.</span>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-purple-200 bg-purple-50/40">
+                  <span class="font-extrabold text-purple-700 block mb-1">Bloque 3: Sustentación</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">Filtrado por estado publicado y modificación de un campo dinámico en vivo.</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Botones de Acción de la Sesión -->
+            <div class="flex flex-col gap-2.5 shrink-0 lg:w-56">
+              <div class="w-full px-5 py-3 bg-slate-100 text-slate-700 font-extrabold text-xs sm:text-sm rounded-xl flex items-center justify-center gap-2 text-center border border-slate-200">
+                <i data-lucide="calendar" class="w-4 h-4 text-slate-500"></i>
+                <span>Semana 2 · Día 10</span>
+              </div>
+
+              <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-center">
+                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Catálogo Landing</span>
+                <span class="text-xs font-extrabold text-slate-800 flex items-center justify-center gap-1 mt-0.5">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5 text-purple-600"></i> ContentSchema & CRUD
+                </span>
+              </div>
+
+              <div class="p-2 bg-slate-50 border border-slate-200 rounded-xl text-center text-[10px] text-slate-600 font-medium">
+                <span>Preparado para: <code class="font-mono font-bold text-purple-700">Semana 3 Auth</code></span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Banner de Cierre: Semana 2 Resumen -->
+        <div class="p-5 bg-gradient-to-r from-blue-50 via-slate-50 to-emerald-50 border-2 border-blue-200 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs">
+          <div class="flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-xl bg-[#00324D] text-white flex items-center justify-center font-black text-xl shadow-xs shrink-0">
+              <i data-lucide="database" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-black text-[#00324D] uppercase tracking-wider font-mono">Semana 2: Persistencia Políglota</span>
+                <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-900 text-[10px] font-bold font-mono">5 Sesiones (S06 - S10)</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-0.5">
+                PostgreSQL Relacional (UUIDv4, IDOR, Foreign Keys) + MongoDB Atlas (BSON, Colecciones) + Conexión Dual en Express.
+              </p>
+            </div>
+          </div>
+          <button onclick="cambiarSemana(3)" class="px-4 py-2.5 bg-[#00324D] hover:bg-[#00263A] text-white font-bold text-xs rounded-xl transition shadow-xs flex items-center gap-2 shrink-0">
+            <span>Ir a Semana 3</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
       </div>
 
       <!-- ===================================================================== -->
