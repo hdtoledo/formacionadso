@@ -195,9 +195,23 @@
         <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-2">
           El Sistema que Construiremos: Arquitectura 3-Tier de Autenticación
         </h2>
-        <p class="text-xs sm:text-sm text-slate-600 mb-5 max-w-4xl">
+        <p class="text-xs sm:text-sm text-slate-600 mb-4 max-w-4xl">
           Antes de escribir una sola línea de código SQL, debemos comprender la arquitectura completa del software que estamos montando: un sistema empresarial de identidad, activación por email y control de acceso basado en roles (RBAC).
         </p>
+
+        <!-- Diagrama Blueprint de la Arquitectura del Sistema -->
+        <div class="mb-4 bg-slate-900 border border-slate-800 rounded-2xl p-2.5 shadow-md overflow-hidden">
+          <div class="flex items-center justify-between pb-1.5 mb-1.5 border-b border-slate-800 text-xs">
+            <div class="flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span class="font-bold text-slate-200">Blueprint de Arquitectura Global del Sistema (ADSO Full-Stack)</span>
+            </div>
+            <span class="font-mono text-[10px] text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/60">Tier 1 SPA + Tier 2 API Gateway + Tier 3 Persistencia Políglota</span>
+          </div>
+          <div class="w-full flex justify-center items-center bg-slate-950/60 rounded-xl overflow-hidden p-1">
+            <img src="../../assets/img/architecture_system_diagram.jpg" alt="Diagrama de Arquitectura 3-Tier del Sistema" class="w-full max-h-56 object-contain rounded-lg hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in" onclick="window.open(this.src, '_blank')" title="Clic para ver en tamaño completo">
+          </div>
+        </div>
 
         <!-- Grilla de los 3 Tiers Arquitecturales -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
@@ -316,7 +330,101 @@
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 03: ARQUITECTURA LIMPIA DEL BACKEND EXPRESS -->
+      <!-- SLIDE 03: ARQUITECTURA EMPRESARIAL: ADSO VS BIG TECH (STRIPE, NETFLIX, UBER) -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
+          <i data-lucide="building-2" class="w-4 h-4 text-[#39A900]"></i>
+          <span>Ingeniería de Software a Escala · Comparativa con Grandes Empresas</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-2">
+          Arquitectura de Clase Mundial: ¿Cómo Diseñan su Software los Gigantes Tech?
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-3 max-w-4xl">
+          El diseño del sistema que construiremos en el SENA <strong>no es un ejercicio teórico aislado</strong>: aplica con exactitud los mismos patrones de arquitectura que sostienen a compañías globales como <strong>Stripe, Netflix y Uber</strong>:
+        </p>
+
+        <!-- Infografía Comparativa Visual de Big Tech -->
+        <div class="mb-3 bg-slate-900 border border-slate-800 rounded-2xl p-2.5 shadow-md overflow-hidden">
+          <div class="flex items-center justify-between pb-1.5 mb-1.5 border-b border-slate-800 text-xs">
+            <div class="flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-blue-400"></span>
+              <span class="font-bold text-slate-200">Matriz de Decisión Arquitectural: Big Tech vs. Modelo ADSO</span>
+            </div>
+            <span class="font-mono text-[10px] text-blue-400 bg-blue-950/60 px-2 py-0.5 rounded border border-blue-800/60">Stripe · Netflix · Uber · ADSO SENA</span>
+          </div>
+          <div class="w-full flex justify-center items-center bg-slate-950/60 rounded-xl overflow-hidden p-1">
+            <img src="../../assets/img/bigtech_comparison_matrix.jpg" alt="Infografía de Arquitectura Big Tech vs Modern Full-Stack" class="w-full max-h-60 object-contain rounded-lg hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in" onclick="window.open(this.src, '_blank')" title="Clic para ver en tamaño completo">
+          </div>
+        </div>
+
+        <!-- Tabla / Tarjetas de Análisis Comparativo Detallado -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+          
+          <!-- Caso 1: Stripe & Banca Digital -->
+          <div class="p-3.5 bg-white border border-slate-200 rounded-xl shadow-2xs space-y-1.5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <span class="w-5 h-5 rounded-md bg-[#635BFF] text-white flex items-center justify-center font-bold text-[10px]">S</span>
+                <span class="font-extrabold text-slate-900 text-xs">Stripe & Fintech</span>
+              </div>
+              <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 font-mono text-[9px] font-bold border border-emerald-200">ACID ESTRICTO</span>
+            </div>
+            <p class="text-[11px] text-slate-600 leading-snug">
+              <strong>Motor:</strong> PostgreSQL relacional como única fuente de verdad contable y de identidades.
+            </p>
+            <p class="text-[11px] text-slate-500 leading-snug">
+              <strong>Por qué en ADSO:</strong> Para usuarios y tokens no se permite inconsistencia eventual. La tabla <code class="font-mono text-[10px] text-[#00324D]">users</code> exige atomicidad total, unicidad estricta y llaves foráneas en cascada.
+            </p>
+          </div>
+
+          <!-- Caso 2: Netflix & Streaming -->
+          <div class="p-3.5 bg-white border border-slate-200 rounded-xl shadow-2xs space-y-1.5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <span class="w-5 h-5 rounded-md bg-[#E50914] text-white flex items-center justify-center font-bold text-[10px]">N</span>
+                <span class="font-extrabold text-slate-900 text-xs">Netflix & Streaming</span>
+              </div>
+              <span class="px-2 py-0.5 rounded bg-purple-50 text-purple-800 font-mono text-[9px] font-bold border border-purple-200">POLÍGLOTA</span>
+            </div>
+            <p class="text-[11px] text-slate-600 leading-snug">
+              <strong>Motor:</strong> RDBMS para suscripciones y cobros; NoSQL distribuido para el inmenso catálogo de series y recomendaciones.
+            </p>
+            <p class="text-[11px] text-slate-500 leading-snug">
+              <strong>Por qué en ADSO:</strong> Separamos la identidad (PostgreSQL) del catálogo dinámico de la Landing Page (MongoDB Atlas), permitiendo esquemas flexibles sin bloqueos DDL en la base de datos central.
+            </p>
+          </div>
+
+          <!-- Caso 3: Uber & Movilidad -->
+          <div class="p-3.5 bg-white border border-slate-200 rounded-xl shadow-2xs space-y-1.5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <span class="w-5 h-5 rounded-md bg-black text-white flex items-center justify-center font-bold text-[10px]">U</span>
+                <span class="font-extrabold text-slate-900 text-xs">Uber & Big Scale</span>
+              </div>
+              <span class="px-2 py-0.5 rounded bg-blue-50 text-blue-800 font-mono text-[9px] font-bold border border-blue-200">CAPAS LIMPIAS</span>
+            </div>
+            <p class="text-[11px] text-slate-600 leading-snug">
+              <strong>Motor:</strong> Arquitectura modular por capas (Controllers, Services, Repositories) y autenticación stateless segura.
+            </p>
+            <p class="text-[11px] text-slate-500 leading-snug">
+              <strong>Por qué en ADSO:</strong> Desacoplamos la lógica de negocio de las consultas SQL, protegiendo las sesiones con cookies <code class="font-mono text-[10px] text-blue-700">httpOnly</code> contra filtraciones de tokens XSS.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="p-2.5 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-900 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <i data-lucide="check-circle" class="w-4 h-4 text-[#39A900] shrink-0"></i>
+            <span><strong>Conclusión para el Aprendiz:</strong> Dominar este proyecto en el SENA te prepara para trabajar en cualquier arquitectura enterprise de la industria tecnológica real.</span>
+          </div>
+          <span class="font-mono text-[10px] font-bold text-emerald-800 uppercase">Estándar Enterprise</span>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 04: ARQUITECTURA LIMPIA DEL BACKEND EXPRESS -->
       <!-- --------------------------------------------------------------------- -->
       <section class="slide-item hidden flex flex-col justify-center py-6">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
@@ -355,37 +463,86 @@
           </div>
 
           <!-- Diagrama de Flujo de una Petición -->
-          <div class="lg:col-span-7 space-y-2.5">
-            <span class="text-xs font-bold text-slate-700 block">Flujo de Ejecución de una Petición (Request Lifecycle):</span>
+          <div class="lg:col-span-7 space-y-2">
+            <span class="text-xs font-bold text-slate-700 block">Pipeline de Capas (Request Lifecycle):</span>
             
+            <!-- Diagrama SVG de la Pipeline en Capas -->
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-2 shadow-inner overflow-x-auto">
+              <svg viewBox="0 0 620 65" class="w-full h-auto text-slate-200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Capa Cliente -->
+                <rect x="5" y="10" width="85" height="45" rx="6" fill="#1E293B" stroke="#38BDF8" stroke-width="1.5"/>
+                <text x="47" y="28" fill="#38BDF8" font-size="9.5" font-weight="bold" text-anchor="middle" font-family="monospace">CLIENTE</text>
+                <text x="47" y="42" fill="#94A3B8" font-size="8" text-anchor="middle">POST /register</text>
+
+                <!-- Flecha 1 -->
+                <path d="M90 32 L112 32" stroke="#38BDF8" stroke-width="1.5"/>
+
+                <!-- Capa Router/Middleware -->
+                <rect x="115" y="10" width="85" height="45" rx="6" fill="#1E293B" stroke="#34D399" stroke-width="1.5"/>
+                <text x="157" y="28" fill="#34D399" font-size="9.5" font-weight="bold" text-anchor="middle" font-family="monospace">ROUTER</text>
+                <text x="157" y="42" fill="#94A3B8" font-size="8" text-anchor="middle">CORS / Zod</text>
+
+                <!-- Flecha 2 -->
+                <path d="M200 32 L222 32" stroke="#34D399" stroke-width="1.5"/>
+
+                <!-- Capa Controller -->
+                <rect x="225" y="10" width="95" height="45" rx="6" fill="#1E293B" stroke="#C084FC" stroke-width="1.5"/>
+                <text x="272" y="28" fill="#C084FC" font-size="9.5" font-weight="bold" text-anchor="middle" font-family="monospace">CONTROLLER</text>
+                <text x="272" y="42" fill="#94A3B8" font-size="8" text-anchor="middle">HTTP Status / Req</text>
+
+                <!-- Flecha 3 -->
+                <path d="M320 32 L342 32" stroke="#C084FC" stroke-width="1.5"/>
+
+                <!-- Capa Service -->
+                <rect x="345" y="10" width="85" height="45" rx="6" fill="#1E293B" stroke="#F59E0B" stroke-width="1.5"/>
+                <text x="387" y="28" fill="#F59E0B" font-size="9.5" font-weight="bold" text-anchor="middle" font-family="monospace">SERVICE</text>
+                <text x="387" y="42" fill="#94A3B8" font-size="8" text-anchor="middle">Bcrypt / Crypto</text>
+
+                <!-- Flecha 4 -->
+                <path d="M430 32 L452 32" stroke="#F59E0B" stroke-width="1.5"/>
+
+                <!-- Capa Repository -->
+                <rect x="455" y="10" width="95" height="45" rx="6" fill="#1E293B" stroke="#60A5FA" stroke-width="1.5"/>
+                <text x="502" y="28" fill="#60A5FA" font-size="9.5" font-weight="bold" text-anchor="middle" font-family="monospace">REPOSITORY</text>
+                <text x="502" y="42" fill="#94A3B8" font-size="8" text-anchor="middle">pg.Pool (SQL)</text>
+
+                <!-- Flecha 5 -->
+                <path d="M550 32 L572 32" stroke="#60A5FA" stroke-width="1.5"/>
+
+                <!-- Base de Datos -->
+                <circle cx="595" cy="32" r="16" fill="#00324D" stroke="#34D399" stroke-width="1.5"/>
+                <text x="595" y="35" fill="#34D399" font-size="9" font-weight="bold" text-anchor="middle">DB</text>
+              </svg>
+            </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
-              <div class="p-2.5 bg-white border border-slate-200 rounded-xl space-y-1 shadow-2xs">
-                <span class="text-[10px] font-mono font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded">1. ENRUTADOR</span>
-                <p class="text-[11px] text-slate-600 leading-snug">
-                  <code class="font-mono text-[10px] text-[#00324D]">auth.routes.js</code> mapea verbos HTTP y conecta middlewares de validación.
+              <div class="p-2 bg-white border border-slate-200 rounded-xl space-y-1 shadow-2xs">
+                <span class="text-[9px] font-mono font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded">1. ENRUTADOR</span>
+                <p class="text-[10.5px] text-slate-600 leading-snug">
+                  <code class="font-mono text-[9px] text-[#00324D]">auth.routes.js</code> mapea verbos HTTP y validaciones.
                 </p>
               </div>
 
-              <div class="p-2.5 bg-white border border-slate-200 rounded-xl space-y-1 shadow-2xs">
-                <span class="text-[10px] font-mono font-bold text-purple-800 bg-purple-50 px-1.5 py-0.5 rounded">2. CONTROLADOR</span>
-                <p class="text-[11px] text-slate-600 leading-snug">
-                  <code class="font-mono text-[10px] text-purple-800">auth.controller.js</code> orquesta bcrypt, genera tokens y envía status codes (200, 400).
+              <div class="p-2 bg-white border border-slate-200 rounded-xl space-y-1 shadow-2xs">
+                <span class="text-[9px] font-mono font-bold text-purple-800 bg-purple-50 px-1.5 py-0.5 rounded">2. CONTROLADOR</span>
+                <p class="text-[10.5px] text-slate-600 leading-snug">
+                  <code class="font-mono text-[9px] text-purple-800">auth.controller.js</code> orquesta bcrypt y responde con status HTTP.
                 </p>
               </div>
 
-              <div class="p-2.5 bg-white border border-slate-200 rounded-xl space-y-1 shadow-2xs">
-                <span class="text-[10px] font-mono font-bold text-blue-800 bg-blue-50 px-1.5 py-0.5 rounded">3. REPOSITORIO</span>
-                <p class="text-[11px] text-slate-600 leading-snug">
-                  <code class="font-mono text-[10px] text-blue-800">UserRepository.js</code> ejecuta queries SQL con <code class="font-mono text-[10px]">pg.Pool</code>.
+              <div class="p-2 bg-white border border-slate-200 rounded-xl space-y-1 shadow-2xs">
+                <span class="text-[9px] font-mono font-bold text-blue-800 bg-blue-50 px-1.5 py-0.5 rounded">3. REPOSITORIO</span>
+                <p class="text-[10.5px] text-slate-600 leading-snug">
+                  <code class="font-mono text-[9px] text-blue-800">UserRepository.js</code> ejecuta queries SQL con <code class="font-mono text-[9px]">pg.Pool</code>.
                 </p>
               </div>
             </div>
 
             <!-- Conexión explícita con el tema de hoy -->
-            <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-950 flex items-start gap-2">
-              <i data-lucide="link" class="w-4 h-4 text-[#00324D] shrink-0 mt-0.5"></i>
+            <div class="p-2.5 bg-blue-50 border border-blue-200 rounded-xl text-[11px] text-blue-950 flex items-start gap-2">
+              <i data-lucide="link" class="w-3.5 h-3.5 text-[#00324D] shrink-0 mt-0.5"></i>
               <div>
-                <strong>¿Dónde encaja la clase de hoy?</strong> El script DDL <code class="font-mono font-bold text-[#00324D]">01_auth_schema.sql</code> que construimos hoy crea la base de datos sobre la que operará <code class="font-mono text-[#00324D]">UserRepository.js</code> en la Semana 2 (Sesión 09). Si las tablas no tienen tipos correctos o cascadas, el backend colapsará.
+                <strong>¿Dónde encaja la clase de hoy?</strong> El script DDL <code class="font-mono font-bold text-[#00324D]">01_auth_schema.sql</code> que construimos hoy crea la base física sobre la que operará <code class="font-mono text-[#00324D]">UserRepository.js</code> en la Semana 2 (Sesión 09).
               </div>
             </div>
           </div>
@@ -399,7 +556,7 @@
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 04: ARQUITECTURA DEL FRONTEND REACT (SPA) -->
+      <!-- SLIDE 05: ARQUITECTURA DEL FRONTEND REACT (SPA) -->
       <!-- --------------------------------------------------------------------- -->
       <section class="slide-item hidden flex flex-col justify-center py-6">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
@@ -489,7 +646,7 @@
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 05: SEGURIDAD ENTERPRISE: COOKIES HTTPONLY VS LOCALSTORAGE -->
+      <!-- SLIDE 06: SEGURIDAD ENTERPRISE: COOKIES HTTPONLY VS LOCALSTORAGE -->
       <!-- --------------------------------------------------------------------- -->
       <section class="slide-item hidden flex flex-col justify-center py-6">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
@@ -499,9 +656,38 @@
         <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-2">
           Seguridad Enterprise: ¿Por qué NUNCA Guardar Tokens en <code class="font-mono text-rose-600">localStorage</code>?
         </h2>
-        <p class="text-xs sm:text-sm text-slate-600 mb-4 max-w-4xl">
+        <p class="text-xs sm:text-sm text-slate-600 mb-3 max-w-4xl">
           Muchos tutoriales básicos enseñan a guardar el JWT en <code class="font-mono">localStorage</code>. En aplicaciones de producción y en este proyecto ADSO, aplicamos el estándar bancario de **Cookies Seguras httpOnly**:
         </p>
+
+        <!-- Diagrama SVG de Seguridad: Sandbox del Navegador vs Cookie httpOnly -->
+        <div class="mb-3 bg-slate-900 border border-slate-800 rounded-xl p-2.5 overflow-x-auto shadow-inner">
+          <svg viewBox="0 0 680 95" class="w-full h-auto text-slate-200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Modelo Inseguro (Izquierda) -->
+            <rect x="10" y="8" width="315" height="78" rx="8" fill="#1E293B" stroke="#F43F5E" stroke-width="1.5"/>
+            <text x="25" y="25" fill="#F43F5E" font-size="9.5" font-weight="bold" font-family="monospace">VULNERABILIDAD: localStorage</text>
+            <rect x="25" y="34" width="120" height="42" rx="6" fill="#0F172A" stroke="#EF4444" stroke-dasharray="2 2"/>
+            <text x="85" y="52" fill="#EF4444" font-size="9" text-anchor="middle">Script Malicioso XSS</text>
+            <text x="85" y="65" fill="#94A3B8" font-size="7.5" text-anchor="middle">document.cookie/storage</text>
+            <path d="M145 55 L190 55" stroke="#EF4444" stroke-width="2"/>
+            <rect x="195" y="34" width="115" height="42" rx="6" fill="#450A0A" stroke="#DC2626"/>
+            <text x="252" y="52" fill="#FECDD3" font-size="9" font-weight="bold" text-anchor="middle">localStorage</text>
+            <text x="252" y="65" fill="#F87171" font-size="7.5" text-anchor="middle">TOKEN SECUESTRADO ❌</text>
+
+            <!-- Modelo Seguro (Derecha) -->
+            <rect x="355" y="8" width="315" height="78" rx="8" fill="#1E293B" stroke="#10B981" stroke-width="1.5"/>
+            <text x="370" y="25" fill="#34D399" font-size="9.5" font-weight="bold" font-family="monospace">ESTÁNDAR SEGURO: Cookie httpOnly</text>
+            <rect x="370" y="34" width="110" height="42" rx="6" fill="#0F172A" stroke="#94A3B8"/>
+            <text x="425" y="52" fill="#94A3B8" font-size="9" text-anchor="middle">Script JavaScript</text>
+            <text x="425" y="65" fill="#64748B" font-size="7.5" text-anchor="middle">(document.cookie = "")</text>
+            <!-- Muro impenetrable -->
+            <line x1="495" y1="32" x2="495" y2="78" stroke="#10B981" stroke-width="3.5"/>
+            <text x="495" y="88" fill="#34D399" font-size="7" font-weight="bold" text-anchor="middle">MURO SANDBOX</text>
+            <rect x="510" y="34" width="145" height="42" rx="6" fill="#064E3B" stroke="#059669"/>
+            <text x="582" y="52" fill="#A7F3D0" font-size="9" font-weight="bold" text-anchor="middle">Cookie httpOnly</text>
+            <text x="582" y="65" fill="#34D399" font-size="7.5" text-anchor="middle">INACCESIBLE A JS ✅</text>
+          </svg>
+        </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3 text-xs">
           
@@ -560,7 +746,7 @@
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 06: EL ECOSISTEMA LOCAL DEL DESARROLLADOR (PUERTOS & SERVICIOS) -->
+      <!-- SLIDE 07: EL ECOSISTEMA LOCAL DEL DESARROLLADOR (PUERTOS & SERVICIOS) -->
       <!-- --------------------------------------------------------------------- -->
       <section class="slide-item hidden flex flex-col justify-center py-6">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
@@ -652,7 +838,7 @@
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 07: FLUJO TRANSACCIONAL TÉCNICO DE 5 FASES -->
+      <!-- SLIDE 08: FLUJO TRANSACCIONAL TÉCNICO DE 5 FASES -->
       <!-- --------------------------------------------------------------------- -->
       <section class="slide-item hidden flex flex-col justify-center py-6">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
@@ -1118,7 +1304,7 @@
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 11: POSTGRESQL VS MYSQL / MARIADB -->
+      <!-- SLIDE 12: POSTGRESQL VS MYSQL / MARIADB -->
       <!-- --------------------------------------------------------------------- -->
       <section class="slide-item hidden flex flex-col justify-center py-6">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
@@ -1961,7 +2147,7 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
     <!-- ======================================================================= -->
     <footer class="mt-6 pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
       <div class="flex items-center space-x-2">
-        <span class="font-extrabold text-slate-800 font-mono" id="slide-current-label">SLIDE 01 / 26</span>
+        <span class="font-extrabold text-slate-800 font-mono" id="slide-current-label">SLIDE 01 / 27</span>
         <span>•</span>
         <span class="text-slate-500" id="slide-block-label">PORTADA DE LECCIÓN</span>
       </div>
@@ -2010,76 +2196,79 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
         <span class="text-blue-500">02</span><span>Arquitectura 3-Tier del Sistema</span>
       </button>
       <button onclick="window.presenter?.goToSlide(2)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">03</span><span>Arquitectura Backend Express</span>
+        <span class="text-blue-500">03</span><span>Comparativa Big Tech (Stripe, Netflix, Uber)</span>
       </button>
       <button onclick="window.presenter?.goToSlide(3)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">04</span><span>Arquitectura Frontend React SPA</span>
+        <span class="text-blue-500">04</span><span>Arquitectura Backend Express</span>
       </button>
       <button onclick="window.presenter?.goToSlide(4)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">05</span><span>Seguridad Enterprise & Cookies</span>
+        <span class="text-blue-500">05</span><span>Arquitectura Frontend React SPA</span>
       </button>
       <button onclick="window.presenter?.goToSlide(5)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">06</span><span>Ecosistema Local & Puertos</span>
+        <span class="text-blue-500">06</span><span>Seguridad Enterprise & Cookies</span>
       </button>
       <button onclick="window.presenter?.goToSlide(6)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">07</span><span>Flujo Transaccional Técnico</span>
+        <span class="text-blue-500">07</span><span>Ecosistema Local & Puertos</span>
       </button>
       <button onclick="window.presenter?.goToSlide(7)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">08</span><span>Modelo ERD & Anatomía Tablas</span>
+        <span class="text-blue-500">08</span><span>Flujo Transaccional Técnico</span>
       </button>
       <button onclick="window.presenter?.goToSlide(8)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">09</span><span>Hoja de Ruta del Montaje Git</span>
+        <span class="text-blue-500">09</span><span>Modelo ERD & Anatomía Tablas</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(9)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">10</span><span>Arquitectura Políglota</span>
+      <button onclick="window.presenter?.goToSlide(9)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
+        <span class="text-blue-500">10</span><span>Hoja de Ruta del Montaje Git</span>
       </button>
       <button onclick="window.presenter?.goToSlide(10)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">11</span><span>PostgreSQL vs MySQL</span>
+        <span class="text-slate-400">11</span><span>Arquitectura Políglota</span>
       </button>
       <button onclick="window.presenter?.goToSlide(11)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">12</span><span>Arquitectura de Procesos</span>
+        <span class="text-slate-400">12</span><span>PostgreSQL vs MySQL</span>
       </button>
       <button onclick="window.presenter?.goToSlide(12)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">13</span><span>Conexión Local vs Cloud</span>
+        <span class="text-slate-400">13</span><span>Arquitectura de Procesos</span>
       </button>
       <button onclick="window.presenter?.goToSlide(13)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">14</span><span>Tipos de Datos Clave</span>
+        <span class="text-slate-400">14</span><span>Conexión Local vs Cloud</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(14)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-rose-700 font-bold">
-        <span class="text-rose-400">15</span><span>Seguridad contra IDOR</span>
+      <button onclick="window.presenter?.goToSlide(14)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">15</span><span>Tipos de Datos Clave</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(15)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">16</span><span>Tabla users (DDL)</span>
+      <button onclick="window.presenter?.goToSlide(15)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-rose-700 font-bold">
+        <span class="text-rose-400">16</span><span>Seguridad contra IDOR</span>
       </button>
       <button onclick="window.presenter?.goToSlide(16)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">17</span><span>Tabla verification_tokens</span>
+        <span class="text-slate-400">17</span><span>Tabla users (DDL)</span>
       </button>
       <button onclick="window.presenter?.goToSlide(17)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">18</span><span>ON DELETE CASCADE</span>
+        <span class="text-slate-400">18</span><span>Tabla verification_tokens</span>
       </button>
       <button onclick="window.presenter?.goToSlide(18)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">19</span><span>Índices B-Tree</span>
+        <span class="text-slate-400">19</span><span>ON DELETE CASCADE</span>
       </button>
       <button onclick="window.presenter?.goToSlide(19)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">20</span><span>Live Coding DDL</span>
+        <span class="text-slate-400">20</span><span>Índices B-Tree</span>
       </button>
       <button onclick="window.presenter?.goToSlide(20)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">21</span><span>Transacciones ACID</span>
+        <span class="text-slate-400">21</span><span>Live Coding DDL</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(21)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">22</span><span>Montaje Guiado en Aula</span>
+      <button onclick="window.presenter?.goToSlide(21)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">22</span><span>Transacciones ACID</span>
       </button>
       <button onclick="window.presenter?.goToSlide(22)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">23</span><span>Guía Operativa Consola</span>
+        <span class="text-emerald-500">23</span><span>Montaje Guiado en Aula</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(23)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">24</span><span>Diccionario de Datos</span>
+      <button onclick="window.presenter?.goToSlide(23)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
+        <span class="text-emerald-500">24</span><span>Guía Operativa Consola</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(24)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-purple-700 font-bold">
-        <span class="text-purple-400">25</span><span>Sustentación & Live Mod</span>
+      <button onclick="window.presenter?.goToSlide(24)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">25</span><span>Diccionario de Datos</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(25)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">26</span><span>Cierre & Sesión 07</span>
+      <button onclick="window.presenter?.goToSlide(25)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-purple-700 font-bold">
+        <span class="text-purple-400">26</span><span>Sustentación & Live Mod</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(26)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">27</span><span>Cierre & Sesión 07</span>
       </button>
     </div>
   </aside>
