@@ -1193,39 +1193,40 @@
             <div class="space-y-2">
               <div class="flex items-center justify-between">
                 <span class="px-2 py-0.5 rounded bg-purple-100 text-purple-900 font-mono text-[10px] font-extrabold border border-purple-200">
-                  PASO 3 · LOS 5 COMMITS
+                  PASO 3 · LOS 5 COMMITS ATÓMICOS
                 </span>
                 <i data-lucide="git-commit" class="w-4 h-4 text-purple-700"></i>
               </div>
               <h3 class="text-sm font-extrabold text-slate-900">Historial Atómico en GitHub</h3>
               <p class="text-xs text-slate-600">
-                Cada hito finalizado se confirma con un commit atómico individual:
+                Cada hito finalizado se confirma con un commit atómico siguiendo la convención de la industria:
               </p>
-              <ul class="text-[11px] space-y-1 font-mono text-slate-700">
-                <li class="flex items-center gap-1.5">
-                  <span class="w-4 h-4 rounded-full bg-blue-100 text-[#00324D] font-bold text-[9px] flex items-center justify-center">1</span>
-                  <span>feat(db): tabla users + uuidv4</span>
-                </li>
-                <li class="flex items-center gap-1.5">
-                  <span class="w-4 h-4 rounded-full bg-emerald-100 text-[#39A900] font-bold text-[9px] flex items-center justify-center">2</span>
-                  <span>feat(db): tokens con delete cascade</span>
-                </li>
-                <li class="flex items-center gap-1.5">
-                  <span class="w-4 h-4 rounded-full bg-purple-100 text-purple-700 font-bold text-[9px] flex items-center justify-center">3</span>
-                  <span>perf(db): indices b-tree estrategicos</span>
-                </li>
-                <li class="flex items-center gap-1.5">
-                  <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-800 font-bold text-[9px] flex items-center justify-center">4</span>
-                  <span>test(db): seed transaccional acid</span>
-                </li>
-                <li class="flex items-center gap-1.5">
-                  <span class="w-4 h-4 rounded-full bg-emerald-200 text-emerald-950 font-bold text-[9px] flex items-center justify-center">5</span>
-                  <span>test(db): joins y cascade + push git</span>
-                </li>
-              </ul>
+              <div class="space-y-1.5 font-mono text-[10px]">
+                <div class="p-1.5 bg-slate-900 text-slate-200 rounded-lg flex items-center justify-between border border-slate-800">
+                  <span class="text-blue-300">git commit -m "feat(db): tabla users + uuidv4"</span>
+                  <span class="text-[9px] px-1.5 py-0.2 bg-blue-500/20 text-blue-300 rounded font-bold">1</span>
+                </div>
+                <div class="p-1.5 bg-slate-900 text-slate-200 rounded-lg flex items-center justify-between border border-slate-800">
+                  <span class="text-emerald-300">git commit -m "feat(db): tokens con delete cascade"</span>
+                  <span class="text-[9px] px-1.5 py-0.2 bg-emerald-500/20 text-emerald-300 rounded font-bold">2</span>
+                </div>
+                <div class="p-1.5 bg-slate-900 text-slate-200 rounded-lg flex items-center justify-between border border-slate-800">
+                  <span class="text-purple-300">git commit -m "perf(db): indices b-tree estrategicos"</span>
+                  <span class="text-[9px] px-1.5 py-0.2 bg-purple-500/20 text-purple-300 rounded font-bold">3</span>
+                </div>
+                <div class="p-1.5 bg-slate-900 text-slate-200 rounded-lg flex items-center justify-between border border-slate-800">
+                  <span class="text-amber-300">git commit -m "test(db): seed transaccional acid"</span>
+                  <span class="text-[9px] px-1.5 py-0.2 bg-amber-500/20 text-amber-300 rounded font-bold">4</span>
+                </div>
+                <div class="p-1.5 bg-slate-900 text-slate-200 rounded-lg flex items-center justify-between border border-slate-800">
+                  <span class="text-teal-300">git commit -m "test(db): joins y cascade + push git"</span>
+                  <span class="text-[9px] px-1.5 py-0.2 bg-teal-500/20 text-teal-300 rounded font-bold">5</span>
+                </div>
+              </div>
             </div>
-            <div class="text-[10px] text-purple-800 bg-purple-100/60 p-2 rounded-lg border border-purple-200">
-              🚀 <strong>Evaluación:</strong> Sustentación con git log en consola.
+            <div class="text-[10px] text-purple-900 bg-purple-100/70 p-2 rounded-lg border border-purple-200 flex items-center justify-between">
+              <span>💡 <strong>Estándar Global:</strong> Conventional Commits v1.0.0</span>
+              <span class="font-bold text-purple-700">Ver Slide 11 →</span>
             </div>
           </div>
 
@@ -1242,7 +1243,244 @@
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 10: EL PROYECTO TRANSVERSAL Y LA ARQUITECTURA POLÍGLOTA -->
+      <!-- SLIDE 11: ESTÁNDAR GLOBAL DE COMMITS (CONVENTIONAL COMMITS & BUENAS PRÁCTICAS) -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1">
+          <i data-lucide="git-pull-request" class="w-4 h-4 text-[#39A900]"></i>
+          <span>Estándar Global de la Industria · Software Engineering & CI/CD</span>
+        </div>
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-3">
+          <div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              Conventional Commits v1.0.0 & Buenas Prácticas en Git
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600">
+              Convención internacional utilizada por <strong>Google, Angular, Netflix, Linux Kernel</strong> y la comunidad Open Source para trazabilidad, changelogs y CI/CD.
+            </p>
+          </div>
+          <span class="px-2.5 py-1 bg-[#00324D] text-white font-mono text-[11px] font-bold rounded-lg shrink-0 self-start sm:self-auto">
+            Estándar v1.0.0
+          </span>
+        </div>
+
+        <!-- Grid Principal: Infografía / Anatomía + Cheatsheet Tipos + Antipatrones -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-3">
+          
+          <!-- Columna Izquierda (5 cols): Infografía Visual & Anatomía del Mensaje -->
+          <div class="lg:col-span-5 flex flex-col justify-between space-y-3">
+            
+            <!-- Tarjeta con la Infografía -->
+            <div class="relative bg-slate-950 rounded-2xl overflow-hidden border border-slate-800 shadow-md group">
+              <img src="../../assets/img/conventional_commits_guide.jpg" alt="Guía Global de Conventional Commits" class="w-full h-44 object-cover object-top opacity-90 group-hover:opacity-100 transition duration-300">
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent flex flex-col justify-end p-3">
+                <span class="text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-wider">Infografía Oficial de Aula</span>
+                <p class="text-xs text-white font-semibold leading-tight">Estructura atómica: tipo, scope, mensaje imperativo y cuerpo</p>
+              </div>
+            </div>
+
+            <!-- Anatomía del Commit -->
+            <div class="p-3.5 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                  <i data-lucide="code-2" class="w-4 h-4 text-[#00324D]"></i>
+                  Anatomía de un Commit Profesional
+                </span>
+                <span class="font-mono text-[10px] text-slate-400 font-semibold">&lt; 72 caracteres</span>
+              </div>
+              <div class="font-mono text-xs bg-slate-900 text-slate-100 p-2.5 rounded-xl border border-slate-800 space-y-1">
+                <div class="text-slate-400 text-[10px]"># Sintaxis canónica:</div>
+                <div>
+                  <span class="text-emerald-400 font-bold">&lt;tipo&gt;</span><span class="text-blue-300">(</span><span class="text-amber-300">&lt;alcance&gt;</span><span class="text-blue-300">)</span><span class="text-slate-300">:</span> <span class="text-white">&lt;descripción en presente imperativo&gt;</span>
+                </div>
+                <div class="text-slate-400 text-[10px] pt-1"># Ejemplo real aplicado en clase:</div>
+                <div class="text-emerald-300 text-[11px]">
+                  feat(db): tabla users con uuidv4 y constraints
+                </div>
+              </div>
+              <div class="grid grid-cols-3 gap-2 text-[10px]">
+                <div class="p-1.5 bg-emerald-50 rounded-lg border border-emerald-200 text-emerald-950">
+                  <strong class="block text-[#39A900]">1. Tipo (Type)</strong>
+                  Intención técnica clara (feat, fix, perf).
+                </div>
+                <div class="p-1.5 bg-amber-50 rounded-lg border border-amber-200 text-amber-950">
+                  <strong class="block text-amber-700">2. Alcance (Scope)</strong>
+                  Módulo exacto afectado: (db), (auth), (api).
+                </div>
+                <div class="p-1.5 bg-blue-50 rounded-lg border border-blue-200 text-blue-950">
+                  <strong class="block text-[#00324D]">3. Verbo Activo</strong>
+                  Imperativo presente: "tabla...", "crear...", no "creé".
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Columna Derecha (7 cols): Cheatsheet de 8 Tipos Globales & Malas vs Buenas Prácticas -->
+          <div class="lg:col-span-7 flex flex-col justify-between space-y-3">
+            
+            <!-- Cheatsheet de 8 Tipos -->
+            <div class="p-3.5 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                  <i data-lucide="tag" class="w-4 h-4 text-[#39A900]"></i>
+                  Los 8 Tipos Estándar en la Industria
+                </span>
+                <span class="text-[10px] font-mono text-slate-400">Angular / SemVer Spec</span>
+              </div>
+
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
+                
+                <div class="p-2 rounded-xl bg-emerald-50/70 border border-emerald-200">
+                  <div class="flex items-center justify-between mb-0.5">
+                    <span class="font-mono font-extrabold text-[#39A900]">feat</span>
+                    <span class="text-[9px] px-1 bg-emerald-200 text-emerald-900 rounded font-bold">Feature</span>
+                  </div>
+                  <p class="text-[10px] text-slate-600 leading-tight">Nueva función o endpoint para el sistema.</p>
+                  <code class="block font-mono text-[9px] text-emerald-800 mt-1 truncate">feat(db): tabla tokens</code>
+                </div>
+
+                <div class="p-2 rounded-xl bg-rose-50/70 border border-rose-200">
+                  <div class="flex items-center justify-between mb-0.5">
+                    <span class="font-mono font-extrabold text-rose-600">fix</span>
+                    <span class="text-[9px] px-1 bg-rose-200 text-rose-900 rounded font-bold">Bugfix</span>
+                  </div>
+                  <p class="text-[10px] text-slate-600 leading-tight">Corrección de un error o falla en producción.</p>
+                  <code class="block font-mono text-[9px] text-rose-800 mt-1 truncate">fix(auth): hash expirado</code>
+                </div>
+
+                <div class="p-2 rounded-xl bg-purple-50/70 border border-purple-200">
+                  <div class="flex items-center justify-between mb-0.5">
+                    <span class="font-mono font-extrabold text-purple-700">perf</span>
+                    <span class="text-[9px] px-1 bg-purple-200 text-purple-900 rounded font-bold">Rendimiento</span>
+                  </div>
+                  <p class="text-[10px] text-slate-600 leading-tight">Mejora de latencia, RAM o consultas SQL.</p>
+                  <code class="block font-mono text-[9px] text-purple-800 mt-1 truncate">perf(db): indices b-tree</code>
+                </div>
+
+                <div class="p-2 rounded-xl bg-blue-50/70 border border-blue-200">
+                  <div class="flex items-center justify-between mb-0.5">
+                    <span class="font-mono font-extrabold text-[#00324D]">refactor</span>
+                    <span class="text-[9px] px-1 bg-blue-200 text-blue-900 rounded font-bold">Estructura</span>
+                  </div>
+                  <p class="text-[10px] text-slate-600 leading-tight">Código limpio sin cambiar la funcionalidad.</p>
+                  <code class="block font-mono text-[9px] text-blue-800 mt-1 truncate">refactor(db): limpiar ddl</code>
+                </div>
+
+                <div class="p-2 rounded-xl bg-amber-50/70 border border-amber-200">
+                  <div class="flex items-center justify-between mb-0.5">
+                    <span class="font-mono font-extrabold text-amber-700">test</span>
+                    <span class="text-[9px] px-1 bg-amber-200 text-amber-900 rounded font-bold">Pruebas</span>
+                  </div>
+                  <p class="text-[10px] text-slate-600 leading-tight">Seeds, unit tests o validación de aserciones.</p>
+                  <code class="block font-mono text-[9px] text-amber-800 mt-1 truncate">test(db): seed transaccional</code>
+                </div>
+
+                <div class="p-2 rounded-xl bg-slate-50 border border-slate-200">
+                  <div class="flex items-center justify-between mb-0.5">
+                    <span class="font-mono font-extrabold text-slate-700">chore</span>
+                    <span class="text-[9px] px-1 bg-slate-200 text-slate-800 rounded font-bold">Tooling</span>
+                  </div>
+                  <p class="text-[10px] text-slate-600 leading-tight">Configuración, npm, scripts o .gitignore.</p>
+                  <code class="block font-mono text-[9px] text-slate-700 mt-1 truncate">chore(git): ignorar .env</code>
+                </div>
+
+                <div class="p-2 rounded-xl bg-cyan-50/70 border border-cyan-200">
+                  <div class="flex items-center justify-between mb-0.5">
+                    <span class="font-mono font-extrabold text-cyan-800">docs</span>
+                    <span class="text-[9px] px-1 bg-cyan-200 text-cyan-900 rounded font-bold">Manuales</span>
+                  </div>
+                  <p class="text-[10px] text-slate-600 leading-tight">README, diagramas ERD o comentarios.</p>
+                  <code class="block font-mono text-[9px] text-cyan-900 mt-1 truncate">docs(erd): diagrama mermaid</code>
+                </div>
+
+                <div class="p-2 rounded-xl bg-indigo-50/70 border border-indigo-200">
+                  <div class="flex items-center justify-between mb-0.5">
+                    <span class="font-mono font-extrabold text-indigo-700">style</span>
+                    <span class="text-[9px] px-1 bg-indigo-200 text-indigo-900 rounded font-bold">Formato</span>
+                  </div>
+                  <p class="text-[10px] text-slate-600 leading-tight">Espaciado, indentación o prettier sin alterar lógica.</p>
+                  <code class="block font-mono text-[9px] text-indigo-900 mt-1 truncate">style(sql): mayusculas ddl</code>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Antipatrones vs Buenas Prácticas Reales -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              
+              <!-- Malas Prácticas -->
+              <div class="p-3 bg-rose-50/60 border border-rose-200 rounded-2xl space-y-1.5">
+                <div class="flex items-center gap-1.5 text-rose-800 font-bold">
+                  <i data-lucide="x-circle" class="w-4 h-4 text-rose-600 shrink-0"></i>
+                  <span>❌ Antipatrones de Novato (A Rechazar)</span>
+                </div>
+                <ul class="text-[11px] text-rose-950 space-y-1 font-mono">
+                  <li class="bg-white/80 p-1.5 rounded border border-rose-100 flex items-center justify-between">
+                    <span>"cambios varios", "subiendo", "asdasd"</span>
+                    <span class="text-rose-500 font-sans text-[9px] font-bold">Sin contexto</span>
+                  </li>
+                  <li class="bg-white/80 p-1.5 rounded border border-rose-100 flex items-center justify-between">
+                    <span>"commit del viernes final 2"</span>
+                    <span class="text-rose-500 font-sans text-[9px] font-bold">Antiprofesional</span>
+                  </li>
+                  <li class="bg-white/80 p-1.5 rounded border border-rose-100 flex items-center justify-between">
+                    <span>Commit monolítico (35 archivos a la vez)</span>
+                    <span class="text-rose-500 font-sans text-[9px] font-bold">Imposible revertir</span>
+                  </li>
+                  <li class="bg-white/80 p-1.5 rounded border border-rose-100 flex items-center justify-between">
+                    <span>"creé la tabla y modifiqué el css"</span>
+                    <span class="text-rose-500 font-sans text-[9px] font-bold">No es atómico</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Buenas Prácticas Enterprise -->
+              <div class="p-3 bg-emerald-50/60 border border-emerald-200 rounded-2xl space-y-1.5">
+                <div class="flex items-center gap-1.5 text-emerald-900 font-bold">
+                  <i data-lucide="check-circle" class="w-4 h-4 text-[#39A900] shrink-0"></i>
+                  <span>✅ Estándar Enterprise en Big Tech</span>
+                </div>
+                <ul class="text-[11px] text-emerald-950 space-y-1 font-mono">
+                  <li class="bg-white/80 p-1.5 rounded border border-emerald-100 flex items-center justify-between">
+                    <span>feat(db): tabla users + uuidv4</span>
+                    <span class="text-emerald-700 font-sans text-[9px] font-bold">Atómico</span>
+                  </li>
+                  <li class="bg-white/80 p-1.5 rounded border border-emerald-100 flex items-center justify-between">
+                    <span>perf(db): indices b-tree estrategicos</span>
+                    <span class="text-emerald-700 font-sans text-[9px] font-bold">Medible</span>
+                  </li>
+                  <li class="bg-white/80 p-1.5 rounded border border-emerald-100 flex items-center justify-between">
+                    <span>test(db): seed transaccional acid</span>
+                    <span class="text-emerald-700 font-sans text-[9px] font-bold">Reproducible</span>
+                  </li>
+                  <li class="bg-white/80 p-1.5 rounded border border-emerald-100 flex items-center justify-between">
+                    <span>Trazabilidad limpia en GitHub y git log</span>
+                    <span class="text-emerald-700 font-sans text-[9px] font-bold">Auditable</span>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Banner Inferior: Las 4 Reglas de Oro en el Aula ADSO -->
+        <div class="p-3 bg-slate-900 text-slate-200 rounded-xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-2">
+            <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+            <span><strong>Las 4 Reglas de Oro:</strong> (1) <strong>Atomicidad:</strong> 1 cambio lógico que compila y funciona. (2) <strong>Presente imperativo:</strong> "agrega/crea", no "agregué". (3) <strong>Scope obligatorio:</strong> delimita el módulo. (4) <strong>Sustentación:</strong> Cada commit se defiende con <code class="font-mono text-emerald-300">git log --oneline</code>.</span>
+          </div>
+          <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-mono text-[10px] font-bold rounded-lg shrink-0">
+            Regla de Empleabilidad ADSO
+          </span>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 12: EL PROYECTO TRANSVERSAL Y LA ARQUITECTURA POLÍGLOTA -->
       <!-- --------------------------------------------------------------------- -->
       <section class="slide-item hidden flex flex-col justify-center py-6">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
@@ -2147,7 +2385,7 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
     <!-- ======================================================================= -->
     <footer class="mt-6 pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
       <div class="flex items-center space-x-2">
-        <span class="font-extrabold text-slate-800 font-mono" id="slide-current-label">SLIDE 01 / 27</span>
+        <span class="font-extrabold text-slate-800 font-mono" id="slide-current-label">SLIDE 01 / 28</span>
         <span>•</span>
         <span class="text-slate-500" id="slide-block-label">PORTADA DE LECCIÓN</span>
       </div>
@@ -2219,56 +2457,59 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
       <button onclick="window.presenter?.goToSlide(9)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
         <span class="text-blue-500">10</span><span>Hoja de Ruta del Montaje Git</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(10)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">11</span><span>Arquitectura Políglota</span>
+      <button onclick="window.presenter?.goToSlide(10)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-purple-700 font-bold">
+        <span class="text-purple-600">11</span><span>Conventional Commits v1.0.0</span>
       </button>
       <button onclick="window.presenter?.goToSlide(11)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">12</span><span>PostgreSQL vs MySQL</span>
+        <span class="text-slate-400">12</span><span>Arquitectura Políglota</span>
       </button>
       <button onclick="window.presenter?.goToSlide(12)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">13</span><span>Arquitectura de Procesos</span>
+        <span class="text-slate-400">13</span><span>PostgreSQL vs MySQL</span>
       </button>
       <button onclick="window.presenter?.goToSlide(13)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">14</span><span>Conexión Local vs Cloud</span>
+        <span class="text-slate-400">14</span><span>Arquitectura de Procesos</span>
       </button>
       <button onclick="window.presenter?.goToSlide(14)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">15</span><span>Tipos de Datos Clave</span>
+        <span class="text-slate-400">15</span><span>Conexión Local vs Cloud</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(15)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-rose-700 font-bold">
-        <span class="text-rose-400">16</span><span>Seguridad contra IDOR</span>
+      <button onclick="window.presenter?.goToSlide(15)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">16</span><span>Tipos de Datos Clave</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(16)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">17</span><span>Tabla users (DDL)</span>
+      <button onclick="window.presenter?.goToSlide(16)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-rose-700 font-bold">
+        <span class="text-rose-400">17</span><span>Seguridad contra IDOR</span>
       </button>
       <button onclick="window.presenter?.goToSlide(17)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">18</span><span>Tabla verification_tokens</span>
+        <span class="text-slate-400">18</span><span>Tabla users (DDL)</span>
       </button>
       <button onclick="window.presenter?.goToSlide(18)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">19</span><span>ON DELETE CASCADE</span>
+        <span class="text-slate-400">19</span><span>Tabla verification_tokens</span>
       </button>
       <button onclick="window.presenter?.goToSlide(19)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">20</span><span>Índices B-Tree</span>
+        <span class="text-slate-400">20</span><span>ON DELETE CASCADE</span>
       </button>
       <button onclick="window.presenter?.goToSlide(20)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">21</span><span>Live Coding DDL</span>
+        <span class="text-slate-400">21</span><span>Índices B-Tree</span>
       </button>
       <button onclick="window.presenter?.goToSlide(21)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">22</span><span>Transacciones ACID</span>
+        <span class="text-slate-400">22</span><span>Live Coding DDL</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(22)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">23</span><span>Montaje Guiado en Aula</span>
+      <button onclick="window.presenter?.goToSlide(22)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">23</span><span>Transacciones ACID</span>
       </button>
       <button onclick="window.presenter?.goToSlide(23)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">24</span><span>Guía Operativa Consola</span>
+        <span class="text-emerald-500">24</span><span>Montaje Guiado en Aula</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(24)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">25</span><span>Diccionario de Datos</span>
+      <button onclick="window.presenter?.goToSlide(24)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
+        <span class="text-emerald-500">25</span><span>Guía Operativa Consola</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(25)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-purple-700 font-bold">
-        <span class="text-purple-400">26</span><span>Sustentación & Live Mod</span>
+      <button onclick="window.presenter?.goToSlide(25)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">26</span><span>Diccionario de Datos</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(26)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">27</span><span>Cierre & Sesión 07</span>
+      <button onclick="window.presenter?.goToSlide(26)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-purple-700 font-bold">
+        <span class="text-purple-400">27</span><span>Sustentación & Live Mod</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(27)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">28</span><span>Cierre & Sesión 07</span>
       </button>
     </div>
   </aside>

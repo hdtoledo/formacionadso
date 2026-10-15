@@ -86,7 +86,41 @@ class SlidePresenter {
 
     // Actualizar Bloque pedagógico dinámicamente si existe
     if (blockLabelEl) {
-      if (this.totalSlides === 27) {
+      if (this.totalSlides === 28) {
+        if (this.currentSlideIndex === 0) {
+          blockLabelEl.textContent = 'PORTADA DE LECCIÓN';
+        } else if (this.currentSlideIndex === 1) {
+          blockLabelEl.textContent = 'ARQUITECTURA 3-TIER DEL SISTEMA';
+        } else if (this.currentSlideIndex === 2) {
+          blockLabelEl.textContent = 'COMPARATIVA ADSO VS BIG TECH';
+        } else if (this.currentSlideIndex === 3) {
+          blockLabelEl.textContent = 'ARQUITECTURA DEL BACKEND EXPRESS';
+        } else if (this.currentSlideIndex === 4) {
+          blockLabelEl.textContent = 'ARQUITECTURA DEL FRONTEND REACT';
+        } else if (this.currentSlideIndex === 5) {
+          blockLabelEl.textContent = 'ESTRATEGIA DE SEGURIDAD ENTERPRISE';
+        } else if (this.currentSlideIndex === 6) {
+          blockLabelEl.textContent = 'ECOSISTEMA LOCAL & PUERTOS';
+        } else if (this.currentSlideIndex === 7) {
+          blockLabelEl.textContent = 'FLUJO TRANSACCIONAL TÉCNICO';
+        } else if (this.currentSlideIndex === 8) {
+          blockLabelEl.textContent = 'MODELO ENTIDAD-RELACIÓN (ERD)';
+        } else if (this.currentSlideIndex === 9) {
+          blockLabelEl.textContent = 'HOJA DE RUTA DEL MONTAJE EN GIT';
+        } else if (this.currentSlideIndex === 10) {
+          blockLabelEl.textContent = 'CONVENTIONAL COMMITS & BUENAS PRÁCTICAS';
+        } else if (this.currentSlideIndex <= 22) {
+          blockLabelEl.textContent = 'BLOQUE 1: TEORÍA & LIVE CODING';
+        } else if (this.currentSlideIndex <= 24) {
+          blockLabelEl.textContent = 'BLOQUE 2: MONTAJE EN AULA & GIT';
+        } else if (this.currentSlideIndex === 25) {
+          blockLabelEl.textContent = 'CONTRATO TÉCNICO EXPRESS';
+        } else if (this.currentSlideIndex === 26) {
+          blockLabelEl.textContent = 'BLOQUE 3: EVALUACIÓN & SUSTENTACIÓN';
+        } else {
+          blockLabelEl.textContent = 'CIERRE & SIGUIENTE SESIÓN';
+        }
+      } else if (this.totalSlides === 27) {
         if (this.currentSlideIndex === 0) {
           blockLabelEl.textContent = 'PORTADA DE LECCIÓN';
         } else if (this.currentSlideIndex === 1) {
