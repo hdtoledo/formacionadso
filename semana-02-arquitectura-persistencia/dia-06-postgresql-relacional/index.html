@@ -1692,14 +1692,460 @@
           </div>
         </div>
 
-        <div class="mt-5 p-3.5 bg-slate-100 rounded-xl border border-slate-200 text-xs text-slate-600 flex items-center gap-2">
-          <i data-lucide="info" class="w-4 h-4 text-[#00324D]"></i>
-          <span><strong>Estandarización:</strong> La URI de conexión funciona de forma exactamente idéntica en el backend de Node.js, ya sea local o cloud.</span>
+        <div class="mt-5 p-3.5 bg-slate-100 rounded-xl border border-slate-200 text-xs text-slate-600 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="info" class="w-4 h-4 text-[#00324D] shrink-0"></i>
+            <span><strong>Estandarización:</strong> La URI de conexión funciona de forma exactamente idéntica en el backend de Node.js, ya sea local o cloud.</span>
+          </div>
+          <span class="px-2.5 py-1 bg-[#00324D] text-white font-mono text-[10px] font-bold rounded-lg shrink-0">
+            A continuación: Instalación Local y pgAdmin 4 →
+          </span>
         </div>
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 14: TIPOS DE DATOS AVANZADOS EN POSTGRESQL -->
+      <!-- SLIDE 16: GUÍA DE DESCARGA E INSTALACIÓN DE POSTGRESQL & PGADMIN 4 -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1">
+          <i data-lucide="download-cloud" class="w-4 h-4 text-[#39A900]"></i>
+          <span>Instalación en Máquina Local · Windows / Linux / macOS</span>
+        </div>
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-3">
+          <div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              Instalación y Configuración Oficial: PostgreSQL 16 + pgAdmin 4
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600">
+              Proceso paso a paso para descargar, seleccionar componentes y configurar el motor sin errores en el aula.
+            </p>
+          </div>
+          <span class="px-2.5 py-1 bg-emerald-50 text-[#39A900] border border-emerald-200 font-mono text-[11px] font-bold rounded-lg shrink-0 self-start sm:self-auto">
+            Instalador EDB Oficial
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-3">
+          
+          <!-- Columna Izquierda: Infografía Oficial del Asistente -->
+          <div class="lg:col-span-5 flex flex-col justify-between space-y-3">
+            <div class="relative bg-slate-950 rounded-2xl overflow-hidden border border-slate-800 shadow-md group">
+              <img src="../../assets/img/pgadmin_setup_guide.jpg" alt="Guía Visual de Instalación y pgAdmin 4" class="w-full h-44 object-cover object-left-top opacity-90 group-hover:opacity-100 transition duration-300">
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent flex flex-col justify-end p-3">
+                <span class="text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-wider">Flujo de Instalación</span>
+                <p class="text-xs text-white font-semibold leading-tight">Wizard oficial de PostgreSQL con puerto 5432 y componentes GUI</p>
+              </div>
+            </div>
+
+            <!-- Paso 1: Descarga Oficial -->
+            <div class="p-3.5 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2 text-xs">
+              <div class="flex items-center justify-between">
+                <span class="font-extrabold text-slate-900 flex items-center gap-1.5">
+                  <span class="w-5 h-5 rounded-full bg-blue-100 text-[#00324D] font-bold text-xs flex items-center justify-center">1</span>
+                  Portal Oficial de Descarga
+                </span>
+                <span class="px-1.5 py-0.5 bg-blue-50 text-blue-800 rounded font-mono text-[10px] font-bold">LTS Recomendado</span>
+              </div>
+              <p class="text-slate-600 leading-relaxed text-[11px]">
+                Descargar directamente del portal oficial de la comunidad internacional de PostgreSQL:
+              </p>
+              <div class="p-2 bg-slate-900 rounded-xl font-mono text-[10px] text-emerald-300 flex items-center justify-between">
+                <span>https://www.postgresql.org/download/</span>
+                <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i>
+              </div>
+              <p class="text-[10px] text-slate-500">
+                Seleccionar <strong>Windows / macOS / Linux</strong> → Clic en <em>"Download the installer"</em> provisto por <strong>EDB (EnterpriseDB)</strong>.
+              </p>
+            </div>
+          </div>
+
+          <!-- Columna Derecha: Pasos Críticos del Wizard -->
+          <div class="lg:col-span-7 flex flex-col justify-between space-y-3">
+            
+            <!-- Componentes a Seleccionar -->
+            <div class="p-3.5 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                  <span class="w-5 h-5 rounded-full bg-emerald-100 text-[#39A900] font-bold text-xs flex items-center justify-center">2</span>
+                  Selección Obligatoria de Componentes en el Wizard
+                </span>
+                <span class="text-[10px] font-mono text-slate-400">Paso del Instalador</span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
+                <div class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 flex items-start gap-2">
+                  <i data-lucide="check-square" class="w-4 h-4 text-[#39A900] shrink-0 mt-0.5"></i>
+                  <div>
+                    <strong class="text-slate-900 block font-mono text-[11px]">PostgreSQL Server</strong>
+                    <span class="text-[10px] text-slate-600">El motor físico de base de datos relacional y demonio de persistencia.</span>
+                  </div>
+                </div>
+
+                <div class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 flex items-start gap-2">
+                  <i data-lucide="check-square" class="w-4 h-4 text-[#39A900] shrink-0 mt-0.5"></i>
+                  <div>
+                    <strong class="text-slate-900 block font-mono text-[11px]">pgAdmin 4 (GUI)</strong>
+                    <span class="text-[10px] text-slate-600">La interfaz visual de administración, explorador de esquemas y Query Tool.</span>
+                  </div>
+                </div>
+
+                <div class="p-2.5 rounded-xl bg-blue-50 border border-blue-200 flex items-start gap-2">
+                  <i data-lucide="check-square" class="w-4 h-4 text-[#00324D] shrink-0 mt-0.5"></i>
+                  <div>
+                    <strong class="text-slate-900 block font-mono text-[11px]">Command Line Tools</strong>
+                    <span class="text-[10px] text-slate-600">Herramientas de terminal como <code class="font-mono">psql</code> y utilitarios de volcado.</span>
+                  </div>
+                </div>
+
+                <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-2 opacity-75">
+                  <i data-lucide="square" class="w-4 h-4 text-slate-400 shrink-0 mt-0.5"></i>
+                  <div>
+                    <strong class="text-slate-700 block font-mono text-[11px]">Stack Builder (Opcional)</strong>
+                    <span class="text-[10px] text-slate-500">Desmarcar al terminar. No se requiere para el proyecto ADSO.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Parámetros Críticos: Clave, Puerto y Locale -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+              
+              <div class="p-3 bg-rose-50/70 border border-rose-200 rounded-xl space-y-1">
+                <div class="flex items-center gap-1.5 text-rose-800 font-bold text-[11px]">
+                  <i data-lucide="key" class="w-3.5 h-3.5 text-rose-600"></i>
+                  <span>Superusuario postgres</span>
+                </div>
+                <p class="text-[10px] text-slate-600">
+                  Establecer contraseña del usuario maestro. <strong>¡Anotarla en el cuaderno técnico!</strong>
+                </p>
+                <div class="p-1 bg-white rounded border border-rose-200 font-mono text-[10px] text-rose-900 text-center font-bold">
+                  admin123 / postgres
+                </div>
+              </div>
+
+              <div class="p-3 bg-purple-50/70 border border-purple-200 rounded-xl space-y-1">
+                <div class="flex items-center gap-1.5 text-purple-900 font-bold text-[11px]">
+                  <i data-lucide="radio" class="w-3.5 h-3.5 text-purple-700"></i>
+                  <span>Puerto TCP</span>
+                </div>
+                <p class="text-[10px] text-slate-600">
+                  Puerto estándar de escucha de conexiones entrantes:
+                </p>
+                <div class="p-1 bg-white rounded border border-purple-200 font-mono text-[10px] text-purple-900 text-center font-bold">
+                  5432 (default)
+                </div>
+              </div>
+
+              <div class="p-3 bg-amber-50/70 border border-amber-200 rounded-xl space-y-1">
+                <div class="flex items-center gap-1.5 text-amber-900 font-bold text-[11px]">
+                  <i data-lucide="globe" class="w-3.5 h-3.5 text-amber-700"></i>
+                  <span>Configuración Regional</span>
+                </div>
+                <p class="text-[10px] text-slate-600">
+                  Definir el juego de caracteres e idioma del servidor:
+                </p>
+                <div class="p-1 bg-white rounded border border-amber-200 font-mono text-[10px] text-amber-900 text-center font-bold truncate">
+                  [Default locale] / UTF-8
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Banner de Regla de Oro en Aula -->
+        <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-950 flex items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-700 shrink-0"></i>
+            <span><strong>Regla Crítica de Soporte:</strong> Si olvida la contraseña del usuario <code class="font-mono bg-white px-1 py-0.5 rounded border border-amber-300">postgres</code>, no podrá ingresar al servidor ni conectar el backend de Express. ¡Registre su clave inmediatamente!</span>
+          </div>
+          <span class="font-mono text-[10px] font-bold text-amber-800 uppercase shrink-0">Credencial Vital</span>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 17: PRIMER INICIO EN PGADMIN 4 Y CREACIÓN DE LA BASE DE DATOS -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1">
+          <i data-lucide="mouse-pointer-click" class="w-4 h-4 text-[#39A900]"></i>
+          <span>Administración Gráfica · GUI Oficial</span>
+        </div>
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-3">
+          <div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              pgAdmin 4: Conexión al Servidor & Creación de Base de Datos
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600">
+              Paso a paso dando clic para autenticarse en el servidor local y aprovisionar la base de datos <code class="font-mono text-[#00324D] font-bold">adso_auth_db</code>.
+            </p>
+          </div>
+          <span class="px-2.5 py-1 bg-purple-100 text-purple-900 border border-purple-200 font-mono text-[11px] font-bold rounded-lg shrink-0 self-start sm:self-auto">
+            GUI en Navegador / Desktop
+          </span>
+        </div>
+
+        <!-- 3 Pasos Visuales con Clicks Guiados -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
+          
+          <!-- Tarjeta 1: Master Password e Inicio -->
+          <div class="p-4 bg-white border border-slate-200 rounded-2xl shadow-2xs flex flex-col justify-between space-y-2">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 rounded bg-blue-50 text-[#00324D] font-mono text-[10px] font-extrabold border border-blue-200">
+                  PASO 1 · DESBLOQUEO
+                </span>
+                <i data-lucide="lock" class="w-4 h-4 text-[#00324D]"></i>
+              </div>
+              <h3 class="text-sm font-extrabold text-slate-900">Iniciar pgAdmin 4</h3>
+              <p class="text-xs text-slate-600">
+                Al abrir la aplicación por primera vez, pgAdmin solicita una <strong>Master Password</strong>:
+              </p>
+              <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200 text-[11px] space-y-1.5 text-slate-700">
+                <div class="flex items-start gap-1.5">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-[#39A900] shrink-0 mt-0.5"></i>
+                  <span>Protege el llavero de contraseñas guardadas localmente.</span>
+                </div>
+                <div class="flex items-start gap-1.5">
+                  <i data-lucide="check" class="w-3.5 h-3.5 text-[#39A900] shrink-0 mt-0.5"></i>
+                  <span>Puede usar la misma clave (<code class="font-mono text-[10px]">admin123</code>).</span>
+                </div>
+              </div>
+            </div>
+            <div class="text-[10px] text-slate-500 bg-slate-50 p-2 rounded-lg border border-slate-100">
+              💡 <strong>Tip:</strong> Si olvida la master password, se puede resetear sin perder la base de datos de Postgres.
+            </div>
+          </div>
+
+          <!-- Tarjeta 2: Conexión al Servidor Local -->
+          <div class="p-4 bg-white border border-slate-200 rounded-2xl shadow-2xs flex flex-col justify-between space-y-2">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 font-mono text-[10px] font-extrabold border border-emerald-200">
+                  PASO 2 · CONEXIÓN
+                </span>
+                <i data-lucide="server" class="w-4 h-4 text-[#39A900]"></i>
+              </div>
+              <h3 class="text-sm font-extrabold text-slate-900">Conectar a PostgreSQL</h3>
+              <p class="text-xs text-slate-600">
+                En el panel lateral izquierdo llamado <strong>Browser</strong>:
+              </p>
+              <div class="p-2.5 bg-slate-900 text-slate-200 rounded-xl font-mono text-[10px] space-y-1">
+                <div class="text-slate-400"># Árbol de navegación:</div>
+                <div class="text-emerald-400">▸ Servers</div>
+                <div class="text-blue-300 pl-3">↳ 🖱️ Clic en "PostgreSQL 16"</div>
+                <div class="text-amber-300 pl-6">↳ Ingresar password de postgres</div>
+                <div class="text-emerald-300 pl-6">↳ Marcar [x] "Save Password"</div>
+              </div>
+            </div>
+            <div class="text-[10px] text-emerald-800 bg-emerald-50 p-2 rounded-lg border border-emerald-200">
+              ✅ El ícono pasará de desconectado (rojo) a conectado (verde/activo).
+            </div>
+          </div>
+
+          <!-- Tarjeta 3: Clic Derecho y Creación de BD -->
+          <div class="p-4 bg-white border border-purple-200 bg-purple-50/20 rounded-2xl shadow-2xs flex flex-col justify-between space-y-2">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 rounded bg-purple-100 text-purple-900 font-mono text-[10px] font-extrabold border border-purple-200">
+                  PASO 3 · CREAR BD
+                </span>
+                <i data-lucide="database" class="w-4 h-4 text-purple-700"></i>
+              </div>
+              <h3 class="text-sm font-extrabold text-slate-900">Crear `adso_auth_db`</h3>
+              <p class="text-xs text-slate-600">
+                Aprovisionar el contenedor de persistencia con clics:
+              </p>
+              <ul class="text-[11px] space-y-1 font-mono text-slate-700">
+                <li class="flex items-center gap-1.5">
+                  <span class="w-4 h-4 rounded-full bg-blue-100 text-[#00324D] font-bold text-[9px] flex items-center justify-center">1</span>
+                  <span>Clic derecho en <strong>Databases</strong></span>
+                </li>
+                <li class="flex items-center gap-1.5">
+                  <span class="w-4 h-4 rounded-full bg-emerald-100 text-[#39A900] font-bold text-[9px] flex items-center justify-center">2</span>
+                  <span>Seleccionar <strong>Create</strong> → <strong>Database...</strong></span>
+                </li>
+                <li class="flex items-center gap-1.5">
+                  <span class="w-4 h-4 rounded-full bg-purple-100 text-purple-700 font-bold text-[9px] flex items-center justify-center">3</span>
+                  <span>Nombre: <code class="font-bold text-[#00324D]">adso_auth_db</code></span>
+                </li>
+                <li class="flex items-center gap-1.5">
+                  <span class="w-4 h-4 rounded-full bg-emerald-200 text-emerald-950 font-bold text-[9px] flex items-center justify-center">4</span>
+                  <span>Clic en el botón verde <strong>Save</strong></span>
+                </li>
+              </ul>
+            </div>
+            <div class="text-[10px] text-purple-900 bg-purple-100/70 p-2 rounded-lg border border-purple-200">
+              🎯 <strong>Resultado:</strong> <code class="font-bold">adso_auth_db</code> aparecerá en el listado de bases de datos.
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Vista de la sentencia SQL que genera pgAdmin -->
+        <div class="p-3 bg-slate-900 text-slate-200 rounded-xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-2 font-mono text-[11px]">
+            <span class="text-slate-400"># SQL ejecutado por debajo en pgAdmin:</span>
+            <code class="text-emerald-400">CREATE DATABASE adso_auth_db WITH OWNER = 'postgres' ENCODING = 'UTF8';</code>
+          </div>
+          <span class="px-2.5 py-1 bg-blue-500/20 text-blue-300 border border-blue-500/30 font-mono text-[10px] font-bold rounded-lg shrink-0">
+            Pestaña SQL en pgAdmin
+          </span>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 18: EL QUERY TOOL DE PGADMIN 4 Y EJECUCIÓN SENTENCIA A SENTENCIA -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1">
+          <i data-lucide="terminal" class="w-4 h-4 text-[#39A900]"></i>
+          <span>Live Coding en pgAdmin 4 · Query Tool</span>
+        </div>
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-3">
+          <div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              Apertura del Query Tool & Ejecución Sentencia a Sentencia
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600">
+              Cómo abrir la consola SQL, pegar cada sentencia, dar clic en <strong>Execute (F5)</strong> y verificar las tablas en el explorador de esquemas.
+            </p>
+          </div>
+          <span class="px-2.5 py-1 bg-emerald-500 text-white font-mono text-[11px] font-bold rounded-lg shrink-0 self-start sm:self-auto flex items-center gap-1">
+            <i data-lucide="play" class="w-3.5 h-3.5"></i> Botón Execute (F5)
+          </span>
+        </div>
+
+        <!-- Anatomía y Pasos de Inserción -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-3">
+          
+          <!-- Columna Izquierda: Cómo abrir el Query Tool y atajos -->
+          <div class="lg:col-span-4 flex flex-col justify-between space-y-3">
+            
+            <div class="p-3.5 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2 text-xs">
+              <span class="font-extrabold text-slate-900 flex items-center gap-1.5 text-xs">
+                <i data-lucide="zap" class="w-4 h-4 text-amber-500"></i>
+                ¿Cómo Abrir el Query Tool?
+              </span>
+              <ol class="space-y-1.5 text-[11px] text-slate-600 list-decimal list-inside font-mono">
+                <li>Clic sobre <code class="text-[#00324D] font-bold">adso_auth_db</code> en el árbol para seleccionarla.</li>
+                <li>Clic en el ícono del rayo ⚡ / herramientas en la barra superior.</li>
+                <li>O clic derecho en <code class="text-[#00324D]">adso_auth_db</code> → <strong>Query Tool</strong>.</li>
+              </ol>
+            </div>
+
+            <div class="p-3.5 bg-slate-900 text-slate-200 rounded-2xl shadow-2xs space-y-2 text-xs font-mono">
+              <span class="text-emerald-400 font-bold block text-[11px] flex items-center gap-1">
+                <i data-lucide="keyboard" class="w-3.5 h-3.5"></i> Atajos Críticos en pgAdmin
+              </span>
+              <div class="space-y-1 text-[10px]">
+                <div class="flex justify-between border-b border-slate-800 pb-1">
+                  <span>Ejecutar sentencia:</span>
+                  <kbd class="px-1.5 py-0.2 bg-slate-800 text-white rounded border border-slate-700">F5</kbd>
+                </div>
+                <div class="flex justify-between border-b border-slate-800 pb-1">
+                  <span>Ejecutar selección:</span>
+                  <kbd class="px-1.5 py-0.2 bg-slate-800 text-white rounded border border-slate-700">F5 (con texto sombreado)</kbd>
+                </div>
+                <div class="flex justify-between border-b border-slate-800 pb-1">
+                  <span>Guardar archivo SQL:</span>
+                  <kbd class="px-1.5 py-0.2 bg-slate-800 text-white rounded border border-slate-700">Ctrl + S</kbd>
+                </div>
+                <div class="flex justify-between">
+                  <span>Limpiar editor:</span>
+                  <kbd class="px-1.5 py-0.2 bg-slate-800 text-white rounded border border-slate-700">Ctrl + A + Supr</kbd>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-2.5 bg-emerald-50 border border-emerald-200 rounded-xl text-[10px] text-emerald-950">
+              👁️ <strong>Ver Datos Visualmente:</strong> Clic derecho en tabla <code class="font-bold">users</code> → <em>View/Edit Data</em> → <em>All Rows</em>.
+            </div>
+
+          </div>
+
+          <!-- Columna Derecha: Flujo Secuencial de las 5 Sentencias -->
+          <div class="lg:col-span-8 p-3.5 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2">
+            <span class="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+              <i data-lucide="list-ordered" class="w-4 h-4 text-[#00324D]"></i>
+              Secuencia de Trabajo en Clase (Sentencia por Sentencia):
+            </span>
+
+            <div class="space-y-2 text-[11px] font-mono">
+              
+              <!-- Sentencia 1: Extensión UUID -->
+              <div class="p-2 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2 truncate">
+                  <span class="w-5 h-5 rounded-full bg-blue-100 text-[#00324D] font-bold text-[10px] flex items-center justify-center shrink-0">1</span>
+                  <span class="text-slate-800 truncate">CREATE EXTENSION IF NOT EXISTS "pgcrypto";</span>
+                </div>
+                <span class="px-2 py-0.5 bg-emerald-100 text-[#39A900] text-[9px] font-bold rounded shrink-0">Clic F5 ▶️</span>
+              </div>
+
+              <!-- Sentencia 2: Tabla users -->
+              <div class="p-2 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2 truncate">
+                  <span class="w-5 h-5 rounded-full bg-emerald-100 text-[#39A900] font-bold text-[10px] flex items-center justify-center shrink-0">2</span>
+                  <span class="text-slate-800 truncate">CREATE TABLE users ( id UUID PRIMARY KEY DEFAULT gen_random_uuid()... );</span>
+                </div>
+                <span class="px-2 py-0.5 bg-emerald-100 text-[#39A900] text-[9px] font-bold rounded shrink-0">Clic F5 ▶️</span>
+              </div>
+
+              <!-- Sentencia 3: Tabla verification_tokens -->
+              <div class="p-2 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2 truncate">
+                  <span class="w-5 h-5 rounded-full bg-purple-100 text-purple-700 font-bold text-[10px] flex items-center justify-center shrink-0">3</span>
+                  <span class="text-slate-800 truncate">CREATE TABLE verification_tokens ( ... ON DELETE CASCADE );</span>
+                </div>
+                <span class="px-2 py-0.5 bg-emerald-100 text-[#39A900] text-[9px] font-bold rounded shrink-0">Clic F5 ▶️</span>
+              </div>
+
+              <!-- Sentencia 4: Índices B-Tree -->
+              <div class="p-2 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2 truncate">
+                  <span class="w-5 h-5 rounded-full bg-amber-100 text-amber-800 font-bold text-[10px] flex items-center justify-center shrink-0">4</span>
+                  <span class="text-slate-800 truncate">CREATE UNIQUE INDEX idx_users_email ON users(email);</span>
+                </div>
+                <span class="px-2 py-0.5 bg-emerald-100 text-[#39A900] text-[9px] font-bold rounded shrink-0">Clic F5 ▶️</span>
+              </div>
+
+              <!-- Sentencia 5: Semilla ACID -->
+              <div class="p-2 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2 truncate">
+                  <span class="w-5 h-5 rounded-full bg-teal-100 text-teal-800 font-bold text-[10px] flex items-center justify-center shrink-0">5</span>
+                  <span class="text-slate-800 truncate">BEGIN; INSERT INTO users ... INSERT INTO tokens ... COMMIT;</span>
+                </div>
+                <span class="px-2 py-0.5 bg-emerald-100 text-[#39A900] text-[9px] font-bold rounded shrink-0">Clic F5 ▶️</span>
+              </div>
+
+            </div>
+
+            <!-- Paso de Refresco en Árbol -->
+            <div class="p-2.5 bg-blue-50/70 border border-blue-200 rounded-xl text-[11px] text-[#00324D] flex items-center justify-between">
+              <span>🔄 <strong>Para ver las tablas creadas:</strong> En el árbol, ir a <code class="font-mono">Schemas → public → Tables</code>, clic derecho y presionar <strong>Refresh</strong>.</span>
+              <span class="font-bold underline text-blue-700">Actualizar Vista</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Banner Inferior: Vinculación con los Commits en Git -->
+        <div class="p-3 bg-slate-900 text-slate-200 rounded-xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-2">
+            <i data-lucide="git-commit" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+            <span><strong>Regla de Montaje:</strong> Una vez validada cada sentencia en pgAdmin 4 con mensaje verde <code class="font-mono text-emerald-300">Query returned successfully</code>, se guarda el archivo en <code class="font-mono text-blue-300">database/migrations/</code> y se hace el commit atómico en Git.</span>
+          </div>
+          <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-mono text-[10px] font-bold rounded-lg shrink-0">
+            Flujo Dual: GUI + Git
+          </span>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 19: TIPOS DE DATOS AVANZADOS EN POSTGRESQL -->
       <!-- --------------------------------------------------------------------- -->
       <section class="slide-item hidden flex flex-col justify-center py-6">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
@@ -2385,7 +2831,7 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
     <!-- ======================================================================= -->
     <footer class="mt-6 pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
       <div class="flex items-center space-x-2">
-        <span class="font-extrabold text-slate-800 font-mono" id="slide-current-label">SLIDE 01 / 28</span>
+        <span class="font-extrabold text-slate-800 font-mono" id="slide-current-label">SLIDE 01 / 31</span>
         <span>•</span>
         <span class="text-slate-500" id="slide-block-label">PORTADA DE LECCIÓN</span>
       </div>
@@ -2472,44 +2918,53 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
       <button onclick="window.presenter?.goToSlide(14)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
         <span class="text-slate-400">15</span><span>Conexión Local vs Cloud</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(15)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">16</span><span>Tipos de Datos Clave</span>
+      <button onclick="window.presenter?.goToSlide(15)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
+        <span class="text-emerald-500">16</span><span>Instalación PostgreSQL & pgAdmin</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(16)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-rose-700 font-bold">
-        <span class="text-rose-400">17</span><span>Seguridad contra IDOR</span>
+      <button onclick="window.presenter?.goToSlide(16)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
+        <span class="text-emerald-500">17</span><span>Primer Inicio & Crear BD</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(17)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">18</span><span>Tabla users (DDL)</span>
+      <button onclick="window.presenter?.goToSlide(17)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
+        <span class="text-emerald-500">18</span><span>Query Tool & Clics en Vivo</span>
       </button>
       <button onclick="window.presenter?.goToSlide(18)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">19</span><span>Tabla verification_tokens</span>
+        <span class="text-slate-400">19</span><span>Tipos de Datos Clave</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(19)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">20</span><span>ON DELETE CASCADE</span>
+      <button onclick="window.presenter?.goToSlide(19)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-rose-700 font-bold">
+        <span class="text-rose-400">20</span><span>Seguridad contra IDOR</span>
       </button>
       <button onclick="window.presenter?.goToSlide(20)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">21</span><span>Índices B-Tree</span>
+        <span class="text-slate-400">21</span><span>Tabla users (DDL)</span>
       </button>
       <button onclick="window.presenter?.goToSlide(21)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">22</span><span>Live Coding DDL</span>
+        <span class="text-slate-400">22</span><span>Tabla verification_tokens</span>
       </button>
       <button onclick="window.presenter?.goToSlide(22)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">23</span><span>Transacciones ACID</span>
+        <span class="text-slate-400">23</span><span>ON DELETE CASCADE</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(23)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">24</span><span>Montaje Guiado en Aula</span>
+      <button onclick="window.presenter?.goToSlide(23)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">24</span><span>Índices B-Tree</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(24)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">25</span><span>Guía Operativa Consola</span>
+      <button onclick="window.presenter?.goToSlide(24)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">25</span><span>Live Coding DDL</span>
       </button>
       <button onclick="window.presenter?.goToSlide(25)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">26</span><span>Diccionario de Datos</span>
+        <span class="text-slate-400">26</span><span>Transacciones ACID</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(26)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-purple-700 font-bold">
-        <span class="text-purple-400">27</span><span>Sustentación & Live Mod</span>
+      <button onclick="window.presenter?.goToSlide(26)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
+        <span class="text-emerald-500">27</span><span>Montaje Guiado en Aula</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(27)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">28</span><span>Cierre & Sesión 07</span>
+      <button onclick="window.presenter?.goToSlide(27)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
+        <span class="text-emerald-500">28</span><span>Guía Operativa Consola</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(28)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">29</span><span>Diccionario de Datos</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(29)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-purple-700 font-bold">
+        <span class="text-purple-400">30</span><span>Sustentación & Live Mod</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(30)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">31</span><span>Cierre & Sesión 07</span>
       </button>
     </div>
   </aside>
