@@ -89,12 +89,20 @@ class SlidePresenter {
       if (this.currentSlideIndex === 0) {
         blockLabelEl.textContent = 'PORTADA DE LECCIÓN';
       } else if (this.currentSlideIndex === 1) {
-        blockLabelEl.textContent = 'HOJA DE RUTA DEL MONTAJE';
-      } else if (this.currentSlideIndex <= 13) {
+        blockLabelEl.textContent = 'ARQUITECTURA 3-TIER DEL SISTEMA';
+      } else if (this.currentSlideIndex === 2) {
+        blockLabelEl.textContent = 'FLUJO TRANSACCIONAL TÉCNICO';
+      } else if (this.currentSlideIndex === 3) {
+        blockLabelEl.textContent = 'MODELO ENTIDAD-RELACIÓN (ERD)';
+      } else if (this.currentSlideIndex === 4) {
+        blockLabelEl.textContent = 'HOJA DE RUTA DEL MONTAJE EN GIT';
+      } else if (this.currentSlideIndex <= 16) {
         blockLabelEl.textContent = 'BLOQUE 1: TEORÍA & LIVE CODING';
-      } else if (this.currentSlideIndex <= 15) {
+      } else if (this.currentSlideIndex <= 18) {
         blockLabelEl.textContent = 'BLOQUE 2: MONTAJE EN AULA & GIT';
-      } else if (this.currentSlideIndex === 16) {
+      } else if (this.currentSlideIndex === 19) {
+        blockLabelEl.textContent = 'CONTRATO TÉCNICO EXPRESS';
+      } else if (this.currentSlideIndex === 20) {
         blockLabelEl.textContent = 'BLOQUE 3: EVALUACIÓN & SUSTENTACIÓN';
       } else {
         blockLabelEl.textContent = 'CIERRE & SIGUIENTE SESIÓN';
