@@ -1128,63 +1128,83 @@
           Cada aprendiz trabajará directamente sobre su máquina local y versionará cada hito en su <strong>repositorio personal de GitHub</strong>. No existen plantillas descargables: el montaje se escribe paso a paso.
         </p>
 
-        <!-- 3 Pasos del Montaje en Git -->
+        <!-- 3 Pasos del Montaje en Git con Enlace Curricular -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           
-          <!-- Paso 1: Estructura de Carpetas -->
+          <!-- Paso 1: Estructura de Carpetas Monorepo -->
           <div class="p-4 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2 flex flex-col justify-between">
             <div class="space-y-2">
               <div class="flex items-center justify-between">
                 <span class="px-2 py-0.5 rounded bg-blue-50 text-[#00324D] font-mono text-[10px] font-extrabold border border-blue-200">
-                  PASO 1 · INICIALIZACIÓN
+                  PASO 1 · MONOREPO TRANSVERSAL
                 </span>
-                <i data-lucide="terminal" class="w-4 h-4 text-[#00324D]"></i>
+                <i data-lucide="folder-tree" class="w-4 h-4 text-[#00324D]"></i>
               </div>
-              <h3 class="text-sm font-extrabold text-slate-900">Estructura Profesional</h3>
+              <h3 class="text-sm font-extrabold text-slate-900">Estructura Global del Proyecto</h3>
               <p class="text-xs text-slate-600">
-                Inicialice su proyecto y cree el árbol de persistencia en su terminal:
+                Su repositorio albergará las fases de todo el trimestre (BD, Servidor y Cliente):
               </p>
-              <div class="font-mono text-[10px] bg-slate-900 text-slate-200 p-2.5 rounded-xl space-y-1">
-                <div class="text-slate-400"># 1. Crear carpetas</div>
-                <div class="text-emerald-400">mkdir -p mi-proyecto-adso/database/{migrations,seeds}</div>
-                <div class="text-slate-400"># 2. Entrar e inicializar git</div>
-                <div class="text-blue-300">cd mi-proyecto-adso && git init</div>
-                <div class="text-slate-400"># 3. Crear archivos SQL</div>
-                <div class="text-amber-300">touch database/migrations/01_auth_schema.sql</div>
-                <div class="text-amber-300">touch database/seeds/01_test_seed.sql</div>
+              
+              <!-- Árbol de carpetas transversal -->
+              <div class="font-mono text-[10px] bg-slate-900 text-slate-200 p-2.5 rounded-xl space-y-0.5">
+                <div class="text-amber-400 font-bold">mi-proyecto-adso/ <span class="text-slate-500 font-normal"># Repo Git Personal</span></div>
+                <div class="text-emerald-400 pl-2">├── database/ <span class="text-slate-400 font-normal"># Sem. 2 (Hoy SQL + Día 7 NoSQL)</span></div>
+                <div class="text-emerald-300 pl-5">├── migrations/01_auth_schema.sql</div>
+                <div class="text-emerald-300 pl-5">└── seeds/01_test_seed.sql</div>
+                <div class="text-blue-300 pl-2">├── server/ <span class="text-slate-400 font-normal"># Días 08-15 (Express + Node.js)</span></div>
+                <div class="text-purple-300 pl-2">└── client/ <span class="text-slate-400 font-normal"># Semanas 3-6 (React + Tailwind)</span></div>
+              </div>
+
+              <!-- Comandos de Inicialización -->
+              <div class="font-mono text-[9.5px] bg-slate-100 text-slate-700 p-2 rounded-lg border border-slate-200 space-y-0.5">
+                <div class="text-slate-500 font-bold"># Comandos de inicio en Terminal:</div>
+                <div class="text-[#00324D] font-bold">mkdir -p mi-proyecto-adso/database/{migrations,seeds}</div>
+                <div class="text-[#00324D]">cd mi-proyecto-adso && git init</div>
+                <div class="text-slate-600">touch database/migrations/01_auth_schema.sql</div>
+                <div class="text-slate-600">touch database/seeds/01_test_seed.sql</div>
               </div>
             </div>
-            <div class="text-[10px] text-slate-500 bg-slate-50 p-2 rounded-lg border border-slate-100">
-              📁 <strong>Convención:</strong> Separar DDL (esquema) de DML (semillas de prueba).
+            <div class="text-[10px] text-slate-500 bg-slate-50 p-2 rounded-lg border border-slate-100 flex items-center gap-1.5">
+              <span>📁</span> <strong>Regla:</strong> El repo vive en su GitHub y crecerá en cada lección.
             </div>
           </div>
 
-          <!-- Paso 2: Separación de Responsabilidades -->
+          <!-- Paso 2: Separación y Trazabilidad Transversal -->
           <div class="p-4 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2 flex flex-col justify-between">
             <div class="space-y-2">
               <div class="flex items-center justify-between">
                 <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 font-mono text-[10px] font-extrabold border border-emerald-200">
-                  PASO 2 · LOS ARCHIVOS SQL
+                  PASO 2 · IMPACTO EN SIGUIENTES DÍAS
                 </span>
-                <i data-lucide="file-code" class="w-4 h-4 text-[#39A900]"></i>
+                <i data-lucide="workflow" class="w-4 h-4 text-[#39A900]"></i>
               </div>
-              <h3 class="text-sm font-extrabold text-slate-900">Migración vs Semilla</h3>
+              <h3 class="text-sm font-extrabold text-slate-900">Cohesión con el Backend</h3>
               <p class="text-xs text-slate-600">
-                Cada archivo cumple una función estrictamente separada en el ciclo de vida:
+                Cada script alimenta directamente las clases y repositorios de las próximas sesiones:
               </p>
               <div class="space-y-2 text-xs">
                 <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200">
-                  <strong class="text-slate-800 font-mono text-[11px] block text-[#00324D]">migrations/01_auth_schema.sql</strong>
-                  <span class="text-[11px] text-slate-600 block">Solo sentencias DDL: <code class="font-mono">CREATE TABLE</code>, restricciones, índices B-Tree y llaves foráneas. Es idempotente y apto para producción.</span>
+                  <div class="flex items-center justify-between mb-1">
+                    <strong class="text-slate-800 font-mono text-[11px] text-[#00324D]">01_auth_schema.sql (DDL)</strong>
+                    <span class="text-[9px] px-1.5 py-0.2 bg-blue-100 text-blue-900 rounded font-bold">Día 08 & 09</span>
+                  </div>
+                  <span class="text-[10.5px] text-slate-600 block leading-tight">
+                    Define la base de datos <code class="font-mono text-[#00324D] font-bold">adso_auth_db</code>. En la <strong>Sesión 08</strong> configuramos <code class="font-mono">pg.Pool</code> y en la <strong>Sesión 09</strong> creamos <code class="font-mono">UserRepository.js</code> que consume estas tablas.
+                  </span>
                 </div>
                 <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200">
-                  <strong class="text-slate-800 font-mono text-[11px] block text-[#39A900]">seeds/01_test_seed.sql</strong>
-                  <span class="text-[11px] text-slate-600 block">Solo sentencias DML: <code class="font-mono">BEGIN ... COMMIT</code> con usuarios demo (Admin y Aprendiz) para pruebas en el aula.</span>
+                  <div class="flex items-center justify-between mb-1">
+                    <strong class="text-slate-800 font-mono text-[11px] text-[#39A900]">01_test_seed.sql (DML)</strong>
+                    <span class="text-[9px] px-1.5 py-0.2 bg-emerald-100 text-emerald-900 rounded font-bold">Día 10 & 12</span>
+                  </div>
+                  <span class="text-[10.5px] text-slate-600 block leading-tight">
+                    Inserta usuarios de prueba y tokens. En la <strong>Sesión 10</strong> aplicamos bcrypt y en la <strong>Sesión 12</strong> validamos estos tokens con <strong>Resend API</strong> para activación de cuenta por email.
+                  </span>
                 </div>
               </div>
             </div>
-            <div class="text-[10px] text-slate-500 bg-slate-50 p-2 rounded-lg border border-slate-100">
-              🛡️ <strong>Regla:</strong> Los datos de prueba nunca se mezclan con el DDL.
+            <div class="text-[10px] text-emerald-900 bg-emerald-50 p-2 rounded-lg border border-emerald-100 flex items-center gap-1.5">
+              <span>🛡️</span> <strong>Alineación:</strong> No cambie nombres de tablas ni columnas para evitar errores en Node.js.
             </div>
           </div>
 
@@ -1193,52 +1213,52 @@
             <div class="space-y-2">
               <div class="flex items-center justify-between">
                 <span class="px-2 py-0.5 rounded bg-purple-100 text-purple-900 font-mono text-[10px] font-extrabold border border-purple-200">
-                  PASO 3 · LOS 5 COMMITS ATÓMICOS
+                  PASO 3 · LOS 5 COMMITS CANÓNICOS
                 </span>
                 <i data-lucide="git-commit" class="w-4 h-4 text-purple-700"></i>
               </div>
-              <h3 class="text-sm font-extrabold text-slate-900">Historial Atómico en GitHub</h3>
+              <h3 class="text-sm font-extrabold text-slate-900">Historial Atómico Unificado</h3>
               <p class="text-xs text-slate-600">
-                Cada hito finalizado se confirma con un commit atómico siguiendo la convención de la industria:
+                Ejecute y confirme paso a paso (coinciden exactamente con el Montaje del Slide 27):
               </p>
               <div class="space-y-1.5 font-mono text-[10px]">
                 <div class="p-1.5 bg-slate-900 text-slate-200 rounded-lg flex items-center justify-between border border-slate-800">
-                  <span class="text-blue-300">git commit -m "feat(db): tabla users + uuidv4"</span>
+                  <span class="text-blue-300">git commit -m "feat(db): crear tabla users con id uuid v4 y restricciones"</span>
                   <span class="text-[9px] px-1.5 py-0.2 bg-blue-500/20 text-blue-300 rounded font-bold">1</span>
                 </div>
                 <div class="p-1.5 bg-slate-900 text-slate-200 rounded-lg flex items-center justify-between border border-slate-800">
-                  <span class="text-emerald-300">git commit -m "feat(db): tokens con delete cascade"</span>
+                  <span class="text-emerald-300">git commit -m "feat(db): crear tabla tokens con fk y on delete cascade"</span>
                   <span class="text-[9px] px-1.5 py-0.2 bg-emerald-500/20 text-emerald-300 rounded font-bold">2</span>
                 </div>
                 <div class="p-1.5 bg-slate-900 text-slate-200 rounded-lg flex items-center justify-between border border-slate-800">
-                  <span class="text-purple-300">git commit -m "perf(db): indices b-tree estrategicos"</span>
+                  <span class="text-purple-300">git commit -m "perf(db): agregar indices b-tree para email y token"</span>
                   <span class="text-[9px] px-1.5 py-0.2 bg-purple-500/20 text-purple-300 rounded font-bold">3</span>
                 </div>
                 <div class="p-1.5 bg-slate-900 text-slate-200 rounded-lg flex items-center justify-between border border-slate-800">
-                  <span class="text-amber-300">git commit -m "test(db): seed transaccional acid"</span>
+                  <span class="text-amber-300">git commit -m "test(db): seed transaccional acid de usuarios y tokens"</span>
                   <span class="text-[9px] px-1.5 py-0.2 bg-amber-500/20 text-amber-300 rounded font-bold">4</span>
                 </div>
                 <div class="p-1.5 bg-slate-900 text-slate-200 rounded-lg flex items-center justify-between border border-slate-800">
-                  <span class="text-teal-300">git commit -m "test(db): joins y cascade + push git"</span>
+                  <span class="text-teal-300">git commit -m "test(db): validar integridad referencial y delete cascade"</span>
                   <span class="text-[9px] px-1.5 py-0.2 bg-teal-500/20 text-teal-300 rounded font-bold">5</span>
                 </div>
               </div>
             </div>
             <div class="text-[10px] text-purple-900 bg-purple-100/70 p-2 rounded-lg border border-purple-200 flex items-center justify-between">
-              <span>💡 <strong>Estándar Global:</strong> Conventional Commits v1.0.0</span>
+              <span>💡 <strong>Convención:</strong> Estándar Conventional Commits v1.0.0</span>
               <span class="font-bold text-purple-700">Ver Slide 11 →</span>
             </div>
           </div>
 
         </div>
 
-        <!-- Banner de Regla de Aula -->
-        <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-950 flex items-center justify-between gap-3">
+        <!-- Banner de Regla de Aula y Trazabilidad Curricular -->
+        <div class="p-3 bg-blue-50 rounded-xl border border-blue-200 text-xs text-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div class="flex items-center gap-2">
-            <i data-lucide="alert-circle" class="w-4 h-4 text-amber-700 shrink-0"></i>
-            <span><strong>Regla de Evaluación en Aula:</strong> No se aceptan repositorios con un solo commit masivo. La nota de proceso depende de la evidencia paso a paso de los 5 commits atómicos en GitHub personal.</span>
+            <i data-lucide="link" class="w-4 h-4 text-[#00324D] shrink-0"></i>
+            <span><strong>Conexión Curricular:</strong> La base <code class="font-mono text-[#00324D] font-bold">adso_auth_db</code> creada hoy será conectada a Express en la <strong>Sesión 08</strong> y su API será consumida por React en la <strong>Semana 4</strong>. La evidencia evaluable son los 5 commits en GitHub.</span>
           </div>
-          <span class="font-mono text-[10px] font-bold text-amber-800 uppercase shrink-0">Evaluación en Vivo</span>
+          <span class="font-mono text-[10px] font-bold px-2 py-1 bg-[#00324D] text-white rounded uppercase shrink-0">Evaluación Formativa</span>
         </div>
       </section>
 
@@ -1687,7 +1707,7 @@
               Base de datos gratuita en la nube con SSL obligatorio, escalado automático a cero y conexión mediante Connection String URI estándar:
             </p>
             <div class="p-3 bg-slate-900 rounded-xl font-mono text-[11px] text-emerald-400 break-all">
-              <code>postgresql://adso_user:Secret2026@ep-cool-db.us-east-2.aws.neon.tech/adso_db?sslmode=require</code>
+              <code>postgresql://adso_user:Secret2026@ep-cool-db.us-east-2.aws.neon.tech/adso_auth_db?sslmode=require</code>
             </div>
           </div>
         </div>
@@ -2559,7 +2579,7 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
               <span class="px-1.5 py-0.5 rounded bg-blue-50 text-blue-800 text-[10px] font-mono font-bold">Commit 1</span>
             </div>
             <p class="text-slate-600 text-[11px]">Crear tabla con UUIDv4 nativo, email único, hash bcrypt, rol ('admin'/'user') y marcas de tiempo.</p>
-            <div class="text-[10px] font-mono text-slate-600 bg-slate-50 p-1.5 rounded border border-slate-100">git commit -m "feat(db): crear tabla users con id uuid v4 y constrains"</div>
+            <div class="text-[10px] font-mono text-slate-600 bg-slate-50 p-1.5 rounded border border-slate-100">git commit -m "feat(db): crear tabla users con id uuid v4 y restricciones"</div>
           </div>
           
           <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
@@ -2586,7 +2606,7 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
               <span class="px-1.5 py-0.5 rounded bg-amber-50 text-amber-800 text-[10px] font-mono font-bold">Commit 4</span>
             </div>
             <p class="text-slate-600 text-[11px]">Ejecutar bloque transaccional atómico <code class="font-mono">BEGIN ... COMMIT</code> con Admin activo y User pendiente a 24h.</p>
-            <div class="text-[10px] font-mono text-slate-600 bg-slate-50 p-1.5 rounded border border-slate-100">git commit -m "test(db): seed transaccional de usuarios y tokens resend"</div>
+            <div class="text-[10px] font-mono text-slate-600 bg-slate-50 p-1.5 rounded border border-slate-100">git commit -m "test(db): seed transaccional acid de usuarios y tokens"</div>
           </div>
 
           <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs sm:col-span-2">
@@ -2595,7 +2615,7 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
               <span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-900 text-[10px] font-mono font-bold">Commit 5 + Push</span>
             </div>
             <p class="text-slate-600 text-[11px]">Consulta con <code class="font-mono">INNER JOIN</code> calculando horas de vigencia y prueba destructiva de usuario verificando la cascada en consola.</p>
-            <div class="text-[10px] font-mono text-slate-600 bg-slate-50 p-1.5 rounded border border-slate-100">git commit -m "test(db): verificar integridad referencial y delete cascade" && git push origin main</div>
+            <div class="text-[10px] font-mono text-slate-600 bg-slate-50 p-1.5 rounded border border-slate-100">git commit -m "test(db): validar integridad referencial y delete cascade" && git push -u origin main</div>
           </div>
         </div>
       </section>
@@ -2692,7 +2712,7 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
         <div class="p-3 bg-slate-900 text-slate-200 rounded-xl font-mono text-[11px] flex flex-col sm:flex-row items-center justify-between gap-3">
           <div class="flex items-center gap-2">
             <span class="text-emerald-400 font-bold">$</span>
-            <span>git add . && git commit -m "test(db): verificar integridad referencial y delete cascade" && git push origin main</span>
+            <span>git add . && git commit -m "test(db): validar integridad referencial y delete cascade" && git push -u origin main</span>
           </div>
           <span class="px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-300 text-[10px] font-bold border border-emerald-700 shrink-0">
             Hito 5 Completado
