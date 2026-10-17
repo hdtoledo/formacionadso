@@ -1,0 +1,43 @@
+{
+  "database": "adso_polyglot_db",
+  "collection": "contents",
+  "schema_type": "Polymorphic Document Model (BSON)",
+  "session": "Sesion 07 - Persistencia NoSQL con MongoDB Atlas y Compass",
+  "queries_reference_for_instructor": {
+    "query_01_all_active_services": {
+      "filter": { "type": "service", "active": true },
+      "projection": { "name": 1, "category": 1, "hours": 1, "views": 1, "_id": 0 },
+      "sort": { "views": -1 }
+    },
+    "query_02_software_or_agro": {
+      "filter": {
+        "type": "service",
+        "category": { "$in": ["software", "agroindustria"] }
+      }
+    },
+    "query_03_high_capacity_services": {
+      "filter": {
+        "type": "service",
+        "maxCapacity": { "$gte": 25 }
+      }
+    },
+    "query_04_banners_ordered": {
+      "filter": { "type": "banner", "active": true },
+      "sort": { "priority": 1 }
+    },
+    "query_05_testimonials_5_stars": {
+      "filter": { "type": "testimonial", "rating": { "$gte": 5 } }
+    },
+    "live_mod_sustentacion": {
+      "description": "El aprendiz debe insertar un nuevo documento tipo 'event' o 'announcement' y consultarlo con proyeccion en caliente en MongoDB Compass.",
+      "sample_payload": {
+        "type": "event",
+        "title": "Hackathon Regional Huila Suaza 2026",
+        "location": "Auditorio Principal CADPH Garzón",
+        "date": "2026-11-20T08:00:00.000Z",
+        "active": true,
+        "organizer": "ADSO Garzón"
+      }
+    }
+  }
+}

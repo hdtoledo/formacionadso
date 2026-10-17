@@ -1,0 +1,160 @@
+[
+  {
+    "type": "banner",
+    "title": "Innovación Tecnológica y Persistencia Políglota en ADSO",
+    "subtitle": "Formación integral con PostgreSQL para autenticación y MongoDB para catálogos dinámicos.",
+    "ctaText": "Explorar Módulos",
+    "ctaUrl": "/catalog",
+    "imageUrl": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80",
+    "priority": 1,
+    "active": true,
+    "tags": ["tecnologia", "adso", "sena", "fullstack"],
+    "createdAt": "2026-10-16T10:00:00.000Z",
+    "updatedAt": "2026-10-16T10:00:00.000Z"
+  },
+  {
+    "type": "banner",
+    "title": "Centro Agroempresarial y Desarrollo Pecuario del Huila - Garzón",
+    "subtitle": "Ambientes de formación avanzada en desarrollo de software, agroindustria y biotecnología.",
+    "ctaText": "Conocer CADPH",
+    "ctaUrl": "/sedes/garzon",
+    "imageUrl": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80",
+    "priority": 2,
+    "active": true,
+    "tags": ["sena", "huila", "garzon", "agroempresa"],
+    "createdAt": "2026-10-16T10:05:00.000Z",
+    "updatedAt": "2026-10-16T10:05:00.000Z"
+  },
+  {
+    "type": "service",
+    "name": "Laboratorio de Desarrollo Web Full Stack & Microservicios",
+    "category": "software",
+    "description": "Scaffolding de arquitecturas backend modernas con Express, Node.js, pools relacionales PostgreSQL y almacenamiento documental en MongoDB.",
+    "icon": "server",
+    "code": "SRV-SOFT-01",
+    "hours": 120,
+    "maxCapacity": 30,
+    "views": 450,
+    "active": true,
+    "metadata": {
+      "level": "avanzado",
+      "instructor": "Equipo Técnico ADSO Garzón",
+      "prerequisites": ["JavaScript ES6+", "SQL Relacional", "Git & GitHub"]
+    },
+    "tags": ["backend", "express", "postgresql", "mongodb", "nodejs"],
+    "createdAt": "2026-10-16T10:15:00.000Z",
+    "updatedAt": "2026-10-16T10:15:00.000Z"
+  },
+  {
+    "type": "service",
+    "name": "Sistemas de Trazabilidad Agropecuaria y Blockchain",
+    "category": "agroindustria",
+    "description": "Diseño de modelos de persistencia documental para el seguimiento de lotes de café de origen, cacao y piscicultura en la cuenca del Río Suaza.",
+    "icon": "sprout",
+    "code": "SRV-AGRO-02",
+    "hours": 80,
+    "maxCapacity": 25,
+    "views": 320,
+    "active": true,
+    "metadata": {
+      "level": "intermedio",
+      "sector": "Caficultura & Piscicultura Huila",
+      "certification": "Sello Verde SENA CADPH"
+    },
+    "tags": ["agroindustria", "trazabilidad", "cafe", "huila", "iot"],
+    "createdAt": "2026-10-16T10:20:00.000Z",
+    "updatedAt": "2026-10-16T10:20:00.000Z"
+  },
+  {
+    "type": "service",
+    "name": "Auditoría de Ciberseguridad & Mitigación IDOR / OWASP",
+    "category": "seguridad",
+    "description": "Hardening de bases de datos relacionales y no relacionales, análisis de permisos, prevención de SQLi, NoSQL Injection y control de acceso seguro.",
+    "icon": "shield-check",
+    "code": "SRV-SEC-03",
+    "hours": 60,
+    "maxCapacity": 20,
+    "views": 580,
+    "active": true,
+    "metadata": {
+      "level": "avanzado",
+      "framework": "OWASP Top 10 API Security",
+      "tools": ["Bruno", "Postman", "Compass", "pgAdmin"]
+    },
+    "tags": ["ciberseguridad", "owasp", "seguridad", "nosql-injection"],
+    "createdAt": "2026-10-16T10:25:00.000Z",
+    "updatedAt": "2026-10-16T10:25:00.000Z"
+  },
+  {
+    "type": "service",
+    "name": "Desarrollo Frontend React SPA con Tailwind CSS",
+    "category": "software",
+    "description": "Construcción de interfaces interactivas, componentes desacoplados, consumo de APIs REST con Axios y autenticación segura por cookies httpOnly.",
+    "icon": "layout",
+    "code": "SRV-FRONT-04",
+    "hours": 90,
+    "maxCapacity": 30,
+    "views": 610,
+    "active": true,
+    "metadata": {
+      "level": "intermedio",
+      "framework": "React 18 + Vite",
+      "styling": "Tailwind CSS v3/v4"
+    },
+    "tags": ["react", "vite", "tailwind", "frontend", "ui-ux"],
+    "createdAt": "2026-10-16T10:30:00.000Z",
+    "updatedAt": "2026-10-16T10:30:00.000Z"
+  },
+  {
+    "type": "testimonial",
+    "author": "Laura Camila Dussán",
+    "role": "Aprendiz ADSO Ficha 2826845",
+    "company": "CADPH Garzón",
+    "quote": "Aprender a combinar PostgreSQL para el login con UUIDs y MongoDB para los contenidos de la Landing nos dio una perspectiva real de cómo operan plataformas como Uber y Mercado Libre.",
+    "rating": 5,
+    "avatarUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80",
+    "verified": true,
+    "active": true,
+    "tags": ["testimonio", "adso", "aprendiz"],
+    "createdAt": "2026-10-16T10:40:00.000Z",
+    "updatedAt": "2026-10-16T10:40:00.000Z"
+  },
+  {
+    "type": "testimonial",
+    "author": "Ing. Carlos Hernán Mora",
+    "role": "Líder Técnico de Software",
+    "company": "HuilaTech Solutions",
+    "quote": "La persistencia políglota es el estándar en proyectos serios. Ver que los aprendices del SENA Garzón configuran clústeres en Atlas y escriben consultas MQL optimizadas nos da confianza para contratarlos.",
+    "rating": 5,
+    "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
+    "verified": true,
+    "active": true,
+    "tags": ["testimonio", "empresa", "reclutamiento"],
+    "createdAt": "2026-10-16T10:45:00.000Z",
+    "updatedAt": "2026-10-16T10:45:00.000Z"
+  },
+  {
+    "type": "stat",
+    "metric": "Aprendices Capacitados",
+    "value": 1250,
+    "prefix": "+",
+    "suffix": "",
+    "label": "Formación técnica de alto impacto en el Huila",
+    "order": 1,
+    "active": true,
+    "createdAt": "2026-10-16T10:50:00.000Z",
+    "updatedAt": "2026-10-16T10:50:00.000Z"
+  },
+  {
+    "type": "stat",
+    "metric": "Disponibilidad del Clúster",
+    "value": 99.9,
+    "prefix": "",
+    "suffix": "%",
+    "label": "SLA de infraestructura Cloud en MongoDB Atlas M0",
+    "order": 2,
+    "active": true,
+    "createdAt": "2026-10-16T10:55:00.000Z",
+    "updatedAt": "2026-10-16T10:55:00.000Z"
+  }
+]
