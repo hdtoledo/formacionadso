@@ -1197,29 +1197,271 @@
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 18: IMPORTACIÓN DE SEMILLAS 01_CONTENT_SEED.JSON -->
+      <!-- SLIDE 18: ARCHIVO SEMILLA NOSQL · CONTENIDO DE 01_CONTENT_SEED.JSON -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-5">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1.5">
+          <i data-lucide="file-code" class="w-4 h-4 text-[#39A900]"></i>
+          <span>Poblado de Datos en Aula · Semilla NoSQL</span>
+        </div>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+          <div>
+            <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              Contenido Oficial: <code class="text-[#39A900]">01_content_seed.json</code>
+            </h2>
+            <p class="text-xs text-slate-600">
+              Arreglo canónico de <strong>10 documentos BSON</strong> para poblar la colección <code class="font-mono text-emerald-700">contents</code>:
+            </p>
+          </div>
+          <!-- Botón de Copiado Rápido al Portapapeles -->
+          <button id="btn-copy-seed-json" onclick="copySeedJson()" class="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-[#39A900] hover:bg-[#2D8200] text-white rounded-xl text-xs font-bold shadow-xs transition shrink-0 cursor-pointer">
+            <i data-lucide="copy" class="w-4 h-4" id="copy-seed-icon"></i>
+            <span id="copy-seed-text">Copiar JSON Completo (10 Docs)</span>
+          </button>
+        </div>
+
+        <!-- Pestañas de Filtrado Visual de la Semilla -->
+        <div class="flex items-center space-x-1.5 overflow-x-auto pb-1.5 mb-2 text-[11px] font-bold">
+          <button onclick="filterSeedPreview('all')" id="tab-seed-all" class="tab-seed-btn px-2.5 py-1 bg-slate-900 text-emerald-300 rounded-lg border border-slate-700 cursor-pointer">
+            Todos (10 Docs)
+          </button>
+          <button onclick="filterSeedPreview('banner')" id="tab-seed-banner" class="tab-seed-btn px-2.5 py-1 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer">
+            Banners (2)
+          </button>
+          <button onclick="filterSeedPreview('service')" id="tab-seed-service" class="tab-seed-btn px-2.5 py-1 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer">
+            Servicios (4)
+          </button>
+          <button onclick="filterSeedPreview('testimonial')" id="tab-seed-testimonial" class="tab-seed-btn px-2.5 py-1 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer">
+            Testimonios (2)
+          </button>
+          <button onclick="filterSeedPreview('stat')" id="tab-seed-stat" class="tab-seed-btn px-2.5 py-1 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer">
+            Stats (2)
+          </button>
+        </div>
+
+        <!-- Contenedor del Código JSON -->
+        <div class="relative bg-slate-900 rounded-2xl border border-slate-800 p-3 shadow-inner max-h-[300px] overflow-y-auto font-mono text-[10px] leading-relaxed text-slate-200">
+          <pre class="overflow-x-auto"><code id="seed-json-code-box" class="language-json">[
+  {
+    "type": "banner",
+    "title": "Innovación Tecnológica y Persistencia Políglota en ADSO",
+    "subtitle": "Formación integral con PostgreSQL para autenticación y MongoDB para catálogos dinámicos.",
+    "ctaText": "Explorar Módulos",
+    "ctaUrl": "/catalog",
+    "imageUrl": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80",
+    "priority": 1,
+    "active": true,
+    "tags": ["tecnologia", "adso", "sena", "fullstack"],
+    "createdAt": "2026-10-16T10:00:00.000Z",
+    "updatedAt": "2026-10-16T10:00:00.000Z"
+  },
+  {
+    "type": "banner",
+    "title": "Centro Agroempresarial y Desarrollo Pecuario del Huila - Garzón",
+    "subtitle": "Ambientes de formación avanzada en desarrollo de software, agroindustria y biotecnología.",
+    "ctaText": "Conocer CADPH",
+    "ctaUrl": "/sedes/garzon",
+    "imageUrl": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80",
+    "priority": 2,
+    "active": true,
+    "tags": ["sena", "huila", "garzon", "agroempresa"],
+    "createdAt": "2026-10-16T10:05:00.000Z",
+    "updatedAt": "2026-10-16T10:05:00.000Z"
+  },
+  {
+    "type": "service",
+    "name": "Laboratorio de Desarrollo Web Full Stack & Microservicios",
+    "category": "software",
+    "description": "Scaffolding de arquitecturas backend modernas con Express, Node.js, pools relacionales PostgreSQL y almacenamiento documental en MongoDB.",
+    "icon": "server",
+    "code": "SRV-SOFT-01",
+    "hours": 120,
+    "maxCapacity": 30,
+    "views": 450,
+    "active": true,
+    "metadata": {
+      "level": "avanzado",
+      "instructor": "Equipo Técnico ADSO Garzón",
+      "prerequisites": ["JavaScript ES6+", "SQL Relacional", "Git & GitHub"]
+    },
+    "tags": ["backend", "express", "postgresql", "mongodb", "nodejs"],
+    "createdAt": "2026-10-16T10:15:00.000Z",
+    "updatedAt": "2026-10-16T10:15:00.000Z"
+  },
+  {
+    "type": "service",
+    "name": "Sistemas de Trazabilidad Agropecuaria y Blockchain",
+    "category": "agroindustria",
+    "description": "Diseño de modelos de persistencia documental para el seguimiento de lotes de café de origen, cacao y piscicultura en la cuenca del Río Suaza.",
+    "icon": "sprout",
+    "code": "SRV-AGRO-02",
+    "hours": 80,
+    "maxCapacity": 25,
+    "views": 320,
+    "active": true,
+    "metadata": {
+      "level": "intermedio",
+      "sector": "Caficultura & Piscicultura Huila",
+      "certification": "Sello Verde SENA CADPH"
+    },
+    "tags": ["agroindustria", "trazabilidad", "cafe", "huila", "iot"],
+    "createdAt": "2026-10-16T10:20:00.000Z",
+    "updatedAt": "2026-10-16T10:20:00.000Z"
+  },
+  {
+    "type": "service",
+    "name": "Auditoría de Ciberseguridad & Mitigación IDOR / OWASP",
+    "category": "seguridad",
+    "description": "Hardening de bases de datos relacionales y no relacionales, análisis de permisos, prevención de SQLi, NoSQL Injection y control de acceso seguro.",
+    "icon": "shield-check",
+    "code": "SRV-SEC-03",
+    "hours": 60,
+    "maxCapacity": 20,
+    "views": 580,
+    "active": true,
+    "metadata": {
+      "level": "avanzado",
+      "framework": "OWASP Top 10 API Security",
+      "tools": ["Bruno", "Postman", "Compass", "pgAdmin"]
+    },
+    "tags": ["ciberseguridad", "owasp", "seguridad", "nosql-injection"],
+    "createdAt": "2026-10-16T10:25:00.000Z",
+    "updatedAt": "2026-10-16T10:25:00.000Z"
+  },
+  {
+    "type": "service",
+    "name": "Desarrollo Frontend React SPA con Tailwind CSS",
+    "category": "software",
+    "description": "Construcción de interfaces interactivas, componentes desacoplados, consumo de APIs REST con Axios y autenticación segura por cookies httpOnly.",
+    "icon": "layout",
+    "code": "SRV-FRONT-04",
+    "hours": 90,
+    "maxCapacity": 30,
+    "views": 610,
+    "active": true,
+    "metadata": {
+      "level": "intermedio",
+      "framework": "React 18 + Vite",
+      "styling": "Tailwind CSS v3/v4"
+    },
+    "tags": ["react", "vite", "tailwind", "frontend", "ui-ux"],
+    "createdAt": "2026-10-16T10:30:00.000Z",
+    "updatedAt": "2026-10-16T10:30:00.000Z"
+  },
+  {
+    "type": "testimonial",
+    "author": "Laura Camila Dussán",
+    "role": "Aprendiz ADSO Ficha 2826845",
+    "company": "CADPH Garzón",
+    "quote": "Aprender a combinar PostgreSQL para el login con UUIDs y MongoDB para los contenidos de la Landing nos dio una perspectiva real de cómo operan plataformas como Uber y Mercado Libre.",
+    "rating": 5,
+    "avatarUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80",
+    "verified": true,
+    "active": true,
+    "tags": ["testimonio", "adso", "aprendiz"],
+    "createdAt": "2026-10-16T10:40:00.000Z",
+    "updatedAt": "2026-10-16T10:40:00.000Z"
+  },
+  {
+    "type": "testimonial",
+    "author": "Ing. Carlos Hernán Mora",
+    "role": "Líder Técnico de Software",
+    "company": "HuilaTech Solutions",
+    "quote": "La persistencia políglota es el estándar en proyectos serios. Ver que los aprendices del SENA Garzón configuran clústeres en Atlas y escriben consultas MQL optimizadas nos da confianza para contratarlos.",
+    "rating": 5,
+    "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
+    "verified": true,
+    "active": true,
+    "tags": ["testimonio", "empresa", "reclutamiento"],
+    "createdAt": "2026-10-16T10:45:00.000Z",
+    "updatedAt": "2026-10-16T10:45:00.000Z"
+  },
+  {
+    "type": "stat",
+    "metric": "Aprendices Capacitados",
+    "value": 1250,
+    "prefix": "+",
+    "suffix": "",
+    "label": "Formación técnica de alto impacto en el Huila",
+    "order": 1,
+    "active": true,
+    "createdAt": "2026-10-16T10:50:00.000Z",
+    "updatedAt": "2026-10-16T10:50:00.000Z"
+  },
+  {
+    "type": "stat",
+    "metric": "Disponibilidad del Clúster",
+    "value": 99.9,
+    "prefix": "",
+    "suffix": "%",
+    "label": "SLA de infraestructura Cloud en MongoDB Atlas M0",
+    "order": 2,
+    "active": true,
+    "createdAt": "2026-10-16T10:55:00.000Z",
+    "updatedAt": "2026-10-16T10:55:00.000Z"
+  }
+]</code></pre>
+        </div>
+
+        <!-- 3 Métodos de Creación y Guardado Local -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 mt-2.5 text-xs">
+          <div class="p-2.5 bg-white border border-slate-200 rounded-xl space-y-1 shadow-2xs">
+            <div class="flex items-center space-x-1.5 text-[#00324D] font-bold text-[11px]">
+              <i data-lucide="edit-3" class="w-3.5 h-3.5 text-[#39A900]"></i>
+              <span>Opción A: VS Code</span>
+            </div>
+            <p class="text-[10px] text-slate-600 leading-snug">
+              Cree el archivo en <code class="font-mono text-emerald-700 font-bold">database/nosql/01_content_seed.json</code>, pegue el JSON y guarde (<kbd class="px-1 py-0.2 bg-slate-100 rounded text-[9px] font-mono">Ctrl+S</kbd>).
+            </p>
+          </div>
+
+          <div class="p-2.5 bg-white border border-slate-200 rounded-xl space-y-1 shadow-2xs">
+            <div class="flex items-center space-x-1.5 text-[#00324D] font-bold text-[11px]">
+              <i data-lucide="terminal" class="w-3.5 h-3.5 text-blue-600"></i>
+              <span>Opción B: Copia por Consola</span>
+            </div>
+            <div class="text-[9px] font-mono bg-slate-900 text-slate-200 p-1.5 rounded truncate" title="cp semana-02-arquitectura-persistencia/dia-07-mongodb-nosql/recursos/01_content_seed.json database/nosql/">
+              cp semana-02-*/dia-07-*/recursos/01_content_seed.json database/nosql/
+            </div>
+          </div>
+
+          <div class="p-2.5 bg-white border border-purple-200 bg-purple-50/30 rounded-xl space-y-1 shadow-2xs">
+            <div class="flex items-center space-x-1.5 text-purple-900 font-bold text-[11px]">
+              <i data-lucide="git-commit" class="w-3.5 h-3.5 text-purple-700"></i>
+              <span>Hito 1 en Git</span>
+            </div>
+            <div class="text-[9px] font-mono bg-slate-900 text-purple-300 p-1.5 rounded truncate">
+              git add database/nosql/ && git commit -m "feat(nosql): estructura database/nosql y seed de contenidos"
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 19: IMPORTACIÓN DE SEMILLAS 01_CONTENT_SEED.JSON EN COMPASS & MONGOSH -->
       <!-- --------------------------------------------------------------------- -->
       <section class="slide-item hidden flex flex-col justify-center py-6">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="file-input" class="w-4 h-4 text-[#39A900]"></i>
-          <span>Poblado de Datos en Aula</span>
+          <span>Poblado de Datos en Aula · Ingesta BSON</span>
         </div>
         <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-2">
           Importar la Semilla: <code class="text-[#39A900]">01_content_seed.json</code>
         </h2>
         <p class="text-xs sm:text-sm text-slate-600 mb-4 max-w-4xl">
-          Cargaremos el conjunto de datos de prueba en la colección para disponer del catálogo polimórfico de la Landing Page:
+          Cargaremos el conjunto de 10 documentos en la colección para disponer del catálogo polimórfico de la Landing Page mediante GUI o CLI:
         </p>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <!-- Método 1: GUI Compass -->
           <div class="p-4 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-3">
             <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-2">
               <i data-lucide="upload" class="w-4 h-4 text-[#00324D]"></i>
-              Procedimiento de Carga en Compass
+              Método 1: Carga Asistida en Compass GUI
             </h3>
             <ol class="space-y-2 list-decimal list-inside text-slate-600 text-[11.5px] leading-relaxed">
-              <li>Haga clic sobre la colección <strong class="text-emerald-800">contents</strong> en Compass.</li>
-              <li>Haga clic en el botón <strong class="text-[#00324D] font-bold">Add Data</strong> (menú desplegable).</li>
+              <li>Haga clic sobre la colección <strong class="text-emerald-800">contents</strong> en el panel izquierdo de Compass.</li>
+              <li>Haga clic en el botón <strong class="text-[#00324D] font-bold">Add Data</strong> (menú desplegable verde).</li>
               <li>Seleccione <strong class="text-[#00324D]">Import JSON or CSV File</strong>.</li>
               <li>Navegue hasta su archivo local:<br>
                 <code class="font-mono text-[10.5px] text-[#00324D] bg-slate-100 p-1 rounded block mt-1">database/nosql/01_content_seed.json</code>
@@ -1229,36 +1471,36 @@
             </ol>
           </div>
 
+          <!-- Método 2: Terminal mongosh / mongoimport & Vistas -->
           <div class="p-4 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-3 flex flex-col justify-between">
-            <div>
-              <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-2 mb-2">
-                <i data-lucide="check-circle-2" class="w-4 h-4 text-[#39A900]"></i>
-                Resultado Esperado
+            <div class="space-y-2.5">
+              <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-2">
+                <i data-lucide="terminal" class="w-4 h-4 text-blue-600"></i>
+                Método 2: Alternativa por Terminal (mongoimport)
               </h3>
-              <p class="text-xs text-slate-600 leading-relaxed">
-                Compass confirmará: <strong class="text-emerald-700">"10 documents imported successfully"</strong>. Podrá alternar entre las 3 vistas de visualización:
+              <p class="text-slate-600 text-[11px] leading-relaxed">
+                Si prefiere la consola de comandos de MongoDB Database Tools:
               </p>
-              <div class="mt-2 space-y-1 text-[11px]">
-                <div class="p-1.5 bg-slate-50 rounded border border-slate-100 font-mono">
-                  <strong>List View:</strong> Vista de árbol expandible con tipos de datos coloreados.
-                </div>
-                <div class="p-1.5 bg-slate-50 rounded border border-slate-100 font-mono">
-                  <strong>JSON View:</strong> Vista de código fuente plano para copiar payloads.
-                </div>
-                <div class="p-1.5 bg-slate-50 rounded border border-slate-100 font-mono">
-                  <strong>Table View:</strong> Vista tabular con celdas dinámicas para campos existentes.
-                </div>
+              <div class="p-2.5 bg-slate-900 text-slate-200 rounded-xl font-mono text-[9.5px] overflow-x-auto border border-slate-800">
+                <span class="text-slate-500"># Ingesta masiva directa a MongoDB Atlas:</span><br>
+                <span class="text-emerald-300">mongoimport --uri "TU_CADENA_URI_ATLAS" \</span><br>
+                <span class="text-emerald-300">  --collection contents \</span><br>
+                <span class="text-emerald-300">  --file database/nosql/01_content_seed.json \</span><br>
+                <span class="text-emerald-300">  --jsonArray</span>
+              </div>
+              <div class="p-2 bg-emerald-50 rounded-lg border border-emerald-200 text-emerald-900 text-[11px]">
+                ✅ <strong>Confirmación:</strong> Compass confirmará: <code class="font-bold">"10 documents imported successfully"</code>.
               </div>
             </div>
             <div class="text-[10px] text-purple-900 bg-purple-50 p-2 rounded-lg border border-purple-100">
-              ⚡ Cada documento recibirá automáticamente su propio <code class="font-mono font-bold">_id: ObjectId(...)</code> único.
+              ⚡ Cada documento recibirá automáticamente su propio <code class="font-mono font-bold">_id: ObjectId(...)</code> único e irrepetible.
             </div>
           </div>
         </div>
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 19: ANÁLISIS DE DOCUMENTOS: BANNERS & SERVICIOS -->
+      <!-- SLIDE 20: ANÁLISIS DE DOCUMENTOS: BANNERS & SERVICIOS -->
       <!-- --------------------------------------------------------------------- -->
       <section class="slide-item hidden flex flex-col justify-center py-6">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
@@ -1317,7 +1559,7 @@
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 20: ANÁLISIS DE DOCUMENTOS: TESTIMONIOS & MÉTRICAS -->
+      <!-- SLIDE 21: ANÁLISIS DE DOCUMENTOS: TESTIMONIOS & MÉTRICAS -->
       <!-- --------------------------------------------------------------------- -->
       <section class="slide-item hidden flex flex-col justify-center py-6">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
@@ -1377,219 +1619,608 @@
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 21: INTRODUCCIÓN A MQL (MONGODB QUERY LANGUAGE) -->
+      <!-- SLIDE 22: INTRODUCCIÓN A MQL Y ENTORNOS DUALES (COMPASS VS MONGOSH) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
-        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
+      <section class="slide-item hidden flex flex-col justify-center py-5">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1.5">
           <i data-lucide="code-2" class="w-4 h-4 text-[#39A900]"></i>
-          <span>Lenguaje de Consultas NoSQL</span>
+          <span>Lenguaje de Consultas NoSQL · Paradigma Declarativo</span>
         </div>
-        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-2">
+        <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-1.5">
           Introducción a MQL: Consultas Declarativas Basadas en JSON
         </h2>
-        <p class="text-xs sm:text-sm text-slate-600 mb-4 max-w-4xl">
-          En lugar de sentencias de texto plano como <code class="font-mono">SELECT * FROM ...</code>, en MongoDB las consultas son <strong>objetos JSON estructurados</strong> que representan predicados lógicos:
+        <p class="text-xs sm:text-sm text-slate-600 mb-3 max-w-4xl">
+          En MongoDB no se escriben cadenas de texto plano como <code class="font-mono">SELECT * FROM ...</code>. Las consultas son <strong>documentos JSON/BSON</strong> que representan predicados lógicos ejecutables:
         </p>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-          <div class="p-4 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2.5">
-            <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-2">
-              <i data-lucide="help-circle" class="w-4 h-4 text-[#00324D]"></i>
-              Estructura de la Barra de Filtro en Compass
-            </h3>
-            <p class="text-slate-600 text-[11px] leading-relaxed">
-              En la parte superior de la colección en Compass encontrará los campos de consulta:
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 text-xs">
+          <!-- Entorno 1: MongoDB Compass GUI -->
+          <div class="p-3.5 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-extrabold text-slate-900 flex items-center gap-1.5">
+                <i data-lucide="layout" class="w-4 h-4 text-[#00324D]"></i>
+                Entorno 1: Barra de Filtros en Compass GUI
+              </h3>
+              <span class="px-2 py-0.5 rounded bg-blue-50 text-[#00324D] font-mono text-[9.5px] font-bold">Visual</span>
+            </div>
+            <p class="text-slate-600 text-[10.5px]">
+              Al hacer clic en <strong class="text-[#00324D]">Options</strong> se despliega el formulario completo de MQL:
             </p>
-            <ul class="space-y-1.5 text-slate-600 text-[11px]">
-              <li><strong>Filter:</strong> Documento JSON con las condiciones de búsqueda.</li>
-              <li><strong>Project:</strong> Qué campos mostrar (<code class="font-mono">1</code>) o esconder (<code class="font-mono">0</code>).</li>
-              <li><strong>Sort:</strong> Orden ascendente (<code class="font-mono">1</code>) o descendente (<code class="font-mono">-1</code>).</li>
-              <li><strong>Limit:</strong> Número máximo de documentos a retornar.</li>
-              <li><strong>Skip:</strong> Paginación para saltar N documentos.</li>
-            </ul>
+            <div class="space-y-1 font-mono text-[10px]">
+              <div class="p-1.5 bg-slate-50 rounded border border-slate-200 flex items-start gap-1.5">
+                <strong class="text-[#00324D] w-14 shrink-0">Filter:</strong>
+                <span class="text-slate-600">Predicado de coincidencia: <code class="text-emerald-700">{ type: "service" }</code></span>
+              </div>
+              <div class="p-1.5 bg-slate-50 rounded border border-slate-200 flex items-start gap-1.5">
+                <strong class="text-purple-700 w-14 shrink-0">Project:</strong>
+                <span class="text-slate-600">Proyección de campos: <code class="text-purple-700">{ name: 1, views: 1, _id: 0 }</code></span>
+              </div>
+              <div class="p-1.5 bg-slate-50 rounded border border-slate-200 flex items-start gap-1.5">
+                <strong class="text-blue-700 w-14 shrink-0">Sort:</strong>
+                <span class="text-slate-600">Ordenamiento: <code class="text-blue-700">{ views: -1 }</code> (descendente)</span>
+              </div>
+              <div class="p-1.5 bg-slate-50 rounded border border-slate-200 flex items-start gap-1.5">
+                <strong class="text-amber-700 w-14 shrink-0">Limit/Skip:</strong>
+                <span class="text-slate-600">Paginación de resultados: <code class="text-amber-700">Limit: 2, Skip: 0</code></span>
+              </div>
+            </div>
           </div>
 
-          <div class="p-4 bg-slate-900 text-slate-200 rounded-2xl shadow-2xs space-y-2.5 font-mono text-[10.5px]">
-            <div class="text-slate-400 font-bold"># Equivalencia Visual: SQL vs MQL</div>
-            <div class="p-2 bg-slate-800 rounded-lg text-blue-300">
-              <span class="text-slate-400">-- SQL:</span><br>
-              SELECT * FROM contents WHERE type = 'service' AND active = true;
+          <!-- Entorno 2: Terminal mongosh -->
+          <div class="p-3.5 bg-slate-900 text-slate-200 rounded-2xl shadow-2xs space-y-2 font-mono text-[10px] flex flex-col justify-between">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-emerald-400 font-bold flex items-center gap-1.5">
+                  <i data-lucide="terminal" class="w-3.5 h-3.5"></i>
+                  Entorno 2: Shell mongosh (Terminal)
+                </span>
+                <span class="text-[9px] px-1.5 py-0.2 bg-emerald-500/20 text-emerald-300 rounded font-bold">CLI</span>
+              </div>
+              <div class="p-2 bg-slate-800 rounded-lg text-slate-300">
+                <span class="text-slate-500">-- Equivalente SQL Relacional:</span><br>
+                <span class="text-blue-300">SELECT * FROM contents WHERE type = 'service' AND active = true;</span>
+              </div>
+              <div class="p-2 bg-slate-800 rounded-lg text-emerald-300">
+                <span class="text-slate-500">// MQL en Terminal mongosh:</span><br>
+                <span class="text-emerald-400">db.contents.find({ type: "service", active: true });</span>
+              </div>
             </div>
-            <div class="p-2 bg-slate-800 rounded-lg text-emerald-300">
-              <span class="text-slate-400">// MQL (MongoDB Filter):</span><br>
-              { type: "service", active: true }
+            <div class="p-2 bg-slate-800/80 rounded-lg text-[9.5px] text-slate-400 font-sans space-y-0.5">
+              <div>💡 <strong>Comandos de inicio de sesión en mongosh:</strong></div>
+              <div class="font-mono text-teal-300">use adso_polyglot_db <span class="text-slate-500">|</span> show collections <span class="text-slate-500">|</span> db.contents.countDocuments()</div>
             </div>
-            <p class="text-[10px] text-slate-400 font-sans">
-              La coincidencia por defecto entre campos separados por coma equivale a un operador lógico <strong>AND</strong>.
-            </p>
           </div>
         </div>
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 22: MQL EN LA PRÁCTICA 1 · IGUALDAD Y OPERADORES LÓGICOS -->
+      <!-- SLIDE 23: MQL CRUD · CREATE (INSERCIÓN DE DOCUMENTOS EN COMPASS & MONGOSH) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
-        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
+      <section class="slide-item hidden flex flex-col justify-center py-5">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1.5">
+          <i data-lucide="plus-circle" class="w-4 h-4 text-[#39A900]"></i>
+          <span>Laboratorio CRUD NoSQL · Operación CREATE (C)</span>
+        </div>
+        <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-1.5">
+          CRUD MQL 1: Inserción de Nuevos Contenidos (CREATE)
+        </h2>
+        <p class="text-xs text-slate-600 mb-3 max-w-4xl">
+          El SENA CADPH Garzón apertura una nueva oferta formativa: insertemos el nuevo servicio tecnológico en vivo usando la interfaz gráfica y la terminal:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 text-xs">
+          <!-- Compass GUI Method -->
+          <div class="p-3.5 bg-white border border-emerald-200 bg-emerald-50/20 rounded-2xl shadow-2xs space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-emerald-900 text-xs flex items-center gap-1.5">
+                <i data-lucide="mouse-pointer" class="w-3.5 h-3.5 text-[#39A900]"></i>
+                En MongoDB Compass (Interfaz Gráfica)
+              </span>
+              <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded text-[9.5px] font-bold">GUI</span>
+            </div>
+            <ol class="space-y-1.5 list-decimal list-inside text-slate-600 text-[11px] leading-relaxed">
+              <li>Haga clic en el botón verde <strong class="text-[#00324D]">Add Data</strong> en Compass.</li>
+              <li>Seleccione la opción <strong class="text-emerald-800 font-bold">Insert Document</strong>.</li>
+              <li>Compass ofrece dos modos:
+                <ul class="list-disc list-inside pl-3 text-[10px] text-slate-500 mt-0.5">
+                  <li><strong>Modo JSON <code class="font-mono font-bold">{}</code>:</strong> Permite pegar directamente el objeto JSON.</li>
+                  <li><strong>Modo Formulario (Field/Value):</strong> Permite agregar campos uno a uno con selector de tipo (<code class="font-mono">String, Int32, Array</code>).</li>
+                </ul>
+              </li>
+              <li>Haga clic en el botón verde <strong class="text-white bg-[#39A900] px-2 py-0.5 rounded text-[10.5px]">Insert</strong>.</li>
+            </ol>
+            <div class="p-2 bg-emerald-100/70 text-emerald-950 rounded-lg text-[10.5px]">
+              ✨ <strong>Resultado:</strong> El documento aparece inmediatamente en el listado y recibe su <code class="font-mono font-bold">_id: ObjectId(...)</code> sin reiniciar el servidor.
+            </div>
+          </div>
+
+          <!-- Terminal mongosh Method -->
+          <div class="p-3.5 bg-slate-900 text-slate-200 rounded-2xl shadow-2xs space-y-2 font-mono text-[9.5px]">
+            <div class="flex items-center justify-between">
+              <span class="text-emerald-400 font-bold flex items-center gap-1">
+                <i data-lucide="terminal" class="w-3.5 h-3.5"></i>
+                En Terminal (mongosh insertOne)
+              </span>
+              <button onclick="navigator.clipboard.writeText('db.contents.insertOne({\n  type: \"service\",\n  name: \"Taller de Inteligencia Artificial para Caficultura\",\n  category: \"agroindustria\",\n  code: \"SRV-AGRO-05\",\n  hours: 45,\n  maxCapacity: 20,\n  views: 120,\n  active: true,\n  metadata: { level: \"intermedio\", instructor: \"Equipo AgroTIC CADPH\" },\n  tags: [\"ia\", \"cafe\", \"huila\", \"agroindustria\"],\n  createdAt: new Date(),\n  updatedAt: new Date()\n});'); alert('¡Comando insertOne copiado!');" class="text-[9px] px-2 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded border border-slate-700 cursor-pointer">
+                Copiar mongosh
+              </button>
+            </div>
+            <pre class="p-2 bg-slate-950 rounded-lg text-emerald-300 overflow-x-auto leading-tight">
+db.contents.insertOne({
+  type: "service",
+  name: "Taller de Inteligencia Artificial para Caficultura",
+  category: "agroindustria",
+  code: "SRV-AGRO-05",
+  hours: 45,
+  maxCapacity: 20,
+  views: 120,
+  active: true,
+  metadata: {
+    level: "intermedio",
+    instructor: "Equipo AgroTIC CADPH"
+  },
+  tags: ["ia", "cafe", "huila", "agroindustria"],
+  createdAt: new Date(),
+  updatedAt: new Date()
+});</pre>
+            <div class="p-1.5 bg-slate-800 text-slate-300 rounded text-[9px] font-sans">
+              <strong>Retorno en mongosh:</strong> <code class="font-mono text-emerald-400">{ acknowledged: true, insertedId: ObjectId("670f...") }</code>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 24: MQL CRUD · READ (FILTROS DE CONSULTA, COMPARACIÓN & LÓGICOS) -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-5">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1.5">
           <i data-lucide="filter" class="w-4 h-4 text-[#39A900]"></i>
-          <span>Laboratorio de Consultas · Nivel 1</span>
+          <span>Laboratorio CRUD NoSQL · Operación READ (R) Nivel 1</span>
         </div>
-        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-2">
-          MQL Práctico 1: Filtros de Igualdad, $and y $or
+        <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-1.5">
+          CRUD MQL 2: Filtros de Consulta & Operadores Lógicos (READ)
         </h2>
-        <p class="text-xs sm:text-sm text-slate-600 mb-3 max-w-4xl">
-          Escriba y ejecute estos filtros en la barra de consulta de MongoDB Compass:
+        <p class="text-xs text-slate-600 mb-2.5 max-w-4xl">
+          Escriba y valide estas 6 consultas en la barra <strong class="text-[#00324D]">Filter</strong> de Compass o directamente en la terminal <strong class="text-emerald-700 font-mono">mongosh</strong>:
         </p>
 
-        <div class="space-y-3 text-xs">
-          <!-- Consulta 1 -->
-          <div class="p-3 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
-            <div class="flex items-center justify-between">
-              <span class="font-extrabold text-slate-900 text-xs">Reto 1: Filtrar Todos los Servicios Activos</span>
-              <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 font-mono text-[10px] font-bold">Igualdad Simple</span>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 text-xs">
+          <!-- Reto 1: Igualdad -->
+          <div class="p-2.5 bg-white border border-slate-200 rounded-xl space-y-1 shadow-2xs flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-bold text-slate-900 text-[11px]">1. Igualdad Simple</span>
+                <span class="px-1.5 py-0.2 bg-emerald-50 text-emerald-800 font-mono text-[9px] rounded font-bold">Servicios Activos</span>
+              </div>
+              <div class="p-1.5 bg-slate-900 text-emerald-400 rounded font-mono text-[10px]">
+                { type: "service", active: true }
+              </div>
             </div>
-            <div class="p-2 bg-slate-900 text-emerald-400 rounded-lg font-mono text-[11px]">
-              { type: "service", active: true }
-            </div>
-            <p class="text-[10.5px] text-slate-500">Retorna los servicios listos para ser mostrados en la página principal.</p>
+            <p class="text-[9.5px] text-slate-500 font-sans mt-1">
+              Terminal: <code class="font-mono text-slate-700">db.contents.find({ type: "service", active: true })</code>
+            </p>
           </div>
 
-          <!-- Consulta 2 -->
-          <div class="p-3 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
-            <div class="flex items-center justify-between">
-              <span class="font-extrabold text-slate-900 text-xs">Reto 2: Filtrar Banners Activos con Prioridad Alta (1)</span>
-              <span class="px-2 py-0.5 rounded bg-blue-50 text-[#00324D] font-mono text-[10px] font-bold">Filtro Compuesto</span>
+          <!-- Reto 2: Inclusión $in -->
+          <div class="p-2.5 bg-white border border-slate-200 rounded-xl space-y-1 shadow-2xs flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-bold text-slate-900 text-[11px]">2. Operador $in (Array)</span>
+                <span class="px-1.5 py-0.2 bg-blue-50 text-blue-800 font-mono text-[9px] rounded font-bold">SQL IN (...)</span>
+              </div>
+              <div class="p-1.5 bg-slate-900 text-blue-300 rounded font-mono text-[10px]">
+                { category: { $in: ["software", "agroindustria"] } }
+              </div>
             </div>
-            <div class="p-2 bg-slate-900 text-blue-300 rounded-lg font-mono text-[11px]">
-              { type: "banner", priority: 1, active: true }
-            </div>
-            <p class="text-[10.5px] text-slate-500">Ubica el banner principal del hero de la Landing Page.</p>
+            <p class="text-[9.5px] text-slate-500 font-sans mt-1">
+              Terminal: <code class="font-mono text-slate-700">db.contents.find({ category: { $in: [...] } })</code>
+            </p>
           </div>
 
-          <!-- Consulta 3 -->
-          <div class="p-3 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
-            <div class="flex items-center justify-between">
-              <span class="font-extrabold text-slate-900 text-xs">Reto 3: Operador Lógico $or (Banners O Testimonios)</span>
-              <span class="px-2 py-0.5 rounded bg-purple-50 text-purple-800 font-mono text-[10px] font-bold">Operador $or</span>
+          <!-- Reto 3: Comparación $gt -->
+          <div class="p-2.5 bg-white border border-slate-200 rounded-xl space-y-1 shadow-2xs flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-bold text-slate-900 text-[11px]">3. Comparación $gt</span>
+                <span class="px-1.5 py-0.2 bg-amber-50 text-amber-800 font-mono text-[9px] rounded font-bold">> 400 Visitas</span>
+              </div>
+              <div class="p-1.5 bg-slate-900 text-amber-300 rounded font-mono text-[10px]">
+                { type: "service", views: { $gt: 400 } }
+              </div>
             </div>
-            <div class="p-2 bg-slate-900 text-purple-300 rounded-lg font-mono text-[11px]">
-              { $or: [ { type: "banner" }, { type: "testimonial" } ] }
+            <p class="text-[9.5px] text-slate-500 font-sans mt-1">
+              Terminal: <code class="font-mono text-slate-700">db.contents.find({ views: { $gt: 400 } })</code>
+            </p>
+          </div>
+
+          <!-- Reto 4: Operador $or -->
+          <div class="p-2.5 bg-white border border-slate-200 rounded-xl space-y-1 shadow-2xs flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-bold text-slate-900 text-[11px]">4. Lógica Disyuntiva $or</span>
+                <span class="px-1.5 py-0.2 bg-purple-50 text-purple-800 font-mono text-[9px] rounded font-bold">Banner O Testimonio</span>
+              </div>
+              <div class="p-1.5 bg-slate-900 text-purple-300 rounded font-mono text-[10px]">
+                { $or: [ { type: "banner" }, { type: "testimonial" } ] }
+              </div>
             </div>
-            <p class="text-[10.5px] text-slate-500">Retorna los documentos que cumplan al menos una de las dos condiciones.</p>
+            <p class="text-[9.5px] text-slate-500 font-sans mt-1">
+              Terminal: <code class="font-mono text-slate-700">db.contents.find({ $or: [...] })</code>
+            </p>
+          </div>
+
+          <!-- Reto 5: Regex LIKE -->
+          <div class="p-2.5 bg-white border border-slate-200 rounded-xl space-y-1 shadow-2xs flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-bold text-slate-900 text-[11px]">5. Búsqueda Regex ($regex)</span>
+                <span class="px-1.5 py-0.2 bg-rose-50 text-rose-800 font-mono text-[9px] rounded font-bold">SQL LIKE '%...%'</span>
+              </div>
+              <div class="p-1.5 bg-slate-900 text-rose-300 rounded font-mono text-[10px]">
+                { name: { $regex: "Full Stack", $options: "i" } }
+              </div>
+            </div>
+            <p class="text-[9.5px] text-slate-500 font-sans mt-1">
+              Terminal: <code class="font-mono text-slate-700">db.contents.find({ name: /Full Stack/i })</code>
+            </p>
+          </div>
+
+          <!-- Reto 6: Campos Anidados (Dot Notation) -->
+          <div class="p-2.5 bg-white border border-slate-200 rounded-xl space-y-1 shadow-2xs flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-bold text-slate-900 text-[11px]">6. Objeto Anidado (Dot)</span>
+                <span class="px-1.5 py-0.2 bg-teal-50 text-teal-800 font-mono text-[9px] rounded font-bold">metadata.level</span>
+              </div>
+              <div class="p-1.5 bg-slate-900 text-teal-300 rounded font-mono text-[10px]">
+                { "metadata.level": "avanzado" }
+              </div>
+            </div>
+            <p class="text-[9.5px] text-slate-500 font-sans mt-1">
+              Terminal: <code class="font-mono text-slate-700">db.contents.find({ "metadata.level": "avanzado" })</code>
+            </p>
           </div>
         </div>
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 23: MQL EN LA PRÁCTICA 2 · COMPARACIÓN E INCLUSIÓN ($GT, $IN) -->
+      <!-- SLIDE 25: MQL CRUD · READ AVANZADO (PROYECCIONES, SORT & PAGINACIÓN) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
-        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
-          <i data-lucide="sliders" class="w-4 h-4 text-[#39A900]"></i>
-          <span>Laboratorio de Consultas · Nivel 2</span>
-        </div>
-        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-2">
-          MQL Práctico 2: Operadores de Comparación e Inclusión
-        </h2>
-        <p class="text-xs sm:text-sm text-slate-600 mb-3 max-w-4xl">
-          Filtre datos analíticos y matrices categóricas con los operadores nativos de MongoDB:
-        </p>
-
-        <div class="space-y-3 text-xs">
-          <!-- Consulta 4 -->
-          <div class="p-3 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
-            <div class="flex items-center justify-between">
-              <span class="font-extrabold text-slate-900 text-xs">Reto 4: Operador $in (Servicios de Software o Agroindustria)</span>
-              <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 font-mono text-[10px] font-bold">Inclusión en Array</span>
-            </div>
-            <div class="p-2 bg-slate-900 text-emerald-400 rounded-lg font-mono text-[11px]">
-              { type: "service", category: { $in: ["software", "agroindustria"] } }
-            </div>
-            <p class="text-[10.5px] text-slate-500">Equivale a <code class="font-mono">WHERE category IN ('software', 'agroindustria')</code> en SQL.</p>
-          </div>
-
-          <!-- Consulta 5 -->
-          <div class="p-3 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
-            <div class="flex items-center justify-between">
-              <span class="font-extrabold text-slate-900 text-xs">Reto 5: Operador $gte (Testimonios con Calificación 5 Estrellas)</span>
-              <span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 font-mono text-[10px] font-bold">Mayor o Igual</span>
-            </div>
-            <div class="p-2 bg-slate-900 text-amber-300 rounded-lg font-mono text-[11px]">
-              { type: "testimonial", rating: { $gte: 5 } }
-            </div>
-            <p class="text-[10.5px] text-slate-500">Selecciona los testimonios más destacados para la sección de reputación institucional.</p>
-          </div>
-
-          <!-- Consulta 6 -->
-          <div class="p-3 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
-            <div class="flex items-center justify-between">
-              <span class="font-extrabold text-slate-900 text-xs">Reto 6: Operador $gt (Servicios Populares con Más de 400 Visitas)</span>
-              <span class="px-2 py-0.5 rounded bg-blue-50 text-[#00324D] font-mono text-[10px] font-bold">Comparación Numérica</span>
-            </div>
-            <div class="p-2 bg-slate-900 text-blue-300 rounded-lg font-mono text-[11px]">
-              { type: "service", views: { $gt: 400 } }
-            </div>
-            <p class="text-[10.5px] text-slate-500">Ideal para construir la sección de "Servicios Más Solicitados".</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 24: MQL EN LA PRÁCTICA 3 · PROYECCIONES & ORDENAMIENTO -->
-      <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
-        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
+      <section class="slide-item hidden flex flex-col justify-center py-5">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1.5">
           <i data-lucide="arrow-up-down" class="w-4 h-4 text-[#39A900]"></i>
-          <span>Optimización de Tráfico de Red · Nivel 3</span>
+          <span>Laboratorio CRUD NoSQL · Operación READ (R) Nivel 2</span>
         </div>
-        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-2">
-          MQL Práctico 3: Proyecciones, Sort & Paginación
+        <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-1.5">
+          CRUD MQL 3: Proyecciones, Sort & Paginación (READ)
         </h2>
-        <p class="text-xs sm:text-sm text-slate-600 mb-4 max-w-4xl">
-          Enviar campos innecesarios por la red satura el ancho de banda. Las <strong>proyecciones</strong> definen exactamente qué propiedades viajan al cliente:
+        <p class="text-xs text-slate-600 mb-3 max-w-4xl">
+          Enviar datos innecesarios a través de la red satura el ancho de banda móvil. Optimice el consumo de la Landing Page con proyecciones y ordenamiento:
         </p>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
           <!-- Proyecciones -->
-          <div class="p-4 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2.5">
-            <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-2">
-              <i data-lucide="minimize-2" class="w-4 h-4 text-[#00324D]"></i>
-              Proyección (Campo Project en Compass)
-            </h3>
-            <p class="text-slate-600 text-[11px]">
-              Indique <code class="font-mono text-emerald-700">1</code> para incluir o <code class="font-mono text-rose-700">0</code> para excluir:
-            </p>
-            <div class="p-2.5 bg-slate-900 text-slate-200 rounded-xl font-mono text-[10.5px] space-y-1">
-              <div class="text-slate-400">// Project:</div>
-              <div class="text-emerald-400">{ name: 1, category: 1, views: 1, _id: 0 }</div>
+          <div class="p-3 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-xs font-extrabold text-[#00324D] flex items-center gap-1.5">
+                  <i data-lucide="minimize-2" class="w-3.5 h-3.5 text-[#39A900]"></i>
+                  Proyección (Project)
+                </h3>
+                <span class="text-[9px] px-1.5 py-0.2 bg-emerald-100 text-emerald-800 rounded font-bold">Tráfico</span>
+              </div>
+              <p class="text-slate-600 text-[10px] mt-1">
+                Compass (campo <strong class="text-emerald-700">Project</strong>):
+              </p>
+              <div class="p-2 bg-slate-900 text-emerald-400 rounded-lg font-mono text-[9.5px] mt-1">
+                { name: 1, category: 1, views: 1, _id: 0 }
+              </div>
             </div>
-            <p class="text-[10.5px] text-slate-500">
-              Retorna únicamente el nombre, la categoría y las vistas, excluyendo el <code class="font-mono">_id</code>.
-            </p>
+            <div class="text-[9.5px] text-slate-500 bg-slate-50 p-1.5 rounded border border-slate-200 font-mono">
+              mongosh:<br>
+              <span class="text-slate-700">db.contents.find({}, { name: 1, views: 1, _id: 0 })</span>
+            </div>
           </div>
 
-          <!-- Ordenamiento -->
-          <div class="p-4 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2.5">
-            <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-2">
-              <i data-lucide="sort-asc" class="w-4 h-4 text-[#39A900]"></i>
-              Ordenamiento (Campo Sort en Compass)
-            </h3>
-            <p class="text-slate-600 text-[11px]">
-              Indique <code class="font-mono text-[#00324D] font-bold">1</code> para ascendente o <code class="font-mono text-purple-700 font-bold">-1</code> para descendente:
-            </p>
-            <div class="p-2.5 bg-slate-900 text-slate-200 rounded-xl font-mono text-[10.5px] space-y-1">
-              <div class="text-slate-400">// Sort (Mayor a Menor Popularidad):</div>
-              <div class="text-purple-300">{ views: -1 }</div>
+          <!-- Sort Ordenamiento -->
+          <div class="p-3 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-xs font-extrabold text-[#00324D] flex items-center gap-1.5">
+                  <i data-lucide="sort-asc" class="w-3.5 h-3.5 text-blue-600"></i>
+                  Ordenamiento (Sort)
+                </h3>
+                <span class="text-[9px] px-1.5 py-0.2 bg-blue-100 text-blue-800 rounded font-bold">Popularidad</span>
+              </div>
+              <p class="text-slate-600 text-[10px] mt-1">
+                Compass (campo <strong class="text-blue-700">Sort</strong>):
+              </p>
+              <div class="p-2 bg-slate-900 text-blue-300 rounded-lg font-mono text-[9.5px] mt-1">
+                { views: -1 }
+              </div>
             </div>
-            <p class="text-[10.5px] text-slate-500">
-              Ordena los servicios desde el más visto hasta el menos visto para el top comercial.
-            </p>
+            <div class="text-[9.5px] text-slate-500 bg-slate-50 p-1.5 rounded border border-slate-200 font-mono">
+              mongosh:<br>
+              <span class="text-slate-700">db.contents.find().sort({ views: -1 })</span>
+            </div>
+          </div>
+
+          <!-- Paginación Limit & Skip -->
+          <div class="p-3 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-xs font-extrabold text-[#00324D] flex items-center gap-1.5">
+                  <i data-lucide="layers" class="w-3.5 h-3.5 text-purple-600"></i>
+                  Paginación (Limit & Skip)
+                </h3>
+                <span class="text-[9px] px-1.5 py-0.2 bg-purple-100 text-purple-800 rounded font-bold">Páginas</span>
+              </div>
+              <p class="text-slate-600 text-[10px] mt-1">
+                Compass (campos <strong class="text-purple-700">Limit / Skip</strong>):
+              </p>
+              <div class="p-2 bg-slate-900 text-purple-300 rounded-lg font-mono text-[9.5px] mt-1">
+                Limit: 2, Skip: 2
+              </div>
+            </div>
+            <div class="text-[9.5px] text-slate-500 bg-slate-50 p-1.5 rounded border border-slate-200 font-mono">
+              mongosh (Página 2):<br>
+              <span class="text-slate-700">db.contents.find().skip(2).limit(2)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3 p-2.5 bg-blue-50 border border-blue-200 rounded-xl text-blue-950 text-xs flex items-center justify-between">
+          <span>🚀 <strong>Conexión Backend:</strong> En la Sesión 10 usaremos estos operadores en Express con <code class="font-mono font-bold">Content.find().select().sort().skip().limit()</code>.</span>
+          <span class="text-blue-700 font-mono font-bold text-[10.5px]">API REST Ready</span>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 26: MQL CRUD · UPDATE (ACTUALIZACIÓN EN CALIENTE, $SET E $INC) -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-5">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1.5">
+          <i data-lucide="edit-3" class="w-4 h-4 text-[#39A900]"></i>
+          <span>Laboratorio CRUD NoSQL · Operación UPDATE (U)</span>
+        </div>
+        <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-1.5">
+          CRUD MQL 4: Modificación en Caliente, $set e $inc (UPDATE)
+        </h2>
+        <p class="text-xs text-slate-600 mb-3 max-w-4xl">
+          Modifique campos existentes, agregue nuevas propiedades dinámicas e incremente contadores en caliente sin alterar el resto de la base de datos:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 text-xs">
+          <!-- Método Compass GUI -->
+          <div class="p-3.5 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-slate-900 text-xs flex items-center gap-1.5">
+                <i data-lucide="mouse-pointer" class="w-3.5 h-3.5 text-[#00324D]"></i>
+                En MongoDB Compass (Edición Visual In-Situ)
+              </span>
+              <span class="px-2 py-0.5 bg-blue-100 text-[#00324D] rounded text-[9.5px] font-bold">GUI</span>
+            </div>
+            <ol class="space-y-1.5 list-decimal list-inside text-slate-600 text-[11px] leading-relaxed">
+              <li>Pase el cursor sobre el documento <code class="font-mono text-emerald-700">SRV-SOFT-01</code>.</li>
+              <li>Haga clic en el <strong>icono de lápiz (Edit Document)</strong> en el extremo derecho.</li>
+              <li>Modifique el campo <code class="font-mono">views</code>: cambie <code class="font-mono">450</code> por <code class="font-mono">500</code>.</li>
+              <li>Haga clic en el botón <strong class="text-blue-700 font-bold">+ (Add Field)</strong> y agregue: <code class="font-mono font-bold">"featured": true</code>.</li>
+              <li>Haga clic en el botón verde <strong class="text-white bg-[#39A900] px-2 py-0.5 rounded text-[10.5px]">Update</strong>.</li>
+            </ol>
+            <div class="p-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-600 text-[10px]">
+              ⚡ El clúster de Atlas sincroniza la modificación en milisegundos con cero tiempo de inactividad (Zero Downtime).
+            </div>
+          </div>
+
+          <!-- Método mongosh Operators -->
+          <div class="p-3.5 bg-slate-900 text-slate-200 rounded-2xl shadow-2xs space-y-2 font-mono text-[9.5px]">
+            <div class="flex items-center justify-between">
+              <span class="text-emerald-400 font-bold flex items-center gap-1">
+                <i data-lucide="terminal" class="w-3.5 h-3.5"></i>
+                En Terminal (mongosh updateOne)
+              </span>
+              <span class="text-slate-400 text-[9px]">$set & $inc</span>
+            </div>
+
+            <!-- Operador $set -->
+            <div class="space-y-0.5">
+              <div class="text-slate-400 font-sans text-[10px]">1. Modificar o agregar campo nuevo con <strong class="text-emerald-400 font-mono">$set</strong>:</div>
+              <pre class="p-1.5 bg-slate-950 rounded text-emerald-300 overflow-x-auto leading-tight">
+db.contents.updateOne(
+  { code: "SRV-SOFT-01" },
+  { $set: { featured: true, updatedAt: new Date() } }
+);</pre>
+            </div>
+
+            <!-- Operador $inc -->
+            <div class="space-y-0.5">
+              <div class="text-slate-400 font-sans text-[10px]">2. Incremento atómico de visitas con <strong class="text-amber-400 font-mono">$inc</strong>:</div>
+              <pre class="p-1.5 bg-slate-950 rounded text-amber-300 overflow-x-auto leading-tight">
+db.contents.updateOne(
+  { code: "SRV-SOFT-01" },
+  { $inc: { views: 1 } }
+);</pre>
+            </div>
+
+            <div class="p-1.5 bg-slate-800 rounded text-slate-300 font-sans text-[9px]">
+              <strong>Salida de éxito:</strong> <code class="font-mono text-emerald-400">{ acknowledged: true, matchedCount: 1, modifiedCount: 1 }</code>
+            </div>
           </div>
         </div>
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 25: MODIFICACIÓN DINÁMICA EN CALIENTE (ZERO DOWNTIME) -->
+      <!-- SLIDE 27: MQL CRUD · DELETE (ELIMINACIÓN FÍSICA VS SOFT DELETE) -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-5">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1.5">
+          <i data-lucide="trash-2" class="w-4 h-4 text-rose-600"></i>
+          <span>Laboratorio CRUD NoSQL · Operación DELETE (D)</span>
+        </div>
+        <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-1.5">
+          CRUD MQL 5: Eliminación de Documentos (DELETE)
+        </h2>
+        <p class="text-xs text-slate-600 mb-3 max-w-4xl">
+          Aprenda a depurar registros mediante la papelera de Compass o sentencias en terminal, entendiendo la regla de oro corporativa: <strong>Hard Delete vs Soft Delete</strong>:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 text-xs">
+          <!-- Eliminación Física (Hard Delete) -->
+          <div class="p-3.5 bg-white border border-rose-200 bg-rose-50/20 rounded-2xl shadow-2xs space-y-2 flex flex-col justify-between">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-rose-950 text-xs flex items-center gap-1.5">
+                  <i data-lucide="alert-octagon" class="w-3.5 h-3.5 text-rose-600"></i>
+                  Hard Delete: Eliminación Física Destructiva
+                </span>
+                <span class="px-2 py-0.5 bg-rose-100 text-rose-900 rounded text-[9.5px] font-bold">Irreversible</span>
+              </div>
+              <p class="text-slate-600 text-[11px] leading-relaxed">
+                <strong>En Compass GUI:</strong> Pase el cursor sobre el documento y haga clic en el <strong>icono de papelera</strong>. Aparecerá un modal rojo: <em>"Are you sure you want to delete this document?"</em> ⟶ Clic en <strong>Delete</strong>.
+              </p>
+              <div class="p-2 bg-slate-900 text-rose-300 rounded-lg font-mono text-[9.5px] space-y-1">
+                <div class="text-slate-400">// mongosh: deleteOne / deleteMany</div>
+                <div>db.contents.deleteOne({ code: "SRV-TEMP-99" });</div>
+                <div class="text-slate-400">// Borrado masivo de inactivos:</div>
+                <div>db.contents.deleteMany({ active: false, type: "test" });</div>
+              </div>
+            </div>
+            <div class="text-[9.5px] text-rose-800 bg-rose-100/70 p-1.5 rounded">
+              ⚠️ Se utiliza únicamente en ambientes de prueba o depuración de logs temporales.
+            </div>
+          </div>
+
+          <!-- Borrado Lógico (Soft Delete) -->
+          <div class="p-3.5 bg-white border border-emerald-200 bg-emerald-50/20 rounded-2xl shadow-2xs space-y-2 flex flex-col justify-between">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-emerald-950 text-xs flex items-center gap-1.5">
+                  <i data-lucide="shield-check" class="w-3.5 h-3.5 text-[#39A900]"></i>
+                  Soft Delete: Estándar Empresarial y Auditoría
+                </span>
+                <span class="px-2 py-0.5 bg-emerald-100 text-emerald-900 rounded text-[9.5px] font-bold">Recomendado</span>
+              </div>
+              <p class="text-slate-600 text-[11px] leading-relaxed">
+                En plataformas reales (Uber, Mercado Libre, Banca) <strong>nunca se borra físicamente</strong>. El documento se desactiva con una marca de tiempo:
+              </p>
+              <div class="p-2 bg-slate-900 text-emerald-300 rounded-lg font-mono text-[9.5px] space-y-1">
+                <div class="text-slate-400">// Soft Delete con updateOne:</div>
+                <div>db.contents.updateOne(</div>
+                <div>&nbsp;&nbsp;{ code: "SRV-SOFT-01" },</div>
+                <div>&nbsp;&nbsp;{ $set: { active: false, deletedAt: new Date() } }</div>
+                <div>);</div>
+              </div>
+            </div>
+            <div class="text-[9.5px] text-emerald-900 bg-emerald-100/70 p-1.5 rounded">
+              🛡️ <strong>Consulta Defensiva en la Landing:</strong> El backend siempre consulta <code class="font-mono font-bold">{ active: true }</code> para omitir registros eliminados.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 28: LABORATORIO EN VIVO CON LA TERMINAL _MONGOSH INTEGRADA -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-5">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1.5">
+          <i data-lucide="terminal" class="w-4 h-4 text-[#39A900]"></i>
+          <span>Consola Interactiva · Terminal mongosh en Compass</span>
+        </div>
+        <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-1.5">
+          Laboratorio en Vivo: Terminal _MONGOSH Integrada en Compass
+        </h2>
+        <p class="text-xs text-slate-600 mb-3 max-w-4xl">
+          MongoDB Compass cuenta con la pestaña <strong class="text-emerald-700 font-mono">_MONGOSH</strong> en su borde inferior. Despliéguela con un solo clic para ejecutar consultas y validaciones avanzadas:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 text-xs">
+          <!-- Comandos Prácticos de Aula -->
+          <div class="p-3.5 bg-slate-900 text-slate-200 rounded-2xl shadow-2xs space-y-2 font-mono text-[9.5px]">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
+              <span class="text-emerald-400 font-bold flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                Consola mongosh en vivo
+              </span>
+              <span class="text-slate-400 text-[9px]">adso_polyglot_db</span>
+            </div>
+
+            <div class="space-y-1.5 text-slate-300">
+              <div>
+                <span class="text-slate-500">// 1. Conteo total de contenidos en la colección:</span><br>
+                <span class="text-emerald-300">db.contents.countDocuments()</span> 
+                <span class="text-slate-500 font-sans">⟶ Retorna 10 (u 11 con el nuevo servicio)</span>
+              </div>
+
+              <div>
+                <span class="text-slate-500">// 2. Conteo segmentado de servicios activos:</span><br>
+                <span class="text-blue-300">db.contents.countDocuments({ type: "service", active: true })</span>
+              </div>
+
+              <div>
+                <span class="text-slate-500">// 3. Listar categorías únicas sin repetir (Agregación):</span><br>
+                <span class="text-purple-300">db.contents.distinct("category", { type: "service" })</span><br>
+                <span class="text-slate-500 font-sans">⟶ ['software', 'agroindustria', 'seguridad']</span>
+              </div>
+
+              <div>
+                <span class="text-slate-500">// 4. Medir estadísticas de ejecución y uso de índices:</span><br>
+                <span class="text-amber-300">db.contents.find({ category: "software" }).explain("executionStats")</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Matriz Resumen de Equivalencia CRUD -->
+          <div class="p-3.5 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-2 flex flex-col justify-between">
+            <div>
+              <h3 class="text-xs font-extrabold text-slate-900 flex items-center gap-1.5 mb-2">
+                <i data-lucide="check-square" class="w-4 h-4 text-[#39A900]"></i>
+                Matriz Resumen del CRUD en MongoDB
+              </h3>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-[10px] border-collapse">
+                  <thead>
+                    <tr class="border-b border-slate-200 text-slate-500 uppercase font-mono">
+                      <th class="py-1">Operación</th>
+                      <th class="py-1">Compass GUI</th>
+                      <th class="py-1">mongosh (Terminal)</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100 font-mono text-[9.5px]">
+                    <tr>
+                      <td class="py-1 font-bold text-emerald-800">CREATE</td>
+                      <td class="py-1 text-slate-600">Add Data > Insert Document</td>
+                      <td class="py-1 text-slate-800">db.collection.insertOne(...)</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1 font-bold text-blue-800">READ</td>
+                      <td class="py-1 text-slate-600">Barra Filter + Project</td>
+                      <td class="py-1 text-slate-800">db.collection.find(filter, proj)</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1 font-bold text-amber-800">UPDATE</td>
+                      <td class="py-1 text-slate-600">Icono Lápiz > Edit Document</td>
+                      <td class="py-1 text-slate-800">db.collection.updateOne(..., $set)</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1 font-bold text-rose-800">DELETE</td>
+                      <td class="py-1 text-slate-600">Icono Papelera > Confirmar</td>
+                      <td class="py-1 text-slate-800">db.collection.deleteOne(...)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="p-2 bg-emerald-50 rounded-lg border border-emerald-200 text-emerald-950 text-[10.5px]">
+              🎯 <strong>Dominio Técnico SENA:</strong> Los aprendices deben saber aplicar el CRUD tanto visualmente en Compass como por scripts en mongosh antes de conectarlo con Node.js en la Sesión 08.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 29: MODIFICACIÓN DINÁMICA EN CALIENTE (ZERO DOWNTIME) -->
       <!-- --------------------------------------------------------------------- -->
       <section class="slide-item hidden flex flex-col justify-center py-6">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
@@ -1630,7 +2261,7 @@
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 26: MONTAJE GUIADO EN AULA: LOS 4 HITOS EN GIT PERSONAL -->
+      <!-- SLIDE 30: MONTAJE GUIADO EN AULA: LOS 4 HITOS EN GIT PERSONAL -->
       <!-- --------------------------------------------------------------------- -->
       <section class="slide-item hidden flex flex-col justify-center py-6">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#39A900] uppercase tracking-wider mb-2">
@@ -1693,7 +2324,7 @@
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 27: GUÍA OPERATIVA DE EJECUCIÓN (CONSOLA, COMPASS & GIT) -->
+      <!-- SLIDE 31: GUÍA OPERATIVA DE EJECUCIÓN (CONSOLA, COMPASS & GIT) -->
       <!-- --------------------------------------------------------------------- -->
       <section class="slide-item hidden flex flex-col justify-center py-6">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#39A900] uppercase tracking-wider mb-2">
@@ -1727,7 +2358,7 @@
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 28: SUSTENTACIÓN INDIVIDUAL (LIVE MOD EN COMPASS SIN IA) -->
+      <!-- SLIDE 32: SUSTENTACIÓN INDIVIDUAL (LIVE MOD EN COMPASS SIN IA) -->
       <!-- --------------------------------------------------------------------- -->
       <section class="slide-item hidden flex flex-col justify-center py-6">
         <div class="flex items-center space-x-2 text-xs font-bold text-purple-700 uppercase tracking-wider mb-2">
@@ -1774,7 +2405,7 @@
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 29: CONEXIÓN CURRICULAR DIRECTA (SESIÓN 08 Y SESIÓN 10) -->
+      <!-- SLIDE 33: CONEXIÓN CURRICULAR DIRECTA (SESIÓN 08 Y SESIÓN 10) -->
       <!-- --------------------------------------------------------------------- -->
       <section class="slide-item hidden flex flex-col justify-center py-6">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
@@ -1820,7 +2451,7 @@
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 30: CIERRE DE SESIÓN, GLOSARIO & PREGUNTAS FRECUENTES -->
+      <!-- SLIDE 34: CIERRE DE SESIÓN, GLOSARIO & PREGUNTAS FRECUENTES -->
       <!-- --------------------------------------------------------------------- -->
       <section class="slide-item hidden flex flex-col justify-center py-6">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#39A900] uppercase tracking-wider mb-2">
@@ -1879,7 +2510,7 @@
       <!-- Contador de diapositivas -->
       <div class="flex items-center space-x-2 font-mono text-slate-600">
         <span class="font-bold text-slate-900">SLIDE</span>
-        <span id="slide-counter" class="px-2 py-0.5 bg-slate-100 rounded font-bold text-slate-800">01 / 30</span>
+        <span id="slide-counter" class="px-2 py-0.5 bg-slate-100 rounded font-bold text-slate-800">01 / 34</span>
         <span class="hidden sm:inline text-slate-400">•</span>
         <span id="slide-current-label" class="hidden sm:inline text-slate-500 font-sans truncate max-w-xs md:max-w-md">PORTADA</span>
       </div>
@@ -1973,43 +2604,55 @@
         <span class="text-emerald-500">17</span><span>Crear BD & Colección</span>
       </button>
       <button onclick="window.presenter?.goToSlide(17)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">18</span><span>Importar 01_content_seed.json</span>
+        <span class="text-emerald-500">18</span><span>Archivo Semilla 01_content_seed.json</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(18)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">19</span><span>Análisis: Banners & Servicios</span>
+      <button onclick="window.presenter?.goToSlide(18)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
+        <span class="text-emerald-500">19</span><span>Importar Semillas en Compass & CLI</span>
       </button>
       <button onclick="window.presenter?.goToSlide(19)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">20</span><span>Análisis: Testimonios & Stats</span>
+        <span class="text-slate-400">20</span><span>Análisis: Banners & Servicios</span>
       </button>
       <button onclick="window.presenter?.goToSlide(20)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">21</span><span>Introducción a MQL</span>
+        <span class="text-slate-400">21</span><span>Análisis: Testimonios & Métricas</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(21)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">22</span><span>MQL 1: Igualdad & Lógicos</span>
+      <button onclick="window.presenter?.goToSlide(21)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-blue-800 font-bold">
+        <span class="text-blue-500">22</span><span>Introducción a MQL & Entornos</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(22)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">23</span><span>MQL 2: $in & $gt</span>
+      <button onclick="window.presenter?.goToSlide(22)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-emerald-800 font-bold">
+        <span class="text-emerald-600">23</span><span>CRUD 1: CREATE (Insertar Docs)</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(23)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">24</span><span>MQL 3: Proyecciones & Sort</span>
+      <button onclick="window.presenter?.goToSlide(23)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-blue-800 font-bold">
+        <span class="text-blue-600">24</span><span>CRUD 2: READ (Filtros & Lógica)</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(24)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">25</span><span>Esquema Dinámico en Vivo</span>
+      <button onclick="window.presenter?.goToSlide(24)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-teal-800 font-bold">
+        <span class="text-teal-600">25</span><span>CRUD 3: READ Avanzado (Sort & Proj)</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(25)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">26</span><span>Montaje Guiado (4 Hitos)</span>
+      <button onclick="window.presenter?.goToSlide(25)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-amber-800 font-bold">
+        <span class="text-amber-600">26</span><span>CRUD 4: UPDATE ($set e $inc)</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(26)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">27</span><span>Flujo Operativo de Consola</span>
+      <button onclick="window.presenter?.goToSlide(26)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-rose-800 font-bold">
+        <span class="text-rose-600">27</span><span>CRUD 5: DELETE (Físico vs Soft)</span>
       </button>
       <button onclick="window.presenter?.goToSlide(27)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-purple-700 font-bold">
-        <span class="text-purple-400">28</span><span>Sustentación & Live Mod</span>
+        <span class="text-purple-600">28</span><span>Laboratorio mongosh Integrado</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(28)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">29</span><span>Conexión con Sesión 08 & 10</span>
+      <button onclick="window.presenter?.goToSlide(28)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">29</span><span>Modificación Dinámica Zero Downtime</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(29)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">30</span><span>Cierre & Glosario</span>
+      <button onclick="window.presenter?.goToSlide(29)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
+        <span class="text-emerald-500">30</span><span>Montaje Guiado (4 Hitos)</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(30)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
+        <span class="text-emerald-500">31</span><span>Flujo Operativo de Consola</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(31)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-purple-700 font-bold">
+        <span class="text-purple-400">32</span><span>Sustentación & Live Mod</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(32)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
+        <span class="text-blue-500">33</span><span>Conexión con Sesión 08 & 10</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(33)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">34</span><span>Cierre & Glosario</span>
       </button>
     </div>
   </aside>
@@ -2067,6 +2710,81 @@
       const el = document.getElementById('slide-cintillo-fecha');
       if (el) el.textContent = 'Hoy: ' + fechaTxt.charAt(0).toUpperCase() + fechaTxt.slice(1);
     })();
+
+    // Gestión del Semillero NoSQL en Aula (Copia y Filtros Rápidos)
+    let adsoRawSeedJson = '';
+    let adsoSeedDocs = [];
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const codeBox = document.getElementById('seed-json-code-box');
+      if (codeBox) {
+        adsoRawSeedJson = codeBox.textContent.trim();
+        try {
+          adsoSeedDocs = JSON.parse(adsoRawSeedJson);
+        } catch (e) {
+          console.warn('Parsing seed json from code box:', e);
+        }
+      }
+    });
+
+    window.copySeedJson = function() {
+      const codeBox = document.getElementById('seed-json-code-box');
+      const textToCopy = adsoRawSeedJson || (codeBox ? codeBox.textContent.trim() : '');
+      if (!textToCopy) return;
+
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        const btnText = document.getElementById('copy-seed-text');
+        const btnIcon = document.getElementById('copy-seed-icon');
+        const origText = btnText ? btnText.textContent : 'Copiar JSON Completo (10 Docs)';
+        
+        if (btnText) btnText.textContent = '¡Copiado con Éxito al Portapapeles!';
+        if (btnIcon) {
+          btnIcon.setAttribute('data-lucide', 'check-check');
+          lucide.createIcons();
+        }
+
+        setTimeout(() => {
+          if (btnText) btnText.textContent = origText;
+          if (btnIcon) {
+            btnIcon.setAttribute('data-lucide', 'copy');
+            lucide.createIcons();
+          }
+        }, 2500);
+      }).catch(err => {
+        console.error('No se pudo copiar el JSON:', err);
+      });
+    };
+
+    window.filterSeedPreview = function(category) {
+      const codeBox = document.getElementById('seed-json-code-box');
+      if (!codeBox) return;
+
+      // Actualizar pestañas activas
+      const tabIds = ['all', 'banner', 'service', 'testimonial', 'stat'];
+      tabIds.forEach(id => {
+        const tab = document.getElementById('tab-seed-' + id);
+        if (tab) {
+          if (id === category) {
+            tab.className = 'tab-seed-btn px-2.5 py-1 bg-slate-900 text-emerald-300 rounded-lg border border-slate-700 cursor-pointer';
+          } else {
+            tab.className = 'tab-seed-btn px-2.5 py-1 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer';
+          }
+        }
+      });
+
+      if (!adsoSeedDocs || !adsoSeedDocs.length) {
+        try {
+          adsoSeedDocs = JSON.parse(adsoRawSeedJson || codeBox.textContent.trim());
+        } catch(e) {}
+      }
+
+      if (category === 'all') {
+        codeBox.textContent = adsoRawSeedJson || JSON.stringify(adsoSeedDocs, null, 2);
+      } else {
+        const filtered = adsoSeedDocs.filter(doc => doc.type === category);
+        codeBox.textContent = JSON.stringify(filtered, null, 2);
+      }
+    };
   </script>
 </body>
 </html>
