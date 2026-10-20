@@ -1741,8 +1741,9 @@
                 <i data-lucide="terminal" class="w-3.5 h-3.5"></i>
                 En Terminal (mongosh insertOne)
               </span>
-              <button onclick="navigator.clipboard.writeText('db.contents.insertOne({\n  type: \"service\",\n  name: \"Taller de Inteligencia Artificial para Caficultura\",\n  category: \"agroindustria\",\n  code: \"SRV-AGRO-05\",\n  hours: 45,\n  maxCapacity: 20,\n  views: 120,\n  active: true,\n  metadata: { level: \"intermedio\", instructor: \"Equipo AgroTIC CADPH\" },\n  tags: [\"ia\", \"cafe\", \"huila\", \"agroindustria\"],\n  createdAt: new Date(),\n  updatedAt: new Date()\n});'); alert('¡Comando insertOne copiado!');" class="text-[9px] px-2 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded border border-slate-700 cursor-pointer">
-                Copiar mongosh
+              <button id="btn-copy-insert-one" onclick="copyInsertOneSnippet()" class="text-[9px] px-2 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded border border-slate-700 cursor-pointer flex items-center gap-1">
+                <i data-lucide="copy" class="w-3 h-3" id="icon-copy-insert-one"></i>
+                <span id="text-copy-insert-one">Copiar mongosh</span>
               </button>
             </div>
             <pre class="p-2 bg-slate-950 rounded-lg text-emerald-300 overflow-x-auto leading-tight">
@@ -2784,6 +2785,48 @@ db.contents.updateOne(
         const filtered = adsoSeedDocs.filter(doc => doc.type === category);
         codeBox.textContent = JSON.stringify(filtered, null, 2);
       }
+    };
+
+    window.copyInsertOneSnippet = function() {
+      const snippet = `db.contents.insertOne({
+  type: "service",
+  name: "Taller de Inteligencia Artificial para Caficultura",
+  category: "agroindustria",
+  code: "SRV-AGRO-05",
+  hours: 45,
+  maxCapacity: 20,
+  views: 120,
+  active: true,
+  metadata: {
+    level: "intermedio",
+    instructor: "Equipo AgroTIC CADPH"
+  },
+  tags: ["ia", "cafe", "huila", "agroindustria"],
+  createdAt: new Date(),
+  updatedAt: new Date()
+});`;
+
+      navigator.clipboard.writeText(snippet).then(() => {
+        const btnText = document.getElementById('text-copy-insert-one');
+        const btnIcon = document.getElementById('icon-copy-insert-one');
+        const origText = btnText ? btnText.textContent : 'Copiar mongosh';
+
+        if (btnText) btnText.textContent = '¡Copiado!';
+        if (btnIcon) {
+          btnIcon.setAttribute('data-lucide', 'check-check');
+          lucide.createIcons();
+        }
+
+        setTimeout(() => {
+          if (btnText) btnText.textContent = origText;
+          if (btnIcon) {
+            btnIcon.setAttribute('data-lucide', 'copy');
+            lucide.createIcons();
+          }
+        }, 2200);
+      }).catch(err => {
+        console.error('No se pudo copiar el snippet:', err);
+      });
     };
   </script>
 </body>
