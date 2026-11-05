@@ -345,3 +345,4 @@ if (sampleHero.length > 0) {
 
 print("\n🎉 [ADSO SENA] ¡Aprovisionamiento NoSQL completado con éxito al 100%!");
 print("   La base de datos '" + DB_NAME + "' está lista para ser consumida por Express en la Sesión 08 & 10.\n");
+
