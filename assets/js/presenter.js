@@ -128,6 +128,68 @@ class SlidePresenter {
         } else {
           blockLabelEl.textContent = 'CIERRE & SIGUIENTE SESIÓN';
         }
+      } else if (this.totalSlides === 30) {
+        if (this.currentSlideIndex === 0) {
+          blockLabelEl.textContent = 'PORTADA DE LECCIÓN';
+        } else if (this.currentSlideIndex === 1) {
+          blockLabelEl.textContent = 'OBJETIVOS & COMPETENCIAS';
+        } else if (this.currentSlideIndex === 2) {
+          blockLabelEl.textContent = 'ARQUITECTURA FULL STACK';
+        } else if (this.currentSlideIndex === 3) {
+          blockLabelEl.textContent = 'ARQUITECTURA EN CAPAS ENTERPRISE';
+        } else if (this.currentSlideIndex === 4) {
+          blockLabelEl.textContent = 'ANATOMÍA DEL FLUJO HTTP';
+        } else if (this.currentSlideIndex === 5) {
+          blockLabelEl.textContent = 'GESTIÓN DE CONEXIONES & POOLS';
+        } else if (this.currentSlideIndex === 6) {
+          blockLabelEl.textContent = 'POSTGRESQL CONNECTION POOL (PG)';
+        } else if (this.currentSlideIndex === 7) {
+          blockLabelEl.textContent = 'MONGOOSE SINGLETON & ATLAS';
+        } else if (this.currentSlideIndex === 8) {
+          blockLabelEl.textContent = 'VARIABLES DE ENTORNO DEFENSIVAS';
+        } else if (this.currentSlideIndex === 9) {
+          blockLabelEl.textContent = 'HOJA DE RUTA MONTAJE EN GIT';
+        } else if (this.currentSlideIndex === 10) {
+          blockLabelEl.textContent = 'CONVENTIONAL COMMITS V1.0.0';
+        } else if (this.currentSlideIndex === 11) {
+          blockLabelEl.textContent = 'SCAFFOLDING ESM & PACKAGE.JSON';
+        } else if (this.currentSlideIndex === 12) {
+          blockLabelEl.textContent = 'LIVE CODING 1: ENVIRONMENT.JS';
+        } else if (this.currentSlideIndex === 13) {
+          blockLabelEl.textContent = 'LIVE CODING 2: DB.JS (PG POOL)';
+        } else if (this.currentSlideIndex === 14) {
+          blockLabelEl.textContent = 'LIVE CODING 2: DB.JS (MONGOOSE)';
+        } else if (this.currentSlideIndex === 15) {
+          blockLabelEl.textContent = 'LIVE CODING 2: DB.JS (LIFECYCLE)';
+        } else if (this.currentSlideIndex === 16) {
+          blockLabelEl.textContent = 'LIVE CODING 3: HEALTH CONTROLLER';
+        } else if (this.currentSlideIndex === 17) {
+          blockLabelEl.textContent = 'LIVE CODING 4: ENRUTAMIENTO MODULAR';
+        } else if (this.currentSlideIndex === 18) {
+          blockLabelEl.textContent = 'LIVE CODING 5: PIPELINE EXPRESS';
+        } else if (this.currentSlideIndex === 19) {
+          blockLabelEl.textContent = 'LIVE CODING 6: SERVER & SHUTDOWN';
+        } else if (this.currentSlideIndex === 20) {
+          blockLabelEl.textContent = 'CONTRATO API: GET /API/HEALTH';
+        } else if (this.currentSlideIndex === 21) {
+          blockLabelEl.textContent = 'TESTING CLIENTES API (BRUNO/CURL)';
+        } else if (this.currentSlideIndex === 22) {
+          blockLabelEl.textContent = 'RESILIENCIA: SIMULACIÓN FALLA PG';
+        } else if (this.currentSlideIndex === 23) {
+          blockLabelEl.textContent = 'RESILIENCIA: SIMULACIÓN FALLA MONGO';
+        } else if (this.currentSlideIndex === 24) {
+          blockLabelEl.textContent = 'MONTAJE EN AULA: 4 HITOS EN GIT';
+        } else if (this.currentSlideIndex === 25) {
+          blockLabelEl.textContent = 'TERMINAL & FLUJO DE COMANDOS';
+        } else if (this.currentSlideIndex === 26) {
+          blockLabelEl.textContent = 'CÓDIGO FUENTE LLAVE EN MANO';
+        } else if (this.currentSlideIndex === 27) {
+          blockLabelEl.textContent = 'SUSTENTACIÓN: LIVE MOD EN CALIENTE';
+        } else if (this.currentSlideIndex === 28) {
+          blockLabelEl.textContent = 'CONEXIÓN CURRICULAR: DÍAS 09 Y 10';
+        } else {
+          blockLabelEl.textContent = 'CIERRE, GLOSARIO & EVALUACIÓN';
+        }
       } else if (this.totalSlides === 31) {
         if (this.currentSlideIndex === 0) {
           blockLabelEl.textContent = 'PORTADA DE LECCIÓN';

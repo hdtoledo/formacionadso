@@ -1,0 +1,2113 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50 text-slate-900 antialiased">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sesión 08 | Arquitectura en Capas en Express & Conexión Dual Simultánea | SENA ADSO</title>
+  <meta name="description" content="Sesión 08: Backend I en Node.js y Express 4 con Arquitectura en Capas Enterprise, Conexión Dual Simultánea a PostgreSQL (pg.Pool) y MongoDB Atlas (Mongoose), Diagnóstico /api/health y Graceful Shutdown. SENA CADPH Garzón.">
+  <link rel="icon" type="image/png" href="../../assets/logo_green.png">
+  
+  <!-- Tailwind CSS CDN con configuración de identidad institucional SENA -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            sena: {
+              green: '#39A900',
+              'green-hover': '#2D8200',
+              navy: '#00324D',
+              'navy-dark': '#00263A',
+              'navy-light': '#004164'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- PrismJS para sintaxis JavaScript, JSON y Bash -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Estilos de presentación -->
+  <link rel="stylesheet" href="../../assets/css/presenter.css">
+</head>
+<body class="min-h-full flex flex-col bg-[#F8FAFC] text-slate-900 overflow-x-hidden selection:bg-[#39A900] selection:text-white">
+
+  <!-- ========================================================================= -->
+  <!-- 1. CINTILLO INSTITUCIONAL SENA -->
+  <!-- ========================================================================= -->
+  <div class="bg-[#00324D] text-white text-[11px] sm:text-xs py-2 px-4 sm:px-8 xl:px-12 border-b border-[#00263a] sticky top-0 z-50">
+    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2 truncate">
+        <span class="font-bold tracking-wide shrink-0">SENA</span>
+        <span class="text-slate-400">|</span>
+        <span class="text-slate-200 truncate font-medium">Regional Huila • CADPH Garzón</span>
+      </div>
+      <div class="flex items-center gap-4 text-slate-300 font-medium shrink-0 text-xs">
+        <span class="hidden md:inline">Sede Garzón</span>
+        <span class="text-emerald-400 font-semibold flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#39A900] animate-pulse"></span>
+          <span id="slide-cintillo-fecha">Hoy</span>
+        </span>
+        <span class="hidden sm:inline">ADSO · Proyección en Aula</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 2. HEADER DE CONTROL PARA EL INSTRUCTOR (VIDEOBEAM) -->
+  <!-- ========================================================================= -->
+  <header class="bg-white border-b border-slate-200 px-4 sm:px-8 xl:px-12 py-3 sticky top-[33px] sm:top-[35px] z-40 shadow-xs">
+    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-3">
+      
+      <!-- Marca SENA & Título de la Lección -->
+      <div class="flex items-center space-x-3">
+        <a href="../../index.html" class="flex items-center space-x-2.5 text-slate-600 hover:text-slate-900 transition-colors group" title="Volver al Portal Central">
+          <img src="../../assets/logo_green.png" alt="Logo SENA" class="h-9 w-auto object-contain shrink-0">
+          <div class="hidden sm:block border-l border-slate-200 pl-3">
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm font-extrabold text-slate-900">FORMACIÓN</span>
+              <span class="text-sm font-black text-[#39A900]">ADSO</span>
+              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">CADPH</span>
+            </div>
+            <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Centro Agroempresarial y Desarrollo Pecuario del Huila</p>
+          </div>
+        </a>
+        <span class="text-slate-300 hidden md:inline">/</span>
+        <div class="hidden md:flex items-center space-x-2">
+          <span class="px-2.5 py-0.5 text-xs font-bold bg-blue-50 text-blue-900 border border-blue-200 rounded">Semana 2</span>
+          <span class="text-xs font-bold text-slate-800">Sesión 08 · Día 8: Arquitectura en Capas en Express & Conexión Dual Simultánea</span>
+        </div>
+      </div>
+
+      <!-- Controles de Clase & Temporizador -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        
+        <!-- Temporizador de Bloques -->
+        <div class="flex items-center bg-slate-100 rounded-xl p-1 border border-slate-200 text-xs">
+          <div class="flex items-center px-2 py-1 space-x-1.5 font-mono font-bold text-slate-700">
+            <i data-lucide="clock" class="w-3.5 h-3.5 text-[#39A900]"></i>
+            <span id="timer-display">00:00</span>
+          </div>
+          <button id="btn-timer-start" class="px-2 py-1 bg-white hover:bg-slate-50 text-slate-700 rounded-lg shadow-2xs text-[11px] font-bold transition flex items-center space-x-1">
+            <i data-lucide="play" class="w-3 h-3 text-[#39A900]"></i>
+            <span class="hidden sm:inline">Iniciar</span>
+          </button>
+          <button id="btn-timer-reset" class="p-1 hover:bg-white text-slate-400 hover:text-slate-600 rounded-lg transition" title="Reiniciar Temporizador">
+            <i data-lucide="rotate-ccw" class="w-3 h-3"></i>
+          </button>
+        </div>
+
+        <!-- Botón Montaje en Vivo -->
+        <a href="#slide-10" onclick="window.presenter?.goToSlide(9)" class="hidden xl:flex items-center space-x-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-900 border border-blue-200 rounded-xl text-xs font-bold transition">
+          <i data-lucide="git-branch" class="w-3.5 h-3.5 text-blue-600"></i>
+          <span>Montaje en Vivo · Git Personal</span>
+        </a>
+
+        <!-- Botón Menú de Diapositivas (Drawer) -->
+        <button id="btn-menu-drawer" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition" title="Índice de Diapositivas (M)">
+          <i data-lucide="menu" class="w-4 h-4"></i>
+        </button>
+
+        <!-- Botón Pantalla Completa -->
+        <button id="btn-fullscreen" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition" title="Pantalla Completa (F)">
+          <i data-lucide="maximize" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Barra de Progreso Superior -->
+    <div class="w-full bg-slate-100 h-1.5 mt-2.5 rounded-full overflow-hidden">
+      <div id="presentation-progress" class="bg-gradient-to-r from-[#00324D] via-[#39A900] to-blue-500 h-full w-0 transition-all duration-300"></div>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- 3. CONTENEDOR PRINCIPAL DE DIAPOSITIVAS -->
+  <!-- ========================================================================= -->
+  <main class="flex-1 max-w-[1860px] w-full mx-auto px-4 sm:px-8 xl:px-12 py-4 flex flex-col justify-between">
+    <div id="slides-viewport" class="relative w-full flex-1 min-h-[580px] flex flex-col justify-center">
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 01: PORTADA INSTITUCIONAL DE LA SESIÓN 08 -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-6">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 border border-blue-200 rounded-full text-xs font-bold text-blue-900">
+            <i data-lucide="server" class="w-3.5 h-3.5 text-blue-600"></i>
+            <span>Semana 2 · Persistencia Políglota & Arquitectura · Sesión 08</span>
+          </div>
+
+          <div class="space-y-3">
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+              Arquitectura en Capas en Express & <br class="hidden sm:inline">
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00324D] via-blue-700 to-[#39A900]">
+                Conexión Dual Simultánea (PostgreSQL + MongoDB)
+              </span>
+            </h1>
+            <p class="text-base sm:text-lg text-slate-600 font-normal leading-relaxed max-w-4xl">
+              Diseño desacoplado y profesional del backend en Node.js/Express 4: orquestación en capas (<code class="font-mono text-blue-700">routes</code>, <code class="font-mono text-blue-700">controllers</code>, <code class="font-mono text-blue-700">services</code>, <code class="font-mono text-blue-700">config</code>), inicialización simultánea de Pool relacional (<code class="font-mono text-slate-800">pg.Pool</code>) y ODM documental (<code class="font-mono text-emerald-700">Mongoose</code>), endpoint de telemetría <code class="font-mono font-bold text-blue-800">GET /api/health</code> y Graceful Shutdown defensivo.
+            </p>
+          </div>
+
+          <!-- Badges de Tecnologías e Hitos -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+            <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-2xs space-y-1">
+              <div class="flex items-center space-x-1.5 text-xs font-bold text-[#00324D]">
+                <i data-lucide="layers" class="w-4 h-4 text-blue-600"></i>
+                <span>Layered Pattern</span>
+              </div>
+              <p class="text-[11px] text-slate-500">Separación estricta sin SQL/Mongo en rutas</p>
+            </div>
+            <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-2xs space-y-1">
+              <div class="flex items-center space-x-1.5 text-xs font-bold text-[#00324D]">
+                <i data-lucide="database" class="w-4 h-4 text-[#39A900]"></i>
+                <span>Dual Connection</span>
+              </div>
+              <p class="text-[11px] text-slate-500">PostgreSQL Pool + Mongoose Singleton</p>
+            </div>
+            <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-2xs space-y-1">
+              <div class="flex items-center space-x-1.5 text-xs font-bold text-[#00324D]">
+                <i data-lucide="activity" class="w-4 h-4 text-emerald-600"></i>
+                <span>GET /api/health</span>
+              </div>
+              <p class="text-[11px] text-slate-500">Auditoría RTT y status 200 vs 503</p>
+            </div>
+            <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-2xs space-y-1">
+              <div class="flex items-center space-x-1.5 text-xs font-bold text-[#00324D]">
+                <i data-lucide="git-commit" class="w-4 h-4 text-purple-600"></i>
+                <span>4 Conventional Commits</span>
+              </div>
+              <p class="text-[11px] text-slate-500">Registro atómico en Git personal</p>
+            </div>
+          </div>
+
+          <!-- Metadatos de la Sesión -->
+          <div class="flex flex-wrap items-center gap-4 text-xs font-medium text-slate-500 pt-2 border-t border-slate-200">
+            <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4 text-[#39A900]"></i> Semana 2 · Día 08</span>
+            <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4 text-blue-600"></i> 4 Horas Presenciales</span>
+            <span class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-4 h-4 text-rose-500"></i> Ambiente 3 · CADPH Garzón</span>
+            <span class="flex items-center gap-1.5"><i data-lucide="user-check" class="w-4 h-4 text-purple-600"></i> Instructor Líder ADSO</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 02: OBJETIVOS & COMPETENCIAS LABORALES -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-700">
+            <i data-lucide="target" class="w-3.5 h-3.5 text-[#39A900]"></i>
+            <span>Resultados de Aprendizaje del SENA (RAP) & Criterios de Evaluación</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Competencias de la Sesión: Orquestación Backend Profesional
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+            <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-2xs space-y-3">
+              <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-bold">
+                <i data-lucide="layers" class="w-5 h-5"></i>
+              </div>
+              <h3 class="text-base font-bold text-slate-900">1. Arquitectura en Capas</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Separar responsabilidades entre enrutadores HTTP, controladores que manejan req/res, servicios con reglas de negocio y clientes de base de datos aislados.
+              </p>
+              <span class="inline-block text-[10px] font-mono font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded">Taxonomía: Analizar & Aplicar</span>
+            </div>
+
+            <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-2xs space-y-3">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-[#39A900] flex items-center justify-center font-bold">
+                <i data-lucide="cpu" class="w-5 h-5"></i>
+              </div>
+              <h3 class="text-base font-bold text-slate-900">2. Conexión Dual Paralela</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Inicializar un Pool relacional con <code class="font-mono">pg.Pool</code> y un Singleton ODM con <code class="font-mono">mongoose.connect</code> en el mismo servidor sin colisiones ni fuga de descriptores de sockets.
+              </p>
+              <span class="inline-block text-[10px] font-mono font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded">Taxonomía: Implementar & Evaluar</span>
+            </div>
+
+            <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-2xs space-y-3">
+              <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center font-bold">
+                <i data-lucide="shield-alert" class="w-5 h-5"></i>
+              </div>
+              <h3 class="text-base font-bold text-slate-900">3. Resiliencia & Telemetría</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Exponer <code class="font-mono">GET /api/health</code> para auditar latencias y estados de salud, respondiendo <strong class="text-emerald-700">200 OK</strong> cuando ambos sistemas operan y <strong class="text-rose-700">503 Service Unavailable</strong> ante caídas.
+              </p>
+              <span class="inline-block text-[10px] font-mono font-bold text-purple-800 bg-purple-50 px-2 py-0.5 rounded">Taxonomía: Diagnosticar & Resolver</span>
+            </div>
+          </div>
+
+          <div class="p-4 bg-emerald-50/70 border border-emerald-200 rounded-xl text-xs text-slate-700 flex items-start gap-3">
+            <i data-lucide="info" class="w-4 h-4 text-[#39A900] shrink-0 mt-0.5"></i>
+            <div>
+              <strong class="text-emerald-950 font-bold">Criterio de Evaluación Institucional:</strong>
+              El aprendiz construye la estructura de directorios en su repositorio personal, implementa el código sin librerías mágicas de scaffolding y sustenta en caliente una prueba de caída y reconexión de base de datos ante el Video-beam sin apoyo de IA.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 03: ARQUITECTURA 3-TIER ENTERPRISE & EL ORQUESTADOR EXPRESS -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold">
+            <i data-lucide="network" class="w-3.5 h-3.5 text-blue-600"></i>
+            <span>Ecosistema Políglota Global · Arquitectura N-Capas</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            El Orquestador Express en el Ecosistema Políglota
+          </h2>
+
+          <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-2xs space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+              
+              <!-- Nivel 1: Frontend -->
+              <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+                <div class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-sky-100 text-sky-700 font-bold">
+                  <i data-lucide="layout" class="w-4 h-4"></i>
+                </div>
+                <h4 class="font-bold text-sm text-slate-900">Capa 1: Cliente Web</h4>
+                <p class="text-xs text-slate-500">React + Vite + Tailwind</p>
+                <div class="text-[10px] bg-sky-50 text-sky-800 font-mono py-1 rounded border border-sky-100">
+                  Puerto 5173 (Browser)
+                </div>
+              </div>
+
+              <!-- Nivel 2: Backend Orquestador -->
+              <div class="p-4 bg-blue-50/70 border-2 border-blue-500 rounded-xl space-y-2 relative shadow-sm">
+                <span class="absolute -top-2.5 right-3 bg-blue-600 text-white text-[9px] font-black px-2 py-0.5 rounded-full uppercase">
+                  Foco de Hoy
+                </span>
+                <div class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-600 text-white font-bold">
+                  <i data-lucide="server" class="w-4 h-4"></i>
+                </div>
+                <h4 class="font-bold text-sm text-blue-950">Capa 2: Orquestador API</h4>
+                <p class="text-xs text-blue-800">Node.js + Express 4 (ESM)</p>
+                <div class="text-[10px] bg-white text-blue-900 font-mono py-1 rounded border border-blue-200 font-bold">
+                  Puerto 3000 (HTTP JSON)
+                </div>
+              </div>
+
+              <!-- Nivel 3: Persistencia Dual -->
+              <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+                <div class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-100 text-[#39A900] font-bold">
+                  <i data-lucide="database" class="w-4 h-4"></i>
+                </div>
+                <h4 class="font-bold text-sm text-slate-900">Capa 3: Persistencia Dual</h4>
+                <p class="text-xs text-slate-500">Relacional + Documental</p>
+                <div class="text-[10px] bg-emerald-50 text-emerald-900 font-mono py-1 rounded border border-emerald-100">
+                  PostgreSQL (5432) & Atlas (27017)
+                </div>
+              </div>
+            </div>
+
+            <!-- Explicación Técnica -->
+            <div class="p-3 bg-slate-900 text-slate-200 rounded-xl font-mono text-xs leading-relaxed space-y-1">
+              <div class="text-emerald-400 font-bold"># Principio de Arquitectura ADSO:</div>
+              <div>El navegador jamas se conecta directamente a PostgreSQL ni a MongoDB Atlas.</div>
+              <div class="text-slate-400">Toda solicitud pasa por el servidor Express, donde se autentica, valida, procesa en capas y se despacha a la base de datos adecuada.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 04: ANTI-PATRÓN ESPAGUETI VS ARQUITECTURA EN CAPAS ENTERPRISE -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-rose-50 text-rose-800 border border-rose-200 rounded-full text-xs font-bold">
+            <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-600"></i>
+            <span>Deuda Técnica vs Código Mantenible Enterprise</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Anti-Patrón "Todo en un Archivo" vs Arquitectura en Capas
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <!-- Columna Izquierda: Espagueti -->
+            <div class="p-4 bg-rose-50/50 border border-rose-200 rounded-2xl space-y-3">
+              <div class="flex items-center gap-2 text-rose-800 font-bold text-sm">
+                <i data-lucide="x-circle" class="w-4 h-4 text-rose-600"></i>
+                <span>Anti-Patrón "Smart Routes" (Espagueti)</span>
+              </div>
+              <div class="bg-slate-900 text-slate-300 p-3 rounded-xl font-mono text-[11px] leading-snug overflow-x-auto">
+                <div class="text-rose-400">// Archivo unico server.js (Pésima práctica)</div>
+                <div>app.get('/usuarios', async (req, res) => {</div>
+                <div class="text-slate-400 pl-3">// Validaciones mezcladas con HTTP</div>
+                <div class="text-amber-300 pl-3">if (!req.headers.token) return ...</div>
+                <div class="text-slate-400 pl-3">// Consulta SQL quemada en la ruta!</div>
+                <div class="text-sky-300 pl-3">const sql = 'SELECT * FROM users';</div>
+                <div class="text-emerald-400 pl-3">const data = await pgClient.query(sql);</div>
+                <div class="text-slate-400 pl-3">// Lógica de negocio mezclada</div>
+                <div class="text-purple-300 pl-3">const format = data.map(u => ({ ... }));</div>
+                <div class="pl-3">res.json(format);</div>
+                <div>});</div>
+              </div>
+              <ul class="text-xs text-rose-900 space-y-1 list-disc list-inside">
+                <li>Imposible escribir pruebas unitarias sin levantar la base de datos.</li>
+                <li>Si cambia PostgreSQL por otro motor, se rompe toda la API.</li>
+                <li>Fuga de conexiones al olvidar liberar clientes.</li>
+              </ul>
+            </div>
+
+            <!-- Columna Derecha: En Capas -->
+            <div class="p-4 bg-emerald-50/50 border border-emerald-200 rounded-2xl space-y-3">
+              <div class="flex items-center gap-2 text-emerald-900 font-bold text-sm">
+                <i data-lucide="check-circle" class="w-4 h-4 text-[#39A900]"></i>
+                <span>Arquitectura en Capas ADSO (Enterprise)</span>
+              </div>
+              <div class="bg-slate-900 text-slate-300 p-3 rounded-xl font-mono text-[11px] leading-snug overflow-x-auto">
+                <div class="text-emerald-400">// Separación estricta de responsabilidades</div>
+                <div class="text-blue-300">📁 routes/healthRoutes.js</div>
+                <div class="text-slate-400 pl-3">→ Solo define endpoints y verbos HTTP</div>
+                <div class="text-amber-300">📁 controllers/healthController.js</div>
+                <div class="text-slate-400 pl-3">→ Orquesta req/res, códigos HTTP y DTOs</div>
+                <div class="text-purple-300">📁 services/healthService.js</div>
+                <div class="text-slate-400 pl-3">→ Lógica de negocio y reglas de dominio</div>
+                <div class="text-emerald-300">📁 config/db.js</div>
+                <div class="text-slate-400 pl-3">→ Gestión de Pools y conexiones físicas</div>
+              </div>
+              <ul class="text-xs text-emerald-950 space-y-1 list-disc list-inside">
+                <li>Desacoplamiento total: código reutilizable y testeable.</li>
+                <li>Permite reemplazar la base de datos sin alterar los controladores.</li>
+                <li>Pool centralizado que previene saturación de memoria.</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 05: ANATOMÍA DE LAS CAPAS: EL FLUJO HTTP UNIDIRECCIONAL -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-700">
+            <i data-lucide="git-merge" class="w-3.5 h-3.5 text-blue-600"></i>
+            <span>Pipeline de Ejecución · Ciclo de Vida de una Petición</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Anatomía del Flujo HTTP Unidireccional
+          </h2>
+
+          <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-2 text-center font-mono">
+            
+            <div class="p-3 bg-white border border-slate-200 rounded-xl space-y-1 shadow-2xs">
+              <span class="text-[10px] text-slate-400 block font-sans font-bold">1. CLIENTE</span>
+              <div class="text-xs font-bold text-blue-700">HTTP Request</div>
+              <p class="text-[10px] text-slate-500 font-sans">GET /api/health con headers</p>
+            </div>
+
+            <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl space-y-1 shadow-2xs">
+              <span class="text-[10px] text-blue-500 block font-sans font-bold">2. ROUTER</span>
+              <div class="text-xs font-bold text-blue-900">healthRoutes</div>
+              <p class="text-[10px] text-slate-600 font-sans">Empareja ruta y verbo con controlador</p>
+            </div>
+
+            <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl space-y-1 shadow-2xs">
+              <span class="text-[10px] text-amber-600 block font-sans font-bold">3. CONTROLLER</span>
+              <div class="text-xs font-bold text-amber-900">healthController</div>
+              <p class="text-[10px] text-slate-600 font-sans">Extrae params, llama a DB y responde</p>
+            </div>
+
+            <div class="p-3 bg-purple-50 border border-purple-200 rounded-xl space-y-1 shadow-2xs">
+              <span class="text-[10px] text-purple-600 block font-sans font-bold">4. PERSISTENCIA</span>
+              <div class="text-xs font-bold text-purple-900">pg.Pool / Mongo</div>
+              <p class="text-[10px] text-slate-600 font-sans">Ejecuta query o ping midiendo latencia</p>
+            </div>
+
+            <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1 shadow-2xs">
+              <span class="text-[10px] text-emerald-600 block font-sans font-bold">5. RESPUESTA</span>
+              <div class="text-xs font-bold text-emerald-900">HTTP 200 / 503</div>
+              <p class="text-[10px] text-slate-600 font-sans">Payload JSON estructurado al cliente</p>
+            </div>
+
+          </div>
+
+          <div class="p-4 bg-slate-900 text-slate-200 rounded-xl text-xs space-y-2">
+            <div class="flex items-center gap-2 text-amber-400 font-bold">
+              <i data-lucide="shield-alert" class="w-4 h-4"></i>
+              <span>Regla de Oro en Arquitectura de Software:</span>
+            </div>
+            <p class="leading-relaxed">
+              Una capa inferior <strong>nunca</strong> debe conocer a una capa superior. El módulo de bases de datos (<code class="text-emerald-400">config/db.js</code>) desconoce por completo la existencia de peticiones HTTP, rutas o de Express. Solo exporta clientes de conexión.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 06: GESTIÓN DE CONEXIONES: CLIENTE POR PETICIÓN VS POOL -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold">
+            <i data-lucide="gauge" class="w-3.5 h-3.5 text-amber-600"></i>
+            <span>Rendimiento & Manejo de Recursos en el Servidor</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            ¿Por qué un Connection Pool y NO un cliente por petición?
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <div class="p-4 bg-white rounded-2xl border border-rose-200 space-y-3">
+              <div class="flex items-center gap-2 text-rose-800 font-bold text-sm">
+                <i data-lucide="x" class="w-4 h-4 text-rose-600"></i>
+                <span>Peligro: Crear un Client por Petición</span>
+              </div>
+              <div class="text-xs text-slate-600 space-y-2 leading-relaxed">
+                <p>
+                  Abrir una conexión TCP con PostgreSQL requiere un costoso <strong>Three-Way Handshake</strong> de red, negociación SSL/TLS, autenticación de usuario y asignación de memoria RAM en el servidor de base de datos.
+                </p>
+                <div class="p-2.5 bg-rose-50 rounded-lg border border-rose-100 text-rose-900 font-mono text-[11px]">
+                  100 peticiones concurrentes = 100 procesos creados en PostgreSQL = <strong class="text-rose-700">Crash del Servidor (Out of Memory)</strong>.
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 bg-white rounded-2xl border border-emerald-200 space-y-3">
+              <div class="flex items-center gap-2 text-emerald-900 font-bold text-sm">
+                <i data-lucide="check" class="w-4 h-4 text-[#39A900]"></i>
+                <span>Solución Enterprise: Connection Pool</span>
+              </div>
+              <div class="text-xs text-slate-600 space-y-2 leading-relaxed">
+                <p>
+                  El Pool crea un número controlado de conexiones persistentes (por ejemplo, 10 clientes). Cuando llega una petición, toma un cliente pre-calentado, ejecuta la query y lo devuelve inmediatamente al pool para la siguiente solicitud.
+                </p>
+                <div class="p-2.5 bg-emerald-50 rounded-lg border border-emerald-100 text-emerald-950 font-mono text-[11px]">
+                  1,000 peticiones = reutilizan 10 clientes físicos en milisegundos con latencia cercana a 0.
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 07: POOL RELACIONAL DE POSTGRESQL (PG.POOL) -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold">
+            <i data-lucide="database" class="w-3.5 h-3.5 text-blue-600"></i>
+            <span>Driver Oficial 'pg' (node-postgres)</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Anatomía del Pool de PostgreSQL (<code class="font-mono text-blue-700">pg.Pool</code>)
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
+              <span class="font-bold text-blue-900 block">max: 10</span>
+              <p class="text-slate-600 leading-snug">Número máximo de conexiones simultáneas que el pool mantendrá abiertas con la base de datos.</p>
+            </div>
+            <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
+              <span class="font-bold text-blue-900 block">idleTimeoutMillis: 30000</span>
+              <p class="text-slate-600 leading-snug">Tiempo en milisegundos (30s) que un cliente puede permanecer ocioso antes de ser destruido para liberar memoria.</p>
+            </div>
+            <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
+              <span class="font-bold text-blue-900 block">connectionTimeout: 5000</span>
+              <p class="text-slate-600 leading-snug">Tiempo máximo de espera para obtener un cliente disponible antes de abortar con error de timeout.</p>
+            </div>
+          </div>
+
+          <!-- Code Snippet -->
+          <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs overflow-x-auto">
+            <pre><code class="language-javascript">import pg from 'pg';
+const { Pool } = pg;
+
+export const pool = new Pool({
+  host: process.env.PG_HOST,
+  port: parseInt(process.env.PG_PORT, 10),
+  database: process.env.PG_DATABASE,
+  user: process.env.PG_USER,
+  password: process.env.PG_PASSWORD,
+  max: 10,
+  idleTimeoutMillis: 30000
+});
+
+pool.on('error', (err) => console.error('Error en cliente ocioso:', err));</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 08: CONEXIÓN SINGLETON EN MONGOOSE & ATLAS -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold">
+            <i data-lucide="leaf" class="w-3.5 h-3.5 text-[#39A900]"></i>
+            <span>Mongoose ODM & MongoDB Atlas Cluster M0</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            El Patrón Singleton en Mongoose & Ciclo de Vida
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-3">
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                A diferencia del driver nativo de PG donde se crea un pool explícito, Mongoose gestiona internamente su propio Connection Pool bajo un patrón <strong>Singleton</strong> en el objeto global <code class="font-mono text-emerald-700">mongoose.connection</code>.
+              </p>
+              
+              <div class="p-3 bg-white border border-slate-200 rounded-xl space-y-2 text-xs">
+                <span class="font-bold text-slate-800 block">Estados de Conexión (<code class="font-mono">readyState</code>):</span>
+                <div class="grid grid-cols-2 gap-2 text-[11px] font-mono">
+                  <div class="p-1.5 bg-slate-100 rounded">0: Disconnected</div>
+                  <div class="p-1.5 bg-emerald-100 text-emerald-900 font-bold rounded">1: Connected (Listo)</div>
+                  <div class="p-1.5 bg-amber-100 text-amber-900 rounded">2: Connecting</div>
+                  <div class="p-1.5 bg-rose-100 text-rose-900 rounded">3: Disconnecting</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Code Box -->
+            <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs overflow-x-auto">
+              <pre><code class="language-javascript">import mongoose from 'mongoose';
+
+// Listeners de Ciclo de Vida del Clúster Atlas
+mongoose.connection.on('connected', () => {
+  console.log('🍃 MongoDB Atlas Conectado exitosamente');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('❌ MongoDB Error:', err.message);
+});
+
+await mongoose.connect(process.env.MONGO_URI, {
+  serverSelectionTimeoutMS: 5000
+});</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 09: VARIABLES DE ENTORNO DEFENSIVAS CON DOTENV -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold">
+            <i data-lucide="lock" class="w-3.5 h-3.5 text-amber-600"></i>
+            <span>Seguridad Operacional & Configuración en 12-Factor App</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Gestión Defensiva de Variables de Entorno (<code class="font-mono text-amber-700">dotenv</code>)
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <div class="p-4 bg-white border border-slate-200 rounded-2xl space-y-3">
+              <h4 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+                <i data-lucide="file-code" class="w-4 h-4 text-blue-600"></i>
+                <span>.env vs .env.example</span>
+              </h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                El archivo <code class="font-mono font-bold text-rose-600">.env</code> contiene credenciales reales (contraseñas de BD, tokens de Atlas) y <strong>JAMÁS</strong> se sube a GitHub. Debe estar ignorado en <code class="font-mono text-slate-800">.gitignore</code>.
+              </p>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                El archivo <code class="font-mono font-bold text-emerald-700">.env.example</code> sí se versiona en Git; sirve como contrato y plantilla para que cualquier compañero de equipo sepa qué variables debe configurar.
+              </p>
+            </div>
+
+            <div class="p-4 bg-white border border-slate-200 rounded-2xl space-y-3">
+              <h4 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+                <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
+                <span>Validación Temprana (Fail-Fast)</span>
+              </h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                En lugar de permitir que la aplicación arranque y falle silenciosamente minutos después al intentar hacer una query, validamos las variables requeridas en <code class="font-mono text-blue-700">src/config/environment.js</code> en el milisegundo 0.
+              </p>
+              <div class="p-2.5 bg-slate-900 text-emerald-400 font-mono text-[11px] rounded-lg">
+                const required = ['PG_HOST', 'PG_DATABASE', 'MONGO_URI'];
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 10: HOJA DE RUTA DEL MONTAJE EN GIT PERSONAL -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold">
+            <i data-lucide="git-branch" class="w-3.5 h-3.5 text-blue-600"></i>
+            <span>Metodología de Aula SENA · Cero Plantillas Mágicas</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Hoja de Ruta: Montaje Modular en <code class="font-mono text-blue-700">mi-proyecto-adso/server/</code>
+          </h2>
+
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-2xs space-y-4">
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              En esta sesión no descargamos archivos zip pre-cocinados. Cada aprendiz crea la carpeta <code class="font-mono text-blue-800 font-bold">server/</code> dentro de su repositorio personal de GitHub donde ya existen las bases de datos de los Días 06 y 07:
+            </p>
+
+            <div class="bg-slate-900 text-slate-300 p-4 rounded-xl font-mono text-xs overflow-x-auto leading-snug">
+mi-proyecto-adso/
+├── database/                    <span class="text-slate-500"># Sesiones 06 (PostgreSQL) y 07 (MongoDB Atlas)</span>
+└── <span class="text-emerald-400 font-bold">server/</span>                      <span class="text-blue-400 font-bold"># HOY: Sesión 08 (Backend Express Dual)</span>
+    ├── .env                     <span class="text-rose-400 font-semibold"># Privado (en .gitignore)</span>
+    ├── .env.example             <span class="text-slate-400"># Plantilla pública</span>
+    ├── package.json             <span class="text-amber-400 font-semibold"># ES Modules ("type": "module")</span>
+    └── src/
+        ├── config/              <span class="text-sky-300"># environment.js & db.js (Pool dual)</span>
+        ├── controllers/         <span class="text-sky-300"># healthController.js</span>
+        ├── routes/              <span class="text-sky-300"># healthRoutes.js</span>
+        ├── app.js               <span class="text-emerald-300"># Pipeline Express & Middlewares</span>
+        └── server.js            <span class="text-emerald-300"># Listen HTTP & Graceful Shutdown</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 11: CONVENTIONAL COMMITS V1.0.0 (4 HITOS ATÓMICOS) -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-purple-50 text-purple-900 border border-purple-200 rounded-full text-xs font-bold">
+            <i data-lucide="check-square" class="w-3.5 h-3.5 text-purple-600"></i>
+            <span>Estándar de Industria · Rastreabilidad en GitHub</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Los 4 Hitos Atómicos de la Sesión en Git
+          </h2>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            
+            <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2 shadow-2xs">
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded">Hito 1: Servidor Base</span>
+                <span class="text-[10px] text-slate-400 font-mono">Commit 1</span>
+              </div>
+              <div class="font-mono text-slate-800 font-semibold text-[11px]">
+                feat(server): inicializar express con esm y pipeline de middlewares
+              </div>
+              <p class="text-[11px] text-slate-500">Crea package.json, app.js, server.js y config/environment.js.</p>
+            </div>
+
+            <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2 shadow-2xs">
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-bold text-[#00324D] bg-slate-100 px-2 py-0.5 rounded">Hito 2: PostgreSQL Pool</span>
+                <span class="text-[10px] text-slate-400 font-mono">Commit 2</span>
+              </div>
+              <div class="font-mono text-slate-800 font-semibold text-[11px]">
+                feat(db): configurar pool de conexion singleton a postgresql con pg
+              </div>
+              <p class="text-[11px] text-slate-500">Implementa pg.Pool en db.js con listeners de error y query de verificación.</p>
+            </div>
+
+            <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2 shadow-2xs">
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded">Hito 3: MongoDB Atlas</span>
+                <span class="text-[10px] text-slate-400 font-mono">Commit 3</span>
+              </div>
+              <div class="font-mono text-slate-800 font-semibold text-[11px]">
+                feat(db): integrar singleton de mongoose para conexion a mongodb atlas
+              </div>
+              <p class="text-[11px] text-slate-500">Configura mongoose.connect() con listeners de ciclo de vida del clúster.</p>
+            </div>
+
+            <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2 shadow-2xs">
+              <div class="flex items-center justify-between">
+                <span class="font-mono font-bold text-purple-800 bg-purple-50 px-2 py-0.5 rounded">Hito 4: Health Check & Graceful</span>
+                <span class="text-[10px] text-slate-400 font-mono">Commit 4</span>
+              </div>
+              <div class="font-mono text-slate-800 font-semibold text-[11px]">
+                feat(health): implementar endpoint de salud dual con latencias y graceful shutdown
+              </div>
+              <p class="text-[11px] text-slate-500">Implementa GET /api/health (200/503) y manejo de SIGINT/SIGTERM.</p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 12: CONFIGURACIÓN INICIAL DE PACKAGE.JSON (ESM) -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-700">
+            <i data-lucide="package" class="w-3.5 h-3.5 text-blue-600"></i>
+            <span>Node.js 20+ Moderno · EcmaScript Modules</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Inicialización de <code class="font-mono text-blue-700">package.json</code> con ES Modules
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-3">
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                Adoptamos la sintaxis estándar moderna de JavaScript con <code class="font-mono font-bold text-blue-700">import / export</code> configurando <code class="font-mono text-slate-800">"type": "module"</code>.
+              </p>
+              
+              <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl space-y-1 text-xs">
+                <span class="font-bold text-blue-900 block">Comando de instalación en consola:</span>
+                <div class="p-2 bg-slate-900 text-emerald-400 font-mono text-[11px] rounded-lg">
+                  npm install express pg mongoose dotenv cors morgan
+                </div>
+              </div>
+
+              <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs space-y-1">
+                <span class="font-bold text-slate-700 block">Script de Desarrollo con Node Nativo:</span>
+                <p class="text-slate-500 text-[11px]">
+                  En Node 18+ usamos <code class="font-mono font-bold text-purple-700">node --watch src/server.js</code> para hot-reload nativo sin dependencias pesadas adicionales.
+                </p>
+              </div>
+            </div>
+
+            <!-- Code Box -->
+            <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs overflow-x-auto">
+              <pre><code class="language-json">{
+  "name": "adso-polyglot-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "mongoose": "^8.7.0",
+    "morgan": "^1.10.0",
+    "pg": "^8.13.0"
+  }
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 13: LIVE CODING 1: CONFIG/ENVIRONMENT.JS -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold">
+            <i data-lucide="code" class="w-3.5 h-3.5 text-amber-600"></i>
+            <span>Paso a Paso 1 · Módulo Defensivo de Configuración</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Live Coding 1: <code class="font-mono text-amber-700">src/config/environment.js</code>
+          </h2>
+
+          <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs overflow-x-auto">
+            <pre><code class="language-javascript">import dotenv from 'dotenv';
+dotenv.config();
+
+// Validación defensiva fail-fast
+const requiredVars = ['PG_HOST', 'PG_DATABASE', 'PG_USER', 'MONGO_URI'];
+const missingVars = requiredVars.filter(v => !process.env[v]);
+
+if (missingVars.length > 0) {
+  console.warn(`⚠️ [ADSO ADVERTENCIA] Faltan variables en .env: ${missingVars.join(', ')}`);
+}
+
+export const config = {
+  port: parseInt(process.env.PORT || '3000', 10),
+  nodeEnv: process.env.NODE_ENV || 'development',
+  postgres: {
+    host: process.env.PG_HOST || 'localhost',
+    port: parseInt(process.env.PG_PORT || '5432', 10),
+    database: process.env.PG_DATABASE || 'adso_polyglot_db',
+    user: process.env.PG_USER || 'postgres',
+    password: process.env.PG_PASSWORD || '',
+    max: parseInt(process.env.PG_MAX_POOL || '10', 10),
+    idleTimeoutMillis: parseInt(process.env.PG_IDLE_TIMEOUT || '30000', 10)
+  },
+  mongo: {
+    uri: process.env.MONGO_URI || 'mongodb://localhost:27017/adso_polyglot_db'
+  }
+};</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 14: LIVE CODING 2 (PARTE A): DB.JS - PG.POOL -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold">
+            <i data-lucide="database" class="w-3.5 h-3.5 text-blue-600"></i>
+            <span>Paso a Paso 2A · Instanciación del Pool Relacional</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Live Coding 2A: <code class="font-mono text-blue-700">src/config/db.js</code> (PostgreSQL)
+          </h2>
+
+          <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs overflow-x-auto">
+            <pre><code class="language-javascript">import pg from 'pg';
+import mongoose from 'mongoose';
+import { config } from './environment.js';
+
+const { Pool } = pg;
+
+// 1. Singleton pg.Pool (PostgreSQL)
+export const pool = new Pool(config.postgres);
+
+pool.on('connect', () => {
+  if (config.nodeEnv === 'development') {
+    console.log('🐘 [PostgreSQL] Nuevo cliente físico asignado en el Pool');
+  }
+});
+
+pool.on('error', (err) => {
+  console.error('❌ [PostgreSQL Error en Cliente Ocioso]:', err.message);
+});</code></pre>
+          </div>
+
+          <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-950 flex items-center gap-2">
+            <i data-lucide="check" class="w-4 h-4 text-blue-600"></i>
+            <span>Exportamos <code class="font-mono font-bold">pool</code> como Singleton reutilizable en toda la aplicación.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 15: LIVE CODING 2 (PARTE B): DB.JS - MONGOOSE -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold">
+            <i data-lucide="leaf" class="w-3.5 h-3.5 text-[#39A900]"></i>
+            <span>Paso a Paso 2B · Eventos de Ciclo de Vida en Mongoose</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Live Coding 2B: <code class="font-mono text-emerald-700">src/config/db.js</code> (MongoDB Mongoose)
+          </h2>
+
+          <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs overflow-x-auto">
+            <pre><code class="language-javascript">// 2. Listeners de Ciclo de Vida del Clúster Atlas en Mongoose
+mongoose.connection.on('connected', () => {
+  console.log('🍃 [MongoDB] Conexión establecida exitosamente con el clúster');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('❌ [MongoDB Error de Conexión]:', err.message);
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.warn('⚠️ [MongoDB] Desconectado del servidor de base de datos');
+});
+
+export { mongoose };</code></pre>
+          </div>
+
+          <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-950 flex items-center gap-2">
+            <i data-lucide="info" class="w-4 h-4 text-[#39A900]"></i>
+            <span>Mongoose reintenta automáticamente la conexión en segundo plano si la red sufre micro-cortes.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 16: LIVE CODING 2 (PARTE C): DB.JS - ORQUESTACIÓN & SHUTDOWN -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-purple-50 text-purple-900 border border-purple-200 rounded-full text-xs font-bold">
+            <i data-lucide="power" class="w-3.5 h-3.5 text-purple-600"></i>
+            <span>Paso a Paso 2C · Funciones de Conexión y Desconexión Controlada</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Live Coding 2C: <code class="font-mono text-purple-700">connectDatabases() & disconnectDatabases()</code>
+          </h2>
+
+          <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs overflow-x-auto">
+            <pre><code class="language-javascript">export async function connectDatabases() {
+  console.log('🔌 [ADSO DUAL DB] Inicializando conexiones...');
+
+  // A. Verificación PostgreSQL
+  try {
+    const res = await pool.query('SELECT NOW() AS t, current_database() AS db');
+    console.log(`✅ [PostgreSQL Conectado] Base: "${res.rows[0].db}"`);
+  } catch (err) {
+    console.error(`❌ [PostgreSQL Falló Conexión]: ${err.message}`);
+  }
+
+  // B. Inicialización MongoDB Atlas
+  try {
+    await mongoose.connect(config.mongo.uri, { serverSelectionTimeoutMS: 5000 });
+    console.log(`✅ [MongoDB Atlas Conectado] Base: "${mongoose.connection.name}"`);
+  } catch (err) {
+    console.error(`❌ [MongoDB Falló Conexión]: ${err.message}`);
+  }
+}
+
+export async function disconnectDatabases() {
+  await pool.end();
+  await mongoose.connection.close();
+  console.log('🔒 Ambas bases de datos cerradas correctamente');
+}</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 17: LIVE CODING 3: HEALTHCONTROLLER.JS -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold">
+            <i data-lucide="activity" class="w-3.5 h-3.5 text-emerald-600"></i>
+            <span>Paso a Paso 3 · Controlador de Diagnóstico en Tiempo Real</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Live Coding 3: <code class="font-mono text-emerald-700">src/controllers/healthController.js</code>
+          </h2>
+
+          <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs overflow-x-auto">
+            <pre><code class="language-javascript">import { pool, mongoose } from '../config/db.js';
+
+export async function getHealthStatus(req, res) {
+  const services = {
+    api: { status: 'up', uptime_seconds: Math.floor(process.uptime()) },
+    postgres: { status: 'down', latency_ms: null, error: null },
+    mongodb: { status: 'down', latency_ms: null, error: null }
+  };
+
+  // 1. Evaluar PostgreSQL Pool
+  const pgStart = Date.now();
+  try {
+    await pool.query('SELECT NOW()');
+    services.postgres.latency_ms = Date.now() - pgStart;
+    services.postgres.status = 'healthy';
+  } catch (err) {
+    services.postgres.latency_ms = Date.now() - pgStart;
+    services.postgres.error = err.message;
+  }
+
+  // 2. Evaluar MongoDB Atlas
+  const mongoStart = Date.now();
+  try {
+    if (mongoose.connection.readyState === 1 && mongoose.connection.db) {
+      await mongoose.connection.db.admin().ping();
+      services.mongodb.latency_ms = Date.now() - mongoStart;
+      services.mongodb.status = 'healthy';
+    }
+  } catch (err) {
+    services.mongodb.latency_ms = Date.now() - mongoStart;
+    services.mongodb.error = err.message;
+  }
+
+  const isHealthy = services.postgres.status === 'healthy' && services.mongodb.status === 'healthy';
+  return res.status(isHealthy ? 200 : 503).json({
+    status: isHealthy ? 'healthy' : 'degraded',
+    timestamp: new Date().toISOString(),
+    services
+  });
+}</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 18: LIVE CODING 4: HEALTHROUTES.JS -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold">
+            <i data-lucide="route" class="w-3.5 h-3.5 text-blue-600"></i>
+            <span>Paso a Paso 4 · Enrutador Modular con Express Router</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Live Coding 4: <code class="font-mono text-blue-700">src/routes/healthRoutes.js</code>
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-3">
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                El enrutador modular actúa como la capa de aduana HTTP. Desacopla la URL del controlador, permitiendo versionar endpoints o agregar middlewares de autenticación sin modificar la lógica interna.
+              </p>
+              
+              <div class="p-3 bg-white border border-slate-200 rounded-xl space-y-1 text-xs">
+                <span class="font-bold text-slate-800 block">Principio de Modularidad:</span>
+                <p class="text-slate-500 text-[11px]">
+                  En <code class="font-mono">app.js</code> montamos el prefijo <code class="font-mono font-bold text-blue-700">/api/health</code> y dentro de este archivo solo definimos rutas relativas a la raíz (<code class="font-mono">/</code>).
+                </p>
+              </div>
+            </div>
+
+            <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs overflow-x-auto">
+              <pre><code class="language-javascript">import { Router } from 'express';
+import { getHealthStatus } from '../controllers/healthController.js';
+
+const router = Router();
+
+/**
+ * @route   GET /api/health
+ * @desc    Diagnóstico de salud dual y latencias
+ * @access  Público / Telemetría
+ */
+router.get('/', getHealthStatus);
+
+export default router;</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 19: LIVE CODING 5: SRC/APP.JS (PIPELINE DE MIDDLEWARES) -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-700">
+            <i data-lucide="sliders" class="w-3.5 h-3.5 text-blue-600"></i>
+            <span>Paso a Paso 5 · Pipeline de Middlewares & Manejadores de Error</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Live Coding 5: <code class="font-mono text-blue-700">src/app.js</code>
+          </h2>
+
+          <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs overflow-x-auto">
+            <pre><code class="language-javascript">import express from 'express';
+import cors from 'cors';
+import morgan from 'morgan';
+import healthRoutes from './routes/healthRoutes.js';
+
+const app = express();
+
+// 1. Middlewares Globales
+app.use(cors());
+app.use(express.json());
+app.use(morgan('dev'));
+
+// 2. Montaje de Enrutadores
+app.use('/api/health', healthRoutes);
+
+// 3. Manejador de Rutas No Encontradas (404)
+app.use((req, res) => {
+  res.status(404).json({ error: 'NotFound', message: `Ruta [${req.method}] ${req.originalUrl} no existe.` });
+});
+
+// 4. Manejador Global de Excepciones No Controladas (500)
+app.use((err, req, res, next) => {
+  console.error('🔥 Error:', err.stack);
+  res.status(500).json({ error: 'InternalServerError', message: 'Error interno en el servidor.' });
+});
+
+export default app;</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 20: LIVE CODING 6: SRC/SERVER.JS (BOOTSTRAP & SHUTDOWN) -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-purple-50 text-purple-900 border border-purple-200 rounded-full text-xs font-bold">
+            <i data-lucide="play-circle" class="w-3.5 h-3.5 text-purple-600"></i>
+            <span>Paso a Paso 6 · Orquestador del Servidor HTTP</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Live Coding 6: <code class="font-mono text-purple-700">src/server.js</code> & Graceful Shutdown
+          </h2>
+
+          <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs overflow-x-auto">
+            <pre><code class="language-javascript">import app from './app.js';
+import { config } from './config/environment.js';
+import { connectDatabases, disconnectDatabases } from './config/db.js';
+
+async function bootstrap() {
+  await connectDatabases();
+
+  const server = app.listen(config.port, () => {
+    console.log(`🚀 Servidor activo en: http://localhost:${config.port}`);
+  });
+
+  const handleShutdown = async (signal) => {
+    console.log(`\n⚠️  ${signal} recibido. Cerrando conexiones limpiamente...`);
+    server.close(async () => {
+      await disconnectDatabases();
+      process.exit(0);
+    });
+  };
+
+  process.on('SIGINT', () => handleShutdown('SIGINT'));
+  process.on('SIGTERM', () => handleShutdown('SIGTERM'));
+}
+
+bootstrap();</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 21: EL CONTRATO JSON: GET /API/HEALTH EN VIVO -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold">
+            <i data-lucide="file-json" class="w-3.5 h-3.5 text-emerald-600"></i>
+            <span>Telemetría de Producción · Contrato de Interoperabilidad</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Análisis del Payload: <code class="font-mono text-emerald-700">GET /api/health</code> (HTTP 200 OK)
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-3">
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                Este endpoint permite a balanceadores de carga (como NGINX o AWS ALB) y a herramientas de monitoreo verificar la operatividad de toda la pila en un solo round-trip.
+              </p>
+              
+              <div class="space-y-2 text-xs">
+                <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1">
+                  <span class="font-bold text-emerald-950 block">Status 200 OK</span>
+                  <p class="text-emerald-900 text-[11px]">Ambas bases de datos responden consultas con latencias nominales (&lt; 200ms).</p>
+                </div>
+                <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl space-y-1">
+                  <span class="font-bold text-amber-950 block">Status 503 Service Unavailable</span>
+                  <p class="text-amber-900 text-[11px]">Si PostgreSQL o MongoDB Atlas no responden, el servicio se marca degraded/unhealthy.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- JSON Payload View -->
+            <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs overflow-x-auto">
+              <pre><code class="language-json">{
+  "status": "healthy",
+  "timestamp": "2026-11-05T17:00:00.000Z",
+  "environment": "development",
+  "services": {
+    "api": {
+      "status": "up",
+      "uptime_seconds": 128,
+      "memory_usage_mb": 42
+    },
+    "postgres": {
+      "status": "healthy",
+      "latency_ms": 3,
+      "pool_stats": { "total_count": 1, "idle_count": 1 }
+    },
+    "mongodb": {
+      "status": "healthy",
+      "connection_state": "connected",
+      "latency_ms": 84
+    }
+  }
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 22: LABORATORIO CON CLIENTES API (BRUNO & CURL) -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold">
+            <i data-lucide="terminal" class="w-3.5 h-3.5 text-amber-600"></i>
+            <span>Verificación en Consola y Cliente Oficial ADSO</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Pruebas con Bruno API Client & cURL
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <div class="p-4 bg-white border border-slate-200 rounded-2xl space-y-3">
+              <h4 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+                <i data-lucide="folder-git-2" class="w-4 h-4 text-amber-600"></i>
+                <span>En Bruno API Client (.bru)</span>
+              </h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Abra Bruno, cree una nueva petición GET a <code class="font-mono text-blue-700 font-bold">http://localhost:3000/api/health</code> y guarde la colección en su repositorio.
+              </p>
+              <div class="p-3 bg-slate-900 text-slate-300 rounded-xl font-mono text-[11px] leading-snug">
+                meta { name: HealthCheck, type: http }<br>
+                get { url: http://localhost:3000/api/health }
+              </div>
+            </div>
+
+            <div class="p-4 bg-white border border-slate-200 rounded-2xl space-y-3">
+              <h4 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+                <i data-lucide="terminal" class="w-4 h-4 text-emerald-600"></i>
+                <span>Vía cURL en Terminal / Git Bash</span>
+              </h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Ejecute directamente en la consola para validar el código HTTP y las cabeceras de respuesta:
+              </p>
+              <div class="p-3 bg-slate-900 text-emerald-400 rounded-xl font-mono text-[11px] leading-snug">
+                curl -i http://localhost:3000/api/health
+              </div>
+              <p class="text-[11px] text-slate-500">
+                La bandera <code class="font-mono">-i</code> muestra el encabezado <code class="font-mono text-emerald-700">HTTP/1.1 200 OK</code>.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 23: PRUEBA DE RESILIENCIA 1: SIMULACIÓN DE CAÍDA PG -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-rose-50 text-rose-800 border border-rose-200 rounded-full text-xs font-bold">
+            <i data-lucide="zap-off" class="w-3.5 h-3.5 text-rose-600"></i>
+            <span>Simulación de Desastre en Vivo · Resiliencia de la API</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Prueba de Resiliencia 1: Simulación de Caída de PostgreSQL
+          </h2>
+
+          <div class="p-5 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              
+              <div class="space-y-2">
+                <span class="font-bold text-slate-800 block text-sm">Experimento en el Aula:</span>
+                <ol class="list-decimal list-inside space-y-1.5 text-slate-600 leading-relaxed">
+                  <li>En el archivo <code class="font-mono text-blue-700">.env</code>, cambie intencionalmente <code class="font-mono text-rose-600">PG_PASSWORD=incorrecta</code> o detenga el servicio de PostgreSQL en Windows/Linux.</li>
+                  <li>Realice una petición <code class="font-mono">GET /api/health</code> desde Bruno o cURL.</li>
+                  <li><strong>Comportamiento Esperado:</strong> El servidor Express <strong>NO se cae</strong> ni arroja un error no controlado.</li>
+                </ol>
+              </div>
+
+              <div class="bg-slate-900 text-slate-200 p-3.5 rounded-xl font-mono text-[11px] space-y-1">
+                <div class="text-rose-400 font-bold">HTTP/1.1 503 Service Unavailable</div>
+                <div class="text-slate-400">{</div>
+                <div class="pl-3 text-amber-300">"status": "degraded",</div>
+                <div class="pl-3 text-rose-300">"postgres": { "status": "unhealthy", "error": "password authentication failed" },</div>
+                <div class="pl-3 text-emerald-300">"mongodb": { "status": "healthy" }</div>
+                <div class="text-slate-400">}</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 24: PRUEBA DE RESILIENCIA 2: SIMULACIÓN DE CAÍDA MONGO -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold">
+            <i data-lucide="cloud-off" class="w-3.5 h-3.5 text-amber-600"></i>
+            <span>Simulación de Falla en la Nube · MongoDB Atlas</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Prueba de Resiliencia 2: Simulación de Desconexión de Atlas
+          </h2>
+
+          <div class="p-5 bg-white border border-slate-200 rounded-2xl shadow-2xs space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              
+              <div class="space-y-2">
+                <span class="font-bold text-slate-800 block text-sm">Experimento en el Aula:</span>
+                <ol class="list-decimal list-inside space-y-1.5 text-slate-600 leading-relaxed">
+                  <li>En MongoDB Atlas, elimine la regla de IP Whitelist o desconecte el cable de red/Wi-Fi durante 5 segundos.</li>
+                  <li>Consulte <code class="font-mono">GET /api/health</code>. Mongoose reporta estado <code class="font-mono text-amber-600">disconnected</code> y el endpoint responde <strong class="text-rose-700">503 Degraded</strong>.</li>
+                  <li>Reconecte la red: Mongoose detecta automáticamente la señal de vida sin necesidad de reiniciar el servidor Node.js.</li>
+                </ol>
+              </div>
+
+              <div class="bg-slate-900 text-slate-200 p-3.5 rounded-xl font-mono text-[11px] space-y-1">
+                <div class="text-emerald-400 font-bold"># Log de Reconexión Automática en Consola:</div>
+                <div class="text-amber-300">⚠️ [MongoDB] Desconectado del servidor...</div>
+                <div class="text-slate-400">...esperando recuperación de enlace...</div>
+                <div class="text-emerald-300">🍃 [MongoDB] Conexión establecida exitosamente con el clúster</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 25: MONTAJE EN AULA: LOS 4 HITOS EN GIT PERSONAL -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-purple-50 text-purple-900 border border-purple-200 rounded-full text-xs font-bold">
+            <i data-lucide="list-checks" class="w-3.5 h-3.5 text-purple-600"></i>
+            <span>Checklist de Verificación · Evidencia de Formación</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Checklist de los 4 Hitos en el Repositorio de GitHub
+          </h2>
+
+          <div class="space-y-3">
+            <div class="p-3.5 bg-white border border-slate-200 rounded-xl flex items-center justify-between shadow-2xs">
+              <div class="flex items-center gap-3">
+                <div class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs">1</div>
+                <div>
+                  <h4 class="text-xs font-bold text-slate-900">Hito 1: Servidor Base & Environment</h4>
+                  <p class="text-[11px] text-slate-500 font-mono">feat(server): inicializar express con esm y pipeline de middlewares</p>
+                </div>
+              </div>
+              <span class="text-xs font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-lg">server/package.json</span>
+            </div>
+
+            <div class="p-3.5 bg-white border border-slate-200 rounded-xl flex items-center justify-between shadow-2xs">
+              <div class="flex items-center gap-3">
+                <div class="w-7 h-7 rounded-lg bg-emerald-100 text-[#39A900] flex items-center justify-center font-bold text-xs">2</div>
+                <div>
+                  <h4 class="text-xs font-bold text-slate-900">Hito 2: PostgreSQL Pool Config</h4>
+                  <p class="text-[11px] text-slate-500 font-mono">feat(db): configurar pool de conexion singleton a postgresql con pg</p>
+                </div>
+              </div>
+              <span class="text-xs font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg">src/config/db.js (pg)</span>
+            </div>
+
+            <div class="p-3.5 bg-white border border-slate-200 rounded-xl flex items-center justify-between shadow-2xs">
+              <div class="flex items-center gap-3">
+                <div class="w-7 h-7 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-xs">3</div>
+                <div>
+                  <h4 class="text-xs font-bold text-slate-900">Hito 3: MongoDB Atlas Singleton</h4>
+                  <p class="text-[11px] text-slate-500 font-mono">feat(db): integrar singleton de mongoose para conexion a mongodb atlas</p>
+                </div>
+              </div>
+              <span class="text-xs font-bold text-sky-800 bg-sky-50 px-2.5 py-1 rounded-lg">src/config/db.js (mongo)</span>
+            </div>
+
+            <div class="p-3.5 bg-white border border-slate-200 rounded-xl flex items-center justify-between shadow-2xs">
+              <div class="flex items-center gap-3">
+                <div class="w-7 h-7 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-xs">4</div>
+                <div>
+                  <h4 class="text-xs font-bold text-slate-900">Hito 4: Health Check & Graceful Shutdown</h4>
+                  <p class="text-[11px] text-slate-500 font-mono">feat(health): implementar endpoint de salud dual con latencias y graceful shutdown</p>
+                </div>
+              </div>
+              <span class="text-xs font-bold text-purple-800 bg-purple-50 px-2.5 py-1 rounded-lg">/api/health (200/503)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 26: TERMINAL & FLUJO DE COMANDOS PASO A PASO -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-700">
+            <i data-lucide="terminal" class="w-3.5 h-3.5 text-blue-600"></i>
+            <span>Flujo Operativo en Consola · PowerShell & Git Bash</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Guía de Comandos de Consola para el Aprendiz
+          </h2>
+
+          <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs overflow-x-auto space-y-2">
+            <div class="text-slate-400"># 1. Ubicarse en el proyecto y crear el subárbol</div>
+            <div class="text-emerald-400">cd mi-proyecto-adso</div>
+            <div class="text-emerald-400">mkdir -p server/src/{config,controllers,routes,services,models,middlewares}</div>
+            
+            <div class="text-slate-400 pt-2"># 2. Entrar a server e instalar dependencias</div>
+            <div class="text-emerald-400">cd server</div>
+            <div class="text-emerald-400">npm init -y</div>
+            <div class="text-emerald-400">npm install express pg mongoose dotenv cors morgan</div>
+
+            <div class="text-slate-400 pt-2"># 3. Iniciar el servidor en modo desarrollo (Hot-Reload)</div>
+            <div class="text-emerald-400">npm run dev</div>
+
+            <div class="text-slate-400 pt-2"># 4. Probar el endpoint de diagnóstico</div>
+            <div class="text-emerald-400">curl -i http://localhost:3000/api/health</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 27: CÓDIGO FUENTE COMPLETO LLAVE EN MANO (TABS & COPY) -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold">
+              <i data-lucide="code-2" class="w-3.5 h-3.5 text-blue-600"></i>
+              <span>Código Fuente Oficial de Referencia · SENA CADPH</span>
+            </div>
+            
+            <!-- Botón Copiar Todo -->
+            <button onclick="window.copyActiveCodeTab()" class="px-3 py-1.5 bg-[#39A900] hover:bg-[#2D8200] text-white rounded-lg text-xs font-bold transition flex items-center space-x-1.5 shadow-2xs self-start sm:self-auto cursor-pointer">
+              <i data-lucide="copy" class="w-3.5 h-3.5" id="icon-copy-tab"></i>
+              <span id="text-copy-tab">Copiar Archivo Activo</span>
+            </button>
+          </div>
+
+          <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            Visor de Archivos del Servidor Express
+          </h2>
+
+          <!-- Pestañas de Archivos -->
+          <div class="flex items-center space-x-1 border-b border-slate-200 pb-2 text-xs font-mono overflow-x-auto">
+            <button id="tab-btn-env" onclick="window.viewCodeTab('env')" class="px-3 py-1 bg-slate-900 text-emerald-300 rounded-lg border border-slate-700 cursor-pointer font-bold">environment.js</button>
+            <button id="tab-btn-db" onclick="window.viewCodeTab('db')" class="px-3 py-1 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer">db.js</button>
+            <button id="tab-btn-ctrl" onclick="window.viewCodeTab('ctrl')" class="px-3 py-1 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer">healthController.js</button>
+            <button id="tab-btn-app" onclick="window.viewCodeTab('app')" class="px-3 py-1 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer">app.js</button>
+            <button id="tab-btn-srv" onclick="window.viewCodeTab('srv')" class="px-3 py-1 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer">server.js</button>
+          </div>
+
+          <!-- Code Box -->
+          <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[380px] overflow-y-auto">
+            <pre><code id="active-code-box" class="language-javascript">import dotenv from 'dotenv';
+dotenv.config();
+
+const requiredVars = ['PG_HOST', 'PG_DATABASE', 'PG_USER', 'MONGO_URI'];
+const missingVars = requiredVars.filter(v => !process.env[v]);
+
+if (missingVars.length > 0) {
+  console.warn(`⚠️ [ADSO SERVER ADVERTENCIA] Faltan variables en .env: ${missingVars.join(', ')}`);
+}
+
+export const config = {
+  port: parseInt(process.env.PORT || '3000', 10),
+  nodeEnv: process.env.NODE_ENV || 'development',
+  postgres: {
+    host: process.env.PG_HOST || 'localhost',
+    port: parseInt(process.env.PG_PORT || '5432', 10),
+    database: process.env.PG_DATABASE || 'adso_polyglot_db',
+    user: process.env.PG_USER || 'postgres',
+    password: process.env.PG_PASSWORD || '',
+    max: parseInt(process.env.PG_MAX_POOL || '10', 10),
+    idleTimeoutMillis: parseInt(process.env.PG_IDLE_TIMEOUT || '30000', 10)
+  },
+  mongo: {
+    uri: process.env.MONGO_URI || 'mongodb://localhost:27017/adso_polyglot_db'
+  }
+};</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 28: SUSTENTACIÓN INDIVIDUAL: LIVE MOD EN CALIENTE SIN IA -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-rose-50 text-rose-800 border border-rose-200 rounded-full text-xs font-bold">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-rose-600"></i>
+            <span>Evaluación Presencial · Demostración Técnica sin IA</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Sustentación Individual: 3 Retos de Live Mod en Proyector
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            
+            <div class="p-4 bg-white border border-slate-200 rounded-2xl space-y-2 shadow-2xs">
+              <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs">
+                Reto A
+              </div>
+              <h4 class="font-bold text-sm text-slate-900">Métrica de Memoria</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Agregar al objeto <code class="font-mono text-blue-700">api</code> en <code class="font-mono">healthController.js</code> el campo <code class="font-mono">heap_used_mb</code> calculándolo con <code class="font-mono">process.memoryUsage().heapUsed</code>.
+              </p>
+            </div>
+
+            <div class="p-4 bg-white border border-slate-200 rounded-2xl space-y-2 shadow-2xs">
+              <div class="w-8 h-8 rounded-lg bg-emerald-100 text-[#39A900] flex items-center justify-center font-bold text-xs">
+                Reto B
+              </div>
+              <h4 class="font-bold text-sm text-slate-900">Pool Sizing en Vivo</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Modificar <code class="font-mono">.env</code> para fijar <code class="font-mono">PG_MAX_POOL=3</code>, reiniciar el servidor y demostrar en consola cómo el pool gestiona múltiples solicitudes sin abrir un cuarto cliente.
+              </p>
+            </div>
+
+            <div class="p-4 bg-white border border-slate-200 rounded-2xl space-y-2 shadow-2xs">
+              <div class="w-8 h-8 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-xs">
+                Reto C
+              </div>
+              <h4 class="font-bold text-sm text-slate-900">Simulación Degraded</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Desconectar Atlas o pausar PostgreSQL y demostrar frente al Video-beam que el servidor devuelve <strong class="text-rose-700">Status 503</strong> con el mensaje exacto del driver sin romperse.
+              </p>
+            </div>
+
+          </div>
+
+          <div class="p-3 bg-slate-900 text-slate-200 rounded-xl text-xs flex items-center justify-between">
+            <span class="flex items-center gap-2">
+              <i data-lucide="alert-circle" class="w-4 h-4 text-amber-400"></i>
+              Condición: La sustentación se realiza directamente en su terminal y Bruno, explicando la arquitectura con sus propias palabras.
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 29: CONEXIÓN CURRICULAR DIRECTA (SESIONES 09 Y 10) -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold">
+            <i data-lucide="arrow-right-circle" class="w-3.5 h-3.5 text-blue-600"></i>
+            <span>Continuidad Curricular · Ruta de Formación ADSO</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            El Puente Hacia las Sesiones 09 y 10
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <div class="p-5 bg-white border border-slate-200 rounded-2xl space-y-3 shadow-2xs">
+              <div class="flex items-center gap-2 text-blue-900 font-bold text-sm">
+                <i data-lucide="shield" class="w-4 h-4 text-blue-600"></i>
+                <span>Sesión 09: CRUD SQL con pg.Pool</span>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Sobre este mismo servidor Express implementaremos el <strong>Patrón Repositorio</strong> para la tabla <code class="font-mono">users</code> de PostgreSQL: registro con hash bcrypt, login con JWT y transacciones para los tokens de Resend.
+              </p>
+              <div class="text-[11px] font-mono text-blue-700 bg-blue-50 p-2 rounded border border-blue-100">
+                POST /api/auth/register & POST /api/auth/login
+              </div>
+            </div>
+
+            <div class="p-5 bg-white border border-slate-200 rounded-2xl space-y-3 shadow-2xs">
+              <div class="flex items-center gap-2 text-emerald-950 font-bold text-sm">
+                <i data-lucide="database" class="w-4 h-4 text-[#39A900]"></i>
+                <span>Sesión 10: CRUD NoSQL con Mongoose</span>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Utilizando el singleton de Mongoose que dejamos listo hoy, definiremos los Schemas polimórficos de la colección <code class="font-mono">contents</code> para servir dinámicamente la Landing Page a React.
+              </p>
+              <div class="text-[11px] font-mono text-emerald-800 bg-emerald-50 p-2 rounded border border-emerald-100">
+                GET /api/catalog & POST /api/catalog
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 30: CIERRE DE SESIÓN, GLOSARIO & PREGUNTAS FRECUENTES -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-6">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold">
+            <i data-lucide="check-circle" class="w-3.5 h-3.5 text-[#39A900]"></i>
+            <span>Cierre de Sesión · Resumen Ejecutivo</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Sesión 08 Completada con Éxito
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1 shadow-2xs">
+              <span class="font-bold text-slate-900 block">Arquitectura Limpia</span>
+              <p class="text-slate-600">Servidor Express desacoplado en carpetas sin lógica de persistencia mezclada con rutas.</p>
+            </div>
+            <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1 shadow-2xs">
+              <span class="font-bold text-slate-900 block">Persistencia Dual Activa</span>
+              <p class="text-slate-600">PostgreSQL Pool y Mongoose conectados simultáneamente y monitoreados en /api/health.</p>
+            </div>
+            <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-1 shadow-2xs">
+              <span class="font-bold text-slate-900 block">Rastreo en Git Personal</span>
+              <p class="text-slate-600">4 Conventional Commits registrados y verificados en GitHub sin plantillas prefabricadas.</p>
+            </div>
+          </div>
+
+          <div class="p-4 bg-blue-50 border border-blue-200 rounded-xl flex items-center justify-between">
+            <div class="space-y-0.5">
+              <h4 class="text-xs font-bold text-blue-950">Próxima Lección: Sesión 09</h4>
+              <p class="text-[11px] text-blue-800">Autenticación, Seguridad y Patrón Repositorio en PostgreSQL con Express.</p>
+            </div>
+            <a href="../../index.html" class="px-4 py-2 bg-[#00324D] hover:bg-[#00263A] text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow-2xs">
+              <i data-lucide="home" class="w-3.5 h-3.5"></i>
+              <span>Portal Central</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- 4. FOOTER DE NAVEGACIÓN Y CONTROLES DEL INSTRUCTOR -->
+  <!-- ========================================================================= -->
+  <footer class="bg-white border-t border-slate-200 px-4 sm:px-8 xl:px-12 py-3 sticky bottom-0 z-40 shadow-xs">
+    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-3 text-xs">
+      
+      <!-- Contador y Bloque Pedagógico -->
+      <div class="flex items-center space-x-3">
+        <span id="slide-current-label" class="font-mono font-extrabold text-[#00324D]">SLIDE 01 / 30</span>
+        <span class="text-slate-300">|</span>
+        <span id="slide-block-label" class="hidden sm:inline font-bold text-slate-600 uppercase tracking-wide text-[11px]">
+          PORTADA DE LECCIÓN
+        </span>
+      </div>
+
+      <!-- Botones de Navegación -->
+      <div class="flex items-center space-x-2">
+        <button id="btn-prev-slide" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg transition flex items-center space-x-1" title="Anterior (← o Arriba)">
+          <i data-lucide="chevron-left" class="w-4 h-4"></i>
+          <span class="hidden md:inline">Anterior</span>
+        </button>
+
+        <span id="slide-counter" class="font-mono font-bold px-2 py-1 bg-slate-50 text-slate-600 rounded border border-slate-200 text-[11px]">
+          1 / 30
+        </span>
+
+        <button id="btn-next-slide" class="px-3.5 py-1.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-bold rounded-lg transition flex items-center space-x-1 shadow-2xs" title="Siguiente (→ o Abajo)">
+          <span class="hidden md:inline">Siguiente</span>
+          <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Ayuda de Atajos -->
+      <div class="hidden lg:flex items-center space-x-2 text-slate-400 text-[11px]">
+        <span>Atajos:</span>
+        <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded font-mono text-[10px] text-slate-600 font-bold">←</kbd>
+        <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded font-mono text-[10px] text-slate-600 font-bold">→</kbd>
+        <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded font-mono text-[10px] text-slate-600 font-bold">F</kbd>
+        <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded font-mono text-[10px] text-slate-600 font-bold">M</kbd>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- 5. MENÚ DRAWER LATERAL (ÍNDICE DE TODAS LAS DIAPOSITIVAS) -->
+  <!-- ========================================================================= -->
+  <div id="menu-drawer" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden transition-opacity">
+    <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl p-6 flex flex-col justify-between overflow-y-auto">
+      <div class="space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+          <div class="flex items-center space-x-2">
+            <i data-lucide="layers" class="w-5 h-5 text-[#39A900]"></i>
+            <h3 class="font-extrabold text-slate-900 text-sm">Índice de Diapositivas (Sesión 08)</h3>
+          </div>
+          <button id="btn-close-drawer" class="p-1 hover:bg-slate-100 rounded-lg text-slate-500">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Lista de 30 Diapositivas -->
+        <div class="space-y-1 text-xs max-h-[70vh] overflow-y-auto pr-2 font-medium">
+          <button onclick="window.presenter.goToSlide(0); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>01. Portada Institucional</span><span class="text-[10px] font-mono text-slate-400">01</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(1); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>02. Objetivos & Competencias</span><span class="text-[10px] font-mono text-slate-400">02</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(2); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>03. Orquestador Express en 3-Tier</span><span class="text-[10px] font-mono text-slate-400">03</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(3); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>04. Anti-Patrón Espagueti vs Capas</span><span class="text-[10px] font-mono text-slate-400">04</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(4); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>05. Anatomía del Flujo HTTP</span><span class="text-[10px] font-mono text-slate-400">05</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(5); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>06. Cliente por Petición vs Pool</span><span class="text-[10px] font-mono text-slate-400">06</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(6); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>07. Pool PostgreSQL (pg.Pool)</span><span class="text-[10px] font-mono text-slate-400">07</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(7); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>08. Singleton en Mongoose & Atlas</span><span class="text-[10px] font-mono text-slate-400">08</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(8); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>09. Variables de Entorno (dotenv)</span><span class="text-[10px] font-mono text-slate-400">09</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(9); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>10. Hoja de Ruta Montaje en Git</span><span class="text-[10px] font-mono text-slate-400">10</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(10); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>11. Conventional Commits (4 Hitos)</span><span class="text-[10px] font-mono text-slate-400">11</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(11); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>12. Scaffolding & package.json (ESM)</span><span class="text-[10px] font-mono text-slate-400">12</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(12); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>13. Live Coding 1: environment.js</span><span class="text-[10px] font-mono text-slate-400">13</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(13); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>14. Live Coding 2A: db.js (pg.Pool)</span><span class="text-[10px] font-mono text-slate-400">14</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(14); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>15. Live Coding 2B: db.js (Mongoose)</span><span class="text-[10px] font-mono text-slate-400">15</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(15); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>16. Live Coding 2C: Lifecycle DB</span><span class="text-[10px] font-mono text-slate-400">16</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(16); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>17. Live Coding 3: healthController</span><span class="text-[10px] font-mono text-slate-400">17</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(17); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>18. Live Coding 4: healthRoutes</span><span class="text-[10px] font-mono text-slate-400">18</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(18); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>19. Live Coding 5: src/app.js</span><span class="text-[10px] font-mono text-slate-400">19</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(19); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>20. Live Coding 6: src/server.js</span><span class="text-[10px] font-mono text-slate-400">20</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(20); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>21. Contrato JSON: /api/health</span><span class="text-[10px] font-mono text-slate-400">21</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(21); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>22. Testing con Bruno & cURL</span><span class="text-[10px] font-mono text-slate-400">22</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(22); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>23. Resiliencia: Caída PostgreSQL</span><span class="text-[10px] font-mono text-slate-400">23</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(23); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>24. Resiliencia: Caída MongoDB</span><span class="text-[10px] font-mono text-slate-400">24</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(24); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>25. Montaje en Aula: Checklist Git</span><span class="text-[10px] font-mono text-slate-400">25</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(25); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>26. Terminal & Flujo de Consola</span><span class="text-[10px] font-mono text-slate-400">26</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(26); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>27. Código Completo Llave en Mano</span><span class="text-[10px] font-mono text-slate-400">27</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(27); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>28. Sustentación: Live Mod sin IA</span><span class="text-[10px] font-mono text-slate-400">28</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(28); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>29. Puente a Sesiones 09 y 10</span><span class="text-[10px] font-mono text-slate-400">29</span>
+          </button>
+          <button onclick="window.presenter.goToSlide(29); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
+            <span>30. Cierre de Sesión & Glosario</span><span class="text-[10px] font-mono text-slate-400">30</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="border-t border-slate-200 pt-3 text-[11px] text-slate-400 flex items-center justify-between">
+        <span>SENA CADPH · Garzón Huila</span>
+        <span>ADSO 2026</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts: Presenter Engine & Lógica Interactiva de Pestañas -->
+  <script src="../../assets/js/presenter.js"></script>
+  <script>
+    // Inicialización del motor de diapositivas
+    document.addEventListener('DOMContentLoaded', () => {
+      window.presenter = new SlidePresenter();
+
+      // Ajustar fecha en cintillo
+      const cintilloFecha = document.getElementById('slide-cintillo-fecha');
+      if (cintilloFecha) {
+        const hoy = new Date();
+        const opciones = { day: 'numeric', month: 'short', year: 'numeric' };
+        cintilloFecha.textContent = hoy.toLocaleDateString('es-CO', opciones);
+      }
+    });
+
+    // Repositorio de Código para el Visor de Pestañas (Slide 27)
+    const codeSnippets = {
+      env: `// server/src/config/environment.js
+import dotenv from 'dotenv';
+dotenv.config();
+
+const requiredVars = ['PG_HOST', 'PG_DATABASE', 'PG_USER', 'MONGO_URI'];
+const missingVars = requiredVars.filter(v => !process.env[v]);
+
+if (missingVars.length > 0) {
+  console.warn(\`⚠️ [ADSO SERVER ADVERTENCIA] Faltan variables en .env: \${missingVars.join(', ')}\`);
+}
+
+export const config = {
+  port: parseInt(process.env.PORT || '3000', 10),
+  nodeEnv: process.env.NODE_ENV || 'development',
+  postgres: {
+    host: process.env.PG_HOST || 'localhost',
+    port: parseInt(process.env.PG_PORT || '5432', 10),
+    database: process.env.PG_DATABASE || 'adso_polyglot_db',
+    user: process.env.PG_USER || 'postgres',
+    password: process.env.PG_PASSWORD || '',
+    max: parseInt(process.env.PG_MAX_POOL || '10', 10),
+    idleTimeoutMillis: parseInt(process.env.PG_IDLE_TIMEOUT || '30000', 10)
+  },
+  mongo: {
+    uri: process.env.MONGO_URI || 'mongodb://localhost:27017/adso_polyglot_db'
+  }
+};`,
+
+      db: `// server/src/config/db.js
+import pg from 'pg';
+import mongoose from 'mongoose';
+import { config } from './environment.js';
+
+const { Pool } = pg;
+
+export const pool = new Pool(config.postgres);
+
+pool.on('connect', () => {
+  if (config.nodeEnv === 'development') {
+    console.log('🐘 [PostgreSQL] Nuevo cliente físico asignado en el Pool');
+  }
+});
+
+pool.on('error', (err) => {
+  console.error('❌ [PostgreSQL Error en Cliente Ocioso]:', err.message);
+});
+
+mongoose.connection.on('connected', () => {
+  console.log('🍃 [MongoDB] Conexión establecida exitosamente con el clúster');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('❌ [MongoDB Error de Conexión]:', err.message);
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.warn('⚠️ [MongoDB] Desconectado del servidor de base de datos');
+});
+
+export async function connectDatabases() {
+  console.log('🔌 [ADSO DUAL DB] Inicializando conexiones...');
+  try {
+    const res = await pool.query('SELECT NOW() AS t, current_database() AS db');
+    console.log(\`✅ [PostgreSQL Conectado] Base: "\${res.rows[0].db}"\`);
+  } catch (err) {
+    console.error(\`❌ [PostgreSQL Falló]: \${err.message}\`);
+  }
+
+  try {
+    await mongoose.connect(config.mongo.uri, { serverSelectionTimeoutMS: 5000 });
+    console.log(\`✅ [MongoDB Atlas Conectado] Base: "\${mongoose.connection.name}"\`);
+  } catch (err) {
+    console.error(\`❌ [MongoDB Falló]: \${err.message}\`);
+  }
+}
+
+export async function disconnectDatabases() {
+  await pool.end();
+  await mongoose.connection.close();
+  console.log('🔒 Bases de datos cerradas correctamente');
+}
+
+export { mongoose };`,
+
+      ctrl: `// server/src/controllers/healthController.js
+import { pool, mongoose } from '../config/db.js';
+
+const MONGO_STATE_LABELS = {
+  0: 'disconnected',
+  1: 'connected',
+  2: 'connecting',
+  3: 'disconnecting'
+};
+
+export async function getHealthStatus(req, res) {
+  const timestamp = new Date().toISOString();
+  const uptimeSeconds = Math.floor(process.uptime());
+
+  const services = {
+    api: {
+      status: 'up',
+      uptime_seconds: uptimeSeconds,
+      node_version: process.version,
+      memory_usage_mb: Math.round(process.memoryUsage().rss / 1024 / 1024)
+    },
+    postgres: {
+      status: 'down',
+      latency_ms: null,
+      error: null,
+      pool_stats: {
+        total_count: pool.totalCount,
+        idle_count: pool.idleCount,
+        waiting_count: pool.waitingCount
+      }
+    },
+    mongodb: {
+      status: 'down',
+      connection_state: MONGO_STATE_LABELS[mongoose.connection.readyState] || 'unknown',
+      latency_ms: null,
+      error: null
+    }
+  };
+
+  const pgStart = Date.now();
+  try {
+    const pgRes = await pool.query('SELECT NOW() AS server_time');
+    services.postgres.latency_ms = Date.now() - pgStart;
+    services.postgres.status = 'healthy';
+  } catch (err) {
+    services.postgres.latency_ms = Date.now() - pgStart;
+    services.postgres.status = 'unhealthy';
+    services.postgres.error = err.message;
+  }
+
+  const mongoStart = Date.now();
+  try {
+    if (mongoose.connection.readyState === 1 && mongoose.connection.db) {
+      await mongoose.connection.db.admin().ping();
+      services.mongodb.latency_ms = Date.now() - mongoStart;
+      services.mongodb.status = 'healthy';
+    } else {
+      services.mongodb.status = 'unhealthy';
+      services.mongodb.error = 'Mongoose no conectado';
+    }
+  } catch (err) {
+    services.mongodb.latency_ms = Date.now() - mongoStart;
+    services.mongodb.status = 'unhealthy';
+    services.mongodb.error = err.message;
+  }
+
+  const isHealthy = services.postgres.status === 'healthy' && services.mongodb.status === 'healthy';
+  const isPartiallyHealthy = services.postgres.status === 'healthy' || services.mongodb.status === 'healthy';
+
+  return res.status(isHealthy ? 200 : 503).json({
+    status: isHealthy ? 'healthy' : isPartiallyHealthy ? 'degraded' : 'unhealthy',
+    timestamp,
+    services
+  });
+}`,
+
+      app: `// server/src/app.js
+import express from 'express';
+import cors from 'cors';
+import morgan from 'morgan';
+import healthRoutes from './routes/healthRoutes.js';
+
+const app = express();
+
+app.use(cors({ origin: '*' }));
+app.use(express.json());
+app.use(morgan('dev'));
+
+app.use('/api/health', healthRoutes);
+
+app.get('/', (req, res) => {
+  res.json({
+    message: '🚀 API RESTful Políglota ADSO - SENA CADPH',
+    version: '1.0.0',
+    health_check: '/api/health'
+  });
+});
+
+app.use((req, res) => {
+  res.status(404).json({ error: 'NotFound', message: \`Ruta \${req.originalUrl} no encontrada\` });
+});
+
+app.use((err, req, res, next) => {
+  console.error('🔥 Error:', err.stack);
+  res.status(500).json({ error: 'InternalError', message: 'Error interno en el servidor' });
+});
+
+export default app;`,
+
+      srv: `// server/src/server.js
+import app from './app.js';
+import { config } from './config/environment.js';
+import { connectDatabases, disconnectDatabases } from './config/db.js';
+
+async function bootstrap() {
+  console.log('🏛️  SENA CADPH GARZÓN - ARQUITECTURA BACKEND DUAL');
+  await connectDatabases();
+
+  const server = app.listen(config.port, () => {
+    console.log(\`🚀 Servidor activo en http://localhost:\${config.port}\`);
+    console.log(\`🔍 Diagnóstico: http://localhost:\${config.port}/api/health\`);
+  });
+
+  const handleShutdown = async (signal) => {
+    console.log(\`\\n⚠️  Señal \${signal} recibida. Cierre ordenado...\`);
+    server.close(async () => {
+      await disconnectDatabases();
+      process.exit(0);
+    });
+  };
+
+  process.on('SIGINT', () => handleShutdown('SIGINT'));
+  process.on('SIGTERM', () => handleShutdown('SIGTERM'));
+}
+
+bootstrap();`
+    };
+
+    let activeTabKey = 'env';
+
+    window.viewCodeTab = function(tabKey) {
+      activeTabKey = tabKey;
+      const codeBox = document.getElementById('active-code-box');
+      if (!codeBox || !codeSnippets[tabKey]) return;
+
+      const tabKeys = ['env', 'db', 'ctrl', 'app', 'srv'];
+      tabKeys.forEach(key => {
+        const btn = document.getElementById('tab-btn-' + key);
+        if (btn) {
+          if (key === tabKey) {
+            btn.className = 'px-3 py-1 bg-slate-900 text-emerald-300 rounded-lg border border-slate-700 cursor-pointer font-bold';
+          } else {
+            btn.className = 'px-3 py-1 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer';
+          }
+        }
+      });
+
+      codeBox.textContent = codeSnippets[tabKey];
+      if (window.Prism && typeof window.Prism.highlightElement === 'function') {
+        Prism.highlightElement(codeBox);
+      }
+    };
+
+    window.copyActiveCodeTab = function() {
+      const codeText = codeSnippets[activeTabKey];
+      if (!codeText) return;
+
+      navigator.clipboard.writeText(codeText).then(() => {
+        const btnText = document.getElementById('text-copy-tab');
+        const btnIcon = document.getElementById('icon-copy-tab');
+        const origText = btnText ? btnText.textContent : 'Copiar Archivo Activo';
+
+        if (btnText) btnText.textContent = '¡Archivo Copiado!';
+        if (btnIcon) {
+          btnIcon.setAttribute('data-lucide', 'check-check');
+          lucide.createIcons();
+        }
+
+        setTimeout(() => {
+          if (btnText) btnText.textContent = origText;
+          if (btnIcon) {
+            btnIcon.setAttribute('data-lucide', 'copy');
+            lucide.createIcons();
+          }
+        }, 2200);
+      });
+    };
+  </script>
+</body>
+</html>
