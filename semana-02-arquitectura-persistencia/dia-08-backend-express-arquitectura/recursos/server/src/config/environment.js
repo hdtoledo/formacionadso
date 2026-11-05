@@ -39,3 +39,4 @@ export const config = {
     uri: process.env.MONGO_URI || 'mongodb://localhost:27017/adso_polyglot_db'
   }
 };
+

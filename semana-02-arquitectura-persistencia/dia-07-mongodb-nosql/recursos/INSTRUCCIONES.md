@@ -1,6 +1,6 @@
 # Guía de Montaje en Aula · Sesión 07: Persistencia NoSQL con MongoDB Atlas & Compass
 **Centro Agroempresarial y Desarrollo Pecuario del Huila (CADPH) · Regional Huila**  
-**Programa:** Análisis y Desarrollo de Software (ADSO) — Nivelación Técnica
+**Programa:** Análisis y Desarrollo de Software (ADSO) — Desarrollo Web Full Stack MERN
 
 ---
 

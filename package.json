@@ -1,7 +1,7 @@
 {
-  "name": "nivelacionadso",
+  "name": "formacionadso",
   "version": "1.0.0",
-  "description": "**Servicio Nacional de Aprendizaje (SENA)**   **Centro Agroempresarial y Desarrollo Pecuario del Huila (CADPH - Garzón)**   **Regional Huila**   **Instructor ADSO:** Ing. Hector David Toledo Garcia ([hdtoledo.dev](https://www.hdtoledo.dev/))   **Programa:** Tecnólogo en Análisis y Desarrollo de Software (ADSO)   **Ecosistema:** Formación Profesional Integral · Nivelación Full Stack (MERN + SQL)   **Portal en Vivo (GitHub Pages):** [https://hdtoledo.github.io/formacionadso/](https://hdtoledo.github.io/formacionadso/)",
+  "description": "**Servicio Nacional de Aprendizaje (SENA)**   **Centro Agroempresarial y Desarrollo Pecuario del Huila (CADPH - Garzón)**   **Regional Huila**   **Instructor ADSO:** Ing. Hector David Toledo Garcia ([hdtoledo.dev](https://www.hdtoledo.dev/))   **Programa:** Tecnólogo en Análisis y Desarrollo de Software (ADSO)   **Ecosistema:** Formación Profesional Integral · Desarrollo Web Full Stack (MERN + SQL)   **Portal en Vivo (GitHub Pages):** [https://hdtoledo.github.io/formacionadso/](https://hdtoledo.github.io/formacionadso/)",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

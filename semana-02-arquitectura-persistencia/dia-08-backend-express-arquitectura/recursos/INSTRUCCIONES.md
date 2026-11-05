@@ -1,6 +1,6 @@
 # Guía de Montaje en Aula · Sesión 08: Backend I (Arquitectura en Capas & Conexión Dual)
 **Centro Agroempresarial y Desarrollo Pecuario del Huila (CADPH) · Regional Huila**  
-**Programa:** Análisis y Desarrollo de Software (ADSO) — Nivelación Técnica
+**Programa:** Análisis y Desarrollo de Software (ADSO) — Desarrollo Web Full Stack MERN
 
 ---
 
@@ -195,3 +195,4 @@ El instructor llamará a cada aprendiz frente a consola para validar autoría:
 1. **Prueba 1:** Ejecutar `curl -i http://localhost:3000/api/health` y explicar la respuesta JSON de latencias.
 2. **Prueba 2 (Resiliencia):** Detener temporalmente el servicio de PostgreSQL o desconectar Internet y mostrar que el servidor maneja el error con código HTTP 503 sin que el proceso de Node.js se caiga.
 3. **Prueba 3 (Auditoría Git):** Constatar en el repositorio de GitHub los 4 commits atómicos de la Sesión 08.
+

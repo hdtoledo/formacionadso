@@ -2,7 +2,7 @@
  * =============================================================================
  * SENA - CENTRO AGROEMPRESARIAL Y DESARROLLO PECUARIO DEL HUILA (GARZÓN)
  * PROGRAMA: ANÁLISIS Y DESARROLLO DE SOFTWARE (ADSO)
- * FORMACIÓN: NIVELACIÓN TÉCNICA FULL STACK MERN + SQL
+ * FORMACIÓN: DESARROLLO WEB FULL STACK MERN + SQL
  * SESIÓN 03 | DÍA 3: JAVASCRIPT MODERNO (ES6+) Y ASINCRONÍA
  * =============================================================================
  * ARCHIVO: plantilla_aprendiz.js

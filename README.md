@@ -1,11 +1,11 @@
-# Plataforma de Lecciones Técnicas y Nivelación ADSO
+# Plataforma de Lecciones Técnicas · Desarrollo Web Full Stack con MERN
 
 **Servicio Nacional de Aprendizaje (SENA)**  
 **Centro Agroempresarial y Desarrollo Pecuario del Huila (CADPH - Garzón)**  
 **Regional Huila**  
 **Instructor ADSO:** Ing. Hector David Toledo Garcia ([hdtoledo.dev](https://www.hdtoledo.dev/))  
 **Programa:** Tecnólogo en Análisis y Desarrollo de Software (ADSO)  
-**Ecosistema:** Formación Profesional Integral · Nivelación Full Stack (MERN + SQL)  
+**Ecosistema:** Formación Profesional Integral · Desarrollo Web Full Stack (MERN + SQL)  
 **Portal en Vivo (GitHub Pages):** [https://hdtoledo.github.io/formacionadso/](https://hdtoledo.github.io/formacionadso/)
 
 ---
@@ -14,7 +14,7 @@
 
 Esta plataforma web interactiva y modular ha sido desarrollada con **HTML5**, **Tailwind CSS** y **JavaScript Vanilla**, concebida específicamente como herramienta de apoyo pedagógico para instructores y aprendices del programa ADSO.
 
-Su objetivo principal es nivelar y acelerar a los aprendices en el dominio de desarrollo de software Full Stack mediante:
+Su objetivo principal es formar y acelerar a los aprendices en el dominio de desarrollo de software Full Stack mediante:
 - **Proyección optimizada en Video-beam** para ambientes de formación y salas de sistemas.
 - **Live Coding paso a paso** guiado por el instructor (código desde cero, erradicando la dependencia pasiva de IA generativa).
 - **Ejercitación práctica en aula** con casos de negocio reales.
@@ -57,7 +57,7 @@ La plataforma implementa estrictamente las directrices del manual de imagen inst
 ## 📂 4. Estructura del Repositorio
 
 ```text
-NivelacionADSO/
+formacionadso/
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml             # Automatización CI/CD para GitHub Pages
@@ -169,7 +169,7 @@ El repositorio ya incluye el flujo de trabajo en `.github/workflows/deploy.yml`:
 
 1. **Clonar o abrir el directorio:**
    ```bash
-   cd NivelacionADSO
+   cd formacionadso
    ```
 2. **Ejecutar servidor local:**
    - Puedes abrir directamente `index.html` en tu navegador.

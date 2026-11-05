@@ -1,6 +1,6 @@
 -- ==============================================================================
 -- SENA | PROGRAMA ADSO - ANÁLISIS Y DESARROLLO DE SOFTWARE
--- SEMANA 1: NIVELACIÓN INTENSIVA DE FUNDAMENTOS
+-- SEMANA 1: FUNDAMENTOS FULL STACK
 -- SESIÓN: Lunes 7 Sep | BD: Modelo Relacional y SQL DDL/DML desde Cero
 -- TALLER PRÁCTICO EN CLASE (8:40 – 9:50 PM)
 -- ==============================================================================

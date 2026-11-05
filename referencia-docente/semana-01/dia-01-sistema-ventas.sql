@@ -1,7 +1,7 @@
 -- ==============================================================================
 -- SENA - CENTRO DE BIOTECNOLOGÍA INDUSTRIAL / FORMACIÓN ADSO
 -- PROGRAMA: ANÁLISIS Y DESARROLLO DE SOFTWARE
--- SEMANA 1: NIVELACIÓN INTENSIVA DE FUNDAMENTOS
+-- SEMANA 1: FUNDAMENTOS FULL STACK
 -- SESIÓN: Lunes 7 Sep | BD: Modelo Relacional y SQL DDL/DML desde Cero
 -- SCRIPT: Solución Completa del Sistema de Ventas Básico
 -- ==============================================================================
