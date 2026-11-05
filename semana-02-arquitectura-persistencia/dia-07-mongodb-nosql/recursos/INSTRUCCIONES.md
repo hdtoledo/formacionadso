@@ -89,14 +89,28 @@ Sort: { priority: 1 }
 
 ---
 
-## 📦 5. Los 4 Commits Canónicos en GitHub Personal
+## 📜 5. Script Integral de Despliegue Automatizado (`01_adso_polyglot_setup.js`)
+
+Si desea ejecutar el aprovisionamiento completo (limpieza idempotente, validador de esquema JSON, 5 índices optimizados, inserción del lote de 10 documentos y reporte de auditoría) en un solo comando:
+
+```bash
+# Opción A: Desde la terminal mongosh (CLI)
+mongosh "mongodb+srv://adso_user:Secret2026@cluster0.../adso_polyglot_db" --file database/nosql/01_adso_polyglot_setup.js
+
+# Opción B: Desde la terminal _MONGOSH en Compass
+# Copie y pegue el contenido completo de 01_adso_polyglot_setup.js en la pestaña inferior _MONGOSH
+```
+
+---
+
+## 📦 6. Los 4 Commits Canónicos en GitHub Personal
 
 Ejecute cada hito y confirme con la convención **Conventional Commits v1.0.0**:
 
 ```bash
-# Hito 1: Semillas BSON
-git add database/nosql/01_content_seed.json
-git commit -m "feat(nosql): estructura database/nosql y seed de contenidos"
+# Hito 1: Semillas BSON y Script de Configuración
+git add database/nosql/
+git commit -m "feat(nosql): estructura database/nosql, seed de contenidos y script de setup"
 
 # Hito 2: Configuración Atlas (Notas o doc de configuración en README)
 git commit -m "config(atlas): cluster m0 atlas y whitelist de red"
@@ -111,7 +125,7 @@ git push -u origin main
 
 ---
 
-## 🛡️ 6. Sustentación Individual (Live Mod)
+## 🛡️ 7. Sustentación Individual (Live Mod)
 El instructor solicitará aleatoriamente una de las siguientes modificaciones en vivo sin IA:
 1. Insertar un documento de tipo `"announcement"` con fecha de caducidad.
 2. Construir una consulta MQL que filtre por tags y proyecte únicamente los campos `title` y `category`.

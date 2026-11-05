@@ -86,7 +86,49 @@ class SlidePresenter {
 
     // Actualizar Bloque pedagógico dinámicamente si existe
     if (blockLabelEl) {
-      if (this.totalSlides === 31) {
+      if (this.totalSlides === 35) {
+        if (this.currentSlideIndex === 0) {
+          blockLabelEl.textContent = 'PORTADA DE LECCIÓN';
+        } else if (this.currentSlideIndex === 1) {
+          blockLabelEl.textContent = 'OBJETIVOS & COMPETENCIAS';
+        } else if (this.currentSlideIndex === 2) {
+          blockLabelEl.textContent = 'PERSISTENCIA POLÍGLOTA 3-TIER';
+        } else if (this.currentSlideIndex === 3) {
+          blockLabelEl.textContent = 'COMPARATIVA BIG TECH';
+        } else if (this.currentSlideIndex === 4) {
+          blockLabelEl.textContent = 'MATRIZ: SQL VS NOSQL';
+        } else if (this.currentSlideIndex === 5) {
+          blockLabelEl.textContent = 'PARADIGMA DOCUMENTAL BSON';
+        } else if (this.currentSlideIndex === 6) {
+          blockLabelEl.textContent = 'ANATOMÍA BSON & OBJECTID';
+        } else if (this.currentSlideIndex === 7) {
+          blockLabelEl.textContent = 'POLIMORFISMO EN NOSQL';
+        } else if (this.currentSlideIndex === 8) {
+          blockLabelEl.textContent = 'HOJA DE RUTA MONTAJE EN GIT';
+        } else if (this.currentSlideIndex === 9) {
+          blockLabelEl.textContent = 'CONVENTIONAL COMMITS V1.0.0';
+        } else if (this.currentSlideIndex <= 14) {
+          blockLabelEl.textContent = 'BLOQUE 1: MONGODB ATLAS CLOUD DBAAS';
+        } else if (this.currentSlideIndex <= 18) {
+          blockLabelEl.textContent = 'BLOQUE 1: COMPASS GUI & SEMILLAS BSON';
+        } else if (this.currentSlideIndex <= 20) {
+          blockLabelEl.textContent = 'BLOQUE 1: ANÁLISIS DOCUMENTAL';
+        } else if (this.currentSlideIndex <= 27) {
+          blockLabelEl.textContent = 'BLOQUE 1: LABORATORIO MQL CRUD & MONGOSH';
+        } else if (this.currentSlideIndex === 28) {
+          blockLabelEl.textContent = 'BLOQUE 1: ZERO DOWNTIME EN VIVO';
+        } else if (this.currentSlideIndex <= 30) {
+          blockLabelEl.textContent = 'BLOQUE 2: MONTAJE EN AULA & GIT';
+        } else if (this.currentSlideIndex === 31) {
+          blockLabelEl.textContent = 'BLOQUE 3: EVALUACIÓN & SUSTENTACIÓN';
+        } else if (this.currentSlideIndex === 32) {
+          blockLabelEl.textContent = 'CONEXIÓN CURRICULAR EXPRESS';
+        } else if (this.currentSlideIndex === 33) {
+          blockLabelEl.textContent = 'SCRIPT COMPLETO DE LA BD MONGODB';
+        } else {
+          blockLabelEl.textContent = 'CIERRE & SIGUIENTE SESIÓN';
+        }
+      } else if (this.totalSlides === 31) {
         if (this.currentSlideIndex === 0) {
           blockLabelEl.textContent = 'PORTADA DE LECCIÓN';
         } else if (this.currentSlideIndex === 1) {

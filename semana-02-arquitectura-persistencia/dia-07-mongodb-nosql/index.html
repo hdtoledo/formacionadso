@@ -672,7 +672,8 @@
                 <div class="text-slate-400 pl-2">├── database/</div>
                 <div class="text-slate-500 pl-5">├── migrations/01_auth_schema.sql <span class="text-slate-500">(Día 6)</span></div>
                 <div class="text-slate-500 pl-5">├── seeds/01_test_seed.sql <span class="text-slate-500">(Día 6)</span></div>
-                <div class="text-emerald-400 pl-5 font-bold">└── nosql/01_content_seed.json <span class="text-emerald-300">(Hoy)</span></div>
+                <div class="text-emerald-400 pl-5 font-bold">├── nosql/01_content_seed.json <span class="text-emerald-300">(Semilla)</span></div>
+                <div class="text-emerald-300 pl-5 font-bold">└── nosql/01_adso_polyglot_setup.js <span class="text-emerald-400">(Script Setup)</span></div>
                 <div class="text-blue-300 pl-2">├── server/ <span class="text-slate-400">(Días 08-15)</span></div>
                 <div class="text-purple-300 pl-2">└── client/ <span class="text-slate-400">(Semanas 3-6)</span></div>
               </div>
@@ -682,6 +683,7 @@
                 <div class="text-slate-500 font-bold"># Comandos en Terminal:</div>
                 <div class="text-[#00324D] font-bold">mkdir -p database/nosql</div>
                 <div class="text-slate-600">touch database/nosql/01_content_seed.json</div>
+                <div class="text-slate-600">touch database/nosql/01_adso_polyglot_setup.js</div>
               </div>
             </div>
             <div class="text-[10px] text-slate-500 bg-slate-50 p-2 rounded-lg border border-slate-100 flex items-center gap-1.5">
@@ -2291,8 +2293,8 @@ db.contents.updateOne(
               <span class="font-mono font-bold text-emerald-800">HITO 1: Estructura & Semilla BSON</span>
               <span class="px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-800 text-[10px] font-mono font-bold">Commit 1</span>
             </div>
-            <p class="text-slate-600 text-[11px]">Crear carpeta <code class="font-mono">database/nosql/</code> y registrar el archivo <code class="font-mono">01_content_seed.json</code> con los 10 documentos polimórficos.</p>
-            <div class="text-[9.5px] font-mono text-slate-600 bg-slate-50 p-1.5 rounded border border-slate-100">git commit -m "feat(nosql): estructura database/nosql y seed de contenidos"</div>
+            <p class="text-slate-600 text-[11px]">Crear carpeta <code class="font-mono">database/nosql/</code> y registrar <code class="font-mono">01_content_seed.json</code> y <code class="font-mono">01_adso_polyglot_setup.js</code>.</p>
+            <div class="text-[9.5px] font-mono text-slate-600 bg-slate-50 p-1.5 rounded border border-slate-100">git commit -m "feat(nosql): estructura database/nosql, seed y script de setup"</div>
           </div>
 
           <div class="p-3 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
@@ -2342,12 +2344,12 @@ db.contents.updateOne(
         <div class="p-3.5 bg-slate-900 text-slate-200 rounded-2xl font-mono text-[10.5px] space-y-1.5 border border-slate-800">
           <div class="text-slate-400"># 1. Asegurar estar en la raíz de su repositorio personal</div>
           <div class="text-blue-300">cd ~/mi-proyecto-adso</div>
-          <div class="text-slate-400"># 2. Crear subcarpeta NoSQL y archivo seed</div>
+          <div class="text-slate-400"># 2. Crear subcarpeta NoSQL y archivos de persistencia</div>
           <div class="text-emerald-400">mkdir -p database/nosql</div>
-          <div class="text-slate-300"># (Copie o cree el archivo database/nosql/01_content_seed.json)</div>
-          <div class="text-slate-400"># 3. Primer commit: Semilla BSON</div>
-          <div class="text-amber-300">git add database/nosql/01_content_seed.json</div>
-          <div class="text-amber-300">git commit -m "feat(nosql): estructura database/nosql y seed de contenidos"</div>
+          <div class="text-slate-300"># (Copie o cree 01_content_seed.json y 01_adso_polyglot_setup.js)</div>
+          <div class="text-slate-400"># 3. Primer commit: Semilla BSON y Script Setup</div>
+          <div class="text-amber-300">git add database/nosql/</div>
+          <div class="text-amber-300">git commit -m "feat(nosql): estructura database/nosql, seed y script de setup"</div>
           <div class="text-slate-400"># 4. Segundo commit: Configuración Atlas (actualice su README si documenta la URI)</div>
           <div class="text-blue-300">git commit -m "config(atlas): cluster m0 atlas y whitelist de red"</div>
           <div class="text-slate-400"># 5. Tercer commit: Creación de BD y Colección</div>
@@ -2452,7 +2454,380 @@ db.contents.updateOne(
       </section>
 
       <!-- --------------------------------------------------------------------- -->
-      <!-- SLIDE 34: CIERRE DE SESIÓN, GLOSARIO & PREGUNTAS FRECUENTES -->
+      <!-- SLIDE 34: SCRIPT COMPLETO DE DESPLIEGUE MONGODB (01_ADSO_POLYGLOT_SETUP.JS) -->
+      <!-- --------------------------------------------------------------------- -->
+      <section class="slide-item hidden flex flex-col justify-center py-5">
+        <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1.5">
+          <i data-lucide="file-terminal" class="w-4 h-4 text-[#39A900]"></i>
+          <span>Aprovisionamiento Automatizado · Script Canónico MongoDB</span>
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+          <div>
+            <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              Script Completo de la BD: <code class="text-[#39A900]">01_adso_polyglot_setup.js</code>
+            </h2>
+            <p class="text-xs text-slate-600">
+              Aprovisionamiento llave en mano: <strong>Idempotencia, JSON Schema Validator, 5 Índices de Rendimiento, Lote BSON (10 Docs) y Auditoría Automática</strong>.
+            </p>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <!-- Botón de Descarga Directa -->
+            <a href="recursos/01_adso_polyglot_setup.js" download class="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 rounded-xl text-xs font-bold shadow-2xs transition">
+              <i data-lucide="download" class="w-3.5 h-3.5 text-blue-600"></i>
+              <span>Descargar .js</span>
+            </a>
+            <!-- Botón de Copiado Interactivo -->
+            <button id="btn-copy-setup-script" onclick="copySetupScript()" class="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-[#39A900] hover:bg-[#2D8200] text-white rounded-xl text-xs font-bold shadow-xs transition cursor-pointer">
+              <i data-lucide="copy" class="w-4 h-4" id="icon-copy-setup-script"></i>
+              <span id="text-copy-setup-script">Copiar Script Completo (.js)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Pestañas de Vista Modular del Script -->
+        <div class="flex items-center space-x-1.5 overflow-x-auto pb-1.5 mb-2 text-[11px] font-bold">
+          <button onclick="viewSetupTab('all')" id="tab-setup-all" class="tab-setup-btn px-2.5 py-1 bg-slate-900 text-emerald-300 rounded-lg border border-slate-700 cursor-pointer">
+            Todo el Script (Completo)
+          </button>
+          <button onclick="viewSetupTab('validator')" id="tab-setup-validator" class="tab-setup-btn px-2.5 py-1 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer">
+            1. Validador & 5 Índices
+          </button>
+          <button onclick="viewSetupTab('seeds')" id="tab-setup-seeds" class="tab-setup-btn px-2.5 py-1 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer">
+            2. Semillas BSON (10 Docs)
+          </button>
+          <button onclick="viewSetupTab('audit')" id="tab-setup-audit" class="tab-setup-btn px-2.5 py-1 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer">
+            3. Auditoría Automática
+          </button>
+        </div>
+
+        <!-- Contenedor del Script -->
+        <div class="relative bg-slate-950 rounded-2xl border border-slate-800 p-3 shadow-inner max-h-[300px] overflow-y-auto font-mono text-[9.5px] leading-relaxed text-slate-200">
+          <pre class="overflow-x-auto"><code id="setup-js-code-box" class="language-javascript">/**
+ * =============================================================================
+ * SENA CADPH Garzón · Regional Huila
+ * Programa de Formación: Análisis y Desarrollo de Software (ADSO)
+ * Sesión 07: Persistencia NoSQL con MongoDB Atlas, BSON & MQL
+ * Script Integral de Configuración y Aprovisionamiento de Base de Datos
+ * Archivo: database/nosql/01_adso_polyglot_setup.js
+ * =============================================================================
+ */
+
+// 1. Conexión y selección de base de datos canónica
+const DB_NAME = "adso_polyglot_db";
+const COLL_NAME = "contents";
+
+print("🚀 [ADSO SENA] Iniciando aprovisionamiento NoSQL en base de datos: " + DB_NAME);
+db = db.getSiblingDB(DB_NAME);
+
+// 2. Limpieza segura previa (Idempotencia para laboratorios de aula)
+print("🧹 [ADSO SENA] Verificando colección existente '" + COLL_NAME + "'...");
+try {
+  db[COLL_NAME].drop();
+  print("   ✓ Colección anterior eliminada para garantizar estado limpio y reproducible.");
+} catch (e) {
+  print("   ℹ La colección no existía previamente, procediendo a su creación.");
+}
+
+// 3. Creación de la Colección con Validación de Esquema JSON Schema
+print("🛡️ [ADSO SENA] Creando colección '" + COLL_NAME + "' con JSON Schema Validator...");
+db.createCollection(COLL_NAME, {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["type", "active", "createdAt", "updatedAt"],
+      properties: {
+        _id: { bsonType: "objectId", description: "Identificador inmutable" },
+        type: { enum: ["banner", "service", "testimonial", "stat", "event"], description: "Discriminador polimórfico" },
+        active: { bsonType: "bool", description: "Bandera booleana de publicación" },
+        title: { bsonType: "string", description: "Título para banners y eventos" },
+        name: { bsonType: "string", description: "Nombre para servicios tecnológicos" },
+        code: { bsonType: "string", description: "Código de catálogo único" },
+        hours: { bsonType: ["int", "double"], minimum: 1 },
+        views: { bsonType: ["int", "double"], minimum: 0 },
+        tags: { bsonType: "array", items: { bsonType: "string" } },
+        createdAt: { bsonType: "date", description: "Marca temporal de inserción" },
+        updatedAt: { bsonType: "date", description: "Marca temporal de actualización" }
+      }
+    }
+  },
+  validationAction: "warn"
+});
+print("   ✓ Validador de esquema JSON configurado con éxito.");
+
+// 4. Creación de Índices Estratégicos para Alta Concurrencia
+print("⚡ [ADSO SENA] Creando índices B-Tree y de texto para la Landing Page...");
+
+// Índice 1: Consultas de la Landing Page (banners y servicios activos por prioridad)
+db[COLL_NAME].createIndex({ active: 1, priority: 1 }, { name: "idx_active_priority" });
+
+// Índice 2: Clave única dispersa para código de servicio
+db[COLL_NAME].createIndex({ code: 1 }, { unique: true, sparse: true, name: "idx_unique_service_code" });
+
+// Índice 3: Agrupación por tipo polimórfico y estado
+db[COLL_NAME].createIndex({ type: 1, active: 1 }, { name: "idx_type_active" });
+
+// Índice 4: Búsqueda rápida por categoría tecnológica
+db[COLL_NAME].createIndex({ category: 1 }, { sparse: true, name: "idx_category" });
+
+// Índice 5: Full-Text Search en español para el buscador de la Landing
+db[COLL_NAME].createIndex(
+  { title: "text", name: "text", tags: "text", description: "text" },
+  { name: "idx_fulltext_search", default_language: "spanish" }
+);
+print("   ✓ 5 Índices estratégicos construidos.");
+
+// 5. Semilla Oficial de 10 Documentos BSON Polimórficos
+print("🌱 [ADSO SENA] Insertando lote canónico de 10 documentos polimórficos...");
+
+const seedData = [
+  // --- BANNERS PRINCIPALES DEL HERO ---
+  {
+    type: "banner",
+    title: "Innovación Tecnológica y Persistencia Políglota en ADSO",
+    subtitle: "Formación integral con PostgreSQL para autenticación y MongoDB para catálogos dinámicos.",
+    ctaText: "Explorar Módulos",
+    ctaUrl: "/catalog",
+    imageUrl: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80",
+    priority: 1,
+    active: true,
+    tags: ["tecnologia", "adso", "sena", "fullstack"],
+    createdAt: new Date("2026-10-16T10:00:00.000Z"),
+    updatedAt: new Date("2026-10-16T10:00:00.000Z")
+  },
+  {
+    type: "banner",
+    title: "Centro Agroempresarial y Desarrollo Pecuario del Huila - Garzón",
+    subtitle: "Ambientes de formación avanzada en desarrollo de software, agroindustria y biotecnología.",
+    ctaText: "Conocer CADPH",
+    ctaUrl: "/sedes/garzon",
+    imageUrl: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80",
+    priority: 2,
+    active: true,
+    tags: ["sena", "huila", "garzon", "agroempresa"],
+    createdAt: new Date("2026-10-16T10:05:00.000Z"),
+    updatedAt: new Date("2026-10-16T10:05:00.000Z")
+  },
+
+  // --- SERVICIOS TECNOLÓGICOS Y FORMATIVOS ---
+  {
+    type: "service",
+    name: "Laboratorio de Desarrollo Web Full Stack & Microservicios",
+    category: "software",
+    description: "Scaffolding de arquitecturas backend modernas con Express, Node.js, pools relacionales PostgreSQL y almacenamiento documental en MongoDB.",
+    icon: "server",
+    code: "SRV-SOFT-01",
+    hours: 120,
+    maxCapacity: 30,
+    views: 450,
+    active: true,
+    metadata: {
+      level: "avanzado",
+      instructor: "Equipo Técnico ADSO Garzón",
+      prerequisites: ["JavaScript ES6+", "SQL Relacional", "Git & GitHub"]
+    },
+    tags: ["backend", "express", "postgresql", "mongodb", "nodejs"],
+    createdAt: new Date("2026-10-16T10:15:00.000Z"),
+    updatedAt: new Date("2026-10-16T10:15:00.000Z")
+  },
+  {
+    type: "service",
+    name: "Sistemas de Trazabilidad Agropecuaria y Blockchain",
+    category: "agroindustria",
+    description: "Diseño de modelos de persistencia documental para el seguimiento de lotes de café de origen, cacao y piscicultura en la cuenca del Río Suaza.",
+    icon: "sprout",
+    code: "SRV-AGRO-02",
+    hours: 80,
+    maxCapacity: 25,
+    views: 320,
+    active: true,
+    metadata: {
+      level: "intermedio",
+      sector: "Caficultura & Piscicultura Huila",
+      certification: "Sello Verde SENA CADPH"
+    },
+    tags: ["agroindustria", "trazabilidad", "cafe", "huila", "iot"],
+    createdAt: new Date("2026-10-16T10:20:00.000Z"),
+    updatedAt: new Date("2026-10-16T10:20:00.000Z")
+  },
+  {
+    type: "service",
+    name: "Auditoría de Ciberseguridad & Mitigación IDOR / OWASP",
+    category: "seguridad",
+    description: "Hardening de bases de datos relacionales y no relacionales, análisis de permisos, prevención de SQLi, NoSQL Injection y control de acceso seguro.",
+    icon: "shield-check",
+    code: "SRV-SEC-03",
+    hours: 60,
+    maxCapacity: 20,
+    views: 580,
+    active: true,
+    metadata: {
+      level: "avanzado",
+      framework: "OWASP Top 10 API Security",
+      tools: ["Bruno", "Postman", "Compass", "pgAdmin"]
+    },
+    tags: ["ciberseguridad", "owasp", "seguridad", "nosql-injection"],
+    createdAt: new Date("2026-10-16T10:25:00.000Z"),
+    updatedAt: new Date("2026-10-16T10:25:00.000Z")
+  },
+  {
+    type: "service",
+    name: "Desarrollo Frontend React SPA con Tailwind CSS",
+    category: "software",
+    description: "Construcción de interfaces interactivas, componentes desacoplados, consumo de APIs REST con Axios y autenticación segura por cookies httpOnly.",
+    icon: "layout",
+    code: "SRV-FRONT-04",
+    hours: 90,
+    maxCapacity: 30,
+    views: 610,
+    active: true,
+    metadata: {
+      level: "intermedio",
+      framework: "React 18 + Vite",
+      styling: "Tailwind CSS v3/v4"
+    },
+    tags: ["react", "vite", "tailwind", "frontend", "ui-ux"],
+    createdAt: new Date("2026-10-16T10:30:00.000Z"),
+    updatedAt: new Date("2026-10-16T10:30:00.000Z")
+  },
+
+  // --- TESTIMONIOS INSTITUCIONALES Y EMPRESARIALES ---
+  {
+    type: "testimonial",
+    author: "Laura Camila Dussán",
+    role: "Aprendiz ADSO Ficha 2826845",
+    company: "CADPH Garzón",
+    quote: "Aprender a combinar PostgreSQL para el login con UUIDs y MongoDB para los contenidos de la Landing nos dio una perspectiva real de cómo operan plataformas como Uber y Mercado Libre.",
+    rating: 5,
+    avatarUrl: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80",
+    verified: true,
+    active: true,
+    tags: ["testimonio", "adso", "aprendiz"],
+    createdAt: new Date("2026-10-16T10:40:00.000Z"),
+    updatedAt: new Date("2026-10-16T10:40:00.000Z")
+  },
+  {
+    type: "testimonial",
+    author: "Ing. Carlos Hernán Mora",
+    role: "Líder Técnico de Software",
+    company: "HuilaTech Solutions",
+    quote: "La persistencia políglota es el estándar en proyectos serios. Ver que los aprendices del SENA Garzón configuran clústeres en Atlas y escriben consultas MQL optimizadas nos da confianza para contratarlos.",
+    rating: 5,
+    avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
+    verified: true,
+    active: true,
+    tags: ["testimonio", "empresa", "reclutamiento"],
+    createdAt: new Date("2026-10-16T10:45:00.000Z"),
+    updatedAt: new Date("2026-10-16T10:45:00.000Z")
+  },
+
+  // --- MÉTRICAS DE IMPACTO Y ESTADÍSTICAS ---
+  {
+    type: "stat",
+    metric: "Aprendices Capacitados",
+    value: 1250,
+    prefix: "+",
+    suffix: "",
+    label: "Formación técnica de alto impacto en el Huila",
+    order: 1,
+    active: true,
+    createdAt: new Date("2026-10-16T10:50:00.000Z"),
+    updatedAt: new Date("2026-10-16T10:50:00.000Z")
+  },
+  {
+    type: "stat",
+    metric: "Disponibilidad del Clúster",
+    value: 99.9,
+    prefix: "",
+    suffix: "%",
+    label: "SLA de infraestructura Cloud en MongoDB Atlas M0",
+    order: 2,
+    active: true,
+    createdAt: new Date("2026-10-16T10:55:00.000Z"),
+    updatedAt: new Date("2026-10-16T10:55:00.000Z")
+  }
+];
+
+const insertResult = db[COLL_NAME].insertMany(seedData);
+print("   ✓ Documentos insertados exitosamente: " + Object.keys(insertResult.insertedIds).length);
+
+// 6. Auditoría y Reporte Automático de Verificación
+print("\n=============================================================================");
+print("📊 [ADSO SENA] REPORTE DE ESTADO DEL CLÚSTER MONGODB ATLAS");
+print("=============================================================================");
+
+const totalDocs = db[COLL_NAME].countDocuments();
+print("• Total de documentos en 'contents': " + totalDocs);
+
+// Agrupación y conteo por tipo polimórfico
+const breakdown = db[COLL_NAME].aggregate([
+  { $group: { _id: "$type", cantidad: { $sum: 1 } } },
+  { $sort: { cantidad: -1 } }
+]).toArray();
+
+print("• Distribución polimórfica:");
+breakdown.forEach(item => {
+  print("   - " + item._id.toUpperCase() + ": " + item.cantidad + " documentos");
+});
+
+// Verificación de índices creados
+const indexes = db[COLL_NAME].getIndexes();
+print("• Índices activos (" + indexes.length + "):");
+indexes.forEach(idx => {
+  print("   - " + idx.name + " ⟶ " + JSON.stringify(idx.key));
+});
+
+// Prueba de consulta rápida idéntica a la que hará el backend Express en la Sesión 10
+const sampleHero = db[COLL_NAME].find(
+  { type: "banner", active: true },
+  { title: 1, priority: 1, _id: 0 }
+).sort({ priority: 1 }).limit(1).toArray();
+
+if (sampleHero.length > 0) {
+  print("• Simulación Endpoint Landing Page:");
+  print("   ✓ Banner Hero listo: \"" + sampleHero[0].title + "\"");
+}
+
+print("\n🎉 [ADSO SENA] ¡Aprovisionamiento NoSQL completado con éxito al 100%!");
+print("   La base de datos '" + DB_NAME + "' está lista para ser consumida por Express en la Sesión 08 & 10.\n");</code></pre>
+        </div>
+
+        <!-- 3 Formas de Ejecución en Aula -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 mt-2.5 text-xs">
+          <div class="p-2.5 bg-white border border-slate-200 rounded-xl space-y-1 shadow-2xs">
+            <div class="flex items-center space-x-1.5 text-[#00324D] font-bold text-[11px]">
+              <i data-lucide="terminal" class="w-3.5 h-3.5 text-emerald-600"></i>
+              <span>1. mongosh (Terminal CLI)</span>
+            </div>
+            <div class="text-[9px] font-mono bg-slate-900 text-emerald-300 p-1.5 rounded truncate" title="mongosh &quot;mongodb+srv://...&quot; --file database/nosql/01_adso_polyglot_setup.js">
+              mongosh "mongodb+srv://..." --file database/nosql/01_adso_polyglot_setup.js
+            </div>
+          </div>
+
+          <div class="p-2.5 bg-white border border-slate-200 rounded-xl space-y-1 shadow-2xs">
+            <div class="flex items-center space-x-1.5 text-[#00324D] font-bold text-[11px]">
+              <i data-lucide="mouse-pointer" class="w-3.5 h-3.5 text-blue-600"></i>
+              <span>2. Compass (_MONGOSH)</span>
+            </div>
+            <p class="text-[10px] text-slate-600 leading-snug">
+              Despliegue la pestaña inferior <strong class="font-mono text-slate-800">_MONGOSH</strong> en Compass, pegue el contenido y presione <kbd class="px-1 py-0.2 bg-slate-100 rounded text-[9px] font-mono">Enter</kbd>.
+            </p>
+          </div>
+
+          <div class="p-2.5 bg-purple-50/40 border border-purple-200 rounded-xl space-y-1 shadow-2xs">
+            <div class="flex items-center space-x-1.5 text-purple-900 font-bold text-[11px]">
+              <i data-lucide="workflow" class="w-3.5 h-3.5 text-purple-700"></i>
+              <span>3. Conexión S08 & S10</span>
+            </div>
+            <p class="text-[10px] text-slate-600 leading-snug">
+              Garantiza que la colección <code class="font-mono text-purple-800 font-bold">contents</code> quede 100% lista para ser leída por <code class="font-mono text-purple-800">Mongoose</code> en el backend Express.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- SLIDE 35: CIERRE DE SESIÓN, GLOSARIO & PREGUNTAS FRECUENTES -->
       <!-- --------------------------------------------------------------------- -->
       <section class="slide-item hidden flex flex-col justify-center py-6">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#39A900] uppercase tracking-wider mb-2">
@@ -2511,7 +2886,7 @@ db.contents.updateOne(
       <!-- Contador de diapositivas -->
       <div class="flex items-center space-x-2 font-mono text-slate-600">
         <span class="font-bold text-slate-900">SLIDE</span>
-        <span id="slide-counter" class="px-2 py-0.5 bg-slate-100 rounded font-bold text-slate-800">01 / 34</span>
+        <span id="slide-counter" class="px-2 py-0.5 bg-slate-100 rounded font-bold text-slate-800">01 / 35</span>
         <span class="hidden sm:inline text-slate-400">•</span>
         <span id="slide-current-label" class="hidden sm:inline text-slate-500 font-sans truncate max-w-xs md:max-w-md">PORTADA</span>
       </div>
@@ -2652,8 +3027,11 @@ db.contents.updateOne(
       <button onclick="window.presenter?.goToSlide(32)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
         <span class="text-blue-500">33</span><span>Conexión con Sesión 08 & 10</span>
       </button>
-      <button onclick="window.presenter?.goToSlide(33)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">34</span><span>Cierre & Glosario</span>
+      <button onclick="window.presenter?.goToSlide(33)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-emerald-800 font-bold">
+        <span class="text-emerald-500">34</span><span>Script Completo de la BD (.js)</span>
+      </button>
+      <button onclick="window.presenter?.goToSlide(34)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
+        <span class="text-slate-400">35</span><span>Cierre & Glosario</span>
       </button>
     </div>
   </aside>
@@ -2827,6 +3205,91 @@ db.contents.updateOne(
       }).catch(err => {
         console.error('No se pudo copiar el snippet:', err);
       });
+    };
+
+    // Gestión del Script Completo de Despliegue NoSQL (01_adso_polyglot_setup.js)
+    let adsoRawSetupScript = '';
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const setupBox = document.getElementById('setup-js-code-box');
+      if (setupBox) {
+        adsoRawSetupScript = setupBox.textContent.trim();
+      }
+    });
+
+    window.copySetupScript = function() {
+      const setupBox = document.getElementById('setup-js-code-box');
+      const textToCopy = adsoRawSetupScript || (setupBox ? setupBox.textContent.trim() : '');
+      if (!textToCopy) return;
+
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        const btnText = document.getElementById('text-copy-setup-script');
+        const btnIcon = document.getElementById('icon-copy-setup-script');
+        const origText = btnText ? btnText.textContent : 'Copiar Script Completo (.js)';
+
+        if (btnText) btnText.textContent = '¡Script Copiado al Portapapeles!';
+        if (btnIcon) {
+          btnIcon.setAttribute('data-lucide', 'check-check');
+          lucide.createIcons();
+        }
+
+        setTimeout(() => {
+          if (btnText) btnText.textContent = origText;
+          if (btnIcon) {
+            btnIcon.setAttribute('data-lucide', 'copy');
+            lucide.createIcons();
+          }
+        }, 2500);
+      }).catch(err => {
+        console.error('No se pudo copiar el script setup:', err);
+      });
+    };
+
+    window.viewSetupTab = function(tabName) {
+      const setupBox = document.getElementById('setup-js-code-box');
+      if (!setupBox) return;
+
+      // Actualizar pestañas activas
+      const tabIds = ['all', 'validator', 'seeds', 'audit'];
+      tabIds.forEach(id => {
+        const tab = document.getElementById('tab-setup-' + id);
+        if (tab) {
+          if (id === tabName) {
+            tab.className = 'tab-setup-btn px-2.5 py-1 bg-slate-900 text-emerald-300 rounded-lg border border-slate-700 cursor-pointer';
+          } else {
+            tab.className = 'tab-setup-btn px-2.5 py-1 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer';
+          }
+        }
+      });
+
+      if (!adsoRawSetupScript) {
+        adsoRawSetupScript = setupBox.textContent.trim();
+      }
+
+      if (tabName === 'all') {
+        setupBox.textContent = adsoRawSetupScript;
+      } else if (tabName === 'validator') {
+        const valStart = adsoRawSetupScript.indexOf('// 3. Creación de la Colección');
+        const valEnd = adsoRawSetupScript.indexOf('// 5. Semilla Oficial');
+        if (valStart !== -1 && valEnd !== -1) {
+          setupBox.textContent = adsoRawSetupScript.substring(valStart, valEnd).trim();
+        }
+      } else if (tabName === 'seeds') {
+        const seedStart = adsoRawSetupScript.indexOf('// 5. Semilla Oficial');
+        const seedEnd = adsoRawSetupScript.indexOf('// 6. Auditoría y Reporte');
+        if (seedStart !== -1 && seedEnd !== -1) {
+          setupBox.textContent = adsoRawSetupScript.substring(seedStart, seedEnd).trim();
+        }
+      } else if (tabName === 'audit') {
+        const auditStart = adsoRawSetupScript.indexOf('// 6. Auditoría y Reporte');
+        if (auditStart !== -1) {
+          setupBox.textContent = adsoRawSetupScript.substring(auditStart).trim();
+        }
+      }
+
+      if (window.Prism && typeof window.Prism.highlightElement === 'function') {
+        Prism.highlightElement(setupBox);
+      }
     };
   </script>
 </body>
