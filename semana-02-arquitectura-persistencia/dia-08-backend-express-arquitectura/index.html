@@ -1595,6 +1595,32 @@ export const config = Object.freeze({
         </div>
       </section>
 
+      <!-- AUTOEVALUACION:inicio (generado por tools/lessons/quizzes.mjs) -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Autoevaluación rápida" data-block-label="BLOQUE 3 · AUTOEVALUACIÓN">
+        <div class="max-w-4xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold w-fit">
+            <i data-lucide="brain-circuit" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Autoevaluación · 3 preguntas · sin IA ni apuntes</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">¿Qué tanto dominas la Sesión 08?</h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-3xl">Responde antes de la sustentación. Cada opción muestra al instante si es correcta y por qué: úsala para detectar qué repasar.</p>
+          <div data-quiz class="grid gap-3">
+          <div data-question data-answer="1" data-explain="Con miles de peticiones, abrir una conexión por cada una agotaría el servidor de PostgreSQL.">
+            <p>¿Por qué se usa un <code>pg.Pool</code> y no un cliente nuevo por cada petición?</p>
+            <ul><li>Porque es obligatorio en Express</li><li>Abrir conexiones es costoso: el pool las reutiliza y limita cuántas abre</li><li>Porque el cliente no soporta SELECT</li><li>Para no usar variables de entorno</li></ul>
+          </div>
+          <div data-question data-answer="1" data-explain="Las cookies httpOnly de la Semana 3 exigen credentials: true y un origen explícito (CLIENT_URL).">
+            <p>¿Por qué no se usa <code>cors({ origin: "*" })</code> en el proyecto?</p>
+            <ul><li>Porque es más lento</li><li>El navegador rechaza "*" cuando viajan cookies y además abre la API a cualquier sitio</li><li>Porque Express no lo soporta</li><li>Porque solo funciona con HTTPS</li></ul>
+          </div>
+          <div data-question data-answer="2" data-explain="Fallar al iniciar es mejor que fallar en plena petición de un usuario.">
+            <p>Si falta <code>CLIENT_URL</code> en el archivo <code>.env</code>, ¿qué hace el servidor?</p>
+            <ul><li>Arranca y usa "*"</li><li>Arranca y falla en la primera petición</li><li>No arranca e indica qué variable falta (fail-fast)</li><li>Lo lee de package.json</li></ul>
+          </div>
+          </div>
+        </div>
+      </section>
+      <!-- AUTOEVALUACION:fin -->
+
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 30: CIERRE DE SESIÓN, GLOSARIO & PREGUNTAS FRECUENTES -->
       <!-- --------------------------------------------------------------------- -->

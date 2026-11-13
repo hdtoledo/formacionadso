@@ -2222,6 +2222,32 @@ npm run dev
       </div>
     </section>
 
+      <!-- AUTOEVALUACION:inicio (generado por tools/lessons/quizzes.mjs) -->
+      <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full" data-title="Autoevaluación rápida" data-block-label="BLOQUE 3 · AUTOEVALUACIÓN">
+        <div class="max-w-4xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold w-fit">
+            <i data-lucide="brain-circuit" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Autoevaluación · 3 preguntas · sin IA ni apuntes</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">¿Qué tanto dominas la Sesión 05?</h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-3xl">Responde antes de la sustentación. Cada opción muestra al instante si es correcta y por qué: úsala para detectar qué repasar.</p>
+          <div data-quiz class="grid gap-3">
+          <div data-question data-answer="1" data-explain="fetch resuelve apenas llegan los headers. res.json() es otra promesa que lee el stream del cuerpo y lo parsea.">
+            <p>¿Por qué <code>fetch</code> necesita dos <code>await</code>?</p>
+            <ul><li>Por compatibilidad con navegadores antiguos</li><li>El primero recibe los encabezados (Response); el segundo lee y convierte el cuerpo</li><li>Para reintentar si falla</li><li>No es necesario: uno basta</li></ul>
+          </div>
+          <div data-question data-answer="1" data-explain="fetch solo se rechaza ante fallos de red. Los 4xx y 5xx llegan resueltos: se valida res.ok o res.status.">
+            <p>El servidor responde 404. ¿Qué hace la promesa de <code>fetch</code>?</p>
+            <ul><li>Se rechaza y entra al catch</li><li>Se resuelve normalmente; hay que revisar <code>res.ok</code></li><li>Lanza un TypeError</li><li>Reintenta tres veces</li></ul>
+          </div>
+          <div data-question data-answer="1" data-explain="Un nombre como &amp;lt;img onerror=…&amp;gt; ejecutaría código en el navegador de todos (XSS almacenado).">
+            <p>Vas a pintar con <code>innerHTML</code> el nombre de un producto que viene del servidor. ¿Qué haces?</p>
+            <ul><li>Nada: los datos del servidor son seguros</li><li>Escaparlo con <code>escapeHTML()</code> o usar <code>textContent</code></li><li>Convertirlo a mayúsculas</li><li>Guardarlo en localStorage primero</li></ul>
+          </div>
+          </div>
+        </div>
+      </section>
+      <!-- AUTOEVALUACION:fin -->
+
     <!-- SLIDE 25: SÍNTESIS DE LA SEMANA 1 Y PUENTES HACIA SEMANA 2 -->
     <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="25" data-block="3" data-title="¡Semana 1 Completada con Éxito! El Ciclo Full-Stack Cerrado" data-block-label="BLOQUE 3 · EVIDENCIA &amp; SUSTENTACIÓN">
       <div>

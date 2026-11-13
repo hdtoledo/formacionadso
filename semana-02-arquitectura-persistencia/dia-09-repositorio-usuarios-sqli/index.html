@@ -736,6 +736,32 @@ if (!config.isProduction) {
         </div>
       </section>
 
+      <!-- AUTOEVALUACION:inicio (generado por tools/lessons/quizzes.mjs) -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Autoevaluación rápida" data-block-label="BLOQUE 3 · AUTOEVALUACIÓN">
+        <div class="max-w-4xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold w-fit">
+            <i data-lucide="brain-circuit" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Autoevaluación · 3 preguntas · sin IA ni apuntes</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">¿Qué tanto dominas la Sesión 09?</h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-3xl">Responde antes de la sustentación. Cada opción muestra al instante si es correcta y por qué: úsala para detectar qué repasar.</p>
+          <div data-quiz class="grid gap-3">
+          <div data-question data-answer="1" data-explain="Con placeholders el motor analiza el SQL primero (parse) y luego recibe el valor (bind): ya no puede cambiar la consulta.">
+            <p>Envías <code>' OR '1'='1' --</code> a tu API, que usa <code>$1</code>. ¿Qué ocurre?</p>
+            <ul><li>Devuelve todos los usuarios</li><li>Devuelve 404: el motor lo trata como un texto literal</li><li>Borra la tabla users</li><li>Responde 500</li></ul>
+          </div>
+          <div data-question data-answer="1" data-explain="Cada pool.query puede usar otra conexión. Sin release(), el pool se agota y la API se cuelga.">
+            <p>¿Cómo se ejecuta correctamente una transacción con el pool?</p>
+            <ul><li><code>pool.query("BEGIN")</code> y luego <code>pool.query(...)</code></li><li><code>pool.connect()</code> y todas las sentencias con el mismo <code>client</code>, con <code>release()</code> en el finally</li><li>Con <code>Promise.all</code></li><li>No se puede en Node.js</li></ul>
+          </div>
+          <div data-question data-answer="1" data-explain="Solo se copian los campos permitidos; el rol lo decide el servidor.">
+            <p>¿Por qué el controlador nunca toma <code>role</code> del cuerpo de la petición?</p>
+            <ul><li>Por rendimiento</li><li>Para evitar asignación masiva: cualquiera enviaría <code>"role": "admin"</code></li><li>Porque role no existe en la tabla</li><li>Porque Bruno no lo permite</li></ul>
+          </div>
+          </div>
+        </div>
+      </section>
+      <!-- AUTOEVALUACION:fin -->
+
       <!-- SLIDE: CIERRE -->
       <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="CIERRE & SIGUIENTE SESIÓN" data-title="Cierre & Puente a la Sesión 10">
         <div class="max-w-5xl mx-auto w-full space-y-5">

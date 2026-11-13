@@ -2158,6 +2158,32 @@ node recursos/test_api.js
 
     </section>
 
+      <!-- AUTOEVALUACION:inicio (generado por tools/lessons/quizzes.mjs) -->
+      <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full" data-title="Autoevaluación rápida" data-block-label="BLOQUE 3 · AUTOEVALUACIÓN">
+        <div class="max-w-4xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold w-fit">
+            <i data-lucide="brain-circuit" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Autoevaluación · 3 preguntas · sin IA ni apuntes</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">¿Qué tanto dominas la Sesión 04?</h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-3xl">Responde antes de la sustentación. Cada opción muestra al instante si es correcta y por qué: úsala para detectar qué repasar.</p>
+          <div data-quiz class="grid gap-3">
+          <div data-question data-answer="1" data-explain="201 indica que se creó un recurso nuevo. 204 se usa cuando la operación es exitosa pero no hay cuerpo de respuesta.">
+            <p>¿Qué código HTTP corresponde a un recurso creado correctamente con POST?</p>
+            <ul><li>200 OK</li><li>201 Created</li><li>204 No Content</li><li>302 Found</li></ul>
+          </div>
+          <div data-question data-answer="2" data-explain="Sin el middleware nadie interpreta el cuerpo de la petición, así que req.body queda undefined.">
+            <p>Olvidaste <code>app.use(express.json())</code>. ¿Qué vale <code>req.body</code> en un POST con JSON?</p>
+            <ul><li>El objeto JSON enviado</li><li>Un texto plano con el JSON</li><li><code>undefined</code></li><li>Un error 500 automático</li></ul>
+          </div>
+          <div data-question data-answer="2" data-explain="PUT reemplaza todo el recurso: repetirlo deja el mismo resultado. PATCH modifica solo algunos campos.">
+            <p>¿Qué verbo reemplaza el recurso COMPLETO y es idempotente?</p>
+            <ul><li><code>PATCH</code></li><li><code>POST</code></li><li><code>PUT</code></li><li><code>GET</code></li></ul>
+          </div>
+          </div>
+        </div>
+      </section>
+      <!-- AUTOEVALUACION:fin -->
+
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 22: RÚBRICA DE EVALUACIÓN Y CIERRE DE SESIÓN -->
     <!-- --------------------------------------------------------------------- -->

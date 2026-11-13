@@ -1352,6 +1352,32 @@ const [usuarios, pedidos, categorias] = await Promise.all([
 
     </section>
 
+      <!-- AUTOEVALUACION:inicio (generado por tools/lessons/quizzes.mjs) -->
+      <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full" data-title="Autoevaluación rápida" data-block-label="BLOQUE 3 · AUTOEVALUACIÓN">
+        <div class="max-w-4xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold w-fit">
+            <i data-lucide="brain-circuit" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Autoevaluación · 3 preguntas · sin IA ni apuntes</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">¿Qué tanto dominas la Sesión 03?</h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-3xl">Responde antes de la sustentación. Cada opción muestra al instante si es correcta y por qué: úsala para detectar qué repasar.</p>
+          <div data-quiz class="grid gap-3">
+          <div data-question data-answer="1" data-explain="const fija la referencia. Para un objeto inmutable se usa Object.freeze o se crea una copia con spread.">
+            <p>Con <code>const usuario = { nombre: "Ana" }</code>, ¿qué pasa al ejecutar <code>usuario.nombre = "Luis"</code>?</p>
+            <ul><li>TypeError: no se puede modificar una constante</li><li>Funciona: const impide reasignar la variable, no mutar el objeto</li><li>Crea una variable nueva</li><li>Solo funciona dentro de una función</li></ul>
+          </div>
+          <div data-question data-answer="0" data-explain="map transforma cada elemento y devuelve un arreglo NUEVO del mismo tamaño. Para acumular un valor se usa reduce.">
+            <p>¿Qué devuelve <code>[1, 2, 3].map((n) =&gt; n * 2)</code>?</p>
+            <ul><li><code>[2, 4, 6]</code> en un arreglo nuevo, sin modificar el original</li><li><code>12</code></li><li>El mismo arreglo modificado</li><li><code>undefined</code></li></ul>
+          </div>
+          <div data-question data-answer="1" data-explain="Promise.all lanza las tres promesas a la vez y espera a que todas terminen. Con await en serie tardarían ~3 s.">
+            <p>Tres consultas independientes tardan 1 s cada una. ¿Cómo las ejecutas en ~1 s?</p>
+            <ul><li>Tres await seguidos</li><li><code>await Promise.all([a(), b(), c()])</code></li><li>Un bucle for con await</li><li>setTimeout de 1 s</li></ul>
+          </div>
+          </div>
+        </div>
+      </section>
+      <!-- AUTOEVALUACION:fin -->
+
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 15: BLOQUE 3 - SUSTENTACIÓN EN CALIENTE Y GIT -->
     <!-- --------------------------------------------------------------------- -->

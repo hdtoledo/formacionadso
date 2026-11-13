@@ -71,6 +71,20 @@ img, svg, video { max-width: 100%; }
    ancho estiraría la tarjeta completa. Con min-width:0 el bloque hace scroll dentro de sí. */
 .ls-main .grid > *, .ls-main [class*="col-span"] { min-width: 0; }
 
+/* Nombres de archivo o rutas largas en texto corrido: se parten en lugar de desbordar */
+.ls-main p code, .ls-main li code, .ls-main span > code, .ls-main td code { overflow-wrap: anywhere; }
+
+/* Encabezados de diapositiva con chip + título + duración en una fila: en pantallas
+   pequeñas se apilan (solo las filas que contienen un título) */
+@media (max-width: 639px) {
+  /* Solo filas: en un flex en columna, el ajuste de línea haría que cada hijo tome su ancho máximo */
+  .ls-main .flex:not(.flex-col):has(> h1),
+  .ls-main .flex:not(.flex-col):has(> h2),
+  .ls-main .flex:not(.flex-col):has(> div > h2) {
+    flex-wrap: wrap; row-gap: 0.6rem;
+  }
+}
+
 /* Rutas o nombres de archivo largos dentro de títulos: se parten en lugar de desbordar */
 h1 code, h2 code, h3 code, h4 code { overflow-wrap: anywhere; word-break: break-word; }
 h1, h2, h3 { overflow-wrap: break-word; }

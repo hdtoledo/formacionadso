@@ -2732,6 +2732,32 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
         </div>
       </section>
 
+      <!-- AUTOEVALUACION:inicio (generado por tools/lessons/quizzes.mjs) -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Autoevaluación rápida" data-block-label="BLOQUE 3 · AUTOEVALUACIÓN">
+        <div class="max-w-4xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold w-fit">
+            <i data-lucide="brain-circuit" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Autoevaluación · 3 preguntas · sin IA ni apuntes</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">¿Qué tanto dominas la Sesión 06?</h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-3xl">Responde antes de la sustentación. Cada opción muestra al instante si es correcta y por qué: úsala para detectar qué repasar.</p>
+          <div data-quiz class="grid gap-3">
+          <div data-question data-answer="1" data-explain="El token original solo viaja en el correo. Al verificar se calcula su SHA-256 y se compara con el hash guardado.">
+            <p>¿Por qué <code>verification_tokens</code> guarda <code>token_hash</code> y no el token original?</p>
+            <ul><li>Para ocupar menos espacio</li><li>Si la base de datos se filtra, los hashes no sirven para activar cuentas ajenas</li><li>Porque PostgreSQL no acepta textos largos</li><li>Para que el token no expire</li></ul>
+          </div>
+          <div data-question data-answer="2" data-explain="PRIMARY KEY y UNIQUE crean su índice solos; las llaves foráneas no. Duplicar índices solo frena las escrituras.">
+            <p>¿Qué índice debes crear manualmente en el esquema de autenticación?</p>
+            <ul><li>Sobre <code>users(email)</code></li><li>Sobre <code>verification_tokens(token_hash)</code></li><li>Sobre la llave foránea <code>verification_tokens(user_id)</code></li><li>Ninguno: PostgreSQL indexa todo</li></ul>
+          </div>
+          <div data-question data-answer="1" data-explain="CASCADE propaga el borrado a las filas hijas; RESTRICT, en cambio, impediría borrar al usuario.">
+            <p>Con <code>ON DELETE CASCADE</code>, ¿qué ocurre al eliminar un usuario que tiene tokens?</p>
+            <ul><li>El motor rechaza el borrado</li><li>Sus tokens se eliminan automáticamente en la misma operación</li><li>Los tokens quedan con user_id NULL</li><li>Se eliminan todos los tokens de la tabla</li></ul>
+          </div>
+          </div>
+        </div>
+      </section>
+      <!-- AUTOEVALUACION:fin -->
+
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 26: CIERRE Y CONEXIÓN CON LA SESIÓN 07 (MONGODB) -->
       <!-- --------------------------------------------------------------------- -->

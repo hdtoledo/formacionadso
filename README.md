@@ -69,9 +69,11 @@ formacionadso/
 ├── index.html                     # Portal principal centrado con fecha dinámica y explorador semanal
 ├── assets/
 │   ├── css/
-│   │   └── presenter.css          # Estilos institucionales, animaciones y soporte videobeam
+│   │   ├── presenter.css          # Sistema visual de las lecciones: shell, transiciones, código, árboles y autoevaluación
+│   │   └── portal.css             # Componentes del portal (menú, avance, recursos, animaciones de scroll)
 │   ├── js/
-│   │   └── presenter.js           # Motor de diapositivas, temporizador con audio y atajos
+│   │   ├── presenter.js           # Motor de lecciones: shell único, navegación, índice, temporizador y avance
+│   │   └── portal.js              # Catálogo único de lecciones: menú, hero, estado, recursos y atajos del portal
 │   ├── logo_green.png             # Logo oficial SENA verde
 │   ├── logo_sena.png              # Variante institucional
 │   └── logo_hd.png                # Marca de autoría técnica
@@ -134,15 +136,22 @@ formacionadso/
 
 ## ⌨️ 5. Controles y Atajos de Teclado (Proyección Videobeam)
 
+**En las lecciones:**
+
 | Tecla | Acción |
 |---|---|
-| `Espacio` / `→` / `↓` | Avanzar a la siguiente diapositiva |
-| `←` / `↑` | Retroceder a la diapositiva anterior |
-| `F` | Alternar modo Pantalla Completa (*Full Screen*) |
-| `T` | Iniciar / Pausar el temporizador del bloque en curso |
-| `R` | Reiniciar el temporizador al tiempo original |
-| `M` | Desplegar el menú selector de diapositivas |
-| `?` | Abrir la ventana de ayuda con atajos |
+| `→` / `Espacio` / `Av Pág` | Siguiente diapositiva |
+| `←` / `Re Pág` | Diapositiva anterior |
+| `Inicio` / `Fin` | Primera / última diapositiva |
+| `M` | Índice lateral con buscador (agrupado por bloque pedagógico) |
+| `F` | Pantalla completa |
+| `T` / `R` | Iniciar-pausar / reiniciar el temporizador (en el índice hay presets de 110′, 70′ y 40′ por bloque) |
+| `?` | Ventana de ayuda con atajos |
+| `Esc` | Cerrar índice o ayuda |
+
+En celular o tableta se navega deslizando horizontalmente. Cada diapositiva tiene enlace propio (`#slide-N`) y el portal recuerda el avance de cada lección en el navegador (botón **Continuar**).
+
+**En el portal:** `1`–`9`, `0` y `-` abren las lecciones en orden; `/` o `Ctrl + K` enfocan el buscador.
 
 ---
 

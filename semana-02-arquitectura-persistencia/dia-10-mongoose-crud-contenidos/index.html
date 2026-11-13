@@ -760,6 +760,32 @@ script:post-response {
         </div>
       </section>
 
+      <!-- AUTOEVALUACION:inicio (generado por tools/lessons/quizzes.mjs) -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Autoevaluación rápida" data-block-label="BLOQUE 3 · AUTOEVALUACIÓN">
+        <div class="max-w-4xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold w-fit">
+            <i data-lucide="brain-circuit" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Autoevaluación · 3 preguntas · sin IA ni apuntes</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">¿Qué tanto dominas la Sesión 10?</h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-3xl">Responde antes de la sustentación. Cada opción muestra al instante si es correcta y por qué: úsala para detectar qué repasar.</p>
+          <div data-quiz class="grid gap-3">
+          <div data-question data-answer="1" data-explain="Por eso el tipo se valida como texto en una lista blanca y sanitizeFilter actúa como segunda capa.">
+            <p>¿Qué recibe el controlador con <code>?type[$ne]=banner</code>?</p>
+            <ul><li>El texto "banner"</li><li>El objeto <code>{ $ne: "banner" }</code>: un operador que alteraría el filtro</li><li>Un error 400 automático de Express</li><li>undefined</li></ul>
+          </div>
+          <div data-question data-answer="1" data-explain="El administrador decide cuándo se publica: nada llega a la Landing por accidente.">
+            <p>Creaste un contenido y no aparece en <code>/api/content/published</code>. ¿Por qué?</p>
+            <ul><li>Falló el índice</li><li>Todo contenido nuevo nace como borrador (<code>active: false</code>)</li><li>Mongoose tarda un minuto en publicar</li><li>Falta reiniciar el servidor</li></ul>
+          </div>
+          <div data-question data-answer="1" data-explain="Validar en el servidor también protege al frontend: solo se aceptan https:// o rutas internas.">
+            <p>¿Por qué el esquema rechaza <code>ctaUrl: "javascript:alert(1)"</code>?</p>
+            <ul><li>Porque es demasiado largo</li><li>Para evitar un XSS cuando React lo use en el href del botón</li><li>Porque MongoDB no guarda dos puntos</li><li>Por el límite de 100 kb</li></ul>
+          </div>
+          </div>
+        </div>
+      </section>
+      <!-- AUTOEVALUACION:fin -->
+
       <!-- SLIDE: CIERRE -->
       <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="CIERRE & SIGUIENTE SESIÓN" data-title="Cierre de la Semana 2 & Puente a la Semana 3">
         <div class="max-w-5xl mx-auto w-full space-y-5">

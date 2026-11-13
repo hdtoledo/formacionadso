@@ -995,6 +995,32 @@ WHERE codigo_barras = 'TECH-001';</code></pre>
       </div>
     </section>
 
+      <!-- AUTOEVALUACION:inicio (generado por tools/lessons/quizzes.mjs) -->
+      <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full" data-title="Autoevaluación rápida" data-block-label="BLOQUE 3 · AUTOEVALUACIÓN">
+        <div class="max-w-4xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold w-fit">
+            <i data-lucide="brain-circuit" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Autoevaluación · 3 preguntas · sin IA ni apuntes</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">¿Qué tanto dominas la Sesión 01?</h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-3xl">Responde antes de la sustentación. Cada opción muestra al instante si es correcta y por qué: úsala para detectar qué repasar.</p>
+          <div data-quiz class="grid gap-3">
+          <div data-question data-answer="1" data-explain="La FK protege la integridad referencial: el motor rechaza una venta asociada a un cliente o producto que no existe.">
+            <p>¿Qué garantiza una llave foránea (FK) en la tabla <code>ventas</code>?</p>
+            <ul><li>Que el valor sea único dentro de <code>ventas</code></li><li>Que el valor exista como llave primaria en la tabla referenciada</li><li>Que la columna nunca acepte decimales</li><li>Que la fila se borre sola al pasar 24 horas</li></ul>
+          </div>
+          <div data-question data-answer="2" data-explain="Sin WHERE la condición abarca todas las filas. Por eso en producción se escribe primero el SELECT con el mismo WHERE.">
+            <p>¿Qué hace <code>DELETE FROM usuarios;</code> ejecutado sin <code>WHERE</code>?</p>
+            <ul><li>Nada: el motor exige WHERE</li><li>Borra solo la última fila insertada</li><li>Borra todas las filas de la tabla</li><li>Elimina la tabla y su estructura</li></ul>
+          </div>
+          <div data-question data-answer="3" data-explain="UNIQUE crea un índice que rechaza valores repetidos en la columna. NOT NULL solo exige que haya un valor.">
+            <p>¿Qué restricción impide registrar dos usuarios con el mismo número de documento?</p>
+            <ul><li><code>NOT NULL</code></li><li><code>DEFAULT</code></li><li><code>CHECK</code></li><li><code>UNIQUE</code></li></ul>
+          </div>
+          </div>
+        </div>
+      </section>
+      <!-- AUTOEVALUACION:fin -->
+
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 14: CONCLUSIONES Y CIERRE DE SESIÓN -->
     <!-- --------------------------------------------------------------------- -->

@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { escHtml, tplEsc, stripHeader } from '../lib-replace.mjs';
 import { renderLesson } from './shell.mjs';
+import { injectQuiz } from './quizzes.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = 'semana-02-arquitectura-persistencia';
@@ -106,11 +107,14 @@ const extractors = {
   }
 };
 
-const slides = read(path.join(HERE, cfg.template)).replace(/\{\{(BODY|HEAD|FN|BLOCK|SQL|SEC):([^}]+)\}\}/g, (_, kind, arg) => {
+const rawSlides = read(path.join(HERE, cfg.template)).replace(/\{\{(BODY|HEAD|FN|BLOCK|SQL|SEC):([^}]+)\}\}/g, (_, kind, arg) => {
   if (kind === 'SQL' || kind === 'SEC') return escHtml(extractors[kind](arg));
   const [rel, ...rest] = arg.split(':');
   return escHtml(extractors[kind](rel, rest.join(':')));
 });
+
+// Autoevaluación antes de la diapositiva de cierre
+const slides = injectQuiz(rawSlides, cfg.meta.lesson, `la Sesión ${cfg.meta.session}`);
 
 // ---------------------------------------------------------------- visor de código
 const snippetEntries = cfg.tabs.map(([k, , rel, lang]) => {
