@@ -1,0 +1,536 @@
+      <!-- SLIDE: PORTADA -->
+      <section class="slide-item flex flex-col justify-center py-6" data-block-label="PORTADA DE LECCIÓN" data-title="Portada Institucional">
+        <div class="max-w-5xl mx-auto w-full space-y-6">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 border border-blue-200 rounded-full text-xs font-bold text-blue-900">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-blue-600"></i>
+            <span>Semana 2 · Persistencia Políglota & Arquitectura · Sesión 09</span>
+          </div>
+          <div class="space-y-3">
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+              Patrón Repositorio en PostgreSQL & <br class="hidden sm:inline">
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00324D] via-blue-700 to-[#39A900]">Cero Brechas de Inyección SQL</span>
+            </h1>
+            <p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-4xl">
+              Construimos <code class="font-mono text-blue-700">src/repositories/UserRepository.js</code>: la única capa del backend que habla SQL con la tabla <code class="font-mono">users</code>. Consultas parametrizadas con <code class="font-mono font-bold text-[#39A900]">$1, $2</code>, traducción del error <code class="font-mono">23505</code> a <strong>409 Conflict</strong>, transacciones con un cliente dedicado del pool y pruebas con Bruno, incluido un ataque real de inyección SQL.
+            </p>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+            <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-2xs space-y-1">
+              <div class="flex items-center space-x-1.5 text-xs font-bold text-[#00324D]"><i data-lucide="database" class="w-4 h-4 text-blue-600"></i><span>UserRepository</span></div>
+              <p class="text-[11px] text-slate-500">4 métodos: create, findByEmail, findById, verify</p>
+            </div>
+            <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-2xs space-y-1">
+              <div class="flex items-center space-x-1.5 text-xs font-bold text-[#00324D]"><i data-lucide="shield-alert" class="w-4 h-4 text-rose-600"></i><span>SQL Injection</span></div>
+              <p class="text-[11px] text-slate-500">Ataque real y defensa con placeholders</p>
+            </div>
+            <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-2xs space-y-1">
+              <div class="flex items-center space-x-1.5 text-xs font-bold text-[#00324D]"><i data-lucide="git-merge" class="w-4 h-4 text-[#39A900]"></i><span>Transacción ACID</span></div>
+              <p class="text-[11px] text-slate-500">BEGIN / COMMIT / ROLLBACK en un solo cliente</p>
+            </div>
+            <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-2xs space-y-1">
+              <div class="flex items-center space-x-1.5 text-xs font-bold text-[#00324D]"><i data-lucide="git-commit" class="w-4 h-4 text-purple-600"></i><span>5 Commits Atómicos</span></div>
+              <p class="text-[11px] text-slate-500">Migración, repositorio, capa HTTP y pruebas</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap items-center gap-4 text-xs font-medium text-slate-500 pt-2 border-t border-slate-200">
+            <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4 text-[#39A900]"></i> Semana 2 · Día 09</span>
+            <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4 text-blue-600"></i> 4 Horas Presenciales</span>
+            <span class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-4 h-4 text-rose-500"></i> Ambiente 3 · CADPH Garzón</span>
+            <span class="flex items-center gap-1.5"><i data-lucide="user-check" class="w-4 h-4 text-purple-600"></i> Instructor Líder ADSO</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: OBJETIVOS -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="OBJETIVOS & COMPETENCIAS" data-title="Objetivos & Competencias">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-700">
+            <i data-lucide="target" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Resultados de Aprendizaje & Criterios de Evaluación</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Al terminar la sesión, el aprendiz…</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+            <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-2xs space-y-3">
+              <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center"><i data-lucide="layers" class="w-5 h-5"></i></div>
+              <h3 class="text-base font-bold text-slate-900">1. Aísla el acceso a datos</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">Implementa un repositorio que concentra todo el SQL de usuarios, de modo que controladores y rutas nunca escriben consultas.</p>
+            </div>
+            <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-2xs space-y-3">
+              <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-700 flex items-center justify-center"><i data-lucide="shield-alert" class="w-5 h-5"></i></div>
+              <h3 class="text-base font-bold text-slate-900">2. Neutraliza la inyección SQL</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">Explica por qué concatenar es vulnerable, demuestra el ataque y usa placeholders <code class="font-mono">$1</code> para que el motor trate la entrada como dato.</p>
+            </div>
+            <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-2xs space-y-3">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-[#39A900] flex items-center justify-center"><i data-lucide="git-merge" class="w-5 h-5"></i></div>
+              <h3 class="text-base font-bold text-slate-900">3. Escribe transacciones correctas</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">Usa <code class="font-mono">pool.connect()</code> para obtener un cliente, ejecuta <code class="font-mono">BEGIN … COMMIT</code>, revierte con <code class="font-mono">ROLLBACK</code> y libera siempre el cliente.</p>
+            </div>
+          </div>
+          <div class="p-4 bg-emerald-50/70 border border-emerald-200 rounded-xl text-xs text-slate-700 flex items-start gap-3">
+            <i data-lucide="info" class="w-4 h-4 text-[#39A900] shrink-0 mt-0.5"></i>
+            <div><strong class="text-emerald-950">Criterio de evaluación:</strong> el aprendiz ejecuta en su consola el ataque <code class="font-mono">' OR '1'='1' --</code> contra su propia API, explica por qué falla y modifica en caliente una consulta del repositorio sin ayuda de IA.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: HOJA DE RUTA -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="HOJA DE RUTA DEL MONTAJE" data-title="Hoja de Ruta del Montaje">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold">
+            <i data-lucide="map" class="w-3.5 h-3.5 text-blue-600"></i><span>Antes de la teoría · Lo que vamos a construir hoy</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Hoja de Ruta: del esquema de la Sesión 06 a una API que lo usa con seguridad</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="bg-slate-900 text-slate-300 p-4 rounded-xl font-mono text-xs overflow-x-auto leading-snug">mi-proyecto-adso/
+├── database/
+│   ├── migrations/
+│   │   ├── 01_auth_schema.sql
+│   │   └── <span class="text-emerald-400 font-bold">02_hardening_auth_schema.sql</span>  <span class="text-slate-500"># HITO 0</span>
+│   └── seeds/
+│       ├── 01_test_seed.sql
+│       └── <span class="text-emerald-400 font-bold">02_fix_seed_credentials.sql</span>   <span class="text-slate-500"># HITO 0</span>
+└── server/
+    ├── <span class="text-emerald-400 font-bold">bruno/</span>                         <span class="text-slate-500"># HITO 4</span>
+    └── src/
+        ├── <span class="text-emerald-400 font-bold">repositories/UserRepository.js</span> <span class="text-slate-500"># HITO 1</span>
+        ├── <span class="text-emerald-400 font-bold">middlewares/asyncHandler.js</span>    <span class="text-slate-500"># HITO 2</span>
+        ├── <span class="text-emerald-400 font-bold">utils/validators.js</span>            <span class="text-slate-500"># HITO 2</span>
+        ├── <span class="text-emerald-400 font-bold">controllers/devUserController.js</span> <span class="text-slate-500"># HITO 3</span>
+        ├── <span class="text-emerald-400 font-bold">routes/devUserRoutes.js</span>        <span class="text-slate-500"># HITO 3</span>
+        └── <span class="text-amber-300 font-bold">app.js</span>                         <span class="text-slate-500"># HITO 3 (se modifica)</span></div>
+            <div class="space-y-3 text-xs">
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1">
+                <span class="font-bold text-[#00324D] block">¿Qué recibe del pasado?</span>
+                <p class="text-slate-600">Las tablas <code class="font-mono">users</code> y <code class="font-mono">verification_tokens</code> (Sesión 06) y el <code class="font-mono">pool</code>, el <code class="font-mono">errorHandler</code> y <code class="font-mono">AppError</code> de la Sesión 08.</p>
+              </div>
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1">
+                <span class="font-bold text-[#39A900] block">¿Qué entrega al futuro?</span>
+                <p class="text-slate-600">La Sesión 11 usará <code class="font-mono">createUser</code> para el registro con bcrypt; la 13, <code class="font-mono">verifyUser</code> para activar cuentas desde el correo de Resend; la 14, <code class="font-mono">findByEmail</code> para el login.</p>
+              </div>
+              <div class="p-3.5 bg-amber-50 border border-amber-200 rounded-xl space-y-1">
+                <span class="font-bold text-amber-900 block">Rutas de laboratorio: <code class="font-mono">/api/dev/users</code></span>
+                <p class="text-amber-950">Sirven para probar el repositorio con Bruno <strong>antes</strong> de tener autenticación. Por eso <code class="font-mono">app.js</code> no las monta en producción, y en la Semana 3 desaparecen.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: HITOS -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="HOJA DE RUTA DEL MONTAJE" data-title="Los 5 Commits Atómicos">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-purple-50 text-purple-900 border border-purple-200 rounded-full text-xs font-bold">
+            <i data-lucide="check-square" class="w-3.5 h-3.5 text-purple-600"></i><span>Conventional Commits v1.0.0 · Trazabilidad en GitHub</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Los 5 Hitos Atómicos de la Sesión</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+            <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl space-y-2"><span class="font-mono font-bold text-amber-900">Hito 0 · Migración</span><div class="font-mono text-slate-800 text-[11px]">fix(db): migrar tokens a sha-256 y endurecer esquema de usuarios</div><p class="text-[11px] text-slate-600">Solo si su esquema es anterior a la corrección de S06.</p></div>
+            <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2"><span class="font-mono font-bold text-blue-700">Hito 1 · Repositorio</span><div class="font-mono text-slate-800 text-[11px]">feat(repository): crear userrepository con consultas parametrizadas</div></div>
+            <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2"><span class="font-mono font-bold text-[#00324D]">Hito 2 · Utilidades</span><div class="font-mono text-slate-800 text-[11px]">feat(server): agregar asynchandler y validadores de entrada</div></div>
+            <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2"><span class="font-mono font-bold text-[#39A900]">Hito 3 · Capa HTTP</span><div class="font-mono text-slate-800 text-[11px]">feat(users): exponer rutas de laboratorio del repositorio en desarrollo</div></div>
+            <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2"><span class="font-mono font-bold text-purple-700">Hito 4 · Pruebas</span><div class="font-mono text-slate-800 text-[11px]">test(api): coleccion bruno con casos de sqli y unique violation</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: PATRON REPOSITORIO -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: CONCEPTOS & ARQUITECTURA" data-title="¿Qué es el Patrón Repositorio?">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-700">
+            <i data-lucide="layers" class="w-3.5 h-3.5 text-blue-600"></i><span>Bloque 1 · Arquitectura</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">¿Qué es el Patrón Repositorio?</h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-4xl">Un repositorio es la <strong>única puerta</strong> entre la aplicación y una tabla. Los demás archivos le piden datos con métodos con nombre de negocio (<code class="font-mono">findByEmail</code>) y nunca ven SQL.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 text-xs text-center">
+            <div class="p-3 bg-white border border-slate-200 rounded-xl"><span class="font-mono font-bold text-slate-800 block">routes/</span><span class="text-slate-500 text-[11px]">¿Qué URL y verbo?</span></div>
+            <div class="p-3 bg-white border border-slate-200 rounded-xl"><span class="font-mono font-bold text-slate-800 block">controllers/</span><span class="text-slate-500 text-[11px]">Valida req y arma res</span></div>
+            <div class="p-3 bg-blue-50 border-2 border-blue-300 rounded-xl"><span class="font-mono font-bold text-blue-900 block">repositories/</span><span class="text-blue-800 text-[11px]">Único lugar con SQL</span></div>
+            <div class="p-3 bg-white border border-slate-200 rounded-xl"><span class="font-mono font-bold text-slate-800 block">config/db.js</span><span class="text-slate-500 text-[11px]">pool de conexiones</span></div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div class="p-3.5 bg-white border border-slate-200 rounded-xl"><strong class="text-slate-900 block mb-1">Seguridad auditable</strong><span class="text-slate-600">Para revisar si hay inyección SQL basta con leer un archivo, no todo el proyecto.</span></div>
+            <div class="p-3.5 bg-white border border-slate-200 rounded-xl"><strong class="text-slate-900 block mb-1">Columnas controladas</strong><span class="text-slate-600"><code class="font-mono">password_hash</code> nunca se selecciona en los métodos públicos: no puede filtrarse por accidente en una respuesta.</span></div>
+            <div class="p-3.5 bg-white border border-slate-200 rounded-xl"><strong class="text-slate-900 block mb-1">Errores traducidos</strong><span class="text-slate-600">El código <code class="font-mono">23505</code> de PostgreSQL se convierte en un <code class="font-mono">AppError 409</code> que el frontend entiende.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: ATAQUE SQLI -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: INYECCIÓN SQL" data-title="Anatomía de una Inyección SQL">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-rose-50 text-rose-900 border border-rose-200 rounded-full text-xs font-bold">
+            <i data-lucide="skull" class="w-3.5 h-3.5 text-rose-600"></i><span>Bloque 1 · OWASP Top 10: A03 Injection</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Anatomía de una Inyección SQL</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <span class="text-xs font-bold text-rose-700 uppercase tracking-wide">❌ Código vulnerable (NUNCA escribir así)</span>
+              <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs overflow-x-auto"><pre><code class="language-javascript">// El valor del usuario se PEGA dentro del texto SQL
+const sql = "SELECT email, role FROM users WHERE email = '" + email + "'";
+await pool.query(sql);</code></pre></div>
+              <p class="text-xs text-slate-600">El atacante envía como email: <code class="font-mono font-bold text-rose-700">' OR '1'='1' --</code></p>
+              <div class="bg-slate-900 text-rose-300 p-3 rounded-xl font-mono text-xs overflow-x-auto">SELECT email, role FROM users WHERE email = <span class="bg-rose-900/60">'' OR '1'='1' --</span>'</div>
+            </div>
+            <div class="space-y-2 text-xs">
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1"><strong class="block text-slate-900">1. <code class="font-mono">'</code> cierra la comilla</strong><span class="text-slate-600">El texto del atacante deja de ser un dato y pasa a ser código SQL.</span></div>
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1"><strong class="block text-slate-900">2. <code class="font-mono">OR '1'='1'</code> siempre es verdadero</strong><span class="text-slate-600">La condición del WHERE se cumple para <strong>todas</strong> las filas.</span></div>
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1"><strong class="block text-slate-900">3. <code class="font-mono">--</code> comenta el resto</strong><span class="text-slate-600">La comilla sobrante queda anulada y la consulta es válida.</span></div>
+              <div class="p-3.5 bg-rose-50 border border-rose-200 rounded-xl"><strong class="text-rose-900">Resultado medido en PostgreSQL:</strong> <span class="text-rose-950">la consulta concatenada devolvió <strong>todas las filas</strong> de la tabla <code class="font-mono">users</code>; la parametrizada, 0.</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: DEFENSA -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: INYECCIÓN SQL" data-title="Defensa: Consultas Parametrizadas">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Bloque 1 · Zero Brechas</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Defensa: el motor separa el <span class="text-[#00324D]">plan</span> de los <span class="text-[#39A900]">datos</span></h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <span class="text-xs font-bold text-emerald-700 uppercase tracking-wide">✅ Consulta parametrizada</span>
+              <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs overflow-x-auto"><pre><code class="language-javascript">await pool.query(
+  'SELECT email, role FROM users WHERE email = $1',
+  [email]   // el valor viaja APARTE del SQL
+);</code></pre></div>
+              <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-950"><strong>Mismo ataque, misma tabla:</strong> 0 filas. PostgreSQL buscó un correo cuyo texto literal es <code class="font-mono">' OR '1'='1' --</code>.</div>
+            </div>
+            <div class="space-y-2 text-xs">
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D] block mb-1">1. Parse</strong><span class="text-slate-600"><code class="font-mono">pg</code> envía el SQL con el hueco <code class="font-mono">$1</code>. El motor lo analiza y fija su estructura.</span></div>
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D] block mb-1">2. Bind</strong><span class="text-slate-600">Después llegan los valores. Ya no pueden cambiar la estructura: solo rellenan el hueco como <strong>dato</strong>.</span></div>
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D] block mb-1">3. Execute</strong><span class="text-slate-600">Se ejecuta el plan original. Las comillas del atacante son simples caracteres.</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: ERRORES CRITICOS SQLI -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: INYECCIÓN SQL" data-title="Trampas Frecuentes">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold">
+            <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-amber-600"></i><span>Bloque 1 · Errores críticos en revisiones de código</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Trampas que también son inyección</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+            <div class="p-4 bg-white border border-rose-200 rounded-2xl space-y-2">
+              <strong class="text-rose-800 block">Template literals</strong>
+              <div class="bg-slate-900 text-rose-300 p-2.5 rounded-lg font-mono text-[11px] overflow-x-auto">`... WHERE email = '${email}'`</div>
+              <p class="text-slate-600">Las comillas invertidas <strong>también concatenan</strong>. Que se vea moderno no lo hace seguro.</p>
+            </div>
+            <div class="p-4 bg-white border border-rose-200 rounded-2xl space-y-2">
+              <strong class="text-rose-800 block">Nombres de columna</strong>
+              <div class="bg-slate-900 text-rose-300 p-2.5 rounded-lg font-mono text-[11px] overflow-x-auto">`ORDER BY ${req.query.sort}`</div>
+              <p class="text-slate-600"><code class="font-mono">$1</code> solo sirve para <strong>valores</strong>. Para columnas u orden se usa una lista blanca: <code class="font-mono">['created_at','email'].includes(sort)</code>.</p>
+            </div>
+            <div class="p-4 bg-white border border-rose-200 rounded-2xl space-y-2">
+              <strong class="text-rose-800 block">"Ya lo validé en el frontend"</strong>
+              <div class="bg-slate-900 text-rose-300 p-2.5 rounded-lg font-mono text-[11px] overflow-x-auto">curl.exe -X POST -d "{\"email\": 12345}"</div>
+              <p class="text-slate-600">Bruno o cURL saltan el formulario. La validación del cliente es comodidad; la seguridad vive en el servidor.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: HITO 0 -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING" data-title="Hito 0: Migración del Esquema">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold">
+            <i data-lucide="database-zap" class="w-3.5 h-3.5 text-amber-600"></i><span>Hito 0 · Solo para esquemas creados antes de la corrección de la Sesión 06</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Hito 0: <code class="font-mono text-amber-700">02_hardening_auth_schema.sql</code></h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-4xl">El script <code class="font-mono">01</code> ya se ejecutó en su base. Para cambiar la estructura no se edita el pasado: se escribe una <strong>migración nueva</strong> que describe el cambio, es <strong>idempotente</strong> y queda en Git.</p>
+          <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[330px] overflow-y-auto"><pre><code class="language-sql">{{SQL:database/migrations/02_hardening_auth_schema.sql#1. Tokens#3. Correos}}</code></pre></div>
+          <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-950 flex items-start gap-2"><i data-lucide="info" class="w-4 h-4 text-blue-600 shrink-0 mt-0.5"></i><span>Después ejecute <code class="font-mono">database/seeds/02_fix_seed_credentials.sql</code>: corrige los hashes bcrypt de prueba y vuelve a crear el token demo. Va en <code class="font-mono">seeds/</code> porque son datos de desarrollo, que jamás se ejecutan en producción.</span></div>
+        </div>
+      </section>
+
+      <!-- SLIDE: LIVE CODING createUser -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING" data-title="Live Coding 1: createUser">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold"><i data-lucide="code" class="w-3.5 h-3.5 text-blue-600"></i><span>Paso a Paso 1 · Hito 1</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 1: <code class="font-mono text-blue-700">createUser()</code></h2>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div class="lg:col-span-8 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto"><pre><code class="language-javascript">{{HEAD:src/repositories/UserRepository.js}}
+
+{{FN:src/repositories/UserRepository.js:createUser}}</code></pre></div>
+            <div class="lg:col-span-4 space-y-2 text-xs">
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D] block">RETURNING</strong><span class="text-slate-600">El UUID lo genera PostgreSQL (<code class="font-mono">gen_random_uuid()</code>) y lo devuelve en la misma consulta.</span></div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#39A900] block">normalizeEmail</strong><span class="text-slate-600">Sin minúsculas, el <code class="font-mono">CHECK</code> de la Sesión 06 rechazaría el INSERT.</span></div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-purple-700 block">err.code 23505</strong><span class="text-slate-600">Unique violation. Comprobamos también <code class="font-mono">err.constraint</code> para no confundirla con otra restricción.</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: LIVE CODING find -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING" data-title="Live Coding 2: findByEmail & findById">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold"><i data-lucide="search" class="w-3.5 h-3.5 text-blue-600"></i><span>Paso a Paso 2 · Hito 1</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 2: <code class="font-mono text-blue-700">findByEmail()</code> & <code class="font-mono text-blue-700">findById()</code></h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto"><pre><code class="language-javascript">{{FN:src/repositories/UserRepository.js:findByEmail}}</code></pre></div>
+            <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto"><pre><code class="language-javascript">{{FN:src/repositories/UserRepository.js:findById}}</code></pre></div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="block text-slate-900">Columnas explícitas</strong><span class="text-slate-600">Nunca <code class="font-mono">SELECT *</code>: así <code class="font-mono">password_hash</code> no sale de la base.</span></div>
+            <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="block text-slate-900"><code class="font-mono">rows[0] ?? null</code></strong><span class="text-slate-600">"No existe" se expresa con <code class="font-mono">null</code>; decidir si es 404 le corresponde al controlador.</span></div>
+            <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="block text-slate-900">Índices de la Sesión 06</strong><span class="text-slate-600"><code class="font-mono">uq_users_email</code> y <code class="font-mono">users_pkey</code> hacen que ambas búsquedas sean O(log N).</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: LIVE CODING verifyUser -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING" data-title="Live Coding 3: verifyUser (Transacción)">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold"><i data-lucide="git-merge" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Paso a Paso 3 · Hito 1 · ACID</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 3: <code class="font-mono text-emerald-700">verifyUser()</code> en una transacción</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div class="lg:col-span-8 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[420px] overflow-y-auto"><pre><code class="language-javascript">{{FN:src/repositories/UserRepository.js:verifyUser}}</code></pre></div>
+            <div class="lg:col-span-4 space-y-2 text-xs">
+              <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl"><strong class="text-rose-800 block mb-1">❌ Error crítico</strong><code class="font-mono text-[11px] text-rose-900">await pool.query('BEGIN')</code><p class="text-rose-950 mt-1">Cada <code class="font-mono">pool.query</code> puede usar una conexión distinta: el UPDATE y el DELETE quedarían <strong>fuera</strong> de la transacción.</p></div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D] block">pool.connect()</strong><span class="text-slate-600">Reserva un cliente para que todas las sentencias viajen por la misma conexión.</span></div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#39A900] block">finally → release()</strong><span class="text-slate-600">Con <code class="font-mono">max: 10</code>, olvidar <code class="font-mono">release()</code> 10 veces deja la API colgada para siempre.</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: LIVE CODING asyncHandler + validators -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING" data-title="Live Coding 4: asyncHandler & Validadores">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-slate-100 text-slate-800 border border-slate-200 rounded-full text-xs font-bold"><i data-lucide="wrench" class="w-3.5 h-3.5 text-blue-600"></i><span>Paso a Paso 4 · Hito 2</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 4: <code class="font-mono text-blue-700">asyncHandler</code> & <code class="font-mono text-blue-700">validators</code></h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto"><pre><code class="language-javascript">{{BODY:src/middlewares/asyncHandler.js}}</code></pre></div>
+              <p class="text-xs text-slate-600">Express 4 no captura errores de funciones <code class="font-mono">async</code>. Sin este envoltorio, un fallo de PostgreSQL deja la petición <strong>colgada</strong> en lugar de responder 500.</p>
+            </div>
+            <div class="space-y-2">
+              <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto"><pre><code class="language-javascript">{{BODY:src/utils/validators.js}}</code></pre></div>
+              <p class="text-xs text-slate-600">Validar <strong>no reemplaza</strong> a los placeholders: son dos capas. La validación da mensajes claros (400); <code class="font-mono">$1</code> bloquea la inyección incluso si algo se escapa.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: LIVE CODING controller -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING" data-title="Live Coding 5: devUserController">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold"><i data-lucide="file-code" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Paso a Paso 5 · Hito 3</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 5: <code class="font-mono text-emerald-700">devUserController.js</code></h2>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div class="lg:col-span-8 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[420px] overflow-y-auto"><pre><code class="language-javascript">{{FN:src/controllers/devUserController.js:createDevUser}}
+
+{{FN:src/controllers/devUserController.js:verifyDevUser}}</code></pre></div>
+            <div class="lg:col-span-4 space-y-2 text-xs">
+              <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl"><strong class="text-rose-800 block mb-1">Asignación masiva</strong><span class="text-rose-950">Si pasáramos <code class="font-mono">req.body</code> completo al repositorio, un <code class="font-mono">{"role":"admin"}</code> crearía administradores. Solo se toman los campos permitidos.</span></div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D] block"><code class="font-mono">throw new AppError(...)</code></strong><span class="text-slate-600">El controlador no arma respuestas de error a mano: lanza el error y <code class="font-mono">errorHandler</code> le da el formato estándar.</span></div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#39A900] block">404 vs 409</strong><span class="text-slate-600"><code class="font-mono">verifyUser</code> devuelve <code class="font-mono">null</code> en dos casos; el controlador averigua cuál para responder con el código correcto.</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: LIVE CODING routes + app -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING" data-title="Live Coding 6: Rutas & app.js">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold"><i data-lucide="route" class="w-3.5 h-3.5 text-blue-600"></i><span>Paso a Paso 6 · Hito 3</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 6: <code class="font-mono text-blue-700">devUserRoutes.js</code> & montaje en <code class="font-mono text-blue-700">app.js</code></h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto"><pre><code class="language-javascript">{{BODY:src/routes/devUserRoutes.js}}</code></pre></div>
+            <div class="space-y-3">
+              <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto"><pre><code class="language-javascript">// src/app.js (agregar)
+import devUserRoutes from './routes/devUserRoutes.js';
+
+// ...después de app.use('/api/health', healthRoutes);
+{{BLOCK:src/app.js:// Rutas de laboratorio de la Sesión 09}}</code></pre></div>
+              <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-950"><strong>Sin autenticación ≠ sin control:</strong> estas rutas no existen en producción. Con <code class="font-mono">NODE_ENV=production</code>, <code class="font-mono">POST /api/dev/users</code> responde 404.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: CONTRATO TÉCNICO -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="CONTRATO TÉCNICO DE LA API" data-title="Contrato Técnico de la API">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-700"><i data-lucide="file-json" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Contrato técnico · Consumo desde Bruno y, más adelante, React</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Contrato de <code class="font-mono text-[#00324D]">/api/dev/users</code></h2>
+          <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+            <table class="min-w-full text-xs">
+              <thead class="bg-slate-50 text-slate-700"><tr><th class="text-left p-2.5 font-bold">Método y ruta</th><th class="text-left p-2.5 font-bold">Entrada</th><th class="text-left p-2.5 font-bold">Éxito</th><th class="text-left p-2.5 font-bold">Errores</th></tr></thead>
+              <tbody class="divide-y divide-slate-100 font-mono text-[11px]">
+                <tr><td class="p-2.5 font-bold text-[#39A900]">POST /api/dev/users</td><td class="p-2.5">body: { email }</td><td class="p-2.5">201 · data: usuario</td><td class="p-2.5">400 VALIDATION_ERROR · 409 EMAIL_ALREADY_EXISTS</td></tr>
+                <tr><td class="p-2.5 font-bold text-blue-700">GET /api/dev/users/by-email</td><td class="p-2.5">query: ?email=</td><td class="p-2.5">200 · data: usuario</td><td class="p-2.5">400 VALIDATION_ERROR · 404 USER_NOT_FOUND</td></tr>
+                <tr><td class="p-2.5 font-bold text-blue-700">GET /api/dev/users/:id</td><td class="p-2.5">params: id (UUID)</td><td class="p-2.5">200 · data: usuario</td><td class="p-2.5">400 INVALID_ID · 404 USER_NOT_FOUND</td></tr>
+                <tr><td class="p-2.5 font-bold text-amber-700">PATCH /api/dev/users/:id/verify</td><td class="p-2.5">params: id (UUID)</td><td class="p-2.5">200 · data: usuario verificado</td><td class="p-2.5">400 · 404 · 409 USER_ALREADY_VERIFIED</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] overflow-x-auto"><pre><code class="language-json">{
+  "success": true,
+  "data": {
+    "id": "3f1c…-uuid",
+    "email": "nuevo.aprendiz@misena.edu.co",
+    "role": "user",
+    "is_verified": false,
+    "created_at": "2026-11-12T15:00:00.000Z",
+    "updated_at": "2026-11-12T15:00:00.000Z"
+  }
+}</code></pre></div>
+            <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] overflow-x-auto"><pre><code class="language-json">{
+  "success": false,
+  "statusCode": 409,
+  "error": "Conflict",
+  "message": "El correo ya está registrado.",
+  "code": "EMAIL_ALREADY_EXISTS",
+  "timestamp": "2026-11-12T15:00:01.000Z",
+  "path": "/api/dev/users"
+}</code></pre></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: BRUNO -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2: PRUEBAS DE INTEGRACIÓN" data-title="Pruebas con Bruno (11 casos)">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold"><i data-lucide="flask-conical" class="w-3.5 h-3.5 text-amber-600"></i><span>Bloque 2 · Hito 4 · server/bruno/</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Colección Bruno: 11 casos con aserciones automáticas</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs font-mono">
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>01 Health Check</span><span class="text-emerald-700 font-bold">200</span></div>
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>07 Inyección SQL en email</span><span class="text-rose-700 font-bold">404</span></div>
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>02 Crear usuario</span><span class="text-emerald-700 font-bold">201</span></div>
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>08 ID inválido</span><span class="text-amber-700 font-bold">400</span></div>
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>03 Duplicado en mayúsculas</span><span class="text-rose-700 font-bold">409</span></div>
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>09 Buscar por ID</span><span class="text-emerald-700 font-bold">200</span></div>
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>04 Asignación masiva de rol</span><span class="text-emerald-700 font-bold">201 · role user</span></div>
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>10 Verificar cuenta</span><span class="text-emerald-700 font-bold">200</span></div>
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>05 Correo inválido</span><span class="text-amber-700 font-bold">400</span></div>
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>11 Re-verificar cuenta</span><span class="text-rose-700 font-bold">409</span></div>
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>06 Buscar por email</span><span class="text-emerald-700 font-bold">200</span></div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <div class="bg-slate-900 text-slate-200 p-3 rounded-xl font-mono text-[11px] overflow-x-auto"><pre><code class="language-javascript">tests {
+  test("Crear Duplicado en Mayúsculas (409 Conflict)", function () {
+    expect(res.status).to.equal(409);
+    expect(res.body.code).to.equal("EMAIL_ALREADY_EXISTS");
+  });
+}</code></pre></div>
+            <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-blue-950 space-y-1"><strong class="block">Orden de ejecución</strong><span>Corra la colección completa (<em>Run Collection</em>). Para repetirla desde cero ejecute <code class="font-mono">database/seeds/99_reset_pruebas_sesion_09.sql</code>, que borra los usuarios de prueba y deja al aprendiz pendiente con su token demo.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: PRUEBA SQLI EN VIVO -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2: PRUEBAS DE INTEGRACIÓN" data-title="Ataque en Vivo contra su Propia API">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-rose-50 text-rose-900 border border-rose-200 rounded-full text-xs font-bold"><i data-lucide="crosshair" class="w-3.5 h-3.5 text-rose-600"></i><span>Bloque 2 · Hacking ético en el aula</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Ataque en vivo contra su propia API</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto space-y-1">
+              <div class="text-slate-500"># PowerShell: el payload viaja dentro de la URL</div>
+              <div class="text-emerald-300">curl.exe -i "http://localhost:3000/api/dev/users/by-email?email='OR'1'='1'--@x.co"</div>
+              <div class="text-slate-500 pt-2"># Respuesta esperada</div>
+              <div class="text-amber-300">HTTP/1.1 404 Not Found</div>
+              <div class="text-slate-300">{ "success": false, "code": "USER_NOT_FOUND", "path": "/api/dev/users/by-email" }</div>
+            </div>
+            <div class="space-y-2 text-xs">
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="block text-slate-900">¿Por qué este payload sin espacios?</strong><span class="text-slate-600">Para que pase el validador de formato de correo y llegue a PostgreSQL. Así comprobamos la defensa real: el placeholder <code class="font-mono">$1</code>.</span></div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="block text-slate-900">Observe el campo <code class="font-mono">path</code></strong><span class="text-slate-600">No incluye <code class="font-mono">?email=…</code>: el formato estándar nunca devuelve la query string, que puede contener datos personales.</span></div>
+              <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-950"><strong>Evidencia:</strong> en la consola del servidor, morgan registra la petición y PostgreSQL no devuelve ninguna fila.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: COMANDOS -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2: MONTAJE EN AULA & GIT" data-title="Montaje Guiado: Comandos de Consola">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold"><i data-lucide="terminal" class="w-3.5 h-3.5 text-blue-600"></i><span>Bloque 2 · PowerShell en el repositorio personal</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Montaje Guiado: comandos de la sesión</h2>
+          <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto space-y-0.5">
+            <div class="text-slate-500"># Hito 0 · Migración (solo si su esquema es anterior a la corrección de S06)</div>
+            <div class="text-emerald-300">psql -U postgres -d adso_auth_db -f database/migrations/02_hardening_auth_schema.sql</div>
+            <div class="text-emerald-300">psql -U postgres -d adso_auth_db -f database/seeds/02_fix_seed_credentials.sql</div>
+            <div class="text-purple-300">git add database/ ; git commit -m "fix(db): migrar tokens a sha-256 y endurecer esquema de usuarios"</div>
+            <div class="text-slate-500 pt-2"># Hito 1 · Repositorio</div>
+            <div class="text-emerald-300">New-Item -ItemType Directory -Force server/src/repositories, server/src/utils</div>
+            <div class="text-purple-300">git add server/src/repositories ; git commit -m "feat(repository): crear userrepository con consultas parametrizadas"</div>
+            <div class="text-slate-500 pt-2"># Hito 2 · Utilidades</div>
+            <div class="text-purple-300">git add server/src/middlewares/asyncHandler.js server/src/utils ; git commit -m "feat(server): agregar asynchandler y validadores de entrada"</div>
+            <div class="text-slate-500 pt-2"># Hito 3 · Capa HTTP</div>
+            <div class="text-purple-300">git add server/src ; git commit -m "feat(users): exponer rutas de laboratorio del repositorio en desarrollo"</div>
+            <div class="text-slate-500 pt-2"># Hito 4 · Pruebas</div>
+            <div class="text-purple-300">git add server/bruno ; git commit -m "test(api): coleccion bruno con casos de sqli y unique violation"</div>
+            <div class="text-purple-300">git push</div>
+          </div>
+          <p class="text-xs text-slate-600">Antes de cada commit: <code class="font-mono">git status</code> y compruebe que <code class="font-mono">.env</code> no aparece.</p>
+        </div>
+      </section>
+
+      <!-- SLIDE: VISOR -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="CÓDIGO DE REFERENCIA" data-title="Visor de Archivos de la Sesión">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold"><i data-lucide="code-2" class="w-3.5 h-3.5 text-blue-600"></i><span>Código probado contra PostgreSQL</span></div>
+            <button onclick="window.copyActiveCodeTab()" class="px-3 py-1.5 bg-[#39A900] hover:bg-[#2D8200] text-white rounded-lg text-xs font-bold transition-colors flex items-center space-x-1.5 shadow-2xs self-start sm:self-auto cursor-pointer">
+              <i data-lucide="copy" class="w-3.5 h-3.5" id="icon-copy-tab"></i><span id="text-copy-tab">Copiar Archivo Activo</span>
+            </button>
+          </div>
+          <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Visor de Archivos de la Sesión 09</h2>
+          <div id="code-tabs" class="flex items-center gap-1 border-b border-slate-200 pb-2 text-xs font-mono overflow-x-auto"></div>
+          <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[380px] overflow-y-auto">
+            <pre><code id="active-code-box" class="language-javascript"></code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: RÚBRICA -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 3: EVIDENCIA & SUSTENTACIÓN" data-title="Rúbrica & Sustentación (Live Mod)">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-purple-50 text-purple-900 border border-purple-200 rounded-full text-xs font-bold"><i data-lucide="award" class="w-3.5 h-3.5 text-purple-600"></i><span>Bloque 3 · 40 minutos · Sin IA generativa</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Rúbrica de Sustentación Individual</h2>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+            <div class="p-3 bg-white border border-slate-200 rounded-xl"><span class="text-2xl font-black text-[#00324D]">30%</span><span class="block font-bold text-slate-900">Repositorio</span><span class="text-slate-600">4 métodos parametrizados, sin <code class="font-mono">SELECT *</code></span></div>
+            <div class="p-3 bg-white border border-slate-200 rounded-xl"><span class="text-2xl font-black text-[#39A900]">25%</span><span class="block font-bold text-slate-900">Transacción</span><span class="text-slate-600"><code class="font-mono">connect</code>, ROLLBACK y <code class="font-mono">release</code> correctos</span></div>
+            <div class="p-3 bg-white border border-slate-200 rounded-xl"><span class="text-2xl font-black text-amber-600">20%</span><span class="block font-bold text-slate-900">Bruno</span><span class="text-slate-600">11 pruebas en verde, incluida la de SQLi</span></div>
+            <div class="p-3 bg-white border border-slate-200 rounded-xl"><span class="text-2xl font-black text-purple-700">25%</span><span class="block font-bold text-slate-900">Live Mod & Git</span><span class="text-slate-600">5 commits y modificación en caliente</span></div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <div class="p-4 bg-white border border-slate-200 rounded-2xl space-y-2">
+              <strong class="text-slate-900 block">3 preguntas de sustentación</strong>
+              <ol class="list-decimal list-inside space-y-1.5 text-slate-700">
+                <li>¿Por qué <code class="font-mono">' OR '1'='1' --</code> devuelve 404 en su API? Explique parse, bind y execute.</li>
+                <li>¿Qué pasaría si en <code class="font-mono">verifyUser</code> usara <code class="font-mono">pool.query('BEGIN')</code> y olvidara <code class="font-mono">release()</code>?</li>
+                <li>¿Por qué el controlador no toma <code class="font-mono">role</code> del body? ¿Qué vulnerabilidad evita?</li>
+              </ol>
+            </div>
+            <div class="p-4 bg-amber-50 border border-amber-200 rounded-2xl space-y-2">
+              <strong class="text-amber-900 block">Reto práctico (Live Mod en caliente)</strong>
+              <p class="text-amber-950">Agregue al repositorio <code class="font-mono">countByVerification()</code>, que devuelva <code class="font-mono">{ verified, pending }</code> con <strong>una sola consulta</strong> (<code class="font-mono">COUNT(*) FILTER (WHERE …)</code>), y expóngalo en <code class="font-mono">GET /api/dev/users/stats</code>, antes de <code class="font-mono">/:id</code>.</p>
+              <p class="text-amber-900 text-[11px]">Preparación directa para el dashboard de métricas de la Sesión 27.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: CIERRE -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="CIERRE & SIGUIENTE SESIÓN" data-title="Cierre & Puente a la Sesión 10">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Cierre de sesión</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Sesión 09 completada</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div class="p-4 bg-white border border-slate-200 rounded-xl"><span class="font-bold text-slate-900 block">Cero SQL fuera del repositorio</span><p class="text-slate-600">Controladores y rutas trabajan con métodos de negocio.</p></div>
+            <div class="p-4 bg-white border border-slate-200 rounded-xl"><span class="font-bold text-slate-900 block">Inyección SQL neutralizada</span><p class="text-slate-600">Ataque demostrado y bloqueado con placeholders.</p></div>
+            <div class="p-4 bg-white border border-slate-200 rounded-xl"><span class="font-bold text-slate-900 block">Transacciones correctas</span><p class="text-slate-600">Un cliente, ROLLBACK ante fallos y liberación garantizada.</p></div>
+          </div>
+          <div class="p-4 bg-blue-50 border border-blue-200 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="space-y-0.5">
+              <h3 class="text-xs font-bold text-blue-950">Próxima lección: Sesión 10 · Mongoose y CRUD del catálogo</h3>
+              <p class="text-[11px] text-blue-800">El mismo enfoque por capas para <code class="font-mono">contents</code> en MongoDB: <code class="font-mono">models/Content.js</code> con discriminators por <code class="font-mono">type</code> y la ruta pública <code class="font-mono">GET /api/content/published</code>.</p>
+            </div>
+            <a href="../../index.html" class="px-4 py-2 bg-[#00324D] hover:bg-[#00263A] text-white rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5 shadow-2xs shrink-0"><i data-lucide="home" class="w-3.5 h-3.5"></i><span>Portal Central</span></a>
+          </div>
+        </div>
+      </section>

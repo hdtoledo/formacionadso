@@ -1,0 +1,488 @@
+      <!-- SLIDE: PORTADA -->
+      <section class="slide-item flex flex-col justify-center py-6" data-block-label="PORTADA DE LECCIÓN" data-title="Portada Institucional">
+        <div class="max-w-5xl mx-auto w-full space-y-6">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 border border-emerald-200 rounded-full text-xs font-bold text-emerald-900">
+            <i data-lucide="leaf" class="w-3.5 h-3.5 text-[#39A900]"></i>
+            <span>Semana 2 · Persistencia Políglota & Arquitectura · Sesión 10 · Cierre de semana</span>
+          </div>
+          <div class="space-y-3">
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+              Mongoose & CRUD del Catálogo: <br class="hidden sm:inline">
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00324D] via-emerald-700 to-[#39A900]">la Landing Page ya tiene API</span>
+            </h1>
+            <p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-4xl">
+              Llevamos la colección <code class="font-mono text-emerald-700">contents</code> de la Sesión 07 al backend: modelo <code class="font-mono">src/models/Content.js</code> con <strong>discriminators</strong> por <code class="font-mono">type</code>, validaciones que también son seguridad, ruta pública <code class="font-mono font-bold text-[#00324D]">GET /api/content/published</code>, CRUD de laboratorio y defensa contra la <strong>inyección NoSQL</strong>.
+            </p>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+            <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-2xs space-y-1">
+              <div class="flex items-center space-x-1.5 text-xs font-bold text-[#00324D]"><i data-lucide="shapes" class="w-4 h-4 text-emerald-600"></i><span>Discriminators</span></div>
+              <p class="text-[11px] text-slate-500">5 tipos en una colección</p>
+            </div>
+            <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-2xs space-y-1">
+              <div class="flex items-center space-x-1.5 text-xs font-bold text-[#00324D]"><i data-lucide="globe" class="w-4 h-4 text-blue-600"></i><span>Ruta Pública</span></div>
+              <p class="text-[11px] text-slate-500">/api/content/published</p>
+            </div>
+            <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-2xs space-y-1">
+              <div class="flex items-center space-x-1.5 text-xs font-bold text-[#00324D]"><i data-lucide="shield-alert" class="w-4 h-4 text-rose-600"></i><span>NoSQL Injection</span></div>
+              <p class="text-[11px] text-slate-500">Ataque <code class="font-mono">$ne</code> y doble defensa</p>
+            </div>
+            <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-2xs space-y-1">
+              <div class="flex items-center space-x-1.5 text-xs font-bold text-[#00324D]"><i data-lucide="git-commit" class="w-4 h-4 text-purple-600"></i><span>5 Commits Atómicos</span></div>
+              <p class="text-[11px] text-slate-500">Cierre de la Semana 2</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap items-center gap-4 text-xs font-medium text-slate-500 pt-2 border-t border-slate-200">
+            <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4 text-[#39A900]"></i> Semana 2 · Día 10</span>
+            <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4 text-blue-600"></i> 4 Horas Presenciales</span>
+            <span class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-4 h-4 text-rose-500"></i> Ambiente 3 · CADPH Garzón</span>
+            <span class="flex items-center gap-1.5"><i data-lucide="user-check" class="w-4 h-4 text-purple-600"></i> Instructor Líder ADSO</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: OBJETIVOS -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="OBJETIVOS & COMPETENCIAS" data-title="Objetivos & Competencias">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-700"><i data-lucide="target" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Resultados de Aprendizaje & Criterios de Evaluación</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Al terminar la sesión, el aprendiz…</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+            <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-2xs space-y-3">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-[#39A900] flex items-center justify-center"><i data-lucide="shapes" class="w-5 h-5"></i></div>
+              <h3 class="text-base font-bold text-slate-900">1. Modela polimorfismo</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">Define un esquema base y un discriminator por tipo para validar documentos distintos que conviven en una sola colección.</p>
+            </div>
+            <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-2xs space-y-3">
+              <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center"><i data-lucide="list-checks" class="w-5 h-5"></i></div>
+              <h3 class="text-base font-bold text-slate-900">2. Implementa un CRUD seguro</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">Expone la ruta pública de publicados y el CRUD administrativo con campos protegidos, límites y códigos HTTP correctos.</p>
+            </div>
+            <div class="p-5 bg-white rounded-2xl border border-slate-200 shadow-2xs space-y-3">
+              <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-700 flex items-center justify-center"><i data-lucide="shield-alert" class="w-5 h-5"></i></div>
+              <h3 class="text-base font-bold text-slate-900">3. Bloquea la inyección NoSQL</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">Explica cómo <code class="font-mono">?type[$ne]=banner</code> se convierte en un operador y lo neutraliza con lista blanca y <code class="font-mono">sanitizeFilter</code>.</p>
+            </div>
+          </div>
+          <div class="p-4 bg-emerald-50/70 border border-emerald-200 rounded-xl text-xs text-slate-700 flex items-start gap-3">
+            <i data-lucide="info" class="w-4 h-4 text-[#39A900] shrink-0 mt-0.5"></i>
+            <div><strong class="text-emerald-950">Criterio de evaluación:</strong> el aprendiz agrega en caliente un campo al esquema de Mongoose, lo publica desde Bruno y lo muestra en Compass, explicando por qué el contenido nuevo nace como borrador.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: HOJA DE RUTA -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="HOJA DE RUTA DEL MONTAJE" data-title="Hoja de Ruta del Montaje">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold"><i data-lucide="map" class="w-3.5 h-3.5 text-blue-600"></i><span>Antes de la teoría · Lo que vamos a construir hoy</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Hoja de Ruta: de Compass a una API que alimenta la Landing</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="bg-slate-900 text-slate-300 p-4 rounded-xl font-mono text-xs overflow-x-auto leading-snug">server/
+├── <span class="text-emerald-400 font-bold">bruno-catalogo/</span>                  <span class="text-slate-500"># HITO 5</span>
+└── src/
+    ├── <span class="text-emerald-400 font-bold">models/Content.js</span>            <span class="text-slate-500"># HITO 1</span>
+    ├── <span class="text-amber-300 font-bold">config/db.js</span>                 <span class="text-slate-500"># HITO 2 (se modifica)</span>
+    ├── <span class="text-amber-300 font-bold">middlewares/errorHandler.js</span>  <span class="text-slate-500"># HITO 2 (se modifica)</span>
+    ├── <span class="text-amber-300 font-bold">utils/validators.js</span>          <span class="text-slate-500"># HITO 3 (se modifica)</span>
+    ├── <span class="text-emerald-400 font-bold">controllers/contentController.js</span> <span class="text-slate-500"># HITO 3</span>
+    ├── <span class="text-emerald-400 font-bold">routes/contentRoutes.js</span>      <span class="text-slate-500"># HITO 4 (público)</span>
+    ├── <span class="text-emerald-400 font-bold">routes/devContentRoutes.js</span>   <span class="text-slate-500"># HITO 4 (laboratorio)</span>
+    └── <span class="text-amber-300 font-bold">app.js</span>                       <span class="text-slate-500"># HITO 4 (se modifica)</span></div>
+            <div class="space-y-3 text-xs">
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1"><span class="font-bold text-[#00324D] block">¿Qué recibe del pasado?</span><p class="text-slate-600">La colección <code class="font-mono">contents</code>, su seed polimórfico y sus 5 índices (Sesión 07); la conexión Mongoose (Sesión 08); <code class="font-mono">asyncHandler</code>, <code class="font-mono">AppError</code> y el patrón de rutas de laboratorio (Sesión 09).</p></div>
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1"><span class="font-bold text-[#39A900] block">¿Qué entrega al futuro?</span><p class="text-slate-600">La Sesión 19 pintará la Landing en React con <code class="font-mono">GET /api/content/published</code>; las Sesiones 28 y 29 construirán el CRUD del panel admin sobre estos mismos controladores.</p></div>
+              <div class="p-3.5 bg-amber-50 border border-amber-200 rounded-xl space-y-1"><span class="font-bold text-amber-900 block">Contrato de publicación</span><p class="text-amber-950"><code class="font-mono">active: true</code> = publicado en la Landing. <code class="font-mono">active: false</code> = borrador. Todo contenido nuevo nace como borrador.</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: HITOS -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="HOJA DE RUTA DEL MONTAJE" data-title="Los 5 Commits Atómicos">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-purple-50 text-purple-900 border border-purple-200 rounded-full text-xs font-bold"><i data-lucide="check-square" class="w-3.5 h-3.5 text-purple-600"></i><span>Conventional Commits v1.0.0 · Trazabilidad en GitHub</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Los 5 Hitos Atómicos de la Sesión</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+            <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2"><span class="font-mono font-bold text-emerald-700">Hito 1 · Modelo</span><div class="font-mono text-slate-800 text-[11px]">feat(models): modelo content con discriminators por tipo</div></div>
+            <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2"><span class="font-mono font-bold text-rose-700">Hito 2 · Blindaje</span><div class="font-mono text-slate-800 text-[11px]">feat(server): sanitizefilter y traduccion de errores de mongoose</div></div>
+            <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2"><span class="font-mono font-bold text-blue-700">Hito 3 · Controlador</span><div class="font-mono text-slate-800 text-[11px]">feat(content): controlador crud con campos protegidos y limite</div></div>
+            <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2"><span class="font-mono font-bold text-[#00324D]">Hito 4 · Rutas</span><div class="font-mono text-slate-800 text-[11px]">feat(content): ruta publica published y crud de laboratorio</div></div>
+            <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2"><span class="font-mono font-bold text-purple-700">Hito 5 · Pruebas</span><div class="font-mono text-slate-800 text-[11px]">test(api): coleccion bruno del catalogo con nosql injection</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: POR QUE MONGOOSE -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: CONCEPTOS & ARQUITECTURA" data-title="¿Por qué un ODM si ya hay validator?">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-700"><i data-lucide="layers" class="w-3.5 h-3.5 text-emerald-600"></i><span>Bloque 1 · Arquitectura</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">¿Por qué Mongoose si la colección ya tiene validator?</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <div class="p-5 bg-white border border-slate-200 rounded-2xl space-y-2">
+              <strong class="text-slate-900 block text-sm">Validator de la Sesión 07 (en MongoDB)</strong>
+              <ul class="space-y-1.5 text-slate-600 list-disc list-inside">
+                <li>Configurado con <code class="font-mono">validationAction: "warn"</code>: registra, pero <strong>no bloquea</strong>.</li>
+                <li>Solo exige <code class="font-mono">type</code>, <code class="font-mono">active</code> y las fechas.</li>
+                <li>Sus errores no tienen mensajes para el usuario.</li>
+              </ul>
+            </div>
+            <div class="p-5 bg-emerald-50/60 border border-emerald-200 rounded-2xl space-y-2">
+              <strong class="text-emerald-900 block text-sm">Esquema Mongoose (en la aplicación)</strong>
+              <ul class="space-y-1.5 text-emerald-950 list-disc list-inside">
+                <li>Reglas por tipo: obligatorios, longitudes, enums y formatos de URL.</li>
+                <li>Mensajes en español que llegan al frontend como <code class="font-mono">fieldErrors</code>.</li>
+                <li><code class="font-mono">timestamps</code>, valores por defecto y <code class="font-mono">strict</code> (descarta campos desconocidos).</li>
+              </ul>
+            </div>
+          </div>
+          <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-950 flex items-start gap-2"><i data-lucide="info" class="w-4 h-4 text-blue-600 shrink-0 mt-0.5"></i><span>Son complementarios: el esquema de Mongoose protege lo que entra por la API; el validator de MongoDB es la red de seguridad para quien escriba directo en Compass o mongosh.</span></div>
+        </div>
+      </section>
+
+      <!-- SLIDE: DISCRIMINATORS -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: CONCEPTOS & ARQUITECTURA" data-title="Discriminators: Polimorfismo en Mongoose">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold"><i data-lucide="shapes" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Bloque 1 · Del polimorfismo de la Sesión 07 al código</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Discriminators: un modelo, cinco formas</h2>
+          <div class="p-4 bg-white border-2 border-[#00324D] rounded-2xl text-xs text-center space-y-1">
+            <span class="font-mono font-bold text-[#00324D] block">ContentSchema (base)</span>
+            <span class="text-slate-600">active · tags · createdAt · updatedAt · <strong>type</strong> (discriminatorKey)</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-[11px] text-center">
+            <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl"><span class="font-mono font-bold text-blue-900 block">banner</span><span class="text-slate-600">title · ctaUrl · imageUrl · priority</span></div>
+            <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl"><span class="font-mono font-bold text-emerald-900 block">service</span><span class="text-slate-600">name · category · description · code</span></div>
+            <div class="p-3 bg-purple-50 border border-purple-200 rounded-xl"><span class="font-mono font-bold text-purple-900 block">testimonial</span><span class="text-slate-600">author · quote · rating</span></div>
+            <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl"><span class="font-mono font-bold text-amber-900 block">stat</span><span class="text-slate-600">metric · value · prefix · suffix</span></div>
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl"><span class="font-mono font-bold text-slate-800 block">event</span><span class="text-slate-600">title · startsAt · location</span></div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <div class="p-3.5 bg-white border border-slate-200 rounded-xl"><strong class="block text-slate-900 mb-1">Un solo find, varios esquemas</strong><span class="text-slate-600"><code class="font-mono">Content.find()</code> devuelve cada documento como instancia de <strong>su</strong> discriminator: un banner se valida como banner y un servicio como servicio.</span></div>
+            <div class="p-3.5 bg-white border border-slate-200 rounded-xl"><strong class="block text-slate-900 mb-1">Compatible con el seed</strong><span class="text-slate-600">Los 10 documentos importados en la Sesión 07 cumplen sus discriminators: se comprobó con <code class="font-mono">validateSync()</code> antes de dar la clase.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: LIVE CODING 1 BASE -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING" data-title="Live Coding 1: Esquema Base & Índices">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold"><i data-lucide="code" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Paso a Paso 1 · Hito 1</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 1: <code class="font-mono text-emerald-700">ContentSchema</code> e índices</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div class="lg:col-span-8 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[440px] overflow-y-auto"><pre><code class="language-javascript">{{SEC:src/models/Content.js#import mongoose#// 2. Discriminators}}</code></pre></div>
+            <div class="lg:col-span-4 space-y-2 text-xs">
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D] block">active: false por defecto</strong><span class="text-slate-600">Nada se publica por accidente: el administrador decide cuándo aparece en la Landing.</span></div>
+              <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl"><strong class="text-amber-900 block">Mismos nombres de índice</strong><span class="text-amber-950">Si Mongoose declarara <code class="font-mono">{active, priority}</code> con otro nombre, MongoDB respondería <em>"Index already exists with a different name"</em>.</span></div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#39A900] block">autoIndex en producción: false</strong><span class="text-slate-600">Crear índices al arrancar bloquea colecciones grandes; en producción se crean con scripts controlados.</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: LIVE CODING 2 DISCRIMINATORS -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING" data-title="Live Coding 2: Discriminators banner & service">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold"><i data-lucide="shapes" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Paso a Paso 2 · Hito 1</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 2: discriminators <code class="font-mono text-blue-700">banner</code> y <code class="font-mono text-emerald-700">service</code></h2>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div class="lg:col-span-8 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[440px] overflow-y-auto"><pre><code class="language-javascript">{{SEC:src/models/Content.js#Content.discriminator('banner'#Content.discriminator('testimonial'}}</code></pre></div>
+            <div class="lg:col-span-4 space-y-2 text-xs">
+              <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl"><strong class="text-rose-800 block">Validar también es seguridad</strong><span class="text-rose-950"><code class="font-mono">SAFE_LINK</code> rechaza <code class="font-mono">javascript:alert(1)</code>. Si se guardara, el botón del banner en React ejecutaría código al hacer clic (XSS).</span></div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D] block">Mensajes en español</strong><span class="text-slate-600"><code class="font-mono">[valor, 'mensaje']</code> define el texto que verá el administrador en el formulario.</span></div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#39A900] block">Testimonial, stat y event</strong><span class="text-slate-600">Siguen el mismo patrón; están completos en el visor de archivos.</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: NOSQL INJECTION -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: INYECCIÓN NOSQL" data-title="Anatomía de una Inyección NoSQL">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-rose-50 text-rose-900 border border-rose-200 rounded-full text-xs font-bold"><i data-lucide="skull" class="w-3.5 h-3.5 text-rose-600"></i><span>Bloque 1 · OWASP Top 10: A03 Injection (versión NoSQL)</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">"MongoDB no usa SQL, entonces no hay inyección"… falso</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <span class="text-xs font-bold text-rose-700 uppercase tracking-wide">❌ Código vulnerable</span>
+              <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs overflow-x-auto"><pre><code class="language-javascript">// El valor de la URL va directo al filtro
+const data = await Content.find({
+  active: true,
+  type: req.query.type
+});</code></pre></div>
+              <p class="text-xs text-slate-600">El atacante pide: <code class="font-mono font-bold text-rose-700">/api/content/published?type[$ne]=banner</code></p>
+              <div class="bg-slate-900 text-rose-300 p-3 rounded-xl font-mono text-xs overflow-x-auto">req.query.type === <span class="bg-rose-900/60">{ $ne: 'banner' }</span>   // ¡un objeto, no un texto!</div>
+            </div>
+            <div class="space-y-2 text-xs">
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl"><strong class="block text-slate-900">1. Express interpreta los corchetes</strong><span class="text-slate-600">La sintaxis <code class="font-mono">a[b]=c</code> de la query string se convierte en el objeto <code class="font-mono">{ a: { b: 'c' } }</code>.</span></div>
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl"><strong class="block text-slate-900">2. <code class="font-mono">$ne</code> es un operador de MongoDB</strong><span class="text-slate-600">El filtro deja de ser "tipo igual a…" y pasa a ser "tipo <strong>distinto de</strong> banner".</span></div>
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl"><strong class="block text-slate-900">3. El atacante controla la consulta</strong><span class="text-slate-600">Con <code class="font-mono">$gt</code>, <code class="font-mono">$regex</code> o <code class="font-mono">$where</code> puede saltarse filtros, como el de <code class="font-mono">active</code> en un login o en un recurso privado.</span></div>
+              <div class="p-3.5 bg-rose-50 border border-rose-200 rounded-xl"><strong class="text-rose-900">Resultado medido:</strong> <span class="text-rose-950">sin protección, el filtro <code class="font-mono">{ type: { $ne: 'banner' } }</code> devolvió los 8 documentos que no son banners.</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: DEFENSA NOSQL -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: INYECCIÓN NOSQL" data-title="Defensa en Dos Capas">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Bloque 1 · Defensa en profundidad</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Defensa en dos capas</h2>
+          <div class="grid grid-cols-1 gap-3">
+            <div class="space-y-2">
+              <span class="text-xs font-bold text-emerald-700 uppercase tracking-wide">Capa 1 · Controlador: tipo y lista blanca</span>
+              <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] overflow-x-auto"><pre><code class="language-javascript">{{SEC:src/controllers/contentController.js#// El tipo debe ser TEXTO#const invalidId}}</code></pre></div>
+            </div>
+            <div class="space-y-2">
+              <span class="text-xs font-bold text-emerald-700 uppercase tracking-wide">Capa 2 · config/db.js: red de seguridad global</span>
+              <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] overflow-x-auto"><pre><code class="language-javascript">{{SEC:src/config/db.js#// Defensa contra inyección NoSQL#// 1. Singleton pg.Pool}}</code></pre></div>
+              <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-950"><strong>Medido:</strong> con <code class="font-mono">sanitizeFilter</code>, el mismo filtro malicioso termina en <code class="font-mono">CastError</code> (400) y no devuelve ningún documento.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: LIVE CODING 3 PUBLISHED -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING" data-title="Live Coding 3: getPublishedContents">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold"><i data-lucide="globe" class="w-3.5 h-3.5 text-blue-600"></i><span>Paso a Paso 3 · Hito 3</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 3: la ruta pública <code class="font-mono text-blue-700">getPublishedContents()</code></h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[440px] overflow-y-auto"><pre><code class="language-javascript">{{FN:src/controllers/contentController.js:getPublishedContents}}</code></pre></div>
+            <div class="space-y-3">
+              <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] overflow-x-auto"><pre><code class="language-javascript">{{FN:src/utils/validators.js:parseLimit}}</code></pre></div>
+              <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-950"><strong>Trampa del ordenamiento:</strong> en MongoDB, los documentos <strong>sin</strong> el campo <code class="font-mono">priority</code> quedan <strong>antes</strong> que los números en orden ascendente. Por eso se ordena primero por <code class="font-mono">type</code>: los banners quedan juntos y ordenados por prioridad.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: LIVE CODING 4 CREATE -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING" data-title="Live Coding 4: createContent & Campos Protegidos">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold"><i data-lucide="plus-circle" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Paso a Paso 4 · Hito 3</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 4: <code class="font-mono text-emerald-700">createContent()</code> y campos protegidos</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div class="lg:col-span-8 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[440px] overflow-y-auto"><pre><code class="language-javascript">{{SEC:src/controllers/contentController.js#// Campos que el cliente NUNCA#// El tipo debe ser TEXTO}}
+{{FN:src/controllers/contentController.js:createContent}}</code></pre></div>
+            <div class="lg:col-span-4 space-y-2 text-xs">
+              <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl"><strong class="text-rose-800 block">Asignación masiva</strong><span class="text-rose-950">Un body con <code class="font-mono">"views": 999999</code> o <code class="font-mono">"createdAt": "2000-01-01"</code> inflaría métricas o falsearía fechas. <code class="font-mono">pickEditable</code> los descarta.</span></div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D] block">Llaves con <code class="font-mono">$</code></strong><span class="text-slate-600">Un <code class="font-mono">{"$set": {...}}</code> en el body tampoco se copia: los operadores nunca vienen del cliente.</span></div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#39A900] block"><code class="font-mono">Content.discriminators[type]</code></strong><span class="text-slate-600">Elige el esquema del tipo, que aplica sus validaciones y fija <code class="font-mono">type</code> automáticamente.</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: LIVE CODING 5 UPDATE DELETE -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING" data-title="Live Coding 5: updateContent & deleteContent">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold"><i data-lucide="pencil" class="w-3.5 h-3.5 text-amber-600"></i><span>Paso a Paso 5 · Hito 3</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 5: <code class="font-mono text-amber-700">updateContent()</code> & <code class="font-mono text-rose-700">deleteContent()</code></h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[440px] overflow-y-auto"><pre><code class="language-javascript">{{FN:src/controllers/contentController.js:updateContent}}</code></pre></div>
+            <div class="space-y-3">
+              <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] overflow-x-auto"><pre><code class="language-javascript">{{FN:src/controllers/contentController.js:deleteContent}}</code></pre></div>
+              <div class="grid grid-cols-1 gap-2 text-xs">
+                <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D] block">¿Por qué no <code class="font-mono">findByIdAndUpdate</code>?</strong><span class="text-slate-600">No ejecuta por defecto las validaciones del discriminator. <code class="font-mono">doc.set()</code> + <code class="font-mono">doc.save()</code> valida todo el documento.</span></div>
+                <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#39A900] block">400 · 404 · 422</strong><span class="text-slate-600">Id mal formado, documento inexistente y regla de negocio (el tipo no cambia) son tres errores distintos.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: LIVE CODING 6 ERROR HANDLER -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING" data-title="Live Coding 6: Errores de Mongoose">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-slate-100 text-slate-800 border border-slate-200 rounded-full text-xs font-bold"><i data-lucide="alert-octagon" class="w-3.5 h-3.5 text-rose-600"></i><span>Paso a Paso 6 · Hito 2</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 6: traducir errores de Mongoose en <code class="font-mono text-rose-700">errorHandler.js</code></h2>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div class="lg:col-span-8 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[440px] overflow-y-auto"><pre><code class="language-javascript">{{FN:src/middlewares/errorHandler.js:fromMongooseError}}
+
+// En errorHandler(), antes del 500:
+{{SEC:src/middlewares/errorHandler.js#// Errores controlados: los nuestros#  // Error inesperado}}</code></pre></div>
+            <div class="lg:col-span-4 space-y-2 text-xs">
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="block text-slate-900"><code class="font-mono">ValidationError</code> → 400</strong><span class="text-slate-600">Un mensaje por campo en <code class="font-mono">fieldErrors</code>, listo para pintarse bajo cada input.</span></div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="block text-slate-900"><code class="font-mono">CastError</code> → 400</strong><span class="text-slate-600"><code class="font-mono">"hours": "muchas"</code> no es número. El mensaje técnico en inglés se reemplaza.</span></div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="block text-slate-900"><code class="font-mono">11000</code> → 409</strong><span class="text-slate-600">El equivalente MongoDB del <code class="font-mono">23505</code> de PostgreSQL (Sesión 09).</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: RUTAS -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING" data-title="Live Coding 7: Rutas Públicas vs Laboratorio">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold"><i data-lucide="route" class="w-3.5 h-3.5 text-blue-600"></i><span>Paso a Paso 7 · Hito 4</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 7: ruta pública vs CRUD de laboratorio</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="space-y-3">
+              <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] overflow-x-auto"><pre><code class="language-javascript">// src/routes/contentRoutes.js
+{{SEC:src/routes/contentRoutes.js#const router = Router();#export default}}</code></pre></div>
+              <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] overflow-x-auto"><pre><code class="language-javascript">// src/routes/devContentRoutes.js
+{{SEC:src/routes/devContentRoutes.js#const router = Router();#export default}}</code></pre></div>
+            </div>
+            <div class="space-y-3">
+              <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] overflow-x-auto"><pre><code class="language-javascript">// src/app.js
+{{SEC:src/app.js#app.use('/api/health'#// Ruta raíz informativa}}</code></pre></div>
+              <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-950"><strong>Semana 3:</strong> el CRUD se moverá a <code class="font-mono">/api/content</code> protegido con <code class="font-mono">verifyAuth</code> y <code class="font-mono">requireRole('admin')</code>. Los controladores no cambian: solo se agregan middlewares a la ruta.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: CONTRATO -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="CONTRATO TÉCNICO DE LA API" data-title="Contrato Técnico del Catálogo">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-700"><i data-lucide="file-json" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Contrato técnico · Lo que consumirá React en la Semana 4</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Contrato de la API del catálogo</h2>
+          <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+            <table class="min-w-full text-xs">
+              <thead class="bg-slate-50 text-slate-700"><tr><th class="text-left p-2.5 font-bold">Método y ruta</th><th class="text-left p-2.5 font-bold">Entrada</th><th class="text-left p-2.5 font-bold">Éxito</th><th class="text-left p-2.5 font-bold">Errores</th></tr></thead>
+              <tbody class="divide-y divide-slate-100 font-mono text-[11px]">
+                <tr><td class="p-2.5 font-bold text-blue-700">GET /api/content/published</td><td class="p-2.5">?type= · ?limit= (1-50)</td><td class="p-2.5">200 · data[] · meta</td><td class="p-2.5">400 VALIDATION_ERROR</td></tr>
+                <tr><td class="p-2.5 font-bold text-slate-700">GET /api/dev/content</td><td class="p-2.5">?type= · ?active= · ?limit=</td><td class="p-2.5">200 · incluye borradores</td><td class="p-2.5">400</td></tr>
+                <tr><td class="p-2.5 font-bold text-[#39A900]">POST /api/dev/content</td><td class="p-2.5">body: { type, ...campos }</td><td class="p-2.5">201 · active: false</td><td class="p-2.5">400 · 409 DUPLICATE_KEY</td></tr>
+                <tr><td class="p-2.5 font-bold text-amber-700">PATCH /api/dev/content/:id</td><td class="p-2.5">body parcial</td><td class="p-2.5">200 · data</td><td class="p-2.5">400 · 404 · 409 · 422</td></tr>
+                <tr><td class="p-2.5 font-bold text-rose-700">DELETE /api/dev/content/:id</td><td class="p-2.5">params: id (ObjectId)</td><td class="p-2.5">204 sin cuerpo</td><td class="p-2.5">400 · 404</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] overflow-x-auto"><pre><code class="language-json">{
+  "success": true,
+  "data": [
+    { "_id": "6710…", "type": "banner", "title": "Innovación…",
+      "priority": 1, "active": true, "createdAt": "2026-10-16T10:00:00.000Z" }
+  ],
+  "meta": { "count": 1, "limit": 20 }
+}</code></pre></div>
+            <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] overflow-x-auto"><pre><code class="language-json">{
+  "success": false,
+  "statusCode": 400,
+  "error": "Bad Request",
+  "message": "Los datos enviados no son válidos.",
+  "code": "VALIDATION_ERROR",
+  "fieldErrors": { "ctaUrl": "El enlace debe ser https:// o una ruta interna…" },
+  "path": "/api/dev/content"
+}</code></pre></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: BRUNO -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2: PRUEBAS DE INTEGRACIÓN" data-title="Pruebas con Bruno & E2E Políglota">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold"><i data-lucide="flask-conical" class="w-3.5 h-3.5 text-amber-600"></i><span>Bloque 2 · Hito 5 · server/bruno-catalogo/</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Colección Bruno: 12 casos que se limpian solos</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs font-mono">
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>01 Publicados</span><span class="text-emerald-700 font-bold">200</span></div>
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>07 Código duplicado</span><span class="text-rose-700 font-bold">409</span></div>
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>02 Publicados por tipo</span><span class="text-emerald-700 font-bold">200</span></div>
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>08 Publicar contenido</span><span class="text-emerald-700 font-bold">200</span></div>
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>03 Inyección NoSQL</span><span class="text-amber-700 font-bold">400</span></div>
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>09 Cambiar tipo</span><span class="text-rose-700 font-bold">422</span></div>
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>04 Límite fuera de rango</span><span class="text-amber-700 font-bold">400</span></div>
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>10 Listado de borradores</span><span class="text-emerald-700 font-bold">200</span></div>
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>05 Crear servicio (borrador)</span><span class="text-emerald-700 font-bold">201</span></div>
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>11 Eliminar contenido</span><span class="text-emerald-700 font-bold">204</span></div>
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>06 Banner con javascript:</span><span class="text-amber-700 font-bold">400</span></div>
+            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>12 Eliminar de nuevo</span><span class="text-rose-700 font-bold">404</span></div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <div class="bg-slate-900 text-slate-200 p-3 rounded-xl font-mono text-[11px] overflow-x-auto"><pre><code class="language-javascript">// 05 - Crear Servicio en Borrador
+script:post-response {
+  bru.setVar("contentId", res.body.data._id);
+}
+// 08, 09, 11 y 12 usan {{contentId}} en la URL</code></pre></div>
+            <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-950 space-y-1"><strong class="block">Verificación End-to-End políglota</strong><span>Con el servidor arriba, ejecute en paralelo la colección de la Sesión 09 (PostgreSQL) y esta (MongoDB): un mismo proceso Express atiende ambas bases, y <code class="font-mono">/api/health</code> reporta las dos como <code class="font-mono">healthy</code>.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: COMANDOS -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2: MONTAJE EN AULA & GIT" data-title="Montaje Guiado: Comandos de Consola">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold"><i data-lucide="terminal" class="w-3.5 h-3.5 text-blue-600"></i><span>Bloque 2 · PowerShell en el repositorio personal</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Montaje Guiado: comandos de la sesión</h2>
+          <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto space-y-0.5">
+            <div class="text-slate-500"># Hito 1 · Modelo</div>
+            <div class="text-emerald-300">New-Item -ItemType Directory -Force server/src/models</div>
+            <div class="text-purple-300">git add server/src/models ; git commit -m "feat(models): modelo content con discriminators por tipo"</div>
+            <div class="text-slate-500 pt-2"># Hito 2 · Blindaje (db.js + errorHandler.js)</div>
+            <div class="text-purple-300">git add server/src/config/db.js server/src/middlewares/errorHandler.js ; git commit -m "feat(server): sanitizefilter y traduccion de errores de mongoose"</div>
+            <div class="text-slate-500 pt-2"># Hito 3 · Controlador (+ parseLimit e isObjectId en validators.js)</div>
+            <div class="text-purple-300">git add server/src/controllers/contentController.js server/src/utils ; git commit -m "feat(content): controlador crud con campos protegidos y limite"</div>
+            <div class="text-slate-500 pt-2"># Hito 4 · Rutas</div>
+            <div class="text-purple-300">git add server/src ; git commit -m "feat(content): ruta publica published y crud de laboratorio"</div>
+            <div class="text-slate-500 pt-2"># Hito 5 · Pruebas</div>
+            <div class="text-purple-300">git add server/bruno-catalogo ; git commit -m "test(api): coleccion bruno del catalogo con nosql injection"</div>
+            <div class="text-purple-300">git push</div>
+          </div>
+          <p class="text-xs text-slate-600">No hay dependencias nuevas: Mongoose ya se instaló en la Sesión 08.</p>
+        </div>
+      </section>
+
+      <!-- SLIDE: VISOR -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="CÓDIGO DE REFERENCIA" data-title="Visor de Archivos de la Sesión">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold"><i data-lucide="code-2" class="w-3.5 h-3.5 text-blue-600"></i><span>Código probado contra MongoDB y PostgreSQL</span></div>
+            <button onclick="window.copyActiveCodeTab()" class="px-3 py-1.5 bg-[#39A900] hover:bg-[#2D8200] text-white rounded-lg text-xs font-bold transition-colors flex items-center space-x-1.5 shadow-2xs self-start sm:self-auto cursor-pointer">
+              <i data-lucide="copy" class="w-3.5 h-3.5" id="icon-copy-tab"></i><span id="text-copy-tab">Copiar Archivo Activo</span>
+            </button>
+          </div>
+          <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Visor de Archivos de la Sesión 10</h2>
+          <div id="code-tabs" class="flex items-center gap-1 border-b border-slate-200 pb-2 text-xs font-mono overflow-x-auto"></div>
+          <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[380px] overflow-y-auto">
+            <pre><code id="active-code-box" class="language-javascript"></code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: RÚBRICA -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 3: EVIDENCIA & SUSTENTACIÓN" data-title="Rúbrica & Sustentación (Live Mod)">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-purple-50 text-purple-900 border border-purple-200 rounded-full text-xs font-bold"><i data-lucide="award" class="w-3.5 h-3.5 text-purple-600"></i><span>Bloque 3 · 40 minutos · Sin IA generativa</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Rúbrica de Sustentación Individual</h2>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+            <div class="p-3 bg-white border border-slate-200 rounded-xl"><span class="text-2xl font-black text-emerald-700">30%</span><span class="block font-bold text-slate-900">Modelo</span><span class="text-slate-600">Discriminators, validaciones y nombres de índice</span></div>
+            <div class="p-3 bg-white border border-slate-200 rounded-xl"><span class="text-2xl font-black text-[#00324D]">25%</span><span class="block font-bold text-slate-900">CRUD seguro</span><span class="text-slate-600">Campos protegidos, límite y códigos HTTP</span></div>
+            <div class="p-3 bg-white border border-slate-200 rounded-xl"><span class="text-2xl font-black text-amber-600">20%</span><span class="block font-bold text-slate-900">Bruno</span><span class="text-slate-600">12 pruebas en verde, incluida NoSQL</span></div>
+            <div class="p-3 bg-white border border-slate-200 rounded-xl"><span class="text-2xl font-black text-purple-700">25%</span><span class="block font-bold text-slate-900">Live Mod & Git</span><span class="text-slate-600">5 commits y campo nuevo en caliente</span></div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <div class="p-4 bg-white border border-slate-200 rounded-2xl space-y-2">
+              <strong class="text-slate-900 block">3 preguntas de sustentación</strong>
+              <ol class="list-decimal list-inside space-y-1.5 text-slate-700">
+                <li>¿Qué recibe el controlador cuando alguien pide <code class="font-mono">?type[$ne]=banner</code>, y qué dos capas lo detienen?</li>
+                <li>¿Por qué <code class="font-mono">ctaUrl</code> rechaza <code class="font-mono">javascript:</code> si la API no ejecuta ese enlace?</li>
+                <li>¿Por qué un contenido recién creado no aparece en <code class="font-mono">/api/content/published</code>?</li>
+              </ol>
+            </div>
+            <div class="p-4 bg-amber-50 border border-amber-200 rounded-2xl space-y-2">
+              <strong class="text-amber-900 block">Reto práctico (Live Mod en caliente)</strong>
+              <p class="text-amber-950">Agregue al discriminator <code class="font-mono">banner</code> el campo <code class="font-mono">featured: { type: Boolean, default: false }</code>. Cree un banner con <code class="font-mono">featured: true</code> desde Bruno, publíquelo y muéstrelo en Compass.</p>
+              <p class="text-amber-900 text-[11px]">Bonus: permita filtrar <code class="font-mono">GET /api/content/published?featured=true</code> validando que el valor sea exactamente <code class="font-mono">"true"</code> o <code class="font-mono">"false"</code>.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: CIERRE -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="CIERRE & SIGUIENTE SESIÓN" data-title="Cierre de la Semana 2 & Puente a la Semana 3">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Cierre de la Semana 2</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Persistencia políglota completa</h2>
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
+            <div class="p-4 bg-white border border-slate-200 rounded-xl"><span class="font-bold text-slate-900 block">S06 · PostgreSQL</span><p class="text-slate-600">users y tokens con hash SHA-256.</p></div>
+            <div class="p-4 bg-white border border-slate-200 rounded-xl"><span class="font-bold text-slate-900 block">S07 · MongoDB</span><p class="text-slate-600">Catálogo polimórfico en Atlas.</p></div>
+            <div class="p-4 bg-white border border-slate-200 rounded-xl"><span class="font-bold text-slate-900 block">S08-S09 · Express</span><p class="text-slate-600">Capas, pool y UserRepository sin SQLi.</p></div>
+            <div class="p-4 bg-white border border-slate-200 rounded-xl"><span class="font-bold text-slate-900 block">S10 · Mongoose</span><p class="text-slate-600">CRUD del catálogo sin NoSQL injection.</p></div>
+          </div>
+          <div class="p-4 bg-blue-50 border border-blue-200 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="space-y-0.5">
+              <h3 class="text-xs font-bold text-blue-950">Próxima lección: Sesión 11 · Hash de contraseñas con bcrypt</h3>
+              <p class="text-[11px] text-blue-800">Registro real con <code class="font-mono">UserRepository.createUser</code>: bcrypt, token con <code class="font-mono">crypto.randomBytes</code> guardado como SHA-256 y fin de las rutas <code class="font-mono">/api/dev</code> de usuarios.</p>
+            </div>
+            <a href="../../index.html" class="px-4 py-2 bg-[#00324D] hover:bg-[#00263A] text-white rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5 shadow-2xs shrink-0"><i data-lucide="home" class="w-3.5 h-3.5"></i><span>Portal Central</span></a>
+          </div>
+        </div>
+      </section>
