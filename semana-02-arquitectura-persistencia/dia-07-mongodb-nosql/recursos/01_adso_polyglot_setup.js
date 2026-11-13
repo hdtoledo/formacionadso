@@ -9,7 +9,8 @@
  * 
  * FORMAS DE EJECUCIÓN:
  * 1. Desde la Terminal mongosh (CLI):
- *    mongosh "mongodb+srv://adso_user:Secret2026@cluster0.../adso_polyglot_db" --file 01_adso_polyglot_setup.js
+ *    mongosh "mongodb+srv://adso_user:<contraseña>@<cluster>.mongodb.net/adso_polyglot_db" --file 01_adso_polyglot_setup.js
+ *    (La URI real solo vive en su .env; nunca la pegue en archivos que se suben a GitHub.)
  * 
  * 2. Desde la Terminal _MONGOSH integrada en MongoDB Compass:
  *    Copie y pegue todo el contenido de este script y presione Enter.
@@ -26,7 +27,8 @@ const COLL_NAME = "contents";
 print("🚀 [ADSO SENA] Iniciando aprovisionamiento NoSQL en base de datos: " + DB_NAME);
 db = db.getSiblingDB(DB_NAME);
 
-// 2. Limpieza segura previa (Idempotencia para laboratorios de aula)
+// 2. Limpieza previa (idempotencia para laboratorios de aula).
+//    ⚠️ drop() BORRA la colección completa: nunca ejecutar este script contra producción.
 print("🧹 [ADSO SENA] Verificando colección existente '" + COLL_NAME + "'...");
 try {
   db[COLL_NAME].drop();
@@ -94,7 +96,9 @@ db.createCollection(COLL_NAME, {
       }
     }
   },
-  validationAction: "warn" // En aula avisa para facilitar aprendizaje sin bloquear
+  // "warn" registra el incumplimiento sin bloquear, útil para experimentar en el aula.
+  // En producción se usa "error" para que el motor rechace documentos inválidos.
+  validationAction: "warn"
 });
 print("   ✓ Validador de esquema JSON configurado con éxito.");
 
@@ -295,7 +299,7 @@ const seedData = [
     value: 99.9,
     prefix: "",
     suffix: "%",
-    label: "SLA de infraestructura Cloud en MongoDB Atlas M0",
+    label: "Disponibilidad objetivo de la plataforma (el tier gratuito M0 no ofrece SLA)",
     order: 2,
     active: true,
     createdAt: new Date("2026-10-16T10:55:00.000Z"),

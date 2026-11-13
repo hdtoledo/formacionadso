@@ -963,8 +963,8 @@
               <li>Haga clic en <strong class="text-emerald-700 font-bold">+ Add New Database User</strong>.</li>
               <li>Método de autenticación: <strong class="font-mono">Password</strong>.</li>
               <li>Username: <code class="font-mono text-[#00324D] font-bold">adso_user</code>.</li>
-              <li>Password: Establezca una clave robusta (e.g., <code class="font-mono font-bold">Secret2026</code>) y guárdela.</li>
-              <li>Database User Privileges: Seleccione <strong class="text-emerald-800">Read and write to any database</strong>.</li>
+              <li>Password: Clic en <strong class="text-emerald-800">Autogenerate Secure Password</strong>, cópiela y guárdela <strong>solo</strong> en su archivo <code class="font-mono">.env</code>. Con la regla <code class="font-mono">0.0.0.0/0</code> esta contraseña es la única barrera: nunca use claves cortas ni de ejemplo.</li>
+              <li>Database User Privileges: <strong class="text-emerald-800">Specific Privileges › readWrite</strong> sobre la base <code class="font-mono">adso_polyglot_db</code> (mínimo privilegio: nada de "any database").</li>
               <li>Haga clic en <strong class="text-white bg-[#39A900] px-2 py-0.5 rounded text-[10px]">Add User</strong>.</li>
             </ol>
           </div>
@@ -1254,8 +1254,8 @@
     "priority": 1,
     "active": true,
     "tags": ["tecnologia", "adso", "sena", "fullstack"],
-    "createdAt": "2026-10-16T10:00:00.000Z",
-    "updatedAt": "2026-10-16T10:00:00.000Z"
+    "createdAt": { "$date": "2026-10-16T10:00:00.000Z" },
+    "updatedAt": { "$date": "2026-10-16T10:00:00.000Z" }
   },
   {
     "type": "banner",
@@ -1267,8 +1267,8 @@
     "priority": 2,
     "active": true,
     "tags": ["sena", "huila", "garzon", "agroempresa"],
-    "createdAt": "2026-10-16T10:05:00.000Z",
-    "updatedAt": "2026-10-16T10:05:00.000Z"
+    "createdAt": { "$date": "2026-10-16T10:05:00.000Z" },
+    "updatedAt": { "$date": "2026-10-16T10:05:00.000Z" }
   },
   {
     "type": "service",
@@ -1287,8 +1287,8 @@
       "prerequisites": ["JavaScript ES6+", "SQL Relacional", "Git & GitHub"]
     },
     "tags": ["backend", "express", "postgresql", "mongodb", "nodejs"],
-    "createdAt": "2026-10-16T10:15:00.000Z",
-    "updatedAt": "2026-10-16T10:15:00.000Z"
+    "createdAt": { "$date": "2026-10-16T10:15:00.000Z" },
+    "updatedAt": { "$date": "2026-10-16T10:15:00.000Z" }
   },
   {
     "type": "service",
@@ -1307,8 +1307,8 @@
       "certification": "Sello Verde SENA CADPH"
     },
     "tags": ["agroindustria", "trazabilidad", "cafe", "huila", "iot"],
-    "createdAt": "2026-10-16T10:20:00.000Z",
-    "updatedAt": "2026-10-16T10:20:00.000Z"
+    "createdAt": { "$date": "2026-10-16T10:20:00.000Z" },
+    "updatedAt": { "$date": "2026-10-16T10:20:00.000Z" }
   },
   {
     "type": "service",
@@ -1327,8 +1327,8 @@
       "tools": ["Bruno", "Postman", "Compass", "pgAdmin"]
     },
     "tags": ["ciberseguridad", "owasp", "seguridad", "nosql-injection"],
-    "createdAt": "2026-10-16T10:25:00.000Z",
-    "updatedAt": "2026-10-16T10:25:00.000Z"
+    "createdAt": { "$date": "2026-10-16T10:25:00.000Z" },
+    "updatedAt": { "$date": "2026-10-16T10:25:00.000Z" }
   },
   {
     "type": "service",
@@ -1347,8 +1347,8 @@
       "styling": "Tailwind CSS v3/v4"
     },
     "tags": ["react", "vite", "tailwind", "frontend", "ui-ux"],
-    "createdAt": "2026-10-16T10:30:00.000Z",
-    "updatedAt": "2026-10-16T10:30:00.000Z"
+    "createdAt": { "$date": "2026-10-16T10:30:00.000Z" },
+    "updatedAt": { "$date": "2026-10-16T10:30:00.000Z" }
   },
   {
     "type": "testimonial",
@@ -1361,8 +1361,8 @@
     "verified": true,
     "active": true,
     "tags": ["testimonio", "adso", "aprendiz"],
-    "createdAt": "2026-10-16T10:40:00.000Z",
-    "updatedAt": "2026-10-16T10:40:00.000Z"
+    "createdAt": { "$date": "2026-10-16T10:40:00.000Z" },
+    "updatedAt": { "$date": "2026-10-16T10:40:00.000Z" }
   },
   {
     "type": "testimonial",
@@ -1375,8 +1375,8 @@
     "verified": true,
     "active": true,
     "tags": ["testimonio", "empresa", "reclutamiento"],
-    "createdAt": "2026-10-16T10:45:00.000Z",
-    "updatedAt": "2026-10-16T10:45:00.000Z"
+    "createdAt": { "$date": "2026-10-16T10:45:00.000Z" },
+    "updatedAt": { "$date": "2026-10-16T10:45:00.000Z" }
   },
   {
     "type": "stat",
@@ -1387,8 +1387,8 @@
     "label": "Formación técnica de alto impacto en el Huila",
     "order": 1,
     "active": true,
-    "createdAt": "2026-10-16T10:50:00.000Z",
-    "updatedAt": "2026-10-16T10:50:00.000Z"
+    "createdAt": { "$date": "2026-10-16T10:50:00.000Z" },
+    "updatedAt": { "$date": "2026-10-16T10:50:00.000Z" }
   },
   {
     "type": "stat",
@@ -1396,11 +1396,11 @@
     "value": 99.9,
     "prefix": "",
     "suffix": "%",
-    "label": "SLA de infraestructura Cloud en MongoDB Atlas M0",
+    "label": "Disponibilidad objetivo de la plataforma (el tier gratuito M0 no ofrece SLA)",
     "order": 2,
     "active": true,
-    "createdAt": "2026-10-16T10:55:00.000Z",
-    "updatedAt": "2026-10-16T10:55:00.000Z"
+    "createdAt": { "$date": "2026-10-16T10:55:00.000Z" },
+    "updatedAt": { "$date": "2026-10-16T10:55:00.000Z" }
   }
 ]</code></pre>
         </div>
@@ -1498,6 +1498,11 @@
               ⚡ Cada documento recibirá automáticamente su propio <code class="font-mono font-bold">_id: ObjectId(...)</code> único e irrepetible.
             </div>
           </div>
+        </div>
+
+        <div class="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-xl text-[11px] text-amber-950 flex items-start gap-2">
+          <i data-lucide="calendar-clock" class="w-4 h-4 text-amber-700 shrink-0 mt-0.5"></i>
+          <span><strong>¿Por qué <code class="font-mono">{ "$date": "..." }</code>?</strong> JSON no tiene tipo fecha. Si escribimos <code class="font-mono">"createdAt": "2026-10-16..."</code>, Compass lo guarda como <strong>texto</strong> y luego fallan el validador <code class="font-mono">bsonType: "date"</code>, los ordenamientos por fecha y los <code class="font-mono">timestamps</code> de Mongoose (Sesión 10). El formato <strong>Extended JSON</strong> <code class="font-mono">$date</code> le indica a Compass y a <code class="font-mono">mongoimport</code> que es un <code class="font-mono">Date</code> real.</span>
         </div>
       </section>
 
@@ -2433,7 +2438,7 @@ db.contents.updateOne(
               Crearemos el servidor Node.js/Express con arquitectura en capas. Configuraremos en paralelo el pool de PostgreSQL (<code class="font-mono">pg.Pool</code>) y la conexión de MongoDB (<code class="font-mono">mongoose.connect</code>) consumiendo la URI SRV de Atlas desde variables de entorno (<code class="font-mono">.env</code>).
             </p>
             <div class="p-2 bg-slate-900 text-emerald-400 rounded-lg font-mono text-[10px]">
-              MONGO_URI="mongodb+srv://adso_user:Secret2026@cluster0.../adso_polyglot_db"
+              MONGO_URI="mongodb+srv://adso_user:&lt;contraseña&gt;@&lt;cluster&gt;.mongodb.net/adso_polyglot_db"
             </div>
           </div>
 
@@ -2740,7 +2745,7 @@ const seedData = [
     value: 99.9,
     prefix: "",
     suffix: "%",
-    label: "SLA de infraestructura Cloud en MongoDB Atlas M0",
+    label: "Disponibilidad objetivo de la plataforma (el tier gratuito M0 no ofrece SLA)",
     order: 2,
     active: true,
     createdAt: new Date("2026-10-16T10:55:00.000Z"),

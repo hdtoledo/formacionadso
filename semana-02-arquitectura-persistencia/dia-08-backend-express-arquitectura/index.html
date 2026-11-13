@@ -648,7 +648,7 @@ await mongoose.connect(process.env.MONGO_URI, {
                 En lugar de permitir que la aplicación arranque y falle silenciosamente minutos después al intentar hacer una query, validamos las variables requeridas en <code class="font-mono text-blue-700">src/config/environment.js</code> en el milisegundo 0.
               </p>
               <div class="p-2.5 bg-slate-900 text-emerald-400 font-mono text-[11px] rounded-lg">
-                const required = ['PG_HOST', 'PG_DATABASE', 'MONGO_URI'];
+                const REQUIRED_VARS = ['PG_HOST', 'PG_PASSWORD', 'MONGO_URI', 'CLIENT_URL'];
               </div>
             </div>
 
@@ -685,6 +685,7 @@ mi-proyecto-adso/
         ├── config/              <span class="text-sky-300"># environment.js & db.js (Pool dual)</span>
         ├── controllers/         <span class="text-sky-300"># healthController.js</span>
         ├── routes/              <span class="text-sky-300"># healthRoutes.js</span>
+        ├── middlewares/         <span class="text-sky-300"># errorHandler.js (404 + formato estándar)</span>
         ├── app.js               <span class="text-emerald-300"># Pipeline Express & Middlewares</span>
         └── server.js            <span class="text-emerald-300"># Listen HTTP & Graceful Shutdown</span>
             </div>
@@ -715,7 +716,7 @@ mi-proyecto-adso/
               <div class="font-mono text-slate-800 font-semibold text-[11px]">
                 feat(server): inicializar express con esm y pipeline de middlewares
               </div>
-              <p class="text-[11px] text-slate-500">Crea package.json, app.js, server.js y config/environment.js.</p>
+              <p class="text-[11px] text-slate-500">Crea package.json, app.js, server.js, config/environment.js y middlewares/errorHandler.js.</p>
             </div>
 
             <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2 shadow-2xs">
@@ -831,30 +832,40 @@ mi-proyecto-adso/
             <pre><code class="language-javascript">import dotenv from 'dotenv';
 dotenv.config();
 
-// Validación defensiva fail-fast
-const requiredVars = ['PG_HOST', 'PG_DATABASE', 'PG_USER', 'MONGO_URI'];
-const missingVars = requiredVars.filter(v => !process.env[v]);
+// Fail-fast: sin estas variables el servidor NO arranca
+const REQUIRED_VARS = ['PG_HOST', 'PG_DATABASE', 'PG_USER', 'PG_PASSWORD', 'MONGO_URI', 'CLIENT_URL'];
+const missingVars = REQUIRED_VARS.filter((name) => !process.env[name]);
 
 if (missingVars.length > 0) {
-  console.warn(`⚠️ [ADSO ADVERTENCIA] Faltan variables en .env: ${missingVars.join(', ')}`);
+  console.error(`❌ [ADSO CONFIG] Faltan variables en server/.env: ${missingVars.join(', ')}`);
+  process.exit(1);
 }
 
-export const config = {
-  port: parseInt(process.env.PORT || '3000', 10),
-  nodeEnv: process.env.NODE_ENV || 'development',
+const toInt = (value, fallback) => {
+  const parsed = Number.parseInt(value ?? '', 10);
+  return Number.isNaN(parsed) ? fallback : parsed;
+};
+
+const nodeEnv = process.env.NODE_ENV || 'development';
+
+export const config = Object.freeze({
+  port: toInt(process.env.PORT, 3000),
+  nodeEnv,
+  isProduction: nodeEnv === 'production',
+  clientUrl: process.env.CLIENT_URL,          // Único origen autorizado por CORS
   postgres: {
-    host: process.env.PG_HOST || 'localhost',
-    port: parseInt(process.env.PG_PORT || '5432', 10),
-    database: process.env.PG_DATABASE || 'adso_polyglot_db',
-    user: process.env.PG_USER || 'postgres',
-    password: process.env.PG_PASSWORD || '',
-    max: parseInt(process.env.PG_MAX_POOL || '10', 10),
-    idleTimeoutMillis: parseInt(process.env.PG_IDLE_TIMEOUT || '30000', 10)
+    host: process.env.PG_HOST,
+    port: toInt(process.env.PG_PORT, 5432),
+    database: process.env.PG_DATABASE,
+    user: process.env.PG_USER,
+    password: process.env.PG_PASSWORD,
+    max: toInt(process.env.PG_MAX_POOL, 10),
+    idleTimeoutMillis: toInt(process.env.PG_IDLE_TIMEOUT, 30000),
+    connectionTimeoutMillis: 5000,            // Espera máxima por una conexión libre
+    statement_timeout: 5000                   // Ninguna consulta dura más de 5 s
   },
-  mongo: {
-    uri: process.env.MONGO_URI || 'mongodb://localhost:27017/adso_polyglot_db'
-  }
-};</code></pre>
+  mongo: { uri: process.env.MONGO_URI }
+});</code></pre>
           </div>
         </div>
       </section>
@@ -883,11 +894,12 @@ const { Pool } = pg;
 export const pool = new Pool(config.postgres);
 
 pool.on('connect', () => {
-  if (config.nodeEnv === 'development') {
+  if (!config.isProduction) {
     console.log('🐘 [PostgreSQL] Nuevo cliente físico asignado en el Pool');
   }
 });
 
+// Sin este listener, un error en un cliente ocioso tumbaría el proceso Node.js
 pool.on('error', (err) => {
   console.error('❌ [PostgreSQL Error en Cliente Ocioso]:', err.message);
 });</code></pre>
@@ -971,10 +983,13 @@ export { mongoose };</code></pre>
   }
 }
 
+// allSettled: si una base falla al cerrar, la otra igual se cierra
 export async function disconnectDatabases() {
-  await pool.end();
-  await mongoose.connection.close();
-  console.log('🔒 Ambas bases de datos cerradas correctamente');
+  const results = await Promise.allSettled([pool.end(), mongoose.connection.close()]);
+  results
+    .filter((r) => r.status === 'rejected')
+    .forEach((r) => console.error('Error al cerrar conexión:', r.reason?.message));
+  console.log('🔒 Cierre de bases de datos finalizado');
 }</code></pre>
           </div>
         </div>
@@ -995,43 +1010,44 @@ export async function disconnectDatabases() {
 
           <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs overflow-x-auto">
             <pre><code class="language-javascript">import { pool, mongoose } from '../config/db.js';
+import { config } from '../config/environment.js';
 
-export async function getHealthStatus(req, res) {
-  const services = {
-    api: { status: 'up', uptime_seconds: Math.floor(process.uptime()) },
-    postgres: { status: 'down', latency_ms: null, error: null },
-    mongodb: { status: 'down', latency_ms: null, error: null }
-  };
+// Seguridad: el detalle del error solo se muestra en desarrollo
+const publicError = (err) => (config.isProduction ? 'unavailable' : err.message);
 
-  // 1. Evaluar PostgreSQL Pool
-  const pgStart = Date.now();
+async function checkPostgres() {
+  const start = Date.now();
   try {
     await pool.query('SELECT NOW()');
-    services.postgres.latency_ms = Date.now() - pgStart;
-    services.postgres.status = 'healthy';
+    return { status: 'healthy', latency_ms: Date.now() - start };
   } catch (err) {
-    services.postgres.latency_ms = Date.now() - pgStart;
-    services.postgres.error = err.message;
+    return { status: 'unhealthy', latency_ms: Date.now() - start, error: publicError(err) };
   }
+}
 
-  // 2. Evaluar MongoDB Atlas
-  const mongoStart = Date.now();
+async function checkMongo() {
+  const start = Date.now();
+  if (mongoose.connection.readyState !== 1) {
+    return { status: 'unhealthy', latency_ms: null, error: 'MongoDB no conectado' };
+  }
   try {
-    if (mongoose.connection.readyState === 1 && mongoose.connection.db) {
-      await mongoose.connection.db.admin().ping();
-      services.mongodb.latency_ms = Date.now() - mongoStart;
-      services.mongodb.status = 'healthy';
-    }
+    await mongoose.connection.db.admin().ping();
+    return { status: 'healthy', latency_ms: Date.now() - start };
   } catch (err) {
-    services.mongodb.latency_ms = Date.now() - mongoStart;
-    services.mongodb.error = err.message;
+    return { status: 'unhealthy', latency_ms: Date.now() - start, error: publicError(err) };
   }
+}
 
-  const isHealthy = services.postgres.status === 'healthy' && services.mongodb.status === 'healthy';
-  return res.status(isHealthy ? 200 : 503).json({
-    status: isHealthy ? 'healthy' : 'degraded',
+export async function getHealthStatus(req, res) {
+  // Ambos motores se evalúan en paralelo
+  const [postgres, mongodb] = await Promise.all([checkPostgres(), checkMongo()]);
+  const healthy = [postgres, mongodb].filter((s) => s.status === 'healthy').length;
+
+  res.set('Cache-Control', 'no-store');
+  return res.status(healthy === 2 ? 200 : 503).json({
+    status: healthy === 2 ? 'healthy' : healthy === 1 ? 'degraded' : 'unhealthy',
     timestamp: new Date().toISOString(),
-    services
+    services: { api: { status: 'up', uptime_seconds: Math.floor(process.uptime()) }, postgres, mongodb }
   });
 }</code></pre>
           </div>
@@ -1101,30 +1117,53 @@ export default router;</code></pre>
             <pre><code class="language-javascript">import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
+import { config } from './config/environment.js';
 import healthRoutes from './routes/healthRoutes.js';
+import { notFoundHandler, errorHandler } from './middlewares/errorHandler.js';
 
 const app = express();
+app.disable('x-powered-by');          // No anunciar "Express"
 
 // 1. Middlewares Globales
-app.use(cors());
-app.use(express.json());
-app.use(morgan('dev'));
+app.use(cors({
+  origin: config.clientUrl,           // Solo el frontend autorizado
+  credentials: true                   // Necesario para cookies httpOnly (Semana 3)
+}));
+app.use(express.json({ limit: '100kb' }));
+app.use(morgan(config.isProduction ? 'combined' : 'dev'));
 
 // 2. Montaje de Enrutadores
 app.use('/api/health', healthRoutes);
 
-// 3. Manejador de Rutas No Encontradas (404)
-app.use((req, res) => {
-  res.status(404).json({ error: 'NotFound', message: `Ruta [${req.method}] ${req.originalUrl} no existe.` });
-});
-
-// 4. Manejador Global de Excepciones No Controladas (500)
-app.use((err, req, res, next) => {
-  console.error('🔥 Error:', err.stack);
-  res.status(500).json({ error: 'InternalServerError', message: 'Error interno en el servidor.' });
-});
+// 3. 404 y 4. Errores globales (SIEMPRE al final)
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 export default app;</code></pre>
+          </div>
+
+          <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs overflow-x-auto">
+            <pre><code class="language-javascript">// src/middlewares/errorHandler.js (extracto)
+export function buildErrorPayload(req, statusCode, code, message) {
+  return {
+    success: false, statusCode, error: STATUS_CODES[statusCode], message, code,
+    timestamp: new Date().toISOString(),
+    path: req.originalUrl.split('?')[0]   // Sin query string: puede tener datos personales
+  };
+}
+
+export function errorHandler(err, req, res, next) {
+  if (err instanceof AppError) {
+    return res.status(err.statusCode).json(buildErrorPayload(req, err.statusCode, err.code, err.message));
+  }
+  console.error('🔥 [Unhandled Exception]:', err);   // El detalle va al log, NUNCA al cliente
+  res.status(500).json(buildErrorPayload(req, 500, 'INTERNAL_ERROR', 'Ocurrió un error inesperado.'));
+}</code></pre>
+          </div>
+
+          <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-950 flex items-start gap-2">
+            <i data-lucide="shield-alert" class="w-4 h-4 text-rose-600 shrink-0 mt-0.5"></i>
+            <span><strong>Error crítico frecuente:</strong> <code class="font-mono">cors({ origin: '*' })</code> parece cómodo, pero el navegador <strong>rechaza</strong> <code class="font-mono">'*'</code> cuando viajan cookies y además abre la API a cualquier sitio web. Desde hoy el origen se lee de <code class="font-mono">CLIENT_URL</code>.</span>
           </div>
         </div>
       </section>
@@ -1154,8 +1193,15 @@ async function bootstrap() {
     console.log(`🚀 Servidor activo en: http://localhost:${config.port}`);
   });
 
-  const handleShutdown = async (signal) => {
+  let isShuttingDown = false;
+  const handleShutdown = (signal) => {
+    if (isShuttingDown) return;       // Evita doble cierre con Ctrl+C repetido
+    isShuttingDown = true;
     console.log(`\n⚠️  ${signal} recibido. Cerrando conexiones limpiamente...`);
+
+    // Si algo se cuelga, forzar la salida a los 10 s
+    setTimeout(() => process.exit(1), 10000).unref();
+
     server.close(async () => {
       await disconnectDatabases();
       process.exit(0);
@@ -1211,8 +1257,7 @@ bootstrap();</code></pre>
   "services": {
     "api": {
       "status": "up",
-      "uptime_seconds": 128,
-      "memory_usage_mb": 42
+      "uptime_seconds": 128
     },
     "postgres": {
       "status": "healthy",
@@ -1433,7 +1478,10 @@ bootstrap();</code></pre>
           <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-xs overflow-x-auto space-y-2">
             <div class="text-slate-400"># 1. Ubicarse en el proyecto y crear el subárbol</div>
             <div class="text-emerald-400">cd mi-proyecto-adso</div>
-            <div class="text-emerald-400">mkdir -p server/src/{config,controllers,routes,services,models,middlewares}</div>
+            <div class="text-slate-400"># PowerShell (Windows):</div>
+            <div class="text-emerald-400">New-Item -ItemType Directory -Force server/src/config, server/src/controllers, server/src/routes, server/src/middlewares</div>
+            <div class="text-slate-400"># Git Bash / Linux / macOS:</div>
+            <div class="text-emerald-400">mkdir -p server/src/{config,controllers,routes,middlewares}</div>
             
             <div class="text-slate-400 pt-2"># 2. Entrar a server e instalar dependencias</div>
             <div class="text-emerald-400">cd server</div>
@@ -1476,38 +1524,63 @@ bootstrap();</code></pre>
             <button id="tab-btn-env" onclick="window.viewCodeTab('env')" class="px-3 py-1 bg-slate-900 text-emerald-300 rounded-lg border border-slate-700 cursor-pointer font-bold">environment.js</button>
             <button id="tab-btn-db" onclick="window.viewCodeTab('db')" class="px-3 py-1 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer">db.js</button>
             <button id="tab-btn-ctrl" onclick="window.viewCodeTab('ctrl')" class="px-3 py-1 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer">healthController.js</button>
+            <button id="tab-btn-err" onclick="window.viewCodeTab('err')" class="px-3 py-1 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer">errorHandler.js</button>
             <button id="tab-btn-app" onclick="window.viewCodeTab('app')" class="px-3 py-1 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer">app.js</button>
             <button id="tab-btn-srv" onclick="window.viewCodeTab('srv')" class="px-3 py-1 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer">server.js</button>
           </div>
 
           <!-- Code Box -->
           <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[380px] overflow-y-auto">
-            <pre><code id="active-code-box" class="language-javascript">import dotenv from 'dotenv';
+            <pre><code id="active-code-box" class="language-javascript">// server/src/config/environment.js
+import dotenv from 'dotenv';
 dotenv.config();
 
-const requiredVars = ['PG_HOST', 'PG_DATABASE', 'PG_USER', 'MONGO_URI'];
-const missingVars = requiredVars.filter(v => !process.env[v]);
+// 1. Validación fail-fast: si falta una variable crítica, el servidor NO arranca.
+//    Es mejor fallar al iniciar que fallar en plena petición de un usuario.
+const REQUIRED_VARS = ['PG_HOST', 'PG_DATABASE', 'PG_USER', 'PG_PASSWORD', 'MONGO_URI', 'CLIENT_URL'];
+const missingVars = REQUIRED_VARS.filter((name) =&gt; !process.env[name]);
 
-if (missingVars.length > 0) {
-  console.warn(`⚠️ [ADSO SERVER ADVERTENCIA] Faltan variables en .env: ${missingVars.join(', ')}`);
+if (missingVars.length &gt; 0) {
+  console.error(`❌ [ADSO CONFIG] Faltan variables en server/.env: ${missingVars.join(', ')}`);
+  console.error('   Copie server/.env.example como server/.env y complete los valores.');
+  process.exit(1);
 }
 
-export const config = {
-  port: parseInt(process.env.PORT || '3000', 10),
-  nodeEnv: process.env.NODE_ENV || 'development',
+// 2. Conversión segura de texto a número (process.env siempre entrega strings)
+const toInt = (value, fallback) =&gt; {
+  const parsed = Number.parseInt(value ?? '', 10);
+  return Number.isNaN(parsed) ? fallback : parsed;
+};
+
+const nodeEnv = process.env.NODE_ENV || 'development';
+
+// 3. Objeto de configuración único e inmutable para toda la aplicación
+export const config = Object.freeze({
+  port: toInt(process.env.PORT, 3000),
+  nodeEnv,
+  isProduction: nodeEnv === 'production',
+
+  // Único origen autorizado por CORS (el frontend React de la Semana 4)
+  clientUrl: process.env.CLIENT_URL,
+
+  // PostgreSQL Pool Config
   postgres: {
-    host: process.env.PG_HOST || 'localhost',
-    port: parseInt(process.env.PG_PORT || '5432', 10),
-    database: process.env.PG_DATABASE || 'adso_polyglot_db',
-    user: process.env.PG_USER || 'postgres',
-    password: process.env.PG_PASSWORD || '',
-    max: parseInt(process.env.PG_MAX_POOL || '10', 10),
-    idleTimeoutMillis: parseInt(process.env.PG_IDLE_TIMEOUT || '30000', 10)
+    host: process.env.PG_HOST,
+    port: toInt(process.env.PG_PORT, 5432),
+    database: process.env.PG_DATABASE,
+    user: process.env.PG_USER,
+    password: process.env.PG_PASSWORD,
+    max: toInt(process.env.PG_MAX_POOL, 10),                 // Máximo de conexiones físicas abiertas
+    idleTimeoutMillis: toInt(process.env.PG_IDLE_TIMEOUT, 30000), // Cierra conexiones ociosas tras 30 s
+    connectionTimeoutMillis: 5000,                           // No esperar eternamente por una conexión libre
+    statement_timeout: 5000                                  // Ninguna consulta puede tardar más de 5 s
   },
+
+  // MongoDB Atlas Config
   mongo: {
-    uri: process.env.MONGO_URI || 'mongodb://localhost:27017/adso_polyglot_db'
+    uri: process.env.MONGO_URI
   }
-};</code></pre>
+});</code></pre>
           </div>
         </div>
       </section>
@@ -1841,29 +1914,52 @@ export const config = {
 import dotenv from 'dotenv';
 dotenv.config();
 
-const requiredVars = ['PG_HOST', 'PG_DATABASE', 'PG_USER', 'MONGO_URI'];
-const missingVars = requiredVars.filter(v => !process.env[v]);
+// 1. Validación fail-fast: si falta una variable crítica, el servidor NO arranca.
+//    Es mejor fallar al iniciar que fallar en plena petición de un usuario.
+const REQUIRED_VARS = ['PG_HOST', 'PG_DATABASE', 'PG_USER', 'PG_PASSWORD', 'MONGO_URI', 'CLIENT_URL'];
+const missingVars = REQUIRED_VARS.filter((name) => !process.env[name]);
 
 if (missingVars.length > 0) {
-  console.warn(\`⚠️ [ADSO SERVER ADVERTENCIA] Faltan variables en .env: \${missingVars.join(', ')}\`);
+  console.error(\`❌ [ADSO CONFIG] Faltan variables en server/.env: \${missingVars.join(', ')}\`);
+  console.error('   Copie server/.env.example como server/.env y complete los valores.');
+  process.exit(1);
 }
 
-export const config = {
-  port: parseInt(process.env.PORT || '3000', 10),
-  nodeEnv: process.env.NODE_ENV || 'development',
+// 2. Conversión segura de texto a número (process.env siempre entrega strings)
+const toInt = (value, fallback) => {
+  const parsed = Number.parseInt(value ?? '', 10);
+  return Number.isNaN(parsed) ? fallback : parsed;
+};
+
+const nodeEnv = process.env.NODE_ENV || 'development';
+
+// 3. Objeto de configuración único e inmutable para toda la aplicación
+export const config = Object.freeze({
+  port: toInt(process.env.PORT, 3000),
+  nodeEnv,
+  isProduction: nodeEnv === 'production',
+
+  // Único origen autorizado por CORS (el frontend React de la Semana 4)
+  clientUrl: process.env.CLIENT_URL,
+
+  // PostgreSQL Pool Config
   postgres: {
-    host: process.env.PG_HOST || 'localhost',
-    port: parseInt(process.env.PG_PORT || '5432', 10),
-    database: process.env.PG_DATABASE || 'adso_polyglot_db',
-    user: process.env.PG_USER || 'postgres',
-    password: process.env.PG_PASSWORD || '',
-    max: parseInt(process.env.PG_MAX_POOL || '10', 10),
-    idleTimeoutMillis: parseInt(process.env.PG_IDLE_TIMEOUT || '30000', 10)
+    host: process.env.PG_HOST,
+    port: toInt(process.env.PG_PORT, 5432),
+    database: process.env.PG_DATABASE,
+    user: process.env.PG_USER,
+    password: process.env.PG_PASSWORD,
+    max: toInt(process.env.PG_MAX_POOL, 10),                 // Máximo de conexiones físicas abiertas
+    idleTimeoutMillis: toInt(process.env.PG_IDLE_TIMEOUT, 30000), // Cierra conexiones ociosas tras 30 s
+    connectionTimeoutMillis: 5000,                           // No esperar eternamente por una conexión libre
+    statement_timeout: 5000                                  // Ninguna consulta puede tardar más de 5 s
   },
+
+  // MongoDB Atlas Config
   mongo: {
-    uri: process.env.MONGO_URI || 'mongodb://localhost:27017/adso_polyglot_db'
+    uri: process.env.MONGO_URI
   }
-};`,
+});`,
 
       db: `// server/src/config/db.js
 import pg from 'pg';
@@ -1872,18 +1968,21 @@ import { config } from './environment.js';
 
 const { Pool } = pg;
 
+// 1. Singleton pg.Pool (PostgreSQL): se crea UNA sola vez y se reutiliza en toda la app
 export const pool = new Pool(config.postgres);
 
 pool.on('connect', () => {
-  if (config.nodeEnv === 'development') {
+  if (!config.isProduction) {
     console.log('🐘 [PostgreSQL] Nuevo cliente físico asignado en el Pool');
   }
 });
 
+// Sin este listener, un error en un cliente ocioso tumbaría todo el proceso Node.js
 pool.on('error', (err) => {
   console.error('❌ [PostgreSQL Error en Cliente Ocioso]:', err.message);
 });
 
+// 2. Listeners de Ciclo de Vida del Singleton de Mongoose (MongoDB)
 mongoose.connection.on('connected', () => {
   console.log('🍃 [MongoDB] Conexión establecida exitosamente con el clúster');
 });
@@ -1896,34 +1995,69 @@ mongoose.connection.on('disconnected', () => {
   console.warn('⚠️ [MongoDB] Desconectado del servidor de base de datos');
 });
 
+/**
+ * Inicializa y valida las conexiones a ambos motores de persistencia.
+ * Si alguno falla, registra el error en consola pero permite que el servidor
+ * arranque y reporte el estado 503 mediante el endpoint de salud.
+ */
 export async function connectDatabases() {
-  console.log('🔌 [ADSO DUAL DB] Inicializando conexiones...');
+  console.log('🔌 [ADSO DUAL DB] Inicializando conexiones a motores de persistencia...');
+
+  // A. Verificación de PostgreSQL Pool
   try {
-    const res = await pool.query('SELECT NOW() AS t, current_database() AS db');
-    console.log(\`✅ [PostgreSQL Conectado] Base: "\${res.rows[0].db}"\`);
+    const start = Date.now();
+    const result = await pool.query('SELECT NOW() AS server_time, current_database() AS db_name');
+    const latency = Date.now() - start;
+    console.log(\`✅ [PostgreSQL Conectado] Base: "\${result.rows[0].db_name}" | Latencia: \${latency}ms\`);
   } catch (err) {
-    console.error(\`❌ [PostgreSQL Falló]: \${err.message}\`);
+    console.error(\`❌ [PostgreSQL Falló Conexión]: \${err.message}\`);
+    console.warn('   Verifique que el servicio PostgreSQL esté activo y las credenciales en .env sean válidas.');
   }
 
+  // B. Inicialización de MongoDB Atlas vía Mongoose
   try {
+    const start = Date.now();
     await mongoose.connect(config.mongo.uri, { serverSelectionTimeoutMS: 5000 });
-    console.log(\`✅ [MongoDB Atlas Conectado] Base: "\${mongoose.connection.name}"\`);
+    const latency = Date.now() - start;
+    console.log(\`✅ [MongoDB Atlas Conectado] Base: "\${mongoose.connection.name}" | Latencia: \${latency}ms\`);
   } catch (err) {
-    console.error(\`❌ [MongoDB Falló]: \${err.message}\`);
+    console.error(\`❌ [MongoDB Falló Conexión]: \${err.message}\`);
+    console.warn('   Verifique su cadena MONGO_URI y la regla de IP Access List en MongoDB Atlas.');
   }
 }
 
+/**
+ * Cierre controlado de conexiones para Graceful Shutdown.
+ * allSettled: si una base falla al cerrar, la otra igual se cierra.
+ */
 export async function disconnectDatabases() {
-  await pool.end();
-  await mongoose.connection.close();
-  console.log('🔒 Bases de datos cerradas correctamente');
+  console.log('\\n🛑 [ADSO DUAL DB] Cerrando conexiones a bases de datos de forma segura...');
+
+  const [pgResult, mongoResult] = await Promise.allSettled([
+    pool.end(),
+    mongoose.connection.close()
+  ]);
+
+  if (pgResult.status === 'rejected') {
+    console.error('Error cerrando pool de PostgreSQL:', pgResult.reason?.message);
+  } else {
+    console.log('🔒 [PostgreSQL] Pool cerrado correctamente');
+  }
+
+  if (mongoResult.status === 'rejected') {
+    console.error('Error cerrando conexión de MongoDB:', mongoResult.reason?.message);
+  } else {
+    console.log('🔒 [MongoDB] Conexión cerrada correctamente');
+  }
 }
 
 export { mongoose };`,
 
       ctrl: `// server/src/controllers/healthController.js
 import { pool, mongoose } from '../config/db.js';
+import { config } from '../config/environment.js';
 
+// Mapeo semántico del estado de conexión de Mongoose (readyState)
 const MONGO_STATE_LABELS = {
   0: 'disconnected',
   1: 'connected',
@@ -1931,86 +2065,174 @@ const MONGO_STATE_LABELS = {
   3: 'disconnecting'
 };
 
-export async function getHealthStatus(req, res) {
-  const timestamp = new Date().toISOString();
-  const uptimeSeconds = Math.floor(process.uptime());
+// Seguridad: el detalle técnico del error solo se muestra en desarrollo.
+// En producción un atacante no debe conocer versiones, hosts ni mensajes internos.
+const publicError = (err) => (config.isProduction ? 'unavailable' : err.message);
 
-  const services = {
-    api: {
-      status: 'up',
-      uptime_seconds: uptimeSeconds,
-      node_version: process.version,
-      memory_usage_mb: Math.round(process.memoryUsage().rss / 1024 / 1024)
-    },
-    postgres: {
-      status: 'down',
-      latency_ms: null,
-      error: null,
+async function checkPostgres() {
+  const start = Date.now();
+  try {
+    await pool.query('SELECT NOW()');
+    return {
+      status: 'healthy',
+      latency_ms: Date.now() - start,
       pool_stats: {
         total_count: pool.totalCount,
         idle_count: pool.idleCount,
         waiting_count: pool.waitingCount
       }
-    },
-    mongodb: {
-      status: 'down',
-      connection_state: MONGO_STATE_LABELS[mongoose.connection.readyState] || 'unknown',
-      latency_ms: null,
-      error: null
-    }
-  };
-
-  const pgStart = Date.now();
-  try {
-    const pgRes = await pool.query('SELECT NOW() AS server_time');
-    services.postgres.latency_ms = Date.now() - pgStart;
-    services.postgres.status = 'healthy';
+    };
   } catch (err) {
-    services.postgres.latency_ms = Date.now() - pgStart;
-    services.postgres.status = 'unhealthy';
-    services.postgres.error = err.message;
+    return { status: 'unhealthy', latency_ms: Date.now() - start, error: publicError(err) };
+  }
+}
+
+async function checkMongo() {
+  const start = Date.now();
+  const connectionState = MONGO_STATE_LABELS[mongoose.connection.readyState] || 'unknown';
+
+  if (mongoose.connection.readyState !== 1 || !mongoose.connection.db) {
+    return { status: 'unhealthy', connection_state: connectionState, latency_ms: null, error: \`Estado de conexión: \${connectionState}\` };
   }
 
-  const mongoStart = Date.now();
   try {
-    if (mongoose.connection.readyState === 1 && mongoose.connection.db) {
-      await mongoose.connection.db.admin().ping();
-      services.mongodb.latency_ms = Date.now() - mongoStart;
-      services.mongodb.status = 'healthy';
-    } else {
-      services.mongodb.status = 'unhealthy';
-      services.mongodb.error = 'Mongoose no conectado';
-    }
+    await mongoose.connection.db.admin().ping();
+    return { status: 'healthy', connection_state: connectionState, latency_ms: Date.now() - start };
   } catch (err) {
-    services.mongodb.latency_ms = Date.now() - mongoStart;
-    services.mongodb.status = 'unhealthy';
-    services.mongodb.error = err.message;
+    return { status: 'unhealthy', connection_state: connectionState, latency_ms: Date.now() - start, error: publicError(err) };
   }
+}
 
-  const isHealthy = services.postgres.status === 'healthy' && services.mongodb.status === 'healthy';
-  const isPartiallyHealthy = services.postgres.status === 'healthy' || services.mongodb.status === 'healthy';
+/**
+ * GET /api/health
+ * Evalúa en paralelo (Promise.all) la salud del Pool de PostgreSQL y de MongoDB Atlas,
+ * midiendo la latencia de ida y vuelta (RTT) de cada motor.
+ */
+export async function getHealthStatus(req, res) {
+  const [postgres, mongodb] = await Promise.all([checkPostgres(), checkMongo()]);
 
-  return res.status(isHealthy ? 200 : 503).json({
-    status: isHealthy ? 'healthy' : isPartiallyHealthy ? 'degraded' : 'unhealthy',
-    timestamp,
-    services
+  const healthyCount = [postgres, mongodb].filter((s) => s.status === 'healthy').length;
+  const status = healthyCount === 2 ? 'healthy' : healthyCount === 1 ? 'degraded' : 'unhealthy';
+
+  // Un health check nunca debe quedar en caché de navegadores o proxies
+  res.set('Cache-Control', 'no-store');
+
+  return res.status(healthyCount === 2 ? 200 : 503).json({
+    status,
+    timestamp: new Date().toISOString(),
+    environment: config.nodeEnv,
+    services: {
+      api: { status: 'up', uptime_seconds: Math.floor(process.uptime()) },
+      postgres,
+      mongodb
+    }
   });
+}`,
+
+      err: `// server/src/middlewares/errorHandler.js
+import { STATUS_CODES } from 'node:http';
+
+/**
+ * Error de aplicación con código HTTP y código de negocio.
+ * Ejemplo (Sesión 09): throw new AppError(409, 'EMAIL_ALREADY_EXISTS', 'El correo ya está registrado.');
+ */
+export class AppError extends Error {
+  constructor(statusCode, code, message, fieldErrors) {
+    super(message);
+    this.name = 'AppError';
+    this.statusCode = statusCode;
+    this.code = code;
+    this.fieldErrors = fieldErrors;
+  }
+}
+
+/**
+ * Construye SIEMPRE la misma estructura de error para que el frontend la procese igual:
+ * { success, statusCode, error, message, code, timestamp, path }
+ * El path NO incluye la query string (?email=...), que puede contener datos personales.
+ */
+export function buildErrorPayload(req, statusCode, code, message, fieldErrors) {
+  return {
+    success: false,
+    statusCode,
+    error: STATUS_CODES[statusCode] || 'Error',
+    message,
+    code,
+    ...(fieldErrors ? { fieldErrors } : {}),
+    timestamp: new Date().toISOString(),
+    path: req.originalUrl.split('?')[0]
+  };
+}
+
+// 404: ninguna ruta coincidió con la petición
+export function notFoundHandler(req, res) {
+  res.status(404).json(
+    buildErrorPayload(req, 404, 'ROUTE_NOT_FOUND', 'La ruta solicitada no existe en este servidor.')
+  );
+}
+
+// Manejador global: Express lo reconoce porque recibe 4 parámetros (err, req, res, next)
+export function errorHandler(err, req, res, next) {
+  if (res.headersSent) return next(err);
+
+  // JSON malformado enviado por el cliente (lo lanza express.json())
+  if (err.type === 'entity.parse.failed') {
+    return res.status(400).json(
+      buildErrorPayload(req, 400, 'INVALID_JSON', 'El cuerpo de la petición no es un JSON válido.')
+    );
+  }
+
+  // Cuerpo más grande que el límite configurado en express.json({ limit })
+  if (err.type === 'entity.too.large') {
+    return res.status(413).json(
+      buildErrorPayload(req, 413, 'PAYLOAD_TOO_LARGE', 'El cuerpo de la petición supera el tamaño permitido.')
+    );
+  }
+
+  // Errores controlados lanzados por nuestra propia lógica
+  if (err instanceof AppError) {
+    return res.status(err.statusCode).json(
+      buildErrorPayload(req, err.statusCode, err.code, err.message, err.fieldErrors)
+    );
+  }
+
+  // Error inesperado: el detalle va al log del servidor, NUNCA al cliente
+  console.error('🔥 [Unhandled Exception]:', err);
+  return res.status(500).json(
+    buildErrorPayload(req, 500, 'INTERNAL_ERROR', 'Ocurrió un error inesperado. Intente nuevamente.')
+  );
 }`,
 
       app: `// server/src/app.js
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
+import { config } from './config/environment.js';
 import healthRoutes from './routes/healthRoutes.js';
+import { notFoundHandler, errorHandler } from './middlewares/errorHandler.js';
 
 const app = express();
 
-app.use(cors({ origin: '*' }));
-app.use(express.json());
-app.use(morgan('dev'));
+// 0. No anunciar la tecnología del servidor (cabecera X-Powered-By: Express)
+app.disable('x-powered-by');
 
+// 1. Middlewares Globales de Infraestructura
+// CORS: solo el frontend autorizado (CLIENT_URL) puede consumir la API desde el navegador.
+// credentials: true es obligatorio para las cookies httpOnly de la Semana 3.
+// NUNCA usar origin: '*' con credenciales: el navegador lo rechaza y es inseguro.
+app.use(cors({
+  origin: config.clientUrl,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+}));
+
+app.use(express.json({ limit: '100kb' })); // Límite explícito del tamaño del body
+app.use(morgan(config.isProduction ? 'combined' : 'dev'));
+
+// 2. Montaje de Enrutadores Modulares
 app.use('/api/health', healthRoutes);
 
+// Ruta raíz informativa
 app.get('/', (req, res) => {
   res.json({
     message: '🚀 API RESTful Políglota ADSO - SENA CADPH',
@@ -2019,14 +2241,9 @@ app.get('/', (req, res) => {
   });
 });
 
-app.use((req, res) => {
-  res.status(404).json({ error: 'NotFound', message: \`Ruta \${req.originalUrl} no encontrada\` });
-});
-
-app.use((err, req, res, next) => {
-  console.error('🔥 Error:', err.stack);
-  res.status(500).json({ error: 'InternalError', message: 'Error interno en el servidor' });
-});
+// 3. Ruta no encontrada (404) y 4. Manejador global de errores (SIEMPRE al final)
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 export default app;`,
 
@@ -2036,24 +2253,58 @@ import { config } from './config/environment.js';
 import { connectDatabases, disconnectDatabases } from './config/db.js';
 
 async function bootstrap() {
-  console.log('🏛️  SENA CADPH GARZÓN - ARQUITECTURA BACKEND DUAL');
+  console.log('='.repeat(70));
+  console.log('🏛️  SENA CADPH GARZÓN - ARQUITECTURA BACKEND EXPRESS DUAL');
+  console.log(\`⏱️  Iniciando entorno [\${config.nodeEnv.toUpperCase()}] en puerto \${config.port}...\`);
+  console.log('='.repeat(70));
+
+  // 1. Inicializar conexiones duales de persistencia
   await connectDatabases();
 
+  // 2. Levantar el servidor HTTP Express
   const server = app.listen(config.port, () => {
-    console.log(\`🚀 Servidor activo en http://localhost:\${config.port}\`);
-    console.log(\`🔍 Diagnóstico: http://localhost:\${config.port}/api/health\`);
+    console.log(\`\\n🚀 Servidor escuchando en: http://localhost:\${config.port}\`);
+    console.log(\`🔍 Diagnóstico de Salud: http://localhost:\${config.port}/api/health\`);
+    console.log('='.repeat(70) + '\\n');
   });
 
-  const handleShutdown = async (signal) => {
-    console.log(\`\\n⚠️  Señal \${signal} recibida. Cierre ordenado...\`);
+  // 3. Manejo de Cierre Limpio (Graceful Shutdown)
+  let isShuttingDown = false;
+
+  const handleShutdown = (signal) => {
+    if (isShuttingDown) return; // Evita ejecutar el cierre dos veces (Ctrl+C repetido)
+    isShuttingDown = true;
+    console.log(\`\\n⚠️  Señal \${signal} recibida. Iniciando cierre ordenado (Graceful Shutdown)...\`);
+
+    // Timeout de seguridad: si algo se cuelga, forzar la salida a los 10 s.
+    // unref() evita que este temporizador mantenga vivo el proceso por sí solo.
+    setTimeout(() => {
+      console.error('⚠️  Tiempo de espera excedido. Cierre forzado.');
+      process.exit(1);
+    }, 10000).unref();
+
+    // Detener la recepción de nuevas peticiones y esperar las que están en curso
     server.close(async () => {
+      console.log('🛡️  Servidor HTTP Express detenido.');
       await disconnectDatabases();
+      console.log('👋 Procesos finalizados con éxito. Saliendo.\\n');
       process.exit(0);
     });
   };
 
   process.on('SIGINT', () => handleShutdown('SIGINT'));
   process.on('SIGTERM', () => handleShutdown('SIGTERM'));
+
+  // Promesas rechazadas sin catch: se registran para corregirlas
+  process.on('unhandledRejection', (reason) => {
+    console.error('💥 [Unhandled Rejection en Promesa]:', reason);
+  });
+
+  // Excepción no capturada: el proceso queda en estado incierto, se debe reiniciar
+  process.on('uncaughtException', (err) => {
+    console.error('💥 [Uncaught Exception Fatal]:', err);
+    process.exit(1);
+  });
 }
 
 bootstrap();`
@@ -2066,7 +2317,7 @@ bootstrap();`
       const codeBox = document.getElementById('active-code-box');
       if (!codeBox || !codeSnippets[tabKey]) return;
 
-      const tabKeys = ['env', 'db', 'ctrl', 'app', 'srv'];
+      const tabKeys = ['env', 'db', 'ctrl', 'err', 'app', 'srv'];
       tabKeys.forEach(key => {
         const btn = document.getElementById('tab-btn-' + key);
         if (btn) {

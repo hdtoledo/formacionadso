@@ -21,15 +21,16 @@ Diseñar e implementar el modelo de base de datos relacional para el sistema de 
 ## 🚀 Requisitos Previos
 
 - Tener instalado y en ejecución **PostgreSQL 14+** (vía pgAdmin, DBeaver, CLI `psql` o una instancia Cloud en [Neon.tech](https://neon.tech) / [Supabase](https://supabase.com)).
-- Contar con una base de datos de trabajo creada (ej. `adso_polyglot_db` o `formacion_adso`).
+- Contar con la base de datos de trabajo creada: `adso_auth_db` (es el nombre que usará el backend en la Sesión 08).
 
 ---
 
 ## 📝 Los 5 Retos del Laboratorio (70 Minutos)
 
 - **Reto 1 (DDL `users`):** Creación de la tabla de usuarios con `UUID PRIMARY KEY DEFAULT gen_random_uuid()`, validación de `email UNIQUE`, hash de contraseña, restricción `CHECK (role IN ('admin', 'user'))` y marcas de tiempo `TIMESTAMPTZ`.
-- **Reto 2 (DDL `verification_tokens`):** Creación de la tabla de tokens temporales de verificación vinculada a `users(id)` mediante llave foránea estricta con `ON DELETE CASCADE`.
-- **Reto 3 (Optimización con Índices):** Creación de índices `B-Tree` únicos para acelerar las búsquedas por email en el Login y por token durante la activación de cuenta.
+- **Reto 1.1 (Trigger):** Función `set_updated_at()` y trigger que actualiza `updated_at` en cada `UPDATE`.
+- **Reto 2 (DDL `verification_tokens`):** Tabla que guarda el **hash SHA-256** (`token_hash CHAR(64)`) del token de verificación, vinculada a `users(id)` mediante llave foránea estricta con `ON DELETE CASCADE`.
+- **Reto 3 (Optimización con Índices):** Identificar con `\di` los índices B-Tree que el motor crea solo por `PRIMARY KEY` y `UNIQUE`, y crear el índice de la llave foránea `user_id`.
 - **Reto 4 (Transacciones ACID):** Inserción atómica con bloque `BEGIN ... COMMIT` simulando el registro de un nuevo usuario junto a la emisión de su token con expiración calculada a 24 horas (`NOW() + INTERVAL '24 hours'`).
 - **Reto 5 (Consultas y Pruebas de Integridad):** Consulta analítica con `INNER JOIN` calculando las horas restantes del token y prueba de borrado en cascada.
 

@@ -883,7 +883,7 @@
               </div>
               <h3 class="text-xs font-extrabold text-slate-900">Hashing & Token</h3>
               <p class="text-[11px] text-slate-600 leading-relaxed">
-                Express genera hash seguro con <code class="font-mono text-[10px]">bcrypt</code> (12 rounds) y genera token aleatorio de 64 caracteres:
+                Express genera hash seguro con <code class="font-mono text-[10px]">bcrypt</code> (12 rounds) y un token aleatorio; en la BD solo guarda su <strong>SHA-256</strong>:
               </p>
               <div class="p-2 bg-slate-900 rounded-lg text-emerald-300 font-mono text-[10px]">
                 crypto.randomBytes(32)<br/>
@@ -940,7 +940,7 @@
               </div>
               <h3 class="text-xs font-extrabold text-slate-900">Verificación & JWT</h3>
               <p class="text-[11px] text-slate-600 leading-relaxed">
-                Al pulsar el enlace, la API valida el token, actualiza <code class="font-mono text-[10px] text-emerald-700 font-bold">is_verified = TRUE</code>, purga el token y emite la sesión.
+                Al pulsar el enlace, la API calcula el hash del token recibido, lo busca, actualiza <code class="font-mono text-[10px] text-emerald-700 font-bold">is_verified = TRUE</code> y elimina el token (un solo uso).
               </p>
               <div class="p-2 bg-slate-900 rounded-lg text-amber-300 font-mono text-[10px]">
                 UPDATE users SET<br/>
@@ -1072,9 +1072,9 @@
               <div class="p-2 px-3.5 flex items-center justify-between">
                 <div class="flex items-center gap-1.5 font-bold text-slate-800">
                   <span class="text-purple-600 text-[10px]">✨ UQ</span>
-                  <span>token</span>
+                  <span>token_hash</span>
                 </div>
-                <span class="text-slate-600">VARCHAR(64) NOT NULL</span>
+                <span class="text-slate-600">CHAR(64) NOT NULL</span>
               </div>
               <div class="p-2 px-3.5 flex items-center justify-between">
                 <div class="flex items-center gap-1.5 font-bold text-slate-800">
@@ -1195,10 +1195,10 @@
                 <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200">
                   <div class="flex items-center justify-between mb-1">
                     <strong class="text-slate-800 font-mono text-[11px] text-[#39A900]">01_test_seed.sql (DML)</strong>
-                    <span class="text-[9px] px-1.5 py-0.2 bg-emerald-100 text-emerald-900 rounded font-bold">Día 10 & 12</span>
+                    <span class="text-[9px] px-1.5 py-0.2 bg-emerald-100 text-emerald-900 rounded font-bold">Sesiones 11 & 13</span>
                   </div>
                   <span class="text-[10.5px] text-slate-600 block leading-tight">
-                    Inserta usuarios de prueba y tokens. En la <strong>Sesión 10</strong> aplicamos bcrypt y en la <strong>Sesión 12</strong> validamos estos tokens con <strong>Resend API</strong> para activación de cuenta por email.
+                    Inserta usuarios de prueba (con hashes bcrypt reales) y el hash de un token de prueba. En la <strong>Sesión 11</strong> el backend genera estos datos con bcrypt y crypto, y en la <strong>Sesión 13</strong> los valida para activar la cuenta enviada por <strong>Resend</strong>.
                   </span>
                 </div>
               </div>
@@ -1231,7 +1231,7 @@
                   <span class="text-[9px] px-1.5 py-0.2 bg-emerald-500/20 text-emerald-300 rounded font-bold">2</span>
                 </div>
                 <div class="p-1.5 bg-slate-900 text-slate-200 rounded-lg flex items-center justify-between border border-slate-800">
-                  <span class="text-purple-300">git commit -m "perf(db): agregar indices b-tree para email y token"</span>
+                  <span class="text-purple-300">git commit -m "perf(db): indexar llave foranea user_id de tokens"</span>
                   <span class="text-[9px] px-1.5 py-0.2 bg-purple-500/20 text-purple-300 rounded font-bold">3</span>
                 </div>
                 <div class="p-1.5 bg-slate-900 text-slate-200 rounded-lg flex items-center justify-between border border-slate-800">
@@ -1707,7 +1707,7 @@
               Base de datos gratuita en la nube con SSL obligatorio, escalado automático a cero y conexión mediante Connection String URI estándar:
             </p>
             <div class="p-3 bg-slate-900 rounded-xl font-mono text-[11px] text-emerald-400 break-all">
-              <code>postgresql://adso_user:Secret2026@ep-cool-db.us-east-2.aws.neon.tech/adso_auth_db?sslmode=require</code>
+              <code>postgresql://&lt;usuario&gt;:&lt;contraseña&gt;@&lt;host&gt;.neon.tech/adso_auth_db?sslmode=require</code>
             </div>
           </div>
         </div>
@@ -2126,7 +2126,7 @@
               <div class="p-2 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-2">
                 <div class="flex items-center gap-2 truncate">
                   <span class="w-5 h-5 rounded-full bg-amber-100 text-amber-800 font-bold text-[10px] flex items-center justify-center shrink-0">4</span>
-                  <span class="text-slate-800 truncate">CREATE UNIQUE INDEX idx_users_email ON users(email);</span>
+                  <span class="text-slate-800 truncate">CREATE INDEX idx_tokens_user_id ON verification_tokens(user_id);</span>
                 </div>
                 <span class="px-2 py-0.5 bg-emerald-100 text-[#39A900] text-[9px] font-bold rounded shrink-0">Clic F5 ▶️</span>
               </div>
@@ -2226,7 +2226,7 @@
           ¿Por qué NUNCA Usar IDs Numéricos (1, 2, 3...) en Usuarios?
         </h2>
         <p class="text-xs sm:text-sm text-slate-600 mb-6 max-w-4xl">
-          El uso de <code class="font-mono font-bold text-rose-700">SERIAL</code> o autoincrementables expone al sistema a la vulnerabilidad conocida como <strong>Insecure Direct Object Reference (IDOR)</strong> y permite a competidores o atacantes escanear la base de datos completa.
+          El uso de <code class="font-mono font-bold text-rose-700">SERIAL</code> o autoincrementables permite <strong>enumerar</strong> registros: un atacante adivina IDs vecinos y, si el backend no verifica permisos, explota una <strong>Insecure Direct Object Reference (IDOR)</strong>. El UUID elimina la enumeración, pero <strong>no reemplaza la autorización</strong>: en la Sesión 15 cada endpoint verificará que el recurso pertenece al usuario.
         </p>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -2285,9 +2285,10 @@
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     
-    -- Restricción de unicidad para correo
+    -- Restricción de unicidad para correo (siempre en minúsculas)
     CONSTRAINT uq_users_email UNIQUE (email),
-    
+    CONSTRAINT chk_users_email_lower CHECK (email = LOWER(email)),
+        
     -- Restricción de dominio: solo roles autorizados
     CONSTRAINT chk_users_role CHECK (role IN ('admin', 'user'))
 );</code></pre>
@@ -2297,7 +2298,7 @@
           <div class="lg:col-span-5 space-y-3 text-xs">
             <div class="p-3 bg-white border border-slate-200 rounded-xl">
               <span class="font-extrabold text-[#00324D] block mb-0.5">uq_users_email:</span>
-              <span class="text-slate-600">Garantiza a nivel de motor físico que ningún correo se registre dos veces en la plataforma.</span>
+              <span class="text-slate-600">Garantiza a nivel de motor físico que ningún correo se registre dos veces. Con <code class="font-mono">chk_users_email_lower</code>, <code class="font-mono">Ana@Sena.edu.co</code> y <code class="font-mono">ana@sena.edu.co</code> no pueden ser dos cuentas.</span>
             </div>
             <div class="p-3 bg-white border border-slate-200 rounded-xl">
               <span class="font-extrabold text-[#39A900] block mb-0.5">is_verified (DEFAULT FALSE):</span>
@@ -2323,7 +2324,7 @@
           Estructura de la Tabla: <code class="text-[#00324D] font-mono">verification_tokens</code>
         </h2>
         <p class="text-xs sm:text-sm text-slate-600 mb-6 max-w-4xl">
-          Esta tabla desacoplada almacena los tokens criptográficos de un solo uso enviados por Resend, garantizando que el usuario tenga un tiempo límite para activarse:
+          Esta tabla desacoplada almacena el <strong>hash SHA-256</strong> de los tokens de un solo uso enviados por Resend. El token original solo viaja en el correo: si la base de datos se filtra, los hashes no sirven para activar cuentas ajenas.
         </p>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
@@ -2332,17 +2333,17 @@
               <pre class="rounded-2xl shadow-md text-xs sm:text-sm leading-relaxed"><code class="language-sql">CREATE TABLE verification_tokens (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL,
-    token VARCHAR(64) NOT NULL,
+    token_hash CHAR(64) NOT NULL,       -- SHA-256 en hexadecimal
     expires_at TIMESTAMPTZ NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    
+
     -- Llave foránea estricta hacia users con eliminación en cascada
     CONSTRAINT fk_tokens_user FOREIGN KEY (user_id)
         REFERENCES users(id)
         ON DELETE CASCADE,
         
-    -- Token estrictamente único
-    CONSTRAINT uq_tokens_token UNIQUE (token)
+    -- Hash del token estrictamente único
+    CONSTRAINT uq_tokens_token_hash UNIQUE (token_hash)
 );</code></pre>
             </div>
           </div>
@@ -2420,33 +2421,34 @@
           Índices B-Tree: De <code class="font-mono text-rose-600">O(N)</code> a <code class="font-mono text-[#39A900]">O(log N)</code> en Login y Verificación
         </h2>
         <p class="text-xs sm:text-sm text-slate-600 mb-6 max-w-4xl">
-          Sin índices, cada vez que un usuario intenta iniciar sesión, PostgreSQL debe realizar un <strong>Seq Scan</strong> (escanear fila por fila millones de registros). Con índices B-Tree, la búsqueda es instantánea.
+          Sin índices, cada login obligaría a PostgreSQL a un <strong>Seq Scan</strong> (fila por fila). La buena noticia: <code class="font-mono">PRIMARY KEY</code> y <code class="font-mono">UNIQUE</code> <strong>ya crean un índice B-Tree</strong> automáticamente. Crear otro igual sería un duplicado que solo frena las escrituras.
         </p>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           <div class="lg:col-span-7">
             <div class="code-block-wrapper">
-              <pre class="rounded-2xl shadow-md text-xs sm:text-sm leading-relaxed"><code class="language-sql">-- Índice para acelerar la búsqueda por correo en el Login:
-CREATE UNIQUE INDEX IF NOT EXISTS idx_users_email 
-ON users(email);
+              <pre class="rounded-2xl shadow-md text-xs sm:text-sm leading-relaxed"><code class="language-sql">-- YA EXISTEN (los creó el motor por PK y UNIQUE):
+--   users_pkey, uq_users_email               -> Login por email
+--   verification_tokens_pkey,
+--   uq_tokens_token_hash                     -> Verificación del enlace
 
--- Índice para acelerar la verificación de token en el link de Resend:
-CREATE UNIQUE INDEX IF NOT EXISTS idx_tokens_token 
-ON verification_tokens(token);
+-- PostgreSQL NO indexa las llaves foráneas.
+-- Este índice acelera el JOIN y el borrado en cascada:
+CREATE INDEX IF NOT EXISTS idx_tokens_user_id
+ON verification_tokens(user_id);
 
--- Índice para acelerar el borrado en cascada y JOINs:
-CREATE INDEX IF NOT EXISTS idx_tokens_user_id 
-ON verification_tokens(user_id);</code></pre>
+-- Comprobar en psql (5 índices en total):
+\di</code></pre>
             </div>
           </div>
 
           <div class="lg:col-span-5 space-y-3 text-xs">
             <div class="p-3 bg-white border border-slate-200 rounded-xl">
-              <span class="font-extrabold text-[#00324D] block mb-1">Índice en `users(email)`:</span>
+              <span class="font-extrabold text-[#00324D] block mb-1">Índice implícito `uq_users_email`:</span>
               <span class="text-slate-600">El endpoint <code class="font-mono text-[11px]">POST /api/auth/login</code> responde en milisegundos incluso con cientos de miles de aprendices registrados.</span>
             </div>
             <div class="p-3 bg-white border border-slate-200 rounded-xl">
-              <span class="font-extrabold text-[#39A900] block mb-1">Índice en `verification_tokens(token)`:</span>
+              <span class="font-extrabold text-[#39A900] block mb-1">Índice implícito `uq_tokens_token_hash`:</span>
               <span class="text-slate-600">El endpoint <code class="font-mono text-[11px]">GET /api/auth/verify-email</code> localiza de inmediato el token sin demoras en la pantalla del usuario.</span>
             </div>
           </div>
@@ -2482,23 +2484,33 @@ CREATE TABLE users (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     CONSTRAINT uq_users_email UNIQUE (email),
+    CONSTRAINT chk_users_email_lower CHECK (email = LOWER(email)),
     CONSTRAINT chk_users_role CHECK (role IN ('admin', 'user'))
 );
 
--- 3. Tabla de Tokens con Cascada
+-- 2.1 updated_at automático en cada UPDATE
+CREATE OR REPLACE FUNCTION set_updated_at() RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_users_updated_at BEFORE UPDATE ON users
+    FOR EACH ROW EXECUTE FUNCTION set_updated_at();
+
+-- 3. Tabla de Tokens con Cascada (solo el HASH del token)
 CREATE TABLE verification_tokens (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL,
-    token VARCHAR(64) NOT NULL,
+    token_hash CHAR(64) NOT NULL,
     expires_at TIMESTAMPTZ NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     CONSTRAINT fk_tokens_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    CONSTRAINT uq_tokens_token UNIQUE (token)
+    CONSTRAINT uq_tokens_token_hash UNIQUE (token_hash)
 );
 
--- 4. Índices B-Tree
-CREATE UNIQUE INDEX idx_users_email ON users(email);
-CREATE UNIQUE INDEX idx_tokens_token ON verification_tokens(token);
+-- 4. Índice de la llave foránea (PK y UNIQUE ya crearon los suyos)
 CREATE INDEX idx_tokens_user_id ON verification_tokens(user_id);</code></pre>
         </div>
       </section>
@@ -2526,16 +2538,18 @@ INSERT INTO users (id, email, password_hash, role, is_verified)
 VALUES (
     'b0000000-0000-0000-0000-000000000002',
     'aprendiz.adso@misena.edu.co',
-    '$2a$12$k9L2m4n6p8q0r2t4v6x8.z0a2c4e6g8i0k2m4n6p8q0r2t4v6x8z0',
+    -- Hash bcrypt real de la contraseña de desarrollo Aprendiz2026*
+    '$2a$12$Cbg/M9azmEzX26JhLT844uR95KrIjSBNMFAe9cN9n93gEca7K0Kma',
     'user',
     FALSE
 );
 
--- Paso 2: Emitir token con expiración calculada a 24 horas exactas
-INSERT INTO verification_tokens (user_id, token, expires_at)
+-- Paso 2: Guardar el HASH del token con expiración a 24 horas exactas
+-- (token de prueba conocido; en la Sesión 11 lo genera crypto.randomBytes)
+INSERT INTO verification_tokens (user_id, token_hash, expires_at)
 VALUES (
     'b0000000-0000-0000-0000-000000000002',
-    encode(gen_random_bytes(32), 'hex'), -- 64 caracteres hexadecimales
+    encode(digest('token-demo-sesion-06', 'sha256'), 'hex'),
     NOW() + INTERVAL '24 hours'
 );
 
@@ -2596,8 +2610,8 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
               <span class="font-mono font-bold text-purple-700">HITO 3: Índices B-Tree</span>
               <span class="px-1.5 py-0.5 rounded bg-purple-50 text-purple-800 text-[10px] font-mono font-bold">Commit 3</span>
             </div>
-            <p class="text-slate-600 text-[11px]">Crear índices estratégicos para acelerar el Login (por email) y confirmación de cuenta (por token).</p>
-            <div class="text-[10px] font-mono text-slate-600 bg-slate-50 p-1.5 rounded border border-slate-100">git commit -m "perf(db): agregar indices b-tree para email y token"</div>
+            <p class="text-slate-600 text-[11px]">Verificar con <code class="font-mono">\di</code> los índices que crean PK y UNIQUE, y crear el índice de la llave foránea <code class="font-mono">user_id</code>.</p>
+            <div class="text-[10px] font-mono text-slate-600 bg-slate-50 p-1.5 rounded border border-slate-100">git commit -m "perf(db): indexar llave foranea user_id de tokens"</div>
           </div>
 
           <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1.5 shadow-2xs">
@@ -2668,7 +2682,7 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
                 \d users
               </div>
             </div>
-            <span class="text-[10px] text-slate-500">Salida esperada: <code class="font-mono text-emerald-700">2 tables, 3 indexes</code></span>
+            <span class="text-[10px] text-slate-500">Salida esperada: <code class="font-mono text-emerald-700">2 tablas y 5 índices (\di)</code></span>
           </div>
 
           <!-- Operación 3: Semilla Transaccional -->
@@ -2686,7 +2700,7 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
                 verification_tokens t ON u.id = t.user_id;
               </div>
             </div>
-            <span class="text-[10px] text-slate-500">Salida esperada: <code class="font-mono text-emerald-700">1 row con token</code></span>
+            <span class="text-[10px] text-slate-500">Salida esperada: <code class="font-mono text-emerald-700">1 fila (aprendiz con token vigente)</code></span>
           </div>
 
           <!-- Operación 4: Test Destructivo de Cascada -->
@@ -2759,7 +2773,7 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
             <ul class="space-y-1.5 text-slate-600 font-mono text-[11px]">
               <li>• <strong class="text-slate-800">id:</strong> String UUID</li>
               <li>• <strong class="text-slate-800">user_id:</strong> String UUID (FK a users)</li>
-              <li>• <strong class="text-slate-800">token:</strong> Hex string de 64 caracteres</li>
+              <li>• <strong class="text-slate-800">token_hash:</strong> SHA-256 hex de 64 caracteres (el token original nunca se guarda)</li>
               <li>• <strong class="text-slate-800">expires_at:</strong> ISO Date string (comparable con <code class="text-emerald-700">&gt; NOW()</code>)</li>
             </ul>
           </div>

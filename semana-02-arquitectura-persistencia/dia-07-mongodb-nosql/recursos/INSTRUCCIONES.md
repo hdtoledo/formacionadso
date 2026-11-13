@@ -37,8 +37,8 @@ Copie la colección de documentos polimórficos (`01_content_seed.json`) suminis
    - Clic en **Add New Database User**.
    - Método de autenticación: **Password**.
    - Username: `adso_user`.
-   - Autogenerar o asignar una contraseña segura (e.g., `Secret2026`).
-   - Privilegios: `Built-in Role > Read and write to any database`.
+   - Clic en **Autogenerate Secure Password**, cópiela y guárdela **solo** en su archivo `.env` (nunca en el código ni en GitHub).
+   - Privilegios: **Specific Privileges › `readWrite`** sobre la base `adso_polyglot_db` (mínimo privilegio).
 4. **Seguridad 2 · Network Access (IP Whitelist):**
    - Vaya a **Security > Network Access**.
    - Clic en **Add IP Address**.
@@ -48,7 +48,7 @@ Copie la colección de documentos polimórficos (`01_content_seed.json`) suminis
    - Seleccione **Compass**.
    - Copie la URI generada (reemplazando `<password>` por su contraseña real):
      ```text
-     mongodb+srv://adso_user:Secret2026@cluster0.abcde.mongodb.net/adso_polyglot_db?retryWrites=true&w=majority
+     mongodb+srv://adso_user:<contraseña>@<cluster>.mongodb.net/adso_polyglot_db?retryWrites=true&w=majority
      ```
 
 ---
@@ -95,7 +95,7 @@ Si desea ejecutar el aprovisionamiento completo (limpieza idempotente, validador
 
 ```bash
 # Opción A: Desde la terminal mongosh (CLI)
-mongosh "mongodb+srv://adso_user:Secret2026@cluster0.../adso_polyglot_db" --file database/nosql/01_adso_polyglot_setup.js
+mongosh "mongodb+srv://adso_user:<contraseña>@<cluster>.mongodb.net/adso_polyglot_db" --file database/nosql/01_adso_polyglot_setup.js
 
 # Opción B: Desde la terminal _MONGOSH en Compass
 # Copie y pegue el contenido completo de 01_adso_polyglot_setup.js en la pestaña inferior _MONGOSH

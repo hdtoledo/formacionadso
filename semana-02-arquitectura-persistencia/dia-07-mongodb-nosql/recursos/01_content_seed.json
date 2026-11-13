@@ -9,8 +9,8 @@
     "priority": 1,
     "active": true,
     "tags": ["tecnologia", "adso", "sena", "fullstack"],
-    "createdAt": "2026-10-16T10:00:00.000Z",
-    "updatedAt": "2026-10-16T10:00:00.000Z"
+    "createdAt": { "$date": "2026-10-16T10:00:00.000Z" },
+    "updatedAt": { "$date": "2026-10-16T10:00:00.000Z" }
   },
   {
     "type": "banner",
@@ -22,8 +22,8 @@
     "priority": 2,
     "active": true,
     "tags": ["sena", "huila", "garzon", "agroempresa"],
-    "createdAt": "2026-10-16T10:05:00.000Z",
-    "updatedAt": "2026-10-16T10:05:00.000Z"
+    "createdAt": { "$date": "2026-10-16T10:05:00.000Z" },
+    "updatedAt": { "$date": "2026-10-16T10:05:00.000Z" }
   },
   {
     "type": "service",
@@ -42,8 +42,8 @@
       "prerequisites": ["JavaScript ES6+", "SQL Relacional", "Git & GitHub"]
     },
     "tags": ["backend", "express", "postgresql", "mongodb", "nodejs"],
-    "createdAt": "2026-10-16T10:15:00.000Z",
-    "updatedAt": "2026-10-16T10:15:00.000Z"
+    "createdAt": { "$date": "2026-10-16T10:15:00.000Z" },
+    "updatedAt": { "$date": "2026-10-16T10:15:00.000Z" }
   },
   {
     "type": "service",
@@ -62,8 +62,8 @@
       "certification": "Sello Verde SENA CADPH"
     },
     "tags": ["agroindustria", "trazabilidad", "cafe", "huila", "iot"],
-    "createdAt": "2026-10-16T10:20:00.000Z",
-    "updatedAt": "2026-10-16T10:20:00.000Z"
+    "createdAt": { "$date": "2026-10-16T10:20:00.000Z" },
+    "updatedAt": { "$date": "2026-10-16T10:20:00.000Z" }
   },
   {
     "type": "service",
@@ -82,8 +82,8 @@
       "tools": ["Bruno", "Postman", "Compass", "pgAdmin"]
     },
     "tags": ["ciberseguridad", "owasp", "seguridad", "nosql-injection"],
-    "createdAt": "2026-10-16T10:25:00.000Z",
-    "updatedAt": "2026-10-16T10:25:00.000Z"
+    "createdAt": { "$date": "2026-10-16T10:25:00.000Z" },
+    "updatedAt": { "$date": "2026-10-16T10:25:00.000Z" }
   },
   {
     "type": "service",
@@ -102,8 +102,8 @@
       "styling": "Tailwind CSS v3/v4"
     },
     "tags": ["react", "vite", "tailwind", "frontend", "ui-ux"],
-    "createdAt": "2026-10-16T10:30:00.000Z",
-    "updatedAt": "2026-10-16T10:30:00.000Z"
+    "createdAt": { "$date": "2026-10-16T10:30:00.000Z" },
+    "updatedAt": { "$date": "2026-10-16T10:30:00.000Z" }
   },
   {
     "type": "testimonial",
@@ -116,8 +116,8 @@
     "verified": true,
     "active": true,
     "tags": ["testimonio", "adso", "aprendiz"],
-    "createdAt": "2026-10-16T10:40:00.000Z",
-    "updatedAt": "2026-10-16T10:40:00.000Z"
+    "createdAt": { "$date": "2026-10-16T10:40:00.000Z" },
+    "updatedAt": { "$date": "2026-10-16T10:40:00.000Z" }
   },
   {
     "type": "testimonial",
@@ -130,8 +130,8 @@
     "verified": true,
     "active": true,
     "tags": ["testimonio", "empresa", "reclutamiento"],
-    "createdAt": "2026-10-16T10:45:00.000Z",
-    "updatedAt": "2026-10-16T10:45:00.000Z"
+    "createdAt": { "$date": "2026-10-16T10:45:00.000Z" },
+    "updatedAt": { "$date": "2026-10-16T10:45:00.000Z" }
   },
   {
     "type": "stat",
@@ -142,8 +142,8 @@
     "label": "Formación técnica de alto impacto en el Huila",
     "order": 1,
     "active": true,
-    "createdAt": "2026-10-16T10:50:00.000Z",
-    "updatedAt": "2026-10-16T10:50:00.000Z"
+    "createdAt": { "$date": "2026-10-16T10:50:00.000Z" },
+    "updatedAt": { "$date": "2026-10-16T10:50:00.000Z" }
   },
   {
     "type": "stat",
@@ -151,10 +151,10 @@
     "value": 99.9,
     "prefix": "",
     "suffix": "%",
-    "label": "SLA de infraestructura Cloud en MongoDB Atlas M0",
+    "label": "Disponibilidad objetivo de la plataforma (el tier gratuito M0 no ofrece SLA)",
     "order": 2,
     "active": true,
-    "createdAt": "2026-10-16T10:55:00.000Z",
-    "updatedAt": "2026-10-16T10:55:00.000Z"
+    "createdAt": { "$date": "2026-10-16T10:55:00.000Z" },
+    "updatedAt": { "$date": "2026-10-16T10:55:00.000Z" }
   }
 ]

@@ -27,35 +27,38 @@ async function bootstrap() {
   });
 
   // 3. Manejo de Cierre Limpio (Graceful Shutdown)
-  const handleShutdown = async (signal) => {
+  let isShuttingDown = false;
+
+  const handleShutdown = (signal) => {
+    if (isShuttingDown) return; // Evita ejecutar el cierre dos veces (Ctrl+C repetido)
+    isShuttingDown = true;
     console.log(`\n⚠️  Señal ${signal} recibida. Iniciando cierre ordenado (Graceful Shutdown)...`);
-    
-    // Detener la recepción de nuevas peticiones HTTP
+
+    // Timeout de seguridad: si algo se cuelga, forzar la salida a los 10 s.
+    // unref() evita que este temporizador mantenga vivo el proceso por sí solo.
+    setTimeout(() => {
+      console.error('⚠️  Tiempo de espera excedido. Cierre forzado.');
+      process.exit(1);
+    }, 10000).unref();
+
+    // Detener la recepción de nuevas peticiones y esperar las que están en curso
     server.close(async () => {
       console.log('🛡️  Servidor HTTP Express detenido.');
-      
-      // Cerrar conexiones activas de bases de datos
       await disconnectDatabases();
-      
       console.log('👋 Procesos finalizados con éxito. Saliendo.\n');
       process.exit(0);
     });
-
-    // Timeout de seguridad en caso de que las conexiones tarden demasiado en cerrarse
-    setTimeout(() => {
-      console.error('⚠️  Tiempo de espera excedido para el cierre forzado.');
-      process.exit(1);
-    }, 10000);
   };
 
   process.on('SIGINT', () => handleShutdown('SIGINT'));
   process.on('SIGTERM', () => handleShutdown('SIGTERM'));
 
-  // Manejo de rechazos de promesas no controlados
-  process.on('unhandledRejection', (reason, promise) => {
+  // Promesas rechazadas sin catch: se registran para corregirlas
+  process.on('unhandledRejection', (reason) => {
     console.error('💥 [Unhandled Rejection en Promesa]:', reason);
   });
 
+  // Excepción no capturada: el proceso queda en estado incierto, se debe reiniciar
   process.on('uncaughtException', (err) => {
     console.error('💥 [Uncaught Exception Fatal]:', err);
     process.exit(1);
@@ -63,4 +66,3 @@ async function bootstrap() {
 }
 
 bootstrap();
-
