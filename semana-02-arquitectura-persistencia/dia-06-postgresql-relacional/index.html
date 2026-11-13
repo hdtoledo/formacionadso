@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00324D">
   <title>Sesión 06 | PostgreSQL Relacional en Profundidad | SENA ADSO</title>
   <meta name="description" content="Sesión 06: Arquitectura de PostgreSQL, tipos de datos avanzados, modelado de usuarios y tokens con integridad referencial estricta. Diapositivas interactivas para videobeam SENA ADSO.">
   <link rel="icon" type="image/png" href="../../assets/logo_green.png">
@@ -33,7 +34,7 @@
   </script>
 
   <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
 
   <!-- PrismJS para sintaxis SQL -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -48,101 +49,9 @@
   <!-- Estilos de presentación -->
   <link rel="stylesheet" href="../../assets/css/presenter.css">
 </head>
-<body class="min-h-full flex flex-col bg-[#F8FAFC] text-slate-900 overflow-x-hidden selection:bg-[#39A900] selection:text-white">
+<body data-lesson="s06" data-week="2" data-session="06" data-title="PostgreSQL: Identidad, UUIDs y Seguridad Relacional" data-short="PostgreSQL">
 
-  <!-- ========================================================================= -->
-  <!-- 1. CINTILLO INSTITUCIONAL SENA -->
-  <!-- ========================================================================= -->
-  <div class="bg-[#00324D] text-white text-[11px] sm:text-xs py-2 px-4 sm:px-8 xl:px-12 border-b border-[#00263a] sticky top-0 z-50">
-    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-2">
-      <div class="flex items-center gap-2 truncate">
-        <span class="font-bold tracking-wide shrink-0">SENA</span>
-        <span class="text-slate-400">|</span>
-        <span class="text-slate-200 truncate font-medium">Regional Huila • CADPH Garzón</span>
-      </div>
-      <div class="flex items-center gap-4 text-slate-300 font-medium shrink-0 text-xs">
-        <span class="hidden md:inline">Sede Garzón</span>
-        <span class="text-emerald-400 font-semibold flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#39A900] animate-pulse"></span>
-          <span id="slide-cintillo-fecha">Hoy</span>
-        </span>
-        <span class="hidden sm:inline">ADSO · Proyección en Aula</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================================= -->
-  <!-- 2. HEADER DE CONTROL PARA EL INSTRUCTOR (VIDEOBEAM) -->
-  <!-- ========================================================================= -->
-  <header class="bg-white border-b border-slate-200 px-4 sm:px-8 xl:px-12 py-3 sticky top-[33px] sm:top-[35px] z-40 shadow-xs">
-    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-3">
-      
-      <!-- Marca SENA & Título de la Lección -->
-      <div class="flex items-center space-x-3">
-        <a href="../../index.html" class="flex items-center space-x-2.5 text-slate-600 hover:text-slate-900 transition-colors group" title="Volver al Portal Central">
-          <img src="../../assets/logo_green.png" alt="Logo SENA" class="h-9 w-auto object-contain shrink-0">
-          <div class="hidden sm:block border-l border-slate-200 pl-3">
-            <div class="flex items-center gap-1.5">
-              <span class="text-sm font-extrabold text-slate-900">FORMACIÓN</span>
-              <span class="text-sm font-black text-[#39A900]">ADSO</span>
-              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">CADPH</span>
-            </div>
-            <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Centro Agroempresarial y Desarrollo Pecuario del Huila</p>
-          </div>
-        </a>
-        <span class="text-slate-300 hidden md:inline">/</span>
-        <div class="hidden md:flex items-center space-x-2">
-          <span class="px-2.5 py-0.5 text-xs font-bold bg-blue-50 text-[#00324D] border border-blue-200 rounded">Semana 2</span>
-          <span class="text-xs font-bold text-slate-800">Sesión 06 · Día 6: PostgreSQL Relacional en Profundidad</span>
-        </div>
-      </div>
-
-      <!-- Controles de Clase & Temporizador -->
-      <div class="flex items-center space-x-2 sm:space-x-3">
-        
-        <!-- Temporizador Institucional -->
-        <div class="flex items-center bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 space-x-2 shadow-2xs">
-          <i data-lucide="clock" class="w-4 h-4 text-[#39A900]"></i>
-          <span id="timer-display" class="font-mono text-sm font-bold text-slate-800 tracking-wider">00:00</span>
-          <button id="btn-timer-start" class="px-2.5 py-1 rounded bg-white hover:bg-slate-100 border border-slate-200 text-xs font-bold text-slate-700 transition-colors flex items-center space-x-1">
-            <i data-lucide="play" class="w-3 h-3 text-[#39A900]"></i>
-            <span>Iniciar</span>
-          </button>
-          <button id="btn-timer-reset" class="p-1 rounded hover:bg-slate-200 text-slate-400 hover:text-slate-700" title="Reiniciar temporizador">
-            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-          </button>
-        </div>
-
-        <!-- Metodología: Montaje en Vivo & Repositorio Personal Git -->
-        <div class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-900 shadow-2xs" title="Metodología Activa: Montaje paso a paso en repositorio personal GitHub">
-          <i data-lucide="git-branch" class="w-3.5 h-3.5 text-[#39A900]"></i>
-          <span>Montaje en Vivo · Git Personal</span>
-        </div>
-
-        <!-- Índice de Diapositivas (M) -->
-        <button id="btn-open-menu" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition" title="Índice de Diapositivas (M)">
-          <i data-lucide="list" class="w-4 h-4 text-[#00324D]"></i>
-        </button>
-
-        <!-- Pantalla Completa (F) -->
-        <button id="btn-fullscreen" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition" title="Pantalla Completa (F)">
-          <i data-lucide="maximize" class="w-4 h-4 text-slate-600"></i>
-        </button>
-
-      </div>
-
-    </div>
-  </header>
-
-  <!-- Barra de progreso institucional verde SENA -->
-  <div class="w-full bg-slate-200 h-1 fixed top-[83px] sm:top-[87px] left-0 z-40">
-    <div id="presentation-progress" class="bg-[#39A900] h-full w-0 transition-all duration-300 ease-out"></div>
-  </div>
-
-  <!-- ========================================================================= -->
-  <!-- 3. CONTENEDOR PRINCIPAL DE DIAPOSITIVAS (PRESENTADOR) -->
-  <!-- ========================================================================= -->
-  <main class="flex-1 max-w-[1860px] w-full mx-auto px-4 sm:px-8 xl:px-12 py-6 flex flex-col justify-between">
+  <main id="lesson-main" class="ls-main">
     
     <!-- ÁREA DE DIAPOSITIVA ACTIVA -->
     <div id="presentation-container" class="relative w-full flex-1 flex flex-col justify-center min-h-[560px]">
@@ -150,7 +59,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 01: PORTADA OFICIAL DE LA LECCIÓN -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item active flex flex-col justify-center items-center text-center py-8">
+      <section class="slide-item active flex flex-col justify-center items-center text-center py-8" data-title="Portada Oficial SENA" data-block-label="PORTADA DE LECCIÓN">
         <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-900 text-xs font-bold mb-6">
           <span class="w-2 h-2 rounded-full bg-[#00324D] animate-pulse"></span>
           <span>SEMANA 2 · SESIÓN 06 · EJE BASES DE DATOS RELACIONALES</span>
@@ -187,7 +96,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 02: VISIÓN GLOBAL DEL SISTEMA FULL STACK (ARQUITECTURA 3-TIER) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Arquitectura 3-Tier del Sistema" data-block-label="ARQUITECTURA 3-TIER DEL SISTEMA">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="layout-grid" class="w-4 h-4 text-[#39A900]"></i>
           <span>Introducción al Sistema · Visión Global Full Stack</span>
@@ -332,7 +241,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 03: ARQUITECTURA EMPRESARIAL: ADSO VS BIG TECH (STRIPE, NETFLIX, UBER) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Comparativa Big Tech (Stripe, Netflix, Uber)" data-block-label="COMPARATIVA ADSO VS BIG TECH">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="building-2" class="w-4 h-4 text-[#39A900]"></i>
           <span>Ingeniería de Software a Escala · Comparativa con Grandes Empresas</span>
@@ -426,7 +335,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 04: ARQUITECTURA LIMPIA DEL BACKEND EXPRESS -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Arquitectura Backend Express" data-block-label="ARQUITECTURA DEL BACKEND EXPRESS">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="server" class="w-4 h-4 text-[#39A900]"></i>
           <span>Arquitectura del Proyecto · Tier 2: Backend Enterprise</span>
@@ -558,7 +467,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 05: ARQUITECTURA DEL FRONTEND REACT (SPA) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Arquitectura Frontend React SPA" data-block-label="ARQUITECTURA DEL FRONTEND REACT">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="monitor" class="w-4 h-4 text-[#39A900]"></i>
           <span>Arquitectura del Proyecto · Tier 1: Frontend SPA</span>
@@ -648,7 +557,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 06: SEGURIDAD ENTERPRISE: COOKIES HTTPONLY VS LOCALSTORAGE -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Seguridad Enterprise &amp; Cookies" data-block-label="ESTRATEGIA DE SEGURIDAD ENTERPRISE">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="shield-alert" class="w-4 h-4 text-rose-600"></i>
           <span>Seguridad Defensiva · Mitigación de Vulnerabilidades</span>
@@ -748,7 +657,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 07: EL ECOSISTEMA LOCAL DEL DESARROLLADOR (PUERTOS & SERVICIOS) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Ecosistema Local &amp; Puertos" data-block-label="ECOSISTEMA LOCAL &amp; PUERTOS">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="network" class="w-4 h-4 text-[#39A900]"></i>
           <span>Entorno de Desarrollo · Mapa de Conectividad</span>
@@ -840,7 +749,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 08: FLUJO TRANSACCIONAL TÉCNICO DE 5 FASES -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Flujo Transaccional Técnico" data-block-label="FLUJO TRANSACCIONAL TÉCNICO">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="git-commit" class="w-4 h-4 text-[#39A900]"></i>
           <span>Traza de Ejecución Técnica · Flujo Transaccional</span>
@@ -965,7 +874,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 08: MODELO ENTIDAD-RELACIÓN (ERD) & ANATOMÍA DE LAS TABLAS -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Modelo ERD &amp; Anatomía Tablas" data-block-label="MODELO ENTIDAD-RELACIÓN (ERD)">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="network" class="w-4 h-4 text-[#39A900]"></i>
           <span>Modelo de Datos Relacional · Especificación Formal</span>
@@ -1116,7 +1025,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 09: HOJA DE RUTA DEL MONTAJE EN EL REPOSITORIO PERSONAL GIT -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Hoja de Ruta del Montaje Git" data-block-label="HOJA DE RUTA DEL MONTAJE EN GIT">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="git-branch" class="w-4 h-4 text-[#39A900]"></i>
           <span>Metodología de Aula · Trazabilidad en GitHub</span>
@@ -1265,7 +1174,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 11: ESTÁNDAR GLOBAL DE COMMITS (CONVENTIONAL COMMITS & BUENAS PRÁCTICAS) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Conventional Commits v1.0.0" data-block-label="CONVENTIONAL COMMITS &amp; BUENAS PRÁCTICAS">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1">
           <i data-lucide="git-pull-request" class="w-4 h-4 text-[#39A900]"></i>
           <span>Estándar Global de la Industria · Software Engineering & CI/CD</span>
@@ -1502,7 +1411,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 12: EL PROYECTO TRANSVERSAL Y LA ARQUITECTURA POLÍGLOTA -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Arquitectura Políglota" data-block-label="ARQUITECTURA POLÍGLOTA">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="layers" class="w-4 h-4"></i>
           <span>Visión General de Arquitectura</span>
@@ -1564,7 +1473,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 12: POSTGRESQL VS MYSQL / MARIADB -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="PostgreSQL vs MySQL" data-block-label="POSTGRESQL VS MYSQL">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="scale" class="w-4 h-4"></i>
           <span>Fundamentación Técnica</span>
@@ -1619,7 +1528,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 12: ARQUITECTURA INTERNA DE POSTGRESQL -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Arquitectura de Procesos" data-block-label="ARQUITECTURA DE PROCESOS">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="cpu" class="w-4 h-4"></i>
           <span>Modelo de Procesamiento</span>
@@ -1672,7 +1581,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 13: CONEXIÓN LOCAL VS CLOUD (NEON & SUPABASE) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Conexión Local vs Cloud" data-block-label="CONEXIÓN LOCAL VS CLOUD">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="cloud" class="w-4 h-4"></i>
           <span>Entorno de Trabajo</span>
@@ -1726,7 +1635,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 16: GUÍA DE DESCARGA E INSTALACIÓN DE POSTGRESQL & PGADMIN 4 -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Instalación PostgreSQL &amp; pgAdmin" data-block-label="INSTALACIÓN POSTGRESQL &amp; PGADMIN 4">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1">
           <i data-lucide="download-cloud" class="w-4 h-4 text-[#39A900]"></i>
           <span>Instalación en Máquina Local · Windows / Linux / macOS</span>
@@ -1888,7 +1797,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 17: PRIMER INICIO EN PGADMIN 4 Y CREACIÓN DE LA BASE DE DATOS -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Primer Inicio &amp; Crear BD" data-block-label="PGADMIN 4: PRIMER INICIO &amp; CREAR BD">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1">
           <i data-lucide="mouse-pointer-click" class="w-4 h-4 text-[#39A900]"></i>
           <span>Administración Gráfica · GUI Oficial</span>
@@ -2019,7 +1928,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 18: EL QUERY TOOL DE PGADMIN 4 Y EJECUCIÓN SENTENCIA A SENTENCIA -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Query Tool &amp; Clics en Vivo" data-block-label="QUERY TOOL &amp; CLICS EN VIVO (DDL/DML)">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1">
           <i data-lucide="terminal" class="w-4 h-4 text-[#39A900]"></i>
           <span>Live Coding en pgAdmin 4 · Query Tool</span>
@@ -2167,7 +2076,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 19: TIPOS DE DATOS AVANZADOS EN POSTGRESQL -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Tipos de Datos Clave" data-block-label="BLOQUE 1: TEORÍA &amp; LIVE CODING">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="database" class="w-4 h-4"></i>
           <span>Tipado Fuerte</span>
@@ -2217,7 +2126,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 15: UUIDS Y SEGURIDAD CONTRA ENUMERACIÓN -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Seguridad contra IDOR" data-block-label="BLOQUE 1: TEORÍA &amp; LIVE CODING">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="shield-check" class="w-4 h-4"></i>
           <span>Seguridad Defensiva</span>
@@ -2261,7 +2170,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 16: MODELADO DE LA TABLA USERS -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Tabla users (DDL)" data-block-label="BLOQUE 1: TEORÍA &amp; LIVE CODING">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="user-check" class="w-4 h-4"></i>
           <span>Diseño DDL</span>
@@ -2315,7 +2224,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 17: MODELADO DE LA TABLA VERIFICATION_TOKENS -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Tabla verification_tokens" data-block-label="BLOQUE 1: TEORÍA &amp; LIVE CODING">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="mail" class="w-4 h-4"></i>
           <span>Diseño DDL</span>
@@ -2368,7 +2277,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 18: INTEGRIDAD REFERENCIAL Y ON DELETE CASCADE -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="ON DELETE CASCADE" data-block-label="BLOQUE 1: TEORÍA &amp; LIVE CODING">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="git-merge" class="w-4 h-4"></i>
           <span>Integridad Referencial</span>
@@ -2412,7 +2321,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 19: OPTIMIZACIÓN CON ÍNDICES B-TREE -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Índices B-Tree" data-block-label="BLOQUE 1: TEORÍA &amp; LIVE CODING">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="search" class="w-4 h-4"></i>
           <span>Rendimiento y Escalabilidad</span>
@@ -2458,7 +2367,7 @@ ON verification_tokens(user_id);
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 20: LIVE CODING GUIADO DDL -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Live Coding DDL" data-block-label="BLOQUE 1: TEORÍA &amp; LIVE CODING">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="terminal" class="w-4 h-4"></i>
           <span>Live Coding en Video-Beam</span>
@@ -2518,7 +2427,7 @@ CREATE INDEX idx_tokens_user_id ON verification_tokens(user_id);</code></pre>
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 21: TRANSACCIONES ACID (REGISTRO ATÓMICO) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Transacciones ACID" data-block-label="BLOQUE 1: TEORÍA &amp; LIVE CODING">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="lock" class="w-4 h-4"></i>
           <span>Atomicidad Relacional</span>
@@ -2565,7 +2474,7 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 22: MONTAJE GUIADO PASO A PASO & COMMITS EN GIT PERSONAL -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Montaje Guiado en Aula" data-block-label="BLOQUE 2: MONTAJE EN AULA &amp; GIT">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#39A900] uppercase tracking-wider mb-2">
           <i data-lucide="git-commit" class="w-4 h-4"></i>
           <span>Bloque 2: Montaje Guiado en Aula (70 Minutos)</span>
@@ -2637,7 +2546,7 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 23: GUÍA OPERATIVA DEL MONTAJE EN AULA (EJECUCIÓN & VALIDACIÓN) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Guía Operativa Consola" data-block-label="BLOQUE 2: MONTAJE EN AULA &amp; GIT">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#39A900] uppercase tracking-wider mb-2">
           <i data-lucide="play-circle" class="w-4 h-4 text-[#39A900]"></i>
           <span>Guía Operativa en Aula · Ejecución Paso a Paso</span>
@@ -2737,7 +2646,7 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 24: DICCIONARIO DE DATOS Y CONTRATO PARA EXPRESS -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Diccionario de Datos" data-block-label="CONTRATO TÉCNICO EXPRESS">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="file-text" class="w-4 h-4"></i>
           <span>Contrato Técnico</span>
@@ -2783,7 +2692,7 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 25: SUSTENTACIÓN Y MODIFICACIÓN EN CALIENTE -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Sustentación &amp; Live Mod" data-block-label="BLOQUE 3: EVALUACIÓN &amp; SUSTENTACIÓN">
         <div class="flex items-center space-x-2 text-xs font-bold text-purple-700 uppercase tracking-wider mb-2">
           <i data-lucide="award" class="w-4 h-4"></i>
           <span>Bloque 3: Evaluación y Sustentación Individual</span>
@@ -2826,7 +2735,7 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 26: CIERRE Y CONEXIÓN CON LA SESIÓN 07 (MONGODB) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center items-center text-center py-8">
+      <section class="slide-item hidden flex flex-col justify-center items-center text-center py-8" data-title="Cierre &amp; Sesión 07" data-block-label="CIERRE &amp; SIGUIENTE SESIÓN">
         <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-[#39A900] flex items-center justify-center font-black text-2xl mb-4 shadow-xs">
           <i data-lucide="check-check" class="w-7 h-7"></i>
         </div>
@@ -2892,130 +2801,6 @@ COMMIT; -- Consolida físicamente en disco</code></pre>
 
   </main>
 
-  <!-- ========================================================================= -->
-  <!-- DRAWER / ÍNDICE DE DIAPOSITIVAS (M) -->
-  <!-- ========================================================================= -->
-  <aside id="menu-drawer" class="fixed inset-y-0 right-0 z-50 w-80 bg-white border-l border-slate-200 shadow-2xl p-5 overflow-y-auto hidden flex flex-col">
-    <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
-      <h3 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
-        <i data-lucide="layers" class="w-4 h-4 text-[#39A900]"></i>
-        <span>Índice de Diapositivas</span>
-      </h3>
-      <button id="btn-close-menu" class="text-slate-400 hover:text-slate-700">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
-    </div>
-
-    <div class="space-y-1 text-xs font-mono flex-1">
-      <button onclick="window.presenter?.goToSlide(0)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">01</span><span>Portada Oficial SENA</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(1)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">02</span><span>Arquitectura 3-Tier del Sistema</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(2)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">03</span><span>Comparativa Big Tech (Stripe, Netflix, Uber)</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(3)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">04</span><span>Arquitectura Backend Express</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(4)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">05</span><span>Arquitectura Frontend React SPA</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(5)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">06</span><span>Seguridad Enterprise & Cookies</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(6)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">07</span><span>Ecosistema Local & Puertos</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(7)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">08</span><span>Flujo Transaccional Técnico</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(8)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">09</span><span>Modelo ERD & Anatomía Tablas</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(9)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">10</span><span>Hoja de Ruta del Montaje Git</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(10)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-purple-700 font-bold">
-        <span class="text-purple-600">11</span><span>Conventional Commits v1.0.0</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(11)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">12</span><span>Arquitectura Políglota</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(12)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">13</span><span>PostgreSQL vs MySQL</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(13)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">14</span><span>Arquitectura de Procesos</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(14)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">15</span><span>Conexión Local vs Cloud</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(15)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">16</span><span>Instalación PostgreSQL & pgAdmin</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(16)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">17</span><span>Primer Inicio & Crear BD</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(17)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">18</span><span>Query Tool & Clics en Vivo</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(18)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">19</span><span>Tipos de Datos Clave</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(19)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-rose-700 font-bold">
-        <span class="text-rose-400">20</span><span>Seguridad contra IDOR</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(20)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">21</span><span>Tabla users (DDL)</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(21)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">22</span><span>Tabla verification_tokens</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(22)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">23</span><span>ON DELETE CASCADE</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(23)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">24</span><span>Índices B-Tree</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(24)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">25</span><span>Live Coding DDL</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(25)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">26</span><span>Transacciones ACID</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(26)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">27</span><span>Montaje Guiado en Aula</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(27)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">28</span><span>Guía Operativa Consola</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(28)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">29</span><span>Diccionario de Datos</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(29)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-purple-700 font-bold">
-        <span class="text-purple-400">30</span><span>Sustentación & Live Mod</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(30)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">31</span><span>Cierre & Sesión 07</span>
-      </button>
-    </div>
-  </aside>
-
-  <!-- Script del Presentador, Lucide Icons y Fecha Dinámica -->
   <script src="../../assets/js/presenter.js"></script>
-  <script>
-    lucide.createIcons();
-
-    // Fecha dinámica de hoy en el cintillo de la presentación
-    (function renderFechaSlide() {
-      const hoy = new Date();
-      const opciones = { weekday: 'short', day: 'numeric', month: 'short' };
-      const fechaTxt = hoy.toLocaleDateString('es-CO', opciones);
-      const el = document.getElementById('slide-cintillo-fecha');
-      if (el) el.textContent = 'Hoy: ' + fechaTxt.charAt(0).toUpperCase() + fechaTxt.slice(1);
-    })();
-  </script>
 </body>
 </html>

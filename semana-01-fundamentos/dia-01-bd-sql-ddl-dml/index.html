@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00324D">
   <title>Sesión 01 | BD: Modelo Relacional y SQL DDL/DML | SENA ADSO</title>
   <meta name="description" content="Sesión 01: Modelo Relacional y SQL DDL/DML desde Cero. Diapositivas interactivas para videobeam SENA ADSO.">
   <link rel="icon" type="image/png" href="../../assets/logo_green.png">
@@ -33,7 +34,7 @@
   </script>
 
   <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
 
   <!-- PrismJS para sintaxis SQL -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -48,119 +49,14 @@
   <!-- Estilos de presentación -->
   <link rel="stylesheet" href="../../assets/css/presenter.css">
 </head>
-<body class="min-h-full flex flex-col bg-[#F8FAFC] text-slate-900 overflow-x-hidden selection:bg-[#39A900] selection:text-white">
+<body data-lesson="s01" data-week="1" data-session="01" data-title="Modelo Relacional y SQL DDL &amp; DML desde Cero" data-short="SQL DDL &amp; DML">
 
-  <!-- ========================================================================= -->
-  <!-- 1. CINTILLO INSTITUCIONAL SENA (IDÉNTICO A SIGAF365) -->
-  <!-- ========================================================================= -->
-  <div class="bg-[#00324D] text-white text-[11px] sm:text-xs py-2 px-4 sm:px-8 xl:px-12 border-b border-[#00263a] sticky top-0 z-50">
-    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-2">
-      <div class="flex items-center gap-2 truncate">
-        <span class="font-bold tracking-wide shrink-0">SENA</span>
-        <span class="text-slate-400">|</span>
-        <span class="text-slate-200 truncate font-medium">Regional Huila • CADPH Garzón</span>
-      </div>
-      <div class="flex items-center gap-4 text-slate-300 font-medium shrink-0 text-xs">
-        <span class="hidden md:inline">Sede Garzón</span>
-        <span class="text-emerald-400 font-semibold flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#39A900] animate-pulse"></span>
-          <span id="slide-cintillo-fecha">Hoy</span>
-        </span>
-        <span>ADSO · Proyección en Aula</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================================= -->
-  <!-- 2. HEADER DE CONTROL PARA EL INSTRUCTOR (VIDEOBEAM) -->
-  <!-- ========================================================================= -->
-  <header class="bg-white border-b border-slate-200 px-4 sm:px-8 xl:px-12 py-3 sticky top-[33px] sm:top-[35px] z-40 shadow-xs">
-    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-3">
-      
-      <!-- Marca SENA & Título de la Lección -->
-      <div class="flex items-center space-x-3">
-        <a href="../../index.html" class="flex items-center space-x-2.5 text-slate-600 hover:text-slate-900 transition-colors group" title="Volver al Portal">
-          <img src="../../assets/logo_green.png" alt="Logo SENA" class="h-9 w-auto object-contain shrink-0">
-          <div class="hidden sm:block border-l border-slate-200 pl-3">
-            <div class="flex items-center gap-1.5">
-              <span class="text-sm font-extrabold text-slate-900">FORMACIÓN</span>
-              <span class="text-sm font-black text-[#39A900]">ADSO</span>
-              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">CADPH</span>
-            </div>
-            <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Centro Agroempresarial y Desarrollo Pecuario del Huila</p>
-          </div>
-        </a>
-        <span class="text-slate-300 hidden md:inline">/</span>
-        <div class="hidden md:flex items-center space-x-2">
-          <span class="px-2.5 py-0.5 text-xs font-bold bg-emerald-50 text-[#39A900] border border-emerald-200 rounded">Semana 1</span>
-          <span class="text-xs font-bold text-slate-800">Sesión 01 · Día 1: BD DDL & DML desde Cero</span>
-        </div>
-      </div>
-
-      <!-- Controles de Clase & Temporizador -->
-      <div class="flex items-center space-x-2 sm:space-x-3">
-        
-        <!-- Temporizador Institucional -->
-        <div class="flex items-center bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 space-x-2 shadow-2xs">
-          <i data-lucide="clock" class="w-4 h-4 text-[#39A900]"></i>
-          <span id="timer-display" class="font-mono text-sm font-bold text-slate-800 tracking-wider">00:00</span>
-          <button id="btn-timer-start" class="px-2.5 py-1 rounded bg-white hover:bg-slate-100 border border-slate-200 text-xs font-bold text-slate-700 transition-colors flex items-center space-x-1">
-            <i data-lucide="play" class="w-3 h-3 text-[#39A900]"></i>
-            <span>Iniciar</span>
-          </button>
-          <button id="btn-timer-reset" class="p-1 rounded hover:bg-slate-200 text-slate-400 hover:text-slate-700" title="Reiniciar temporizador">
-            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-          </button>
-        </div>
-
-        <!-- Índice de Diapositivas (M) -->
-        <button id="btn-open-menu" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition" title="Índice de Diapositivas (M)">
-          <i data-lucide="list" class="w-4 h-4 text-[#00324D]"></i>
-        </button>
-
-        <!-- Contador de Diapositiva -->
-        <div class="bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-slate-700">
-          <span id="slide-counter">1 / 14</span>
-        </div>
-
-        <!-- Botones de Navegación Anterior / Siguiente -->
-        <div class="flex items-center space-x-1.5">
-          <button id="btn-prev-slide" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition disabled:opacity-40" title="Anterior (←)">
-            <i data-lucide="chevron-left" class="w-4 h-4"></i>
-          </button>
-          <button id="btn-next-slide" class="p-2 rounded-lg bg-[#39A900] hover:bg-[#2D8200] text-white border border-[#39A900] shadow-sm transition" title="Siguiente (→)">
-            <i data-lucide="chevron-right" class="w-4 h-4"></i>
-          </button>
-        </div>
-
-        <!-- Botón Pantalla Completa (F) -->
-        <button id="btn-fullscreen" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition hidden sm:inline-flex" title="Pantalla Completa (F)">
-          <i data-lucide="maximize" class="w-4 h-4"></i>
-        </button>
-
-        <!-- Ayuda (?) -->
-        <button onclick="window.presenter?.toggleHelpModal()" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition" title="Atajos de Teclado (?)">
-          <i data-lucide="help-circle" class="w-4 h-4 text-slate-500"></i>
-        </button>
-
-      </div>
-    </div>
-  </header>
-
-  <!-- Barra de progreso institucional verde SENA -->
-  <div class="w-full bg-slate-200 h-1 fixed top-[83px] sm:top-[87px] left-0 z-40">
-    <div id="presentation-progress" class="bg-[#39A900] h-full w-0 transition-all duration-300 ease-out"></div>
-  </div>
-
-  <!-- ========================================================================= -->
-  <!-- CONTENEDOR PRINCIPAL DE DIAPOSITIVAS PARA EL VIDEO-BEAM (WIDESCREEN 16:9) -->
-  <!-- ========================================================================= -->
-  <main class="slide-container flex-1 w-full max-w-[1860px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 py-3 sm:py-6 flex flex-col justify-center">
+  <main id="lesson-main" class="ls-main">
 
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 1: PORTADA INSTITUCIONAL SENA CADPH -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content active flex-col justify-center items-center text-center py-2 sm:py-4 xl:py-6 w-full h-full">
+    <section class="slide-content active flex-col justify-center items-center text-center py-2 sm:py-4 xl:py-6 w-full h-full" data-title="Portada SENA CADPH" data-block-label="PORTADA DE LECCIÓN">
       
       <!-- Badge Institucional SENA -->
       <div class="inline-flex items-center gap-2.5 px-6 py-2 rounded-full bg-white border-2 border-emerald-100 text-slate-700 text-xs sm:text-sm xl:text-base font-bold shadow-2xs mb-4 xl:mb-6">
@@ -305,7 +201,7 @@
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 2: CRONOGRAMA DETALLADO DE LA NOCHE -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full">
+    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full" data-title="Ruta Formativa" data-block-label="RUTA FORMATIVA">
       <div class="flex items-center space-x-3 mb-4 sm:mb-6">
         <span class="px-3 py-1 rounded bg-emerald-50 text-[#39A900] font-mono text-xs sm:text-sm font-bold border border-emerald-200">MÓDULO 1</span>
         <h2 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">Ruta Formativa de la Sesión</h2>
@@ -425,7 +321,7 @@
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 3: ANATOMÍA DEL MODELO RELACIONAL -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full">
+    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full" data-title="Modelo Relacional" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div class="flex items-center space-x-3 mb-4 sm:mb-6">
         <span class="px-3 py-1 rounded bg-emerald-50 text-[#39A900] font-mono text-xs sm:text-sm font-bold border border-emerald-200">TEORÍA FUNDAMENTAL</span>
         <h2 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">Anatomía del Modelo Relacional</h2>
@@ -513,7 +409,7 @@
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 4: PK vs FK -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full">
+    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full" data-title="PK vs FK" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div class="flex items-center space-x-3 mb-4 sm:mb-6">
         <span class="px-3 py-1 rounded bg-emerald-50 text-[#39A900] font-mono text-xs sm:text-sm font-bold border border-emerald-200">INTEGRIDAD RELACIONAL</span>
         <h2 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">Llave Primaria (PK) vs Llave Foránea (FK)</h2>
@@ -601,7 +497,7 @@
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 5: CARDINALIDADES (1:1, 1:N, N:M) -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full">
+    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full" data-title="Cardinalidades" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div class="flex items-center space-x-3 mb-4 sm:mb-6">
         <span class="px-3 py-1 rounded bg-emerald-50 text-[#39A900] font-mono text-xs sm:text-sm font-bold border border-emerald-200">MODELADO CONCEPTUAL</span>
         <h2 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">Cardinalidades en el Diseño Relacional</h2>
@@ -657,7 +553,7 @@
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 6: SQL DDL Y TIPOS DE DATOS -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full">
+    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full" data-title="SQL DDL &amp; Tipos" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div class="flex items-center space-x-3 mb-4 sm:mb-6">
         <span class="px-3 py-1 rounded bg-emerald-50 text-[#39A900] font-mono text-xs sm:text-sm font-bold border border-emerald-200">SQL DDL</span>
         <h2 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">Definición de Datos: Sentencias y Tipos</h2>
@@ -724,7 +620,7 @@ CREATE TABLE usuarios (
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 7: RESTRICCIONES (CONSTRAINTS) -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full">
+    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full" data-title="Las 6 Constraints" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div class="flex items-center space-x-3 mb-4 sm:mb-6">
         <span class="px-3 py-1 rounded bg-emerald-50 text-[#39A900] font-mono text-xs sm:text-sm font-bold border border-emerald-200">INTEGRIDAD</span>
         <h2 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">Las 6 Restricciones (Constraints) de Integridad</h2>
@@ -768,7 +664,7 @@ CREATE TABLE usuarios (
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 8: LIVE CODING DDL (PRODUCTOS CON LLAVE FORÁNEA) -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full">
+    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full" data-title="Live Coding DDL (Productos)" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div class="flex items-center justify-between mb-4 sm:mb-6">
         <div class="flex items-center space-x-3">
           <span class="px-3 py-1 rounded bg-emerald-50 text-[#39A900] font-mono text-xs sm:text-sm font-bold border border-emerald-200">LIVE CODING</span>
@@ -820,7 +716,7 @@ CREATE TABLE usuarios (
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 9: SQL DML (INSERT INTO SEGURO) -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full">
+    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full" data-title="SQL DML &amp; INSERT" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div class="flex items-center space-x-3 mb-4 sm:mb-6">
         <span class="px-3 py-1 rounded bg-emerald-50 text-[#39A900] font-mono text-xs sm:text-sm font-bold border border-emerald-200">SQL DML</span>
         <h2 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">Manipulación de Datos: INSERT INTO Seguro</h2>
@@ -880,7 +776,7 @@ INSERT INTO productos (codigo_barras, nombre, precio, stock, categoria_id) VALUE
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 10: ALERTA CRÍTICA - LA ZONA DE PELIGRO DEL WHERE -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full">
+    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full" data-title="Zona de Peligro WHERE" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div class="flex items-center space-x-3 mb-4 sm:mb-6">
         <span class="px-3 py-1 rounded bg-rose-100 text-rose-700 font-mono text-xs sm:text-sm font-bold border border-rose-200 animate-pulse">ALERTA CRÍTICA</span>
         <h2 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">El Peligro del UPDATE y DELETE sin WHERE</h2>
@@ -927,7 +823,7 @@ WHERE codigo_barras = 'TECH-001';</code></pre>
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 11: TALLER PRÁCTICO EN AULA (BLOQUE 2 - 70 MIN) -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full">
+    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full" data-title="Taller Práctico (70 min)" data-block-label="BLOQUE 2 · TALLER GUIADO">
       <div class="flex items-center justify-between mb-4 sm:mb-6">
         <div class="flex items-center space-x-3">
           <span class="px-3 py-1 rounded bg-[#00324D] text-white font-mono text-xs sm:text-sm font-bold">BLOQUE 2 · TALLER</span>
@@ -992,7 +888,7 @@ WHERE codigo_barras = 'TECH-001';</code></pre>
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 12: DICCIONARIO DE DATOS DEL TALLER -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full">
+    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full" data-title="Diccionario de Datos" data-block-label="BLOQUE 2 · TALLER GUIADO">
       <div class="flex items-center space-x-3 mb-4 sm:mb-6">
         <span class="px-3 py-1 rounded bg-[#00324D] text-white font-mono text-xs sm:text-sm font-bold">ESPECIFICACIÓN</span>
         <h2 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">Diccionario de Datos a Diseñar</h2>
@@ -1054,7 +950,7 @@ WHERE codigo_barras = 'TECH-001';</code></pre>
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 13: SUSTENTACIÓN Y EVALUACIÓN EN VIVO (BLOQUE 3) -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full">
+    <section class="slide-content flex-col justify-center py-4 sm:py-6 w-full" data-title="Sustentación &amp; Rúbrica" data-block-label="BLOQUE 3 · EVIDENCIA &amp; SUSTENTACIÓN">
       <div class="flex items-center justify-between mb-4 sm:mb-6">
         <div class="flex items-center space-x-3">
           <span class="px-3 py-1 rounded bg-purple-100 text-purple-700 font-mono text-xs sm:text-sm font-bold">BLOQUE 3 · EVALUACIÓN</span>
@@ -1102,7 +998,7 @@ WHERE codigo_barras = 'TECH-001';</code></pre>
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 14: CONCLUSIONES Y CIERRE DE SESIÓN -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-center items-center text-center py-6 sm:py-8 w-full">
+    <section class="slide-content flex-col justify-center items-center text-center py-6 sm:py-8 w-full" data-title="Cierre &amp; Conclusiones" data-block-label="CIERRE &amp; SIGUIENTE SESIÓN">
       <div class="w-16 h-16 rounded-2xl bg-emerald-50 border-2 border-emerald-200 flex items-center justify-center text-[#39A900] mb-4 shadow-sm">
         <i data-lucide="check-check" class="w-8 h-8"></i>
       </div>
@@ -1128,115 +1024,6 @@ WHERE codigo_barras = 'TECH-001';</code></pre>
 
   </main>
 
-  <!-- ========================================================================= -->
-  <!-- MODAL DE ATAJOS DE TECLADO (?) -->
-  <!-- ========================================================================= -->
-  <div id="help-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop hidden">
-    <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 shadow-xl">
-      <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
-        <h3 class="text-base font-bold text-slate-900 flex items-center space-x-2">
-          <i data-lucide="keyboard" class="w-4 h-4 text-[#39A900]"></i>
-          <span>Atajos de Teclado (Video-beam)</span>
-        </h3>
-        <button id="btn-close-help" class="text-slate-400 hover:text-slate-700">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-      </div>
-
-      <div class="space-y-2 font-mono text-xs text-slate-700">
-        <div class="flex justify-between items-center p-2 rounded bg-slate-50">
-          <span>Avanzar Diapositiva</span>
-          <span class="px-2 py-0.5 bg-white border border-slate-200 rounded text-[#39A900] font-bold">→ / Espacio</span>
-        </div>
-        <div class="flex justify-between items-center p-2 rounded bg-slate-50">
-          <span>Retroceder Diapositiva</span>
-          <span class="px-2 py-0.5 bg-white border border-slate-200 rounded text-slate-700 font-bold">← / RePág</span>
-        </div>
-        <div class="flex justify-between items-center p-2 rounded bg-slate-50">
-          <span>Pantalla Completa</span>
-          <span class="px-2 py-0.5 bg-white border border-slate-200 rounded text-[#00324D] font-bold">F</span>
-        </div>
-        <div class="flex justify-between items-center p-2 rounded bg-slate-50">
-          <span>Índice de Diapositivas</span>
-          <span class="px-2 py-0.5 bg-white border border-slate-200 rounded text-slate-700 font-bold">M</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================================= -->
-  <!-- DRAWER / ÍNDICE DE DIAPOSITIVAS (M) -->
-  <!-- ========================================================================= -->
-  <aside id="menu-drawer" class="fixed inset-y-0 right-0 z-50 w-80 bg-white border-l border-slate-200 shadow-2xl p-5 overflow-y-auto hidden flex flex-col">
-    <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
-      <h3 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
-        <i data-lucide="layers" class="w-4 h-4 text-[#39A900]"></i>
-        <span>Índice de Diapositivas</span>
-      </h3>
-      <button id="btn-close-menu" class="text-slate-400 hover:text-slate-700">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
-    </div>
-
-    <div class="space-y-1 text-xs font-mono flex-1">
-      <button onclick="window.presenter?.goToSlide(0)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">01</span><span>Portada SENA CADPH</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(1)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">02</span><span>Ruta Formativa</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(2)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">03</span><span>Modelo Relacional</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(3)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">04</span><span>PK vs FK</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(4)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">05</span><span>Cardinalidades</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(5)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">06</span><span>SQL DDL & Tipos</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(6)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">07</span><span>Las 6 Constraints</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(7)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">08</span><span>Live Coding DDL (Productos)</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(8)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">09</span><span>SQL DML & INSERT</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(9)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-rose-700 font-bold">
-        <span class="text-rose-400">10</span><span>Zona de Peligro WHERE</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(10)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">11</span><span>Taller Práctico (70 min)</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(11)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">12</span><span>Diccionario de Datos</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(12)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">13</span><span>Sustentación & Rúbrica</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(13)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">14</span><span>Cierre & Conclusiones</span>
-      </button>
-    </div>
-  </aside>
-
-  <!-- Script del Presentador, Lucide Icons y Fecha Dinámica -->
   <script src="../../assets/js/presenter.js"></script>
-  <script>
-    lucide.createIcons();
-
-    // Fecha dinámica de hoy en el cintillo de la presentación
-    (function renderFechaSlide() {
-      const hoy = new Date();
-      const opciones = { weekday: 'short', day: 'numeric', month: 'short' };
-      const fechaTxt = hoy.toLocaleDateString('es-CO', opciones);
-      const el = document.getElementById('slide-cintillo-fecha');
-      if (el) el.textContent = 'Hoy: ' + fechaTxt.charAt(0).toUpperCase() + fechaTxt.slice(1);
-    })();
-  </script>
 </body>
 </html>

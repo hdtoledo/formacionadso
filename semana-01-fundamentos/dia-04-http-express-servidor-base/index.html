@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00324D">
   <title>Sesión 04 | Protocolo HTTP, Servidor Base en Express y Pruebas con Bruno | SENA ADSO</title>
   <meta name="description" content="Sesión 04: Protocolo HTTP, Ciclo Request-Response, Verbos HTTP, Status Codes, Express.js y Pruebas con Bruno API Client. Diapositivas para videobeam SENA ADSO.">
   <link rel="icon" type="image/png" href="../../assets/logo_green.png">
@@ -33,7 +34,7 @@
   </script>
 
   <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
 
   <!-- PrismJS para sintaxis JavaScript, JSON, HTTP y Bash -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -51,131 +52,14 @@
   <!-- Estilos de presentación -->
   <link rel="stylesheet" href="../../assets/css/presenter.css">
 </head>
-<body class="min-h-full flex flex-col bg-[#F8FAFC] text-slate-900 overflow-x-hidden selection:bg-[#39A900] selection:text-white">
+<body data-lesson="s04" data-week="1" data-session="04" data-title="Protocolo HTTP y Servidor Base con Express" data-short="HTTP &amp; Express">
 
-  <!-- ========================================================================= -->
-  <!-- 1. CINTILLO INSTITUCIONAL SENA (FECHA DINÁMICA & UBICACIÓN) -->
-  <!-- ========================================================================= -->
-  <div class="bg-[#00324D] text-white text-[11px] sm:text-xs py-1.5 px-4 sm:px-8 xl:px-12 border-b border-[#00263a] sticky top-0 z-50">
-    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-extrabold bg-[#39A900] text-white tracking-wider uppercase">
-          SENA
-        </span>
-        <span class="font-medium text-slate-200 hidden sm:inline">Centro Agroempresarial y Desarrollo Pecuario del Huila</span>
-        <span class="text-slate-400 hidden md:inline">|</span>
-        <span class="text-emerald-400 font-semibold hidden md:inline">Regional Huila</span>
-      </div>
-      <div class="flex items-center space-x-3 text-slate-300 text-[11px]">
-        <span class="hidden sm:inline">Sede Garzón</span>
-        <span>•</span>
-        <span class="text-emerald-300 font-medium" id="slide-cintillo-fecha">Hoy: Cargando...</span>
-        <span class="hidden md:inline">•</span>
-        <span class="hidden md:inline font-mono">ADSO · Proyección en Aula</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================================= -->
-  <!-- 2. HEADER DE CONTROL DE PRESENTACIÓN & TEMPORIZADOR -->
-  <!-- ========================================================================= -->
-  <header class="bg-white border-b border-slate-200 px-4 sm:px-8 xl:px-12 py-3 sticky top-[33px] sm:top-[35px] z-40 shadow-xs">
-    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-3">
-      
-      <!-- Marca SENA & Título de la Lección -->
-      <div class="flex items-center space-x-3">
-        <a href="../../index.html" class="flex items-center space-x-2.5 text-slate-600 hover:text-slate-900 transition-colors group" title="Volver al Portal">
-          <img src="../../assets/logo_green.png" alt="Logo SENA" class="h-9 w-auto object-contain shrink-0">
-          <div class="hidden sm:block border-l border-slate-200 pl-3">
-            <div class="flex items-center gap-1.5">
-              <span class="text-sm font-extrabold text-slate-900">FORMACIÓN</span>
-              <span class="text-sm font-black text-[#39A900]">ADSO</span>
-              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">CADPH</span>
-            </div>
-            <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Centro Agroempresarial y Desarrollo Pecuario del Huila</p>
-          </div>
-        </a>
-        <span class="text-slate-300 hidden md:inline">/</span>
-        <div class="hidden md:flex items-center space-x-2">
-          <span class="px-2.5 py-0.5 text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200 rounded">Semana 1</span>
-          <span class="text-xs font-bold text-slate-800">Sesión 04 · Día 4: Protocolo HTTP, Servidor Express y Pruebas con Bruno</span>
-        </div>
-      </div>
-
-      <!-- Controles de Clase & Temporizador -->
-      <div class="flex items-center space-x-2 sm:space-x-3">
-        
-        <!-- Temporizador Institucional -->
-        <div class="flex items-center bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 space-x-2 shadow-2xs">
-          <i data-lucide="clock" class="w-4 h-4 text-[#39A900]"></i>
-          <span id="timer-display" class="font-mono text-sm font-bold text-slate-800 tracking-wider">00:00</span>
-          <button id="btn-timer-start" class="px-2.5 py-1 rounded bg-white hover:bg-slate-100 border border-slate-200 text-xs font-bold text-slate-700 transition-colors flex items-center space-x-1">
-            <i data-lucide="play" class="w-3 h-3 text-[#39A900]"></i>
-            <span>Iniciar</span>
-          </button>
-          <button id="btn-timer-reset" class="p-1 rounded hover:bg-slate-200 text-slate-400 hover:text-slate-700" title="Reiniciar temporizador">
-            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-          </button>
-        </div>
-
-        <!-- Índice de Diapositivas (M) -->
-        <button id="btn-open-menu" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition" title="Índice de Diapositivas (M)">
-          <i data-lucide="list" class="w-4 h-4 text-[#00324D]"></i>
-        </button>
-
-        <!-- Contador de Diapositiva -->
-        <div class="bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-slate-700">
-          <span id="slide-counter">1 / 22</span>
-        </div>
-
-        <!-- Botones de Navegación Anterior / Siguiente -->
-        <div class="flex items-center space-x-1.5">
-          <button id="btn-prev-slide" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition disabled:opacity-40" title="Anterior (←)">
-            <i data-lucide="chevron-left" class="w-4 h-4"></i>
-          </button>
-          <button id="btn-next-slide" class="p-2 rounded-lg bg-[#39A900] hover:bg-[#2D8200] text-white border border-[#39A900] shadow-sm transition" title="Siguiente (→)">
-            <i data-lucide="chevron-right" class="w-4 h-4"></i>
-          </button>
-        </div>
-
-        <!-- Botón Pantalla Completa (F) -->
-        <button id="btn-fullscreen" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition hidden sm:inline-flex" title="Pantalla Completa (F)">
-          <i data-lucide="maximize" class="w-4 h-4"></i>
-        </button>
-
-        <!-- Ayuda (?) -->
-        <button onclick="window.presenter?.toggleHelpModal()" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition" title="Atajos de Teclado (?)">
-          <i data-lucide="help-circle" class="w-4 h-4 text-slate-500"></i>
-        </button>
-
-        <!-- Recursos Rápidos de Aprendiz -->
-        <div class="hidden lg:flex items-center space-x-2 border-l border-slate-200 pl-3">
-          <a href="recursos/plantilla_servidor.js" download class="px-2.5 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200 text-xs font-bold hover:bg-slate-200 transition flex items-center gap-1" title="Descargar Plantilla Servidor">
-            <i data-lucide="download" class="w-3.5 h-3.5"></i>
-            <span>Plantilla</span>
-          </a>
-        </div>
-
-      </div>
-
-    </div>
-  </header>
-
-  <!-- Barra de progreso institucional verde SENA -->
-  <div class="w-full bg-slate-200 h-1 fixed top-[83px] sm:top-[87px] left-0 z-40">
-    <div id="presentation-progress" class="bg-[#39A900] h-full w-0 transition-all duration-300 ease-out"></div>
-  </div>
-
-  <!-- ========================================================================= -->
-  <!-- CONTENEDOR PRINCIPAL DE DIAPOSITIVAS (WIDESCREEN 16:9) -->
-  <!-- ========================================================================= -->
-  <main class="slide-container flex-1 w-full max-w-[1860px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 py-3 sm:py-6 flex flex-col justify-center">
-
+  <main id="lesson-main" class="ls-main">
 
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 1: PORTADA INSTITUCIONAL SENA CADPH -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content active flex-col justify-center items-center text-center py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="1" data-block="1" data-duration="110">
+    <section class="slide-content active flex-col justify-center items-center text-center py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="1" data-block="1" data-duration="110" data-title="Portada Institucional (3 Bloques)" data-block-label="PORTADA DE LECCIÓN">
       
       <div class="inline-flex items-center gap-2.5 px-6 py-2 rounded-full bg-white border-2 border-amber-200 text-slate-700 text-xs sm:text-sm xl:text-base font-bold shadow-2xs mb-4 xl:mb-6">
         <span class="w-3 h-3 rounded-full bg-amber-500 animate-pulse"></span>
@@ -312,11 +196,10 @@
 
     </section>
 
-
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 2: EL CICLO REQUEST - RESPONSE -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="2" data-block="1" data-duration="110">
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="2" data-block="1" data-duration="110" data-title="El Ciclo Request - Response: Arquitectura Cliente-Servidor" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
@@ -388,11 +271,10 @@
 
     </section>
 
-
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 3: ANATOMÍA DE LA PETICIÓN HTTP -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="3" data-block="1" data-duration="110">
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="3" data-block="1" data-duration="110" data-title="Anatomía de una Petición HTTP: Start Line, Headers y Body" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
@@ -480,11 +362,10 @@
 
     </section>
 
-
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 4: VERBOS HTTP Y EL PRINCIPIO DE IDEMPOTENCIA -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="4" data-block="1" data-duration="110">
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="4" data-block="1" data-duration="110" data-title="Verbos HTTP y el Principio de Idempotencia" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
@@ -563,11 +444,10 @@
 
     </section>
 
-
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 5: CÓDIGOS DE ESTADO HTTP (STATUS CODES) -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="5" data-block="1" data-duration="110">
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="5" data-block="1" data-duration="110" data-title="Códigos de Estado HTTP: Las Familias RFC" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
@@ -660,11 +540,10 @@
 
     </section>
 
-
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 6: INICIALIZACIÓN DE PROYECTO CON ESM -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="6" data-block="1" data-duration="110">
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="6" data-block="1" data-duration="110" data-title="Inicialización del Proyecto con ECMAScript Modules (ESM)" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
@@ -734,11 +613,10 @@
 
     </section>
 
-
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 7: ESTRUCTURA DEL SERVIDOR BASE EN EXPRESS -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="7" data-block="1" data-duration="110">
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="7" data-block="1" data-duration="110" data-title="Estructura del Servidor Base &amp; Primer Endpoint" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
@@ -823,11 +701,10 @@ app.listen(PORT, () =&gt; {
 
     </section>
 
-
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 8: ADELANTADO: INTRODUCCIÓN A BRUNO API CLIENT -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="8" data-block="2" data-duration="70">
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="8" data-block="2" data-duration="70" data-title="¿Por qué Bruno como API Client en ADSO?" data-block-label="BLOQUE 2 · TALLER GUIADO">
       
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
@@ -903,11 +780,10 @@ app.listen(PORT, () =&gt; {
 
     </section>
 
-
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 9: BRUNO PASO A PASO: CREACIÓN DE COLECCIÓN & PRIMERA PRUEBA -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="9" data-block="2" data-duration="70">
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="9" data-block="2" data-duration="70" data-title="Bruno Paso a Paso: Crear Colección &amp; Primera Prueba" data-block-label="BLOQUE 2 · TALLER GUIADO">
       
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
@@ -1009,11 +885,10 @@ app.listen(PORT, () =&gt; {
 
     </section>
 
-
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 10: EL MIDDLEWARE CRÍTICO: express.json() -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="10" data-block="2" data-duration="70">
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="10" data-block="2" data-duration="70" data-title="El Middleware Crítico: express.json()" data-block-label="BLOQUE 2 · TALLER GUIADO">
       
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
@@ -1097,11 +972,10 @@ app.listen(PORT, () =&gt; {
 
     </section>
 
-
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 11: NUEVA: DATASET EN MEMORIA & GET /api/productos (CATÁLOGO) -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="11" data-block="2" data-duration="70">
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="11" data-block="2" data-duration="70" data-title="Dataset en Memoria &amp; GET /api/productos" data-block-label="BLOQUE 2 · TALLER GUIADO">
       
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
@@ -1217,11 +1091,10 @@ app.get(<span class="text-emerald-300">'/api/productos'</span>, (req, res) =&gt;
 
     </section>
 
-
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 12: FILTROS DINÁMICOS CON QUERY STRINGS -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="12" data-block="2" data-duration="70">
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="12" data-block="2" data-duration="70" data-title="Filtros con req.query: /api/productos?categoria=..." data-block-label="BLOQUE 2 · TALLER GUIADO">
       
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
@@ -1343,11 +1216,10 @@ app.get(<span class="text-emerald-300">'/api/productos'</span>, (req, res) =&gt;
 
     </section>
 
-
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 13: ENDPOINT 2: GET /api/productos/:id con req.params -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="13" data-block="2" data-duration="70">
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="13" data-block="2" data-duration="70" data-title="Endpoint 2: GET /api/productos/:id (200 vs 404)" data-block-label="BLOQUE 2 · TALLER GUIADO">
       
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
@@ -1455,11 +1327,10 @@ app.get(<span class="text-emerald-300">'/api/productos'</span>, (req, res) =&gt;
 
     </section>
 
-
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 14: ENDPOINT 3: POST /api/productos con req.body -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="14" data-block="2" data-duration="70">
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="14" data-block="2" data-duration="70" data-title="Endpoint 3: POST /api/productos (201 vs 400)" data-block-label="BLOQUE 2 · TALLER GUIADO">
       
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
@@ -1580,11 +1451,10 @@ app.get(<span class="text-emerald-300">'/api/productos'</span>, (req, res) =&gt;
 
     </section>
 
-
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 15: IDEMPOTENCIA EN ACCIÓN: PUT VS PATCH -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="15" data-block="2" data-duration="70">
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="15" data-block="2" data-duration="70" data-title="Idempotencia en Acción: PUT vs PATCH" data-block-label="BLOQUE 2 · TALLER GUIADO">
       
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
@@ -1667,11 +1537,10 @@ app.get(<span class="text-emerald-300">'/api/productos'</span>, (req, res) =&gt;
 
     </section>
 
-
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 16: ENDPOINT 4: PATCH /api/productos/:id/stock -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="16" data-block="2" data-duration="70">
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="16" data-block="2" data-duration="70" data-title="Endpoint 4: PATCH /api/productos/:id/stock" data-block-label="BLOQUE 2 · TALLER GUIADO">
       
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
@@ -1790,11 +1659,10 @@ app.get(<span class="text-emerald-300">'/api/productos'</span>, (req, res) =&gt;
 
     </section>
 
-
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 17: ENDPOINT 5: DELETE /api/productos/:id -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="17" data-block="2" data-duration="70">
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="17" data-block="2" data-duration="70" data-title="Endpoint 5: DELETE /api/productos/:id (200 vs 404)" data-block-label="BLOQUE 2 · TALLER GUIADO">
       
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
@@ -1906,11 +1774,10 @@ app.get(<span class="text-emerald-300">'/api/productos'</span>, (req, res) =&gt;
 
     </section>
 
-
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 18: MIDDLEWARE GLOBAL CATCH-ALL 404 -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="18" data-block="2" data-duration="70">
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="18" data-block="2" data-duration="70" data-title="Manejo Global de Rutas 404: Middleware Catch-All" data-block-label="BLOQUE 2 · TALLER GUIADO">
       
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
@@ -2008,11 +1875,10 @@ app.listen(PORT, () =&gt; ...);</code></pre>
 
     </section>
 
-
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 19: TALLER PRÁCTICO DE AULA: DOMINIO PROPIO -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="19" data-block="3" data-duration="40">
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="19" data-block="3" data-duration="40" data-title="Taller de Aula: Construcción de API con Dominio Propio" data-block-label="BLOQUE 3 · EVIDENCIA &amp; SUSTENTACIÓN">
       
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
@@ -2106,11 +1972,10 @@ app.listen(PORT, () =&gt; ...);</code></pre>
 
     </section>
 
-
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 20: VERIFICACIÓN AUTOMATIZADA CON TEST_API.JS Y BRUNO -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="20" data-block="3" data-duration="40">
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="20" data-block="3" data-duration="40" data-title="Verificación Automatizada: test_api.js &amp; Suite Bruno" data-block-label="BLOQUE 3 · EVIDENCIA &amp; SUSTENTACIÓN">
       
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
@@ -2204,11 +2069,10 @@ node recursos/test_api.js
 
     </section>
 
-
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 21: LIVE MOD: LA PRUEBA DE FUEGO INDIVIDUAL -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="21" data-block="3" data-duration="40">
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="21" data-block="3" data-duration="40" data-title="Live Mod: La Prueba de Fuego Individual" data-block-label="BLOQUE 3 · EVIDENCIA &amp; SUSTENTACIÓN">
       
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
@@ -2294,11 +2158,10 @@ node recursos/test_api.js
 
     </section>
 
-
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 22: RÚBRICA DE EVALUACIÓN Y CIERRE DE SESIÓN -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="22" data-block="3" data-duration="40">
+    <section class="slide-content flex-col justify-between py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="22" data-block="3" data-duration="40" data-title="Rúbrica de Evaluación &amp; Estrategia Git" data-block-label="BLOQUE 3 · EVIDENCIA &amp; SUSTENTACIÓN">
       
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
@@ -2392,138 +2255,8 @@ git push origin master</code></pre>
 
     </section>
 
-
   </main>
 
-  <!-- ========================================================================= -->
-  <!-- MODAL DE AYUDA Y ATAJOS DE TECLADO (?) -->
-  <!-- ========================================================================= -->
-  <div id="help-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4">
-      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
-        <h3 class="text-base font-extrabold text-slate-900 flex items-center gap-2">
-          <i data-lucide="keyboard" class="w-5 h-5 text-[#39A900]"></i>
-          <span>Atajos de Teclado para Proyección</span>
-        </h3>
-        <button onclick="window.presenter?.toggleHelpModal()" class="p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700">
-          <i data-lucide="x" class="w-4 h-4"></i>
-        </button>
-      </div>
-
-      <div class="grid grid-cols-2 gap-3 text-xs">
-        <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
-          <span class="text-slate-600">Siguiente Slide</span>
-          <span class="font-mono font-bold bg-white px-2 py-0.5 rounded border border-slate-300">→ / Espacio</span>
-        </div>
-        <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
-          <span class="text-slate-600">Slide Anterior</span>
-          <span class="font-mono font-bold bg-white px-2 py-0.5 rounded border border-slate-300">←</span>
-        </div>
-        <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
-          <span class="text-slate-600">Pantalla Completa</span>
-          <span class="font-mono font-bold bg-white px-2 py-0.5 rounded border border-slate-300">F</span>
-        </div>
-        <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
-          <span class="text-slate-600">Índice Menú</span>
-          <span class="font-mono font-bold bg-white px-2 py-0.5 rounded border border-slate-300">M</span>
-        </div>
-        <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
-          <span class="text-slate-600">Inicio de Clase</span>
-          <span class="font-mono font-bold bg-white px-2 py-0.5 rounded border border-slate-300">Inicio / Home</span>
-        </div>
-        <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
-          <span class="text-slate-600">Cierre / Sustentación</span>
-          <span class="font-mono font-bold bg-white px-2 py-0.5 rounded border border-slate-300">Fin / End</span>
-        </div>
-      </div>
-
-      <div class="pt-3 border-t border-slate-200 text-center">
-        <button onclick="window.presenter?.toggleHelpModal()" class="px-5 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-slate-800 transition">
-          Entendido
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================================= -->
-  <!-- DRAWER LATERAL DE ÍNDICE DE DIAPOSITIVAS (M) -->
-  <!-- ========================================================================= -->
-  <div id="menu-drawer" class="fixed inset-0 z-50 hidden">
-    <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-2xs" onclick="window.presenter?.toggleDrawerMenu()"></div>
-    <div class="absolute inset-y-0 right-0 max-w-sm w-full bg-white shadow-2xl border-l border-slate-200 flex flex-col z-10">
-      
-      <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
-        <div>
-          <h3 class="font-extrabold text-slate-900 text-sm">Índice de Sesión 04</h3>
-          <p class="text-[11px] text-slate-500 font-mono">22 Diapositivas · Navegación Rápida</p>
-        </div>
-        <button onclick="window.presenter?.toggleDrawerMenu()" class="p-1 rounded-lg hover:bg-slate-200 text-slate-400 hover:text-slate-700">
-          <i data-lucide="x" class="w-4 h-4"></i>
-        </button>
-      </div>
-
-      <div class="p-3 overflow-y-auto flex-1 space-y-1" id="drawer-slide-list">
-        <!-- Renderizado dinámicamente por JS -->
-      </div>
-
-      <div class="p-3 border-t border-slate-200 bg-slate-50 text-[11px] text-slate-500 font-mono text-center">
-        SENA CADPH Garzón · Sesión 04 (22 Slides)
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Script Presenter de Diapositivas -->
   <script src="../../assets/js/presenter.js"></script>
-
-  <!-- Lógica de Sesión 04 & Fecha Dinámica -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // 1. Inicializar iconos Lucide
-      if (window.lucide && typeof window.lucide.createIcons === 'function') {
-        window.lucide.createIcons();
-      }
-
-      // 2. Fecha Dinámica Institucional en Español
-      const fechaEl = document.getElementById('slide-cintillo-fecha');
-      if (fechaEl) {
-        const ahora = new Date();
-        const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const fechaFormateada = ahora.toLocaleDateString('es-CO', opciones);
-        fechaEl.textContent = 'Hoy: ' + fechaFormateada.charAt(0).toUpperCase() + fechaFormateada.slice(1);
-      }
-
-      // 3. Generar Índice Dinámico en el Drawer Menu
-      const slides = document.querySelectorAll('.slide-content');
-      const drawerList = document.getElementById('drawer-slide-list');
-      if (drawerList && slides.length > 0) {
-        drawerList.innerHTML = Array.from(slides).map((s, idx) => {
-          const num = idx + 1;
-          const h2 = s.querySelector('h2');
-          let titulo = 'Diapositiva ' + num;
-          if (num === 1) titulo = "Portada Institucional (3 Bloques)";
-          else if (h2) titulo = h2.textContent.replace(/\s+/g, ' ').trim();
-
-          const blockNum = s.getAttribute('data-block') || '1';
-          const badgeClass = blockNum === '1' ? 'bg-emerald-50 text-[#39A900] border-emerald-200' :
-                             blockNum === '2' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-                             'bg-purple-50 text-purple-700 border-purple-200';
-
-          return `
-            <button onclick="window.presenter?.goToSlide(${num}); window.presenter?.toggleDrawerMenu();" 
-                    class="w-full text-left p-2.5 rounded-xl hover:bg-slate-100 transition flex items-center justify-between text-xs group">
-              <div class="flex items-center gap-2.5 overflow-hidden">
-                <span class="w-6 h-6 rounded-lg bg-slate-100 group-hover:bg-[#39A900] group-hover:text-white font-mono font-bold flex items-center justify-center text-[11px] shrink-0 transition">
-                  ${num}
-                </span>
-                <span class="font-bold text-slate-800 truncate">${titulo}</span>
-              </div>
-              <span class="text-[10px] font-mono px-1.5 py-0.5 rounded border ${badgeClass} shrink-0 ml-2">B${blockNum}</span>
-            </button>
-          `;
-        }).join('');
-      }
-    });
-  </script>
 </body>
 </html>

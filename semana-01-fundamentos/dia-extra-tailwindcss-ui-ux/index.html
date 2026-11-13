@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00324D">
   <title>Sesión Extra | Diseño Web Moderno con Tailwind CSS, Principios UI/UX & Interfaces Responsivas | SENA ADSO</title>
   <meta name="description" content="Sesión Extra Semana 1: Dominio de Tailwind CSS, Fundamentos de UI/UX, Componentes Básicos, Animaciones y Maquetación de Login, Register y Landing Page. Diapositivas interactivas para videobeam SENA ADSO CADPH Garzón.">
   <link rel="icon" type="image/png" href="../../assets/logo_green.png">
@@ -34,7 +35,7 @@
   </script>
 
   <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
 
   <!-- PrismJS para resaltado de sintaxis HTML, CSS y JS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -51,123 +52,16 @@
   <!-- Estilos de presentación institucional -->
   <link rel="stylesheet" href="../../assets/css/presenter.css">
 </head>
-<body class="min-h-full flex flex-col bg-[#F8FAFC] text-slate-900 overflow-x-hidden selection:bg-[#39A900] selection:text-white">
+<body data-lesson="extra" data-week="1" data-session="Sesión Extra" data-title="Tailwind CSS, Principios UI/UX y Diseño Responsivo" data-short="Tailwind &amp; UI/UX">
 
-  <!-- ========================================================================= -->
-  <!-- 1. CINTILLO INSTITUCIONAL SENA (UBICACIÓN & FECHA DINÁMICA) -->
-  <!-- ========================================================================= -->
-  <div class="bg-[#00324D] text-white text-[11px] sm:text-xs py-1.5 px-4 sm:px-8 xl:px-12 border-b border-[#00263a] sticky top-0 z-50">
-    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between">
-      <div class="flex items-center space-x-2 sm:space-x-3">
-        <span class="font-extrabold tracking-wide uppercase text-emerald-400">SENA</span>
-        <span class="text-slate-400 hidden sm:inline">|</span>
-        <span class="font-medium text-slate-200 hidden sm:inline">Centro Agroempresarial y Desarrollo Pecuario del Huila</span>
-        <span class="text-slate-400">|</span>
-        <span class="text-emerald-300 font-medium">Regional Huila</span>
-      </div>
-      <div class="flex items-center space-x-2 sm:space-x-4 text-[10px] sm:text-xs text-slate-300">
-        <span class="hidden sm:inline">Sede Garzón</span>
-        <span>•</span>
-        <span class="text-emerald-300 font-medium" id="slide-cintillo-fecha">Hoy: Cargando...</span>
-        <span class="hidden md:inline">•</span>
-        <span class="hidden md:inline font-mono">ADSO · Proyección en Aula</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================================= -->
-  <!-- 2. HEADER DE CONTROL DE PRESENTACIÓN & TEMPORIZADOR -->
-  <!-- ========================================================================= -->
-  <header class="bg-white border-b border-slate-200 px-4 sm:px-8 xl:px-12 py-3 sticky top-[33px] sm:top-[35px] z-40 shadow-xs">
-    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-3">
-      
-      <!-- Marca SENA & Título de la Lección -->
-      <div class="flex items-center space-x-3">
-        <a href="../../index.html" class="flex items-center space-x-2.5 text-slate-600 hover:text-slate-900 transition-colors group" title="Volver al Portal Principal">
-          <img src="../../assets/logo_green.png" alt="Logo SENA" class="h-9 w-auto object-contain shrink-0">
-          <div class="hidden sm:block border-l border-slate-200 pl-3">
-            <div class="flex items-center gap-1.5">
-              <span class="text-sm font-extrabold text-slate-900">FORMACIÓN</span>
-              <span class="text-sm font-black text-[#39A900]">ADSO</span>
-              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300">SESIÓN EXTRA</span>
-            </div>
-            <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Centro Agroempresarial y Desarrollo Pecuario del Huila</p>
-          </div>
-        </a>
-        <span class="text-slate-300 hidden md:inline">/</span>
-        <div class="hidden md:flex items-center space-x-2">
-          <span class="px-2.5 py-0.5 text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 rounded">Semana 1</span>
-          <span class="text-xs font-bold text-slate-800">Sesión Extra: Tailwind CSS, UI/UX &amp; Diseño Responsivo</span>
-        </div>
-        <div class="hidden xl:flex items-center">
-          <a href="dia-extra-tailwindcss-taller.zip" download="dia-extra-tailwindcss-taller.zip" class="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 text-[#39A900] rounded-lg text-xs font-extrabold shadow-2xs transition" title="Descargar paquete ZIP con los recursos del taller">
-            <i data-lucide="download" class="w-3.5 h-3.5"></i>
-            <span>Taller Práctico (.ZIP)</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- Controles de Clase & Temporizador -->
-      <div class="flex items-center space-x-2 sm:space-x-3">
-        
-        <!-- Temporizador Institucional -->
-        <div class="flex items-center bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 space-x-2 shadow-2xs">
-          <i data-lucide="clock" class="w-4 h-4 text-[#39A900]"></i>
-          <span id="timer-display" class="font-mono text-sm font-bold text-slate-800 tracking-wider">00:00</span>
-          <button id="btn-timer-start" class="px-2.5 py-1 rounded bg-white hover:bg-slate-100 border border-slate-200 text-xs font-bold text-slate-700 transition-colors flex items-center space-x-1">
-            <i data-lucide="play" class="w-3 h-3 text-[#39A900]"></i>
-            <span>Iniciar</span>
-          </button>
-          <button id="btn-timer-reset" class="p-1 rounded hover:bg-slate-200 text-slate-400 hover:text-slate-700" title="Reiniciar temporizador">
-            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-          </button>
-        </div>
-
-        <div class="h-6 w-px bg-slate-200"></div>
-
-        <!-- Contador de Diapositivas -->
-        <div class="flex items-center space-x-2 bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 shadow-2xs">
-          <i data-lucide="layers" class="w-4 h-4 text-[#00324D]"></i>
-          <span id="slide-indicator" class="font-mono text-sm font-extrabold text-slate-800">1 / 32</span>
-          <span id="slide-block-badge" class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold ml-1">BLOQUE 1</span>
-        </div>
-
-        <!-- Botones de Navegación -->
-        <div class="flex items-center space-x-1">
-          <button id="btn-prev-slide" class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="Diapositiva Anterior (←)">
-            <i data-lucide="chevron-left" class="w-5 h-5"></i>
-          </button>
-          <button id="btn-next-slide" class="p-2 rounded-lg bg-[#39A900] hover:bg-[#2D8200] text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors shadow-2xs" title="Siguiente Diapositiva (→ o Espacio)">
-            <i data-lucide="chevron-right" class="w-5 h-5"></i>
-          </button>
-        </div>
-
-        <!-- Botones de Utilidad -->
-        <button id="btn-menu" class="p-2 rounded-lg hover:bg-slate-100 text-slate-600 transition" title="Índice de Diapositivas (M)">
-          <i data-lucide="menu" class="w-5 h-5"></i>
-        </button>
-        <button id="btn-help" class="p-2 rounded-lg hover:bg-slate-100 text-slate-600 transition hidden sm:inline-flex" title="Atajos de Teclado (?)">
-          <i data-lucide="help-circle" class="w-5 h-5"></i>
-        </button>
-        <button id="btn-fullscreen" class="p-2 rounded-lg hover:bg-slate-100 text-slate-600 transition" title="Pantalla Completa (F)">
-          <i data-lucide="maximize" class="w-5 h-5"></i>
-        </button>
-      </div>
-
-    </div>
-  </header>
-
-  <!-- ========================================================================= -->
-  <!-- 3. CONTENEDOR PRINCIPAL DE DIAPOSITIVAS (SLIDES 1 A 32) -->
-  <!-- ========================================================================= -->
-  <main id="slide-container" class="max-w-[1860px] w-full mx-auto px-4 sm:px-8 xl:px-12 py-3 sm:py-4 xl:py-6 flex-1 flex flex-col justify-center relative">
+  <main id="lesson-main" class="ls-main">
 
     <!-- ===================================================================== -->
     <!-- BLOQUE 1: FUNDAMENTOS DE TAILWIND CSS & REGLAS UI/UX (SLIDES 01 - 11) -->
     <!-- ===================================================================== -->
 
     <!-- SLIDE 01: PORTADA INSTITUCIONAL SENA -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full active" data-slide="1" data-block="1">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full active" data-slide="1" data-block="1" data-title="Portada Institucional (3 Bloques)" data-block-label="PORTADA DE LECCIÓN">
       <div>
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[#39A900] text-xs font-bold font-mono shadow-2xs mb-2">
           <span class="w-2 h-2 rounded-full bg-[#39A900] animate-pulse"></span>
@@ -294,9 +188,8 @@
       </div>
     </section>
 
-
     <!-- SLIDE 02: DE CSS TRADICIONAL/BEM A UTILITY-FIRST -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="2" data-block="1">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="2" data-block="1" data-title="De CSS Tradicional a Utility-First: El Cambio de Paradigma" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -366,9 +259,8 @@
       </div>
     </section>
 
-
     <!-- SLIDE 03: CÓMO FUNCIONA TAILWIND INTERNAMENTE (JIT & COMPILACIÓN) -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="3" data-block="1">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="3" data-block="1" data-title="¿Cómo Funciona Tailwind? Motor JIT (Just-in-Time) y Purge" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -421,9 +313,8 @@
       </div>
     </section>
 
-
     <!-- SLIDE 04: MÉTODOS DE INTEGRACIÓN: CDN VS CLI/VITE -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="4" data-block="1">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="4" data-block="1" data-title="Métodos de Integración: Play CDN vs. Tailwind CLI / Vite" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -489,9 +380,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 05: CONFIGURACIÓN PERSONALIZADA CON TAILWIND.CONFIG -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="5" data-block="1">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="5" data-block="1" data-title="Personalización del Tema: Objeto tailwind.config" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -564,9 +454,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 06: PRINCIPIOS FUNDAMENTALES DE UI VS UX -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="6" data-block="1">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="6" data-block="1" data-title="Principios de UI (Interfaz) vs. UX (Experiencia)" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -620,9 +509,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 07: JERARQUÍA VISUAL Y TIPOGRAFÍA -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="7" data-block="1">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="7" data-block="1" data-title="Jerarquía Visual: El Ojo del Usuario No Lee Todo, Escanea" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -676,9 +564,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 08: SISTEMA DE ESPACIADO Y RITMO ARMÓNICO (ESCALA DE 4PX) -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="8" data-block="1">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="8" data-block="1" data-title="Espaciado Armónico: La Regla Sagrada de los 4 Píxeles" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -747,9 +634,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 09: PSICOLOGÍA DEL COLOR Y CONTRASTE WCAG -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="9" data-block="1">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="9" data-block="1" data-title="Teoría del Color y Accesibilidad: Contraste WCAG 2.1" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -809,9 +695,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 10: MICRO-INTERACCIONES Y ESTADOS DEL ELEMENTO -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="10" data-block="1">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="10" data-block="1" data-title="Micro-interacciones: Los 6 Estados Obligatorios de Todo Control" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -877,9 +762,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 11: INTEGRACIÓN DE ICONOGRAFÍA MODERNA CON LUCIDE ICONS -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="11" data-block="1">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="11" data-block="1" data-title="Iconografía Moderna: Integración de Lucide Icons" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -904,7 +788,7 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
               <span class="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-mono font-bold">Librería Ligera</span>
             </div>
             <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-xs font-mono overflow-x-auto"><code class="language-html">&lt;!-- 1. Cargar script en el &lt;head&gt; --&gt;
-&lt;script src="https://unpkg.com/lucide@latest"&gt;&lt;/script&gt;
+&lt;script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"&gt;&lt;/script&gt;
 
 &lt;!-- 2. Insertar etiquetas con el atributo data-lucide --&gt;
 &lt;button class="inline-flex items-center gap-2 bg-[#39A900] text-white px-4 py-2.5 rounded-xl font-bold text-xs"&gt;
@@ -941,13 +825,12 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- ===================================================================== -->
     <!-- BLOQUE 2: LAYOUT RESPONSIVO, COMPONENTES & ANIMACIONES (SLIDES 12 - 22) -->
     <!-- ===================================================================== -->
 
     <!-- SLIDE 12: ARQUITECTURA MOBILE-FIRST Y BREAKPOINTS -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="12" data-block="2">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="12" data-block="2" data-title="Arquitectura Mobile-First y Breakpoints" data-block-label="BLOQUE 2 · TALLER GUIADO">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -1010,9 +893,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 13: FLEXBOX CON TAILWIND -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="13" data-block="2">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="13" data-block="2" data-title="Flexbox en Acción: Alineación, Dirección y Gaps" data-block-label="BLOQUE 2 · TALLER GUIADO">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -1065,9 +947,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 14: CSS GRID RESPONSIVO -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="14" data-block="2">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="14" data-block="2" data-title="CSS Grid Responsivo: Catálogos, Dashboards y Galerías" data-block-label="BLOQUE 2 · TALLER GUIADO">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -1112,9 +993,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 15: COMPONENTES BÁSICOS I: BOTONES PROFESIONALES -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="15" data-block="2">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="15" data-block="2" data-title="Componentes I: Botones Profesionales y Estados" data-block-label="BLOQUE 2 · TALLER GUIADO">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -1168,9 +1048,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 16: COMPONENTES BÁSICOS II: INPUTS Y FORMULARIOS -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="16" data-block="2">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="16" data-block="2" data-title="Componentes II: Inputs con Iconos y Anillos de Enfoque" data-block-label="BLOQUE 2 · TALLER GUIADO">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -1226,9 +1105,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 17: COMPONENTES BÁSICOS III: CARDS, SOMBRAS Y BORDES -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="17" data-block="2">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="17" data-block="2" data-title="Componentes III: Cards, Elevación &amp; Sombras" data-block-label="BLOQUE 2 · TALLER GUIADO">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -1273,9 +1151,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 18: COMPONENTES BÁSICOS IV: BADGES, PÍLDORAS Y ALERTAS -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="18" data-block="2">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="18" data-block="2" data-title="Componentes IV: Badges, Píldoras de Estado y Alertas" data-block-label="BLOQUE 2 · TALLER GUIADO">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -1325,9 +1202,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 19: COMPONENTES BÁSICOS V: NAVBARS RESPONSIVAS -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="19" data-block="2">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="19" data-block="2" data-title="Componentes V: Navbar con Efecto Glassmorphism" data-block-label="BLOQUE 2 · TALLER GUIADO">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -1373,9 +1249,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 20: TRANSICIONES Y TRANSFORMACIONES SUAVES -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="20" data-block="2">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="20" data-block="2" data-title="Transiciones Suaves: El Toque &quot;Mágico&quot; que Da Vida a la Web" data-block-label="BLOQUE 2 · TALLER GUIADO">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -1424,9 +1299,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 21: ANIMACIONES NATIVAS DE TAILWIND -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="21" data-block="2">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="21" data-block="2" data-title="Animaciones Nativas: Spin, Pulse, Bounce &amp; Ping" data-block-label="BLOQUE 2 · TALLER GUIADO">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -1487,9 +1361,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 22: BUENAS PRÁCTICAS Y ANTIPATRONES -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="22" data-block="2">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="22" data-block="2" data-title="Buenas Prácticas vs. Antipatrones en Tailwind" data-block-label="BLOQUE 2 · TALLER GUIADO">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -1540,13 +1413,12 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- ===================================================================== -->
     <!-- BLOQUE 3: TALLER PRÁCTICO EN AULA & 3 INTERFACES (SLIDES 23 - 32) -->
     <!-- ===================================================================== -->
 
     <!-- SLIDE 23: ESPECIFICACIÓN DEL TALLER DE AULA -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="23" data-block="3">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="23" data-block="3" data-title="Laboratorio en Aula: Construcción de las 3 Vistas" data-block-label="BLOQUE 3 · EVIDENCIA &amp; SUSTENTACIÓN">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -1620,9 +1492,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 24: EJERCICIO 1: ANATOMÍA UI/UX DEL LOGIN -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="24" data-block="3">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="24" data-block="3" data-title="Ejercicio 1: Anatomía UI/UX de la Pantalla de Login" data-block-label="BLOQUE 3 · EVIDENCIA &amp; SUSTENTACIÓN">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -1671,9 +1542,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 25: EJERCICIO 1: CÓDIGO PASO A PASO DEL LOGIN -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="25" data-block="3">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="25" data-block="3" data-title="Ejercicio 1: Implementación de login.html" data-block-label="BLOQUE 3 · EVIDENCIA &amp; SUSTENTACIÓN">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -1723,9 +1593,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 26: EJERCICIO 2: ANATOMÍA UI/UX DEL REGISTRO -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="26" data-block="3">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="26" data-block="3" data-title="Ejercicio 2: Anatomía UI/UX del Formulario de Registro" data-block-label="BLOQUE 3 · EVIDENCIA &amp; SUSTENTACIÓN">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -1774,9 +1643,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 27: EJERCICIO 2: CÓDIGO PASO A PASO DEL REGISTRO -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="27" data-block="3">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="27" data-block="3" data-title="Ejercicio 2: Implementación de register.html" data-block-label="BLOQUE 3 · EVIDENCIA &amp; SUSTENTACIÓN">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -1827,9 +1695,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 28: EJERCICIO 3: ANATOMÍA UI/UX DE LA LANDING PAGE -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="28" data-block="3">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="28" data-block="3" data-title="Ejercicio 3: Anatomía UI/UX de la Landing Page Completa" data-block-label="BLOQUE 3 · EVIDENCIA &amp; SUSTENTACIÓN">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -1887,9 +1754,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 29: EJERCICIO 3: CÓDIGO PASO A PASO DE LA LANDING -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="29" data-block="3">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="29" data-block="3" data-title="Ejercicio 3: Implementación de landing.html" data-block-label="BLOQUE 3 · EVIDENCIA &amp; SUSTENTACIÓN">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -1938,9 +1804,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 30: RÚBRICA FORMATIVA DE LA SESIÓN EXTRA (100% EN CLASE) -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="30" data-block="3">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="30" data-block="3" data-title="Rúbrica de Evaluación Formativa (100% de la Práctica en Aula)" data-block-label="BLOQUE 3 · EVIDENCIA &amp; SUSTENTACIÓN">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -1998,9 +1863,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 31: BANCO DE PREGUNTAS LIVE MOD EN VIDEOBEAM -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="31" data-block="3">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="31" data-block="3" data-title="Banco de Preguntas &quot;Live Mod&quot; (Sustentación en Videobeam)" data-block-label="BLOQUE 3 · EVIDENCIA &amp; SUSTENTACIÓN">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -2064,9 +1928,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
       </div>
     </section>
 
-
     <!-- SLIDE 32: SÍNTESIS Y PUENTE HACIA LA SEMANA 2 -->
-    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="32" data-block="3">
+    <section class="slide-content flex-col justify-between py-2 sm:py-3 xl:py-5 w-full h-full" data-slide="32" data-block="3" data-title="¡Dominio Completo de Tailwind! Puente Hacia React (Semana 2)" data-block-label="BLOQUE 3 · EVIDENCIA &amp; SUSTENTACIÓN">
       <div>
         <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
           <div class="flex items-center space-x-2.5">
@@ -2127,149 +1990,6 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch</code></pre>
 
   </main>
 
-  <!-- ========================================================================= -->
-  <!-- 4. MODAL DE AYUDA DE ATAJOS DE TECLADO -->
-  <!-- ========================================================================= -->
-  <div id="help-modal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-2xs flex items-center justify-center p-4 hidden">
-    <div class="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
-      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-        <div class="flex items-center space-x-2">
-          <i data-lucide="keyboard" class="w-5 h-5 text-[#39A900]"></i>
-          <h3 class="font-extrabold text-slate-900 text-sm sm:text-base">Atajos de Teclado del Presentador</h3>
-        </div>
-        <button id="btn-close-help" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-      </div>
-
-      <div class="space-y-2 text-xs">
-        <div class="flex items-center justify-between py-1 border-b border-slate-50">
-          <span class="text-slate-600">Siguiente diapositiva</span>
-          <div class="flex gap-1"><kbd class="px-2 py-0.5 rounded bg-slate-100 border text-slate-700 font-mono">→</kbd><kbd class="px-2 py-0.5 rounded bg-slate-100 border text-slate-700 font-mono">Espacio</kbd></div>
-        </div>
-        <div class="flex items-center justify-between py-1 border-b border-slate-50">
-          <span class="text-slate-600">Diapositiva anterior</span>
-          <kbd class="px-2 py-0.5 rounded bg-slate-100 border text-slate-700 font-mono">←</kbd>
-        </div>
-        <div class="flex items-center justify-between py-1 border-b border-slate-50">
-          <span class="text-slate-600">Alternar pantalla completa</span>
-          <kbd class="px-2 py-0.5 rounded bg-slate-100 border text-slate-700 font-mono">F</kbd>
-        </div>
-        <div class="flex items-center justify-between py-1 border-b border-slate-50">
-          <span class="text-slate-600">Abrir índice de diapositivas</span>
-          <kbd class="px-2 py-0.5 rounded bg-slate-100 border text-slate-700 font-mono">M</kbd>
-        </div>
-        <div class="flex items-center justify-between py-1 border-b border-slate-50">
-          <span class="text-slate-600">Iniciar / Pausar temporizador</span>
-          <kbd class="px-2 py-0.5 rounded bg-slate-100 border text-slate-700 font-mono">T</kbd>
-        </div>
-        <div class="flex items-center justify-between py-1">
-          <span class="text-slate-600">Buscar contenido</span>
-          <kbd class="px-2 py-0.5 rounded bg-slate-100 border text-slate-700 font-mono">/</kbd>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================================= -->
-  <!-- 5. DRAWER LATERAL DE ÍNDICE DE DIAPOSITIVAS -->
-  <!-- ========================================================================= -->
-  <div id="slide-drawer" class="fixed inset-y-0 right-0 z-50 w-80 sm:w-96 bg-white border-l border-slate-200 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
-    <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
-      <div class="flex items-center space-x-2">
-        <i data-lucide="list" class="w-5 h-5 text-[#39A900]"></i>
-        <h3 class="font-extrabold text-slate-900 text-sm">Índice de la Sesión Extra</h3>
-      </div>
-      <button id="btn-close-drawer" class="p-1.5 rounded-lg hover:bg-slate-200 text-slate-500">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
-    </div>
-
-    <!-- Lista de Diapositivas Generada Dinámicamente -->
-    <div id="drawer-slide-list" class="flex-1 overflow-y-auto p-3 space-y-1.5">
-      <!-- Se inyecta con JavaScript -->
-    </div>
-  </div>
-
-  <!-- Script Presenter de Diapositivas -->
   <script src="../../assets/js/presenter.js"></script>
-
-  <!-- Lógica de Sesión Extra & Fecha Dinámica -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // 1. Inicializar iconos Lucide
-      if (window.lucide && typeof window.lucide.createIcons === 'function') {
-        window.lucide.createIcons();
-      }
-
-      // 2. Fecha Dinámica Institucional en Español
-      const fechaEl = document.getElementById('slide-cintillo-fecha');
-      if (fechaEl) {
-        const ahora = new Date();
-        const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const fechaFormateada = ahora.toLocaleDateString('es-CO', opciones);
-        fechaEl.textContent = 'Hoy: ' + fechaFormateada.charAt(0).toUpperCase() + fechaFormateada.slice(1);
-      }
-
-      // 3. Generar Índice Dinámico en el Drawer Menu
-      const slides = document.querySelectorAll('.slide-content');
-      const drawerList = document.getElementById('drawer-slide-list');
-      if (drawerList && slides.length > 0) {
-        drawerList.innerHTML = Array.from(slides).map((s, idx) => {
-          const num = idx + 1;
-          const h2 = s.querySelector('h2');
-          let titulo = 'Diapositiva ' + num;
-          if (num === 1) titulo = "Portada Institucional (3 Bloques)";
-          else if (h2) titulo = h2.textContent.replace(/\s+/g, ' ').trim();
-
-          const blockNum = s.getAttribute('data-block') || '1';
-          const badgeClass = blockNum === '1' ? 'bg-emerald-50 text-[#39A900] border-emerald-200' :
-                             blockNum === '2' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-                             'bg-purple-50 text-purple-700 border-purple-200';
-
-          return `
-            <button onclick="window.presenter?.goToSlide(${num}); window.presenter?.toggleDrawerMenu();" 
-                    class="w-full text-left p-2.5 rounded-xl hover:bg-slate-100 transition flex items-center justify-between text-xs group">
-              <div class="flex items-center gap-2.5 overflow-hidden">
-                <span class="w-6 h-6 rounded-lg bg-slate-100 group-hover:bg-[#39A900] group-hover:text-white font-mono font-bold flex items-center justify-center text-[11px] shrink-0 transition">
-                  ${num}
-                </span>
-                <span class="font-bold text-slate-800 truncate">${titulo}</span>
-              </div>
-              <span class="text-[10px] font-mono px-1.5 py-0.5 rounded border ${badgeClass} shrink-0 ml-2">B${blockNum}</span>
-            </button>
-          `;
-        }).join('');
-      }
-
-      // 4. Botón "Copiar Código" automático en bloques de código didácticos
-      document.querySelectorAll('.slide-content pre').forEach(pre => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'copy-code-btn absolute top-2 right-2 px-2.5 py-1 bg-slate-800 hover:bg-[#39A900] text-slate-300 hover:text-white text-[10px] font-mono font-bold rounded-lg transition shadow-xs flex items-center gap-1.5 border border-slate-700 opacity-75 hover:opacity-100 cursor-pointer z-10';
-        btn.innerHTML = `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg><span>Copiar</span>`;
-
-        btn.addEventListener('click', async (e) => {
-          e.stopPropagation();
-          const code = pre.querySelector('code');
-          const texto = code ? code.innerText : pre.innerText;
-          try {
-            await navigator.clipboard.writeText(texto);
-            btn.innerHTML = `<span class="text-emerald-400 font-bold">✓ ¡Copiado!</span>`;
-            btn.classList.add('bg-emerald-900', 'border-emerald-500');
-            setTimeout(() => {
-              btn.classList.remove('bg-emerald-900', 'border-emerald-500');
-              btn.innerHTML = `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg><span>Copiar</span>`;
-            }, 2000);
-          } catch (err) {
-            console.error('Error al copiar:', err);
-          }
-        });
-
-        pre.classList.add('relative');
-        pre.appendChild(btn);
-      });
-    });
-  </script>
 </body>
 </html>

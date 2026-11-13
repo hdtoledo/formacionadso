@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00324D">
   <title>Sesión 02 | Consultas SQL y Cruce de Tablas (JOINs) | SENA ADSO</title>
   <meta name="description" content="Sesión 02: Consultas SQL avanzadas, filtros, agregaciones y cruce de tablas (JOINs). Diapositivas interactivas para videobeam SENA ADSO.">
   <link rel="icon" type="image/png" href="../../assets/logo_green.png">
@@ -33,7 +34,7 @@
   </script>
 
   <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
 
   <!-- PrismJS para sintaxis SQL -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -48,119 +49,14 @@
   <!-- Estilos de presentación -->
   <link rel="stylesheet" href="../../assets/css/presenter.css">
 </head>
-<body class="min-h-full flex flex-col bg-[#F8FAFC] text-slate-900 overflow-x-hidden selection:bg-[#39A900] selection:text-white">
+<body data-lesson="s02" data-week="1" data-session="02" data-title="Consultas SQL, Funciones de Agregación y JOINs" data-short="SQL &amp; JOINs">
 
-  <!-- ========================================================================= -->
-  <!-- 1. CINTILLO INSTITUCIONAL SENA (FECHA DINÁMICA & UBICACIÓN) -->
-  <!-- ========================================================================= -->
-  <div class="bg-[#00324D] text-white text-[11px] sm:text-xs py-1.5 px-4 sm:px-8 xl:px-12 border-b border-[#00263a] sticky top-0 z-50">
-    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-extrabold bg-[#39A900] text-white tracking-wider uppercase">
-          SENA
-        </span>
-        <span class="text-slate-300">Regional Huila • Centro Agroempresarial y Desarrollo Pecuario del Huila (CADPH Garzón)</span>
-      </div>
-      <div class="flex items-center space-x-4 text-slate-300">
-        <span class="hidden sm:inline">Sede Garzón</span>
-        <span>•</span>
-        <span class="text-emerald-300 font-medium" id="slide-cintillo-fecha">Hoy: Cargando...</span>
-        <span class="hidden md:inline">•</span>
-        <span class="hidden md:inline font-mono">ADSO · Proyección en Aula</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================================= -->
-  <!-- 2. HEADER DE CONTROL DE PRESENTACIÓN & TEMPORIZADOR -->
-  <!-- ========================================================================= -->
-  <header class="bg-white border-b border-slate-200 px-4 sm:px-8 xl:px-12 py-3 sticky top-[33px] sm:top-[35px] z-40 shadow-xs">
-    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-3">
-      
-      <!-- Marca SENA & Título de la Lección -->
-      <div class="flex items-center space-x-3">
-        <a href="../../index.html" class="flex items-center space-x-2.5 text-slate-600 hover:text-slate-900 transition-colors group" title="Volver al Portal">
-          <img src="../../assets/logo_green.png" alt="Logo SENA" class="h-9 w-auto object-contain shrink-0">
-          <div class="hidden sm:block border-l border-slate-200 pl-3">
-            <div class="flex items-center gap-1.5">
-              <span class="text-sm font-extrabold text-slate-900">FORMACIÓN</span>
-              <span class="text-sm font-black text-[#39A900]">ADSO</span>
-              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">CADPH</span>
-            </div>
-            <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Centro Agroempresarial y Desarrollo Pecuario del Huila</p>
-          </div>
-        </a>
-        <span class="text-slate-300 hidden md:inline">/</span>
-        <div class="hidden md:flex items-center space-x-2">
-          <span class="px-2.5 py-0.5 text-xs font-bold bg-emerald-50 text-[#39A900] border border-emerald-200 rounded">Semana 1</span>
-          <span class="text-xs font-bold text-slate-800">Sesión 02 · Día 2: Consultas SQL y Cruce de Tablas (JOINs)</span>
-        </div>
-      </div>
-
-      <!-- Controles de Clase & Temporizador -->
-      <div class="flex items-center space-x-2 sm:space-x-3">
-        
-        <!-- Temporizador Institucional -->
-        <div class="flex items-center bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 space-x-2 shadow-2xs">
-          <i data-lucide="clock" class="w-4 h-4 text-[#39A900]"></i>
-          <span id="timer-display" class="font-mono text-sm font-bold text-slate-800 tracking-wider">00:00</span>
-          <button id="btn-timer-start" class="px-2.5 py-1 rounded bg-white hover:bg-slate-100 border border-slate-200 text-xs font-bold text-slate-700 transition-colors flex items-center space-x-1">
-            <i data-lucide="play" class="w-3 h-3 text-[#39A900]"></i>
-            <span>Iniciar</span>
-          </button>
-          <button id="btn-timer-reset" class="p-1 rounded hover:bg-slate-200 text-slate-400 hover:text-slate-700" title="Reiniciar temporizador">
-            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-          </button>
-        </div>
-
-        <!-- Índice de Diapositivas (M) -->
-        <button id="btn-open-menu" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition" title="Índice de Diapositivas (M)">
-          <i data-lucide="list" class="w-4 h-4 text-[#00324D]"></i>
-        </button>
-
-        <!-- Contador de Diapositiva -->
-        <div class="bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-mono font-bold text-slate-700">
-          <span id="slide-counter">1 / 15</span>
-        </div>
-
-        <!-- Botones de Navegación Anterior / Siguiente -->
-        <div class="flex items-center space-x-1.5">
-          <button id="btn-prev-slide" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition disabled:opacity-40" title="Anterior (←)">
-            <i data-lucide="chevron-left" class="w-4 h-4"></i>
-          </button>
-          <button id="btn-next-slide" class="p-2 rounded-lg bg-[#39A900] hover:bg-[#2D8200] text-white border border-[#39A900] shadow-sm transition" title="Siguiente (→)">
-            <i data-lucide="chevron-right" class="w-4 h-4"></i>
-          </button>
-        </div>
-
-        <!-- Botón Pantalla Completa (F) -->
-        <button id="btn-fullscreen" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition hidden sm:inline-flex" title="Pantalla Completa (F)">
-          <i data-lucide="maximize" class="w-4 h-4"></i>
-        </button>
-
-        <!-- Ayuda (?) -->
-        <button onclick="window.presenter?.toggleHelpModal()" class="p-2 rounded-lg bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition" title="Atajos de Teclado (?)">
-          <i data-lucide="help-circle" class="w-4 h-4 text-slate-500"></i>
-        </button>
-
-      </div>
-    </div>
-  </header>
-
-  <!-- Barra de progreso institucional verde SENA -->
-  <div class="w-full bg-slate-200 h-1 fixed top-[83px] sm:top-[87px] left-0 z-40">
-    <div id="presentation-progress" class="bg-[#39A900] h-full w-0 transition-all duration-300 ease-out"></div>
-  </div>
-
-  <!-- ========================================================================= -->
-  <!-- CONTENEDOR PRINCIPAL DE DIAPOSITIVAS (WIDESCREEN 16:9) -->
-  <!-- ========================================================================= -->
-  <main class="slide-container flex-1 w-full max-w-[1860px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 py-3 sm:py-6 flex flex-col justify-center">
+  <main id="lesson-main" class="ls-main">
 
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 1: PORTADA INSTITUCIONAL SENA CADPH -->
     <!-- --------------------------------------------------------------------- -->
-    <section class="slide-content active flex-col justify-center items-center text-center py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="1" data-block="1" data-duration="110">
+    <section class="slide-content active flex-col justify-center items-center text-center py-2 sm:py-4 xl:py-6 w-full h-full" data-slide="1" data-block="1" data-duration="110" data-title="Portada y Objetivos" data-block-label="PORTADA DE LECCIÓN">
       
       <!-- Badge Institucional SENA -->
       <div class="inline-flex items-center gap-2.5 px-6 py-2 rounded-full bg-white border-2 border-emerald-100 text-slate-700 text-xs sm:text-sm xl:text-base font-bold shadow-2xs mb-4 xl:mb-6">
@@ -306,7 +202,7 @@
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 2: EL MODELO MENTAL: ORDEN REAL DE EJECUCIÓN SQL -->
     <!-- --------------------------------------------------------------------- -->
-    <div class="slide-content" data-slide="2" data-block="1" data-duration="110">
+    <div class="slide-content" data-slide="2" data-block="1" data-duration="110" data-title="Orden Real de Ejecución SQL" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
         
         <div class="space-y-4">
@@ -415,7 +311,7 @@ WHERE (precio * 1.19) > 100000;</code></pre>
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 3: ESQUEMA DE DATOS DE NEGOCIO (SISTEMA DE VENTAS) -->
     <!-- --------------------------------------------------------------------- -->
-    <div class="slide-content" data-slide="3" data-block="1" data-duration="110">
+    <div class="slide-content" data-slide="3" data-block="1" data-duration="110" data-title="Esquema del Negocio" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
         
         <div class="space-y-4">
@@ -525,7 +421,7 @@ WHERE (precio * 1.19) > 100000;</code></pre>
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 4: FILTROS AVANZADOS WHERE Y PRECEDENCIA LÓGICA -->
     <!-- --------------------------------------------------------------------- -->
-    <div class="slide-content" data-slide="4" data-block="1" data-duration="110">
+    <div class="slide-content" data-slide="4" data-block="1" data-duration="110" data-title="Filtros WHERE y Precedencia" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
         
         <div class="space-y-4">
@@ -592,7 +488,7 @@ WHERE activo = 1
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 5: OPERADORES LIKE, IN Y BETWEEN -->
     <!-- --------------------------------------------------------------------- -->
-    <div class="slide-content" data-slide="5" data-block="1" data-duration="110">
+    <div class="slide-content" data-slide="5" data-block="1" data-duration="110" data-title="LIKE, IN y BETWEEN" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
         
         <div class="space-y-4">
@@ -683,7 +579,7 @@ WHERE fecha BETWEEN '2026-09-01'
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 6: LA GRAN TRAMPA DE NULL (IS NULL, IFNULL, COALESCE) -->
     <!-- --------------------------------------------------------------------- -->
-    <div class="slide-content" data-slide="6" data-block="1" data-duration="110">
+    <div class="slide-content" data-slide="6" data-block="1" data-duration="110" data-title="La Gran Trampa de NULL" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
         
         <div class="space-y-4">
@@ -754,7 +650,7 @@ FROM productos;</code></pre>
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 7: FUNCIONES DE AGREGACIÓN (COUNT, SUM, AVG, MIN, MAX) -->
     <!-- --------------------------------------------------------------------- -->
-    <div class="slide-content" data-slide="7" data-block="1" data-duration="110">
+    <div class="slide-content" data-slide="7" data-block="1" data-duration="110" data-title="Funciones de Agregación" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
         
         <div class="space-y-4">
@@ -841,7 +737,7 @@ FROM pedidos;</code></pre>
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 8: AGRUPAMIENTO CON GROUP BY Y REGLAS DE ORO -->
     <!-- --------------------------------------------------------------------- -->
-    <div class="slide-content" data-slide="8" data-block="1" data-duration="110">
+    <div class="slide-content" data-slide="8" data-block="1" data-duration="110" data-title="Agrupamiento con GROUP BY" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
         
         <div class="space-y-4">
@@ -916,7 +812,7 @@ GROUP BY estado;</code></pre>
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 9: EL GRAN DUELO: WHERE VS HAVING -->
     <!-- --------------------------------------------------------------------- -->
-    <div class="slide-content" data-slide="9" data-block="1" data-duration="110">
+    <div class="slide-content" data-slide="9" data-block="1" data-duration="110" data-title="WHERE vs HAVING" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
         
         <div class="space-y-4">
@@ -992,7 +888,7 @@ HAVING COUNT(id) >= 2;               -- 3. HAVING filtra las ciudades con 2 o m�
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 10: ANATOMÍA DE UN JOIN Y EL PELIGRO DEL PRODUCTO CARTESIANO -->
     <!-- --------------------------------------------------------------------- -->
-    <div class="slide-content" data-slide="10" data-block="1" data-duration="110">
+    <div class="slide-content" data-slide="10" data-block="1" data-duration="110" data-title="Anatomía de un JOIN &amp; Peligro" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
         
         <div class="space-y-4">
@@ -1059,7 +955,7 @@ INNER JOIN pedidos p
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 11: INNER JOIN (INTERSECCIÓN ESTRICTA) -->
     <!-- --------------------------------------------------------------------- -->
-    <div class="slide-content" data-slide="11" data-block="1" data-duration="110">
+    <div class="slide-content" data-slide="11" data-block="1" data-duration="110" data-title="INNER JOIN (Intersección)" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
         
         <div class="space-y-4">
@@ -1133,7 +1029,7 @@ ORDER BY ped.total DESC;</code></pre>
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 12: LEFT JOIN (PRESERVACIÓN Y AUDITORÍA DE REGISTROS HUÉRFANOS) -->
     <!-- --------------------------------------------------------------------- -->
-    <div class="slide-content" data-slide="12" data-block="1" data-duration="110">
+    <div class="slide-content" data-slide="12" data-block="1" data-duration="110" data-title="LEFT JOIN &amp; Registros Huérfanos" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
         
         <div class="space-y-4">
@@ -1200,7 +1096,7 @@ WHERE p.id IS NULL AND u.rol_id = 3;</code></pre>
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 13: CRUCE MULTITABLA MAESTRO (FACTURACIÓN CON 4 TABLAS) -->
     <!-- --------------------------------------------------------------------- -->
-    <div class="slide-content" data-slide="13" data-block="1" data-duration="110">
+    <div class="slide-content" data-slide="13" data-block="1" data-duration="110" data-title="Cruce Multitabla Maestro" data-block-label="BLOQUE 1 · TEORÍA &amp; LIVE CODING">
       <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
         
         <div class="space-y-4">
@@ -1259,7 +1155,7 @@ ORDER BY ped.fecha DESC, det.id ASC;</code></pre>
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 14: BLOQUE 2 - TALLER PRÁCTICO EN AULA (5 RETOS) -->
     <!-- --------------------------------------------------------------------- -->
-    <div class="slide-content" data-slide="14" data-block="2" data-duration="70">
+    <div class="slide-content" data-slide="14" data-block="2" data-duration="70" data-title="Bloque 2: Taller de Aula" data-block-label="BLOQUE 2 · TALLER GUIADO">
       <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
         
         <div class="space-y-4">
@@ -1340,7 +1236,7 @@ ORDER BY ped.fecha DESC, det.id ASC;</code></pre>
     <!-- --------------------------------------------------------------------- -->
     <!-- SLIDE 15: BLOQUE 3 - EVIDENCIA & SUSTENTACIÓN EN CALIENTE -->
     <!-- --------------------------------------------------------------------- -->
-    <div class="slide-content" data-slide="15" data-block="3" data-duration="40">
+    <div class="slide-content" data-slide="15" data-block="3" data-duration="40" data-title="Bloque 3: Sustentación &amp; Git" data-block-label="BLOQUE 3 · EVIDENCIA &amp; SUSTENTACIÓN">
       <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 xl:p-14 shadow-sm flex flex-col justify-between min-h-[580px] xl:min-h-[660px]">
         
         <div class="space-y-4">
@@ -1415,142 +1311,9 @@ git push origin mi-rama-aprendiz</code></pre>
 
   </main>
 
-  <!-- ========================================================================= -->
-  <!-- DRAWER / ÍNDICE DE DIAPOSITIVAS (M) -->
-  <!-- ========================================================================= -->
-  <aside id="menu-drawer" class="fixed inset-y-0 right-0 z-50 w-80 bg-white border-l border-slate-200 shadow-2xl p-5 overflow-y-auto hidden flex flex-col">
-    <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
-      <h3 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
-        <i data-lucide="layers" class="w-4 h-4 text-[#39A900]"></i>
-        <span>Índice de Diapositivas</span>
-      </h3>
-      <button id="btn-close-menu" class="text-slate-400 hover:text-slate-700">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
-    </div>
-      
-      <div class="space-y-1.5 text-xs">
-        <button onclick="window.presenter?.goToSlide(0)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-          <span class="font-mono text-slate-400 font-bold">01.</span><span>Portada y Objetivos</span>
-        </button>
-        <button onclick="window.presenter?.goToSlide(1)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-          <span class="font-mono text-slate-400 font-bold">02.</span><span>Orden Real de Ejecución SQL</span>
-        </button>
-        <button onclick="window.presenter?.goToSlide(2)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-          <span class="font-mono text-slate-400 font-bold">03.</span><span>Esquema del Negocio</span>
-        </button>
-        <button onclick="window.presenter?.goToSlide(3)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-          <span class="font-mono text-slate-400 font-bold">04.</span><span>Filtros WHERE y Precedencia</span>
-        </button>
-        <button onclick="window.presenter?.goToSlide(4)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-          <span class="font-mono text-slate-400 font-bold">05.</span><span>LIKE, IN y BETWEEN</span>
-        </button>
-        <button onclick="window.presenter?.goToSlide(5)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-          <span class="font-mono text-slate-400 font-bold">06.</span><span>La Gran Trampa de NULL</span>
-        </button>
-        <button onclick="window.presenter?.goToSlide(6)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-          <span class="font-mono text-slate-400 font-bold">07.</span><span>Funciones de Agregación</span>
-        </button>
-        <button onclick="window.presenter?.goToSlide(7)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-          <span class="font-mono text-slate-400 font-bold">08.</span><span>Agrupamiento con GROUP BY</span>
-        </button>
-        <button onclick="window.presenter?.goToSlide(8)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-          <span class="font-mono text-slate-400 font-bold">09.</span><span>WHERE vs HAVING</span>
-        </button>
-        <button onclick="window.presenter?.goToSlide(9)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-          <span class="font-mono text-slate-400 font-bold">10.</span><span>Anatomía de un JOIN & Peligro</span>
-        </button>
-        <button onclick="window.presenter?.goToSlide(10)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-          <span class="font-mono text-slate-400 font-bold">11.</span><span>INNER JOIN (Intersección)</span>
-        </button>
-        <button onclick="window.presenter?.goToSlide(11)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-          <span class="font-mono text-slate-400 font-bold">12.</span><span>LEFT JOIN & Registros Huérfanos</span>
-        </button>
-        <button onclick="window.presenter?.goToSlide(12)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-          <span class="font-mono text-slate-400 font-bold">13.</span><span>Cruce Multitabla Maestro</span>
-        </button>
-        <button onclick="window.presenter?.goToSlide(13)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-purple-700 font-bold">
-          <span class="font-mono text-purple-600 font-bold">14.</span><span>Bloque 2: Taller de Aula</span>
-        </button>
-        <button onclick="window.presenter?.goToSlide(14)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-emerald-700 font-bold">
-          <span class="font-mono text-[#39A900] font-bold">15.</span><span>Bloque 3: Sustentación & Git</span>
-        </button>
-      </div>
-    </div>
     
-    <div class="pt-4 border-t border-slate-200 text-center">
-      <a href="../../index.html" class="inline-flex items-center text-xs font-bold text-slate-500 hover:text-slate-900 transition gap-1">
-        <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
-        <span>Volver al Portal Principal</span>
-      </a>
-    </div>
   </aside>
 
-  <!-- ========================================================================= -->
-  <!-- MODAL DE AYUDA / ATAJOS DE TECLADO (?) -->
-  <!-- ========================================================================= -->
-  <div id="help-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-200">
-      <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-        <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
-          <i data-lucide="keyboard" class="w-5 h-5 text-[#39A900]"></i>
-          <span>Atajos de Teclado (Modo Proyección)</span>
-        </h3>
-        <button onclick="window.presenter?.toggleHelpModal()" class="p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-      </div>
-
-      <div class="space-y-2 text-xs text-slate-600">
-        <div class="flex justify-between py-1 border-b border-slate-100">
-          <span>Avanzar diapositiva</span>
-          <kbd class="px-2 py-0.5 bg-slate-100 rounded font-mono font-bold text-slate-700">Espacio / → / ↓</kbd>
-        </div>
-        <div class="flex justify-between py-1 border-b border-slate-100">
-          <span>Retroceder diapositiva</span>
-          <kbd class="px-2 py-0.5 bg-slate-100 rounded font-mono font-bold text-slate-700">← / ↑</kbd>
-        </div>
-        <div class="flex justify-between py-1 border-b border-slate-100">
-          <span>Pantalla Completa</span>
-          <kbd class="px-2 py-0.5 bg-slate-100 rounded font-mono font-bold text-slate-700">F</kbd>
-        </div>
-        <div class="flex justify-between py-1 border-b border-slate-100">
-          <span>Iniciar / Pausar Temporizador</span>
-          <kbd class="px-2 py-0.5 bg-slate-100 rounded font-mono font-bold text-slate-700">T</kbd>
-        </div>
-        <div class="flex justify-between py-1 border-b border-slate-100">
-          <span>Reiniciar Temporizador</span>
-          <kbd class="px-2 py-0.5 bg-slate-100 rounded font-mono font-bold text-slate-700">R</kbd>
-        </div>
-        <div class="flex justify-between py-1 border-b border-slate-100">
-          <span>Abrir / Cerrar Menú</span>
-          <kbd class="px-2 py-0.5 bg-slate-100 rounded font-mono font-bold text-slate-700">M</kbd>
-        </div>
-        <div class="flex justify-between py-1">
-          <span>Mostrar / Ocultar Ayuda</span>
-          <kbd class="px-2 py-0.5 bg-slate-100 rounded font-mono font-bold text-slate-700">?</kbd>
-        </div>
-      </div>
-
-      <button onclick="window.presenter?.toggleHelpModal()" class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs rounded-xl transition">
-        Entendido
-      </button>
-    </div>
-  </div>
-
-  <!-- Script del Presentador, Lucide Icons y Fecha Dinámica -->
   <script src="../../assets/js/presenter.js"></script>
-  <script>
-    lucide.createIcons();
-
-    // Fecha dinámica de hoy en el cintillo de la presentación
-    (function renderFechaSlide() {
-      const hoy = new Date();
-      const opciones = { weekday: 'short', day: 'numeric', month: 'short' };
-      const fechaTxt = hoy.toLocaleDateString('es-CO', opciones);
-      const el = document.getElementById('slide-cintillo-fecha');
-      if (el) el.textContent = 'Hoy: ' + fechaTxt.charAt(0).toUpperCase() + fechaTxt.slice(1);
-    })();
-  </script>
 </body>
 </html>

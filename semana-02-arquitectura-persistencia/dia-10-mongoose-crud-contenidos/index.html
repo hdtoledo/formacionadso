@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00324D">
   <title>Sesión 10 | Mongoose & CRUD del Catálogo | SENA ADSO</title>
   <meta name="description" content="Sesión 10: Modelo Mongoose con discriminators para el catálogo polimórfico, ruta pública de contenidos publicados, CRUD seguro y defensa contra inyección NoSQL. SENA CADPH Garzón.">
   <link rel="icon" type="image/png" href="../../assets/logo_green.png">
@@ -33,7 +34,7 @@
   </script>
 
   <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
 
   <!-- PrismJS para sintaxis JavaScript, JSON y Bash -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -41,7 +42,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,103 +50,11 @@
 
   <!-- Estilos de presentación -->
   <link rel="stylesheet" href="../../assets/css/presenter.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
 </head>
-<body class="min-h-full flex flex-col bg-[#F8FAFC] text-slate-900 overflow-x-hidden selection:bg-[#39A900] selection:text-white">
-
-  <!-- ========================================================================= -->
-  <!-- 1. CINTILLO INSTITUCIONAL SENA -->
-  <!-- ========================================================================= -->
-  <div class="bg-[#00324D] text-white text-[11px] sm:text-xs py-2 px-4 sm:px-8 xl:px-12 border-b border-[#00263a] sticky top-0 z-50">
-    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-2">
-      <div class="flex items-center gap-2 truncate">
-        <span class="font-bold tracking-wide shrink-0">SENA</span>
-        <span class="text-slate-400">|</span>
-        <span class="text-slate-200 truncate font-medium">Regional Huila • CADPH Garzón</span>
-      </div>
-      <div class="flex items-center gap-4 text-slate-300 font-medium shrink-0 text-xs">
-        <span class="hidden md:inline">Sede Garzón</span>
-        <span class="text-emerald-400 font-semibold flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#39A900] animate-pulse"></span>
-          <span id="slide-cintillo-fecha">Hoy</span>
-        </span>
-        <span class="hidden sm:inline">ADSO · Proyección en Aula</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================================= -->
-  <!-- 2. HEADER DE CONTROL PARA EL INSTRUCTOR (VIDEOBEAM) -->
-  <!-- ========================================================================= -->
-  <header class="bg-white border-b border-slate-200 px-4 sm:px-8 xl:px-12 py-3 sticky top-[33px] sm:top-[35px] z-40 shadow-xs">
-    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-3">
-      
-      <!-- Marca SENA & Título de la Lección -->
-      <div class="flex items-center space-x-3">
-        <a href="../../index.html" class="flex items-center space-x-2.5 text-slate-600 hover:text-slate-900 transition-colors group" title="Volver al Portal Central">
-          <img src="../../assets/logo_green.png" alt="Logo SENA" class="h-9 w-auto object-contain shrink-0">
-          <div class="hidden sm:block border-l border-slate-200 pl-3">
-            <div class="flex items-center gap-1.5">
-              <span class="text-sm font-extrabold text-slate-900">FORMACIÓN</span>
-              <span class="text-sm font-black text-[#39A900]">ADSO</span>
-              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">CADPH</span>
-            </div>
-            <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Centro Agroempresarial y Desarrollo Pecuario del Huila</p>
-          </div>
-        </a>
-        <span class="text-slate-300 hidden md:inline">/</span>
-        <div class="hidden md:flex items-center space-x-2">
-          <span class="px-2.5 py-0.5 text-xs font-bold bg-blue-50 text-blue-900 border border-blue-200 rounded">Semana 2</span>
-          <span class="text-xs font-bold text-slate-800">Sesión 10 · Día 10: Mongoose & CRUD del Catálogo</span>
-        </div>
-      </div>
-
-      <!-- Controles de Clase & Temporizador -->
-      <div class="flex items-center space-x-2 sm:space-x-3">
-        
-        <!-- Temporizador de Bloques -->
-        <div class="flex items-center bg-slate-100 rounded-xl p-1 border border-slate-200 text-xs">
-          <div class="flex items-center px-2 py-1 space-x-1.5 font-mono font-bold text-slate-700">
-            <i data-lucide="clock" class="w-3.5 h-3.5 text-[#39A900]"></i>
-            <span id="timer-display">00:00</span>
-          </div>
-          <button id="btn-timer-start" class="px-2 py-1 bg-white hover:bg-slate-50 text-slate-700 rounded-lg shadow-2xs text-[11px] font-bold transition flex items-center space-x-1">
-            <i data-lucide="play" class="w-3 h-3 text-[#39A900]"></i>
-            <span class="hidden sm:inline">Iniciar</span>
-          </button>
-          <button id="btn-timer-reset" class="p-1 hover:bg-white text-slate-400 hover:text-slate-600 rounded-lg transition" title="Reiniciar Temporizador">
-            <i data-lucide="rotate-ccw" class="w-3 h-3"></i>
-          </button>
-        </div>
-
-        <!-- Botón Montaje en Vivo -->
-        <a href="#slide-3" onclick="window.presenter?.goToSlide(2)" class="hidden xl:flex items-center space-x-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-900 border border-blue-200 rounded-xl text-xs font-bold transition">
-          <i data-lucide="git-branch" class="w-3.5 h-3.5 text-blue-600"></i>
-          <span>Montaje en Vivo · Git Personal</span>
-        </a>
-
-        <!-- Botón Menú de Diapositivas (Drawer) -->
-        <button id="btn-menu-drawer" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition" title="Índice de Diapositivas (M)">
-          <i data-lucide="menu" class="w-4 h-4"></i>
-        </button>
-
-        <!-- Botón Pantalla Completa -->
-        <button id="btn-fullscreen" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition" title="Pantalla Completa (F)">
-          <i data-lucide="maximize" class="w-4 h-4"></i>
-        </button>
-      </div>
-    </div>
-
-    <!-- Barra de Progreso Superior -->
-    <div class="w-full bg-slate-100 h-1.5 mt-2.5 rounded-full overflow-hidden">
-      <div id="presentation-progress" class="bg-gradient-to-r from-[#00324D] via-[#39A900] to-blue-500 h-full w-0 transition-all duration-300"></div>
-    </div>
-  </header>
-
-  <!-- ========================================================================= -->
-  <!-- 3. CONTENEDOR PRINCIPAL DE DIAPOSITIVAS -->
-  <!-- ========================================================================= -->
-  <main class="flex-1 max-w-[1860px] w-full mx-auto px-4 sm:px-8 xl:px-12 py-4 flex flex-col justify-between">
-    <div id="slides-viewport" class="relative w-full flex-1 min-h-[580px] flex flex-col justify-center">
+<body data-lesson="s10" data-week="2" data-session="10" data-title="Mongoose &amp; CRUD del Catálogo" data-short="Mongoose &amp; CRUD">
+  <main id="lesson-main" class="ls-main">
+    <div id="slides-viewport" class="relative w-full flex-1 flex flex-col justify-center">
 
       <!-- SLIDE: PORTADA -->
       <section class="slide-item flex flex-col justify-center py-6" data-block-label="PORTADA DE LECCIÓN" data-title="Portada Institucional">
@@ -876,155 +784,9 @@ script:post-response {
     </div>
   </main>
 
-  <!-- ========================================================================= -->
-  <!-- 4. FOOTER DE NAVEGACIÓN Y CONTROLES DEL INSTRUCTOR -->
-  <!-- ========================================================================= -->
-  <footer class="bg-white border-t border-slate-200 px-4 sm:px-8 xl:px-12 py-3 sticky bottom-0 z-40 shadow-xs">
-    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-3 text-xs">
-      
-      <!-- Contador y Bloque Pedagógico -->
-      <div class="flex items-center space-x-3">
-        <span id="slide-current-label" class="font-mono font-extrabold text-[#00324D]">SLIDE 01 / 21</span>
-        <span class="text-slate-300">|</span>
-        <span id="slide-block-label" class="hidden sm:inline font-bold text-slate-600 uppercase tracking-wide text-[11px]">
-          PORTADA DE LECCIÓN
-        </span>
-      </div>
-
-      <!-- Botones de Navegación -->
-      <div class="flex items-center space-x-2">
-        <button id="btn-prev-slide" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg transition flex items-center space-x-1" title="Anterior (← o Arriba)">
-          <i data-lucide="chevron-left" class="w-4 h-4"></i>
-          <span class="hidden md:inline">Anterior</span>
-        </button>
-
-        <span id="slide-counter" class="font-mono font-bold px-2 py-1 bg-slate-50 text-slate-600 rounded border border-slate-200 text-[11px]">
-          1 / 21
-        </span>
-
-        <button id="btn-next-slide" class="px-3.5 py-1.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-bold rounded-lg transition flex items-center space-x-1 shadow-2xs" title="Siguiente (→ o Abajo)">
-          <span class="hidden md:inline">Siguiente</span>
-          <i data-lucide="chevron-right" class="w-4 h-4"></i>
-        </button>
-      </div>
-
-      <!-- Ayuda de Atajos -->
-      <div class="hidden lg:flex items-center space-x-2 text-slate-400 text-[11px]">
-        <span>Atajos:</span>
-        <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded font-mono text-[10px] text-slate-600 font-bold">←</kbd>
-        <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded font-mono text-[10px] text-slate-600 font-bold">→</kbd>
-        <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded font-mono text-[10px] text-slate-600 font-bold">F</kbd>
-        <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded font-mono text-[10px] text-slate-600 font-bold">M</kbd>
-      </div>
-
-    </div>
-  </footer>
-
-  <!-- ========================================================================= -->
-  <!-- 5. MENÚ DRAWER LATERAL (ÍNDICE DE TODAS LAS DIAPOSITIVAS) -->
-  <!-- ========================================================================= -->
-  <div id="menu-drawer" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden transition-opacity">
-    <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl p-6 flex flex-col justify-between overflow-y-auto">
-      <div class="space-y-4">
-        <div class="flex items-center justify-between border-b border-slate-200 pb-3">
-          <div class="flex items-center space-x-2">
-            <i data-lucide="layers" class="w-5 h-5 text-[#39A900]"></i>
-            <h3 class="font-extrabold text-slate-900 text-sm">Índice de Diapositivas (Sesión 10)</h3>
-          </div>
-          <button id="btn-close-drawer" class="p-1 hover:bg-slate-100 rounded-lg text-slate-500">
-            <i data-lucide="x" class="w-5 h-5"></i>
-          </button>
-        </div>
-
-        <!-- Lista de 21 Diapositivas -->
-        <div class="space-y-1 text-xs max-h-[70vh] overflow-y-auto pr-2 font-medium">
-          <button onclick="window.presenter.goToSlide(0); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>01. Portada Institucional</span><span class="text-[10px] font-mono text-slate-400">01</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(1); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>02. Objetivos & Competencias</span><span class="text-[10px] font-mono text-slate-400">02</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(2); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>03. Hoja de Ruta del Montaje</span><span class="text-[10px] font-mono text-slate-400">03</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(3); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>04. Los 5 Commits Atómicos</span><span class="text-[10px] font-mono text-slate-400">04</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(4); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>05. ¿Por qué un ODM si ya hay validator?</span><span class="text-[10px] font-mono text-slate-400">05</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(5); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>06. Discriminators: Polimorfismo en Mongoose</span><span class="text-[10px] font-mono text-slate-400">06</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(6); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>07. Live Coding 1: Esquema Base & Índices</span><span class="text-[10px] font-mono text-slate-400">07</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(7); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>08. Live Coding 2: Discriminators banner & service</span><span class="text-[10px] font-mono text-slate-400">08</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(8); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>09. Anatomía de una Inyección NoSQL</span><span class="text-[10px] font-mono text-slate-400">09</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(9); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>10. Defensa en Dos Capas</span><span class="text-[10px] font-mono text-slate-400">10</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(10); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>11. Live Coding 3: getPublishedContents</span><span class="text-[10px] font-mono text-slate-400">11</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(11); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>12. Live Coding 4: createContent & Campos Protegidos</span><span class="text-[10px] font-mono text-slate-400">12</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(12); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>13. Live Coding 5: updateContent & deleteContent</span><span class="text-[10px] font-mono text-slate-400">13</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(13); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>14. Live Coding 6: Errores de Mongoose</span><span class="text-[10px] font-mono text-slate-400">14</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(14); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>15. Live Coding 7: Rutas Públicas vs Laboratorio</span><span class="text-[10px] font-mono text-slate-400">15</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(15); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>16. Contrato Técnico del Catálogo</span><span class="text-[10px] font-mono text-slate-400">16</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(16); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>17. Pruebas con Bruno & E2E Políglota</span><span class="text-[10px] font-mono text-slate-400">17</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(17); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>18. Montaje Guiado: Comandos de Consola</span><span class="text-[10px] font-mono text-slate-400">18</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(18); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>19. Visor de Archivos de la Sesión</span><span class="text-[10px] font-mono text-slate-400">19</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(19); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>20. Rúbrica & Sustentación (Live Mod)</span><span class="text-[10px] font-mono text-slate-400">20</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(20); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>21. Cierre de la Semana 2 & Puente a la Semana 3</span><span class="text-[10px] font-mono text-slate-400">21</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="border-t border-slate-200 pt-3 text-[11px] text-slate-400 flex items-center justify-between">
-        <span>SENA CADPH · Garzón Huila</span>
-        <span>ADSO 2026</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Scripts: Presenter Engine & Visor de Código -->
   <script src="../../assets/js/presenter.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      window.presenter = new SlidePresenter();
-      const cintilloFecha = document.getElementById('slide-cintillo-fecha');
-      if (cintilloFecha) {
-        cintilloFecha.textContent = new Date().toLocaleDateString('es-CO', { day: 'numeric', month: 'short', year: 'numeric' });
-      }
-      renderCodeTabs();
-      window.viewCodeTab('model');
-    });
-
-    // Código generado desde recursos/ (el mismo que se probó contra PostgreSQL)
+    // Visor de código: generado desde recursos/ (el mismo código que se probó contra las bases de datos)
     const codeSnippets = {
       model: { lang: 'javascript', code: `// server/src/models/Content.js
 import mongoose from 'mongoose';
@@ -1650,6 +1412,11 @@ export default app;` }
         setTimeout(() => { btnText.textContent = 'Copiar Archivo Activo'; }, 2200);
       });
     };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCodeTabs();
+      window.viewCodeTab('model');
+    });
   </script>
 </body>
 </html>

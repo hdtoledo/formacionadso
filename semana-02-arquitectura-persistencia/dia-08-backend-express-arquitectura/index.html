@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00324D">
   <title>Sesión 08 | Arquitectura en Capas en Express & Conexión Dual Simultánea | SENA ADSO</title>
   <meta name="description" content="Sesión 08: Backend I en Node.js y Express 4 con Arquitectura en Capas Enterprise, Conexión Dual Simultánea a PostgreSQL (pg.Pool) y MongoDB Atlas (Mongoose), Diagnóstico /api/health y Graceful Shutdown. SENA CADPH Garzón.">
   <link rel="icon" type="image/png" href="../../assets/logo_green.png">
@@ -33,7 +34,7 @@
   </script>
 
   <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
 
   <!-- PrismJS para sintaxis JavaScript, JSON y Bash -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -50,107 +51,15 @@
   <!-- Estilos de presentación -->
   <link rel="stylesheet" href="../../assets/css/presenter.css">
 </head>
-<body class="min-h-full flex flex-col bg-[#F8FAFC] text-slate-900 overflow-x-hidden selection:bg-[#39A900] selection:text-white">
+<body data-lesson="s08" data-week="2" data-session="08" data-title="Arquitectura en Capas en Express &amp; Conexión Dual" data-short="Express en capas">
 
-  <!-- ========================================================================= -->
-  <!-- 1. CINTILLO INSTITUCIONAL SENA -->
-  <!-- ========================================================================= -->
-  <div class="bg-[#00324D] text-white text-[11px] sm:text-xs py-2 px-4 sm:px-8 xl:px-12 border-b border-[#00263a] sticky top-0 z-50">
-    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-2">
-      <div class="flex items-center gap-2 truncate">
-        <span class="font-bold tracking-wide shrink-0">SENA</span>
-        <span class="text-slate-400">|</span>
-        <span class="text-slate-200 truncate font-medium">Regional Huila • CADPH Garzón</span>
-      </div>
-      <div class="flex items-center gap-4 text-slate-300 font-medium shrink-0 text-xs">
-        <span class="hidden md:inline">Sede Garzón</span>
-        <span class="text-emerald-400 font-semibold flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#39A900] animate-pulse"></span>
-          <span id="slide-cintillo-fecha">Hoy</span>
-        </span>
-        <span class="hidden sm:inline">ADSO · Proyección en Aula</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================================= -->
-  <!-- 2. HEADER DE CONTROL PARA EL INSTRUCTOR (VIDEOBEAM) -->
-  <!-- ========================================================================= -->
-  <header class="bg-white border-b border-slate-200 px-4 sm:px-8 xl:px-12 py-3 sticky top-[33px] sm:top-[35px] z-40 shadow-xs">
-    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-3">
-      
-      <!-- Marca SENA & Título de la Lección -->
-      <div class="flex items-center space-x-3">
-        <a href="../../index.html" class="flex items-center space-x-2.5 text-slate-600 hover:text-slate-900 transition-colors group" title="Volver al Portal Central">
-          <img src="../../assets/logo_green.png" alt="Logo SENA" class="h-9 w-auto object-contain shrink-0">
-          <div class="hidden sm:block border-l border-slate-200 pl-3">
-            <div class="flex items-center gap-1.5">
-              <span class="text-sm font-extrabold text-slate-900">FORMACIÓN</span>
-              <span class="text-sm font-black text-[#39A900]">ADSO</span>
-              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">CADPH</span>
-            </div>
-            <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Centro Agroempresarial y Desarrollo Pecuario del Huila</p>
-          </div>
-        </a>
-        <span class="text-slate-300 hidden md:inline">/</span>
-        <div class="hidden md:flex items-center space-x-2">
-          <span class="px-2.5 py-0.5 text-xs font-bold bg-blue-50 text-blue-900 border border-blue-200 rounded">Semana 2</span>
-          <span class="text-xs font-bold text-slate-800">Sesión 08 · Día 8: Arquitectura en Capas en Express & Conexión Dual Simultánea</span>
-        </div>
-      </div>
-
-      <!-- Controles de Clase & Temporizador -->
-      <div class="flex items-center space-x-2 sm:space-x-3">
-        
-        <!-- Temporizador de Bloques -->
-        <div class="flex items-center bg-slate-100 rounded-xl p-1 border border-slate-200 text-xs">
-          <div class="flex items-center px-2 py-1 space-x-1.5 font-mono font-bold text-slate-700">
-            <i data-lucide="clock" class="w-3.5 h-3.5 text-[#39A900]"></i>
-            <span id="timer-display">00:00</span>
-          </div>
-          <button id="btn-timer-start" class="px-2 py-1 bg-white hover:bg-slate-50 text-slate-700 rounded-lg shadow-2xs text-[11px] font-bold transition flex items-center space-x-1">
-            <i data-lucide="play" class="w-3 h-3 text-[#39A900]"></i>
-            <span class="hidden sm:inline">Iniciar</span>
-          </button>
-          <button id="btn-timer-reset" class="p-1 hover:bg-white text-slate-400 hover:text-slate-600 rounded-lg transition" title="Reiniciar Temporizador">
-            <i data-lucide="rotate-ccw" class="w-3 h-3"></i>
-          </button>
-        </div>
-
-        <!-- Botón Montaje en Vivo -->
-        <a href="#slide-10" onclick="window.presenter?.goToSlide(9)" class="hidden xl:flex items-center space-x-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-900 border border-blue-200 rounded-xl text-xs font-bold transition">
-          <i data-lucide="git-branch" class="w-3.5 h-3.5 text-blue-600"></i>
-          <span>Montaje en Vivo · Git Personal</span>
-        </a>
-
-        <!-- Botón Menú de Diapositivas (Drawer) -->
-        <button id="btn-menu-drawer" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition" title="Índice de Diapositivas (M)">
-          <i data-lucide="menu" class="w-4 h-4"></i>
-        </button>
-
-        <!-- Botón Pantalla Completa -->
-        <button id="btn-fullscreen" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition" title="Pantalla Completa (F)">
-          <i data-lucide="maximize" class="w-4 h-4"></i>
-        </button>
-      </div>
-    </div>
-
-    <!-- Barra de Progreso Superior -->
-    <div class="w-full bg-slate-100 h-1.5 mt-2.5 rounded-full overflow-hidden">
-      <div id="presentation-progress" class="bg-gradient-to-r from-[#00324D] via-[#39A900] to-blue-500 h-full w-0 transition-all duration-300"></div>
-    </div>
-  </header>
-
-  <!-- ========================================================================= -->
-  <!-- 3. CONTENEDOR PRINCIPAL DE DIAPOSITIVAS -->
-  <!-- ========================================================================= -->
-  <main class="flex-1 max-w-[1860px] w-full mx-auto px-4 sm:px-8 xl:px-12 py-4 flex flex-col justify-between">
+  <main id="lesson-main" class="ls-main">
     <div id="slides-viewport" class="relative w-full flex-1 min-h-[580px] flex flex-col justify-center">
 
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 01: PORTADA INSTITUCIONAL DE LA SESIÓN 08 -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item flex flex-col justify-center py-6">
+      <section class="slide-item flex flex-col justify-center py-6" data-title="Portada Institucional" data-block-label="PORTADA DE LECCIÓN">
         <div class="max-w-5xl mx-auto w-full space-y-6">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 border border-blue-200 rounded-full text-xs font-bold text-blue-900">
             <i data-lucide="server" class="w-3.5 h-3.5 text-blue-600"></i>
@@ -214,7 +123,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 02: OBJETIVOS & COMPETENCIAS LABORALES -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Objetivos &amp; Competencias" data-block-label="OBJETIVOS &amp; COMPETENCIAS">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-700">
             <i data-lucide="target" class="w-3.5 h-3.5 text-[#39A900]"></i>
@@ -272,7 +181,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 03: ARQUITECTURA 3-TIER ENTERPRISE & EL ORQUESTADOR EXPRESS -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Orquestador Express en 3-Tier" data-block-label="ARQUITECTURA FULL STACK">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold">
             <i data-lucide="network" class="w-3.5 h-3.5 text-blue-600"></i>
@@ -338,7 +247,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 04: ANTI-PATRÓN ESPAGUETI VS ARQUITECTURA EN CAPAS ENTERPRISE -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Anti-Patrón Espagueti vs Capas" data-block-label="ARQUITECTURA EN CAPAS ENTERPRISE">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-rose-50 text-rose-800 border border-rose-200 rounded-full text-xs font-bold">
             <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-600"></i>
@@ -407,7 +316,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 05: ANATOMÍA DE LAS CAPAS: EL FLUJO HTTP UNIDIRECCIONAL -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Anatomía del Flujo HTTP" data-block-label="ANATOMÍA DEL FLUJO HTTP">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-700">
             <i data-lucide="git-merge" class="w-3.5 h-3.5 text-blue-600"></i>
@@ -466,7 +375,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 06: GESTIÓN DE CONEXIONES: CLIENTE POR PETICIÓN VS POOL -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Cliente por Petición vs Pool" data-block-label="GESTIÓN DE CONEXIONES &amp; POOLS">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold">
             <i data-lucide="gauge" class="w-3.5 h-3.5 text-amber-600"></i>
@@ -515,7 +424,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 07: POOL RELACIONAL DE POSTGRESQL (PG.POOL) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Pool PostgreSQL (pg.Pool)" data-block-label="POSTGRESQL CONNECTION POOL (PG)">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold">
             <i data-lucide="database" class="w-3.5 h-3.5 text-blue-600"></i>
@@ -563,7 +472,7 @@ pool.on('error', (err) => console.error('Error en cliente ocioso:', err));</code
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 08: CONEXIÓN SINGLETON EN MONGOOSE & ATLAS -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Singleton en Mongoose &amp; Atlas" data-block-label="MONGOOSE SINGLETON &amp; ATLAS">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold">
             <i data-lucide="leaf" class="w-3.5 h-3.5 text-[#39A900]"></i>
@@ -614,7 +523,7 @@ await mongoose.connect(process.env.MONGO_URI, {
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 09: VARIABLES DE ENTORNO DEFENSIVAS CON DOTENV -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Variables de Entorno (dotenv)" data-block-label="VARIABLES DE ENTORNO DEFENSIVAS">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold">
             <i data-lucide="lock" class="w-3.5 h-3.5 text-amber-600"></i>
@@ -659,7 +568,7 @@ await mongoose.connect(process.env.MONGO_URI, {
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 10: HOJA DE RUTA DEL MONTAJE EN GIT PERSONAL -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Hoja de Ruta Montaje en Git" data-block-label="HOJA DE RUTA MONTAJE EN GIT">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold">
             <i data-lucide="git-branch" class="w-3.5 h-3.5 text-blue-600"></i>
@@ -696,7 +605,7 @@ mi-proyecto-adso/
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 11: CONVENTIONAL COMMITS V1.0.0 (4 HITOS ATÓMICOS) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Conventional Commits (4 Hitos)" data-block-label="CONVENTIONAL COMMITS V1.0.0">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-purple-50 text-purple-900 border border-purple-200 rounded-full text-xs font-bold">
             <i data-lucide="check-square" class="w-3.5 h-3.5 text-purple-600"></i>
@@ -759,7 +668,7 @@ mi-proyecto-adso/
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 12: CONFIGURACIÓN INICIAL DE PACKAGE.JSON (ESM) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Scaffolding &amp; package.json (ESM)" data-block-label="SCAFFOLDING ESM &amp; PACKAGE.JSON">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-700">
             <i data-lucide="package" class="w-3.5 h-3.5 text-blue-600"></i>
@@ -818,7 +727,7 @@ mi-proyecto-adso/
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 13: LIVE CODING 1: CONFIG/ENVIRONMENT.JS -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Live Coding 1: environment.js" data-block-label="LIVE CODING 1: ENVIRONMENT.JS">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold">
             <i data-lucide="code" class="w-3.5 h-3.5 text-amber-600"></i>
@@ -873,7 +782,7 @@ export const config = Object.freeze({
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 14: LIVE CODING 2 (PARTE A): DB.JS - PG.POOL -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Live Coding 2A: db.js (pg.Pool)" data-block-label="LIVE CODING 2: DB.JS (PG POOL)">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold">
             <i data-lucide="database" class="w-3.5 h-3.5 text-blue-600"></i>
@@ -915,7 +824,7 @@ pool.on('error', (err) => {
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 15: LIVE CODING 2 (PARTE B): DB.JS - MONGOOSE -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Live Coding 2B: db.js (Mongoose)" data-block-label="LIVE CODING 2: DB.JS (MONGOOSE)">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold">
             <i data-lucide="leaf" class="w-3.5 h-3.5 text-[#39A900]"></i>
@@ -952,7 +861,7 @@ export { mongoose };</code></pre>
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 16: LIVE CODING 2 (PARTE C): DB.JS - ORQUESTACIÓN & SHUTDOWN -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Live Coding 2C: Lifecycle DB" data-block-label="LIVE CODING 2: DB.JS (LIFECYCLE)">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-purple-50 text-purple-900 border border-purple-200 rounded-full text-xs font-bold">
             <i data-lucide="power" class="w-3.5 h-3.5 text-purple-600"></i>
@@ -998,7 +907,7 @@ export async function disconnectDatabases() {
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 17: LIVE CODING 3: HEALTHCONTROLLER.JS -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Live Coding 3: healthController" data-block-label="LIVE CODING 3: HEALTH CONTROLLER">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold">
             <i data-lucide="activity" class="w-3.5 h-3.5 text-emerald-600"></i>
@@ -1057,7 +966,7 @@ export async function getHealthStatus(req, res) {
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 18: LIVE CODING 4: HEALTHROUTES.JS -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Live Coding 4: healthRoutes" data-block-label="LIVE CODING 4: ENRUTAMIENTO MODULAR">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold">
             <i data-lucide="route" class="w-3.5 h-3.5 text-blue-600"></i>
@@ -1103,7 +1012,7 @@ export default router;</code></pre>
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 19: LIVE CODING 5: SRC/APP.JS (PIPELINE DE MIDDLEWARES) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Live Coding 5: src/app.js" data-block-label="LIVE CODING 5: PIPELINE EXPRESS">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-700">
             <i data-lucide="sliders" class="w-3.5 h-3.5 text-blue-600"></i>
@@ -1171,7 +1080,7 @@ export function errorHandler(err, req, res, next) {
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 20: LIVE CODING 6: SRC/SERVER.JS (BOOTSTRAP & SHUTDOWN) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Live Coding 6: src/server.js" data-block-label="LIVE CODING 6: SERVER &amp; SHUTDOWN">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-purple-50 text-purple-900 border border-purple-200 rounded-full text-xs font-bold">
             <i data-lucide="play-circle" class="w-3.5 h-3.5 text-purple-600"></i>
@@ -1220,7 +1129,7 @@ bootstrap();</code></pre>
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 21: EL CONTRATO JSON: GET /API/HEALTH EN VIVO -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Contrato JSON: /api/health" data-block-label="CONTRATO API: GET /API/HEALTH">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold">
             <i data-lucide="file-json" class="w-3.5 h-3.5 text-emerald-600"></i>
@@ -1279,7 +1188,7 @@ bootstrap();</code></pre>
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 22: LABORATORIO CON CLIENTES API (BRUNO & CURL) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Testing con Bruno &amp; cURL" data-block-label="TESTING CLIENTES API (BRUNO/CURL)">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold">
             <i data-lucide="terminal" class="w-3.5 h-3.5 text-amber-600"></i>
@@ -1328,7 +1237,7 @@ bootstrap();</code></pre>
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 23: PRUEBA DE RESILIENCIA 1: SIMULACIÓN DE CAÍDA PG -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Resiliencia: Caída PostgreSQL" data-block-label="RESILIENCIA: SIMULACIÓN FALLA PG">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-rose-50 text-rose-800 border border-rose-200 rounded-full text-xs font-bold">
             <i data-lucide="zap-off" class="w-3.5 h-3.5 text-rose-600"></i>
@@ -1367,7 +1276,7 @@ bootstrap();</code></pre>
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 24: PRUEBA DE RESILIENCIA 2: SIMULACIÓN DE CAÍDA MONGO -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Resiliencia: Caída MongoDB" data-block-label="RESILIENCIA: SIMULACIÓN FALLA MONGO">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold">
             <i data-lucide="cloud-off" class="w-3.5 h-3.5 text-amber-600"></i>
@@ -1404,7 +1313,7 @@ bootstrap();</code></pre>
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 25: MONTAJE EN AULA: LOS 4 HITOS EN GIT PERSONAL -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Montaje en Aula: Checklist Git" data-block-label="MONTAJE EN AULA: 4 HITOS EN GIT">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-purple-50 text-purple-900 border border-purple-200 rounded-full text-xs font-bold">
             <i data-lucide="list-checks" class="w-3.5 h-3.5 text-purple-600"></i>
@@ -1465,7 +1374,7 @@ bootstrap();</code></pre>
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 26: TERMINAL & FLUJO DE COMANDOS PASO A PASO -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Terminal &amp; Flujo de Consola" data-block-label="TERMINAL &amp; FLUJO DE COMANDOS">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-700">
             <i data-lucide="terminal" class="w-3.5 h-3.5 text-blue-600"></i>
@@ -1500,7 +1409,7 @@ bootstrap();</code></pre>
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 27: CÓDIGO FUENTE COMPLETO LLAVE EN MANO (TABS & COPY) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Código Completo Llave en Mano" data-block-label="CÓDIGO FUENTE LLAVE EN MANO">
         <div class="max-w-5xl mx-auto w-full space-y-4">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold">
@@ -1588,7 +1497,7 @@ export const config = Object.freeze({
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 28: SUSTENTACIÓN INDIVIDUAL: LIVE MOD EN CALIENTE SIN IA -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Sustentación: Live Mod sin IA" data-block-label="SUSTENTACIÓN: LIVE MOD EN CALIENTE">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-rose-50 text-rose-800 border border-rose-200 rounded-full text-xs font-bold">
             <i data-lucide="shield-check" class="w-3.5 h-3.5 text-rose-600"></i>
@@ -1644,7 +1553,7 @@ export const config = Object.freeze({
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 29: CONEXIÓN CURRICULAR DIRECTA (SESIONES 09 Y 10) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Puente a Sesiones 09 y 10" data-block-label="CONEXIÓN CURRICULAR: DÍAS 09 Y 10">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold">
             <i data-lucide="arrow-right-circle" class="w-3.5 h-3.5 text-blue-600"></i>
@@ -1689,7 +1598,7 @@ export const config = Object.freeze({
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 30: CIERRE DE SESIÓN, GLOSARIO & PREGUNTAS FRECUENTES -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Cierre de Sesión &amp; Glosario" data-block-label="CIERRE, GLOSARIO &amp; EVALUACIÓN">
         <div class="max-w-5xl mx-auto w-full space-y-5">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold">
             <i data-lucide="check-circle" class="w-3.5 h-3.5 text-[#39A900]"></i>
@@ -1730,183 +1639,8 @@ export const config = Object.freeze({
     </div>
   </main>
 
-  <!-- ========================================================================= -->
-  <!-- 4. FOOTER DE NAVEGACIÓN Y CONTROLES DEL INSTRUCTOR -->
-  <!-- ========================================================================= -->
-  <footer class="bg-white border-t border-slate-200 px-4 sm:px-8 xl:px-12 py-3 sticky bottom-0 z-40 shadow-xs">
-    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-3 text-xs">
-      
-      <!-- Contador y Bloque Pedagógico -->
-      <div class="flex items-center space-x-3">
-        <span id="slide-current-label" class="font-mono font-extrabold text-[#00324D]">SLIDE 01 / 30</span>
-        <span class="text-slate-300">|</span>
-        <span id="slide-block-label" class="hidden sm:inline font-bold text-slate-600 uppercase tracking-wide text-[11px]">
-          PORTADA DE LECCIÓN
-        </span>
-      </div>
-
-      <!-- Botones de Navegación -->
-      <div class="flex items-center space-x-2">
-        <button id="btn-prev-slide" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg transition flex items-center space-x-1" title="Anterior (← o Arriba)">
-          <i data-lucide="chevron-left" class="w-4 h-4"></i>
-          <span class="hidden md:inline">Anterior</span>
-        </button>
-
-        <span id="slide-counter" class="font-mono font-bold px-2 py-1 bg-slate-50 text-slate-600 rounded border border-slate-200 text-[11px]">
-          1 / 30
-        </span>
-
-        <button id="btn-next-slide" class="px-3.5 py-1.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-bold rounded-lg transition flex items-center space-x-1 shadow-2xs" title="Siguiente (→ o Abajo)">
-          <span class="hidden md:inline">Siguiente</span>
-          <i data-lucide="chevron-right" class="w-4 h-4"></i>
-        </button>
-      </div>
-
-      <!-- Ayuda de Atajos -->
-      <div class="hidden lg:flex items-center space-x-2 text-slate-400 text-[11px]">
-        <span>Atajos:</span>
-        <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded font-mono text-[10px] text-slate-600 font-bold">←</kbd>
-        <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded font-mono text-[10px] text-slate-600 font-bold">→</kbd>
-        <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded font-mono text-[10px] text-slate-600 font-bold">F</kbd>
-        <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded font-mono text-[10px] text-slate-600 font-bold">M</kbd>
-      </div>
-
-    </div>
-  </footer>
-
-  <!-- ========================================================================= -->
-  <!-- 5. MENÚ DRAWER LATERAL (ÍNDICE DE TODAS LAS DIAPOSITIVAS) -->
-  <!-- ========================================================================= -->
-  <div id="menu-drawer" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden transition-opacity">
-    <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl p-6 flex flex-col justify-between overflow-y-auto">
-      <div class="space-y-4">
-        <div class="flex items-center justify-between border-b border-slate-200 pb-3">
-          <div class="flex items-center space-x-2">
-            <i data-lucide="layers" class="w-5 h-5 text-[#39A900]"></i>
-            <h3 class="font-extrabold text-slate-900 text-sm">Índice de Diapositivas (Sesión 08)</h3>
-          </div>
-          <button id="btn-close-drawer" class="p-1 hover:bg-slate-100 rounded-lg text-slate-500">
-            <i data-lucide="x" class="w-5 h-5"></i>
-          </button>
-        </div>
-
-        <!-- Lista de 30 Diapositivas -->
-        <div class="space-y-1 text-xs max-h-[70vh] overflow-y-auto pr-2 font-medium">
-          <button onclick="window.presenter.goToSlide(0); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>01. Portada Institucional</span><span class="text-[10px] font-mono text-slate-400">01</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(1); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>02. Objetivos & Competencias</span><span class="text-[10px] font-mono text-slate-400">02</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(2); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>03. Orquestador Express en 3-Tier</span><span class="text-[10px] font-mono text-slate-400">03</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(3); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>04. Anti-Patrón Espagueti vs Capas</span><span class="text-[10px] font-mono text-slate-400">04</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(4); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>05. Anatomía del Flujo HTTP</span><span class="text-[10px] font-mono text-slate-400">05</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(5); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>06. Cliente por Petición vs Pool</span><span class="text-[10px] font-mono text-slate-400">06</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(6); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>07. Pool PostgreSQL (pg.Pool)</span><span class="text-[10px] font-mono text-slate-400">07</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(7); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>08. Singleton en Mongoose & Atlas</span><span class="text-[10px] font-mono text-slate-400">08</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(8); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>09. Variables de Entorno (dotenv)</span><span class="text-[10px] font-mono text-slate-400">09</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(9); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>10. Hoja de Ruta Montaje en Git</span><span class="text-[10px] font-mono text-slate-400">10</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(10); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>11. Conventional Commits (4 Hitos)</span><span class="text-[10px] font-mono text-slate-400">11</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(11); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>12. Scaffolding & package.json (ESM)</span><span class="text-[10px] font-mono text-slate-400">12</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(12); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>13. Live Coding 1: environment.js</span><span class="text-[10px] font-mono text-slate-400">13</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(13); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>14. Live Coding 2A: db.js (pg.Pool)</span><span class="text-[10px] font-mono text-slate-400">14</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(14); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>15. Live Coding 2B: db.js (Mongoose)</span><span class="text-[10px] font-mono text-slate-400">15</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(15); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>16. Live Coding 2C: Lifecycle DB</span><span class="text-[10px] font-mono text-slate-400">16</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(16); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>17. Live Coding 3: healthController</span><span class="text-[10px] font-mono text-slate-400">17</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(17); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>18. Live Coding 4: healthRoutes</span><span class="text-[10px] font-mono text-slate-400">18</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(18); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>19. Live Coding 5: src/app.js</span><span class="text-[10px] font-mono text-slate-400">19</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(19); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>20. Live Coding 6: src/server.js</span><span class="text-[10px] font-mono text-slate-400">20</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(20); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>21. Contrato JSON: /api/health</span><span class="text-[10px] font-mono text-slate-400">21</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(21); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>22. Testing con Bruno & cURL</span><span class="text-[10px] font-mono text-slate-400">22</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(22); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>23. Resiliencia: Caída PostgreSQL</span><span class="text-[10px] font-mono text-slate-400">23</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(23); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>24. Resiliencia: Caída MongoDB</span><span class="text-[10px] font-mono text-slate-400">24</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(24); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>25. Montaje en Aula: Checklist Git</span><span class="text-[10px] font-mono text-slate-400">25</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(25); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>26. Terminal & Flujo de Consola</span><span class="text-[10px] font-mono text-slate-400">26</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(26); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>27. Código Completo Llave en Mano</span><span class="text-[10px] font-mono text-slate-400">27</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(27); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>28. Sustentación: Live Mod sin IA</span><span class="text-[10px] font-mono text-slate-400">28</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(28); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>29. Puente a Sesiones 09 y 10</span><span class="text-[10px] font-mono text-slate-400">29</span>
-          </button>
-          <button onclick="window.presenter.goToSlide(29); window.presenter.toggleDrawer();" class="w-full text-left p-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
-            <span>30. Cierre de Sesión & Glosario</span><span class="text-[10px] font-mono text-slate-400">30</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="border-t border-slate-200 pt-3 text-[11px] text-slate-400 flex items-center justify-between">
-        <span>SENA CADPH · Garzón Huila</span>
-        <span>ADSO 2026</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Scripts: Presenter Engine & Lógica Interactiva de Pestañas -->
   <script src="../../assets/js/presenter.js"></script>
   <script>
-    // Inicialización del motor de diapositivas
-    document.addEventListener('DOMContentLoaded', () => {
-      window.presenter = new SlidePresenter();
-
-      // Ajustar fecha en cintillo
-      const cintilloFecha = document.getElementById('slide-cintillo-fecha');
-      if (cintilloFecha) {
-        const hoy = new Date();
-        const opciones = { day: 'numeric', month: 'short', year: 'numeric' };
-        cintilloFecha.textContent = hoy.toLocaleDateString('es-CO', opciones);
-      }
-    });
 
     // Repositorio de Código para el Visor de Pestañas (Slide 27)
     const codeSnippets = {
@@ -2347,7 +2081,6 @@ bootstrap();`
         if (btnText) btnText.textContent = '¡Archivo Copiado!';
         if (btnIcon) {
           btnIcon.setAttribute('data-lucide', 'check-check');
-          lucide.createIcons();
         }
 
         setTimeout(() => {

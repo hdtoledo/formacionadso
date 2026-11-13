@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00324D">
   <title>Sesión 07 | MongoDB NoSQL, Atlas Cloud & Compass | SENA ADSO</title>
   <meta name="description" content="Sesión 07: Persistencia NoSQL documental con MongoDB Atlas en la nube, colecciones polimórficas de catálogo, MongoDB Compass y consultas MQL. Diapositivas interactivas para videobeam SENA ADSO.">
   <link rel="icon" type="image/png" href="../../assets/logo_green.png">
@@ -33,7 +34,7 @@
   </script>
 
   <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
 
   <!-- PrismJS para sintaxis JSON y JavaScript -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -49,107 +50,15 @@
   <!-- Estilos de presentación -->
   <link rel="stylesheet" href="../../assets/css/presenter.css">
 </head>
-<body class="min-h-full flex flex-col bg-[#F8FAFC] text-slate-900 overflow-x-hidden selection:bg-[#39A900] selection:text-white">
+<body data-lesson="s07" data-week="2" data-session="07" data-title="MongoDB NoSQL, Atlas Cloud y Colecciones Polimórficas" data-short="MongoDB NoSQL">
 
-  <!-- ========================================================================= -->
-  <!-- 1. CINTILLO INSTITUCIONAL SENA -->
-  <!-- ========================================================================= -->
-  <div class="bg-[#00324D] text-white text-[11px] sm:text-xs py-2 px-4 sm:px-8 xl:px-12 border-b border-[#00263a] sticky top-0 z-50">
-    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-2">
-      <div class="flex items-center gap-2 truncate">
-        <span class="font-bold tracking-wide shrink-0">SENA</span>
-        <span class="text-slate-400">|</span>
-        <span class="text-slate-200 truncate font-medium">Regional Huila • CADPH Garzón</span>
-      </div>
-      <div class="flex items-center gap-4 text-slate-300 font-medium shrink-0 text-xs">
-        <span class="hidden md:inline">Sede Garzón</span>
-        <span class="text-emerald-400 font-semibold flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#39A900] animate-pulse"></span>
-          <span id="slide-cintillo-fecha">Hoy</span>
-        </span>
-        <span class="hidden sm:inline">ADSO · Proyección en Aula</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================================= -->
-  <!-- 2. HEADER DE CONTROL PARA EL INSTRUCTOR (VIDEOBEAM) -->
-  <!-- ========================================================================= -->
-  <header class="bg-white border-b border-slate-200 px-4 sm:px-8 xl:px-12 py-3 sticky top-[33px] sm:top-[35px] z-40 shadow-xs">
-    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between gap-3">
-      
-      <!-- Marca SENA & Título de la Lección -->
-      <div class="flex items-center space-x-3">
-        <a href="../../index.html" class="flex items-center space-x-2.5 text-slate-600 hover:text-slate-900 transition-colors group" title="Volver al Portal Central">
-          <img src="../../assets/logo_green.png" alt="Logo SENA" class="h-9 w-auto object-contain shrink-0">
-          <div class="hidden sm:block border-l border-slate-200 pl-3">
-            <div class="flex items-center gap-1.5">
-              <span class="text-sm font-extrabold text-slate-900">FORMACIÓN</span>
-              <span class="text-sm font-black text-[#39A900]">ADSO</span>
-              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200">CADPH</span>
-            </div>
-            <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Centro Agroempresarial y Desarrollo Pecuario del Huila</p>
-          </div>
-        </a>
-        <span class="text-slate-300 hidden md:inline">/</span>
-        <div class="hidden md:flex items-center space-x-2">
-          <span class="px-2.5 py-0.5 text-xs font-bold bg-emerald-50 text-emerald-900 border border-emerald-200 rounded">Semana 2</span>
-          <span class="text-xs font-bold text-slate-800">Sesión 07 · Día 7: MongoDB NoSQL, Atlas Cloud & Compass</span>
-        </div>
-      </div>
-
-      <!-- Controles de Clase & Temporizador -->
-      <div class="flex items-center space-x-2 sm:space-x-3">
-        
-        <!-- Temporizador de Bloques -->
-        <div class="flex items-center bg-slate-100 rounded-xl p-1 border border-slate-200 text-xs">
-          <div class="flex items-center px-2 py-1 space-x-1.5 font-mono font-bold text-slate-700">
-            <i data-lucide="clock" class="w-3.5 h-3.5 text-[#39A900]"></i>
-            <span id="timer-display">00:00</span>
-          </div>
-          <button id="btn-timer-start" class="px-2 py-1 bg-white hover:bg-slate-50 text-slate-700 rounded-lg shadow-2xs text-[11px] font-bold transition flex items-center space-x-1">
-            <i data-lucide="play" class="w-3 h-3 text-[#39A900]"></i>
-            <span class="hidden sm:inline">Iniciar</span>
-          </button>
-          <button id="btn-timer-reset" class="p-1 hover:bg-white text-slate-400 hover:text-slate-600 rounded-lg transition" title="Reiniciar Temporizador">
-            <i data-lucide="rotate-ccw" class="w-3 h-3"></i>
-          </button>
-        </div>
-
-        <!-- Botón Montaje en Vivo -->
-        <a href="#slide-09" onclick="window.presenter?.goToSlide(8)" class="hidden xl:flex items-center space-x-1.5 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 rounded-xl text-xs font-bold transition">
-          <i data-lucide="git-branch" class="w-3.5 h-3.5 text-[#39A900]"></i>
-          <span>Montaje en Vivo · Git Personal</span>
-        </a>
-
-        <!-- Botón Menú de Diapositivas (Drawer) -->
-        <button id="btn-menu-drawer" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition" title="Índice de Diapositivas (M)">
-          <i data-lucide="menu" class="w-4 h-4"></i>
-        </button>
-
-        <!-- Botón Pantalla Completa -->
-        <button id="btn-fullscreen" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition" title="Pantalla Completa (F)">
-          <i data-lucide="maximize" class="w-4 h-4"></i>
-        </button>
-      </div>
-    </div>
-
-    <!-- Barra de Progreso Superior -->
-    <div class="w-full bg-slate-100 h-1.5 mt-2.5 rounded-full overflow-hidden">
-      <div id="presentation-progress" class="bg-gradient-to-r from-[#00324D] via-[#39A900] to-emerald-400 h-full w-0 transition-all duration-300"></div>
-    </div>
-  </header>
-
-  <!-- ========================================================================= -->
-  <!-- 3. CONTENEDOR PRINCIPAL DE DIAPOSITIVAS (MAX-W-7XL OPTIMIZADO VIDEOBEAM) -->
-  <!-- ========================================================================= -->
-  <main class="flex-1 max-w-[1860px] w-full mx-auto px-4 sm:px-8 xl:px-12 py-4 flex flex-col justify-between">
+  <main id="lesson-main" class="ls-main">
     <div id="slides-viewport" class="relative w-full flex-1 min-h-[580px] flex flex-col justify-center">
 
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 01: PORTADA INSTITUCIONAL DE LA SESIÓN 07 -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item flex flex-col justify-center py-6">
+      <section class="slide-item flex flex-col justify-center py-6" data-title="Portada de la Sesión" data-block-label="PORTADA DE LECCIÓN">
         <div class="max-w-5xl mx-auto w-full space-y-6">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 border border-emerald-200 rounded-full text-xs font-bold text-emerald-900">
             <i data-lucide="database" class="w-3.5 h-3.5 text-[#39A900]"></i>
@@ -206,7 +115,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 02: OBJETIVOS DE APRENDIZAJE & COMPETENCIAS TÉCNICAS -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Objetivos &amp; Competencias" data-block-label="OBJETIVOS &amp; COMPETENCIAS">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="target" class="w-4 h-4 text-[#39A900]"></i>
           <span>Competencias Clave del Desarrollador ADSO</span>
@@ -256,7 +165,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 03: ARQUITECTURA GLOBAL & PERSISTENCIA POLÍGLOTA -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Persistencia Políglota 3-Tier" data-block-label="PERSISTENCIA POLÍGLOTA 3-TIER">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="layers" class="w-4 h-4 text-[#39A900]"></i>
           <span>Arquitectura 3-Tier Enterprise</span>
@@ -337,7 +246,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 04: COMPARATIVA BIG TECH (UBER, NETFLIX, MERCADO LIBRE) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Comparativa Big Tech" data-block-label="COMPARATIVA BIG TECH">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="globe" class="w-4 h-4 text-[#39A900]"></i>
           <span>Estándares Globales en Grandes Empresas</span>
@@ -402,7 +311,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 05: MATRIZ DE DECISIÓN TÉCNICA (SQL VS NOSQL) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Matriz: SQL vs NoSQL" data-block-label="MATRIZ: SQL VS NOSQL">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="git-compare" class="w-4 h-4 text-[#39A900]"></i>
           <span>Criterio Profesional del Desarrollador</span>
@@ -468,7 +377,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 06: EL PARADIGMA DOCUMENTAL (DE TABLAS A DOCUMENTOS) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Paradigma Documental" data-block-label="PARADIGMA DOCUMENTAL BSON">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="file-text" class="w-4 h-4 text-[#39A900]"></i>
           <span>Paradigma NoSQL Documental</span>
@@ -519,7 +428,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 07: ANATOMÍA DE UN DOCUMENTO BSON & EL TIPO OBJECTID -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="BSON &amp; Tipo ObjectId" data-block-label="ANATOMÍA BSON &amp; OBJECTID">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="binary" class="w-4 h-4 text-[#39A900]"></i>
           <span>BSON: Binary JSON</span>
@@ -588,7 +497,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 08: POLIMORFISMO EN NOSQL (LA VENTAJA DE NEGOCIO) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Polimorfismo en NoSQL" data-block-label="POLIMORFISMO EN NOSQL">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="boxes" class="w-4 h-4 text-[#39A900]"></i>
           <span>Modelado Avanzado en Aula</span>
@@ -638,7 +547,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 09: HOJA DE RUTA DEL MONTAJE EN EL REPOSITORIO PERSONAL GIT -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Hoja de Ruta del Montaje Git" data-block-label="HOJA DE RUTA MONTAJE EN GIT">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="git-branch" class="w-4 h-4 text-[#39A900]"></i>
           <span>Metodología de Aula · Trazabilidad en GitHub</span>
@@ -783,7 +692,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 10: CONVENTIONAL COMMITS V1.0.0 (ESTÁNDAR GLOBAL DE LA INDUSTRIA) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Conventional Commits v1.0.0" data-block-label="CONVENTIONAL COMMITS V1.0.0">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1">
           <i data-lucide="git-pull-request" class="w-4 h-4 text-[#39A900]"></i>
           <span>Estándar Global de la Industria · Software Engineering & CI/CD</span>
@@ -840,7 +749,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 11: MONGODB ATLAS: VISIÓN GENERAL DE CLOUD DBAAS -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="MongoDB Atlas Cloud DBaaS" data-block-label="BLOQUE 1: MONGODB ATLAS CLOUD DBAAS">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="cloud-rain" class="w-4 h-4 text-[#39A900]"></i>
           <span>Database as a Service (DBaaS)</span>
@@ -893,7 +802,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 12: ATLAS PASO A PASO 1 · CREACIÓN DE CLÚSTER M0 -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Atlas 1: Clúster M0 Sandbox" data-block-label="BLOQUE 1: MONGODB ATLAS CLOUD DBAAS">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="plus-circle" class="w-4 h-4 text-[#39A900]"></i>
           <span>Aprovisionamiento Paso a Paso · Atlas 1 de 4</span>
@@ -940,7 +849,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 13: ATLAS PASO A PASO 2 · DATABASE ACCESS (USUARIO & CLAVE) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Atlas 2: Usuario adso_user" data-block-label="BLOQUE 1: MONGODB ATLAS CLOUD DBAAS">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="key" class="w-4 h-4 text-[#39A900]"></i>
           <span>Seguridad y Credenciales · Atlas 2 de 4</span>
@@ -991,7 +900,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 14: ATLAS PASO A PASO 3 · NETWORK ACCESS (IP WHITELIST) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Atlas 3: Network Access 0.0.0.0/0" data-block-label="BLOQUE 1: MONGODB ATLAS CLOUD DBAAS">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="network" class="w-4 h-4 text-[#39A900]"></i>
           <span>Seguridad Perimetral · Atlas 3 de 4</span>
@@ -1038,7 +947,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 15: ATLAS PASO A PASO 4 · OBTENCIÓN DE URI SRV DE CONEXIÓN -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Atlas 4: URI SRV de Conexión" data-block-label="BLOQUE 1: MONGODB ATLAS CLOUD DBAAS">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="link-2" class="w-4 h-4 text-[#39A900]"></i>
           <span>Connection String · Atlas 4 de 4</span>
@@ -1086,7 +995,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 16: MONGODB COMPASS: INSTALACIÓN, CONEXIÓN & NAVEGACIÓN -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="MongoDB Compass GUI" data-block-label="BLOQUE 1: COMPASS GUI &amp; SEMILLAS BSON">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="compass" class="w-4 h-4 text-[#39A900]"></i>
           <span>Herramienta de Administración GUI</span>
@@ -1139,7 +1048,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 17: CREACIÓN DE BASE DE DATOS Y COLECCIÓN EN COMPASS -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Crear BD &amp; Colección" data-block-label="BLOQUE 1: COMPASS GUI &amp; SEMILLAS BSON">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="folder-plus" class="w-4 h-4 text-[#39A900]"></i>
           <span>Operación en Vivo · Compass</span>
@@ -1201,7 +1110,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 18: ARCHIVO SEMILLA NOSQL · CONTENIDO DE 01_CONTENT_SEED.JSON -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-5">
+      <section class="slide-item hidden flex flex-col justify-center py-5" data-title="Archivo Semilla 01_content_seed.json" data-block-label="BLOQUE 1: COMPASS GUI &amp; SEMILLAS BSON">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1.5">
           <i data-lucide="file-code" class="w-4 h-4 text-[#39A900]"></i>
           <span>Poblado de Datos en Aula · Semilla NoSQL</span>
@@ -1442,7 +1351,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 19: IMPORTACIÓN DE SEMILLAS 01_CONTENT_SEED.JSON EN COMPASS & MONGOSH -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Importar Semillas en Compass &amp; CLI" data-block-label="BLOQUE 1: COMPASS GUI &amp; SEMILLAS BSON">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="file-input" class="w-4 h-4 text-[#39A900]"></i>
           <span>Poblado de Datos en Aula · Ingesta BSON</span>
@@ -1509,7 +1418,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 20: ANÁLISIS DE DOCUMENTOS: BANNERS & SERVICIOS -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Análisis: Banners &amp; Servicios" data-block-label="BLOQUE 1: ANÁLISIS DOCUMENTAL">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="eye" class="w-4 h-4 text-[#39A900]"></i>
           <span>Inspección de Datos · Banners & Servicios</span>
@@ -1568,7 +1477,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 21: ANÁLISIS DE DOCUMENTOS: TESTIMONIOS & MÉTRICAS -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Análisis: Testimonios &amp; Métricas" data-block-label="BLOQUE 1: ANÁLISIS DOCUMENTAL">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="eye" class="w-4 h-4 text-[#39A900]"></i>
           <span>Inspección de Datos · Testimonios & Métricas</span>
@@ -1628,7 +1537,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 22: INTRODUCCIÓN A MQL Y ENTORNOS DUALES (COMPASS VS MONGOSH) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-5">
+      <section class="slide-item hidden flex flex-col justify-center py-5" data-title="Introducción a MQL &amp; Entornos" data-block-label="BLOQUE 1: LABORATORIO MQL CRUD &amp; MONGOSH">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1.5">
           <i data-lucide="code-2" class="w-4 h-4 text-[#39A900]"></i>
           <span>Lenguaje de Consultas NoSQL · Paradigma Declarativo</span>
@@ -1703,7 +1612,7 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 23: MQL CRUD · CREATE (INSERCIÓN DE DOCUMENTOS EN COMPASS & MONGOSH) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-5">
+      <section class="slide-item hidden flex flex-col justify-center py-5" data-title="CRUD 1: CREATE (Insertar Docs)" data-block-label="BLOQUE 1: LABORATORIO MQL CRUD &amp; MONGOSH">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1.5">
           <i data-lucide="plus-circle" class="w-4 h-4 text-[#39A900]"></i>
           <span>Laboratorio CRUD NoSQL · Operación CREATE (C)</span>
@@ -1781,7 +1690,7 @@ db.contents.insertOne({
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 24: MQL CRUD · READ (FILTROS DE CONSULTA, COMPARACIÓN & LÓGICOS) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-5">
+      <section class="slide-item hidden flex flex-col justify-center py-5" data-title="CRUD 2: READ (Filtros &amp; Lógica)" data-block-label="BLOQUE 1: LABORATORIO MQL CRUD &amp; MONGOSH">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1.5">
           <i data-lucide="filter" class="w-4 h-4 text-[#39A900]"></i>
           <span>Laboratorio CRUD NoSQL · Operación READ (R) Nivel 1</span>
@@ -1895,7 +1804,7 @@ db.contents.insertOne({
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 25: MQL CRUD · READ AVANZADO (PROYECCIONES, SORT & PAGINACIÓN) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-5">
+      <section class="slide-item hidden flex flex-col justify-center py-5" data-title="CRUD 3: READ Avanzado (Sort &amp; Proj)" data-block-label="BLOQUE 1: LABORATORIO MQL CRUD &amp; MONGOSH">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1.5">
           <i data-lucide="arrow-up-down" class="w-4 h-4 text-[#39A900]"></i>
           <span>Laboratorio CRUD NoSQL · Operación READ (R) Nivel 2</span>
@@ -1987,7 +1896,7 @@ db.contents.insertOne({
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 26: MQL CRUD · UPDATE (ACTUALIZACIÓN EN CALIENTE, $SET E $INC) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-5">
+      <section class="slide-item hidden flex flex-col justify-center py-5" data-title="CRUD 4: UPDATE ($set e $inc)" data-block-label="BLOQUE 1: LABORATORIO MQL CRUD &amp; MONGOSH">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1.5">
           <i data-lucide="edit-3" class="w-4 h-4 text-[#39A900]"></i>
           <span>Laboratorio CRUD NoSQL · Operación UPDATE (U)</span>
@@ -2061,7 +1970,7 @@ db.contents.updateOne(
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 27: MQL CRUD · DELETE (ELIMINACIÓN FÍSICA VS SOFT DELETE) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-5">
+      <section class="slide-item hidden flex flex-col justify-center py-5" data-title="CRUD 5: DELETE (Físico vs Soft)" data-block-label="BLOQUE 1: LABORATORIO MQL CRUD &amp; MONGOSH">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1.5">
           <i data-lucide="trash-2" class="w-4 h-4 text-rose-600"></i>
           <span>Laboratorio CRUD NoSQL · Operación DELETE (D)</span>
@@ -2130,7 +2039,7 @@ db.contents.updateOne(
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 28: LABORATORIO EN VIVO CON LA TERMINAL _MONGOSH INTEGRADA -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-5">
+      <section class="slide-item hidden flex flex-col justify-center py-5" data-title="Laboratorio mongosh Integrado" data-block-label="BLOQUE 1: LABORATORIO MQL CRUD &amp; MONGOSH">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1.5">
           <i data-lucide="terminal" class="w-4 h-4 text-[#39A900]"></i>
           <span>Consola Interactiva · Terminal mongosh en Compass</span>
@@ -2230,7 +2139,7 @@ db.contents.updateOne(
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 29: MODIFICACIÓN DINÁMICA EN CALIENTE (ZERO DOWNTIME) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Modificación Dinámica Zero Downtime" data-block-label="BLOQUE 1: ZERO DOWNTIME EN VIVO">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="refresh-cw" class="w-4 h-4 text-[#39A900]"></i>
           <span>Agilidad de Negocio sin Caídas</span>
@@ -2271,7 +2180,7 @@ db.contents.updateOne(
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 30: MONTAJE GUIADO EN AULA: LOS 4 HITOS EN GIT PERSONAL -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Montaje Guiado (4 Hitos)" data-block-label="BLOQUE 2: MONTAJE EN AULA &amp; GIT">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#39A900] uppercase tracking-wider mb-2">
           <i data-lucide="git-commit" class="w-4 h-4 text-[#39A900]"></i>
           <span>Bloque 2: Montaje Guiado en Aula (70 Minutos)</span>
@@ -2334,7 +2243,7 @@ db.contents.updateOne(
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 31: GUÍA OPERATIVA DE EJECUCIÓN (CONSOLA, COMPASS & GIT) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Flujo Operativo de Consola" data-block-label="BLOQUE 2: MONTAJE EN AULA &amp; GIT">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#39A900] uppercase tracking-wider mb-2">
           <i data-lucide="terminal" class="w-4 h-4 text-[#39A900]"></i>
           <span>Guía Operativa en Aula · Ejecución Paso a Paso</span>
@@ -2368,7 +2277,7 @@ db.contents.updateOne(
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 32: SUSTENTACIÓN INDIVIDUAL (LIVE MOD EN COMPASS SIN IA) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Sustentación &amp; Live Mod" data-block-label="BLOQUE 3: EVALUACIÓN &amp; SUSTENTACIÓN">
         <div class="flex items-center space-x-2 text-xs font-bold text-purple-700 uppercase tracking-wider mb-2">
           <i data-lucide="award" class="w-4 h-4 text-purple-700"></i>
           <span>Bloque 3: Evaluación Formativa (40 Minutos)</span>
@@ -2415,7 +2324,7 @@ db.contents.updateOne(
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 33: CONEXIÓN CURRICULAR DIRECTA (SESIÓN 08 Y SESIÓN 10) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Conexión con Sesión 08 &amp; 10" data-block-label="CONEXIÓN CURRICULAR EXPRESS">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-2">
           <i data-lucide="network" class="w-4 h-4 text-[#39A900]"></i>
           <span>Trazabilidad Curricular · Próximas Sesiones</span>
@@ -2461,7 +2370,7 @@ db.contents.updateOne(
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 34: SCRIPT COMPLETO DE DESPLIEGUE MONGODB (01_ADSO_POLYGLOT_SETUP.JS) -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-5">
+      <section class="slide-item hidden flex flex-col justify-center py-5" data-title="Script Completo de la BD (.js)" data-block-label="SCRIPT COMPLETO DE LA BD MONGODB">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#00324D] uppercase tracking-wider mb-1.5">
           <i data-lucide="file-terminal" class="w-4 h-4 text-[#39A900]"></i>
           <span>Aprovisionamiento Automatizado · Script Canónico MongoDB</span>
@@ -2834,7 +2743,7 @@ print("   La base de datos '" + DB_NAME + "' está lista para ser consumida por 
       <!-- --------------------------------------------------------------------- -->
       <!-- SLIDE 35: CIERRE DE SESIÓN, GLOSARIO & PREGUNTAS FRECUENTES -->
       <!-- --------------------------------------------------------------------- -->
-      <section class="slide-item hidden flex flex-col justify-center py-6">
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-title="Cierre &amp; Glosario" data-block-label="CIERRE &amp; SIGUIENTE SESIÓN">
         <div class="flex items-center space-x-2 text-xs font-bold text-[#39A900] uppercase tracking-wider mb-2">
           <i data-lucide="check-circle" class="w-4 h-4 text-[#39A900]"></i>
           <span>Cierre de la Sesión 07</span>
@@ -2882,218 +2791,8 @@ print("   La base de datos '" + DB_NAME + "' está lista para ser consumida por 
     </div>
   </main>
 
-  <!-- ========================================================================= -->
-  <!-- 4. BARRA DE NAVEGACIÓN INFERIOR (CONTROLES Y CONTADOR) -->
-  <!-- ========================================================================= -->
-  <footer class="bg-white border-t border-slate-200 px-4 sm:px-8 xl:px-12 py-2.5 sticky bottom-0 z-40">
-    <div class="max-w-[1860px] w-full mx-auto flex items-center justify-between text-xs">
-      
-      <!-- Contador de diapositivas -->
-      <div class="flex items-center space-x-2 font-mono text-slate-600">
-        <span class="font-bold text-slate-900">SLIDE</span>
-        <span id="slide-counter" class="px-2 py-0.5 bg-slate-100 rounded font-bold text-slate-800">01 / 35</span>
-        <span class="hidden sm:inline text-slate-400">•</span>
-        <span id="slide-current-label" class="hidden sm:inline text-slate-500 font-sans truncate max-w-xs md:max-w-md">PORTADA</span>
-      </div>
-
-      <!-- Botones de Navegación Anterior / Siguiente -->
-      <div class="flex items-center space-x-2">
-        <button id="btn-prev-slide" class="px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition flex items-center space-x-1 shadow-2xs">
-          <i data-lucide="chevron-left" class="w-4 h-4"></i>
-          <span>Anterior</span>
-        </button>
-        <button id="btn-next-slide" class="px-4 py-1.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold rounded-xl transition flex items-center space-x-1 shadow-xs">
-          <span>Siguiente</span>
-          <i data-lucide="chevron-right" class="w-4 h-4"></i>
-        </button>
-      </div>
-
-      <!-- Atajos de teclado en pantalla grande -->
-      <div class="hidden lg:flex items-center space-x-3 text-[11px] text-slate-400">
-        <span>Navegar: <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-200 rounded font-mono text-slate-600">Espacio</kbd> / <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-200 rounded font-mono text-slate-600">←</kbd> <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-200 rounded font-mono text-slate-600">→</kbd></span>
-        <span>Menú: <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-200 rounded font-mono text-slate-600">M</kbd></span>
-        <span>Ayuda: <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-200 rounded font-mono text-slate-600">?</kbd></span>
-      </div>
-    </div>
-  </footer>
-
-  <!-- ========================================================================= -->
-  <!-- 5. MENÚ LATERAL DRAWER (ÍNDICE DE TODAS LAS DIAPOSITIVAS) -->
-  <!-- ========================================================================= -->
-  <div id="drawer-overlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden transition-opacity"></div>
-  <aside id="menu-drawer" class="fixed top-0 right-0 h-full w-80 sm:w-96 bg-white z-50 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
-    <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
-      <div class="flex items-center space-x-2">
-        <i data-lucide="list" class="w-5 h-5 text-[#00324D]"></i>
-        <h3 class="font-extrabold text-sm text-slate-900">Índice de Diapositivas</h3>
-      </div>
-      <button id="btn-close-drawer" class="p-1.5 hover:bg-slate-200 rounded-lg text-slate-500 transition">
-        <i data-lucide="x" class="w-4 h-4"></i>
-      </button>
-    </div>
-
-    <div class="flex-1 overflow-y-auto p-3 space-y-1 text-xs">
-      <button onclick="window.presenter?.goToSlide(0)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">01</span><span>Portada de la Sesión</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(1)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">02</span><span>Objetivos & Competencias</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(2)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">03</span><span>Persistencia Políglota 3-Tier</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(3)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">04</span><span>Comparativa Big Tech</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(4)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">05</span><span>Matriz: SQL vs NoSQL</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(5)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">06</span><span>Paradigma Documental</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(6)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">07</span><span>BSON & Tipo ObjectId</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(7)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">08</span><span>Polimorfismo en NoSQL</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(8)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">09</span><span>Hoja de Ruta del Montaje Git</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(9)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-purple-700 font-bold">
-        <span class="text-purple-600">10</span><span>Conventional Commits v1.0.0</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(10)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">11</span><span>MongoDB Atlas Cloud DBaaS</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(11)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">12</span><span>Atlas 1: Clúster M0 Sandbox</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(12)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">13</span><span>Atlas 2: Usuario adso_user</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(13)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">14</span><span>Atlas 3: Network Access 0.0.0.0/0</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(14)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">15</span><span>Atlas 4: URI SRV de Conexión</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(15)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">16</span><span>MongoDB Compass GUI</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(16)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">17</span><span>Crear BD & Colección</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(17)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">18</span><span>Archivo Semilla 01_content_seed.json</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(18)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">19</span><span>Importar Semillas en Compass & CLI</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(19)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">20</span><span>Análisis: Banners & Servicios</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(20)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">21</span><span>Análisis: Testimonios & Métricas</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(21)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-blue-800 font-bold">
-        <span class="text-blue-500">22</span><span>Introducción a MQL & Entornos</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(22)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-emerald-800 font-bold">
-        <span class="text-emerald-600">23</span><span>CRUD 1: CREATE (Insertar Docs)</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(23)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-blue-800 font-bold">
-        <span class="text-blue-600">24</span><span>CRUD 2: READ (Filtros & Lógica)</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(24)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-teal-800 font-bold">
-        <span class="text-teal-600">25</span><span>CRUD 3: READ Avanzado (Sort & Proj)</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(25)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-amber-800 font-bold">
-        <span class="text-amber-600">26</span><span>CRUD 4: UPDATE ($set e $inc)</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(26)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-rose-800 font-bold">
-        <span class="text-rose-600">27</span><span>CRUD 5: DELETE (Físico vs Soft)</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(27)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-purple-700 font-bold">
-        <span class="text-purple-600">28</span><span>Laboratorio mongosh Integrado</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(28)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">29</span><span>Modificación Dinámica Zero Downtime</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(29)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">30</span><span>Montaje Guiado (4 Hitos)</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(30)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#39A900] font-bold">
-        <span class="text-emerald-500">31</span><span>Flujo Operativo de Consola</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(31)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-purple-700 font-bold">
-        <span class="text-purple-400">32</span><span>Sustentación & Live Mod</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(32)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-[#00324D] font-bold">
-        <span class="text-blue-500">33</span><span>Conexión con Sesión 08 & 10</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(33)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-emerald-800 font-bold">
-        <span class="text-emerald-500">34</span><span>Script Completo de la BD (.js)</span>
-      </button>
-      <button onclick="window.presenter?.goToSlide(34)" class="menu-slide-item w-full text-left p-2 rounded-lg hover:bg-slate-50 transition flex items-center space-x-2 text-slate-700">
-        <span class="text-slate-400">35</span><span>Cierre & Glosario</span>
-      </button>
-    </div>
-  </aside>
-
-  <!-- ========================================================================= -->
-  <!-- 6. MODAL DE AYUDA Y ATAJOS DE TECLADO -->
-  <!-- ========================================================================= -->
-  <div id="help-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-        <div class="flex items-center space-x-2 text-[#00324D]">
-          <i data-lucide="keyboard" class="w-5 h-5 text-[#39A900]"></i>
-          <h3 class="font-extrabold text-base">Atajos de Teclado del Aula</h3>
-        </div>
-        <button id="btn-close-help" class="p-1 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-slate-600 transition">
-          <i data-lucide="x" class="w-4 h-4"></i>
-        </button>
-      </div>
-
-      <div class="space-y-2 text-xs text-slate-600">
-        <div class="flex items-center justify-between p-2 bg-slate-50 rounded-lg">
-          <span>Avanzar Diapositiva</span>
-          <div class="space-x-1"><kbd class="px-2 py-0.5 bg-white border border-slate-200 rounded font-mono font-bold">Espacio</kbd><kbd class="px-2 py-0.5 bg-white border border-slate-200 rounded font-mono font-bold">→</kbd></div>
-        </div>
-        <div class="flex items-center justify-between p-2 bg-slate-50 rounded-lg">
-          <span>Retroceder Diapositiva</span>
-          <div class="space-x-1"><kbd class="px-2 py-0.5 bg-white border border-slate-200 rounded font-mono font-bold">←</kbd></div>
-        </div>
-        <div class="flex items-center justify-between p-2 bg-slate-50 rounded-lg">
-          <span>Abrir / Cerrar Menú Índice</span>
-          <div class="space-x-1"><kbd class="px-2 py-0.5 bg-white border border-slate-200 rounded font-mono font-bold">M</kbd></div>
-        </div>
-        <div class="flex items-center justify-between p-2 bg-slate-50 rounded-lg">
-          <span>Pantalla Completa</span>
-          <div class="space-x-1"><kbd class="px-2 py-0.5 bg-white border border-slate-200 rounded font-mono font-bold">F</kbd></div>
-        </div>
-        <div class="flex items-center justify-between p-2 bg-slate-50 rounded-lg">
-          <span>Inicio / Fin</span>
-          <div class="space-x-1"><kbd class="px-2 py-0.5 bg-white border border-slate-200 rounded font-mono font-bold">Home</kbd><kbd class="px-2 py-0.5 bg-white border border-slate-200 rounded font-mono font-bold">End</kbd></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Script del Presentador, Lucide Icons y Fecha Dinámica -->
   <script src="../../assets/js/presenter.js"></script>
   <script>
-    lucide.createIcons();
-
-    // Fecha dinámica de hoy en el cintillo de la presentación
-    (function renderFechaSlide() {
-      const hoy = new Date();
-      const opciones = { weekday: 'short', day: 'numeric', month: 'short' };
-      const fechaTxt = hoy.toLocaleDateString('es-CO', opciones);
-      const el = document.getElementById('slide-cintillo-fecha');
-      if (el) el.textContent = 'Hoy: ' + fechaTxt.charAt(0).toUpperCase() + fechaTxt.slice(1);
-    })();
 
     // Gestión del Semillero NoSQL en Aula (Copia y Filtros Rápidos)
     let adsoRawSeedJson = '';
