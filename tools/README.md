@@ -29,6 +29,7 @@ Cada lección solo contiene sus diapositivas y metadatos. El chasis (cintillo, h
 | `lessons/quizzes.mjs` | **Fuente única** de las autoevaluaciones (3 preguntas por lección) y el inyector idempotente. |
 | `lessons/add-quizzes.mjs` | Inserta o actualiza la autoevaluación en las lecciones escritas a mano (S01–S08 y Extra). |
 | `lessons/gen-bruno-s09.mjs`, `lessons/gen-bruno-s10.mjs` | Generan la colección Bruno de la sesión (carpeta destino como argumento). |
+| `build-downloads.mjs` | Genera por sesión (S06 en adelante) `codigo-sesion-XX.zip` (solo lo que agrega o modifica) y `proyecto-hasta-sesion-XX.zip` (`mi-proyecto-adso/` acumulado), más `assets/js/downloads-data.js` para la sección "Código del proyecto por sesión" del portal. ZIP reproducible (fecha fija) y sin dependencias. |
 | `check-catalog.mjs` | Verifica que el catálogo del portal coincida con las lecciones: rutas, número de diapositivas, `data-lesson` y `data-title`. |
 | `check-scripts.mjs` | Verifica la sintaxis de los `<script>` inline de uno o varios HTML. |
 | `sync-referencia.mjs` | Sincroniza las copias embebidas en `referencia-docente/index.html` (`node tools/sync-referencia.mjs dia-04 dia-06`). |
@@ -37,6 +38,7 @@ Cada lección solo contiene sus diapositivas y metadatos. El chasis (cintillo, h
 ```powershell
 node tools/lessons/build-lesson.mjs s10
 node tools/lessons/add-quizzes.mjs
+node tools/build-downloads.mjs
 node tools/check-catalog.mjs
 node tools/check-scripts.mjs semana-02-arquitectura-persistencia/dia-10-mongoose-crud-contenidos/index.html
 ```
@@ -46,7 +48,8 @@ node tools/check-scripts.mjs semana-02-arquitectura-persistencia/dia-10-mongoose
 1. Crear la plantilla de diapositivas (cada `<section>` con `data-title` y `data-block-label`) y registrarla en `build-lesson.mjs`.
 2. Agregar sus 3 preguntas en `lessons/quizzes.mjs`.
 3. Agregar la entrada en `LESSONS` de `assets/js/portal.js`.
-4. Ejecutar `build-lesson.mjs` y luego `check-catalog.mjs` (debe terminar en "Catálogo coherente").
+4. Si la sesión aporta código al proyecto transversal, agregarla a `SESSIONS` en `build-downloads.mjs` (archivos de `recursos/` y pasos de ejecución).
+5. Ejecutar `build-lesson.mjs`, `build-downloads.mjs` y luego `check-catalog.mjs` (debe terminar en "Catálogo coherente").
 
 ## Marcadores de las plantillas
 

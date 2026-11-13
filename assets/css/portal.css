@@ -89,6 +89,62 @@ body { overflow-x: clip; }
 .portal-resource svg { color: #39A900; flex-shrink: 0; }
 .portal-resource:hover { background: #ecfdf3; border-color: #86efac; color: #14532d; }
 
+/* Código del proyecto por sesión: línea de tiempo S06 → última sesión */
+.portal-timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; position: relative; }
+.portal-step { position: relative; display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: 0.85rem; }
+.portal-step::before {
+  content: ''; position: absolute; left: calc(1.25rem - 1px); top: 2.6rem; bottom: -1rem; width: 2px;
+  background: linear-gradient(#bbf7d0, #e2e8f0);
+}
+.portal-step:last-child::before { display: none; }
+.portal-step__marker {
+  width: 2.5rem; height: 2.5rem; border-radius: 0.85rem; display: flex; align-items: center; justify-content: center;
+  background: #fff; border: 2px solid #bbf7d0; color: #39A900; position: relative; z-index: 1;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+.portal-step.is-latest .portal-step__marker { background: #39A900; border-color: #39A900; color: #fff; box-shadow: 0 0 0 6px rgb(57 169 0 / 0.15); }
+.portal-step:hover .portal-step__marker { border-color: #39A900; }
+.portal-step__card {
+  min-width: 0; display: grid; gap: 0.6rem; padding: 1.1rem 1.15rem; border-radius: 1.1rem;
+  background: #fff; border: 1px solid #e2e8f0; box-shadow: 0 1px 2px rgb(15 23 42 / 0.05);
+  transition: border-color 0.25s ease-in-out, box-shadow 0.25s ease-in-out, transform 0.25s ease-in-out;
+}
+.portal-step:hover .portal-step__card { border-color: #bbf7d0; box-shadow: 0 12px 28px -18px rgb(15 23 42 / 0.35); transform: translateY(-1px); }
+.portal-step.is-latest .portal-step__card { border-color: #86efac; background: linear-gradient(180deg, #f0fdf4, #fff 45%); }
+
+.portal-files { border: 1px solid #e2e8f0; border-radius: 0.8rem; background: #f8fafc; }
+.portal-files > summary {
+  cursor: pointer; list-style: none; padding: 0.5rem 0.75rem; font-size: 0.72rem; font-weight: 700; color: #334155;
+  display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+}
+.portal-files > summary::-webkit-details-marker { display: none; }
+.portal-files > summary::after { content: '+'; font-family: 'JetBrains Mono', monospace; color: #39A900; transition: transform 0.25s ease-in-out; }
+.portal-files[open] > summary::after { transform: rotate(45deg); }
+.portal-files ul { list-style: none; margin: 0; padding: 0 0.75rem 0.65rem; display: grid; gap: 0.15rem; max-height: 16rem; overflow: auto; }
+.portal-files[open] ul { animation: portal-pop 0.25s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.portal-file { display: flex; gap: 0.5rem; align-items: baseline; font-size: 0.7rem; min-width: 0; }
+.portal-file > span[aria-hidden] { font-family: 'JetBrains Mono', monospace; font-weight: 800; width: 0.8rem; flex-shrink: 0; }
+.portal-file code { font-family: 'JetBrains Mono', monospace; color: #334155; overflow-wrap: anywhere; }
+.portal-file.is-added > span[aria-hidden] { color: #16a34a; }
+.portal-file.is-changed > span[aria-hidden] { color: #d97706; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+.portal-dl {
+  display: flex; align-items: center; gap: 0.6rem; padding: 0.65rem 0.8rem; border-radius: 0.8rem;
+  border: 1px solid #e2e8f0; background: #fff; color: #0f172a; font-size: 0.78rem; font-weight: 800;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.15s ease-in-out;
+}
+.portal-dl:hover { border-color: #86efac; background: #f0fdf4; transform: translateY(-1px); }
+.portal-dl:active { transform: translateY(0); }
+.portal-dl--primary { background: #00324D; border-color: #00324D; color: #fff; }
+.portal-dl--primary:hover { background: #00263A; border-color: #00263A; }
+
+@media (min-width: 640px) {
+  .portal-step { grid-template-columns: 3rem minmax(0, 1fr); gap: 1.1rem; }
+  .portal-step__marker { width: 3rem; height: 3rem; }
+  .portal-step::before { left: calc(1.5rem - 1px); top: 3.1rem; }
+}
+
 /* Avance dentro de cada tarjeta de sesión */
 .portal-card-progress {
   display: grid; gap: 0.35rem; padding: 0.6rem 0.7rem; border-radius: 0.75rem;

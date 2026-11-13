@@ -126,6 +126,10 @@
             <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">${LESSONS.length} listas</span>
           </div>
           <div class="py-1">${items}</div>
+          <a href="#descargas" class="portal-launcher__item border-t border-slate-100 mt-1" role="menuitem">
+            <span class="portal-launcher__num" style="background:#39A900"><i data-lucide="package" class="w-4 h-4"></i></span>
+            <span class="min-w-0 flex-1"><span class="block text-xs font-bold text-slate-800">Código del proyecto por sesión</span><span class="block text-[10px] text-slate-500">Descargas .zip desde la Sesión 06</span></span>
+          </a>
           <div class="pt-2 border-t border-slate-100 px-3 pb-1 text-[10px] text-slate-400 font-medium">Atajo: teclas <kbd>1</kbd>–<kbd>9</kbd>, <kbd>0</kbd> y <kbd>-</kbd> abren las lecciones en orden.</div>
         </div>
       </details>`;
@@ -218,6 +222,70 @@
         <div class="flex items-center justify-between text-[11px] font-bold text-slate-500"><span>Recursos de cada sesión</span><span class="text-[10px] font-mono text-[#00324D]">${LESSONS.length} disponibles</span></div>
         <div class="portal-resources">${resources}</div>
       </div>`;
+  }
+
+  // 4b. Código del proyecto por sesión (datos: assets/js/downloads-data.js) --------
+  function renderDownloads() {
+    const host = $('#descargas-lista');
+    const packages = Array.isArray(window.ADSO_DOWNLOADS) ? window.ADSO_DOWNLOADS : [];
+    if (!host) return;
+    if (!packages.length) {
+      host.innerHTML = '<li class="text-sm text-slate-500">Aún no hay paquetes de código publicados.</li>';
+      return;
+    }
+    const kb = (bytes) => `${(bytes / 1024).toLocaleString('es-CO', { maximumFractionDigits: 1 })} KB`;
+    // Las colecciones Bruno se muestran como una sola línea: "server/bruno/ (13 archivos)"
+    const groupFiles = (files) => {
+      const groups = new Map();
+      files.forEach((f) => {
+        const m = f.match(/^(.*\/bruno[^/]*)\//);
+        const key = m ? `${m[1]}/` : f;
+        groups.set(key, (groups.get(key) || 0) + 1);
+      });
+      return [...groups].map(([name, n]) => (name.endsWith('/') ? `${name} (${n} archivos)` : name));
+    };
+    const fileLines = (files, mark, cls, label) => groupFiles(files)
+      .map((f) => `<li class="portal-file ${cls}"><span aria-hidden="true">${mark}</span><code>${esc(f)}</code><span class="sr-only">${label}</span></li>`).join('');
+
+    host.innerHTML = packages.map((pkg, i) => {
+      const isLast = i === packages.length - 1;
+      const p = lessonProgress(LESSONS.find((l) => l.id === pkg.id) || { id: pkg.id, slides: 1 });
+      return `
+        <li class="portal-step${isLast ? ' is-latest' : ''}">
+          <div class="portal-step__marker" aria-hidden="true"><i data-lucide="${esc(pkg.icon)}" class="w-4 h-4"></i></div>
+          <article class="portal-step__card">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-[11px] font-bold">Sesión ${esc(pkg.num)}</span>
+              <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold">Semana ${esc(pkg.week)}</span>
+              ${isLast ? '<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold">Última publicada</span>' : ''}
+              ${p && p.pct === 100 ? '<span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold">✓ Lección vista</span>' : ''}
+            </div>
+            <h3 class="text-base sm:text-lg font-extrabold text-slate-900 leading-snug">${esc(pkg.title)}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">${esc(pkg.summary)}</p>
+            <div class="flex flex-wrap gap-2 text-[11px] font-bold">
+              <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200">+${pkg.added.length} archivo${pkg.added.length === 1 ? '' : 's'} nuevo${pkg.added.length === 1 ? '' : 's'}</span>
+              ${pkg.changed.length ? `<span class="px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">${pkg.changed.length} modificado${pkg.changed.length === 1 ? '' : 's'}</span>` : ''}
+            </div>
+            <details class="portal-files">
+              <summary>Ver qué archivos incluye</summary>
+              <ul>${fileLines(pkg.added, '+', 'is-added', '(nuevo)')}${fileLines(pkg.changed, '~', 'is-changed', '(modificado)')}</ul>
+            </details>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+              <a href="${esc(pkg.project.href)}" download class="portal-dl portal-dl--primary">
+                <i data-lucide="package" class="w-4 h-4 shrink-0"></i>
+                <span class="min-w-0"><span class="block">Proyecto hasta la Sesión ${esc(pkg.num)}</span><span class="block text-[10px] font-semibold opacity-80">${pkg.project.files} archivos · ${kb(pkg.project.bytes)} · .zip</span></span>
+              </a>
+              <a href="${esc(pkg.session.href)}" download class="portal-dl">
+                <i data-lucide="file-archive" class="w-4 h-4 shrink-0 text-[#39A900]"></i>
+                <span class="min-w-0"><span class="block">Solo la Sesión ${esc(pkg.num)}</span><span class="block text-[10px] font-semibold text-slate-500">${pkg.session.files} archivos · ${kb(pkg.session.bytes)} · .zip</span></span>
+              </a>
+            </div>
+            <a href="${esc(pkg.lesson)}" class="text-[11px] font-bold text-[#00324D] hover:text-[#39A900] transition-colors inline-flex items-center gap-1 w-fit">
+              <i data-lucide="projector" class="w-3.5 h-3.5"></i> Ver la lección de la Sesión ${esc(pkg.num)}
+            </a>
+          </article>
+        </li>`;
+    }).join('');
   }
 
   // 5. Avance en cada tarjeta de sesión del cronograma ---------------------------
@@ -425,6 +493,7 @@
     renderLauncher();
     renderHeroActions();
     renderStatus();
+    renderDownloads();
     indexSessions();
     decorateCards();
     window.cambiarSemana(currentWeek);

@@ -96,9 +96,10 @@
       </div>
 
       <!-- Navegación Centrada -->
-      <nav class="hidden md:flex items-center space-x-6 text-xs font-bold text-slate-600">
+      <nav class="hidden lg:flex items-center gap-6 text-xs font-bold text-slate-600 whitespace-nowrap" aria-label="Secciones del portal">
         <a href="#metodologia" class="hover:text-[#39A900] transition-colors">Metodología</a>
         <a href="#cronograma" class="hover:text-[#39A900] transition-colors">Plan 8 Semanas</a>
+        <a href="#descargas" class="hover:text-[#39A900] transition-colors">Código</a>
         <a href="#recursos" class="hover:text-[#39A900] transition-colors">Recursos SQL</a>
       </nav>
 
@@ -2066,6 +2067,40 @@
   </main>
 
   <!-- ========================================================================= -->
+  <!-- 5B. CÓDIGO DEL PROYECTO POR SESIÓN (generado por assets/js/portal.js con   -->
+  <!--     los datos de assets/js/downloads-data.js → tools/build-downloads.mjs)  -->
+  <!-- ========================================================================= -->
+  <section id="descargas" class="py-12 sm:py-16 bg-white border-b border-slate-200" aria-labelledby="descargas-titulo">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 space-y-8">
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
+        <div class="lg:col-span-7 space-y-3">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-[#39A900]">Proyecto transversal · mi-proyecto-adso</span>
+          <h2 id="descargas-titulo" class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Código del proyecto por sesión</h2>
+          <p class="text-sm text-slate-600 leading-relaxed max-w-2xl">
+            Desde la base de datos relacional y la NoSQL hasta la última sesión publicada. Cada paso tiene dos descargas:
+            el <strong>código de la sesión</strong> (solo lo que agrega o modifica) y el <strong>proyecto completo hasta ese punto</strong>,
+            listo para ponerse al día. Todo el código fue probado contra PostgreSQL y MongoDB antes de publicarse.
+          </p>
+        </div>
+        <div class="lg:col-span-5 p-4 rounded-2xl border border-amber-200 bg-amber-50 text-xs text-amber-950 flex items-start gap-3">
+          <i data-lucide="git-commit" class="w-4 h-4 text-amber-700 shrink-0 mt-0.5"></i>
+          <p><strong>Úselo para ponerse al día o comparar, no para reemplazar su montaje.</strong> La evidencia de cada sesión sigue siendo su repositorio personal en GitHub con sus propios commits y la sustentación en vivo.</p>
+        </div>
+      </div>
+
+      <ol id="descargas-lista" class="portal-timeline" aria-label="Paquetes de código por sesión">
+        <li class="text-sm text-slate-500">Cargando los paquetes disponibles…</li>
+      </ol>
+
+      <p class="text-[11px] text-slate-500 flex items-start gap-2">
+        <i data-lucide="info" class="w-3.5 h-3.5 text-slate-400 shrink-0 mt-0.5"></i>
+        <span>Cada paquete trae un README con los comandos de PowerShell para ejecutarlo. El archivo <code class="font-mono">server/.env</code> nunca se incluye: créelo a partir de <code class="font-mono">.env.example</code>.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
   <!-- 6. REPOSITORIO DE RECURSOS TÉCNICOS (CENTRADO) -->
   <!-- ========================================================================= -->
   <section id="recursos" class="py-12 bg-slate-50/80 border-b border-slate-200">
@@ -2282,6 +2317,7 @@
   </footer>
 
   <!-- Lucide y Script de Dinamismo (Fecha de hoy y Tabs de semanas) -->
+  <script src="assets/js/downloads-data.js"></script>
   <script src="assets/js/portal.js"></script>
 </body>
 </html>
