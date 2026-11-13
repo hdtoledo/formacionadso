@@ -1,0 +1,32 @@
+meta {
+  name: 09 - Cambiar Tipo (422 Unprocessable Entity)
+  type: http
+  seq: 9
+}
+
+patch {
+  url: {{baseUrl}}/api/dev/content/{{contentId}}
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "type": "banner"
+  }
+}
+
+tests {
+  test("Cambiar Tipo (422 Unprocessable Entity)", function () {
+    expect(res.status).to.equal(422);
+    expect(res.body.code).to.equal("CONTENT_TYPE_IMMUTABLE");
+  });
+}
+
+docs {
+  El discriminator de un documento no cambia: la petición es válida pero la regla de negocio la impide.
+}

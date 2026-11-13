@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "ADSO Backend - Sesión 10 Catálogo MongoDB",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

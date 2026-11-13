@@ -92,9 +92,12 @@ formacionadso/
 │   ├── dia-08-backend-express-arquitectura/
 │   │   ├── index.html                     # Sesión 08: Express en capas y conexión dual PostgreSQL + MongoDB
 │   │   └── recursos/server/               # Backend de referencia (config, controllers, routes, middlewares)
-│   └── dia-09-repositorio-usuarios-sqli/
-│       ├── index.html                     # Sesión 09: UserRepository, inyección SQL y transacciones
-│       └── recursos/                      # Migración 02, semillas, archivos nuevos del server y colección Bruno
+│   ├── dia-09-repositorio-usuarios-sqli/
+│   │   ├── index.html                     # Sesión 09: UserRepository, inyección SQL y transacciones
+│   │   └── recursos/                      # Migración 02, semillas, archivos nuevos del server y colección Bruno
+│   └── dia-10-mongoose-crud-contenidos/
+│       ├── index.html                     # Sesión 10: Mongoose con discriminators, CRUD e inyección NoSQL
+│       └── recursos/                      # Archivos nuevos y modificados del server y colección bruno-catalogo
 └── semana-01-fundamentos/
     ├── dia-01-bd-sql-ddl-dml/
     │   ├── index.html             # Diapositivas de proyección (Sesión 01: Modelo Relacional & SQL)

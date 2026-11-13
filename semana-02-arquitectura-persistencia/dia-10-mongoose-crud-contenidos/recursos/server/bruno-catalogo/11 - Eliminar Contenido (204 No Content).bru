@@ -1,0 +1,21 @@
+meta {
+  name: 11 - Eliminar Contenido (204 No Content)
+  type: http
+  seq: 11
+}
+
+delete {
+  url: {{baseUrl}}/api/dev/content/{{contentId}}
+  body: none
+  auth: none
+}
+
+tests {
+  test("Eliminar Contenido (204 No Content)", function () {
+    expect(res.status).to.equal(204);
+  });
+}
+
+docs {
+  Borrado exitoso sin cuerpo de respuesta.
+}

@@ -1,0 +1,32 @@
+meta {
+  name: 08 - Publicar Contenido (200 OK)
+  type: http
+  seq: 8
+}
+
+patch {
+  url: {{baseUrl}}/api/dev/content/{{contentId}}
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "active": true
+  }
+}
+
+tests {
+  test("Publicar Contenido (200 OK)", function () {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.active).to.equal(true);
+  });
+}
+
+docs {
+  Actualización parcial: doc.set + doc.save ejecuta todas las validaciones. Revise que ahora aparece en la petición 01.
+}

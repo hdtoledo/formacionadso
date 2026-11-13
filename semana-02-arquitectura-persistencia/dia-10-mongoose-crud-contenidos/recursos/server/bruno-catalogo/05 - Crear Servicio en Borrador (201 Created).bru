@@ -1,0 +1,44 @@
+meta {
+  name: 05 - Crear Servicio en Borrador (201 Created)
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/dev/content
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "type": "service",
+    "name": "Analítica de Datos para el Agro",
+    "category": "agroindustria",
+    "description": "Tableros de producción agrícola con datos abiertos del Huila.",
+    "icon": "bar-chart",
+    "code": "SRV-DATA-05",
+    "hours": 40,
+    "views": 999999
+  }
+}
+
+script:post-response {
+  bru.setVar("contentId", res.body.data._id);
+}
+
+tests {
+  test("Crear Servicio en Borrador (201 Created)", function () {
+    expect(res.status).to.equal(201);
+    expect(res.body.data.active).to.equal(false);
+    expect(res.body.data.views).to.equal(0);
+  });
+}
+
+docs {
+  Se crea con active: false (borrador). views: 999999 se ignora porque es un campo protegido. Guarda el _id en la variable contentId.
+}

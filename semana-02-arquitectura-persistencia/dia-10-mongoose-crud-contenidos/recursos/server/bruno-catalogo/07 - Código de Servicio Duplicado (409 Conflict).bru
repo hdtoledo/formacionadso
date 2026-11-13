@@ -1,0 +1,39 @@
+meta {
+  name: 07 - Código de Servicio Duplicado (409 Conflict)
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/api/dev/content
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "type": "service",
+    "name": "Analítica de Datos para el Agro",
+    "category": "agroindustria",
+    "description": "Tableros de producción agrícola con datos abiertos del Huila.",
+    "icon": "bar-chart",
+    "code": "SRV-SOFT-01",
+    "hours": 40,
+    "views": 999999
+  }
+}
+
+tests {
+  test("Código de Servicio Duplicado (409 Conflict)", function () {
+    expect(res.status).to.equal(409);
+    expect(res.body.code).to.equal("DUPLICATE_KEY");
+  });
+}
+
+docs {
+  idx_unique_service_code (Sesión 07) rechaza el duplicado: MongoDB responde 11000 y la API lo traduce a 409.
+}

@@ -1,0 +1,22 @@
+meta {
+  name: 12 - Eliminar de Nuevo (404 Not Found)
+  type: http
+  seq: 12
+}
+
+delete {
+  url: {{baseUrl}}/api/dev/content/{{contentId}}
+  body: none
+  auth: none
+}
+
+tests {
+  test("Eliminar de Nuevo (404 Not Found)", function () {
+    expect(res.status).to.equal(404);
+    expect(res.body.code).to.equal("CONTENT_NOT_FOUND");
+  });
+}
+
+docs {
+  El documento ya no existe.
+}
