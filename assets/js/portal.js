@@ -160,7 +160,7 @@
           <a href="${esc(l.href)}" class="portal-secondary" title="${esc(l.title)}">
             <i data-lucide="${esc(l.icon)}" class="w-4 h-4 text-[#00324D]"></i><span>Sesión ${esc(l.num)}</span>
           </a>`).join('')}
-        <a href="#cronograma" class="portal-secondary"><i data-lucide="calendar-range" class="w-4 h-4 text-slate-500"></i><span>Plan 8 sem.</span></a>
+        <a href="#cronograma" class="portal-secondary"><i data-lucide="calendar-range" class="w-4 h-4 text-slate-500"></i><span>Sesiones Full Stack</span></a>
       </div>`;
   }
 
