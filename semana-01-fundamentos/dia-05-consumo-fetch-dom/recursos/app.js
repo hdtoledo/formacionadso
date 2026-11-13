@@ -55,7 +55,9 @@ let productos = [
 
 // ENDPOINT 2: GET - Retornar Catálogo con Filtros Opcionales (?categoria= y ?q=)
 app.get('/api/productos', (req, res) => {
-  const { categoria, q } = req.query;
+  // req.query puede traer arreglos (?q=a&q=b): solo aceptamos texto para evitar errores 500
+  const categoria = typeof req.query.categoria === 'string' ? req.query.categoria : '';
+  const q = typeof req.query.q === 'string' ? req.query.q : '';
   let resultado = productos;
 
   // Filtrado por categoría si se especificó
@@ -107,11 +109,13 @@ app.get('/api/productos/:id', (req, res) => {
 app.post('/api/productos', (req, res) => {
   const { sku, nombre, precio, categoria, stock } = req.body;
 
-  // Validación defensiva en servidor
-  if (!nombre || !precio || !categoria || Number(precio) <= 0) {
+  // Validación defensiva en servidor (tipos incluidos: un número u objeto no es un nombre)
+  const esTexto = (valor) => typeof valor === 'string' && valor.trim() !== '';
+  if (!esTexto(nombre) || !esTexto(categoria) || (sku !== undefined && typeof sku !== 'string')
+      || !(Number(precio) > 0)) {
     return res.status(400).json({
       ok: false,
-      error: "El nombre, categoría y precio positivo (> 0) son obligatorios."
+      error: "El nombre y la categoría (texto) y un precio positivo (> 0) son obligatorios."
     });
   }
 
@@ -213,6 +217,15 @@ app.use((req, res) => {
     rutaSolicitada: req.originalUrl,
     sugerencia: "Consulte la documentación de la API en /api/status"
   });
+});
+
+// MANEJADOR GLOBAL DE ERRORES (500): responde JSON y nunca expone el stack trace
+app.use((err, req, res, next) => {
+  if (err.type === 'entity.parse.failed') {
+    return res.status(400).json({ ok: false, error: "El cuerpo de la petición no es un JSON válido." });
+  }
+  console.error('🔥 Error no controlado:', err);
+  res.status(500).json({ ok: false, error: "Error interno del servidor." });
 });
 
 // Escuchar en el puerto configurado

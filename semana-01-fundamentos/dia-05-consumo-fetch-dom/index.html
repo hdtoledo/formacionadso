@@ -1136,12 +1136,12 @@ async function consultarEstadoServidor() {
     contenedorResultado.className = 'p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-slate-800';
     contenedorResultado.innerHTML = `
       &lt;p class="font-bold text-emerald-800"&gt;🟢 Servidor Activo (HTTP 200 OK)&lt;/p&gt;
-      &lt;p class="text-xs mt-1"&gt;&lt;strong&gt;Mensaje:&lt;/strong&gt; ${data.mensaje}&lt;/p&gt;
+      &lt;p class="text-xs mt-1"&gt;&lt;strong&gt;Mensaje:&lt;/strong&gt; ${escapeHTML(data.mensaje)}&lt;/p&gt;
       &lt;p class="text-xs"&gt;&lt;strong&gt;Tiempo Activo:&lt;/strong&gt; ${data.uptime} segundos&lt;/p&gt;
     `;
   } catch (error) {
     contenedorResultado.className = 'p-4 rounded-xl bg-rose-50 border border-rose-300 text-rose-800';
-    contenedorResultado.innerHTML = `&lt;p class="font-bold"&gt;❌ Sin conexión: ${error.message}&lt;/p&gt;`;
+    contenedorResultado.innerHTML = `&lt;p class="font-bold"&gt;❌ Sin conexión: ${escapeHTML(error.message)}&lt;/p&gt;`;
   }
 }
 btnVerificar.addEventListener('click', consultarEstadoServidor);</code></pre>
@@ -1271,7 +1271,11 @@ btnVerificar.addEventListener('click', consultarEstadoServidor);</code></pre>
             <span class="text-xs font-mono font-bold text-slate-700">Lógica en &lt;script&gt; de recursos/02-catalogo.html</span>
             <span class="text-[10px] text-emerald-600 font-mono font-bold">Array.prototype.map + innerHTML</span>
           </div>
-          <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-[11px] font-mono overflow-x-auto"><code class="language-javascript">async function cargarCatalogo() {
+          <pre class="bg-slate-900 text-slate-100 p-3 rounded-xl text-[11px] font-mono overflow-x-auto"><code class="language-javascript">// 🛡️ Seguridad XSS: escapar los datos del servidor ANTES de insertarlos con innerHTML
+const escapeHTML = (valor) =&gt; String(valor ?? '').replace(/[&amp;&lt;&gt;"']/g, (c) =&gt;
+  ({ '&amp;': '&amp;amp;', '&lt;': '&amp;lt;', '&gt;': '&amp;gt;', '"': '&amp;quot;', "'": '&amp;#39;' })[c]);
+
+async function cargarCatalogo() {
   const cat = document.getElementById('select-categoria').value;
   const busqueda = document.getElementById('input-busqueda').value.trim();
 
@@ -1289,10 +1293,10 @@ btnVerificar.addEventListener('click', consultarEstadoServidor);</code></pre>
   document.getElementById('grid-productos').innerHTML = lista.map(prod => `
     &lt;div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-3"&gt;
       &lt;div class="flex items-center justify-between text-xs"&gt;
-        &lt;span class="font-mono text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-bold"&gt;${prod.sku}&lt;/span&gt;
-        &lt;span class="font-bold text-emerald-700"&gt;${prod.categoria}&lt;/span&gt;
+        &lt;span class="font-mono text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-bold"&gt;${escapeHTML(prod.sku)}&lt;/span&gt;
+        &lt;span class="font-bold text-emerald-700"&gt;${escapeHTML(prod.categoria)}&lt;/span&gt;
       &lt;/div&gt;
-      &lt;h3 class="font-bold text-slate-900 text-sm"&gt;${prod.nombre}&lt;/h3&gt;
+      &lt;h3 class="font-bold text-slate-900 text-sm"&gt;${escapeHTML(prod.nombre)}&lt;/h3&gt;
       &lt;div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs"&gt;
         &lt;span class="font-black text-slate-800 text-base"&gt;$${Number(prod.precio).toLocaleString('es-CO')}&lt;/span&gt;
         &lt;span class="font-mono ${prod.stock > 0 ? 'text-slate-600' : 'text-rose-600 font-bold'}"&gt;Stock: ${prod.stock}&lt;/span&gt;
@@ -1301,6 +1305,12 @@ btnVerificar.addEventListener('click', consultarEstadoServidor);</code></pre>
   `).join('');
 }</code></pre>
         </div>
+      </div>
+
+      <!-- Alerta de seguridad XSS -->
+      <div class="mt-2.5 bg-rose-50 border border-rose-200 rounded-xl p-2.5 flex items-start gap-2 text-xs text-rose-950 font-medium">
+        <i data-lucide="shield-alert" class="w-4 h-4 text-rose-600 shrink-0 mt-0.5"></i>
+        <span><strong>Error crítico: XSS almacenado.</strong> Si alguien crea un producto con nombre <code class="font-mono">&lt;img src=x onerror=alert(document.cookie)&gt;</code> y lo pintamos con <code class="font-mono">innerHTML</code> sin escapar, ese código se ejecuta en el navegador de <strong>todos</strong> los que abran el catálogo. Regla: todo dato que venga del servidor o del usuario pasa por <code class="font-mono">escapeHTML()</code>, o se asigna con <code class="font-mono">textContent</code>.</span>
       </div>
 
       <!-- Resumen Técnico -->
@@ -1372,7 +1382,7 @@ btnVerificar.addEventListener('click', consultarEstadoServidor);</code></pre>
   // CASO A: Producto no encontrado (HTTP 404)
   if (res.status === 404) {
     contenedor.className = 'p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-900';
-    contenedor.innerHTML = `&lt;p class="font-bold text-sm"&gt;⚠️ 404 Not Found&lt;/p&gt;&lt;p class="text-xs"&gt;${data.error}&lt;/p&gt;`;
+    contenedor.innerHTML = `&lt;p class="font-bold text-sm"&gt;⚠️ 404 Not Found&lt;/p&gt;&lt;p class="text-xs"&gt;${escapeHTML(data.error)}&lt;/p&gt;`;
     return;
   }
 
@@ -1380,8 +1390,8 @@ btnVerificar.addEventListener('click', consultarEstadoServidor);</code></pre>
   const p = data.dato || data.datos;
   contenedor.className = 'p-5 rounded-xl bg-white border-2 border-emerald-300 shadow-sm';
   contenedor.innerHTML = `
-    &lt;div class="flex justify-between text-xs"&gt;&lt;span&gt;ID: #${p.id}&lt;/span&gt;&lt;span class="text-emerald-700 font-bold"&gt;${p.categoria}&lt;/span&gt;&lt;/div&gt;
-    &lt;h3 class="font-bold text-base mt-1"&gt;${p.nombre}&lt;/h3&gt;
+    &lt;div class="flex justify-between text-xs"&gt;&lt;span&gt;ID: #${p.id}&lt;/span&gt;&lt;span class="text-emerald-700 font-bold"&gt;${escapeHTML(p.categoria)}&lt;/span&gt;&lt;/div&gt;
+    &lt;h3 class="font-bold text-base mt-1"&gt;${escapeHTML(p.nombre)}&lt;/h3&gt;
     &lt;div class="flex justify-between mt-2 pt-2 border-t text-sm font-bold"&gt;
       &lt;span&gt;$${Number(p.precio).toLocaleString('es-CO')}&lt;/span&gt;
       &lt;span&gt;Stock: ${p.stock}&lt;/span&gt;
@@ -1610,12 +1620,12 @@ btnVerificar.addEventListener('click', consultarEstadoServidor);</code></pre>
   // 4. Manejar 201 Created (Éxito)
   if (res.status === 201) {
     mensajeEl.className = 'p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 block';
-    mensajeEl.innerHTML = `&lt;p class="font-bold"&gt;✅ ${data.mensaje}&lt;/p&gt;&lt;p class="text-xs"&gt;ID #${data.dato.id} registrado.&lt;/p&gt;`;
+    mensajeEl.innerHTML = `&lt;p class="font-bold"&gt;✅ ${escapeHTML(data.mensaje)}&lt;/p&gt;&lt;p class="text-xs"&gt;ID #${data.dato.id} registrado.&lt;/p&gt;`;
     formProducto.reset(); // Limpia los campos del formulario
   } else if (res.status === 409) {
     // 5. Manejar 409 Conflict (SKU duplicado)
     mensajeEl.className = 'p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 block';
-    mensajeEl.innerHTML = `&lt;p class="font-bold"&gt;⚠️ Conflicto (409)&lt;/p&gt;&lt;p class="text-xs"&gt;${data.error}&lt;/p&gt;`;
+    mensajeEl.innerHTML = `&lt;p class="font-bold"&gt;⚠️ Conflicto (409)&lt;/p&gt;&lt;p class="text-xs"&gt;${escapeHTML(data.error)}&lt;/p&gt;`;
   }
 });</code></pre>
         </div>
@@ -1699,7 +1709,7 @@ btnVerificar.addEventListener('click', consultarEstadoServidor);</code></pre>
   if (res.ok) {
     contenedor.className = 'p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-950 space-y-1';
     contenedor.innerHTML = `
-      &lt;p class="font-bold text-sm"&gt;✅ ${data.mensaje}&lt;/p&gt;
+      &lt;p class="font-bold text-sm"&gt;✅ ${escapeHTML(data.mensaje)}&lt;/p&gt;
       &lt;p class="text-xs"&gt;Stock anterior: &lt;strong class="line-through text-slate-500"&gt;${data.stockAnterior}&lt;/strong&gt; ➔ Nuevo: &lt;strong class="text-emerald-700 font-bold"&gt;${data.stockActual}&lt;/strong&gt;&lt;/p&gt;
     `;
   }
@@ -1786,12 +1796,12 @@ btnVerificar.addEventListener('click', consultarEstadoServidor);</code></pre>
   if (res.ok) {
     contenedor.className = 'p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-950 space-y-1';
     contenedor.innerHTML = `
-      &lt;p class="font-bold text-sm"&gt;🗑️ ${data.mensaje}&lt;/p&gt;
+      &lt;p class="font-bold text-sm"&gt;🗑️ ${escapeHTML(data.mensaje)}&lt;/p&gt;
       &lt;p class="text-xs"&gt;Producto &lt;strong&gt;${data.dato.nombre}&lt;/strong&gt; removido del catálogo.&lt;/p&gt;
     `;
   } else if (res.status === 404) {
     contenedor.className = 'p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-900';
-    contenedor.innerHTML = `&lt;p class="font-bold text-sm"&gt;⚠️ Error: ${data.error}&lt;/p&gt;`;
+    contenedor.innerHTML = `&lt;p class="font-bold text-sm"&gt;⚠️ Error: ${escapeHTML(data.error)}&lt;/p&gt;`;
   }
 }
 document.getElementById('btn-eliminar').addEventListener('click', eliminarProducto);</code></pre>
@@ -1873,7 +1883,7 @@ document.getElementById('btn-eliminar').addEventListener('click', eliminarProduc
   toast.className = `px-4 py-2.5 rounded-xl text-xs font-bold shadow-lg border flex items-center gap-2 animate-in fade-in slide-in-from-bottom-2 ${estilos}`;
   toast.innerHTML = `
     &lt;span&gt;${tipo === 'exito' ? '✓' : tipo === 'error' ? '✕' : 'ℹ'}&lt;/span&gt;
-    &lt;span&gt;${mensaje}&lt;/span&gt;
+    &lt;span&gt;${escapeHTML(mensaje)}&lt;/span&gt;
   `;
 
   toastContainer.appendChild(toast);

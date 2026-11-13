@@ -71,6 +71,10 @@
   <!-- JAVASCRIPT DIDÁCTICO PASO A PASO                             -->
   <!-- ============================================================ -->
   <script>
+    // 🛡️ Seguridad XSS: escapa los caracteres especiales antes de insertar datos en innerHTML.
+    // Sin esto, un producto llamado <img src=x onerror=alert(1)> ejecutaría código en el navegador.
+    const escapeHTML = (valor) => String(valor ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
     // PASO 1: Capturar los elementos del HTML mediante su atributo 'id'
     const btnVerificar = document.getElementById('btn-verificar');
     const contenedorResultado = document.getElementById('contenedor-resultado');
@@ -103,7 +107,7 @@
             </span>
             <span class="text-[10px] font-mono bg-emerald-200 text-emerald-900 px-2 py-0.5 rounded font-bold">ONLINE</span>
           </div>
-          <p class="text-xs"><strong>Mensaje:</strong> ${data.mensaje}</p>
+          <p class="text-xs"><strong>Mensaje:</strong> ${escapeHTML(data.mensaje)}</p>
           <p class="text-xs"><strong>Tiempo activo:</strong> ${data.uptime} segundos</p>
           <p class="text-[11px] text-slate-500 font-mono">Timestamp: ${data.timestamp}</p>
         `;
@@ -114,7 +118,7 @@
         contenedorResultado.innerHTML = `
           <p class="font-bold text-sm">❌ No se pudo conectar al servidor</p>
           <p class="text-xs">Verifica que Express esté encendido en la terminal con: <code class="font-mono bg-rose-100 px-1 rounded font-bold">npm start</code></p>
-          <p class="text-[11px] text-rose-600 font-mono">Detalle: ${error.message}</p>
+          <p class="text-[11px] text-rose-600 font-mono">Detalle: ${escapeHTML(error.message)}</p>
         `;
       }
     }

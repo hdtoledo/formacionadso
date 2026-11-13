@@ -42,6 +42,9 @@ let productos = [
 ];
 
 // Helper para formato de moneda:
+// Validador reutilizable: el valor debe ser un texto no vacío (no número, objeto ni arreglo)
+const esTexto = (valor) => typeof valor === 'string' && valor.trim() !== '';
+
 const formatoCOP = (val) => `$${Number(val || 0).toLocaleString('es-CO')} COP`;
 
 
@@ -65,7 +68,10 @@ app.get('/api/status', (req, res) => {
 // RETO 3: LISTAR PRODUCTOS CON FILTROS QUERY (GET /api/productos)
 // =============================================================================
 app.get('/api/productos', (req, res) => {
-  const { categoria, q, minPrecio, maxPrecio } = req.query;
+  // req.query puede traer arreglos (?q=a&q=b): solo aceptamos texto para evitar errores 500
+  const categoria = typeof req.query.categoria === 'string' ? req.query.categoria : '';
+  const q = typeof req.query.q === 'string' ? req.query.q : '';
+  const { minPrecio, maxPrecio } = req.query;
 
   let resultado = [...productos];
 
@@ -139,10 +145,10 @@ app.post('/api/productos', (req, res) => {
   const { sku, nombre, categoria, stock, precio } = req.body;
 
   // 1. Validación de presencia de campos:
-  if (!sku || !nombre || !categoria || stock === undefined || precio === undefined) {
+  if (!esTexto(sku) || !esTexto(nombre) || !esTexto(categoria) || stock === undefined || precio === undefined) {
     return res.status(400).json({
       ok: false,
-      error: "Campos requeridos faltantes. Debe enviar: { sku, nombre, categoria, stock, precio }."
+      error: "Campos requeridos faltantes o inválidos. Debe enviar: { sku, nombre, categoria } como texto y { stock, precio } numéricos."
     });
   }
 
@@ -150,7 +156,7 @@ app.post('/api/productos', (req, res) => {
   const stockNum = Number(stock);
   const precioNum = Number(precio);
 
-  if (isNaN(stockNum) || stockNum < 0 || isNaN(precioNum) || precioNum <= 0) {
+  if (!Number.isInteger(stockNum) || stockNum < 0 || isNaN(precioNum) || precioNum <= 0) {
     return res.status(400).json({
       ok: false,
       error: "El stock debe ser mayor o igual a 0 y el precio debe ser un número positivo."
@@ -199,7 +205,7 @@ app.patch('/api/productos/:id/stock', (req, res) => {
   }
 
   const stockNum = Number(nuevoStock);
-  if (nuevoStock === undefined || isNaN(stockNum) || stockNum < 0) {
+  if (nuevoStock === undefined || !Number.isInteger(stockNum) || stockNum < 0) {
     return res.status(400).json({
       ok: false,
       error: "Debe proveer un valor numérico 'nuevoStock' mayor o igual a 0."
@@ -268,6 +274,20 @@ app.use((req, res) => {
     error: `Ruta no encontrada: [${req.method}] ${req.originalUrl}`,
     sugerencia: "Consulta los endpoints disponibles en /api/status o /api/productos"
   });
+});
+
+
+// =============================================================================
+// RETO 6.3: MANEJADOR GLOBAL DE ERRORES (500)
+// =============================================================================
+// Express lo reconoce porque recibe 4 parámetros. Sin él, Express responde un HTML
+// con el stack trace (rutas internas del servidor) ante cualquier error inesperado.
+app.use((err, req, res, next) => {
+  if (err.type === 'entity.parse.failed') {
+    return res.status(400).json({ ok: false, error: "El cuerpo de la petición no es un JSON válido." });
+  }
+  console.error('🔥 Error no controlado:', err); // El detalle queda en la consola del servidor
+  res.status(500).json({ ok: false, error: "Error interno del servidor." });
 });
 
 

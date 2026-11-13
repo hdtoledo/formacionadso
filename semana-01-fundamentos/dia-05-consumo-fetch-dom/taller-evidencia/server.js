@@ -113,7 +113,9 @@ app.get('/api/status', (req, res) => {
  * - ?q=cafe (búsqueda por nombre o sku)
  */
 app.get('/api/insumos', (req, res) => {
-  const { categoria, q } = req.query;
+  // req.query puede traer arreglos (?q=a&q=b): solo aceptamos texto para evitar errores 500
+  const categoria = typeof req.query.categoria === 'string' ? req.query.categoria : '';
+  const q = typeof req.query.q === 'string' ? req.query.q : '';
   let resultado = [...insumos];
 
   if (categoria && categoria.trim() !== '') {
@@ -176,11 +178,13 @@ app.get('/api/insumos/:id', (req, res) => {
 app.post('/api/insumos', (req, res) => {
   const { sku, nombre, categoria, precio, stock, descripcion } = req.body;
 
-  // Validación de campos requeridos
-  if (!sku || !nombre || !categoria || precio === undefined || stock === undefined) {
+  // Validación de campos requeridos (y de su tipo: sku, nombre y categoria deben ser texto)
+  const esTexto = (valor) => typeof valor === 'string' && valor.trim() !== '';
+  if (!esTexto(sku) || !esTexto(nombre) || !esTexto(categoria) || precio === undefined || stock === undefined
+      || (descripcion !== undefined && typeof descripcion !== 'string')) {
     return res.status(400).json({
       ok: false,
-      error: "Faltan datos obligatorios. Requeridos: sku, nombre, categoria, precio y stock."
+      error: "Faltan datos obligatorios o son inválidos. Requeridos: sku, nombre y categoria (texto), precio y stock (numéricos)."
     });
   }
 
@@ -205,7 +209,7 @@ app.post('/api/insumos', (req, res) => {
     });
   }
 
-  if (isNaN(stockNum) || stockNum < 0) {
+  if (!Number.isInteger(stockNum) || stockNum < 0) {
     return res.status(400).json({
       ok: false,
       error: "El stock inicial no puede ser negativo."
@@ -258,7 +262,7 @@ app.patch('/api/insumos/:id/stock', (req, res) => {
   }
 
   const stockNum = Number(nuevoStock);
-  if (nuevoStock === undefined || isNaN(stockNum) || stockNum < 0) {
+  if (nuevoStock === undefined || !Number.isInteger(stockNum) || stockNum < 0) {
     return res.status(400).json({
       ok: false,
       error: "El campo 'nuevoStock' es obligatorio y debe ser un entero mayor o igual a 0."
@@ -318,6 +322,15 @@ app.use((req, res) => {
     ok: false,
     error: `Ruta inexistente: ${req.method} ${req.path}. Consulta la documentación de la API de AgroHuila.`
   });
+});
+
+// Manejador global de errores (500): JSON sin stack trace
+app.use((err, req, res, next) => {
+  if (err.type === 'entity.parse.failed') {
+    return res.status(400).json({ ok: false, error: "El cuerpo de la petición no es un JSON válido." });
+  }
+  console.error('🔥 Error no controlado:', err);
+  res.status(500).json({ ok: false, error: "Error interno del servidor." });
 });
 
 // Iniciar servidor

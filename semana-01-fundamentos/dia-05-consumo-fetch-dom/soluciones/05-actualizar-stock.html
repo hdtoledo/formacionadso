@@ -87,6 +87,10 @@
   <!-- JAVASCRIPT DIDÁCTICO PASO A PASO                             -->
   <!-- ============================================================ -->
   <script>
+    // 🛡️ Seguridad XSS: escapa los caracteres especiales antes de insertar datos en innerHTML.
+    // Sin esto, un producto llamado <img src=x onerror=alert(1)> ejecutaría código en el navegador.
+    const escapeHTML = (valor) => String(valor ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
     // PASO 1: Capturar elementos
     const formStock = document.getElementById('form-stock');
     const idProducto = document.getElementById('id-producto');
@@ -129,20 +133,20 @@
         // PASO 5: Pintar resultado en el DOM
         contenedorResultado.className = 'p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-950 text-left space-y-1 transition';
         contenedorResultado.innerHTML = `
-          <p class="font-bold text-sm">✅ ${data.mensaje || 'Stock actualizado correctamente'}</p>
+          <p class="font-bold text-sm">✅ ${escapeHTML(data.mensaje || 'Stock actualizado correctamente')}</p>
           <div class="text-xs pt-1 flex items-center gap-4">
             <span>Stock anterior: <strong class="line-through text-slate-500">${data.stockAnterior}</strong></span>
             <span>➔</span>
             <span>Stock nuevo: <strong class="text-emerald-700 text-sm font-black">${data.stockActual}</strong></span>
           </div>
-          <p class="text-[11px] text-slate-500 mt-1">Producto: ${data.dato?.nombre || 'ID #' + id}</p>
+          <p class="text-[11px] text-slate-500 mt-1">Producto: ${escapeHTML(data.dato?.nombre || 'ID #' + id)}</p>
         `;
 
       } catch (error) {
         contenedorResultado.className = 'p-4 rounded-xl bg-rose-50 border border-rose-300 text-rose-800 text-left space-y-1';
         contenedorResultado.innerHTML = `
           <p class="font-bold text-sm">❌ No se pudo actualizar</p>
-          <p class="text-xs">${error.message}</p>
+          <p class="text-xs">${escapeHTML(error.message)}</p>
         `;
       } finally {
         btnActualizar.disabled = false;

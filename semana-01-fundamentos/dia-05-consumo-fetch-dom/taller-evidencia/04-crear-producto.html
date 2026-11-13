@@ -87,6 +87,10 @@
   </div>
 
   <script>
+    // 🛡️ Seguridad XSS: escapa los caracteres especiales antes de insertar datos en innerHTML.
+    // Sin esto, un producto llamado <img src=x onerror=alert(1)> ejecutaría código en el navegador.
+    const escapeHTML = (valor) => String(valor ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
     // ========================================================================
     // RETO 04: ENVÍO CON POST, E.PREVENTDEFAULT() Y VALIDACIONES
     // ========================================================================
@@ -125,7 +129,7 @@
         // if (res.status === 201) {
         //   mensajeRespuesta.className = 'block p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs space-y-1';
         //   mensajeRespuesta.innerHTML = `
-        //     <p class="font-bold text-sm">✅ ${data.mensaje}</p>
+        //     <p class="font-bold text-sm">✅ ${escapeHTML(data.mensaje)}</p>
         //     <p>Asignado ID #${data.data.id} · Código: ${data.data.sku}</p>
         //   `;
         //   formInsumo.reset(); // Limpia los campos del formulario
@@ -137,7 +141,7 @@
         //   mensajeRespuesta.className = 'block p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-xs space-y-1';
         //   mensajeRespuesta.innerHTML = `
         //     <p class="font-bold text-sm">⚠️ Conflicto de Código SKU</p>
-        //     <p>${data.error}</p>
+        //     <p>${escapeHTML(data.error)}</p>
         //   `;
         //   return;
         // }

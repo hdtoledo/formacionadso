@@ -134,6 +134,10 @@
   <!-- JAVASCRIPT DIDÁCTICO PASO A PASO                             -->
   <!-- ============================================================ -->
   <script>
+    // 🛡️ Seguridad XSS: escapa los caracteres especiales antes de insertar datos en innerHTML.
+    // Sin esto, un producto llamado <img src=x onerror=alert(1)> ejecutaría código en el navegador.
+    const escapeHTML = (valor) => String(valor ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
     // PASO 1: Capturar el formulario y el contenedor del resultado
     const formProducto = document.getElementById('form-producto');
     const mensajeRespuesta = document.getElementById('mensaje-respuesta');
@@ -173,7 +177,7 @@
         if (res.status === 201) {
           mensajeRespuesta.className = 'p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 block space-y-1';
           mensajeRespuesta.innerHTML = `
-            <p class="font-bold text-sm">✅ ${data.mensaje || '¡Producto registrado con éxito!'}</p>
+            <p class="font-bold text-sm">✅ ${escapeHTML(data.mensaje || '¡Producto registrado con éxito!')}</p>
             <p class="text-xs">ID asignado: <strong class="font-mono">#${data.dato.id}</strong> | SKU: <strong class="font-mono">${data.dato.sku}</strong></p>
             <p class="text-[11px] text-emerald-700">Puedes verificarlo consultando el catálogo en el Punto 2.</p>
           `;
@@ -186,7 +190,7 @@
           mensajeRespuesta.className = 'p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 block space-y-1';
           mensajeRespuesta.innerHTML = `
             <p class="font-bold text-sm">⚠️ Conflicto (HTTP 409)</p>
-            <p class="text-xs">${data.error || 'El código SKU ya existe en la base de datos.'}</p>
+            <p class="text-xs">${escapeHTML(data.error || 'El código SKU ya existe en la base de datos.')}</p>
           `;
 
         } else {
@@ -198,7 +202,7 @@
         mensajeRespuesta.className = 'p-4 rounded-xl bg-rose-50 border border-rose-300 text-rose-800 block space-y-1';
         mensajeRespuesta.innerHTML = `
           <p class="font-bold text-sm">❌ Error al registrar</p>
-          <p class="text-xs">${error.message}</p>
+          <p class="text-xs">${escapeHTML(error.message)}</p>
         `;
       } finally {
         btnGuardar.disabled = false;

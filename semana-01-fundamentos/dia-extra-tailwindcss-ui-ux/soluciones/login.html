@@ -227,7 +227,12 @@
 
         // Mostrar Feedback Exitoso
         feedback.className = 'block p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-bold text-center animate-in fade-in';
-        feedback.innerHTML = `✓ ¡Acceso correcto! Bienvenido, <span class="font-mono">${email}</span>`;
+        // El email lo escribió el usuario: se inserta con textContent (nunca con innerHTML) para evitar XSS
+        const emailSpan = document.createElement('span');
+        emailSpan.className = 'font-mono';
+        emailSpan.textContent = email;
+        feedback.textContent = '✓ ¡Acceso correcto! Bienvenido, ';
+        feedback.append(emailSpan);
       }, 1500);
     }
   </script>

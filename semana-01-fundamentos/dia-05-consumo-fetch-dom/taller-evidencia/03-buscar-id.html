@@ -44,6 +44,10 @@
   </div>
 
   <script>
+    // 🛡️ Seguridad XSS: escapa los caracteres especiales antes de insertar datos en innerHTML.
+    // Sin esto, un producto llamado <img src=x onerror=alert(1)> ejecutaría código en el navegador.
+    const escapeHTML = (valor) => String(valor ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
     // ========================================================================
     // RETO 03: CONSULTA POR ID Y MANEJO DEFENSIVO DE 404
     // ========================================================================
@@ -60,7 +64,7 @@
       }
 
       resultadoInsumo.className = 'block p-4 rounded-xl text-xs font-mono bg-blue-50 text-blue-900 border border-blue-200';
-      resultadoInsumo.innerHTML = `⏳ Consultando insumo con ID #${id}...`;
+      resultadoInsumo.innerHTML = `⏳ Consultando insumo con ID #${escapeHTML(id)}...`;
 
       try {
         // PASO 1: Realizar la petición Fetch interpolando el ID en la URL
@@ -72,7 +76,7 @@
         //   resultadoInsumo.className = 'block p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-xs space-y-1';
         //   resultadoInsumo.innerHTML = `
         //     <p class="font-bold">⚠️ Insumo No Encontrado (404)</p>
-        //     <p>${datos.error}</p>
+        //     <p>${escapeHTML(datos.error)}</p>
         //   `;
         //   return;
         // }
@@ -82,11 +86,11 @@
         // resultadoInsumo.className = 'block bg-white border border-emerald-300 rounded-2xl p-5 shadow-sm space-y-3';
         // resultadoInsumo.innerHTML = `
         //   <div class="flex items-center justify-between border-b pb-2">
-        //     <span class="text-xs font-mono font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">ID #${item.id} · ${item.sku}</span>
-        //     <span class="text-xs uppercase font-extrabold text-emerald-700">${item.categoria}</span>
+        //     <span class="text-xs font-mono font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">ID #${item.id} · ${escapeHTML(item.sku)}</span>
+        //     <span class="text-xs uppercase font-extrabold text-emerald-700">${escapeHTML(item.categoria)}</span>
         //   </div>
-        //   <h3 class="text-lg font-black text-slate-900">${item.nombre}</h3>
-        //   <p class="text-xs text-slate-600">${item.descripcion}</p>
+        //   <h3 class="text-lg font-black text-slate-900">${escapeHTML(item.nombre)}</h3>
+        //   <p class="text-xs text-slate-600">${escapeHTML(item.descripcion)}</p>
         //   <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
         //     <span class="text-base font-black text-emerald-800">$${item.precio.toLocaleString('es-CO')} COP</span>
         //     <span class="px-2.5 py-1 rounded-full font-bold ${item.stock > 0 ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-rose-50 text-rose-800 border border-rose-200'}">

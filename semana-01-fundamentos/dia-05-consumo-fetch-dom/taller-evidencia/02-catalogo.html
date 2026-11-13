@@ -62,6 +62,10 @@
   </div>
 
   <script>
+    // 🛡️ Seguridad XSS: escapa los caracteres especiales antes de insertar datos en innerHTML.
+    // Sin esto, un producto llamado <img src=x onerror=alert(1)> ejecutaría código en el navegador.
+    const escapeHTML = (valor) => String(valor ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
     // ========================================================================
     // RETO 02: CATÁLOGO Y RENDERIZADO DINÁMICO EN EL DOM
     // ========================================================================
@@ -114,11 +118,11 @@
         //     <div class="bg-white border ${sinStock ? 'border-rose-300 bg-rose-50/20' : 'border-slate-200'} rounded-2xl p-4 shadow-sm space-y-2.5 flex flex-col justify-between">
         //       <div>
         //         <div class="flex items-center justify-between pb-1">
-        //           <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">${insumo.sku}</span>
-        //           <span class="text-[10px] uppercase font-bold text-slate-400">${insumo.categoria}</span>
+        //           <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">${escapeHTML(insumo.sku)}</span>
+        //           <span class="text-[10px] uppercase font-bold text-slate-400">${escapeHTML(insumo.categoria)}</span>
         //         </div>
-        //         <h3 class="font-bold text-sm text-slate-900 mt-1 leading-snug">${insumo.nombre}</h3>
-        //         <p class="text-[11px] text-slate-500 line-clamp-2 mt-1">${insumo.descripcion}</p>
+        //         <h3 class="font-bold text-sm text-slate-900 mt-1 leading-snug">${escapeHTML(insumo.nombre)}</h3>
+        //         <p class="text-[11px] text-slate-500 line-clamp-2 mt-1">${escapeHTML(insumo.descripcion)}</p>
         //       </div>
         //       <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
         //         <span class="text-sm font-black text-emerald-800">$${insumo.precio.toLocaleString('es-CO')}</span>

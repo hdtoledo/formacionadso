@@ -1253,8 +1253,8 @@ app.get(<span class="text-emerald-300">'/api/productos'</span>, (req, res) =&gt;
               </div>
               <pre><code class="language-javascript"><span class="text-slate-500">// Listar productos con filtro opcional de categoría</span>
 app.get(<span class="text-emerald-300">'/api/productos'</span>, (req, res) =&gt; {
-  <span class="text-slate-500">// 1. Desestructurar el parámetro de consulta</span>
-  <span class="text-blue-400">const</span> { categoria } = req.query;
+  <span class="text-slate-500">// 1. Leer el parámetro de consulta (solo texto: ?categoria=a&amp;categoria=b llega como arreglo)</span>
+  <span class="text-blue-400">const</span> categoria = <span class="text-blue-400">typeof</span> req.query.categoria === <span class="text-emerald-300">'string'</span> ? req.query.categoria : <span class="text-emerald-300">''</span>;
   <span class="text-blue-400">let</span> resultado = productos;
 
   <span class="text-slate-500">// 2. Si se envió ?categoria=..., filtramos:</span>
@@ -1492,8 +1492,9 @@ app.get(<span class="text-emerald-300">'/api/productos'</span>, (req, res) =&gt;
               <pre><code class="language-javascript">app.post(<span class="text-emerald-300">'/api/productos'</span>, (req, res) =&gt; {
   <span class="text-blue-400">const</span> { nombre, precio, categoria, stock } = req.body;
 
-  <span class="text-slate-500">// 1. Validación defensiva (400 Bad Request)</span>
-  <span class="text-purple-400">if</span> (!nombre || !precio || precio &lt;= <span class="text-amber-400">0</span>) {
+  <span class="text-slate-500">// 1. Validación defensiva (400 Bad Request): valor Y tipo de dato</span>
+  <span class="text-purple-400">if</span> (<span class="text-blue-400">typeof</span> nombre !== <span class="text-emerald-300">'string'</span> || !nombre.trim() || !(Number(precio) &gt; <span class="text-amber-400">0</span>)
+      || (categoria !== <span class="text-blue-400">undefined</span> &amp;&amp; <span class="text-blue-400">typeof</span> categoria !== <span class="text-emerald-300">'string'</span>)) {
     <span class="text-purple-400">return</span> res.status(<span class="text-amber-400">400</span>).json({
       ok: <span class="text-blue-400">false</span>,
       error: <span class="text-emerald-300">"El nombre y el precio positivo son obligatorios"</span>

@@ -264,6 +264,10 @@
   <!-- LÓGICA DE REFERENCIA TÉCNICA (JAVASCRIPT)  -->
   <!-- ========================================== -->
   <script>
+    // 🛡️ Seguridad XSS: escapa los caracteres especiales antes de insertar datos en innerHTML.
+    // Sin esto, un producto llamado <img src=x onerror=alert(1)> ejecutaría código en el navegador.
+    const escapeHTML = (valor) => String(valor ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
     const API_URL = 'http://localhost:3000/api/productos';
 
     // Base de datos simulada en memoria (Mock Store de Respaldo)
@@ -384,15 +388,15 @@
           <div class="space-y-2">
             <div class="flex items-center justify-between gap-2">
               <span class="px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold bg-slate-800 text-slate-300 border border-slate-700">
-                ${prod.sku}
+                ${escapeHTML(prod.sku)}
               </span>
               <span class="px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-blue-950 text-blue-300 border border-blue-800">
-                ${prod.categoria}
+                ${escapeHTML(prod.categoria)}
               </span>
             </div>
 
             <h3 class="text-sm font-extrabold text-white group-hover:text-[#39A900] transition line-clamp-2">
-              ${prod.nombre}
+              ${escapeHTML(prod.nombre)}
             </h3>
 
             <p class="text-lg font-black font-mono text-emerald-400">
@@ -555,7 +559,7 @@
       toast.className = `p-3.5 rounded-xl border ${borderClass} shadow-xl backdrop-blur-md flex items-center gap-3 text-xs font-medium max-w-sm pointer-events-auto transition duration-300 transform translate-y-2 opacity-0`;
       toast.innerHTML = `
         <i data-lucide="${icon}" class="w-4 h-4 shrink-0"></i>
-        <span class="flex-1">${mensaje}</span>
+        <span class="flex-1">${escapeHTML(mensaje)}</span>
       `;
 
       toastContainer.appendChild(toast);

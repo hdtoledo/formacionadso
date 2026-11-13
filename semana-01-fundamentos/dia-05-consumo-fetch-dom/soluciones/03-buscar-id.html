@@ -71,6 +71,10 @@
   <!-- JAVASCRIPT DIDÁCTICO PASO A PASO                             -->
   <!-- ============================================================ -->
   <script>
+    // 🛡️ Seguridad XSS: escapa los caracteres especiales antes de insertar datos en innerHTML.
+    // Sin esto, un producto llamado <img src=x onerror=alert(1)> ejecutaría código en el navegador.
+    const escapeHTML = (valor) => String(valor ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
     // PASO 1: Capturar elementos del DOM
     const inputId = document.getElementById('input-id');
     const btnBuscar = document.getElementById('btn-buscar');
@@ -100,7 +104,7 @@
             <div class="flex items-center gap-2">
               <span class="font-bold text-sm text-amber-800">⚠️ 404 Not Found</span>
             </div>
-            <p class="text-xs">${data.error || 'El producto solicitado no existe en la base de datos.'}</p>
+            <p class="text-xs">${escapeHTML(data.error || 'El producto solicitado no existe en la base de datos.')}</p>
           `;
           return;
         }
@@ -118,12 +122,12 @@
         contenedorResultado.innerHTML = `
           <div class="flex items-center justify-between border-b border-slate-100 pb-2">
             <span class="text-xs font-mono font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded">ID: #${p.id}</span>
-            <span class="text-xs font-bold text-emerald-700">${p.categoria}</span>
+            <span class="text-xs font-bold text-emerald-700">${escapeHTML(p.categoria)}</span>
           </div>
 
           <div>
-            <h3 class="text-base font-bold text-slate-900">${p.nombre}</h3>
-            <p class="text-xs font-mono text-slate-500">SKU: ${p.sku || 'N/A'}</p>
+            <h3 class="text-base font-bold text-slate-900">${escapeHTML(p.nombre)}</h3>
+            <p class="text-xs font-mono text-slate-500">SKU: ${escapeHTML(p.sku || 'N/A')}</p>
           </div>
 
           <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
@@ -138,7 +142,7 @@
         contenedorResultado.className = 'p-4 rounded-xl bg-rose-50 border border-rose-300 text-rose-800 text-left space-y-1';
         contenedorResultado.innerHTML = `
           <p class="font-bold text-sm">❌ Error al buscar</p>
-          <p class="text-xs">${error.message}</p>
+          <p class="text-xs">${escapeHTML(error.message)}</p>
         `;
       }
     }

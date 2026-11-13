@@ -219,6 +219,10 @@
 
   <!-- Script de Verificación de Salud del Servidor -->
   <script>
+    // 🛡️ Seguridad XSS: escapa los caracteres especiales antes de insertar datos en innerHTML.
+    // Sin esto, un producto llamado <img src=x onerror=alert(1)> ejecutaría código en el navegador.
+    const escapeHTML = (valor) => String(valor ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
     const badgeApi = document.getElementById('badge-api');
     const btnReprobar = document.getElementById('btn-reprobar-api');
 
@@ -231,7 +235,7 @@
         if (respuesta.ok) {
           const datos = await respuesta.json();
           badgeApi.className = 'flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono font-bold bg-emerald-800 text-emerald-100 border border-emerald-600';
-          badgeApi.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span><span>● Servidor Conectado (${datos.empresa})</span>`;
+          badgeApi.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span><span>● Servidor Conectado (${escapeHTML(datos.empresa)})</span>`;
         } else {
           badgeApi.className = 'flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono font-bold bg-rose-900 text-rose-100 border border-rose-700';
           badgeApi.innerHTML = '<span class="w-2.5 h-2.5 rounded-full bg-rose-400"></span><span>✕ Error en API (Status ' + respuesta.status + ')</span>';

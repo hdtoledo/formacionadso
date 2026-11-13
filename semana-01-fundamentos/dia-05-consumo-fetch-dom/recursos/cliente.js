@@ -12,6 +12,10 @@
 // URL base de la API REST de Express
 const API_URL = 'http://localhost:3000/api/productos';
 
+// 🛡️ Seguridad XSS: escapa los caracteres especiales antes de insertar datos en innerHTML.
+// Sin esto, un producto llamado <img src=x onerror=alert(1)> ejecutaría código en el navegador.
+const escapeHTML = (valor) => String(valor ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
 // Estado global de la aplicación cliente en memoria
 let estadoApp = {
   productos: [],
@@ -98,11 +102,11 @@ function renderizarCatalogo(lista) {
       <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs hover:shadow-md transition space-y-3 flex flex-col justify-between">
         <div>
           <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-bold">${prod.sku || 'SKU'}</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-bold">${escapeHTML(prod.sku || 'SKU')}</span>
             <span class="text-[10px] font-mono px-2 py-0.5 rounded border ${badgeStock}">Stock: ${prod.stock}</span>
           </div>
-          <span class="text-[10px] font-bold text-blue-700 uppercase tracking-wider block mt-2">${prod.categoria}</span>
-          <h3 class="font-bold text-slate-900 text-sm mt-0.5 truncate" title="${prod.nombre}">${prod.nombre}</h3>
+          <span class="text-[10px] font-bold text-blue-700 uppercase tracking-wider block mt-2">${escapeHTML(prod.categoria)}</span>
+          <h3 class="font-bold text-slate-900 text-sm mt-0.5 truncate" title="${escapeHTML(prod.nombre)}">${escapeHTML(prod.nombre)}</h3>
           <div class="text-base font-extrabold text-[#00324D] mt-2">${formatoCOP.format(prod.precio)}</div>
         </div>
         <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
@@ -248,7 +252,7 @@ function mostrarToast(mensaje, tipo = 'info') {
   toast.className = `px-4 py-2.5 rounded-xl text-xs font-bold shadow-lg border flex items-center gap-2 pointer-events-auto transition-all transform ${estilos}`;
   toast.innerHTML = `
     <span>${tipo === 'exito' ? '✓' : tipo === 'error' ? '✕' : 'ℹ'}</span>
-    <span>${mensaje}</span>
+    <span>${escapeHTML(mensaje)}</span>
   `;
 
   toastContainer.appendChild(toast);

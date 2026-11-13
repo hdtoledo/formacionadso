@@ -103,6 +103,10 @@
   <!-- JAVASCRIPT DIDÁCTICO PASO A PASO                             -->
   <!-- ============================================================ -->
   <script>
+    // 🛡️ Seguridad XSS: escapa los caracteres especiales antes de insertar datos en innerHTML.
+    // Sin esto, un producto llamado <img src=x onerror=alert(1)> ejecutaría código en el navegador.
+    const escapeHTML = (valor) => String(valor ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
     // PASO 1: Capturar los elementos del DOM
     const btnConsultar = document.getElementById('btn-consultar');
     const inputBusqueda = document.getElementById('input-busqueda');
@@ -150,10 +154,10 @@
           <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow transition space-y-3">
             <div>
               <div class="flex items-center justify-between text-xs mb-1">
-                <span class="font-mono text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-bold">${prod.sku || 'SIN-SKU'}</span>
-                <span class="font-bold text-emerald-700 text-[11px]">${prod.categoria}</span>
+                <span class="font-mono text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-bold">${escapeHTML(prod.sku || 'SIN-SKU')}</span>
+                <span class="font-bold text-emerald-700 text-[11px]">${escapeHTML(prod.categoria)}</span>
               </div>
-              <h3 class="font-bold text-slate-900 text-sm">${prod.nombre}</h3>
+              <h3 class="font-bold text-slate-900 text-sm">${escapeHTML(prod.nombre)}</h3>
             </div>
             
             <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
@@ -168,7 +172,7 @@
       } catch (error) {
         gridProductos.innerHTML = `
           <div class="col-span-full p-6 text-center bg-rose-50 rounded-2xl border border-rose-300 text-rose-800 text-xs">
-            Error al consultar productos: ${error.message}. Asegúrate de iniciar app.js con <code class="font-mono font-bold">npm start</code>.
+            Error al consultar productos: ${escapeHTML(error.message)}. Asegúrate de iniciar app.js con <code class="font-mono font-bold">npm start</code>.
           </div>
         `;
       }

@@ -44,6 +44,10 @@
   </div>
 
   <script>
+    // 🛡️ Seguridad XSS: escapa los caracteres especiales antes de insertar datos en innerHTML.
+    // Sin esto, un producto llamado <img src=x onerror=alert(1)> ejecutaría código en el navegador.
+    const escapeHTML = (valor) => String(valor ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
     // ========================================================================
     // RETO 06: ELIMINACIÓN CON DELETE Y CONFIRMACIÓN PREVIA
     // ========================================================================
@@ -76,14 +80,14 @@
         // PASO 3: Manejo de 404 (Insumo no encontrado)
         // if (res.status === 404) {
         //   mensajeEliminar.className = 'block p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-xs';
-        //   mensajeEliminar.innerHTML = `⚠️ ${datos.error}`;
+        //   mensajeEliminar.innerHTML = `⚠️ ${escapeHTML(datos.error)}`;
         //   return;
         // }
 
         // PASO 4: Manejo de 200 OK (Eliminación exitosa)
         // if (res.ok) {
         //   mensajeEliminar.className = 'block p-4 rounded-xl bg-rose-50 border border-rose-300 text-rose-900 text-xs font-bold';
-        //   mensajeEliminar.innerHTML = `🗑️ ${datos.mensaje}`;
+        //   mensajeEliminar.innerHTML = `🗑️ ${escapeHTML(datos.mensaje)}`;
         //   inputId.value = '';
         //   return;
         // }

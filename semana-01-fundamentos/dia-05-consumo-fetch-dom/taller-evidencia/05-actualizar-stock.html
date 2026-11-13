@@ -52,6 +52,10 @@
   </div>
 
   <script>
+    // 🛡️ Seguridad XSS: escapa los caracteres especiales antes de insertar datos en innerHTML.
+    // Sin esto, un producto llamado <img src=x onerror=alert(1)> ejecutaría código en el navegador.
+    const escapeHTML = (valor) => String(valor ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
     // ========================================================================
     // RETO 05: ACTUALIZACIÓN PARCIAL CON PATCH
     // ========================================================================
@@ -86,7 +90,7 @@
         // PASO 2: Manejo de 404 (ID no existe)
         // if (res.status === 404) {
         //   mensajeStock.className = 'block p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-900 text-xs';
-        //   mensajeStock.innerHTML = `⚠️ ${datos.error}`;
+        //   mensajeStock.innerHTML = `⚠️ ${escapeHTML(datos.error)}`;
         //   return;
         // }
 
@@ -94,7 +98,7 @@
         // if (res.ok) {
         //   mensajeStock.className = 'block p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs space-y-1';
         //   mensajeStock.innerHTML = `
-        //     <p class="font-bold text-sm">✅ ${datos.mensaje}</p>
+        //     <p class="font-bold text-sm">✅ ${escapeHTML(datos.mensaje)}</p>
         //     <p>Stock anterior: <del class="text-slate-500">${datos.stockAnterior}</del> ➔ <strong>Nuevo stock: ${datos.nuevoStock} unidades</strong></p>
         //   `;
         //   return;
