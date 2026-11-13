@@ -113,3 +113,11 @@ planSesiones.md
 !semana-*/dia-*/*.zip
 !dia-05-fetch-dom-taller.zip
 
+
+# ==============================================================================
+# BLINDAJE FINAL: estas reglas van al final para ganarle a las excepciones de arriba
+# ==============================================================================
+**/node_modules/
+**/.env
+**/.env.*
+!**/.env.example
