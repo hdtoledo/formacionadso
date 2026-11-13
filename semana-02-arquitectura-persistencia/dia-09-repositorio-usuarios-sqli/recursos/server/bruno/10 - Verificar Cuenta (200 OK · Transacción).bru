@@ -1,0 +1,22 @@
+meta {
+  name: 10 - Verificar Cuenta (200 OK · Transacción)
+  type: http
+  seq: 10
+}
+
+patch {
+  url: {{baseUrl}}/api/dev/users/b0000000-0000-0000-0000-000000000002/verify
+  body: none
+  auth: none
+}
+
+tests {
+  test("Verificar Cuenta (200 OK · Transacción)", function () {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.is_verified).to.equal(true);
+  });
+}
+
+docs {
+  verifyUser: UPDATE is_verified + DELETE de tokens en una sola transacción. Compruebe en psql que el token desapareció.
+}

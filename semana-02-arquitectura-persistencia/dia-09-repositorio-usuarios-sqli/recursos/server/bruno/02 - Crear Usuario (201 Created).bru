@@ -1,0 +1,33 @@
+meta {
+  name: 02 - Crear Usuario (201 Created)
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/dev/users
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "email": "Nuevo.Aprendiz@MiSena.edu.co"
+  }
+}
+
+tests {
+  test("Crear Usuario (201 Created)", function () {
+    expect(res.status).to.equal(201);
+    expect(res.body.data.email).to.equal("nuevo.aprendiz@misena.edu.co");
+    expect(res.body.data).to.not.have.property("password_hash");
+  });
+}
+
+docs {
+  Crea un usuario. Observe que el correo se guarda en minúsculas y que el UUID lo genera PostgreSQL.
+}

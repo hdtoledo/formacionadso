@@ -1,0 +1,32 @@
+meta {
+  name: 03 - Crear Duplicado en Mayúsculas (409 Conflict)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/dev/users
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "email": "NUEVO.APRENDIZ@misena.edu.co"
+  }
+}
+
+tests {
+  test("Crear Duplicado en Mayúsculas (409 Conflict)", function () {
+    expect(res.status).to.equal(409);
+    expect(res.body.code).to.equal("EMAIL_ALREADY_EXISTS");
+  });
+}
+
+docs {
+  Mismo correo con otras mayúsculas: PostgreSQL responde 23505 (unique_violation) y la API lo traduce a 409.
+}

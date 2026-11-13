@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "ADSO Backend - Sesión 09 UserRepository",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

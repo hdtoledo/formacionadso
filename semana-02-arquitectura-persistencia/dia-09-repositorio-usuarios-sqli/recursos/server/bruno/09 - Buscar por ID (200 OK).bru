@@ -1,0 +1,21 @@
+meta {
+  name: 09 - Buscar por ID (200 OK)
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/api/dev/users/a0000000-0000-0000-0000-000000000001
+  body: none
+  auth: none
+}
+
+tests {
+  test("Buscar por ID (200 OK)", function () {
+    expect(res.status).to.equal(200);
+  });
+}
+
+docs {
+  findById del administrador sembrado en la Sesión 06.
+}

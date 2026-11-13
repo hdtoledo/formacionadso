@@ -1,0 +1,21 @@
+meta {
+  name: 01 - Health Check
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/health
+  body: none
+  auth: none
+}
+
+tests {
+  test("Health Check", function () {
+    expect(res.body.services.postgres.status).to.equal("healthy");
+  });
+}
+
+docs {
+  Antes de empezar: PostgreSQL debe aparecer healthy.
+}

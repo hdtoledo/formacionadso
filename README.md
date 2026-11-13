@@ -89,9 +89,12 @@ formacionadso/
 ├── semana-02-arquitectura-persistencia/
 │   ├── dia-06-postgresql-relacional/      # Sesión 06: UUID, token_hash SHA-256, trigger, índices y ACID
 │   ├── dia-07-mongodb-nosql/              # Sesión 07: Atlas, Compass, seed polimórfico (Extended JSON) y MQL
-│   └── dia-08-backend-express-arquitectura/
-│       ├── index.html                     # Sesión 08: Express en capas y conexión dual PostgreSQL + MongoDB
-│       └── recursos/server/               # Backend de referencia (config, controllers, routes, middlewares)
+│   ├── dia-08-backend-express-arquitectura/
+│   │   ├── index.html                     # Sesión 08: Express en capas y conexión dual PostgreSQL + MongoDB
+│   │   └── recursos/server/               # Backend de referencia (config, controllers, routes, middlewares)
+│   └── dia-09-repositorio-usuarios-sqli/
+│       ├── index.html                     # Sesión 09: UserRepository, inyección SQL y transacciones
+│       └── recursos/                      # Migración 02, semillas, archivos nuevos del server y colección Bruno
 └── semana-01-fundamentos/
     ├── dia-01-bd-sql-ddl-dml/
     │   ├── index.html             # Diapositivas de proyección (Sesión 01: Modelo Relacional & SQL)

@@ -1,0 +1,22 @@
+meta {
+  name: 07 - Inyección SQL en Email (404 Not Found)
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/api/dev/users/by-email?email='OR'1'='1'--@x.co
+  body: none
+  auth: none
+}
+
+tests {
+  test("Inyección SQL en Email (404 Not Found)", function () {
+    expect(res.status).to.equal(404);
+    expect(res.body.code).to.equal("USER_NOT_FOUND");
+  });
+}
+
+docs {
+  El payload 'OR'1'='1'-- viaja como TEXTO en $1: PostgreSQL busca un correo con ese valor literal y no encuentra nada.
+}

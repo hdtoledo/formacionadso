@@ -1,0 +1,33 @@
+meta {
+  name: 04 - Asignación Masiva de Rol (role ignorado)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/dev/users
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "email": "intento.admin@misena.edu.co",
+    "role": "admin"
+  }
+}
+
+tests {
+  test("Asignación Masiva de Rol (role ignorado)", function () {
+    expect(res.status).to.equal(201);
+    expect(res.body.data.role).to.equal("user");
+  });
+}
+
+docs {
+  El atacante intenta crearse como admin. El controlador nunca toma el rol del body.
+}

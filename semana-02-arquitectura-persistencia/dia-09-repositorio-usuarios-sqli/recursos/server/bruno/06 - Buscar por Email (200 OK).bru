@@ -1,0 +1,22 @@
+meta {
+  name: 06 - Buscar por Email (200 OK)
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/api/dev/users/by-email?email=admin@sena.edu.co
+  body: none
+  auth: none
+}
+
+tests {
+  test("Buscar por Email (200 OK)", function () {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.role).to.equal("admin");
+  });
+}
+
+docs {
+  findByEmail con consulta parametrizada ($1).
+}
