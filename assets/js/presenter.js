@@ -84,8 +84,13 @@ class SlidePresenter {
       currentLabelEl.textContent = `SLIDE ${curNum} / ${totNum}`;
     }
 
-    // Actualizar Bloque pedagógico dinámicamente si existe
-    if (blockLabelEl) {
+    // Actualizar Bloque pedagógico dinámicamente si existe.
+    // Preferencia: atributo data-block-label en la diapositiva (lecciones nuevas);
+    // si no existe, se usa el mapeo histórico por número total de diapositivas.
+    const customBlockLabel = this.slides[this.currentSlideIndex]?.dataset?.blockLabel;
+    if (blockLabelEl && customBlockLabel) {
+      blockLabelEl.textContent = customBlockLabel;
+    } else if (blockLabelEl) {
       if (this.totalSlides === 35) {
         if (this.currentSlideIndex === 0) {
           blockLabelEl.textContent = 'PORTADA DE LECCIÓN';
