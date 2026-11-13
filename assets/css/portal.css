@@ -1,0 +1,116 @@
+/* ==============================================================================
+   SENA CADPH · ADSO — Estilos del portal de lecciones
+   Componentes generados por assets/js/portal.js (catálogo único de lecciones)
+   ============================================================================== */
+
+html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
+body { overflow-x: clip; }
+
+/* Menú "Proyectar Aula": <details> accesible por teclado y táctil */
+.portal-launcher { position: relative; }
+.portal-launcher > summary { list-style: none; }
+.portal-launcher > summary::-webkit-details-marker { display: none; }
+.portal-launcher__chevron { transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+.portal-launcher[open] .portal-launcher__chevron { transform: rotate(180deg); }
+.portal-launcher__menu {
+  position: absolute; right: 0; top: calc(100% + 0.5rem); z-index: 60;
+  width: min(22rem, calc(100vw - 2rem)); max-height: min(75vh, 34rem); overflow-y: auto;
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 0.5rem;
+  box-shadow: 0 24px 48px -16px rgb(15 23 42 / 0.3);
+  animation: portal-pop 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.portal-launcher__item {
+  display: flex; align-items: center; gap: 0.65rem; padding: 0.5rem; border-radius: 0.75rem;
+  transition: background-color 0.2s ease-in-out;
+}
+.portal-launcher__item:hover, .portal-launcher__item:focus-visible { background: #f8fafc; }
+.portal-launcher__num {
+  width: 2rem; height: 2rem; border-radius: 0.6rem; flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: #00324D; color: #fff; font: 700 0.7rem 'JetBrains Mono', monospace;
+  transition: background-color 0.2s ease-in-out;
+}
+.portal-launcher__num.is-extra { background: #4f46e5; }
+.portal-launcher__item:hover .portal-launcher__num { background: #39A900; }
+.portal-launcher kbd { font-size: 0.6rem; }
+
+/* Anillo de avance circular */
+.portal-ring {
+  --p: 0; width: 1.6rem; height: 1.6rem; border-radius: 999px; flex-shrink: 0;
+  background: conic-gradient(#39A900 calc(var(--p) * 1%), #e2e8f0 0);
+  -webkit-mask: radial-gradient(farthest-side, transparent 58%, #000 60%);
+          mask: radial-gradient(farthest-side, transparent 58%, #000 60%);
+}
+
+/* Acciones del hero */
+.portal-cta {
+  display: flex; align-items: center; gap: 0.85rem; padding: 0.95rem 1.15rem; border-radius: 1rem;
+  background: linear-gradient(120deg, #39A900, #2D8200); color: #fff;
+  box-shadow: 0 14px 30px -14px rgb(57 169 0 / 0.75);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.portal-cta:hover { transform: translateY(-2px); box-shadow: 0 18px 34px -14px rgb(57 169 0 / 0.85); }
+.portal-cta:active { transform: translateY(0); }
+.portal-secondary {
+  display: flex; align-items: center; justify-content: center; gap: 0.4rem; text-align: center;
+  padding: 0.7rem 0.5rem; border-radius: 0.8rem; background: #f1f5f9; color: #1e293b;
+  font-size: 0.75rem; font-weight: 700; transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+.portal-secondary:hover { background: #e2e8f0; transform: translateY(-1px); }
+
+/* Barras de progreso animadas */
+.portal-bar { height: 0.55rem; border-radius: 999px; background: #f1f5f9; overflow: hidden; }
+.portal-bar > span {
+  display: block; height: 100%; width: var(--w, 0%); border-radius: inherit;
+  background: linear-gradient(90deg, #39A900, #22c55e);
+  animation: portal-grow 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.portal-bar--navy > span { background: linear-gradient(90deg, #00324D, #0ea5e9); }
+@keyframes portal-grow { from { width: 0; } }
+
+/* Mapa de semanas del plan */
+.portal-week {
+  flex: 1; min-width: 0; height: 1.9rem; border-radius: 0.55rem; border: 1px solid #e2e8f0; background: #f8fafc;
+  font: 700 0.7rem 'JetBrains Mono', monospace; color: #94a3b8; cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, transform 0.15s ease-in-out;
+}
+.portal-week:hover { transform: translateY(-1px); color: #334155; }
+.portal-week.is-done { background: #39A900; border-color: #39A900; color: #fff; }
+.portal-week.is-active { background: #ecfdf3; border-color: #86efac; color: #166534; }
+
+/* Recursos: cuadrícula que se adapta al ancho disponible */
+.portal-resources { display: grid; grid-template-columns: repeat(auto-fill, minmax(6.8rem, 1fr)); gap: 0.45rem; }
+.portal-resource {
+  display: flex; align-items: center; justify-content: center; gap: 0.35rem; padding: 0.55rem 0.4rem;
+  border-radius: 0.7rem; border: 1px solid #e2e8f0; background: #f8fafc;
+  font-size: 0.68rem; font-weight: 700; color: #334155; white-space: nowrap;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+.portal-resource svg { color: #39A900; flex-shrink: 0; }
+.portal-resource:hover { background: #ecfdf3; border-color: #86efac; color: #14532d; }
+
+/* Avance dentro de cada tarjeta de sesión */
+.portal-card-progress {
+  display: grid; gap: 0.35rem; padding: 0.6rem 0.7rem; border-radius: 0.75rem;
+  border: 1px dashed #bbf7d0; background: #f0fdf4;
+}
+
+/* Tarjetas: elevación sutil al pasar el cursor */
+.sesion-card { transition: box-shadow 0.25s ease-in-out, transform 0.25s ease-in-out, border-color 0.25s ease-in-out; }
+.sesion-card:hover { transform: translateY(-2px); }
+
+/* Aparición al hacer scroll (solo si el usuario no pidió movimiento reducido) */
+.portal-reveal { opacity: 0; transform: translateY(18px); }
+.portal-reveal.is-visible {
+  opacity: 1; transform: none;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms);
+}
+.portal-fade { animation: portal-pop 0.35s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@keyframes portal-pop { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .portal-reveal { opacity: 1; transform: none; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

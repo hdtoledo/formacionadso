@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#00324D">
   <title>Desarrollo Web Full Stack MERN - SENA Garzón | Formación ADSO</title>
   <meta name="description" content="Plataforma institucional de lecciones técnicas interactivas, proyección en aula y desarrollo práctico para aprendices ADSO en Desarrollo Web Full Stack con MERN + SQL (SENA Garzón).">
   <link rel="icon" type="image/png" href="assets/logo_green.png">
@@ -39,7 +40,7 @@
   </script>
 
   <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,6 +48,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="assets/css/presenter.css">
+  <link rel="stylesheet" href="assets/css/portal.css">
 </head>
 <body class="min-h-full flex flex-col bg-slate-50/50 text-slate-900 font-sans selection:bg-[#39A900] selection:text-white">
 
@@ -84,7 +86,7 @@
             <div class="flex items-center gap-2">
               <span class="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">FORMACIÓN</span>
               <span class="text-lg sm:text-xl font-black text-[#39A900]">ADSO</span>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 shrink-0">CADPH</span>
+              <span class="hidden sm:inline-flex text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 shrink-0">CADPH</span>
             </div>
             <p class="text-[11px] text-slate-500 font-medium truncate">
               Análisis y Desarrollo de Software · Desarrollo Web Full Stack MERN
@@ -100,144 +102,9 @@
         <a href="#recursos" class="hover:text-[#39A900] transition-colors">Recursos SQL</a>
       </nav>
 
-      <!-- Selector de Proyección Rápida en Aula -->
-      <div class="relative group">
-        <button id="btn-proyeccion-menu" type="button" class="px-4 sm:px-5 py-2.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-xs sm:text-sm rounded-xl transition-all shadow-sm hover:shadow-md flex items-center gap-2">
-          <i data-lucide="projector" class="w-4 h-4"></i>
-          <span>Proyectar Aula</span>
-          <span class="px-1.5 py-0.5 rounded-full bg-white/20 text-[10px] font-mono">8</span>
-          <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform group-hover:rotate-180"></i>
-        </button>
-
-        <!-- Menú Desplegable de Sesiones Disponibles -->
-        <div class="absolute right-0 mt-2 w-72 sm:w-80 bg-white border border-slate-200 rounded-2xl shadow-xl p-2 hidden group-hover:block hover:block z-50 transition-all max-h-[85vh] overflow-y-auto">
-          <div class="px-3 py-2 border-b border-slate-100 flex items-center justify-between">
-            <span class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Lecciones Disponibles</span>
-            <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">8 Listas (S1 + S2)</span>
-          </div>
-          <div class="py-1 space-y-1">
-            <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/index.html" class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-slate-50 transition group/item">
-              <div class="w-7 h-7 rounded-lg bg-emerald-50 text-[#39A900] border border-emerald-200 flex items-center justify-center shrink-0 mt-0.5 group-hover/item:bg-[#39A900] group-hover/item:text-white transition">
-                <span class="font-mono font-bold text-xs">01</span>
-              </div>
-              <div class="min-w-0">
-                <p class="text-xs font-bold text-slate-800 truncate">Modelo Relacional & SQL DDL/DML</p>
-                <p class="text-[10px] text-slate-500 truncate">Semana 1 · Día 1 (14 Diapositivas)</p>
-              </div>
-            </a>
-            <a href="semana-01-fundamentos/dia-02-consultas-sql-joins/index.html" class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-slate-50 transition group/item">
-              <div class="w-7 h-7 rounded-lg bg-emerald-50 text-[#39A900] border border-emerald-200 flex items-center justify-center shrink-0 mt-0.5 group-hover/item:bg-[#39A900] group-hover/item:text-white transition">
-                <span class="font-mono font-bold text-xs">02</span>
-              </div>
-              <div class="min-w-0">
-                <p class="text-xs font-bold text-slate-800 truncate">Consultas SQL & JOINs</p>
-                <p class="text-[10px] text-slate-500 truncate">Semana 1 · Día 2 (15 Diapositivas)</p>
-              </div>
-            </a>
-            <a href="semana-01-fundamentos/dia-03-javascript-es6-asincronia/index.html" class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-slate-50 transition group/item">
-              <div class="w-7 h-7 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 flex items-center justify-center shrink-0 mt-0.5 group-hover/item:bg-[#00324D] group-hover/item:text-white transition">
-                <span class="font-mono font-bold text-xs">03</span>
-              </div>
-              <div class="min-w-0">
-                <p class="text-xs font-bold text-slate-800 truncate">JavaScript ES6+ & Asincronía</p>
-                <p class="text-[10px] text-slate-500 truncate">Semana 1 · Día 3 (15 Diapositivas)</p>
-              </div>
-            </a>
-            <a href="semana-01-fundamentos/dia-04-http-express-servidor-base/index.html" class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-slate-50 transition group/item">
-              <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-700 border border-amber-200 flex items-center justify-center shrink-0 mt-0.5 group-hover/item:bg-amber-600 group-hover/item:text-white transition">
-                <span class="font-mono font-bold text-xs">04</span>
-              </div>
-              <div class="min-w-0">
-                <p class="text-xs font-bold text-slate-800 truncate">HTTP, Servidor Express & Bruno</p>
-                <p class="text-[10px] text-slate-500 truncate">Semana 1 · Día 4 (15 Diapositivas)</p>
-              </div>
-            </a>
-            <a href="semana-01-fundamentos/dia-05-consumo-fetch-dom/index.html" class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-slate-50 transition group/item">
-              <div class="w-7 h-7 rounded-lg bg-purple-50 text-purple-700 border border-purple-200 flex items-center justify-center shrink-0 mt-0.5 group-hover/item:bg-purple-600 group-hover/item:text-white transition">
-                <span class="font-mono font-bold text-xs">05</span>
-              </div>
-              <div class="min-w-0">
-                <p class="text-xs font-bold text-slate-800 truncate">Fetch API & Manipulación DOM</p>
-                <p class="text-[10px] text-slate-500 truncate">Semana 1 · Día 5 (16 Diapositivas)</p>
-              </div>
-            </a>
-            <a href="semana-01-fundamentos/dia-extra-tailwindcss-ui-ux/index.html" class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-indigo-50/60 transition group/item bg-indigo-50/30 border border-indigo-100">
-              <div class="w-7 h-7 rounded-lg bg-indigo-600 text-white flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
-                <i data-lucide="palette" class="w-3.5 h-3.5"></i>
-              </div>
-              <div class="min-w-0">
-                <div class="flex items-center gap-1.5">
-                  <p class="text-xs font-bold text-indigo-950 truncate">Tailwind CSS & UI/UX Completo</p>
-                  <span class="px-1.5 py-0.5 bg-indigo-100 text-indigo-800 text-[9px] font-bold rounded">Extra</span>
-                </div>
-                <p class="text-[10px] text-indigo-700 truncate">Semana 1 · Sesión Extra (32 Diapositivas)</p>
-              </div>
-            </a>
-            <a href="semana-02-arquitectura-persistencia/dia-06-postgresql-relacional/index.html" class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-blue-50/60 transition group/item bg-blue-50/20 border border-blue-200">
-              <div class="w-7 h-7 rounded-lg bg-[#00324D] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
-                <span class="font-mono font-bold text-xs">06</span>
-              </div>
-              <div class="min-w-0">
-                <div class="flex items-center gap-1.5">
-                  <p class="text-xs font-bold text-slate-800 truncate">PostgreSQL: Identidad & Tokens</p>
-                  <span class="px-1.5 py-0.5 bg-blue-100 text-blue-900 text-[9px] font-bold rounded">S2 · D6</span>
-                </div>
-                <p class="text-[10px] text-slate-500 truncate">Semana 2 · Día 6 (31 Diapositivas)</p>
-              </div>
-            </a>
-            <a href="semana-02-arquitectura-persistencia/dia-07-mongodb-nosql/index.html" class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-emerald-50/60 transition group/item bg-emerald-50/30 border border-emerald-200">
-              <div class="w-7 h-7 rounded-lg bg-[#39A900] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
-                <span class="font-mono font-bold text-xs">07</span>
-              </div>
-              <div class="min-w-0">
-                <div class="flex items-center gap-1.5">
-                  <p class="text-xs font-bold text-slate-800 truncate">MongoDB: Atlas, BSON & Compass</p>
-                  <span class="px-1.5 py-0.5 bg-emerald-100 text-emerald-900 text-[9px] font-bold rounded">S2 · D7</span>
-                </div>
-                <p class="text-[10px] text-slate-500 truncate">Semana 2 · Día 7 (35 Diapositivas)</p>
-              </div>
-            </a>
-            <a href="semana-02-arquitectura-persistencia/dia-08-backend-express-arquitectura/index.html" class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-blue-50/60 transition group/item bg-blue-50/30 border border-blue-200">
-              <div class="w-7 h-7 rounded-lg bg-[#00324D] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
-                <span class="font-mono font-bold text-xs">08</span>
-              </div>
-              <div class="min-w-0">
-                <div class="flex items-center gap-1.5">
-                  <p class="text-xs font-bold text-slate-800 truncate">Express: Capas & Conexión Dual</p>
-                  <span class="px-1.5 py-0.5 bg-blue-100 text-blue-900 text-[9px] font-bold rounded">Nueva S2</span>
-                </div>
-                <p class="text-[10px] text-slate-500 truncate">Semana 2 · Día 8 (30 Diapositivas)</p>
-              </div>
-            </a>
-            <a href="semana-02-arquitectura-persistencia/dia-09-repositorio-usuarios-sqli/index.html" class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-rose-50/60 transition group/item bg-rose-50/20 border border-rose-200">
-              <div class="w-7 h-7 rounded-lg bg-[#00324D] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
-                <span class="font-mono font-bold text-xs">09</span>
-              </div>
-              <div class="min-w-0">
-                <div class="flex items-center gap-1.5">
-                  <p class="text-xs font-bold text-slate-800 truncate">Repositorio & Cero SQLi</p>
-                  <span class="px-1.5 py-0.5 bg-rose-100 text-rose-900 text-[9px] font-bold rounded">Nueva S2</span>
-                </div>
-                <p class="text-[10px] text-slate-500 truncate">Semana 2 · Día 9 (22 Diapositivas)</p>
-              </div>
-            </a>
-            <a href="semana-02-arquitectura-persistencia/dia-10-mongoose-crud-contenidos/index.html" class="flex items-start gap-2.5 p-2 rounded-xl hover:bg-emerald-50/60 transition group/item bg-emerald-50/30 border border-emerald-200">
-              <div class="w-7 h-7 rounded-lg bg-[#39A900] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
-                <span class="font-mono font-bold text-xs">10</span>
-              </div>
-              <div class="min-w-0">
-                <div class="flex items-center gap-1.5">
-                  <p class="text-xs font-bold text-slate-800 truncate">Mongoose & CRUD Catálogo</p>
-                  <span class="px-1.5 py-0.5 bg-emerald-100 text-emerald-900 text-[9px] font-bold rounded">Nueva S2</span>
-                </div>
-                <p class="text-[10px] text-slate-500 truncate">Semana 2 · Día 10 (21 Diapositivas)</p>
-              </div>
-            </a>
-          </div>
-          <div class="pt-2 border-t border-slate-100 px-3 pb-1 flex items-center justify-between text-[10px] text-slate-400 font-medium">
-            <span>Atajo: Teclas <kbd class="px-1 py-0.5 bg-slate-100 border border-slate-200 rounded font-mono font-bold text-slate-700">1</kbd> a <kbd class="px-1 py-0.5 bg-slate-100 border border-slate-200 rounded font-mono font-bold text-slate-700">9</kbd> y <kbd class="px-1 py-0.5 bg-slate-100 border border-slate-200 rounded font-mono font-bold text-slate-700">0</kbd></span>
-          </div>
-        </div>
+      <!-- Menú "Proyectar Aula" (generado por assets/js/portal.js) -->
+      <div id="portal-launcher" class="shrink-0">
+        <a href="#cronograma" class="px-4 py-2.5 bg-[#39A900] text-white font-extrabold text-xs rounded-xl">Lecciones</a>
       </div>
 
     </div>
@@ -266,27 +133,9 @@
             Material pedagógico interactivo día a día para aprendices ADSO en todas las jornadas formativas. Sesiones con proyección en Video-beam, live coding asistido, desarrollo guiado sin IA generativa y sustentación individual.
           </p>
 
-          <!-- Acciones Principales -->
-          <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-            <a href="semana-02-arquitectura-persistencia/dia-10-mongoose-crud-contenidos/index.html" class="px-6 py-3.5 bg-[#39A900] hover:bg-[#2D8200] text-white font-extrabold text-sm rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2.5 group">
-              <i data-lucide="play-circle" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-              <span>Iniciar Sesión 10: Mongoose & Catálogo</span>
-              <span class="px-2 py-0.5 bg-white/20 rounded-full text-[10px] font-mono font-black uppercase tracking-wider">Nueva</span>
-            </a>
-            <div class="flex items-center gap-2">
-              <a href="semana-02-arquitectura-persistencia/dia-08-backend-express-arquitectura/index.html" class="flex-1 px-4 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs sm:text-sm rounded-xl transition flex items-center justify-center gap-1.5">
-                <i data-lucide="projector" class="w-4 h-4 text-[#39A900]"></i>
-                <span>Sesión 08</span>
-              </a>
-              <a href="semana-02-arquitectura-persistencia/dia-07-mongodb-nosql/index.html" class="flex-1 px-4 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs sm:text-sm rounded-xl transition flex items-center justify-center gap-1.5">
-                <i data-lucide="projector" class="w-4 h-4 text-[#00324D]"></i>
-                <span>Sesión 07</span>
-              </a>
-            </div>
-            <a href="#cronograma" class="px-3.5 py-3.5 bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 font-bold text-xs sm:text-sm rounded-xl transition flex items-center justify-center gap-1">
-              <i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i>
-              <span>Plan 40D</span>
-            </a>
+          <!-- Acciones principales (portal.js: continuar donde quedó o iniciar la lección más reciente) -->
+          <div id="hero-actions" class="pt-2 space-y-2 max-w-xl">
+            <a href="#cronograma" class="portal-cta"><span class="font-extrabold text-sm">Ver el plan de 8 semanas</span></a>
           </div>
 
           <!-- Píldoras de Enfoque Curricular -->
@@ -307,107 +156,10 @@
 
         </div>
 
-        <!-- Columna Derecha: Tarjeta Institucional de Estado Formativo -->
+        <!-- Columna Derecha: estado de la formación (generado por assets/js/portal.js) -->
         <div class="lg:col-span-5">
-          <div class="bg-gradient-to-br from-white via-white to-emerald-50/40 border-2 border-slate-200 hover:border-[#39A900]/40 rounded-2xl p-6 shadow-sm hover:shadow-md transition space-y-5">
-            
-            <div class="flex items-center justify-between border-b border-slate-200 pb-3.5">
-              <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-[#39A900] shadow-2xs">
-                  <i data-lucide="layers" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <h2 class="text-xs font-bold text-slate-900 uppercase tracking-wider">Esquema Institucional ADSO</h2>
-                  <span class="text-[11px] text-slate-500 font-medium">Sede CADPH Garzón · Huila</span>
-                </div>
-              </div>
-              <span class="text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
-                Universal
-              </span>
-            </div>
-
-            <!-- Métricas Clave de la Formación -->
-            <div class="grid grid-cols-2 gap-3">
-              <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-2xs">
-                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Población Objetivo</span>
-                <span class="text-sm font-extrabold text-slate-900 mt-0.5 block">Todas las Jornadas</span>
-                <span class="text-[11px] text-slate-500">Mismo estándar curricular</span>
-              </div>
-              <div class="p-3 bg-white rounded-xl border border-slate-200 shadow-2xs">
-                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Plan de Trabajo</span>
-                <span class="text-sm font-extrabold text-slate-900 mt-0.5 block">8 Semanas</span>
-                <span class="text-[11px] text-slate-500">40 Sesiones día a día</span>
-              </div>
-            </div>
-
-            <!-- Estado de Avance Actual -->
-            <div class="p-4 rounded-xl border border-slate-200 bg-white space-y-2.5 shadow-2xs">
-              <div class="flex items-center justify-between text-xs">
-                <span class="font-extrabold text-slate-800">Semana 1: Fundamentos Full Stack</span>
-                <span class="font-mono font-bold text-[#39A900] bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">05 + 1 Extra / 40 Listas · 100% S1</span>
-              </div>
-              <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
-                <div class="bg-gradient-to-r from-[#39A900] to-purple-500 h-2.5 rounded-full w-[15%]"></div>
-              </div>
-              <p class="text-[11px] text-slate-500 leading-snug">
-                Eje temático activo: <strong class="text-slate-800">Semana 1 Completa + Sesión Extra (SQL Relacional, JS ES6+, Express REST, Fetch DOM & Tailwind UI/UX).</strong>
-              </p>
-            </div>
-
-            <!-- Enlaces directos a plantillas de taller para aprendices -->
-            <div class="space-y-2 pt-1">
-              <div class="flex items-center justify-between text-[11px] font-bold text-slate-500">
-                <span>Talleres Starter de Aula:</span>
-                <span class="text-[10px] font-mono text-[#00324D] font-bold">Descarga Directa</span>
-              </div>
-              <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
-                <a href="semana-01-fundamentos/dia-01-bd-sql-ddl-dml/recursos/plantilla_aprendiz.sql" download class="py-2.5 px-2 bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 rounded-xl text-[11px] font-bold text-slate-700 hover:text-emerald-800 transition flex items-center justify-center gap-1.5 shadow-2xs" title="Descargar Plantilla Sesión 01 (SQL DDL/DML)">
-                  <i data-lucide="download" class="w-3.5 h-3.5 text-[#39A900]"></i>
-                  <span>Taller S01</span>
-                </a>
-                <a href="semana-01-fundamentos/dia-02-consultas-sql-joins/recursos/plantilla_aprendiz.sql" download class="py-2.5 px-2 bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 rounded-xl text-[11px] font-bold text-slate-700 hover:text-emerald-800 transition flex items-center justify-center gap-1.5 shadow-2xs" title="Descargar Plantilla Sesión 02 (SQL JOINs)">
-                  <i data-lucide="download" class="w-3.5 h-3.5 text-[#39A900]"></i>
-                  <span>Taller S02</span>
-                </a>
-                <a href="semana-01-fundamentos/dia-03-javascript-es6-asincronia/recursos/plantilla_aprendiz.js" download class="py-2.5 px-2 bg-blue-50/50 hover:bg-blue-100/60 border border-blue-200 rounded-xl text-[11px] font-bold text-blue-800 transition flex items-center justify-center gap-1.5 shadow-2xs" title="Descargar Plantilla Sesión 03 (JS ES6+)">
-                  <i data-lucide="download" class="w-3.5 h-3.5 text-blue-700"></i>
-                  <span>Taller S03</span>
-                </a>
-                <a href="semana-01-fundamentos/dia-04-http-express-servidor-base/recursos/plantilla_servidor.js" download class="py-2.5 px-2 bg-emerald-50/50 hover:bg-emerald-100/60 border border-emerald-200 rounded-xl text-[11px] font-bold text-emerald-800 transition flex items-center justify-center gap-1.5 shadow-2xs" title="Descargar Plantilla Sesión 04 (Express & Bruno)">
-                  <i data-lucide="download" class="w-3.5 h-3.5 text-emerald-700"></i>
-                  <span>Taller S04</span>
-                </a>
-                <a href="semana-01-fundamentos/dia-05-consumo-fetch-dom/recursos/index.html" class="py-2.5 px-2 bg-purple-50/50 hover:bg-purple-100/60 border border-purple-200 rounded-xl text-[11px] font-bold text-purple-800 transition flex items-center justify-center gap-1.5 shadow-2xs" title="Abrir Taller Sesión 05 (Fetch API & DOM)">
-                  <i data-lucide="layout" class="w-3.5 h-3.5 text-purple-700"></i>
-                  <span>Taller S05</span>
-                </a>
-                <a href="semana-01-fundamentos/dia-extra-tailwindcss-ui-ux/dia-extra-tailwindcss-taller.zip" download class="py-2.5 px-2 bg-indigo-50/70 hover:bg-indigo-100 border border-indigo-200 rounded-xl text-[11px] font-bold text-indigo-900 transition flex items-center justify-center gap-1.5 shadow-2xs" title="Descargar Taller Sesión Extra (Tailwind CSS, UI/UX, Login, Register, Landing .zip)">
-                  <i data-lucide="palette" class="w-3.5 h-3.5 text-indigo-600"></i>
-                  <span>Taller Extra</span>
-                </a>
-                <a href="semana-02-arquitectura-persistencia/dia-06-postgresql-relacional/index.html" class="py-2.5 px-2 bg-blue-50/70 hover:bg-blue-100 border border-blue-200 rounded-xl text-[11px] font-bold text-blue-900 transition flex items-center justify-center gap-1.5 shadow-2xs" title="Montaje Guiado Sesión 06 (PostgreSQL Relacional · Commits en Git Personal)">
-                  <i data-lucide="git-branch" class="w-3.5 h-3.5 text-blue-700"></i>
-                  <span>Montaje S06</span>
-                </a>
-                <a href="semana-02-arquitectura-persistencia/dia-07-mongodb-nosql/index.html" class="py-2.5 px-2 bg-emerald-50/70 hover:bg-emerald-100 border border-emerald-200 rounded-xl text-[11px] font-bold text-emerald-900 transition flex items-center justify-center gap-1.5 shadow-2xs" title="Montaje Guiado Sesión 07 (MongoDB NoSQL, Atlas Cloud & Compass)">
-                  <i data-lucide="compass" class="w-3.5 h-3.5 text-[#39A900]"></i>
-                  <span>Montaje S07</span>
-                </a>
-                <a href="semana-02-arquitectura-persistencia/dia-08-backend-express-arquitectura/index.html" class="py-2.5 px-2 bg-blue-50/70 hover:bg-blue-100 border border-blue-200 rounded-xl text-[11px] font-bold text-blue-900 transition flex items-center justify-center gap-1.5 shadow-2xs" title="Montaje Guiado Sesión 08 (Express en capas y conexión dual)">
-                  <i data-lucide="server" class="w-3.5 h-3.5 text-blue-700"></i>
-                  <span>Montaje S08</span>
-                </a>
-                <a href="semana-02-arquitectura-persistencia/dia-09-repositorio-usuarios-sqli/index.html" class="py-2.5 px-2 bg-rose-50/70 hover:bg-rose-100 border border-rose-200 rounded-xl text-[11px] font-bold text-rose-900 transition flex items-center justify-center gap-1.5 shadow-2xs" title="Montaje Guiado Sesión 09 (UserRepository y prevención de inyección SQL)">
-                  <i data-lucide="shield-check" class="w-3.5 h-3.5 text-rose-700"></i>
-                  <span>Montaje S09</span>
-                </a>
-                <a href="semana-02-arquitectura-persistencia/dia-10-mongoose-crud-contenidos/index.html" class="py-2.5 px-2 bg-emerald-50/70 hover:bg-emerald-100 border border-emerald-200 rounded-xl text-[11px] font-bold text-emerald-900 transition flex items-center justify-center gap-1.5 shadow-2xs" title="Montaje Guiado Sesión 10 (Mongoose, discriminators y CRUD del catálogo)">
-                  <i data-lucide="leaf" class="w-3.5 h-3.5 text-[#39A900]"></i>
-                  <span>Montaje S10</span>
-                </a>
-              </div>
-            </div>
-
+          <div id="hero-status" class="bg-gradient-to-br from-white via-white to-emerald-50/40 border-2 border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm space-y-5" aria-live="polite">
+            <p class="text-sm text-slate-500">Cargando el estado de la formación…</p>
           </div>
         </div>
 
@@ -2530,255 +2282,6 @@
   </footer>
 
   <!-- Lucide y Script de Dinamismo (Fecha de hoy y Tabs de semanas) -->
-  <script>
-    // 1. Inicializar iconos Lucide
-    lucide.createIcons();
-
-    // 2. Formatear y renderizar la fecha de HOY dinámicamente
-    (function renderFechaDinamica() {
-      const hoy = new Date();
-      const opcionesCintillo = { weekday: 'short', day: 'numeric', month: 'short' };
-      const opcionesHero = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-
-      const formatoCintillo = hoy.toLocaleDateString('es-CO', opcionesCintillo);
-      const formatoHero = hoy.toLocaleDateString('es-CO', opcionesHero);
-
-      const cap = str => str.charAt(0).toUpperCase() + str.slice(1);
-
-      const elCintillo = document.getElementById('cintillo-fecha');
-      if (elCintillo) elCintillo.textContent = 'Hoy: ' + cap(formatoCintillo);
-
-      const elHero = document.getElementById('hero-fecha-dinamica');
-      if (elHero) elHero.textContent = '📅 Sesión Activa · ' + cap(formatoHero);
-    })();
-
-    let semanaActivaActual = 1;
-
-    // 3. Controlador interactivo de pestañas de semanas
-    window.cambiarSemana = function(semanaNum) {
-      semanaActivaActual = semanaNum;
-      
-      // Ocultar panel de búsqueda si estaba visible
-      const panelBusqueda = document.getElementById('panel-resultados-busqueda');
-      const barraNav = document.getElementById('barra-semanas-nav');
-      if (panelBusqueda) panelBusqueda.classList.add('hidden');
-      if (barraNav) barraNav.classList.remove('hidden');
-
-      // Ocultar todos los paneles de semanas
-      document.querySelectorAll('.semana-panel').forEach(panel => panel.classList.add('hidden'));
-      
-      // Mostrar el panel seleccionado
-      const panelActivo = document.getElementById('panel-semana-' + semanaNum);
-      if (panelActivo) panelActivo.classList.remove('hidden');
-
-      // Actualizar estilo de botones
-      for (let i = 1; i <= 8; i++) {
-        const btn = document.getElementById('btn-sem-' + i);
-        if (btn) {
-          if (i === semanaNum) {
-            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-extrabold bg-[#39A900] text-white shadow-xs transition';
-          } else {
-            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-extrabold bg-slate-100 hover:bg-slate-200 text-slate-700 transition';
-          }
-        }
-      }
-
-      // Reinicializar iconos dentro del panel mostrado
-      lucide.createIcons();
-    };
-
-    // 4. Motor de Búsqueda Instantánea de Sesiones y Tecnologías
-    const inputBusqueda = document.getElementById('input-busqueda-sesiones');
-    const btnLimpiar = document.getElementById('btn-limpiar-busqueda');
-    const panelResultados = document.getElementById('panel-resultados-busqueda');
-    const listaResultados = document.getElementById('lista-resultados-busqueda');
-    const conteoResultados = document.getElementById('conteo-resultados');
-    const barraNav = document.getElementById('barra-semanas-nav');
-
-    // Extraer catálogo de sesiones una sola vez del DOM
-    const catalogoSesiones = [];
-    document.querySelectorAll('.semana-panel').forEach(panel => {
-      const semanaId = panel.id.replace('panel-semana-', '');
-      
-      // Buscar todas las tarjetas de sesiones en el panel
-      panel.querySelectorAll('h3, h4').forEach(headerEl => {
-        const tarjeta = headerEl.closest('.sesion-card, .p-6, .p-7, .p-5, .p-4');
-        if (!tarjeta) return;
-        
-        // Evitar duplicados si hay subtítulos dentro de la misma tarjeta
-        if (tarjeta.dataset.indexed) return;
-        tarjeta.dataset.indexed = "true";
-
-        const titulo = headerEl.textContent.trim();
-        const descripcion = tarjeta.querySelector('p') ? tarjeta.querySelector('p').textContent.trim() : '';
-        const badges = Array.from(tarjeta.querySelectorAll('span, code')).map(el => el.textContent.trim()).join(' ');
-        
-        // Determinar enlace de proyección si existe
-        const linkProyeccion = tarjeta.querySelector('a[href*="semana-01-fundamentos"], a[href*="semana-02-arquitectura-persistencia"]');
-        const hrefProyeccion = linkProyeccion ? linkProyeccion.getAttribute('href') : null;
-
-        // Extraer número de sesión o badge temático
-        const badgeEl = tarjeta.querySelector('span[class*="font-mono"]');
-        const sesionBadge = badgeEl ? badgeEl.textContent.trim() : `Semana ${semanaId}`;
-
-        catalogoSesiones.push({
-          semana: semanaId,
-          sesionBadge,
-          titulo,
-          descripcion,
-          textoCompleto: `${titulo} ${descripcion} ${badges} semana ${semanaId}`.toLowerCase(),
-          badges,
-          hrefProyeccion
-        });
-      });
-    });
-
-    window.filtrarPorTema = function(tema) {
-      document.querySelectorAll('.chip-filter').forEach(btn => {
-        if (btn.getAttribute('data-tema') === tema) {
-          btn.className = "chip-filter px-3 py-1 rounded-full text-xs font-extrabold bg-[#00324D] text-white shadow-xs transition shrink-0";
-        } else {
-          btn.className = "chip-filter px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200/80 transition shrink-0";
-        }
-      });
-
-      if (!tema) {
-        window.limpiarBusqueda();
-        return;
-      }
-
-      inputBusqueda.value = tema;
-      ejecutarBusqueda();
-    };
-
-    window.irASemana = function(semanaNum) {
-      window.limpiarBusqueda();
-      window.cambiarSemana(parseInt(semanaNum));
-      const el = document.getElementById('panel-semana-' + semanaNum);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    };
-
-    function ejecutarBusqueda() {
-      const termino = inputBusqueda.value.trim().toLowerCase();
-
-      if (termino.length === 0) {
-        window.limpiarBusqueda();
-        return;
-      }
-
-      btnLimpiar.classList.remove('hidden');
-
-      if (termino.length < 2) return;
-
-      // Filtrar sesiones
-      const coincidencias = catalogoSesiones.filter(s => s.textoCompleto.includes(termino));
-
-      // Ocultar paneles normales y mostrar panel de resultados
-      document.querySelectorAll('.semana-panel').forEach(p => p.classList.add('hidden'));
-      panelResultados.classList.remove('hidden');
-
-      conteoResultados.textContent = `${coincidencias.length} lección(es) encontrada(s) para "${termino}"`;
-
-      if (coincidencias.length === 0) {
-        listaResultados.innerHTML = `
-          <div class="col-span-full py-8 text-center space-y-2">
-            <p class="text-sm font-bold text-slate-700">No encontramos lecciones que coincidan con tu búsqueda.</p>
-            <p class="text-xs text-slate-500">Prueba con palabras como: <code>PostgreSQL</code>, <code>MongoDB</code>, <code>Resend</code>, <code>JWT</code>, <code>useAuth</code>, <code>Tailwind</code>.</p>
-          </div>
-        `;
-        return;
-      }
-
-      listaResultados.innerHTML = coincidencias.map(item => `
-        <div class="bg-white border border-slate-200 hover:border-[#39A900] rounded-2xl p-5 shadow-2xs space-y-3 transition flex flex-col justify-between hover:shadow-xs">
-          <div class="space-y-2">
-            <div class="flex items-center justify-between gap-2">
-              <span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-[#39A900] font-mono text-[10px] font-extrabold border border-emerald-200">
-                ${item.sesionBadge}
-              </span>
-              ${item.hrefProyeccion ? '<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Lista</span>' : '<span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 text-[10px] font-semibold flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i> Planificada</span>'}
-            </div>
-            <h4 class="text-sm font-extrabold text-slate-900 leading-snug">${item.titulo}</h4>
-            <p class="text-xs text-slate-600 leading-relaxed">${item.descripcion}</p>
-          </div>
-          <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-2 flex-wrap">
-            <button onclick="window.irASemana('${item.semana}')" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
-              <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-500"></i>
-              <span>Ver en Semana ${item.semana}</span>
-            </button>
-            ${item.hrefProyeccion ? `
-              <a href="${item.hrefProyeccion}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#39A900] hover:bg-[#2D8200] text-white text-xs font-bold rounded-lg transition shadow-2xs">
-                <i data-lucide="projector" class="w-3.5 h-3.5"></i>
-                <span>Proyectar en Aula</span>
-              </a>
-            ` : ''}
-          </div>
-        </div>
-      `).join('');
-
-      lucide.createIcons();
-    }
-
-    if (inputBusqueda) {
-      inputBusqueda.addEventListener('input', ejecutarBusqueda);
-    }
-
-    window.limpiarBusqueda = function() {
-      if (inputBusqueda) inputBusqueda.value = '';
-      if (btnLimpiar) btnLimpiar.classList.add('hidden');
-      if (panelResultados) panelResultados.classList.add('hidden');
-      document.querySelectorAll('.chip-filter').forEach(btn => {
-        if (btn.getAttribute('data-tema') === '') {
-          btn.className = "chip-filter px-3 py-1 rounded-full text-xs font-extrabold bg-[#00324D] text-white shadow-xs transition shrink-0";
-        } else {
-          btn.className = "chip-filter px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200/80 transition shrink-0";
-        }
-      });
-      window.cambiarSemana(semanaActivaActual);
-    };
-
-    // 5. Atajos de Teclado Rápidos para Proyección y Búsqueda en Aula
-    window.addEventListener('keydown', function(e) {
-      // Ignorar si el usuario está escribiendo en un input
-      if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
-        if (e.key === 'Escape') {
-          window.limpiarBusqueda();
-          document.activeElement.blur();
-        }
-        return;
-      }
-
-      if (e.key === '1') {
-        window.location.href = 'semana-01-fundamentos/dia-01-bd-sql-ddl-dml/index.html';
-      } else if (e.key === '2') {
-        window.location.href = 'semana-01-fundamentos/dia-02-consultas-sql-joins/index.html';
-      } else if (e.key === '3') {
-        window.location.href = 'semana-01-fundamentos/dia-03-javascript-es6-asincronia/index.html';
-      } else if (e.key === '4') {
-        window.location.href = 'semana-01-fundamentos/dia-04-http-express-servidor-base/index.html';
-      } else if (e.key === '5') {
-        window.location.href = 'semana-01-fundamentos/dia-05-consumo-fetch-dom/index.html';
-      } else if (e.key === '6') {
-        window.location.href = 'semana-01-fundamentos/dia-extra-tailwindcss-ui-ux/index.html';
-      } else if (e.key === '7') {
-        window.location.href = 'semana-02-arquitectura-persistencia/dia-06-postgresql-relacional/index.html';
-      } else if (e.key === '8') {
-        window.location.href = 'semana-02-arquitectura-persistencia/dia-07-mongodb-nosql/index.html';
-      } else if (e.key === '9') {
-        window.location.href = 'semana-02-arquitectura-persistencia/dia-08-backend-express-arquitectura/index.html';
-      } else if (e.key === '0') {
-        window.location.href = 'semana-02-arquitectura-persistencia/dia-09-repositorio-usuarios-sqli/index.html';
-      } else if (e.key === '/' || e.key === 'k' && (e.ctrlKey || e.metaKey)) {
-        e.preventDefault();
-        if (inputBusqueda) inputBusqueda.focus();
-      } else if ((e.key === 'd' || e.key === 'D') && (e.altKey || e.ctrlKey && e.shiftKey)) {
-        // Atajo reservado exclusivo para el instructor (Alt + D) para proyectar soluciones
-        e.preventDefault();
-        window.location.href = 'referencia-docente/index.html';
-      }
-    });
-  </script>
+  <script src="assets/js/portal.js"></script>
 </body>
 </html>
