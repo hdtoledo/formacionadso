@@ -77,12 +77,21 @@ formacionadso/
 │   └── logo_hd.png                # Marca de autoría técnica
 ├── referencia-docente/            # Repositorio de referencia del instructor (no visible a aprendices)
 │   ├── index.html                 # Portal web privado del docente para proyectar código de referencia
-│   └── semana-01/
-│       ├── dia-01-sistema-ventas.sql       # Script de referencia validado en MySQL 8 InnoDB
-│       ├── dia-02-consultas-joins.sql      # Consultas analíticas y preguntas de sustentación
-│       ├── dia-03-taller-es6-asincronia.js # Solución técnica validada en Node.js
-│       ├── dia-04-servidor-express-base.js # Servidor API Express base con 6 retos resueltos
-│       └── dia-05-catalogo-fetch-dom.html  # SPA Cliente en Vanilla JS con Fetch API y DOM
+│   ├── semana-01/
+│   │   ├── dia-01-sistema-ventas.sql       # Script de referencia validado en MySQL 8 InnoDB
+│   │   ├── dia-02-consultas-joins.sql      # Consultas analíticas y preguntas de sustentación
+│   │   ├── dia-03-taller-es6-asincronia.js # Solución técnica validada en Node.js
+│   │   ├── dia-04-servidor-express-base.js # Servidor API Express base con 6 retos resueltos
+│   │   └── dia-05-catalogo-fetch-dom.html  # SPA Cliente en Vanilla JS con Fetch API y DOM
+│   └── semana-02/
+│       ├── dia-06-postgresql-usuarios.sql  # Esquema users + verification_tokens (validado en PostgreSQL)
+│       └── dia-07-mongodb-catalogo.json    # Consultas MQL de referencia sobre la colección contents
+├── semana-02-arquitectura-persistencia/
+│   ├── dia-06-postgresql-relacional/      # Sesión 06: UUID, token_hash SHA-256, trigger, índices y ACID
+│   ├── dia-07-mongodb-nosql/              # Sesión 07: Atlas, Compass, seed polimórfico (Extended JSON) y MQL
+│   └── dia-08-backend-express-arquitectura/
+│       ├── index.html                     # Sesión 08: Express en capas y conexión dual PostgreSQL + MongoDB
+│       └── recursos/server/               # Backend de referencia (config, controllers, routes, middlewares)
 └── semana-01-fundamentos/
     ├── dia-01-bd-sql-ddl-dml/
     │   ├── index.html             # Diapositivas de proyección (Sesión 01: Modelo Relacional & SQL)
