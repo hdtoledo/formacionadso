@@ -30,7 +30,10 @@ const LESSONS = {
       ['async', 'asyncHandler.js', 'src/middlewares/asyncHandler.js', 'javascript'],
       ['valid', 'validators.js', 'src/utils/validators.js', 'javascript'],
       ['app', 'app.js', 'src/app.js', 'javascript'],
-      ['mig', '02_hardening_auth_schema.sql', 'database/migrations/02_hardening_auth_schema.sql', 'sql']
+      ['err', 'errorHandler.js (S08)', '@s08/src/middlewares/errorHandler.js', 'javascript'],
+      ['mig', '02_hardening_auth_schema.sql', 'database/migrations/02_hardening_auth_schema.sql', 'sql'],
+      ['seed', '02_fix_seed_credentials.sql', 'database/seeds/02_fix_seed_credentials.sql', 'sql'],
+      ['reset', '99_reset_pruebas_sesion_09.sql', 'database/seeds/99_reset_pruebas_sesion_09.sql', 'sql']
     ]
   },
   s10: {
@@ -66,7 +69,13 @@ if (!cfg) {
 
 const RES = `${cfg.dir}/recursos`;
 const read = (p) => fs.readFileSync(p, 'utf8').replace(/\r\n/g, '\n');
-const src = (rel) => read(path.join(RES, rel.startsWith('database') ? '' : 'server', rel));
+// Rutas relativas a recursos/ de la sesión; "@s08/..." toma el archivo desde la Sesión 08
+// (código que la sesión reutiliza sin modificar, ej. middlewares/errorHandler.js).
+const S08_SERVER = `${ROOT}/dia-08-backend-express-arquitectura/recursos/server`;
+const src = (rel) => rel.startsWith('@s08/')
+  ? read(path.join(S08_SERVER, rel.slice(5)))
+  : read(path.join(RES, rel.startsWith('database') ? '' : 'server', rel));
+const displayPath = (rel) => (rel.startsWith('database') ? rel : `server/${rel.replace(/^@s08\//, '')}`);
 
 // ---------------------------------------------------------------- extractores de código
 const extractors = {
@@ -89,6 +98,14 @@ const extractors = {
     const end = lines.findIndex((l, i) => i > start && l.trim() === '}');
     return lines.slice(start, end + 1).join('\n');
   },
+  // Desde la línea con el marcador (incluida) hasta el final del archivo
+  TAIL: (spec) => {
+    const [rel, marker] = spec.split('#');
+    const lines = src(rel).split('\n');
+    const s = lines.findIndex((l) => l.includes(marker));
+    if (s < 0) throw new Error(`Marcador "${marker}" no encontrado en ${rel}`);
+    return lines.slice(s).join('\n').trimEnd();
+  },
   SEC: (spec) => {
     const [rel, startMarker, endMarker] = spec.split('#');
     const lines = src(rel).split('\n');
@@ -107,8 +124,8 @@ const extractors = {
   }
 };
 
-const rawSlides = read(path.join(HERE, cfg.template)).replace(/\{\{(BODY|HEAD|FN|BLOCK|SQL|SEC):([^}]+)\}\}/g, (_, kind, arg) => {
-  if (kind === 'SQL' || kind === 'SEC') return escHtml(extractors[kind](arg));
+const rawSlides = read(path.join(HERE, cfg.template)).replace(/\{\{(BODY|HEAD|FN|BLOCK|SQL|SEC|TAIL):([^}]+)\}\}/g, (_, kind, arg) => {
+  if (kind === 'SQL' || kind === 'SEC' || kind === 'TAIL') return escHtml(extractors[kind](arg));
   const [rel, ...rest] = arg.split(':');
   return escHtml(extractors[kind](rel, rest.join(':')));
 });
@@ -118,8 +135,7 @@ const slides = injectQuiz(rawSlides, cfg.meta.lesson, `la Sesión ${cfg.meta.ses
 
 // ---------------------------------------------------------------- visor de código
 const snippetEntries = cfg.tabs.map(([k, , rel, lang]) => {
-  const prefix = rel.startsWith('database') ? '' : 'server/';
-  const code = rel.endsWith('.sql') ? src(rel).trimEnd() : `// ${prefix}${rel}\n` + stripHeader(src(rel)).trimEnd();
+  const code = rel.endsWith('.sql') ? src(rel).trimEnd() : `// ${displayPath(rel)}\n` + stripHeader(src(rel)).trimEnd();
   return `      ${k}: { lang: '${lang}', code: \`${tplEsc(code).replace(/<\/script/gi, '<\\/script')}\` }`;
 }).join(',\n');
 const tabMeta = JSON.stringify(cfg.tabs.map(([k, label]) => ({ key: k, label })));

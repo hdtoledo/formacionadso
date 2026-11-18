@@ -53,7 +53,7 @@
     { id: 's08', week: 2, num: '08', title: 'Express: Capas & Conexión Dual', slides: 31, icon: 'layers',
       href: 'semana-02-arquitectura-persistencia/dia-08-backend-express-arquitectura/index.html',
       resource: { label: 'Guía S08', href: 'semana-02-arquitectura-persistencia/dia-08-backend-express-arquitectura/recursos/INSTRUCCIONES.md' } },
-    { id: 's09', week: 2, num: '09', title: 'Repositorio & Cero SQLi', slides: 23, icon: 'shield-check',
+    { id: 's09', week: 2, num: '09', title: 'Repositorio & Cero SQLi', slides: 30, icon: 'shield-check',
       href: 'semana-02-arquitectura-persistencia/dia-09-repositorio-usuarios-sqli/index.html',
       resource: { label: 'Guía S09', href: 'semana-02-arquitectura-persistencia/dia-09-repositorio-usuarios-sqli/recursos/INSTRUCCIONES.md' } },
     { id: 's10', week: 2, num: '10', title: 'Mongoose & CRUD del Catálogo', slides: 22, icon: 'shapes',

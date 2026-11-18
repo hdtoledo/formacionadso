@@ -87,10 +87,14 @@
 │   │   └── <span class="text-emerald-400 font-bold">02_hardening_auth_schema.sql</span>  <span class="text-slate-500"># HITO 0</span>
 │   └── seeds/
 │       ├── 01_test_seed.sql
-│       └── <span class="text-emerald-400 font-bold">02_fix_seed_credentials.sql</span>   <span class="text-slate-500"># HITO 0</span>
+│       ├── <span class="text-emerald-400 font-bold">02_fix_seed_credentials.sql</span>   <span class="text-slate-500"># HITO 0</span>
+│       └── <span class="text-emerald-400 font-bold">99_reset_pruebas_sesion_09.sql</span> <span class="text-slate-500"># HITO 4</span>
 └── server/
+    ├── .env                           <span class="text-slate-500"># S08 · PG_DATABASE=adso_auth_db</span>
     ├── <span class="text-emerald-400 font-bold">bruno/</span>                         <span class="text-slate-500"># HITO 4</span>
     └── src/
+        ├── config/db.js               <span class="text-slate-500"># S08 · exporta pool</span>
+        ├── <span class="text-sky-300 font-bold">middlewares/errorHandler.js</span>    <span class="text-slate-500"># S08 · VERIFICAR (AppError)</span>
         ├── <span class="text-emerald-400 font-bold">repositories/UserRepository.js</span> <span class="text-slate-500"># HITO 1</span>
         ├── <span class="text-emerald-400 font-bold">middlewares/asyncHandler.js</span>    <span class="text-slate-500"># HITO 2</span>
         ├── <span class="text-emerald-400 font-bold">utils/validators.js</span>            <span class="text-slate-500"># HITO 2</span>
@@ -128,6 +132,79 @@
             <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2"><span class="font-mono font-bold text-[#00324D]">Hito 2 · Utilidades</span><div class="font-mono text-slate-800 text-[11px]">feat(server): agregar asynchandler y validadores de entrada</div></div>
             <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2"><span class="font-mono font-bold text-[#39A900]">Hito 3 · Capa HTTP</span><div class="font-mono text-slate-800 text-[11px]">feat(users): exponer rutas de laboratorio del repositorio en desarrollo</div></div>
             <div class="p-4 bg-white border border-slate-200 rounded-xl space-y-2"><span class="font-mono font-bold text-purple-700">Hito 4 · Pruebas</span><div class="font-mono text-slate-800 text-[11px]">test(api): coleccion bruno con casos de sqli y unique violation</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: PREPARACIÓN · VERIFICAR SESIÓN 08 -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="PREPARACIÓN DEL MONTAJE" data-title="Antes de Empezar: Verifique la Sesión 08">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold">
+            <i data-lucide="clipboard-check" class="w-3.5 h-3.5 text-blue-600"></i><span>Preparación · 5 minutos · Nada se escribe hasta que esto funcione</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Antes de empezar: su servidor de la Sesión 08 debe estar completo</h2>
+          <p class="text-xs sm:text-sm text-slate-600 max-w-4xl">La Sesión 09 <strong>no reemplaza</strong> el servidor: le agrega archivos. Compruebe que tiene estos archivos de la Sesión 08 dentro de <code class="font-mono">mi-proyecto-adso/server/</code>:</p>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div class="lg:col-span-7 overflow-x-auto rounded-xl border border-slate-200 bg-white">
+              <table class="min-w-full text-xs">
+                <thead class="bg-slate-50 text-slate-700"><tr><th class="text-left p-2.5 font-bold">Archivo (Sesión 08)</th><th class="text-left p-2.5 font-bold">Lo usamos para…</th></tr></thead>
+                <tbody class="divide-y divide-slate-100">
+                  <tr><td class="p-2.5 font-mono font-bold text-[#00324D]">.env</td><td class="p-2.5"><code class="font-mono">PG_DATABASE=adso_auth_db</code> y su contraseña real de PostgreSQL</td></tr>
+                  <tr><td class="p-2.5 font-mono font-bold text-[#00324D]">src/config/environment.js</td><td class="p-2.5">Leer y validar el <code class="font-mono">.env</code> (fail-fast)</td></tr>
+                  <tr><td class="p-2.5 font-mono font-bold text-[#00324D]">src/config/db.js</td><td class="p-2.5">El <code class="font-mono">pool</code> que importa el repositorio</td></tr>
+                  <tr class="bg-amber-50/60"><td class="p-2.5 font-mono font-bold text-amber-800">src/middlewares/errorHandler.js</td><td class="p-2.5"><code class="font-mono">AppError</code> para los errores 400, 404 y 409 · <strong>vea la siguiente diapositiva</strong></td></tr>
+                  <tr><td class="p-2.5 font-mono font-bold text-[#00324D]">src/app.js · src/server.js</td><td class="p-2.5">Donde montaremos las rutas nuevas</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="lg:col-span-5 space-y-3 text-xs">
+              <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1.5">
+                <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide antes de continuar</strong>
+                <pre><code class="language-bash"># Terminal 1 (carpeta server)
+npm run dev
+
+# Terminal 2 (PowerShell)
+(Invoke-RestMethod http://localhost:3000/api/health).services.postgres.status</code></pre>
+                <p class="text-emerald-950">Resultado esperado: <code class="font-mono">healthy</code>. Si dice <code class="font-mono">unhealthy</code>, corrija primero el <code class="font-mono">.env</code>: sin conexión a PostgreSQL nada de esta sesión funcionará.</p>
+              </div>
+              <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-blue-950"><strong>¿Se atrasó?</strong> En el portal, sección <em>Código del proyecto por sesión</em>, descargue <strong>"Proyecto hasta la Sesión 08"</strong> y compárelo con su carpeta.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: PREPARACIÓN · ERRORHANDLER.JS -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="PREPARACIÓN DEL MONTAJE" data-title="errorHandler.js: la Pieza que Usa Toda la Sesión">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold">
+            <i data-lucide="alert-octagon" class="w-3.5 h-3.5 text-amber-600"></i><span>Preparación · Archivo de la Sesión 08 que esta sesión importa en 2 lugares</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight"><code class="font-mono text-amber-700">errorHandler.js</code> y <code class="font-mono text-amber-700">AppError</code></h2>
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-300 font-mono font-bold max-w-full break-all"><i data-lucide="file-code" class="w-3.5 h-3.5"></i>server/src/middlewares/errorHandler.js</span>
+            <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 font-extrabold">VERIFICAR</span>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold">o CREAR si no existe</span>
+            <span class="text-slate-500 font-semibold">Debe quedar exactamente así</span>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div class="lg:col-span-7 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[460px] overflow-y-auto"><pre><code class="language-javascript">{{BODY:@s08/src/middlewares/errorHandler.js}}</code></pre></div>
+            <div class="lg:col-span-5 space-y-3 text-xs">
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1">
+                <strong class="text-[#00324D] block">¿Dónde lo usa la Sesión 09?</strong>
+                <ul class="list-disc list-inside text-slate-600 space-y-0.5">
+                  <li><code class="font-mono">UserRepository.js</code>: convierte el error <code class="font-mono">23505</code> en <code class="font-mono">AppError(409, …)</code>.</li>
+                  <li><code class="font-mono">devUserController.js</code>: lanza <code class="font-mono">AppError</code> 400 y 404.</li>
+                  <li><code class="font-mono">app.js</code>: <code class="font-mono">errorHandler</code> transforma todos esos errores en el formato estándar.</li>
+                </ul>
+              </div>
+              <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1.5">
+                <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide antes de continuar</strong>
+                <pre><code class="language-bash">node --check src/middlewares/errorHandler.js
+(Invoke-WebRequest http://localhost:3000/api/no-existe -SkipHttpErrorCheck).Content</code></pre>
+                <p class="text-emerald-950">Resultado esperado: <code class="font-mono">{"success":false,"statusCode":404,"error":"Not Found",…,"code":"ROUTE_NOT_FOUND",…,"path":"/api/no-existe"}</code></p>
+              </div>
+              <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-950"><strong>Si su archivo no tiene <code class="font-mono">export class AppError</code></strong> (en la Sesión 08 se proyectó solo un extracto), reemplácelo completo con el código de la izquierda y reinicie el servidor.</div>
+            </div>
           </div>
         </div>
       </section>
@@ -232,29 +309,83 @@ await pool.query(sql);</code></pre></div>
         </div>
       </section>
 
-      <!-- SLIDE: HITO 0 -->
-      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING" data-title="Hito 0: Migración del Esquema">
+      <!-- SLIDE: HITO 0 · MIGRACIÓN (1/2) -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2: MONTAJE · HITO 0" data-title="Hito 0 (1/2): Migración del Esquema">
         <div class="max-w-5xl mx-auto w-full space-y-4">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold">
-            <i data-lucide="database-zap" class="w-3.5 h-3.5 text-amber-600"></i><span>Hito 0 · Solo para esquemas creados antes de la corrección de la Sesión 06</span>
+            <i data-lucide="database-zap" class="w-3.5 h-3.5 text-amber-600"></i><span>Hito 0 · Parte 1 de 2 · Solo si su base se creó antes de la corrección de la Sesión 06</span>
           </div>
-          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Hito 0: <code class="font-mono text-amber-700">02_hardening_auth_schema.sql</code></h2>
-          <p class="text-xs sm:text-sm text-slate-600 max-w-4xl">El script <code class="font-mono">01</code> ya se ejecutó en su base. Para cambiar la estructura no se edita el pasado: se escribe una <strong>migración nueva</strong> que describe el cambio, es <strong>idempotente</strong> y queda en Git.</p>
-          <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[330px] overflow-y-auto"><pre><code class="language-sql">{{SQL:database/migrations/02_hardening_auth_schema.sql#1. Tokens#3. Correos}}</code></pre></div>
-          <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-950 flex items-start gap-2"><i data-lucide="info" class="w-4 h-4 text-blue-600 shrink-0 mt-0.5"></i><span>Después ejecute <code class="font-mono">database/seeds/02_fix_seed_credentials.sql</code>: corrige los hashes bcrypt de prueba y vuelve a crear el token demo. Va en <code class="font-mono">seeds/</code> porque son datos de desarrollo, que jamás se ejecutan en producción.</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Hito 0: migración <code class="font-mono text-amber-700">02_hardening_auth_schema.sql</code></h2>
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-300 font-mono font-bold max-w-full break-all"><i data-lucide="file-code" class="w-3.5 h-3.5"></i>database/migrations/02_hardening_auth_schema.sql</span>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold">CREAR</span>
+            <span class="text-slate-500 font-semibold">Archivo completo · junto a 01_auth_schema.sql</span>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div class="lg:col-span-7 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[440px] overflow-y-auto"><pre><code class="language-sql">{{BODY:database/migrations/02_hardening_auth_schema.sql}}</code></pre></div>
+            <div class="lg:col-span-5 space-y-3 text-xs">
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1.5">
+                <strong class="text-[#00324D] block">1. ¿La necesito? Compruébelo primero</strong>
+                <pre><code class="language-bash">psql -U postgres -d adso_auth_db -c "\d verification_tokens"</code></pre>
+                <p class="text-slate-600">Si aparece la columna <code class="font-mono">token</code>, ejecute esta migración. Si ya aparece <code class="font-mono">token_hash</code>, igual puede ejecutarla: es <strong>idempotente</strong> y no rompe nada.</p>
+              </div>
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1.5">
+                <strong class="text-[#39A900] block">2. Ejecútela</strong>
+                <pre><code class="language-bash">psql -U postgres -d adso_auth_db -f database/migrations/02_hardening_auth_schema.sql</code></pre>
+              </div>
+              <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-blue-950"><strong>¿Por qué un archivo nuevo y no editar el 01?</strong> El 01 ya se ejecutó en su base y en la de sus compañeros. Una migración describe el <strong>cambio</strong>, se ejecuta una vez y queda en Git.</div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- SLIDE: LIVE CODING createUser -->
-      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING" data-title="Live Coding 1: createUser">
+      <!-- SLIDE: HITO 0 · SEMILLA (2/2) -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2: MONTAJE · HITO 0" data-title="Hito 0 (2/2): Semilla y Validación">
         <div class="max-w-5xl mx-auto w-full space-y-4">
-          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold"><i data-lucide="code" class="w-3.5 h-3.5 text-blue-600"></i><span>Paso a Paso 1 · Hito 1</span></div>
-          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 1: <code class="font-mono text-blue-700">createUser()</code></h2>
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold">
+            <i data-lucide="sprout" class="w-3.5 h-3.5 text-amber-600"></i><span>Hito 0 · Parte 2 de 2 · Datos de prueba con hashes bcrypt reales</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Semilla <code class="font-mono text-amber-700">02_fix_seed_credentials.sql</code> y validación</h2>
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-300 font-mono font-bold max-w-full break-all"><i data-lucide="file-code" class="w-3.5 h-3.5"></i>database/seeds/02_fix_seed_credentials.sql</span>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold">CREAR</span>
+            <span class="text-slate-500 font-semibold">Archivo completo · junto a 01_test_seed.sql</span>
+          </div>
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
-            <div class="lg:col-span-8 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto"><pre><code class="language-javascript">{{HEAD:src/repositories/UserRepository.js}}
+            <div class="lg:col-span-7 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[440px] overflow-y-auto"><pre><code class="language-sql">{{BODY:database/seeds/02_fix_seed_credentials.sql}}</code></pre></div>
+            <div class="lg:col-span-5 space-y-3 text-xs">
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1.5">
+                <strong class="text-[#00324D] block">Ejecute después de la migración</strong>
+                <pre><code class="language-bash">psql -U postgres -d adso_auth_db -f database/seeds/02_fix_seed_credentials.sql</code></pre>
+                <p class="text-slate-600">Va en <code class="font-mono">seeds/</code> porque son datos de <strong>desarrollo</strong>: las migraciones también se ejecutan en producción; las semillas, nunca.</p>
+              </div>
+              <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1.5">
+                <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide antes de continuar</strong>
+                <pre><code class="language-bash">psql -U postgres -d adso_auth_db -c "SELECT email, role, is_verified, left(password_hash, 7) AS hash FROM users ORDER BY role;"</code></pre>
+                <p class="text-emerald-950">Resultado esperado: <code class="font-mono">admin@sena.edu.co | admin | t | $2a$12$</code> y <code class="font-mono">aprendiz.adso@misena.edu.co | user | f | $2a$12$</code>. En <code class="font-mono">\d verification_tokens</code> debe ver <code class="font-mono">token_hash | character(64)</code>.</p>
+              </div>
+              <div class="p-3 bg-purple-50 border border-purple-200 rounded-xl text-purple-950"><strong>Commit del Hito 0:</strong> <code class="font-mono text-[11px]">git add database/ ; git commit -m "fix(db): migrar tokens a sha-256 y endurecer esquema de usuarios"</code></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: LIVE CODING 1 · REPOSITORIO PARTE 1 -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING · HITO 1" data-title="Live Coding 1: UserRepository (1/4) · createUser">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold"><i data-lucide="code" class="w-3.5 h-3.5 text-blue-600"></i><span>Paso a Paso 1 · Hito 1 · Parte 1 de 4</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 1: imports y <code class="font-mono text-blue-700">createUser()</code></h2>
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-300 font-mono font-bold max-w-full break-all"><i data-lucide="file-code" class="w-3.5 h-3.5"></i>server/src/repositories/UserRepository.js</span>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold">CREAR</span>
+            <span class="text-slate-500 font-semibold">Parte 1 de 4 · inicio del archivo (cree antes la carpeta <code class="font-mono">repositories/</code>)</span>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div class="lg:col-span-8 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[440px] overflow-y-auto"><pre><code class="language-javascript">{{HEAD:src/repositories/UserRepository.js}}
 
 {{FN:src/repositories/UserRepository.js:createUser}}</code></pre></div>
             <div class="lg:col-span-4 space-y-2 text-xs">
+              <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-blue-950"><strong class="block mb-0.5">Los dos imports vienen de la Sesión 08</strong><code class="font-mono">pool</code> sale de <code class="font-mono">config/db.js</code> y <code class="font-mono">AppError</code> de <code class="font-mono">middlewares/errorHandler.js</code> (diapositiva "errorHandler.js").</div>
               <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D] block">RETURNING</strong><span class="text-slate-600">El UUID lo genera PostgreSQL (<code class="font-mono">gen_random_uuid()</code>) y lo devuelve en la misma consulta.</span></div>
               <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#39A900] block">normalizeEmail</strong><span class="text-slate-600">Sin minúsculas, el <code class="font-mono">CHECK</code> de la Sesión 06 rechazaría el INSERT.</span></div>
               <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-purple-700 block">err.code 23505</strong><span class="text-slate-600">Unique violation. Comprobamos también <code class="font-mono">err.constraint</code> para no confundirla con otra restricción.</span></div>
@@ -263,11 +394,16 @@ await pool.query(sql);</code></pre></div>
         </div>
       </section>
 
-      <!-- SLIDE: LIVE CODING find -->
-      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING" data-title="Live Coding 2: findByEmail & findById">
+      <!-- SLIDE: LIVE CODING 2 · REPOSITORIO PARTE 2 -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING · HITO 1" data-title="Live Coding 2: UserRepository (2/4) · findByEmail & findById">
         <div class="max-w-5xl mx-auto w-full space-y-4">
-          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold"><i data-lucide="search" class="w-3.5 h-3.5 text-blue-600"></i><span>Paso a Paso 2 · Hito 1</span></div>
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold"><i data-lucide="search" class="w-3.5 h-3.5 text-blue-600"></i><span>Paso a Paso 2 · Hito 1 · Parte 2 de 4</span></div>
           <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 2: <code class="font-mono text-blue-700">findByEmail()</code> & <code class="font-mono text-blue-700">findById()</code></h2>
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-300 font-mono font-bold max-w-full break-all"><i data-lucide="file-code" class="w-3.5 h-3.5"></i>server/src/repositories/UserRepository.js</span>
+            <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-extrabold">CONTINUAR</span>
+            <span class="text-slate-500 font-semibold">Parte 2 de 4 · escriba debajo de <code class="font-mono">createUser</code></span>
+          </div>
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto"><pre><code class="language-javascript">{{FN:src/repositories/UserRepository.js:findByEmail}}</code></pre></div>
             <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto"><pre><code class="language-javascript">{{FN:src/repositories/UserRepository.js:findById}}</code></pre></div>
@@ -280,11 +416,16 @@ await pool.query(sql);</code></pre></div>
         </div>
       </section>
 
-      <!-- SLIDE: LIVE CODING verifyUser -->
-      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING" data-title="Live Coding 3: verifyUser (Transacción)">
+      <!-- SLIDE: LIVE CODING 3 · REPOSITORIO PARTE 3 -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING · HITO 1" data-title="Live Coding 3: UserRepository (3/4) · verifyUser">
         <div class="max-w-5xl mx-auto w-full space-y-4">
-          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold"><i data-lucide="git-merge" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Paso a Paso 3 · Hito 1 · ACID</span></div>
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold"><i data-lucide="git-merge" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Paso a Paso 3 · Hito 1 · Parte 3 de 4 · ACID</span></div>
           <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 3: <code class="font-mono text-emerald-700">verifyUser()</code> en una transacción</h2>
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-300 font-mono font-bold max-w-full break-all"><i data-lucide="file-code" class="w-3.5 h-3.5"></i>server/src/repositories/UserRepository.js</span>
+            <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-extrabold">CONTINUAR</span>
+            <span class="text-slate-500 font-semibold">Parte 3 de 4 · escriba debajo de <code class="font-mono">findById</code></span>
+          </div>
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
             <div class="lg:col-span-8 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[420px] overflow-y-auto"><pre><code class="language-javascript">{{FN:src/repositories/UserRepository.js:verifyUser}}</code></pre></div>
             <div class="lg:col-span-4 space-y-2 text-xs">
@@ -296,56 +437,198 @@ await pool.query(sql);</code></pre></div>
         </div>
       </section>
 
-      <!-- SLIDE: LIVE CODING asyncHandler + validators -->
-      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING" data-title="Live Coding 4: asyncHandler & Validadores">
+      <!-- SLIDE: LIVE CODING 3B · REPOSITORIO PARTE 4 -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING · HITO 1" data-title="Live Coding 3B: UserRepository (4/4) · Export y Validación">
         <div class="max-w-5xl mx-auto w-full space-y-4">
-          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-slate-100 text-slate-800 border border-slate-200 rounded-full text-xs font-bold"><i data-lucide="wrench" class="w-3.5 h-3.5 text-blue-600"></i><span>Paso a Paso 4 · Hito 2</span></div>
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold"><i data-lucide="package-check" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Paso a Paso 3B · Hito 1 · Parte 4 de 4 · Cierre del archivo</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Exportar el repositorio y probarlo contra PostgreSQL</h2>
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-300 font-mono font-bold max-w-full break-all"><i data-lucide="file-code" class="w-3.5 h-3.5"></i>server/src/repositories/UserRepository.js</span>
+            <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-extrabold">CONTINUAR</span>
+            <span class="text-slate-500 font-semibold">Parte 4 de 4 · última línea del archivo, debajo de <code class="font-mono">verifyUser</code></span>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div class="lg:col-span-6 space-y-3">
+              <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto"><pre><code class="language-javascript">{{TAIL:src/repositories/UserRepository.js#export const UserRepository}}</code></pre></div>
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5">
+                <strong class="text-[#00324D] block">Así queda el archivo completo, de arriba abajo</strong>
+                <ol class="list-decimal list-inside text-slate-600 space-y-0.5">
+                  <li>imports: <code class="font-mono">pool</code> y <code class="font-mono">AppError</code></li>
+                  <li><code class="font-mono">PG_UNIQUE_VIOLATION</code> y <code class="font-mono">normalizeEmail</code></li>
+                  <li><code class="font-mono">createUser</code> · <code class="font-mono">findByEmail</code> · <code class="font-mono">findById</code> · <code class="font-mono">verifyUser</code></li>
+                  <li><code class="font-mono">export const UserRepository = { … }</code></li>
+                </ol>
+                <p class="text-slate-500">Las funciones no llevan <code class="font-mono">export</code>: se publican juntas en este objeto, que es lo que importa el controlador.</p>
+              </div>
+            </div>
+            <div class="lg:col-span-6 space-y-3 text-xs">
+              <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1.5">
+                <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide antes de continuar (desde la carpeta <code class="font-mono">server</code>)</strong>
+                <pre><code class="language-bash">node --check src/repositories/UserRepository.js
+node --input-type=module -e "const { UserRepository } = await import('./src/repositories/UserRepository.js'); console.log(await UserRepository.findByEmail('ADMIN@sena.edu.co')); process.exit(0);"</code></pre>
+                <p class="text-emerald-950">Resultado esperado: un objeto con <code class="font-mono">email: 'admin@sena.edu.co'</code>, <code class="font-mono">role: 'admin'</code> e <code class="font-mono">is_verified: true</code>. Observe que lo encontró aunque buscamos en MAYÚSCULAS y que <strong>no trae <code class="font-mono">password_hash</code></strong>.</p>
+              </div>
+              <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-950 space-y-1">
+                <strong class="block">Si ve este error…</strong>
+                <code class="font-mono text-[11px] block">ERR_MODULE_NOT_FOUND: Cannot find module '…\src\middlewares\errorHandler.js'</code>
+                <span>→ Le falta <code class="font-mono">errorHandler.js</code> de la Sesión 08: créelo con la diapositiva "errorHandler.js".</span>
+                <code class="font-mono text-[11px] block pt-1">password authentication failed / database "…" does not exist</code>
+                <span>→ Revise <code class="font-mono">PG_PASSWORD</code> y <code class="font-mono">PG_DATABASE=adso_auth_db</code> en <code class="font-mono">server/.env</code>.</span>
+              </div>
+              <div class="p-3 bg-purple-50 border border-purple-200 rounded-xl text-purple-950"><strong>Commit del Hito 1:</strong> <code class="font-mono text-[11px]">git add server/src/repositories ; git commit -m "feat(repository): crear userrepository con consultas parametrizadas"</code></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: LIVE CODING 4 · ASYNCHANDLER + VALIDATORS -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING · HITO 2" data-title="Live Coding 4: asyncHandler & Validadores">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-slate-100 text-slate-800 border border-slate-200 rounded-full text-xs font-bold"><i data-lucide="wrench" class="w-3.5 h-3.5 text-blue-600"></i><span>Paso a Paso 4 · Hito 2 · Dos archivos nuevos</span></div>
           <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 4: <code class="font-mono text-blue-700">asyncHandler</code> & <code class="font-mono text-blue-700">validators</code></h2>
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div class="space-y-2">
+              <div class="flex flex-wrap items-center gap-2 text-xs">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-300 font-mono font-bold max-w-full break-all"><i data-lucide="file-code" class="w-3.5 h-3.5"></i>server/src/middlewares/asyncHandler.js</span>
+                <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold">CREAR</span>
+                <span class="text-slate-500 font-semibold">Archivo completo · junto a errorHandler.js</span>
+              </div>
               <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto"><pre><code class="language-javascript">{{BODY:src/middlewares/asyncHandler.js}}</code></pre></div>
               <p class="text-xs text-slate-600">Express 4 no captura errores de funciones <code class="font-mono">async</code>. Sin este envoltorio, un fallo de PostgreSQL deja la petición <strong>colgada</strong> en lugar de responder 500.</p>
             </div>
             <div class="space-y-2">
+              <div class="flex flex-wrap items-center gap-2 text-xs">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-300 font-mono font-bold max-w-full break-all"><i data-lucide="file-code" class="w-3.5 h-3.5"></i>server/src/utils/validators.js</span>
+                <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold">CREAR</span>
+                <span class="text-slate-500 font-semibold">Archivo completo · carpeta nueva <code class="font-mono">utils/</code></span>
+              </div>
               <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto"><pre><code class="language-javascript">{{BODY:src/utils/validators.js}}</code></pre></div>
               <p class="text-xs text-slate-600">Validar <strong>no reemplaza</strong> a los placeholders: son dos capas. La validación da mensajes claros (400); <code class="font-mono">$1</code> bloquea la inyección incluso si algo se escapa.</p>
             </div>
           </div>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 text-xs">
+            <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1.5">
+              <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide antes de continuar (desde <code class="font-mono">server</code>)</strong>
+              <pre><code class="language-bash">node --check src/middlewares/asyncHandler.js
+node --input-type=module -e "const v = await import('./src/utils/validators.js'); console.log(v.isValidEmail('ana@sena.edu.co'), v.isValidEmail(123), v.isUuid('123'));"</code></pre>
+              <p class="text-emerald-950">Resultado esperado: el primer comando no imprime nada (sin errores) y el segundo imprime <code class="font-mono">true false false</code>.</p>
+            </div>
+            <div class="p-3 bg-purple-50 border border-purple-200 rounded-xl text-purple-950 self-start"><strong>Commit del Hito 2:</strong> <code class="font-mono text-[11px]">git add server/src/middlewares/asyncHandler.js server/src/utils ; git commit -m "feat(server): agregar asynchandler y validadores de entrada"</code></div>
+          </div>
         </div>
       </section>
 
-      <!-- SLIDE: LIVE CODING controller -->
-      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING" data-title="Live Coding 5: devUserController">
+      <!-- SLIDE: LIVE CODING 5 · CONTROLADOR PARTE 1 -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING · HITO 3" data-title="Live Coding 5: devUserController (1/2)">
         <div class="max-w-5xl mx-auto w-full space-y-4">
-          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold"><i data-lucide="file-code" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Paso a Paso 5 · Hito 3</span></div>
-          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 5: <code class="font-mono text-emerald-700">devUserController.js</code></h2>
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold"><i data-lucide="file-code" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Paso a Paso 5 · Hito 3 · Parte 1 de 2</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 5: imports, <em>helpers</em>, crear y buscar por correo</h2>
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-300 font-mono font-bold max-w-full break-all"><i data-lucide="file-code" class="w-3.5 h-3.5"></i>server/src/controllers/devUserController.js</span>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold">CREAR</span>
+            <span class="text-slate-500 font-semibold">Parte 1 de 2 · inicio del archivo, junto a healthController.js</span>
+          </div>
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
-            <div class="lg:col-span-8 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[420px] overflow-y-auto"><pre><code class="language-javascript">{{FN:src/controllers/devUserController.js:createDevUser}}
-
-{{FN:src/controllers/devUserController.js:verifyDevUser}}</code></pre></div>
+            <div class="lg:col-span-8 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[460px] overflow-y-auto"><pre><code class="language-javascript">{{SEC:src/controllers/devUserController.js#import { UserRepository#// GET /api/dev/users/:id}}</code></pre></div>
             <div class="lg:col-span-4 space-y-2 text-xs">
-              <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl"><strong class="text-rose-800 block mb-1">Asignación masiva</strong><span class="text-rose-950">Si pasáramos <code class="font-mono">req.body</code> completo al repositorio, un <code class="font-mono">{"role":"admin"}</code> crearía administradores. Solo se toman los campos permitidos.</span></div>
-              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D] block"><code class="font-mono">throw new AppError(...)</code></strong><span class="text-slate-600">El controlador no arma respuestas de error a mano: lanza el error y <code class="font-mono">errorHandler</code> le da el formato estándar.</span></div>
-              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#39A900] block">404 vs 409</strong><span class="text-slate-600"><code class="font-mono">verifyUser</code> devuelve <code class="font-mono">null</code> en dos casos; el controlador averigua cuál para responder con el código correcto.</span></div>
+              <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-blue-950"><strong class="block mb-0.5">Tres imports, tres capas</strong>el repositorio (Hito 1), <code class="font-mono">AppError</code> (Sesión 08) y los validadores (Hito 2).</div>
+              <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl"><strong class="text-rose-800 block mb-1">Asignación masiva</strong><span class="text-rose-950">Si pasáramos <code class="font-mono">req.body</code> completo al repositorio, un <code class="font-mono">{"role":"admin"}</code> crearía administradores. Solo se toma <code class="font-mono">email</code>.</span></div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D] block"><code class="font-mono">DEV_PLACEHOLDER_HASH</code></strong><span class="text-slate-600">No es un hash bcrypt válido: nadie puede iniciar sesión con estos usuarios de prueba. La contraseña real llega en la Sesión 11.</span></div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#39A900] block"><code class="font-mono">throw new AppError(...)</code></strong><span class="text-slate-600">El controlador no arma respuestas de error: lanza el error y <code class="font-mono">errorHandler</code> le da el formato estándar.</span></div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE: LIVE CODING routes + app -->
-      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING" data-title="Live Coding 6: Rutas & app.js">
+      <!-- SLIDE: LIVE CODING 5B · CONTROLADOR PARTE 2 -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING · HITO 3" data-title="Live Coding 5B: devUserController (2/2)">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold"><i data-lucide="file-code" class="w-3.5 h-3.5 text-[#39A900]"></i><span>Paso a Paso 5B · Hito 3 · Parte 2 de 2</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 5B: buscar por id y verificar cuenta</h2>
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-300 font-mono font-bold max-w-full break-all"><i data-lucide="file-code" class="w-3.5 h-3.5"></i>server/src/controllers/devUserController.js</span>
+            <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-extrabold">CONTINUAR</span>
+            <span class="text-slate-500 font-semibold">Parte 2 de 2 · debajo de <code class="font-mono">getDevUserByEmail</code>, hasta el final del archivo</span>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div class="lg:col-span-7 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[440px] overflow-y-auto"><pre><code class="language-javascript">{{TAIL:src/controllers/devUserController.js#// GET /api/dev/users/:id}}</code></pre></div>
+            <div class="lg:col-span-5 space-y-2 text-xs">
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#39A900] block">404 vs 409</strong><span class="text-slate-600"><code class="font-mono">verifyUser</code> devuelve <code class="font-mono">null</code> en dos casos; el controlador consulta <code class="font-mono">findById</code> para responder con el código correcto.</span></div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D] block">Cuatro funciones exportadas</strong><span class="text-slate-600"><code class="font-mono">createDevUser</code>, <code class="font-mono">getDevUserByEmail</code>, <code class="font-mono">getDevUserById</code> y <code class="font-mono">verifyDevUser</code>: las cuatro las importa el enrutador del siguiente paso.</span></div>
+              <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1.5">
+                <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide antes de continuar</strong>
+                <pre><code class="language-bash">node --check src/controllers/devUserController.js</code></pre>
+                <p class="text-emerald-950">Sin salida = sintaxis correcta.</p>
+              </div>
+              <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-950 space-y-1">
+                <strong class="block">Si más adelante ve este error…</strong>
+                <code class="font-mono text-[11px] block">SyntaxError: The requested module '../repositories/UserRepository.js' does not provide an export named 'UserRepository'</code>
+                <span>→ Falta la Parte 4 del repositorio: la línea <code class="font-mono">export const UserRepository = { … }</code>.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: LIVE CODING 6 · RUTAS -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING · HITO 3" data-title="Live Coding 6: devUserRoutes.js">
         <div class="max-w-5xl mx-auto w-full space-y-4">
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold"><i data-lucide="route" class="w-3.5 h-3.5 text-blue-600"></i><span>Paso a Paso 6 · Hito 3</span></div>
-          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 6: <code class="font-mono text-blue-700">devUserRoutes.js</code> & montaje en <code class="font-mono text-blue-700">app.js</code></h2>
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto"><pre><code class="language-javascript">{{BODY:src/routes/devUserRoutes.js}}</code></pre></div>
-            <div class="space-y-3">
-              <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto"><pre><code class="language-javascript">// src/app.js (agregar)
-import devUserRoutes from './routes/devUserRoutes.js';
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 6: el enrutador <code class="font-mono text-blue-700">devUserRoutes.js</code></h2>
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-300 font-mono font-bold max-w-full break-all"><i data-lucide="file-code" class="w-3.5 h-3.5"></i>server/src/routes/devUserRoutes.js</span>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold">CREAR</span>
+            <span class="text-slate-500 font-semibold">Archivo completo · junto a healthRoutes.js</span>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div class="lg:col-span-7 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto"><pre><code class="language-javascript">{{BODY:src/routes/devUserRoutes.js}}</code></pre></div>
+            <div class="lg:col-span-5 space-y-2 text-xs">
+              <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-950"><strong class="block mb-0.5">El orden importa</strong><code class="font-mono">/by-email</code> va <strong>antes</strong> de <code class="font-mono">/:id</code>. Al revés, Express tomaría el texto "by-email" como si fuera un id y respondería 400 INVALID_ID.</div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D] block"><code class="font-mono">asyncHandler(…)</code> en cada ruta</strong><span class="text-slate-600">Todos los controladores son <code class="font-mono">async</code>: sin el envoltorio, un error de la base dejaría la petición colgada.</span></div>
+              <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1.5">
+                <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide antes de continuar</strong>
+                <pre><code class="language-bash">node --check src/routes/devUserRoutes.js</code></pre>
+                <p class="text-emerald-950">Las rutas todavía <strong>no responden</strong>: falta montarlas en <code class="font-mono">app.js</code> (siguiente diapositiva).</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-// ...después de app.use('/api/health', healthRoutes);
-{{BLOCK:src/app.js:// Rutas de laboratorio de la Sesión 09}}</code></pre></div>
-              <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-950"><strong>Sin autenticación ≠ sin control:</strong> estas rutas no existen en producción. Con <code class="font-mono">NODE_ENV=production</code>, <code class="font-mono">POST /api/dev/users</code> responde 404.</div>
+      <!-- SLIDE: LIVE CODING 6B · APP.JS -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1: LIVE CODING · HITO 3" data-title="Live Coding 6B: Montar las rutas en app.js">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold"><i data-lucide="plug" class="w-3.5 h-3.5 text-blue-600"></i><span>Paso a Paso 6B · Hito 3 · Dos cambios en un archivo existente</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Live Coding 6B: montar las rutas en <code class="font-mono text-blue-700">app.js</code></h2>
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-300 font-mono font-bold max-w-full break-all"><i data-lucide="file-code" class="w-3.5 h-3.5"></i>server/src/app.js</span>
+            <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-extrabold">MODIFICAR</span>
+            <span class="text-slate-500 font-semibold">Archivo de la Sesión 08 · así debe quedar completo</span>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div class="lg:col-span-7 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[460px] overflow-y-auto"><pre><code class="language-javascript">{{BODY:src/app.js}}</code></pre></div>
+            <div class="lg:col-span-5 space-y-2 text-xs">
+              <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-950 space-y-1">
+                <strong class="block">Solo cambian dos cosas respecto a la Sesión 08</strong>
+                <span class="block">① Un import nuevo, debajo de <code class="font-mono">import healthRoutes …</code>:</span>
+                <code class="font-mono text-[11px] block">import devUserRoutes from './routes/devUserRoutes.js';</code>
+                <span class="block pt-1">② El bloque <code class="font-mono">if (!config.isProduction) { … }</code>, <strong>después</strong> de <code class="font-mono">app.use('/api/health', …)</code> y <strong>antes</strong> de <code class="font-mono">notFoundHandler</code>.</span>
+              </div>
+              <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1.5">
+                <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide: servidor + primera petición</strong>
+                <pre><code class="language-bash"># Terminal 1 (carpeta server)
+npm run dev
+
+# Terminal 2 (PowerShell)
+Invoke-RestMethod -Method Post -Uri http://localhost:3000/api/dev/users -ContentType 'application/json' -Body '{"email":"Prueba.Uno@MiSena.edu.co"}'</code></pre>
+                <p class="text-emerald-950">Resultado esperado: <code class="font-mono">success: True</code> y en <code class="font-mono">data</code> un <code class="font-mono">id</code> UUID, <code class="font-mono">email: prueba.uno@misena.edu.co</code> (en minúsculas), <code class="font-mono">role: user</code> e <code class="font-mono">is_verified: False</code>.</p>
+              </div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl text-slate-700 space-y-1">
+                <strong class="block text-slate-900">Pruebe el duplicado (409)</strong>
+                <pre><code class="language-bash">(Invoke-WebRequest -Method Post -Uri http://localhost:3000/api/dev/users -ContentType 'application/json' -Body '{"email":"PRUEBA.UNO@misena.edu.co"}' -SkipHttpErrorCheck).Content</code></pre>
+                <span>Esperado: <code class="font-mono">"statusCode":409 … "code":"EMAIL_ALREADY_EXISTS"</code>. Si en lugar de eso responde <code class="font-mono">ROUTE_NOT_FOUND</code>, el bloque quedó después de <code class="font-mono">notFoundHandler</code>.</span>
+              </div>
+              <div class="p-3 bg-purple-50 border border-purple-200 rounded-xl text-purple-950"><strong>Commit del Hito 3:</strong> <code class="font-mono text-[11px]">git add server/src ; git commit -m "feat(users): exponer rutas de laboratorio del repositorio en desarrollo"</code></div>
             </div>
           </div>
         </div>
@@ -388,6 +671,37 @@ import devUserRoutes from './routes/devUserRoutes.js';
   "timestamp": "2026-11-12T15:00:01.000Z",
   "path": "/api/dev/users"
 }</code></pre></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: BRUNO · CREAR LA COLECCIÓN -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2: PRUEBAS DE INTEGRACIÓN" data-title="Hito 4: Crear la Colección Bruno">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold"><i data-lucide="flask-conical" class="w-3.5 h-3.5 text-amber-600"></i><span>Hito 4 · Paso a paso en la aplicación Bruno</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Hito 4: crear la colección <code class="font-mono text-amber-700">server/bruno/</code></h2>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div class="lg:col-span-5 space-y-3 text-xs">
+              <ol class="space-y-2">
+                <li class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D]">1.</strong> Bruno → <strong>Create Collection</strong> · nombre <code class="font-mono">ADSO Backend - Sesión 09</code> · ubicación: la carpeta <code class="font-mono">mi-proyecto-adso/server</code> · carpeta <code class="font-mono">bruno</code>.</li>
+                <li class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D]">2.</strong> <strong>Environments → Create</strong> <code class="font-mono">Local</code> con la variable <code class="font-mono">baseUrl = http://localhost:3000</code>. Bruno crea <code class="font-mono">server/bruno/environments/Local.bru</code>.</li>
+                <li class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D]">3.</strong> Cree las 11 peticiones de la tabla de la siguiente diapositiva. Cada una es un archivo <code class="font-mono">.bru</code>; a la derecha está la 02 completa como modelo.</li>
+                <li class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D]">4.</strong> En la pestaña <strong>Tests</strong> de cada petición escriba sus aserciones (bloque <code class="font-mono">tests</code>) y ejecute <strong>Run Collection</strong>.</li>
+              </ol>
+              <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-blue-950"><strong>Para repetir las pruebas desde cero</strong> cree <code class="font-mono">database/seeds/99_reset_pruebas_sesion_09.sql</code> (abajo) y ejecútelo antes de cada corrida.</div>
+            </div>
+            <div class="lg:col-span-7 space-y-3">
+              <div class="flex flex-wrap items-center gap-2 text-xs">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-300 font-mono font-bold max-w-full break-all"><i data-lucide="file-code" class="w-3.5 h-3.5"></i>server/bruno/02 - Crear Usuario (201 Created).bru</span>
+                <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold">MODELO</span>
+              </div>
+              <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] overflow-x-auto max-h-[230px] overflow-y-auto"><pre><code class="language-javascript">{{BODY:bruno/02 - Crear Usuario (201 Created).bru}}</code></pre></div>
+              <div class="flex flex-wrap items-center gap-2 text-xs">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-300 font-mono font-bold max-w-full break-all"><i data-lucide="file-code" class="w-3.5 h-3.5"></i>database/seeds/99_reset_pruebas_sesion_09.sql</span>
+                <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold">CREAR</span>
+              </div>
+              <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] overflow-x-auto max-h-[200px] overflow-y-auto"><pre><code class="language-sql">{{BODY:database/seeds/99_reset_pruebas_sesion_09.sql}}</code></pre></div>
+            </div>
           </div>
         </div>
       </section>
@@ -450,7 +764,10 @@ import devUserRoutes from './routes/devUserRoutes.js';
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold"><i data-lucide="terminal" class="w-3.5 h-3.5 text-blue-600"></i><span>Bloque 2 · PowerShell en el repositorio personal</span></div>
           <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Montaje Guiado: comandos de la sesión</h2>
           <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto space-y-0.5">
-            <div class="text-slate-500"># Hito 0 · Migración (solo si su esquema es anterior a la corrección de S06)</div>
+            <div class="text-slate-500"># Preparación · todo se ejecuta desde la raíz mi-proyecto-adso (salvo lo marcado como "server")</div>
+            <div class="text-emerald-300">cd server ; npm run dev   # health de PostgreSQL debe estar "healthy"</div>
+            <div class="text-emerald-300">node --check src/middlewares/errorHandler.js   # debe existir y exportar AppError</div>
+            <div class="text-slate-500 pt-2"># Hito 0 · Migración (solo si su esquema es anterior a la corrección de S06)</div>
             <div class="text-emerald-300">psql -U postgres -d adso_auth_db -f database/migrations/02_hardening_auth_schema.sql</div>
             <div class="text-emerald-300">psql -U postgres -d adso_auth_db -f database/seeds/02_fix_seed_credentials.sql</div>
             <div class="text-purple-300">git add database/ ; git commit -m "fix(db): migrar tokens a sha-256 y endurecer esquema de usuarios"</div>
@@ -461,8 +778,9 @@ import devUserRoutes from './routes/devUserRoutes.js';
             <div class="text-purple-300">git add server/src/middlewares/asyncHandler.js server/src/utils ; git commit -m "feat(server): agregar asynchandler y validadores de entrada"</div>
             <div class="text-slate-500 pt-2"># Hito 3 · Capa HTTP</div>
             <div class="text-purple-300">git add server/src ; git commit -m "feat(users): exponer rutas de laboratorio del repositorio en desarrollo"</div>
-            <div class="text-slate-500 pt-2"># Hito 4 · Pruebas</div>
-            <div class="text-purple-300">git add server/bruno ; git commit -m "test(api): coleccion bruno con casos de sqli y unique violation"</div>
+            <div class="text-slate-500 pt-2"># Hito 4 · Pruebas (reinicie los datos antes de cada corrida de la colección)</div>
+            <div class="text-emerald-300">psql -U postgres -d adso_auth_db -f database/seeds/99_reset_pruebas_sesion_09.sql</div>
+            <div class="text-purple-300">git add server/bruno database/seeds/99_reset_pruebas_sesion_09.sql ; git commit -m "test(api): coleccion bruno con casos de sqli y unique violation"</div>
             <div class="text-purple-300">git push</div>
           </div>
           <p class="text-xs text-slate-600">Antes de cada commit: <code class="font-mono">git status</code> y compruebe que <code class="font-mono">.env</code> no aparece.</p>

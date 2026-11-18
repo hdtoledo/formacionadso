@@ -11,6 +11,30 @@ Construir la capa de acceso a datos de usuarios (`UserRepository`) sobre el esqu
 
 ---
 
+## ✅ 0. Preparación: verifique la Sesión 08
+
+Esta sesión **agrega** archivos al servidor de la Sesión 08; no lo reemplaza. Antes de escribir código compruebe:
+
+| Archivo (Sesión 08) | Para qué lo usa la Sesión 09 |
+|---|---|
+| `server/.env` | `PG_DATABASE=adso_auth_db` y su contraseña real de PostgreSQL |
+| `server/src/config/db.js` | Exporta el `pool` que importa el repositorio |
+| `server/src/middlewares/errorHandler.js` | Exporta **`AppError`**, que usan el repositorio (409) y el controlador (400/404) |
+| `server/src/app.js` | Donde se montan las rutas nuevas |
+
+```powershell
+cd server
+npm run dev
+# En otra terminal:
+(Invoke-RestMethod http://localhost:3000/api/health).services.postgres.status   # → healthy
+node --check src/middlewares/errorHandler.js
+(Invoke-WebRequest http://localhost:3000/api/no-existe -SkipHttpErrorCheck).Content   # → "code":"ROUTE_NOT_FOUND"
+```
+
+> Si su `errorHandler.js` no contiene `export class AppError` (en la Sesión 08 se proyectó solo un extracto), cópielo completo desde la diapositiva **"errorHandler.js: la pieza que usa toda la sesión"** o desde el paquete **"Proyecto hasta la Sesión 08"** del portal. Sin ese archivo, el repositorio falla con `ERR_MODULE_NOT_FOUND`.
+
+---
+
 ## 🏗️ 1. Archivos que se agregan hoy
 
 ```text
@@ -62,23 +86,65 @@ Qué cambia:
 
 ## 🧩 3. Hitos 1 a 3 · Repositorio y capa HTTP
 
-Escriba cada archivo siguiendo el live coding del instructor (el código completo está en el visor de la diapositiva 20).
+Cada diapositiva de live coding indica el **archivo**, la **acción** (CREAR, CONTINUAR o MODIFICAR) y **dónde** va el fragmento. Todos los comandos de validación se ejecutan desde la carpeta `server`.
 
 ```powershell
-New-Item -ItemType Directory -Force server/src/repositories, server/src/utils
-
-# Hito 1
-git add server/src/repositories
-git commit -m "feat(repository): crear userrepository con consultas parametrizadas"
-
-# Hito 2
-git add server/src/middlewares/asyncHandler.js server/src/utils
-git commit -m "feat(server): agregar asynchandler y validadores de entrada"
-
-# Hito 3
-git add server/src
-git commit -m "feat(users): exponer rutas de laboratorio del repositorio en desarrollo"
+New-Item -ItemType Directory -Force src/repositories, src/utils
 ```
+
+### Hito 1 · `server/src/repositories/UserRepository.js` (CREAR, en 4 partes)
+
+| Parte | Contenido | Ubicación en el archivo |
+|---|---|---|
+| 1 | imports (`pool`, `AppError`), `PG_UNIQUE_VIOLATION`, `normalizeEmail`, `createUser` | Inicio |
+| 2 | `findByEmail`, `findById` | Debajo de `createUser` |
+| 3 | `verifyUser` (transacción) | Debajo de `findById` |
+| 4 | `export const UserRepository = { createUser, findByEmail, findById, verifyUser };` | Última línea |
+
+```powershell
+node --check src/repositories/UserRepository.js
+node --input-type=module -e "const { UserRepository } = await import('./src/repositories/UserRepository.js'); console.log(await UserRepository.findByEmail('ADMIN@sena.edu.co')); process.exit(0);"
+# → objeto con email 'admin@sena.edu.co', role 'admin', is_verified true y SIN password_hash
+git add src/repositories ; git commit -m "feat(repository): crear userrepository con consultas parametrizadas"
+```
+
+### Hito 2 · `server/src/middlewares/asyncHandler.js` y `server/src/utils/validators.js` (CREAR)
+
+```powershell
+node --check src/middlewares/asyncHandler.js
+node --input-type=module -e "const v = await import('./src/utils/validators.js'); console.log(v.isValidEmail('ana@sena.edu.co'), v.isValidEmail(123), v.isUuid('123'));"
+# → true false false
+git add src/middlewares/asyncHandler.js src/utils ; git commit -m "feat(server): agregar asynchandler y validadores de entrada"
+```
+
+### Hito 3 · Capa HTTP
+
+| Archivo | Acción | Detalle |
+|---|---|---|
+| `server/src/controllers/devUserController.js` | CREAR (2 partes) | Parte 1: imports, `DEV_PLACEHOLDER_HASH`, *helpers*, `createDevUser`, `getDevUserByEmail`. Parte 2: `getDevUserById`, `verifyDevUser` |
+| `server/src/routes/devUserRoutes.js` | CREAR | `/by-email` **antes** de `/:id` |
+| `server/src/app.js` | MODIFICAR | ① `import devUserRoutes from './routes/devUserRoutes.js';` debajo de `import healthRoutes …` ② bloque `if (!config.isProduction) { app.use('/api/dev/users', devUserRoutes); }` después de `/api/health` y **antes** de `notFoundHandler` |
+
+```powershell
+node --check src/controllers/devUserController.js
+node --check src/routes/devUserRoutes.js
+npm run dev
+# En otra terminal:
+Invoke-RestMethod -Method Post -Uri http://localhost:3000/api/dev/users -ContentType 'application/json' -Body '{"email":"Prueba.Uno@MiSena.edu.co"}'
+# → success True · email prueba.uno@misena.edu.co · role user · is_verified False
+(Invoke-WebRequest -Method Post -Uri http://localhost:3000/api/dev/users -ContentType 'application/json' -Body '{"email":"PRUEBA.UNO@misena.edu.co"}' -SkipHttpErrorCheck).Content
+# → "statusCode":409 … "code":"EMAIL_ALREADY_EXISTS"
+git add src ; git commit -m "feat(users): exponer rutas de laboratorio del repositorio en desarrollo"
+```
+
+**Errores frecuentes**
+
+| Mensaje | Causa |
+|---|---|
+| `ERR_MODULE_NOT_FOUND … middlewares\errorHandler.js` | Falta `errorHandler.js` de la Sesión 08 (ver sección 0) |
+| `does not provide an export named 'UserRepository'` | Falta la Parte 4 del repositorio |
+| `"code":"ROUTE_NOT_FOUND"` en `/api/dev/users` | El bloque de rutas quedó después de `notFoundHandler` en `app.js` |
+| `password authentication failed` | `PG_PASSWORD` incorrecto en `server/.env` |
 
 Reglas que se revisan en la sustentación:
 1. **Ningún valor externo se concatena en el SQL**, ni con `+` ni con template literals: siempre `$1, $2…`.
