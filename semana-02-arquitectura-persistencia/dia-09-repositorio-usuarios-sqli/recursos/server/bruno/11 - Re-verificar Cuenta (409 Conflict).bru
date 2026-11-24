@@ -18,5 +18,7 @@ tests {
 }
 
 docs {
-  La cuenta ya estaba activa: no se repite la operación.
+  Envía: exactamente la misma petición de la 10. Requiere haber ejecutado la 10.
+  Debe responder: 409 con code "USER_ALREADY_VERIFIED".
+  Demuestra: verifyUser devolvió null (WHERE is_verified = FALSE no encontró filas) y el controlador distinguió "ya verificado" (409) de "no existe" (404).
 }

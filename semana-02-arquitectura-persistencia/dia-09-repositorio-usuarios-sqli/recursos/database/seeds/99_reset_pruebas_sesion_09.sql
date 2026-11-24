@@ -9,9 +9,10 @@
 
 BEGIN;
 
--- 1. Usuarios creados por las peticiones 02 y 04 de Bruno (sus tokens caen por CASCADE)
+-- 1. Usuarios creados por la prueba de app.js (Hito 3) y por las peticiones 02 y 04 de Bruno
+--    (sus tokens caen por ON DELETE CASCADE)
 DELETE FROM users
- WHERE email IN ('nuevo.aprendiz@misena.edu.co', 'intento.admin@misena.edu.co');
+ WHERE email IN ('prueba.uno@misena.edu.co', 'nuevo.aprendiz@misena.edu.co', 'intento.admin@misena.edu.co');
 
 -- 2. El aprendiz de la semilla vuelve a quedar pendiente de verificación
 UPDATE users SET is_verified = FALSE WHERE email = 'aprendiz.adso@misena.edu.co';

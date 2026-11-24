@@ -74,6 +74,9 @@ img, svg, video { max-width: 100%; }
 /* Nombres de archivo o rutas largas en texto corrido: se parten en lugar de desbordar */
 .ls-main p code, .ls-main li code, .ls-main span > code, .ls-main td code { overflow-wrap: anywhere; }
 
+/* Sin ligaduras en código: "--", "=>" o "!==" deben verse tal como el aprendiz los teclea */
+code, pre, kbd, .font-mono { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
+
 /* Encabezados de diapositiva con chip + título + duración en una fila: en pantallas
    pequeñas se apilan (solo las filas que contienen un título) */
 @media (max-width: 639px) {

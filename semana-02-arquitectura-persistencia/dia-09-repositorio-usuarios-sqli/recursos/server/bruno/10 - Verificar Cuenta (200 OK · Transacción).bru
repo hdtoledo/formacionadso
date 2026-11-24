@@ -13,10 +13,13 @@ patch {
 tests {
   test("Verificar Cuenta (200 OK · Transacción)", function () {
     expect(res.status).to.equal(200);
+    expect(res.body.data.email).to.equal("aprendiz.adso@misena.edu.co");
     expect(res.body.data.is_verified).to.equal(true);
   });
 }
 
 docs {
-  verifyUser: UPDATE is_verified + DELETE de tokens en una sola transacción. Compruebe en psql que el token desapareció.
+  Envía: PATCH sin body al UUID del aprendiz sembrado (b0000000-0000-0000-0000-000000000002).
+  Debe responder: 200 con email "aprendiz.adso@misena.edu.co" e is_verified true.
+  Compruebe en psql que la transacción también borró sus tokens: SELECT count(*) FROM verification_tokens WHERE user_id = 'b0000000-0000-0000-0000-000000000002';  → 0
 }

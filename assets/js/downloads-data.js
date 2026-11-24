@@ -117,12 +117,12 @@ window.ADSO_DOWNLOADS = [
     ],
     "session": {
       "href": "semana-02-arquitectura-persistencia/dia-09-repositorio-usuarios-sqli/codigo-sesion-09.zip",
-      "bytes": 20688,
+      "bytes": 22940,
       "files": 23
     },
     "project": {
       "href": "semana-02-arquitectura-persistencia/dia-09-repositorio-usuarios-sqli/proyecto-hasta-sesion-09.zip",
-      "bytes": 49455,
+      "bytes": 51707,
       "files": 39
     }
   },
@@ -167,7 +167,7 @@ window.ADSO_DOWNLOADS = [
     },
     "project": {
       "href": "semana-02-arquitectura-persistencia/dia-10-mongoose-crud-contenidos/proyecto-hasta-sesion-10.zip",
-      "bytes": 66854,
+      "bytes": 69106,
       "files": 58
     }
   }

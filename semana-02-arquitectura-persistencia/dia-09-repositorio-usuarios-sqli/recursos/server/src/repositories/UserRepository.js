@@ -18,7 +18,7 @@ import { AppError } from '../middlewares/errorHandler.js';
 const PG_UNIQUE_VIOLATION = '23505';
 
 // El correo se guarda siempre en minúsculas (lo exige chk_users_email_lower de la Sesión 06)
-export const normalizeEmail = (email) => email.trim().toLowerCase();
+const normalizeEmail = (email) => email.trim().toLowerCase();
 
 /**
  * Crea un usuario y devuelve sus datos públicos (incluido el UUID generado por PostgreSQL).

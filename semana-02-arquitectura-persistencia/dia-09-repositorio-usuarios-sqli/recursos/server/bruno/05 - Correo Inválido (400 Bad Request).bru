@@ -23,10 +23,13 @@ body:json {
 tests {
   test("Correo Inválido (400 Bad Request)", function () {
     expect(res.status).to.equal(400);
+    expect(res.body.code).to.equal("VALIDATION_ERROR");
     expect(res.body.fieldErrors).to.have.property("email");
   });
 }
 
 docs {
-  Un número no es un correo: se rechaza antes de llegar a la base de datos.
+  Envía: { "email": 12345 } (un número, no un texto).
+  Debe responder: 400 con code "VALIDATION_ERROR" y fieldErrors.email.
+  Demuestra: isValidEmail rechaza la entrada antes de tocar la base de datos.
 }

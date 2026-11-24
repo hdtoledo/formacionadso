@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/dev/users/by-email?email=admin@sena.edu.co
+  url: {{baseUrl}}/api/dev/users/by-email?email=ADMIN@sena.edu.co
   body: none
   auth: none
 }
@@ -13,10 +13,14 @@ get {
 tests {
   test("Buscar por Email (200 OK)", function () {
     expect(res.status).to.equal(200);
+    expect(res.body.data.email).to.equal("admin@sena.edu.co");
     expect(res.body.data.role).to.equal("admin");
+    expect(res.body.data).to.not.have.property("password_hash");
   });
 }
 
 docs {
-  findByEmail con consulta parametrizada ($1).
+  Envía: GET con ?email=ADMIN@sena.edu.co (en mayúsculas).
+  Debe responder: 200 con el administrador de la semilla (email en minúsculas, role "admin") y SIN password_hash.
+  Demuestra: findByEmail parametrizado ($1) + normalizeEmail.
 }

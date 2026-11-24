@@ -13,9 +13,14 @@ get {
 tests {
   test("Buscar por ID (200 OK)", function () {
     expect(res.status).to.equal(200);
+    expect(res.body.data.id).to.equal("a0000000-0000-0000-0000-000000000001");
+    expect(res.body.data.email).to.equal("admin@sena.edu.co");
+    expect(res.body.data).to.not.have.property("password_hash");
   });
 }
 
 docs {
-  findById del administrador sembrado en la Sesión 06.
+  Envía: GET con el UUID del administrador sembrado en la Sesión 06 (a0000000-0000-0000-0000-000000000001).
+  Debe responder: 200 con id, email "admin@sena.edu.co", role "admin" y SIN password_hash.
+  Demuestra: findById usa la clave primaria (users_pkey).
 }

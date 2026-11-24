@@ -24,10 +24,13 @@ body:json {
 tests {
   test("Asignación Masiva de Rol (role ignorado)", function () {
     expect(res.status).to.equal(201);
+    expect(res.body.data.email).to.equal("intento.admin@misena.edu.co");
     expect(res.body.data.role).to.equal("user");
   });
 }
 
 docs {
-  El atacante intenta crearse como admin. El controlador nunca toma el rol del body.
+  Envía: un correo nuevo y "role": "admin" (intento de auto-ascenso).
+  Debe responder: 201 con role "user". El campo role del body se ignora.
+  Demuestra: el controlador solo toma email de req.body (defensa contra asignación masiva).
 }

@@ -148,17 +148,28 @@
 │       ├── <span class="text-emerald-400 font-bold">02_fix_seed_credentials.sql</span>   <span class="text-slate-500"># HITO 0</span>
 │       └── <span class="text-emerald-400 font-bold">99_reset_pruebas_sesion_09.sql</span> <span class="text-slate-500"># HITO 4</span>
 └── server/
-    ├── .env                           <span class="text-slate-500"># S08 · PG_DATABASE=adso_auth_db</span>
-    ├── <span class="text-emerald-400 font-bold">bruno/</span>                         <span class="text-slate-500"># HITO 4</span>
+    ├── .env                    <span class="text-slate-500"># S08 · PG_DATABASE=adso_auth_db</span>
+    ├── <span class="text-emerald-400 font-bold">bruno/</span>                  <span class="text-slate-500"># HITO 4 · 11 peticiones .bru</span>
     └── src/
-        ├── config/db.js               <span class="text-slate-500"># S08 · exporta pool</span>
-        ├── <span class="text-sky-300 font-bold">middlewares/errorHandler.js</span>    <span class="text-slate-500"># S08 · VERIFICAR (AppError)</span>
-        ├── <span class="text-emerald-400 font-bold">repositories/UserRepository.js</span> <span class="text-slate-500"># HITO 1</span>
-        ├── <span class="text-emerald-400 font-bold">middlewares/asyncHandler.js</span>    <span class="text-slate-500"># HITO 2</span>
-        ├── <span class="text-emerald-400 font-bold">utils/validators.js</span>            <span class="text-slate-500"># HITO 2</span>
-        ├── <span class="text-emerald-400 font-bold">controllers/devUserController.js</span> <span class="text-slate-500"># HITO 3</span>
-        ├── <span class="text-emerald-400 font-bold">routes/devUserRoutes.js</span>        <span class="text-slate-500"># HITO 3</span>
-        └── <span class="text-amber-300 font-bold">app.js</span>                         <span class="text-slate-500"># HITO 3 (se modifica)</span></div>
+        ├── config/
+        │   ├── environment.js  <span class="text-slate-500"># S08</span>
+        │   └── db.js           <span class="text-slate-500"># S08 · exporta pool</span>
+        ├── controllers/
+        │   ├── healthController.js     <span class="text-slate-500"># S08</span>
+        │   └── <span class="text-emerald-400 font-bold">devUserController.js</span>    <span class="text-slate-500"># HITO 3</span>
+        ├── middlewares/
+        │   ├── <span class="text-sky-300 font-bold">errorHandler.js</span>         <span class="text-slate-500"># S08 · VERIFICAR</span>
+        │   └── <span class="text-emerald-400 font-bold">asyncHandler.js</span>         <span class="text-slate-500"># HITO 2</span>
+        ├── <span class="text-emerald-400 font-bold">repositories/</span>               <span class="text-slate-500"># carpeta nueva</span>
+        │   └── <span class="text-emerald-400 font-bold">UserRepository.js</span>       <span class="text-slate-500"># HITO 1</span>
+        ├── routes/
+        │   ├── healthRoutes.js         <span class="text-slate-500"># S08</span>
+        │   └── <span class="text-emerald-400 font-bold">devUserRoutes.js</span>        <span class="text-slate-500"># HITO 3</span>
+        ├── <span class="text-emerald-400 font-bold">utils/</span>                      <span class="text-slate-500"># carpeta nueva</span>
+        │   └── <span class="text-emerald-400 font-bold">validators.js</span>           <span class="text-slate-500"># HITO 2</span>
+        ├── <span class="text-amber-300 font-bold">app.js</span>                      <span class="text-slate-500"># HITO 3 · MODIFICAR</span>
+        └── server.js                   <span class="text-slate-500"># S08 · no se toca</span>
+<span class="text-slate-500">Verde = CREAR · Ámbar = MODIFICAR · Azul = VERIFICAR · Gris = ya existe</span></div>
             <div class="space-y-3 text-xs">
               <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1">
                 <span class="font-bold text-[#00324D] block">¿Qué recibe del pasado?</span>
@@ -217,13 +228,18 @@
             </div>
             <div class="lg:col-span-5 space-y-3 text-xs">
               <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1.5">
-                <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide antes de continuar</strong>
-                <pre><code class="language-bash"># Terminal 1 (carpeta server)
+                <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide antes de continuar · 📂 server</strong>
+                <pre><code class="language-bash"># Terminal 1 · carpeta mi-proyecto-adso/server
 npm run dev
 
-# Terminal 2 (PowerShell)
+# Terminal 2 · carpeta mi-proyecto-adso/server
 (Invoke-RestMethod http://localhost:3000/api/health).services.postgres.status</code></pre>
                 <p class="text-emerald-950">Resultado esperado: <code class="font-mono">healthy</code>. Si dice <code class="font-mono">unhealthy</code>, corrija primero el <code class="font-mono">.env</code>: sin conexión a PostgreSQL nada de esta sesión funcionará.</p>
+              </div>
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1">
+                <strong class="text-[#00324D] flex items-center gap-1.5"><i data-lucide="terminal-square" class="w-4 h-4"></i> Trabajaremos con dos terminales</strong>
+                <p class="text-slate-600"><strong>Terminal 1</strong> (carpeta <code class="font-mono">server</code>): solo <code class="font-mono">npm run dev</code>; déjela abierta, se reinicia sola al guardar.</p>
+                <p class="text-slate-600"><strong>Terminal 2</strong>: validaciones, <code class="font-mono">psql</code> y <code class="font-mono">git</code>. Cada caja de comandos indica en qué carpeta debe estar: <code class="font-mono">📂 raíz</code> (<code class="font-mono">mi-proyecto-adso</code>) o <code class="font-mono">📂 server</code>.</p>
               </div>
               <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-blue-950"><strong>¿Se atrasó?</strong> En el portal, sección <em>Código del proyecto por sesión</em>, descargue <strong>"Proyecto hasta la Sesión 08"</strong> y compárelo con su carpeta.</div>
             </div>
@@ -327,7 +343,7 @@ export function errorHandler(err, req, res, next) {
                 </ul>
               </div>
               <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1.5">
-                <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide antes de continuar</strong>
+                <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide antes de continuar · 📂 server</strong>
                 <pre><code class="language-bash">node --check src/middlewares/errorHandler.js
 (Invoke-WebRequest http://localhost:3000/api/no-existe -SkipHttpErrorCheck).Content</code></pre>
                 <p class="text-emerald-950">Resultado esperado: <code class="font-mono">{"success":false,"statusCode":404,"error":"Not Found",…,"code":"ROUTE_NOT_FOUND",…,"path":"/api/no-existe"}</code></p>
@@ -528,12 +544,12 @@ COMMIT;
 --                \di                      (5 índices)</code></pre></div>
             <div class="lg:col-span-5 space-y-3 text-xs">
               <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1.5">
-                <strong class="text-[#00324D] block">1. ¿La necesito? Compruébelo primero</strong>
+                <strong class="text-[#00324D] block">1. ¿La necesito? Compruébelo primero · 📂 raíz</strong>
                 <pre><code class="language-bash">psql -U postgres -d adso_auth_db -c "\d verification_tokens"</code></pre>
                 <p class="text-slate-600">Si aparece la columna <code class="font-mono">token</code>, ejecute esta migración. Si ya aparece <code class="font-mono">token_hash</code>, igual puede ejecutarla: es <strong>idempotente</strong> y no rompe nada.</p>
               </div>
               <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1.5">
-                <strong class="text-[#39A900] block">2. Ejecútela</strong>
+                <strong class="text-[#39A900] block">2. Ejecútela · 📂 raíz</strong>
                 <pre><code class="language-bash">psql -U postgres -d adso_auth_db -f database/migrations/02_hardening_auth_schema.sql</code></pre>
               </div>
               <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-blue-950"><strong>¿Por qué un archivo nuevo y no editar el 01?</strong> El 01 ya se ejecutó en su base y en la de sus compañeros. Una migración describe el <strong>cambio</strong>, se ejecuta una vez y queda en Git.</div>
@@ -594,16 +610,16 @@ ON CONFLICT (token_hash) DO NOTHING;
 COMMIT;</code></pre></div>
             <div class="lg:col-span-5 space-y-3 text-xs">
               <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1.5">
-                <strong class="text-[#00324D] block">Ejecute después de la migración</strong>
+                <strong class="text-[#00324D] block">Ejecute después de la migración · 📂 raíz</strong>
                 <pre><code class="language-bash">psql -U postgres -d adso_auth_db -f database/seeds/02_fix_seed_credentials.sql</code></pre>
                 <p class="text-slate-600">Va en <code class="font-mono">seeds/</code> porque son datos de <strong>desarrollo</strong>: las migraciones también se ejecutan en producción; las semillas, nunca.</p>
               </div>
               <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1.5">
-                <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide antes de continuar</strong>
+                <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide antes de continuar · 📂 raíz</strong>
                 <pre><code class="language-bash">psql -U postgres -d adso_auth_db -c "SELECT email, role, is_verified, left(password_hash, 7) AS hash FROM users ORDER BY role;"</code></pre>
                 <p class="text-emerald-950">Resultado esperado: <code class="font-mono">admin@sena.edu.co | admin | t | $2a$12$</code> y <code class="font-mono">aprendiz.adso@misena.edu.co | user | f | $2a$12$</code>. En <code class="font-mono">\d verification_tokens</code> debe ver <code class="font-mono">token_hash | character(64)</code>.</p>
               </div>
-              <div class="p-3 bg-purple-50 border border-purple-200 rounded-xl text-purple-950"><strong>Commit del Hito 0:</strong> <code class="font-mono text-[11px]">git add database/ ; git commit -m "fix(db): migrar tokens a sha-256 y endurecer esquema de usuarios"</code></div>
+              <div class="p-3 bg-purple-50 border border-purple-200 rounded-xl text-purple-950"><strong>Commit del Hito 0 · 📂 raíz:</strong> <code class="font-mono text-[11px]">git add database/ ; git commit -m "fix(db): migrar tokens a sha-256 y endurecer esquema de usuarios"</code><span class="block mt-1">Después, en la Terminal 2: <code class="font-mono">cd server</code>. Los Hitos 1 a 3 se trabajan desde ahí; en el Hito 4 se vuelve a la raíz con <code class="font-mono">cd ..</code></span></div>
             </div>
           </div>
         </div>
@@ -617,7 +633,7 @@ COMMIT;</code></pre></div>
           <div class="flex flex-wrap items-center gap-2 text-xs">
             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-300 font-mono font-bold max-w-full break-all"><i data-lucide="file-code" class="w-3.5 h-3.5"></i>server/src/repositories/UserRepository.js</span>
             <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold">CREAR</span>
-            <span class="text-slate-500 font-semibold">Parte 1 de 4 · inicio del archivo (cree antes la carpeta <code class="font-mono">repositories/</code>)</span>
+            <span class="text-slate-500 font-semibold">Parte 1 de 4 · inicio del archivo · antes cree la carpeta (📂 server): <code class="font-mono">New-Item -ItemType Directory -Force src/repositories</code></span>
           </div>
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
             <div class="lg:col-span-8 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[440px] overflow-y-auto"><pre><code class="language-javascript">import { pool } from '../config/db.js';
@@ -627,7 +643,7 @@ import { AppError } from '../middlewares/errorHandler.js';
 const PG_UNIQUE_VIOLATION = '23505';
 
 // El correo se guarda siempre en minúsculas (lo exige chk_users_email_lower de la Sesión 06)
-export const normalizeEmail = (email) =&gt; email.trim().toLowerCase();
+const normalizeEmail = (email) =&gt; email.trim().toLowerCase();
 
 /**
  * Crea un usuario y devuelve sus datos públicos (incluido el UUID generado por PostgreSQL).
@@ -786,7 +802,7 @@ async function verifyUser(id) {
             </div>
             <div class="lg:col-span-6 space-y-3 text-xs">
               <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1.5">
-                <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide antes de continuar (desde la carpeta <code class="font-mono">server</code>)</strong>
+                <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide antes de continuar · 📂 server</strong>
                 <pre><code class="language-bash">node --check src/repositories/UserRepository.js
 node --input-type=module -e "const { UserRepository } = await import('./src/repositories/UserRepository.js'); console.log(await UserRepository.findByEmail('ADMIN@sena.edu.co')); process.exit(0);"</code></pre>
                 <p class="text-emerald-950">Resultado esperado: un objeto con <code class="font-mono">email: 'admin@sena.edu.co'</code>, <code class="font-mono">role: 'admin'</code> e <code class="font-mono">is_verified: true</code>. Observe que lo encontró aunque buscamos en MAYÚSCULAS y que <strong>no trae <code class="font-mono">password_hash</code></strong>.</p>
@@ -798,7 +814,7 @@ node --input-type=module -e "const { UserRepository } = await import('./src/repo
                 <code class="font-mono text-[11px] block pt-1">password authentication failed / database "…" does not exist</code>
                 <span>→ Revise <code class="font-mono">PG_PASSWORD</code> y <code class="font-mono">PG_DATABASE=adso_auth_db</code> en <code class="font-mono">server/.env</code>.</span>
               </div>
-              <div class="p-3 bg-purple-50 border border-purple-200 rounded-xl text-purple-950"><strong>Commit del Hito 1:</strong> <code class="font-mono text-[11px]">git add server/src/repositories ; git commit -m "feat(repository): crear userrepository con consultas parametrizadas"</code></div>
+              <div class="p-3 bg-purple-50 border border-purple-200 rounded-xl text-purple-950"><strong>Commit del Hito 1 · 📂 server:</strong> <code class="font-mono text-[11px]">git add src/repositories ; git commit -m "feat(repository): crear userrepository con consultas parametrizadas"</code></div>
             </div>
           </div>
         </div>
@@ -824,7 +840,7 @@ node --input-type=module -e "const { UserRepository } = await import('./src/repo
               <div class="flex flex-wrap items-center gap-2 text-xs">
                 <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-300 font-mono font-bold max-w-full break-all"><i data-lucide="file-code" class="w-3.5 h-3.5"></i>server/src/utils/validators.js</span>
                 <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold">CREAR</span>
-                <span class="text-slate-500 font-semibold">Archivo completo · carpeta nueva <code class="font-mono">utils/</code></span>
+                <span class="text-slate-500 font-semibold">Archivo completo · antes cree la carpeta (📂 server): <code class="font-mono">New-Item -ItemType Directory -Force src/utils</code></span>
               </div>
               <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto"><pre><code class="language-javascript">const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -840,12 +856,12 @@ export const isUuid = (value) =&gt; typeof value === 'string' &amp;&amp; UUID_RE
           </div>
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 text-xs">
             <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1.5">
-              <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide antes de continuar (desde <code class="font-mono">server</code>)</strong>
+              <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide antes de continuar · 📂 server</strong>
               <pre><code class="language-bash">node --check src/middlewares/asyncHandler.js
 node --input-type=module -e "const v = await import('./src/utils/validators.js'); console.log(v.isValidEmail('ana@sena.edu.co'), v.isValidEmail(123), v.isUuid('123'));"</code></pre>
               <p class="text-emerald-950">Resultado esperado: el primer comando no imprime nada (sin errores) y el segundo imprime <code class="font-mono">true false false</code>.</p>
             </div>
-            <div class="p-3 bg-purple-50 border border-purple-200 rounded-xl text-purple-950 self-start"><strong>Commit del Hito 2:</strong> <code class="font-mono text-[11px]">git add server/src/middlewares/asyncHandler.js server/src/utils ; git commit -m "feat(server): agregar asynchandler y validadores de entrada"</code></div>
+            <div class="p-3 bg-purple-50 border border-purple-200 rounded-xl text-purple-950 self-start"><strong>Commit del Hito 2 · 📂 server:</strong> <code class="font-mono text-[11px]">git add src/middlewares/asyncHandler.js src/utils ; git commit -m "feat(server): agregar asynchandler y validadores de entrada"</code></div>
           </div>
         </div>
       </section>
@@ -953,7 +969,7 @@ export async function verifyDevUser(req, res) {
               <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#39A900] block">404 vs 409</strong><span class="text-slate-600"><code class="font-mono">verifyUser</code> devuelve <code class="font-mono">null</code> en dos casos; el controlador consulta <code class="font-mono">findById</code> para responder con el código correcto.</span></div>
               <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D] block">Cuatro funciones exportadas</strong><span class="text-slate-600"><code class="font-mono">createDevUser</code>, <code class="font-mono">getDevUserByEmail</code>, <code class="font-mono">getDevUserById</code> y <code class="font-mono">verifyDevUser</code>: las cuatro las importa el enrutador del siguiente paso.</span></div>
               <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1.5">
-                <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide antes de continuar</strong>
+                <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide antes de continuar · 📂 server</strong>
                 <pre><code class="language-bash">node --check src/controllers/devUserController.js</code></pre>
                 <p class="text-emerald-950">Sin salida = sintaxis correcta.</p>
               </div>
@@ -1000,7 +1016,7 @@ export default router;</code></pre></div>
               <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-950"><strong class="block mb-0.5">El orden importa</strong><code class="font-mono">/by-email</code> va <strong>antes</strong> de <code class="font-mono">/:id</code>. Al revés, Express tomaría el texto "by-email" como si fuera un id y respondería 400 INVALID_ID.</div>
               <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D] block"><code class="font-mono">asyncHandler(…)</code> en cada ruta</strong><span class="text-slate-600">Todos los controladores son <code class="font-mono">async</code>: sin el envoltorio, un error de la base dejaría la petición colgada.</span></div>
               <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1.5">
-                <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide antes de continuar</strong>
+                <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide antes de continuar · 📂 server</strong>
                 <pre><code class="language-bash">node --check src/routes/devUserRoutes.js</code></pre>
                 <p class="text-emerald-950">Las rutas todavía <strong>no responden</strong>: falta montarlas en <code class="font-mono">app.js</code> (siguiente diapositiva).</p>
               </div>
@@ -1075,10 +1091,10 @@ export default app;</code></pre></div>
               </div>
               <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1.5">
                 <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide: servidor + primera petición</strong>
-                <pre><code class="language-bash"># Terminal 1 (carpeta server)
+                <pre><code class="language-bash"># Terminal 1 · 📂 server (ya está corriendo; guarde app.js y se reinicia)
 npm run dev
 
-# Terminal 2 (PowerShell)
+# Terminal 2 · 📂 server
 Invoke-RestMethod -Method Post -Uri http://localhost:3000/api/dev/users -ContentType 'application/json' -Body '{"email":"Prueba.Uno@MiSena.edu.co"}'</code></pre>
                 <p class="text-emerald-950">Resultado esperado: <code class="font-mono">success: True</code> y en <code class="font-mono">data</code> un <code class="font-mono">id</code> UUID, <code class="font-mono">email: prueba.uno@misena.edu.co</code> (en minúsculas), <code class="font-mono">role: user</code> e <code class="font-mono">is_verified: False</code>.</p>
               </div>
@@ -1087,7 +1103,7 @@ Invoke-RestMethod -Method Post -Uri http://localhost:3000/api/dev/users -Content
                 <pre><code class="language-bash">(Invoke-WebRequest -Method Post -Uri http://localhost:3000/api/dev/users -ContentType 'application/json' -Body '{"email":"PRUEBA.UNO@misena.edu.co"}' -SkipHttpErrorCheck).Content</code></pre>
                 <span>Esperado: <code class="font-mono">"statusCode":409 … "code":"EMAIL_ALREADY_EXISTS"</code>. Si en lugar de eso responde <code class="font-mono">ROUTE_NOT_FOUND</code>, el bloque quedó después de <code class="font-mono">notFoundHandler</code>.</span>
               </div>
-              <div class="p-3 bg-purple-50 border border-purple-200 rounded-xl text-purple-950"><strong>Commit del Hito 3:</strong> <code class="font-mono text-[11px]">git add server/src ; git commit -m "feat(users): exponer rutas de laboratorio del repositorio en desarrollo"</code></div>
+              <div class="p-3 bg-purple-50 border border-purple-200 rounded-xl text-purple-950"><strong>Commit del Hito 3 · 📂 server:</strong> <code class="font-mono text-[11px]">git add src/controllers/devUserController.js src/routes/devUserRoutes.js src/app.js ; git commit -m "feat(users): exponer rutas de laboratorio del repositorio en desarrollo"</code></div>
             </div>
           </div>
         </div>
@@ -1137,24 +1153,24 @@ Invoke-RestMethod -Method Post -Uri http://localhost:3000/api/dev/users -Content
       <!-- SLIDE: BRUNO · CREAR LA COLECCIÓN -->
       <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2: PRUEBAS DE INTEGRACIÓN" data-title="Hito 4: Crear la Colección Bruno">
         <div class="max-w-5xl mx-auto w-full space-y-4">
-          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold"><i data-lucide="flask-conical" class="w-3.5 h-3.5 text-amber-600"></i><span>Hito 4 · Paso a paso en la aplicación Bruno</span></div>
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold"><i data-lucide="flask-conical" class="w-3.5 h-3.5 text-amber-600"></i><span>Hito 4 · Parte 1 de 3 · Montar la colección en la aplicación Bruno</span></div>
           <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Hito 4: crear la colección <code class="font-mono text-amber-700">server/bruno/</code></h2>
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
-            <div class="lg:col-span-5 space-y-3 text-xs">
+            <div class="lg:col-span-5 space-y-2 text-xs">
               <ol class="space-y-2">
-                <li class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D]">1.</strong> Bruno → <strong>Create Collection</strong> · nombre <code class="font-mono">ADSO Backend - Sesión 09</code> · ubicación: la carpeta <code class="font-mono">mi-proyecto-adso/server</code> · carpeta <code class="font-mono">bruno</code>.</li>
-                <li class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D]">2.</strong> <strong>Environments → Create</strong> <code class="font-mono">Local</code> con la variable <code class="font-mono">baseUrl = http://localhost:3000</code>. Bruno crea <code class="font-mono">server/bruno/environments/Local.bru</code>.</li>
-                <li class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D]">3.</strong> Cree las 11 peticiones de la tabla de la siguiente diapositiva. Cada una es un archivo <code class="font-mono">.bru</code>; a la derecha está la 02 completa como modelo.</li>
-                <li class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D]">4.</strong> En la pestaña <strong>Tests</strong> de cada petición escriba sus aserciones (bloque <code class="font-mono">tests</code>) y ejecute <strong>Run Collection</strong>.</li>
+                <li class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D]">1. Crear la colección.</strong> Bruno → <strong>Create Collection</strong>. <em>Name:</em> <code class="font-mono">ADSO Backend - Sesión 09 UserRepository</code> · <em>Location:</em> la carpeta <code class="font-mono">mi-proyecto-adso\server</code> · <em>Folder Name:</em> <code class="font-mono">bruno</code>. Bruno crea <code class="font-mono">server/bruno/bruno.json</code>.</li>
+                <li class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D]">2. Crear el entorno.</strong> En la colección: <strong>Settings → Environments → Create</strong> → nombre <code class="font-mono">Local</code> → variable <code class="font-mono">baseUrl</code> = <code class="font-mono">http://localhost:3000</code> → <strong>Save</strong>.</li>
+                <li class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-950"><strong>3. Seleccionar el entorno.</strong> En el selector de la esquina superior derecha elija <code class="font-mono">Local</code>. Si queda en <em>No Environment</em>, <code class="font-mono">{{baseUrl}}</code> no se reemplaza y todas las peticiones fallan.</li>
+                <li class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="text-[#00324D]">4. Crear cada petición.</strong> Clic derecho en la colección → <strong>New Request</strong> → nombre (ej. <code class="font-mono">02 - Crear Usuario (201 Created)</code>), método y URL. Si envía datos: pestaña <strong>Body → JSON</strong>. Luego pestaña <strong>Tests</strong> con las aserciones.</li>
               </ol>
-              <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-blue-950"><strong>Para repetir las pruebas desde cero</strong> cree <code class="font-mono">database/seeds/99_reset_pruebas_sesion_09.sql</code> (abajo) y ejecútelo antes de cada corrida.</div>
             </div>
-            <div class="lg:col-span-7 space-y-3">
+            <div class="lg:col-span-7 space-y-2">
               <div class="flex flex-wrap items-center gap-2 text-xs">
                 <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-300 font-mono font-bold max-w-full break-all"><i data-lucide="file-code" class="w-3.5 h-3.5"></i>server/bruno/02 - Crear Usuario (201 Created).bru</span>
                 <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold">MODELO</span>
+                <span class="text-slate-500 font-semibold">Así guarda Bruno lo que usted escribe en sus pestañas</span>
               </div>
-              <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] overflow-x-auto max-h-[230px] overflow-y-auto"><pre><code class="language-javascript">meta {
+              <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] overflow-x-auto max-h-[380px] overflow-y-auto"><pre><code class="language-javascript">meta {
   name: 02 - Crear Usuario (201 Created)
   type: http
   seq: 2
@@ -1179,19 +1195,184 @@ body:json {
 tests {
   test("Crear Usuario (201 Created)", function () {
     expect(res.status).to.equal(201);
+    expect(res.body.success).to.equal(true);
     expect(res.body.data.email).to.equal("nuevo.aprendiz@misena.edu.co");
+    expect(res.body.data.role).to.equal("user");
+    expect(res.body.data.is_verified).to.equal(false);
     expect(res.body.data).to.not.have.property("password_hash");
   });
 }
 
 docs {
-  Crea un usuario. Observe que el correo se guarda en minúsculas y que el UUID lo genera PostgreSQL.
+  Envía: { "email": "Nuevo.Aprendiz@MiSena.edu.co" } (con mayúsculas a propósito).
+  Debe responder: 201 con data.id (UUID generado por PostgreSQL), email en minúsculas, role "user", is_verified false y SIN password_hash.
+  Demuestra: normalizeEmail + RETURNING con columnas explícitas.
 }</code></pre></div>
-              <div class="flex flex-wrap items-center gap-2 text-xs">
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-300 font-mono font-bold max-w-full break-all"><i data-lucide="file-code" class="w-3.5 h-3.5"></i>database/seeds/99_reset_pruebas_sesion_09.sql</span>
-                <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold">CREAR</span>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
+                <div class="p-2 bg-white border border-slate-200 rounded-lg"><code class="font-mono font-bold">post { url }</code><span class="block text-slate-500">Método y URL</span></div>
+                <div class="p-2 bg-white border border-slate-200 rounded-lg"><code class="font-mono font-bold">body:json</code><span class="block text-slate-500">Pestaña Body</span></div>
+                <div class="p-2 bg-white border border-slate-200 rounded-lg"><code class="font-mono font-bold">tests</code><span class="block text-slate-500">Pestaña Tests</span></div>
+                <div class="p-2 bg-white border border-slate-200 rounded-lg"><code class="font-mono font-bold">docs</code><span class="block text-slate-500">Pestaña Docs</span></div>
               </div>
-              <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] overflow-x-auto max-h-[200px] overflow-y-auto"><pre><code class="language-sql">-- ==============================================================================
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: BRUNO · CASOS 01–06 -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2: PRUEBAS DE INTEGRACIÓN" data-title="Hito 4: Bruno Casos 01–06">
+        <div class="max-w-6xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold"><i data-lucide="flask-conical" class="w-3.5 h-3.5 text-amber-600"></i><span>Hito 4 · Parte 2 de 3 · Creación, duplicados, asignación masiva y búsqueda</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Bruno Casos 01–06: qué enviar y qué debe responder</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <article class="p-3 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5 min-w-0">
+              <div class="flex items-center justify-between gap-2"><strong class="text-slate-900">01 · Health Check</strong><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-emerald-100 text-emerald-800">200</span></div>
+              <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Envía</span>
+                <pre class="mt-0.5 bg-slate-900 text-sky-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">GET {{baseUrl}}/api/health</code></pre></div>
+              <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Debe responder</span>
+                <pre class="mt-0.5 bg-slate-900 text-emerald-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">{ "services": { "postgres": { "status": "healthy" } } }</code></pre></div>
+              <p class="text-slate-600">Punto de partida: si PostgreSQL no está <em>healthy</em>, ninguna otra prueba tiene sentido.</p>
+            </article>
+            <article class="p-3 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5 min-w-0">
+              <div class="flex items-center justify-between gap-2"><strong class="text-slate-900">02 · Crear usuario</strong><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-emerald-100 text-emerald-800">201</span></div>
+              <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Envía</span>
+                <pre class="mt-0.5 bg-slate-900 text-sky-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">POST {{baseUrl}}/api/dev/users
+{ "email": "Nuevo.Aprendiz@MiSena.edu.co" }</code></pre></div>
+              <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Debe responder</span>
+                <pre class="mt-0.5 bg-slate-900 text-emerald-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">{ "success": true, "data": {
+  "id": "…uuid…",
+  "email": "nuevo.aprendiz@misena.edu.co",
+  "role": "user", "is_verified": false } }</code></pre></div>
+              <p class="text-slate-600">El correo se guarda en minúsculas y la respuesta <strong>no</strong> trae <code class="font-mono">password_hash</code>.</p>
+            </article>
+            <article class="p-3 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5 min-w-0">
+              <div class="flex items-center justify-between gap-2"><strong class="text-slate-900">03 · Duplicado en mayúsculas</strong><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-rose-100 text-rose-800">409</span></div>
+              <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Envía</span>
+                <pre class="mt-0.5 bg-slate-900 text-sky-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">POST {{baseUrl}}/api/dev/users
+{ "email": "NUEVO.APRENDIZ@misena.edu.co" }</code></pre></div>
+              <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Debe responder</span>
+                <pre class="mt-0.5 bg-slate-900 text-emerald-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">{ "success": false, "statusCode": 409,
+  "code": "EMAIL_ALREADY_EXISTS" }</code></pre></div>
+              <p class="text-slate-600">Necesita la 02. PostgreSQL lanza <code class="font-mono">23505</code> y el repositorio lo traduce a 409.</p>
+            </article>
+            <article class="p-3 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5 min-w-0">
+              <div class="flex items-center justify-between gap-2"><strong class="text-slate-900">04 · Asignación masiva de rol</strong><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-emerald-100 text-emerald-800">201</span></div>
+              <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Envía</span>
+                <pre class="mt-0.5 bg-slate-900 text-sky-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">POST {{baseUrl}}/api/dev/users
+{ "email": "intento.admin@misena.edu.co",
+  "role": "admin" }</code></pre></div>
+              <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Debe responder</span>
+                <pre class="mt-0.5 bg-slate-900 text-emerald-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">{ "success": true, "data": {
+  "email": "intento.admin@misena.edu.co",
+  "role": "user" } }</code></pre></div>
+              <p class="text-slate-600">El atacante pide ser admin y queda como <code class="font-mono">user</code>: el controlador solo lee <code class="font-mono">email</code>.</p>
+            </article>
+            <article class="p-3 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5 min-w-0">
+              <div class="flex items-center justify-between gap-2"><strong class="text-slate-900">05 · Correo inválido</strong><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-amber-100 text-amber-800">400</span></div>
+              <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Envía</span>
+                <pre class="mt-0.5 bg-slate-900 text-sky-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">POST {{baseUrl}}/api/dev/users
+{ "email": 12345 }</code></pre></div>
+              <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Debe responder</span>
+                <pre class="mt-0.5 bg-slate-900 text-emerald-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">{ "success": false, "statusCode": 400,
+  "code": "VALIDATION_ERROR",
+  "fieldErrors": { "email": "Debe ser un correo…" } }</code></pre></div>
+              <p class="text-slate-600"><code class="font-mono">isValidEmail</code> lo rechaza antes de llegar a la base de datos.</p>
+            </article>
+            <article class="p-3 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5 min-w-0">
+              <div class="flex items-center justify-between gap-2"><strong class="text-slate-900">06 · Buscar por email</strong><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-emerald-100 text-emerald-800">200</span></div>
+              <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Envía</span>
+                <pre class="mt-0.5 bg-slate-900 text-sky-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">GET {{baseUrl}}/api/dev/users/by-email?email=ADMIN@sena.edu.co</code></pre></div>
+              <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Debe responder</span>
+                <pre class="mt-0.5 bg-slate-900 text-emerald-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">{ "success": true, "data": {
+  "email": "admin@sena.edu.co",
+  "role": "admin" } }</code></pre></div>
+              <p class="text-slate-600">Se busca en MAYÚSCULAS y lo encuentra: <code class="font-mono">normalizeEmail</code> + <code class="font-mono">$1</code>.</p>
+            </article>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: BRUNO · CASOS 07–11 -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2: PRUEBAS DE INTEGRACIÓN" data-title="Hito 4: Bruno Casos 07–11">
+        <div class="max-w-6xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold"><i data-lucide="flask-conical" class="w-3.5 h-3.5 text-amber-600"></i><span>Hito 4 · Parte 3 de 3 · Inyección SQL, ids y transacción</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Bruno Casos 07–11: qué enviar y qué debe responder</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <article class="p-3 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5 min-w-0">
+              <div class="flex items-center justify-between gap-2"><strong class="text-slate-900">07 · Inyección SQL en email</strong><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-rose-100 text-rose-800">404</span></div>
+              <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Envía</span>
+                <pre class="mt-0.5 bg-slate-900 text-sky-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">GET {{baseUrl}}/api/dev/users/by-email?email='OR'1'='1'--@x.co</code></pre></div>
+              <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Debe responder</span>
+                <pre class="mt-0.5 bg-slate-900 text-emerald-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">{ "success": false, "statusCode": 404,
+  "code": "USER_NOT_FOUND" }</code></pre></div>
+              <p class="text-slate-600">Con SQL concatenado respondería <strong>200 con el primer usuario</strong>. Con <code class="font-mono">$1</code> el payload es solo texto: 0 filas.</p>
+            </article>
+            <article class="p-3 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5 min-w-0">
+              <div class="flex items-center justify-between gap-2"><strong class="text-slate-900">08 · ID inválido</strong><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-amber-100 text-amber-800">400</span></div>
+              <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Envía</span>
+                <pre class="mt-0.5 bg-slate-900 text-sky-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">GET {{baseUrl}}/api/dev/users/123</code></pre></div>
+              <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Debe responder</span>
+                <pre class="mt-0.5 bg-slate-900 text-emerald-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">{ "success": false, "statusCode": 400,
+  "code": "INVALID_ID" }</code></pre></div>
+              <p class="text-slate-600">Sin <code class="font-mono">isUuid</code>, PostgreSQL lanzaría <code class="font-mono">22P02</code> y la API respondería 500.</p>
+            </article>
+            <article class="p-3 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5 min-w-0">
+              <div class="flex items-center justify-between gap-2"><strong class="text-slate-900">09 · Buscar por ID</strong><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-emerald-100 text-emerald-800">200</span></div>
+              <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Envía</span>
+                <pre class="mt-0.5 bg-slate-900 text-sky-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">GET {{baseUrl}}/api/dev/users/a0000000-0000-0000-0000-000000000001</code></pre></div>
+              <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Debe responder</span>
+                <pre class="mt-0.5 bg-slate-900 text-emerald-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">{ "success": true, "data": {
+  "id": "a0000000-0000-0000-0000-000000000001",
+  "email": "admin@sena.edu.co" } }</code></pre></div>
+              <p class="text-slate-600">UUID del administrador sembrado en la Sesión 06. Búsqueda por clave primaria.</p>
+            </article>
+            <article class="p-3 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5 min-w-0">
+              <div class="flex items-center justify-between gap-2"><strong class="text-slate-900">10 · Verificar cuenta</strong><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-emerald-100 text-emerald-800">200</span></div>
+              <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Envía</span>
+                <pre class="mt-0.5 bg-slate-900 text-sky-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">PATCH {{baseUrl}}/api/dev/users/b0000000-0000-0000-0000-000000000002/verify
+(sin body)</code></pre></div>
+              <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Debe responder</span>
+                <pre class="mt-0.5 bg-slate-900 text-emerald-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">{ "success": true, "data": {
+  "email": "aprendiz.adso@misena.edu.co",
+  "is_verified": true } }</code></pre></div>
+              <p class="text-slate-600">Transacción: UPDATE + DELETE de tokens. En psql, sus tokens deben quedar en 0.</p>
+            </article>
+            <article class="p-3 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5 min-w-0">
+              <div class="flex items-center justify-between gap-2"><strong class="text-slate-900">11 · Re-verificar cuenta</strong><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-rose-100 text-rose-800">409</span></div>
+              <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Envía</span>
+                <pre class="mt-0.5 bg-slate-900 text-sky-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">PATCH {{baseUrl}}/api/dev/users/b0000000-0000-0000-0000-000000000002/verify
+(sin body)</code></pre></div>
+              <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Debe responder</span>
+                <pre class="mt-0.5 bg-slate-900 text-emerald-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">{ "success": false, "statusCode": 409,
+  "code": "USER_ALREADY_VERIFIED" }</code></pre></div>
+              <p class="text-slate-600">Necesita la 10. El controlador distingue "ya verificada" (409) de "no existe" (404).</p>
+            </article>
+            <article class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-xs space-y-1.5 min-w-0">
+              <strong class="text-blue-950 flex items-center gap-1.5"><i data-lucide="play-circle" class="w-4 h-4"></i> Ejecutar y repetir</strong>
+              <p class="text-blue-950">Colección → <strong>Run</strong> → <strong>Run Collection</strong>. Resultado esperado: <strong>11 Passed, 0 Failed</strong>.</p>
+              <p class="text-blue-950">La 02, la 04 y la 10 cambian datos: en una segunda corrida la 02 respondería 409. Antes de repetir, en 📂 raíz:</p>
+              <pre class="bg-slate-900 text-emerald-200 rounded-lg p-2 font-mono text-[10.5px] whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">psql -U postgres -d adso_auth_db -f database/seeds/99_reset_pruebas_sesion_09.sql</code></pre>
+              <p class="text-blue-950">Comprobación de la 10 (📂 raíz):</p>
+              <pre class="bg-slate-900 text-emerald-200 rounded-lg p-2 font-mono text-[10.5px] whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">psql -U postgres -d adso_auth_db -c "SELECT count(*) FROM verification_tokens WHERE user_id = 'b0000000-0000-0000-0000-000000000002';"</code></pre>
+              <p class="text-blue-950">Esperado: <code class="font-mono">0</code>. Después del reinicio: <code class="font-mono">1</code>.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE: BRUNO · SCRIPT DE REINICIO -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2: PRUEBAS DE INTEGRACIÓN" data-title="Hito 4: Script de Reinicio y Commit">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-amber-600"></i><span>Hito 4 · Datos repetibles para la colección</span></div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Reiniciar los datos de prueba y cerrar el Hito 4</h2>
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-300 font-mono font-bold max-w-full break-all"><i data-lucide="file-code" class="w-3.5 h-3.5"></i>database/seeds/99_reset_pruebas_sesion_09.sql</span>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold">CREAR</span>
+            <span class="text-slate-500 font-semibold">Archivo completo · junto a 02_fix_seed_credentials.sql</span>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div class="lg:col-span-7 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[420px] overflow-y-auto"><pre><code class="language-sql">-- ==============================================================================
 -- SENA CADPH Garzón · Regional Huila · ADSO
 -- Sesión 09 · Reinicio de datos para repetir la colección Bruno
 -- Archivo: database/seeds/99_reset_pruebas_sesion_09.sql
@@ -1202,9 +1383,10 @@ docs {
 
 BEGIN;
 
--- 1. Usuarios creados por las peticiones 02 y 04 de Bruno (sus tokens caen por CASCADE)
+-- 1. Usuarios creados por la prueba de app.js (Hito 3) y por las peticiones 02 y 04 de Bruno
+--    (sus tokens caen por ON DELETE CASCADE)
 DELETE FROM users
- WHERE email IN ('nuevo.aprendiz@misena.edu.co', 'intento.admin@misena.edu.co');
+ WHERE email IN ('prueba.uno@misena.edu.co', 'nuevo.aprendiz@misena.edu.co', 'intento.admin@misena.edu.co');
 
 -- 2. El aprendiz de la semilla vuelve a quedar pendiente de verificación
 UPDATE users SET is_verified = FALSE WHERE email = 'aprendiz.adso@misena.edu.co';
@@ -1217,37 +1399,15 @@ SELECT id, encode(digest('token-demo-sesion-06', 'sha256'), 'hex'), NOW() + INTE
 ON CONFLICT (token_hash) DO UPDATE SET expires_at = EXCLUDED.expires_at;
 
 COMMIT;</code></pre></div>
+            <div class="lg:col-span-5 space-y-3 text-xs">
+              <div class="p-3 bg-white border border-slate-200 rounded-xl text-slate-600"><strong class="text-[#00324D] block">¿Qué deshace?</strong>Borra los tres usuarios que crean las pruebas (<code class="font-mono">prueba.uno</code> del Hito 3, y los de las peticiones 02 y 04), deja al aprendiz sin verificar y vuelve a crear su token demo.</div>
+              <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1.5">
+                <strong class="text-emerald-900 flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Valide · 📂 raíz</strong>
+                <pre><code class="language-bash">psql -U postgres -d adso_auth_db -f database/seeds/99_reset_pruebas_sesion_09.sql</code></pre>
+                <p class="text-emerald-950">Esperado: <code class="font-mono">BEGIN</code>, <code class="font-mono">DELETE n</code>, <code class="font-mono">UPDATE 1</code>, <code class="font-mono">INSERT 0 1</code>, <code class="font-mono">COMMIT</code>. Luego <em>Run Collection</em> → 11 Passed.</p>
+              </div>
+              <div class="p-3 bg-purple-50 border border-purple-200 rounded-xl text-purple-950"><strong>Commit del Hito 4 · 📂 raíz:</strong> <code class="font-mono text-[11px]">git add server/bruno database/seeds/99_reset_pruebas_sesion_09.sql ; git commit -m "test(api): coleccion bruno con casos de sqli y unique violation" ; git push</code></div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE: BRUNO -->
-      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2: PRUEBAS DE INTEGRACIÓN" data-title="Pruebas con Bruno (11 casos)">
-        <div class="max-w-5xl mx-auto w-full space-y-4">
-          <div class="inline-flex items-center space-x-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold"><i data-lucide="flask-conical" class="w-3.5 h-3.5 text-amber-600"></i><span>Bloque 2 · Hito 4 · server/bruno/</span></div>
-          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Colección Bruno: 11 casos con aserciones automáticas</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs font-mono">
-            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>01 Health Check</span><span class="text-emerald-700 font-bold">200</span></div>
-            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>07 Inyección SQL en email</span><span class="text-rose-700 font-bold">404</span></div>
-            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>02 Crear usuario</span><span class="text-emerald-700 font-bold">201</span></div>
-            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>08 ID inválido</span><span class="text-amber-700 font-bold">400</span></div>
-            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>03 Duplicado en mayúsculas</span><span class="text-rose-700 font-bold">409</span></div>
-            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>09 Buscar por ID</span><span class="text-emerald-700 font-bold">200</span></div>
-            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>04 Asignación masiva de rol</span><span class="text-emerald-700 font-bold">201 · role user</span></div>
-            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>10 Verificar cuenta</span><span class="text-emerald-700 font-bold">200</span></div>
-            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>05 Correo inválido</span><span class="text-amber-700 font-bold">400</span></div>
-            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>11 Re-verificar cuenta</span><span class="text-rose-700 font-bold">409</span></div>
-            <div class="p-2 bg-white border border-slate-200 rounded-lg flex justify-between"><span>06 Buscar por email</span><span class="text-emerald-700 font-bold">200</span></div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-            <div class="bg-slate-900 text-slate-200 p-3 rounded-xl font-mono text-[11px] overflow-x-auto"><pre><code class="language-javascript">tests {
-  test("Crear Duplicado en Mayúsculas (409 Conflict)", function () {
-    expect(res.status).to.equal(409);
-    expect(res.body.code).to.equal("EMAIL_ALREADY_EXISTS");
-  });
-}</code></pre></div>
-            <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-blue-950 space-y-1"><strong class="block">Orden de ejecución</strong><span>Corra la colección completa (<em>Run Collection</em>). Para repetirla desde cero ejecute <code class="font-mono">database/seeds/99_reset_pruebas_sesion_09.sql</code>, que borra los usuarios de prueba y deja al aprendiz pendiente con su token demo.</span></div>
           </div>
         </div>
       </section>
@@ -1268,7 +1428,8 @@ COMMIT;</code></pre></div>
             <div class="space-y-2 text-xs">
               <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="block text-slate-900">¿Por qué este payload sin espacios?</strong><span class="text-slate-600">Para que pase el validador de formato de correo y llegue a PostgreSQL. Así comprobamos la defensa real: el placeholder <code class="font-mono">$1</code>.</span></div>
               <div class="p-3 bg-white border border-slate-200 rounded-xl"><strong class="block text-slate-900">Observe el campo <code class="font-mono">path</code></strong><span class="text-slate-600">No incluye <code class="font-mono">?email=…</code>: el formato estándar nunca devuelve la query string, que puede contener datos personales.</span></div>
-              <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-950"><strong>Evidencia:</strong> en la consola del servidor, morgan registra la petición y PostgreSQL no devuelve ninguna fila.</div>
+              <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-950"><strong class="block">¿Qué pasaría con SQL concatenado?</strong>La consulta quedaría <code class="font-mono break-all">WHERE email = ''or'1'='1'--@x.co'</code>: el <code class="font-mono">OR</code> se cumple siempre, <code class="font-mono">--</code> comenta el resto y la API respondería <strong>200 con el primer usuario de la tabla</strong>.</div>
+              <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-950"><strong>Evidencia:</strong> en la consola del servidor, morgan registra <code class="font-mono">GET /api/dev/users/by-email?… 404</code>. Es la misma petición 07 de Bruno.</div>
             </div>
           </div>
         </div>
@@ -1280,21 +1441,20 @@ COMMIT;</code></pre></div>
           <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold"><i data-lucide="terminal" class="w-3.5 h-3.5 text-blue-600"></i><span>Bloque 2 · PowerShell en el repositorio personal</span></div>
           <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Montaje Guiado: comandos de la sesión</h2>
           <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto space-y-0.5">
-            <div class="text-slate-500"># Preparación · todo se ejecuta desde la raíz mi-proyecto-adso (salvo lo marcado como "server")</div>
-            <div class="text-emerald-300">cd server ; npm run dev   # health de PostgreSQL debe estar "healthy"</div>
-            <div class="text-emerald-300">node --check src/middlewares/errorHandler.js   # debe existir y exportar AppError</div>
-            <div class="text-slate-500 pt-2"># Hito 0 · Migración (solo si su esquema es anterior a la corrección de S06)</div>
+            <div class="text-slate-500"># Terminal 1 · 📂 server (queda abierta toda la sesión)</div>
+            <div class="text-emerald-300">npm run dev</div>
+            <div class="text-slate-500 pt-2"># Terminal 2 · 📂 raíz mi-proyecto-adso · Hito 0 (solo si su esquema es anterior a la corrección de S06)</div>
             <div class="text-emerald-300">psql -U postgres -d adso_auth_db -f database/migrations/02_hardening_auth_schema.sql</div>
             <div class="text-emerald-300">psql -U postgres -d adso_auth_db -f database/seeds/02_fix_seed_credentials.sql</div>
             <div class="text-purple-300">git add database/ ; git commit -m "fix(db): migrar tokens a sha-256 y endurecer esquema de usuarios"</div>
-            <div class="text-slate-500 pt-2"># Hito 1 · Repositorio</div>
-            <div class="text-emerald-300">New-Item -ItemType Directory -Force server/src/repositories, server/src/utils</div>
-            <div class="text-purple-300">git add server/src/repositories ; git commit -m "feat(repository): crear userrepository con consultas parametrizadas"</div>
-            <div class="text-slate-500 pt-2"># Hito 2 · Utilidades</div>
-            <div class="text-purple-300">git add server/src/middlewares/asyncHandler.js server/src/utils ; git commit -m "feat(server): agregar asynchandler y validadores de entrada"</div>
-            <div class="text-slate-500 pt-2"># Hito 3 · Capa HTTP</div>
-            <div class="text-purple-300">git add server/src ; git commit -m "feat(users): exponer rutas de laboratorio del repositorio en desarrollo"</div>
-            <div class="text-slate-500 pt-2"># Hito 4 · Pruebas (reinicie los datos antes de cada corrida de la colección)</div>
+            <div class="text-slate-500 pt-2"># Terminal 2 · 📂 server · Hitos 1 a 3</div>
+            <div class="text-emerald-300">cd server</div>
+            <div class="text-emerald-300">New-Item -ItemType Directory -Force src/repositories, src/utils</div>
+            <div class="text-purple-300">git add src/repositories ; git commit -m "feat(repository): crear userrepository con consultas parametrizadas"</div>
+            <div class="text-purple-300">git add src/middlewares/asyncHandler.js src/utils ; git commit -m "feat(server): agregar asynchandler y validadores de entrada"</div>
+            <div class="text-purple-300">git add src/controllers/devUserController.js src/routes/devUserRoutes.js src/app.js ; git commit -m "feat(users): exponer rutas de laboratorio del repositorio en desarrollo"</div>
+            <div class="text-slate-500 pt-2"># Terminal 2 · 📂 raíz · Hito 4 (reinicie los datos antes de cada corrida de la colección)</div>
+            <div class="text-emerald-300">cd ..</div>
             <div class="text-emerald-300">psql -U postgres -d adso_auth_db -f database/seeds/99_reset_pruebas_sesion_09.sql</div>
             <div class="text-purple-300">git add server/bruno database/seeds/99_reset_pruebas_sesion_09.sql ; git commit -m "test(api): coleccion bruno con casos de sqli y unique violation"</div>
             <div class="text-purple-300">git push</div>
@@ -1410,7 +1570,7 @@ import { AppError } from '../middlewares/errorHandler.js';
 const PG_UNIQUE_VIOLATION = '23505';
 
 // El correo se guarda siempre en minúsculas (lo exige chk_users_email_lower de la Sesión 06)
-export const normalizeEmail = (email) => email.trim().toLowerCase();
+const normalizeEmail = (email) => email.trim().toLowerCase();
 
 /**
  * Crea un usuario y devuelve sus datos públicos (incluido el UUID generado por PostgreSQL).
@@ -1842,9 +2002,10 @@ COMMIT;` },
 
 BEGIN;
 
--- 1. Usuarios creados por las peticiones 02 y 04 de Bruno (sus tokens caen por CASCADE)
+-- 1. Usuarios creados por la prueba de app.js (Hito 3) y por las peticiones 02 y 04 de Bruno
+--    (sus tokens caen por ON DELETE CASCADE)
 DELETE FROM users
- WHERE email IN ('nuevo.aprendiz@misena.edu.co', 'intento.admin@misena.edu.co');
+ WHERE email IN ('prueba.uno@misena.edu.co', 'nuevo.aprendiz@misena.edu.co', 'intento.admin@misena.edu.co');
 
 -- 2. El aprendiz de la semilla vuelve a quedar pendiente de verificación
 UPDATE users SET is_verified = FALSE WHERE email = 'aprendiz.adso@misena.edu.co';

@@ -14,9 +14,12 @@ tests {
   test("Inyección SQL en Email (404 Not Found)", function () {
     expect(res.status).to.equal(404);
     expect(res.body.code).to.equal("USER_NOT_FOUND");
+    expect(res.body).to.not.have.property("data");
   });
 }
 
 docs {
-  El payload 'OR'1'='1'-- viaja como TEXTO en $1: PostgreSQL busca un correo con ese valor literal y no encuentra nada.
+  Envía: ?email='OR'1'='1'--@x.co (sin espacios para que pase el validador de formato).
+  Debe responder: 404 USER_NOT_FOUND y ningún dato de usuario.
+  Con SQL concatenado la consulta sería WHERE email = ''OR'1'='1'--@x.co' y devolvería 200 con el primer usuario de la tabla. Con $1 PostgreSQL busca ese texto literal y no encuentra nada.
 }

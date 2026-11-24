@@ -86,9 +86,15 @@ Qué cambia:
 
 ## 🧩 3. Hitos 1 a 3 · Repositorio y capa HTTP
 
-Cada diapositiva de live coding indica el **archivo**, la **acción** (CREAR, CONTINUAR o MODIFICAR) y **dónde** va el fragmento. Todos los comandos de validación se ejecutan desde la carpeta `server`.
+Cada diapositiva de live coding indica el **archivo**, la **acción** (CREAR, CONTINUAR o MODIFICAR) y **dónde** va el fragmento.
+
+Se trabaja con dos terminales:
+- **Terminal 1** · carpeta `server`: `npm run dev`, abierta toda la sesión.
+- **Terminal 2** · carpeta `server` en los Hitos 1 a 3 (validaciones, `Invoke-RestMethod` y `git`). El Hito 0 y el Hito 4 se ejecutan desde la raíz `mi-proyecto-adso`, porque usan la carpeta `database/`.
 
 ```powershell
+# Terminal 2 · desde la raíz mi-proyecto-adso
+cd server
 New-Item -ItemType Directory -Force src/repositories, src/utils
 ```
 
@@ -128,13 +134,13 @@ git add src/middlewares/asyncHandler.js src/utils ; git commit -m "feat(server):
 ```powershell
 node --check src/controllers/devUserController.js
 node --check src/routes/devUserRoutes.js
-npm run dev
-# En otra terminal:
+# Terminal 1 ya ejecuta npm run dev: al guardar app.js el servidor se reinicia solo
 Invoke-RestMethod -Method Post -Uri http://localhost:3000/api/dev/users -ContentType 'application/json' -Body '{"email":"Prueba.Uno@MiSena.edu.co"}'
 # → success True · email prueba.uno@misena.edu.co · role user · is_verified False
 (Invoke-WebRequest -Method Post -Uri http://localhost:3000/api/dev/users -ContentType 'application/json' -Body '{"email":"PRUEBA.UNO@misena.edu.co"}' -SkipHttpErrorCheck).Content
 # → "statusCode":409 … "code":"EMAIL_ALREADY_EXISTS"
-git add src ; git commit -m "feat(users): exponer rutas de laboratorio del repositorio en desarrollo"
+git add src/controllers/devUserController.js src/routes/devUserRoutes.js src/app.js
+git commit -m "feat(users): exponer rutas de laboratorio del repositorio en desarrollo"
 ```
 
 **Errores frecuentes**
@@ -157,31 +163,51 @@ Reglas que se revisan en la sustentación:
 
 ## 🧪 4. Hito 4 · Pruebas con Bruno
 
-1. Abra Bruno → **Open Collection** → seleccione `server/bruno/`.
-2. Elija el entorno **Local** (`baseUrl = http://localhost:3000`).
-3. Ejecute **Run Collection**: las 11 pruebas deben quedar en verde.
+### 4.1 Crear la colección
 
-| # | Petición | Esperado |
-|---|---|---|
-| 01 | Health Check | 200 · PostgreSQL `healthy` |
-| 02 | Crear usuario | 201 · correo en minúsculas |
-| 03 | Duplicado en mayúsculas | 409 `EMAIL_ALREADY_EXISTS` |
-| 04 | Asignación masiva de rol | 201 · `role: "user"` |
-| 05 | Correo inválido | 400 `VALIDATION_ERROR` |
-| 06 | Buscar por email | 200 |
-| 07 | Inyección SQL en email | 404 `USER_NOT_FOUND` |
-| 08 | ID inválido | 400 `INVALID_ID` |
-| 09 | Buscar por ID | 200 |
-| 10 | Verificar cuenta | 200 · token eliminado |
-| 11 | Re-verificar cuenta | 409 `USER_ALREADY_VERIFIED` |
+1. Bruno → **Create Collection**. *Name:* `ADSO Backend - Sesión 09 UserRepository` · *Location:* la carpeta `mi-proyecto-adso\server` · *Folder Name:* `bruno`.
+2. En la colección: **Settings → Environments → Create** → `Local` → variable `baseUrl = http://localhost:3000` → **Save**.
+3. **Seleccione el entorno `Local`** en la esquina superior derecha. Con *No Environment*, `{{baseUrl}}` no se reemplaza y todas las peticiones fallan.
+4. Por cada caso: clic derecho en la colección → **New Request** → nombre, método y URL. Si envía datos: **Body → JSON**. Escriba las aserciones en la pestaña **Tests** (el archivo `02 - Crear Usuario (201 Created).bru` es el modelo).
 
-Para repetir la colección desde cero:
+### 4.2 Qué envía y qué debe responder cada caso
+
+Todas las URL empiezan por `{{baseUrl}}`. IDs de la semilla de la Sesión 06: admin `a0000000-0000-0000-0000-000000000001`, aprendiz `b0000000-0000-0000-0000-000000000002`.
+
+| # | Envía | Debe responder | Demuestra |
+|---|---|---|---|
+| 01 | `GET /api/health` | 200 · `services.postgres.status: "healthy"` | La API ve a PostgreSQL |
+| 02 | `POST /api/dev/users` · `{ "email": "Nuevo.Aprendiz@MiSena.edu.co" }` | 201 · `data.email: "nuevo.aprendiz@misena.edu.co"`, `role: "user"`, `is_verified: false`, sin `password_hash` | `normalizeEmail` y columnas explícitas |
+| 03 | `POST /api/dev/users` · `{ "email": "NUEVO.APRENDIZ@misena.edu.co" }` | 409 · `code: "EMAIL_ALREADY_EXISTS"` | 23505 → 409 (requiere la 02) |
+| 04 | `POST /api/dev/users` · `{ "email": "intento.admin@misena.edu.co", "role": "admin" }` | 201 · `data.role: "user"` | Defensa contra asignación masiva |
+| 05 | `POST /api/dev/users` · `{ "email": 12345 }` | 400 · `code: "VALIDATION_ERROR"`, `fieldErrors.email` | Validación antes de la base |
+| 06 | `GET /api/dev/users/by-email?email=ADMIN@sena.edu.co` | 200 · `data.email: "admin@sena.edu.co"`, `role: "admin"`, sin `password_hash` | `findByEmail` con `$1` |
+| 07 | `GET /api/dev/users/by-email?email='OR'1'='1'--@x.co` | 404 · `code: "USER_NOT_FOUND"`, sin `data` | Con SQL concatenado respondería 200 con el primer usuario |
+| 08 | `GET /api/dev/users/123` | 400 · `code: "INVALID_ID"` | Sin `isUuid` sería un 500 (22P02) |
+| 09 | `GET /api/dev/users/a0000000-0000-0000-0000-000000000001` | 200 · `data.email: "admin@sena.edu.co"`, sin `password_hash` | `findById` por clave primaria |
+| 10 | `PATCH /api/dev/users/b0000000-0000-0000-0000-000000000002/verify` (sin body) | 200 · `data.email: "aprendiz.adso@misena.edu.co"`, `is_verified: true` | Transacción UPDATE + DELETE |
+| 11 | La misma petición de la 10 | 409 · `code: "USER_ALREADY_VERIFIED"` | 409 "ya verificada" vs 404 "no existe" |
+
+### 4.3 Ejecutar, comprobar y repetir
+
+**Run Collection** → resultado esperado: **11 Passed, 0 Failed**.
+
+```powershell
+# Terminal 2 · vuelva a la raíz mi-proyecto-adso
+cd ..
+# La 10 debió borrar los tokens del aprendiz → 0
+psql -U postgres -d adso_auth_db -c "SELECT count(*) FROM verification_tokens WHERE user_id = 'b0000000-0000-0000-0000-000000000002';"
+```
+
+La 02, la 04 y la 10 modifican datos: en una segunda corrida la 02 respondería 409. Para repetir la colección desde cero cree `database/seeds/99_reset_pruebas_sesion_09.sql` y ejecútelo antes de cada corrida:
 
 ```powershell
 psql -U postgres -d adso_auth_db -f database/seeds/99_reset_pruebas_sesion_09.sql
+# → BEGIN · DELETE n · UPDATE 1 · INSERT 0 1 · COMMIT
 ```
 
 ```powershell
+# Terminal 2 · raíz mi-proyecto-adso
 git add server/bruno database/seeds/99_reset_pruebas_sesion_09.sql
 git commit -m "test(api): coleccion bruno con casos de sqli y unique violation"
 git push

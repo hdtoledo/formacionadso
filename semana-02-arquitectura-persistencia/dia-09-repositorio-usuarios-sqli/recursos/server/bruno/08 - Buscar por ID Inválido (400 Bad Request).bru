@@ -18,5 +18,7 @@ tests {
 }
 
 docs {
-  Un id que no es UUID se rechaza con 400 (sin validación, PostgreSQL lanzaría 22P02 y sería un 500).
+  Envía: GET con un id que no es UUID (123).
+  Debe responder: 400 con code "INVALID_ID".
+  Demuestra: sin isUuid, PostgreSQL lanzaría 22P02 (invalid_text_representation) y la API respondería 500.
 }
