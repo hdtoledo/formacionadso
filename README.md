@@ -58,9 +58,6 @@ La plataforma implementa estrictamente las directrices del manual de imagen inst
 
 ```text
 formacionadso/
-├── .github/
-│   └── workflows/
-│       └── deploy.yml             # Automatización CI/CD para GitHub Pages
 ├── .gitignore                     # Filtro contra scripts basura, temporales y notas del instructor
 ├── .nojekyll                      # Deshabilita Jekyll para servir activos estáticos en GitHub Pages
 ├── 404.html                       # Página institucional de error con redirección automática
@@ -166,21 +163,16 @@ Para garantizar el aprendizaje significativo y erradicar la copia pasiva:
 
 ## 🌐 7. Despliegue en GitHub Pages
 
-El proyecto está 100% optimizado y preparado para desplegarse de manera inmediata y gratuita en **GitHub Pages**:
+El sitio es estático (no necesita compilación) y se publica directamente desde la rama `master`:
 
-### Opción A: Automatización con GitHub Actions (Recomendada)
-El repositorio ya incluye el flujo de trabajo en `.github/workflows/deploy.yml`:
-1. En tu repositorio de GitHub, ve a **Settings** (Configuración) > **Pages**.
-2. En la sección **Build and deployment** > **Source**, selecciona: **GitHub Actions**.
-3. Cada vez que realices `git push` a la rama `master` (o `main`), el sitio se compilará y desplegará automáticamente en:
+1. En **Settings** > **Pages** > **Build and deployment** > **Source**, selecciona: **Deploy from a branch**.
+2. En **Branch**, selecciona `master` y la carpeta `/ (root)`.
+3. Haz clic en **Save**. Cada `git push` a `master` publica el sitio en 1-2 minutos en:
    ```text
    https://<tu-usuario>.github.io/<tu-repositorio>/
    ```
 
-### Opción B: Despliegue directo desde la Rama (Branch)
-1. En **Settings** > **Pages** > **Build and deployment** > **Source**, selecciona: **Deploy from a branch**.
-2. En **Branch**, selecciona `master` (o `main`) y la carpeta `/ (root)`.
-3. Haz clic en **Save**. En 1-2 minutos tu sitio estará en línea.
+> No se usa un flujo propio de GitHub Actions: con la publicación desde la rama ya activa, un segundo despliegue en paralelo compite por el mismo entorno `github-pages` y puede fallar.
 
 ### Archivos clave para GitHub Pages:
 - **`.nojekyll`:** Evita que el motor Jekyll ignore archivos o carpetas del proyecto.
