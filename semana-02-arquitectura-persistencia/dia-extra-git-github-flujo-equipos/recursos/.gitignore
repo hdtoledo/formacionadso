@@ -1,0 +1,31 @@
+# =============================================================================
+# SENA CADPH Garzón · ADSO — .gitignore estándar para proyectos Node / MERN
+# Copiar en la raíz del repositorio antes del primer commit
+# =============================================================================
+
+# Dependencias (se instalan con npm install, NUNCA se suben a Git)
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Secretos y variables de entorno (NUNCA subir .env; sí subir .env.example)
+.env*
+!.env.example
+!server/.env.example
+!client/.env.example
+
+# Compilados y cachés
+dist/
+build/
+.next/
+coverage/
+*.tsbuildinfo
+
+# Logs y temporales del sistema operativo / editores
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/

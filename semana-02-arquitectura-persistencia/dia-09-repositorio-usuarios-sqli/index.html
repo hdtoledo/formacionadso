@@ -2021,8 +2021,8 @@ COMMIT;` }
     const codeTabs = [{"key":"repo","label":"UserRepository.js"},{"key":"ctrl","label":"devUserController.js"},{"key":"routes","label":"devUserRoutes.js"},{"key":"async","label":"asyncHandler.js"},{"key":"valid","label":"validators.js"},{"key":"app","label":"app.js"},{"key":"err","label":"errorHandler.js (S08)"},{"key":"mig","label":"02_hardening_auth_schema.sql"},{"key":"seed","label":"02_fix_seed_credentials.sql"},{"key":"reset","label":"99_reset_pruebas_sesion_09.sql"}];
     let activeTabKey = 'repo';
 
-    const TAB_ACTIVE = 'px-3 py-1.5 bg-slate-900 text-emerald-300 rounded-lg border border-slate-700 cursor-pointer font-bold shrink-0';
-    const TAB_IDLE = 'px-3 py-1.5 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer transition-colors shrink-0';
+    const TAB_ACTIVE = 'px-3 py-2 min-h-[44px] sm:min-h-[36px] bg-slate-900 text-emerald-300 rounded-lg border border-slate-700 cursor-pointer font-bold shrink-0';
+    const TAB_IDLE = 'px-3 py-2 min-h-[44px] sm:min-h-[36px] bg-white text-slate-700 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer transition-colors shrink-0';
 
     function renderCodeTabs() {
       const container = document.getElementById('code-tabs');

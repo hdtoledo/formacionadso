@@ -292,6 +292,7 @@
         <button onclick="window.filtrarPorTema('tailwind')" data-tema="tailwind" class="chip-filter px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-indigo-100 text-slate-700 hover:text-indigo-900 border border-slate-200/80 transition shrink-0">🎨 Tailwind & UI/UX</button>
         <button onclick="window.filtrarPorTema('express')" data-tema="express" class="chip-filter px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 border border-slate-200/80 transition shrink-0">⚡ Express REST</button>
         <button onclick="window.filtrarPorTema('seguridad')" data-tema="seguridad" class="chip-filter px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-red-100 text-slate-700 hover:text-red-900 border border-slate-200/80 transition shrink-0">🛡️ Zero Brechas</button>
+        <button type="button" aria-pressed="false" onclick="window.filtrarPorTema('git')" data-tema="git" class="chip-filter px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-emerald-100 text-slate-700 hover:text-emerald-900 border border-slate-200/80 transition-colors shrink-0">🔀 Git &amp; GitHub</button>
         <button onclick="window.filtrarPorTema('despliegue')" data-tema="despliegue" class="chip-filter px-3 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-teal-100 text-slate-700 hover:text-teal-900 border border-slate-200/80 transition shrink-0">🚀 Cloud & Deploy</button>
       </div>
 
@@ -312,7 +313,7 @@
         <div class="flex items-center gap-2 text-xs shrink-0">
           <span class="inline-flex items-center gap-1.5 text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 font-bold text-[11px]">
             <span class="w-2 h-2 rounded-full bg-[#39A900] animate-pulse"></span>
-            8 Lecciones Listas (Semana 1 + S2)
+            12 Lecciones Listas (S1 + S2 + 2 Extras)
           </span>
         </div>
       </div>
@@ -1109,6 +1110,75 @@
 
               <div class="p-2 bg-slate-50 border border-slate-200 rounded-xl text-center text-[10px] text-slate-600 font-medium">
                 <span>Preparado para: <code class="font-mono font-bold text-purple-700">Semana 3 Auth</code></span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Tarjeta Destacada: Sesión Extra 2 (GIT & GITHUB EN EQUIPOS REALES) -->
+        <div class="sesion-card bg-white border-2 border-[#00324D] rounded-2xl p-6 sm:p-7 shadow-xs hover:shadow-md transition-colors">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div class="space-y-3 flex-1">
+
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-[#00324D] font-mono text-xs font-extrabold border border-slate-300">
+                  SESIÓN EXTRA 2 · SEMANA 2
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-[#00324D] text-white font-mono text-xs font-bold">
+                  GIT &amp; GITHUB EN EQUIPOS (2–4 PERSONAS)
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold flex items-center gap-1">
+                  <i data-lucide="check" class="w-3.5 h-3.5"></i> Disponible para Proyección
+                </span>
+                <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[10px] font-mono font-black uppercase">
+                  3 Labs Interactivos
+                </span>
+              </div>
+
+              <h3 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+                Git &amp; GitHub en Equipos Reales: Ramas, Pull Requests, Merge y Liderazgo
+              </h3>
+
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                Cómo organiza la industria un proyecto colaborativo de 2 a 4 desarrolladores: rol del <strong>Tech Lead / Maintainer</strong>, estrategia de ramas (<code class="font-mono text-[#00324D] font-bold">main</code>, <code class="font-mono text-blue-700 font-bold">develop</code>, <code class="font-mono text-emerald-800 font-bold">feat/*</code>, <code class="font-mono text-amber-700 font-bold">fix/*</code>), protección de ramas, <strong>Pull Requests</strong> con plantilla y <strong>Code Review</strong> cruzado, <em>Squash &amp; Merge</em> y resolución de conflictos sin perder código.
+              </p>
+
+              <!-- Desglose de los 3 bloques de la sesión -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs">
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-extrabold text-emerald-800 block mb-1">Bloque 1: Roles, Ramas &amp; PRs</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">Selector interactivo de equipo (2/3/4), Tech Lead, ramas, Code Review, merge y Branch Protection.</span>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-extrabold text-[#00324D] block mb-1">Bloque 2: Laboratorio Interactivo</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">Simulador de 8 fases con grafo SVG vivo, paso a paso PowerShell y simulador de conflictos.</span>
+                </div>
+                <div class="p-3 rounded-xl border border-amber-200 bg-amber-50/40">
+                  <span class="font-extrabold text-amber-800 block mb-1">Bloque 3: Reto Real &amp; Sustentación</span>
+                  <span class="text-slate-600 text-[11px] leading-snug block">Repo real en aula con conflicto controlado, botiquín Git, plantillas listas y rúbrica verificable.</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Botones de Acción de la Sesión -->
+            <div class="flex flex-col gap-2.5 shrink-0 lg:w-56">
+              <a href="semana-02-arquitectura-persistencia/dia-extra-git-github-flujo-equipos/index.html" class="w-full px-5 py-3 bg-[#00324D] hover:bg-[#00263A] text-white font-extrabold text-xs sm:text-sm rounded-xl transition-colors shadow-sm flex items-center justify-center gap-2 text-center group">
+                <i data-lucide="projector" class="w-4 h-4 group-hover:scale-110 transition-transform motion-reduce:transform-none"></i>
+                <span>Proyectar Sesión Extra 2</span>
+              </a>
+
+              <a href="semana-02-arquitectura-persistencia/dia-extra-git-github-flujo-equipos/recursos/INSTRUCCIONES.md" class="w-full px-4 py-2 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-xl transition-colors flex items-center justify-center gap-1.5 text-center" target="_blank" rel="noopener noreferrer" title="Ver guía completa del laboratorio paso a paso en equipo">
+                <i data-lucide="file-text" class="w-3.5 h-3.5 text-[#39A900]"></i>
+                <span>Guía de Laboratorio (.md)</span>
+              </a>
+
+              <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-center">
+                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Flujo de Industria</span>
+                <span class="text-xs font-extrabold text-slate-800 flex items-center justify-center gap-1 mt-0.5">
+                  <i data-lucide="git-pull-request" class="w-3.5 h-3.5 text-[#39A900]"></i> Ramas · PR · Merge · Review
+                </span>
               </div>
             </div>
 

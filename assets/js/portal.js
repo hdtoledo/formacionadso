@@ -58,7 +58,10 @@
       resource: { label: 'Guía S09', href: 'semana-02-arquitectura-persistencia/dia-09-repositorio-usuarios-sqli/recursos/INSTRUCCIONES.md' } },
     { id: 's10', week: 2, num: '10', title: 'Mongoose & CRUD del Catálogo', slides: 30, icon: 'shapes',
       href: 'semana-02-arquitectura-persistencia/dia-10-mongoose-crud-contenidos/index.html',
-      resource: { label: 'Guía S10', href: 'semana-02-arquitectura-persistencia/dia-10-mongoose-crud-contenidos/recursos/INSTRUCCIONES.md' } }
+      resource: { label: 'Guía S10', href: 'semana-02-arquitectura-persistencia/dia-10-mongoose-crud-contenidos/recursos/INSTRUCCIONES.md' } },
+    { id: 'extra2', week: 2, num: 'EX2', title: 'Git & GitHub en Equipos Reales', slides: 25, icon: 'git-branch', extra: true,
+      href: 'semana-02-arquitectura-persistencia/dia-extra-git-github-flujo-equipos/index.html',
+      resource: { label: 'Guía Git', href: 'semana-02-arquitectura-persistencia/dia-extra-git-github-flujo-equipos/recursos/INSTRUCCIONES.md' } }
   ];
 
   // Utilidades ----------------------------------------------------------------
@@ -130,7 +133,7 @@
             <span class="portal-launcher__num" style="background:#39A900"><i data-lucide="package" class="w-4 h-4"></i></span>
             <span class="min-w-0 flex-1"><span class="block text-xs font-bold text-slate-800">Código del proyecto por sesión</span><span class="block text-[10px] text-slate-500">Descargas .zip desde la Sesión 06</span></span>
           </a>
-          <div class="pt-2 border-t border-slate-100 px-3 pb-1 text-[10px] text-slate-400 font-medium">Atajo: teclas <kbd>1</kbd>–<kbd>9</kbd>, <kbd>0</kbd> y <kbd>-</kbd> abren las lecciones en orden.</div>
+          <div class="pt-2 border-t border-slate-100 px-3 pb-1 text-[10px] text-slate-400 font-medium">Atajo: teclas <kbd>1</kbd>–<kbd>9</kbd>, <kbd>0</kbd>, <kbd>-</kbd> y <kbd>=</kbd> abren las lecciones en orden.</div>
         </div>
       </details>`;
     const details = $('details', host);
@@ -205,7 +208,7 @@
           <span class="font-mono font-bold text-[#39A900]">${pct}%</span>
         </div>
         <div class="portal-bar" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100" aria-label="Sesiones publicadas del plan"><span style="--w:${pct}%"></span></div>
-        <p class="text-[11px] text-slate-500">${weekReady}/5 sesiones de la semana actual publicadas, más la Sesión Extra de Tailwind.</p>
+        <p class="text-[11px] text-slate-500">${weekReady}/5 sesiones de la semana actual publicadas, más ${LESSONS.filter((l) => l.extra).length} sesiones extra (Tailwind y Git &amp; GitHub).</p>
         <div class="flex gap-1.5 pt-1" aria-label="Semanas del plan">${weeks}</div>
       </div>
 
@@ -448,7 +451,7 @@
 
   // 8. Atajos de teclado (derivados del catálogo) ----------------------------------
   function setupShortcuts() {
-    const keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-'];
+    const keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='];
     window.addEventListener('keydown', (e) => {
       const active = document.activeElement;
       if (active && ['INPUT', 'TEXTAREA', 'SELECT'].includes(active.tagName)) {

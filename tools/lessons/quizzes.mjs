@@ -121,6 +121,17 @@ export const QUIZZES = {
     { q: '¿Por qué el esquema rechaza <code>ctaUrl: "javascript:alert(1)"</code>?',
       options: ['Porque es demasiado largo', 'Para evitar un XSS cuando React lo use en el href del botón', 'Porque MongoDB no guarda dos puntos', 'Por el límite de 100 kb'],
       answer: 1, why: 'Validar en el servidor también protege al frontend: solo se aceptan https:// o rutas internas.' }
+  ],
+  extra2: [
+    { q: 'En un equipo de 3 personas con <code>main</code> y <code>develop</code> protegidas, terminaste tu tarea en <code>feat/auth-login</code>. ¿Hacia qué rama abres el Pull Request?',
+      options: ['Directo hacia <code>main</code> para ahorrar pasos', 'Hacia <code>develop</code> (<code>base: develop ← compare: feat/auth-login</code>) y asignas a un compañero como revisor', 'Haces <code>git push --force origin develop</code>', 'Envías la carpeta comprimida al Tech Lead para que él la suba'],
+      answer: 1, why: 'Las funcionalidades se integran primero en develop vía PR aprobado por otro integrante (regla de los 4 ojos). main solo recibe releases estables desde develop.' },
+    { q: 'Tu Pull Request muestra un conflicto en <code>server/src/app.js</code> porque otro compañero registró una ruta en la misma línea. ¿Cuál es la forma correcta de resolverlo?',
+      options: ['Elegir "Accept Current Change" para conservar solo tu código', 'Cerrar el PR y crear otro repositorio', 'Traer <code>origin/develop</code> a tu rama, integrar ambas rutas limpiando <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code> y <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>, hacer commit y push', 'Ejecutar <code>git push --force origin main</code>'],
+      answer: 2, why: 'Un conflicto pide criterio humano: se conservan los aportes válidos de ambos compañeros, se eliminan los marcadores y se actualiza el mismo PR con commit y push.' },
+    { q: 'Un compañero revisa tu PR y marca <strong>Request changes</strong> pidiendo validar un campo. ¿Qué debes hacer?',
+      options: ['Cerrar el PR y abrir uno nuevo desde otra rama', 'Corregir el código en la misma rama <code>feat/...</code>, hacer un nuevo commit y <code>git push</code>: el PR se actualiza automáticamente', 'Desactivar la protección de ramas para fusionar sin aprobación', 'Editar directamente la rama <code>main</code> en GitHub'],
+      answer: 1, why: 'Un PR sigue apuntando a tu rama: cada commit nuevo que subes a esa rama aparece automáticamente en el mismo PR para que el revisor vuelva a aprobar.' }
   ]
 };
 

@@ -1,0 +1,861 @@
+      <!-- SLIDE 01: PORTADA INSTITUCIONAL -->
+      <section class="slide-item flex flex-col justify-center py-6" data-block-label="PORTADA · SESIÓN ESPECIAL" data-title="Portada: Git &amp; GitHub en Equipos Reales">
+        <div class="max-w-5xl mx-auto w-full space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold">
+            <i data-lucide="git-branch" class="w-3.5 h-3.5 text-[#39A900]"></i>
+            <span>Sesión Especial · Trabajo Colaborativo Profesional · Equipos de 2 a 4 Personas</span>
+          </div>
+          <div class="space-y-2">
+            <h1 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+              Git &amp; GitHub en <span class="text-[#39A900]">Equipos Reales</span>: Ramas, Pull Requests y Liderazgo
+            </h1>
+            <p class="text-sm sm:text-base text-slate-600 max-w-3xl leading-relaxed">
+              Tecnólogo en Análisis y Desarrollo de Software (ADSO) · SENA CADPH Garzón · Cómo trabaja la industria cuando 2, 3 o 4 desarrolladores programan el mismo proyecto al mismo tiempo sin pisarse el código.
+            </p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+            <article class="p-4 bg-white border border-slate-200 border-t-4 border-t-[#39A900] rounded-xl space-y-1.5 shadow-2xs">
+              <div class="flex items-center justify-between"><span class="font-mono font-extrabold text-emerald-800">BLOQUE 1</span><i data-lucide="users" class="w-4 h-4 text-[#2D8200]"></i></div>
+              <h2 class="text-sm font-extrabold text-slate-900">Roles, Ramas &amp; Estándar</h2>
+              <p class="text-slate-600">Quién lidera el repositorio, qué ramas existen, cómo escribir PRs claros, reglas de Code Review y protección de ramas.</p>
+            </article>
+            <article class="p-4 bg-white border border-slate-200 border-t-4 border-t-[#00324D] rounded-xl space-y-1.5 shadow-2xs">
+              <div class="flex items-center justify-between"><span class="font-mono font-extrabold text-[#00324D]">BLOQUE 2</span><i data-lucide="terminal" class="w-4 h-4 text-[#00324D]"></i></div>
+              <h2 class="text-sm font-extrabold text-slate-900">Laboratorio Interactivo Paso a Paso</h2>
+              <p class="text-slate-600">Simulador en vivo de 8 pasos + guía real: crear repo, invitar colaboradores, ramas, PR, merge y resolver conflictos.</p>
+            </article>
+            <article class="p-4 bg-white border border-slate-200 border-t-4 border-t-amber-600 rounded-xl space-y-1.5 shadow-2xs">
+              <div class="flex items-center justify-between"><span class="font-mono font-extrabold text-amber-700">BLOQUE 3</span><i data-lucide="award" class="w-4 h-4 text-amber-600"></i></div>
+              <h2 class="text-sm font-extrabold text-slate-900">Reto en Equipo &amp; Sustentación</h2>
+              <p class="text-slate-600">Repositorio real en aula con conflicto controlado, botiquín de emergencias Git, plantillas listas y rúbrica verificable.</p>
+            </article>
+          </div>
+          <div class="flex flex-wrap items-center gap-3 text-xs text-slate-600">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 rounded-lg font-semibold"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-[#00324D]"></i> 0 commits directos a <code class="font-mono">main</code></span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 rounded-lg font-semibold"><i data-lucide="git-pull-request" class="w-3.5 h-3.5 text-[#39A900]"></i> Revisión cruzada obligatoria</span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 rounded-lg font-semibold"><i data-lucide="laptop" class="w-3.5 h-3.5 text-amber-600"></i> Comandos probados en PowerShell</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 02: EL PROBLEMA REAL -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1 · CONTEXTO DE INDUSTRIA" data-title="El Problema Real en Equipos sin Flujo Git">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-rose-50 text-rose-900 border border-rose-200 rounded-full text-xs font-bold">
+            <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-600"></i>
+            <span>Por qué fracasan los proyectos en grupo</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Lo que pasa sin reglas vs. cómo trabaja la industria</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+            <article class="p-4 bg-rose-50/70 border border-rose-200 rounded-xl space-y-3">
+              <div class="flex items-center gap-2 text-rose-900 font-extrabold text-sm"><i data-lucide="x-circle" class="w-4 h-4 text-rose-600"></i><h3>Antipatrones que rompen entregas</h3></div>
+              <ul class="space-y-2 text-rose-950">
+                <li class="p-2.5 bg-white/80 rounded-lg border border-rose-200/70"><strong>"Te mando el ZIP por WhatsApp":</strong> nadie sabe cuál archivo es el más reciente (<code class="font-mono">proyecto_final_v3_ahora_si.zip</code>).</li>
+                <li class="p-2.5 bg-white/80 rounded-lg border border-rose-200/70"><strong>Todos empujan a <code class="font-mono">main</code>:</strong> un compañero sube código roto el día de la sustentación y daña el trabajo de los otros 3.</li>
+                <li class="p-2.5 bg-white/80 rounded-lg border border-rose-200/70"><strong>Un solo computador sube todo:</strong> no queda trazabilidad de quién aportó qué y en la empresa eso es inadmisible.</li>
+                <li class="p-2.5 bg-white/80 rounded-lg border border-rose-200/70"><strong>Subir <code class="font-mono">.env</code> o <code class="font-mono">node_modules/</code>:</strong> contraseñas expuestas en internet y repositorios de 300 MB imposibles de clonar.</li>
+              </ul>
+            </article>
+            <article class="p-4 bg-emerald-50/70 border border-emerald-200 rounded-xl space-y-3">
+              <div class="flex items-center gap-2 text-emerald-900 font-extrabold text-sm"><i data-lucide="check-circle-2" class="w-4 h-4 text-[#39A900]"></i><h3>Estándar de ingeniería en equipos de 2–4</h3></div>
+              <ul class="space-y-2 text-emerald-950">
+                <li class="p-2.5 bg-white/90 rounded-lg border border-emerald-200/70"><strong>Un solo repositorio fuente de verdad:</strong> todos clonan el mismo repo y sincronizan antes de empezar cada tarea.</li>
+                <li class="p-2.5 bg-white/90 rounded-lg border border-emerald-200/70"><strong>Ramas aisladas por tarea:</strong> cada quien trabaja en su rama <code class="font-mono">feat/...</code>; si algo falla, <code class="font-mono">main</code> y <code class="font-mono">develop</code> siguen intactas.</li>
+                <li class="p-2.5 bg-white/90 rounded-lg border border-emerald-200/70"><strong>Pull Request + Code Review:</strong> ningún código entra sin que al menos 1 compañero lo lea y apruebe.</li>
+                <li class="p-2.5 bg-white/90 rounded-lg border border-emerald-200/70"><strong>Historial limpio y auditable:</strong> cada commit lleva autor real, propósito claro y 0 secretos.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 03: LAB INTERACTIVO 1 · QUIÉN LIDERA Y ROLES -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1 · ROLES Y LIDERAZGO" data-title="Lab Interactivo 1: Roles en Equipos de 2, 3 y 4">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold w-fit">
+              <i data-lucide="users" class="w-3.5 h-3.5 text-blue-700"></i>
+              <span>Laboratorio Interactivo 1 · Seleccione el tamaño de su equipo</span>
+            </div>
+            <div class="flex items-center gap-1.5" role="group" aria-label="Tamaño del equipo">
+              <button type="button" id="btn-team-2" aria-pressed="false" class="px-3.5 py-2 min-h-[44px] sm:min-h-[36px] rounded-xl text-xs font-bold bg-white border border-slate-200 transition-colors cursor-pointer">2 personas</button>
+              <button type="button" id="btn-team-3" aria-pressed="true" class="px-3.5 py-2 min-h-[44px] sm:min-h-[36px] rounded-xl text-xs font-extrabold bg-[#00324D] text-white transition-colors cursor-pointer">3 personas</button>
+              <button type="button" id="btn-team-4" aria-pressed="false" class="px-3.5 py-2 min-h-[44px] sm:min-h-[36px] rounded-xl text-xs font-bold bg-white border border-slate-200 transition-colors cursor-pointer">4 personas</button>
+            </div>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">¿Quién lidera el proyecto? Roles y revisión cruzada</h2>
+          <p id="git-team-summary" class="text-xs sm:text-sm text-slate-700 bg-slate-100 border border-slate-200 rounded-xl p-3 leading-relaxed" aria-live="polite"></p>
+          <div id="git-team-grid" class="grid grid-cols-1 md:grid-cols-3 gap-3"></div>
+          <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-950 flex items-start gap-2">
+            <i data-lucide="shield-alert" class="w-4 h-4 text-amber-700 shrink-0 mt-0.5"></i>
+            <span><strong>Regla de los 4 ojos:</strong> el rol de <strong>Tech Lead / Maintainer</strong> se puede rotar cada sprint para que todos aprendan a administrar GitHub, pero <strong>nadie aprueba ni fusiona su propio Pull Request sin revisión</strong>.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 04: QUÉ HACE Y QUÉ NO HACE EL TECH LEAD -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1 · ROLES Y LIDERAZGO" data-title="El Tech Lead / Maintainer en la Industria">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-slate-100 text-slate-800 border border-slate-200 rounded-full text-xs font-bold">
+            <i data-lucide="crown" class="w-3.5 h-3.5 text-[#00324D]"></i>
+            <span>Gobernanza del repositorio</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Tech Lead / Maintainer: lo que SÍ lidera y lo que NO hace</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <article class="p-4 bg-white border border-slate-200 rounded-xl space-y-2.5">
+              <h3 class="font-extrabold text-[#00324D] text-sm flex items-center gap-2"><i data-lucide="check-square" class="w-4 h-4 text-[#39A900]"></i> Responsabilidades del Tech Lead</h3>
+              <ul class="space-y-2 text-slate-700">
+                <li><strong>1. Inicializar el repo:</strong> crea el repositorio, agrega <code class="font-mono">.gitignore</code>, plantilla de PR y la rama <code class="font-mono">develop</code>.</li>
+                <li><strong>2. Configurar seguridad:</strong> invita colaboradores con permisos claros y activa <em>Branch Protection Rules</em> en <code class="font-mono">main</code> y <code class="font-mono">develop</code>.</li>
+                <li><strong>3. Coordinar la arquitectura:</strong> define la estructura de carpetas para que dos personas no reescriban el mismo archivo sin aviso.</li>
+                <li><strong>4. Cuidar la integración:</strong> desbloquea conflictos complejos, exige pruebas en cada PR y lidera el PR final <code class="font-mono">develop → main</code>.</li>
+              </ul>
+            </article>
+            <article class="p-4 bg-white border border-slate-200 rounded-xl space-y-2.5">
+              <h3 class="font-extrabold text-rose-800 text-sm flex items-center gap-2"><i data-lucide="ban" class="w-4 h-4 text-rose-600"></i> Lo que el Tech Lead NO debe hacer</h3>
+              <ul class="space-y-2 text-slate-700">
+                <li><strong>No es un "jefe que no programa":</strong> también desarrolla tareas en sus propias ramas <code class="font-mono">feat/...</code> y pasa por revisión de un compañero.</li>
+                <li><strong>No recibe archivos por chat para subirlos él:</strong> cada integrante hace sus propios commits y su propio <code class="font-mono">git push</code>.</li>
+                <li><strong>No desactiva la protección de <code class="font-mono">main</code> por prisa:</strong> las prisas antes de una entrega son cuando más se rompen los proyectos.</li>
+                <li><strong>No aprueba PRs sin leer el diff:</strong> dar "Approve" a ciegas convierte el Code Review en un trámite inútil.</li>
+              </ul>
+            </article>
+          </div>
+          <div class="p-3.5 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-950">
+            <strong>Consejo real para fichas ADSO:</strong> definan el mapa de módulos antes de escribir código (ej. quién toca <code class="font-mono">auth</code>, quién <code class="font-mono">catalog</code>, quién <code class="font-mono">frontend</code>). Menos solapamiento de archivos = menos conflictos de merge.
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 05: ESTRATEGIA DE RAMAS -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1 · ESTRATEGIA DE RAMAS" data-title="Estrategia de Ramas: Qué Ramas Usar en ADSO">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold">
+            <i data-lucide="git-fork" class="w-3.5 h-3.5 text-[#39A900]"></i>
+            <span>Modelo recomendado: Git Flow simplificado</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Las 5 ramas que entiende cualquier empresa</h2>
+          <div class="overflow-x-auto bg-white border border-slate-200 rounded-xl">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead class="bg-slate-900 text-white">
+                <tr>
+                  <th class="p-3 font-mono">Rama</th>
+                  <th class="p-3">Nace desde</th>
+                  <th class="p-3">Se fusiona en</th>
+                  <th class="p-3">Propósito real</th>
+                  <th class="p-3">¿Protegida?</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 text-slate-700">
+                <tr>
+                  <td class="p-3 font-mono font-extrabold text-[#00324D]">main</td>
+                  <td class="p-3">Inicial</td>
+                  <td class="p-3">—</td>
+                  <td class="p-3">Código estable de producción / entrega evaluable. Siempre funciona.</td>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 font-bold">SÍ · Bloqueada</span></td>
+                </tr>
+                <tr class="bg-slate-50/70">
+                  <td class="p-3 font-mono font-extrabold text-blue-700">develop</td>
+                  <td class="p-3"><code class="font-mono">main</code></td>
+                  <td class="p-3"><code class="font-mono">main</code> (por sprint)</td>
+                  <td class="p-3">Integración continua del equipo. Aquí se juntan y prueban las features.</td>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 font-bold">SÍ · Solo PR</span></td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-mono font-extrabold text-emerald-800">feat/*</td>
+                  <td class="p-3"><code class="font-mono">develop</code></td>
+                  <td class="p-3"><code class="font-mono">develop</code></td>
+                  <td class="p-3">Una funcionalidad concreta (<code class="font-mono">feat/auth-login</code>). Se borra tras merge.</td>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold">No · Temporal</span></td>
+                </tr>
+                <tr class="bg-slate-50/70">
+                  <td class="p-3 font-mono font-extrabold text-amber-700">fix/*</td>
+                  <td class="p-3"><code class="font-mono">develop</code></td>
+                  <td class="p-3"><code class="font-mono">develop</code></td>
+                  <td class="p-3">Corrección de un bug detectado en pruebas (<code class="font-mono">fix/validacion-ruc</code>).</td>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold">No · Temporal</span></td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-mono font-extrabold text-rose-700">hotfix/*</td>
+                  <td class="p-3"><code class="font-mono">main</code></td>
+                  <td class="p-3"><code class="font-mono">main</code> y <code class="font-mono">develop</code></td>
+                  <td class="p-3">Parche de emergencia en producción (ej. fallo crítico en vivo).</td>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold">No · Urgente</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="text-xs text-slate-600"><strong>¿Y GitHub Flow?</strong> Si el equipo es de 2 personas con despliegue continuo y pruebas automatizadas en cada PR, pueden omitir <code class="font-mono">develop</code> y fusionar <code class="font-mono">feat/* → main</code> directo vía PR. En ADSO, <code class="font-mono">main + develop</code> da un colchón seguro antes de cada sustentación.</p>
+        </div>
+      </section>
+
+      <!-- SLIDE 06: CONVENCIONES DE RAMAS Y COMMITS -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1 · ESTRATEGIA DE RAMAS" data-title="Convención de Ramas y Conventional Commits">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold">
+            <i data-lucide="file-diff" class="w-3.5 h-3.5 text-blue-700"></i>
+            <span>Trazabilidad profesional</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Nombres de ramas y Conventional Commits</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+            <article class="p-4 bg-white border border-slate-200 rounded-xl space-y-3">
+              <h3 class="font-extrabold text-[#00324D] text-sm">Cómo nombrar ramas (minúsculas + guiones)</h3>
+              <div class="bg-slate-900 text-slate-200 p-3.5 rounded-xl font-mono text-[11px] space-y-1.5">
+                <div class="text-slate-400"># Bien: prefijo + módulo + objetivo corto</div>
+                <div class="text-emerald-300">feat/auth-registro-usuarios</div>
+                <div class="text-emerald-300">fix/catalogo-filtro-categoria</div>
+                <div class="text-emerald-300">docs/readme-instalacion-local</div>
+                <div class="text-slate-400 pt-2"># Mal: nombres personales o genéricos</div>
+                <div class="text-rose-300">rama-juan   /   nueva   /   pruebas2   /   Final_OK</div>
+              </div>
+              <p class="text-slate-600"><strong>Por qué:</strong> en GitHub cualquier compañero sabe qué hace una rama sin abrirla. Nunca use espacios, tildes ni mayúsculas en nombres de rama.</p>
+            </article>
+            <article class="p-4 bg-white border border-slate-200 rounded-xl space-y-3">
+              <h3 class="font-extrabold text-[#00324D] text-sm">Conventional Commits: <code class="font-mono text-emerald-800">tipo(alcance): verbo</code></h3>
+              <div class="bg-slate-900 text-slate-200 p-3.5 rounded-xl font-mono text-[11px] space-y-1.5">
+                <div class="text-slate-400"># Commits atómicos (1 cambio lógico por commit)</div>
+                <div class="text-emerald-300">feat(auth): validar correo duplicado con codigo 409</div>
+                <div class="text-emerald-300">fix(ui): corregir desborde de tabla en movil 360px</div>
+                <div class="text-emerald-300">refactor(db): extraer pool de postgres a config/db.js</div>
+                <div class="text-emerald-300">test(api): agregar coleccion bruno del catalogo</div>
+                <div class="text-slate-400 pt-2"># Evitar siempre</div>
+                <div class="text-rose-300">"cambios"  /  "arregle cosas"  /  "avance viernes"</div>
+              </div>
+              <p class="text-slate-600"><strong>Regla práctica:</strong> si al describir el commit necesita escribir <em>"y además..."</em>, probablemente debió dividirlo en dos commits.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 07: ANATOMÍA DE UN PULL REQUEST -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1 · PULL REQUESTS" data-title="Anatomía de un Pull Request Profesional">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold">
+            <i data-lucide="git-pull-request" class="w-3.5 h-3.5 text-[#39A900]"></i>
+            <span>La unidad real de colaboración en GitHub</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Qué lleva un Pull Request (PR) que sí da gusto revisar</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 text-xs">
+            <div class="lg:col-span-5 space-y-2.5">
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><h3 class="font-extrabold text-[#00324D]">1. Dirección correcta</h3><p class="text-slate-600 mt-0.5">Verifique arriba: <code class="font-mono font-bold text-blue-700">base: develop</code> ← <code class="font-mono font-bold text-emerald-800">compare: feat/...</code>. El error #1 en aula es abrir el PR contra <code class="font-mono">main</code>.</p></div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><h3 class="font-extrabold text-[#00324D]">2. Tamaño pequeño</h3><p class="text-slate-600 mt-0.5">Un PR de 150 líneas se revisa en 5 minutos y detecta bugs. Un PR de 2.000 líneas nadie lo lee bien.</p></div>
+              <div class="p-3 bg-white border border-slate-200 rounded-xl"><h3 class="font-extrabold text-[#00324D]">3. Evidencia real</h3><p class="text-slate-600 mt-0.5">Si cambió API → captura de Bruno en verde. Si cambió UI → captura en móvil y escritorio.</p></div>
+              <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-950"><strong>Plantilla automática:</strong> si guarda este archivo en <code class="font-mono">.github/pull_request_template.md</code>, GitHub lo carga solo en cada PR nuevo.</div>
+            </div>
+            <div class="lg:col-span-7 space-y-2 min-w-0">
+              <div class="flex items-center gap-2 text-xs">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-300 font-mono font-bold"><i data-lucide="file-code" class="w-3.5 h-3.5"></i>.github/pull_request_template.md</span>
+                <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold">PLANTILLA REAL</span>
+              </div>
+              <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] overflow-x-auto max-h-[380px] overflow-y-auto"><pre><code class="language-markdown">{{BODY:.github/pull_request_template.md}}</code></pre></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 08: CODE REVIEW EN LA INDUSTRIA -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1 · PULL REQUESTS" data-title="Code Review: Cómo Revisar Código en 5 Minutos">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold">
+            <i data-lucide="eye" class="w-3.5 h-3.5 text-blue-700"></i>
+            <span>Cultura de ingeniería · Revisión de pares</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Code Review: los 3 veredictos y qué revisar primero</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <article class="p-4 bg-white border border-slate-200 rounded-xl space-y-1.5">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800 font-bold"><i data-lucide="message-square" class="w-3.5 h-3.5"></i> Comment</span>
+              <h3 class="font-extrabold text-slate-900 text-sm">Comentar sin bloquear</h3>
+              <p class="text-slate-600">Preguntas aclaratorias o sugerencias menores de estilo que no impiden fusionar.</p>
+            </article>
+            <article class="p-4 bg-white border border-rose-200 rounded-xl space-y-1.5">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 font-bold"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Request changes</span>
+              <h3 class="font-extrabold text-slate-900 text-sm">Pedir ajustes antes del merge</h3>
+              <p class="text-slate-600">Cuando hay un bug, falta validación, viene un <code class="font-mono">.env</code> o rompe una ruta. El autor hace otro commit en la <strong>misma rama</strong> y el PR se actualiza solo.</p>
+            </article>
+            <article class="p-4 bg-white border border-emerald-200 rounded-xl space-y-1.5">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold"><i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Approve</span>
+              <h3 class="font-extrabold text-slate-900 text-sm">Aprobar para integración</h3>
+              <p class="text-slate-600">El código cumple requisitos, es seguro y claro. Desbloquea el botón de merge en GitHub.</p>
+            </article>
+          </div>
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2 text-xs">
+            <h3 class="font-extrabold text-[#00324D]">Checklist rápido del revisor (en orden de prioridad)</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 text-slate-700">
+              <div class="p-2.5 bg-white rounded-lg border border-slate-200"><strong>1. Seguridad:</strong> ¿hay secretos, <code class="font-mono">.env</code>, SQL concatenado o entradas sin validar?</div>
+              <div class="p-2.5 bg-white rounded-lg border border-slate-200"><strong>2. Funcionalidad:</strong> ¿resuelve lo pedido y maneja errores (400/404/500)?</div>
+              <div class="p-2.5 bg-white rounded-lg border border-slate-200"><strong>3. Impacto:</strong> ¿borró accidentalmente código de otro compañero?</div>
+              <div class="p-2.5 bg-white rounded-lg border border-slate-200"><strong>4. Respeto:</strong> critique el código, nunca a la persona ("Sugiero validar X" en vez de "Esto está mal").</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 09: ESTRATEGIAS DE MERGE -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1 · MERGE EN GITHUB" data-title="Estrategias de Merge: Merge Commit vs Squash vs Rebase">
+        <div class="max-w-5xl mx-auto w-full space-y-5">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-slate-100 text-slate-800 border border-slate-200 rounded-full text-xs font-bold">
+            <i data-lucide="git-merge" class="w-3.5 h-3.5 text-[#00324D]"></i>
+            <span>Los 3 botones de integración en GitHub</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">¿Qué opción de Merge elegir al aprobar un PR?</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+            <article class="p-4 bg-white border-2 border-[#39A900] rounded-xl space-y-2 shadow-2xs">
+              <div class="flex items-center justify-between">
+                <h3 class="font-extrabold text-slate-900 text-sm">Squash and merge</h3>
+                <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold">RECOMENDADO feat/*</span>
+              </div>
+              <p class="text-slate-600">Aplasta todos los commits intermedios de la rama ("fix typo", "ajustes review") en <strong>1 solo commit limpio</strong> sobre <code class="font-mono">develop</code>.</p>
+              <div class="p-2.5 bg-emerald-50 rounded-lg text-emerald-950 font-medium"><strong>Cuándo usarlo:</strong> en todos los PR de <code class="font-mono">feat/*</code> y <code class="font-mono">fix/*</code> hacia <code class="font-mono">develop</code>.</div>
+            </article>
+            <article class="p-4 bg-white border border-slate-200 rounded-xl space-y-2">
+              <div class="flex items-center justify-between">
+                <h3 class="font-extrabold text-slate-900 text-sm">Create a merge commit</h3>
+                <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-extrabold">RECOMENDADO release</span>
+              </div>
+              <p class="text-slate-600">Conserva todos los commits individuales de la rama y agrega un commit de unión con los dos padres.</p>
+              <div class="p-2.5 bg-blue-50 rounded-lg text-blue-950 font-medium"><strong>Cuándo usarlo:</strong> al integrar <code class="font-mono">develop → main</code> al cierre del sprint para conservar el historial de cada PR.</div>
+            </article>
+            <article class="p-4 bg-white border border-slate-200 rounded-xl space-y-2">
+              <div class="flex items-center justify-between">
+                <h3 class="font-extrabold text-slate-900 text-sm">Rebase and merge</h3>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[10px] font-extrabold">AVANZADO</span>
+              </div>
+              <p class="text-slate-600">Reescribe cada commit de la rama encima de la punta de destino sin crear commit de merge (historial 100% lineal).</p>
+              <div class="p-2.5 bg-slate-100 rounded-lg text-slate-700 font-medium"><strong>Cuándo usarlo:</strong> solo cuando cada commit individual ya está impecable y el equipo domina Git.</div>
+            </article>
+          </div>
+          <div class="p-3 bg-slate-900 text-slate-200 rounded-xl text-xs flex items-center gap-2.5">
+            <i data-lucide="trash-2" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+            <span><strong>Hábito de industria:</strong> después de fusionar un PR, <strong>siempre borre la rama <code class="font-mono text-emerald-300">feat/*</code></strong> (active <em>Automatically delete head branches</em> en Settings). El código ya vive en <code class="font-mono text-sky-300">develop</code>.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 10: PROTECCIÓN DE RAMAS, .GITIGNORE Y CODEOWNERS -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 1 · BLINDAJE DEL REPO" data-title="Protección de Ramas, .gitignore y CODEOWNERS">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold">
+            <i data-lucide="lock" class="w-3.5 h-3.5 text-amber-700"></i>
+            <span>Las reglas que no dependen de la memoria</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Los 3 candados técnicos del repositorio</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 text-xs">
+            <article class="p-4 bg-white border border-slate-200 rounded-xl space-y-2">
+              <h3 class="font-extrabold text-[#00324D] text-sm flex items-center gap-1.5"><i data-lucide="shield" class="w-4 h-4 text-[#39A900]"></i> 1. Branch Protection</h3>
+              <p class="text-slate-600">En GitHub → <strong>Settings → Branches</strong> para <code class="font-mono">main</code> y <code class="font-mono">develop</code>:</p>
+              <ul class="list-disc list-inside text-slate-700 space-y-1">
+                <li><strong>Require a pull request before merging</strong></li>
+                <li><strong>Require approvals: 1</strong></li>
+                <li><strong>Do not allow bypassing</strong> (aplica también al Tech Lead)</li>
+                <li><strong>Block force pushes</strong></li>
+              </ul>
+            </article>
+            <article class="p-4 bg-white border border-slate-200 rounded-xl space-y-2 min-w-0">
+              <h3 class="font-extrabold text-[#00324D] text-sm flex items-center gap-1.5"><i data-lucide="file-x" class="w-4 h-4 text-rose-600"></i> 2. .gitignore desde el día 1</h3>
+              <p class="text-slate-600">Evita filtrar secretos y dependencias pesadas:</p>
+              <div class="bg-slate-900 text-emerald-300 p-2.5 rounded-lg font-mono text-[10.5px] overflow-x-auto"><pre><code class="language-bash">node_modules/
+.env
+server/.env
+dist/
+*.log</code></pre></div>
+            </article>
+            <article class="p-4 bg-white border border-slate-200 rounded-xl space-y-2 min-w-0">
+              <h3 class="font-extrabold text-[#00324D] text-sm flex items-center gap-1.5"><i data-lucide="user-check" class="w-4 h-4 text-blue-700"></i> 3. .github/CODEOWNERS</h3>
+              <p class="text-slate-600">Asigna revisores automáticamente según la carpeta modificada:</p>
+              <div class="bg-slate-900 text-sky-200 p-2.5 rounded-lg font-mono text-[10.5px] overflow-x-auto"><pre><code class="language-bash">*           @tech-lead
+/server/    @dev-backend
+/client/    @dev-frontend</code></pre></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 11: LAB INTERACTIVO 2 · SIMULADOR PASO A PASO -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2 · LABORATORIO INTERACTIVO" data-title="Lab Interactivo 2: Simulador del Ciclo de Rama (8 Fases)">
+        <div class="max-w-6xl mx-auto w-full space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold w-fit">
+              <i data-lucide="play-circle" class="w-3.5 h-3.5 text-[#2D8200]"></i>
+              <span>Laboratorio Interactivo 2 · Ciclo completo de una funcionalidad (8 fases)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button type="button" id="git-flow-prev" class="px-3 py-2 min-h-[44px] sm:min-h-[36px] rounded-lg text-xs font-bold bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 disabled:opacity-40 cursor-pointer transition-colors">← Anterior</button>
+              <button type="button" id="git-flow-next" class="px-3.5 py-2 min-h-[44px] sm:min-h-[36px] rounded-lg text-xs font-extrabold bg-[#2D8200] hover:bg-[#1f5e00] text-white shadow-2xs cursor-pointer transition-colors">Siguiente fase →</button>
+            </div>
+          </div>
+
+          <div id="git-flow-steps" class="flex items-center gap-1.5 overflow-x-auto pb-1" role="group" aria-label="Fases del simulador Git"></div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-3">
+            <div class="lg:col-span-7 bg-white border border-slate-200 rounded-xl p-4 space-y-3 min-w-0">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <h2 id="git-flow-title" class="text-base sm:text-lg font-extrabold text-slate-900">1. Crear repositorio</h2>
+                <span id="git-flow-actor" class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-[#00324D] text-white">Tech Lead</span>
+              </div>
+              <p id="git-flow-why" class="text-xs text-slate-600 leading-relaxed" aria-live="polite"></p>
+              <div id="git-flow-graph" class="bg-slate-50 border border-slate-200 rounded-xl p-2 overflow-x-auto"></div>
+              <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex flex-wrap items-center justify-between gap-2 text-xs">
+                <div class="flex items-center gap-2"><i data-lucide="git-pull-request" class="w-4 h-4 text-[#00324D]"></i><strong>Estado en GitHub:</strong></div>
+                <span id="git-flow-pr-badge" class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-slate-100 text-slate-600">Sin PR</span>
+                <p id="git-flow-pr-detail" class="w-full text-[11px] text-slate-600"></p>
+              </div>
+            </div>
+
+            <div class="lg:col-span-5 bg-slate-900 text-slate-200 rounded-xl p-4 font-mono text-[11px] space-y-3 flex flex-col justify-between min-w-0">
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-slate-400 border-b border-slate-700 pb-1.5">
+                  <span>PowerShell · Acción del paso</span>
+                  <span class="text-emerald-400">git</span>
+                </div>
+                <pre class="whitespace-pre-wrap break-words text-emerald-300 leading-relaxed"><code id="git-flow-cmd"></code></pre>
+              </div>
+              <div class="space-y-1.5 border-t border-slate-700 pt-2.5">
+                <span class="text-slate-400 text-[10px] uppercase tracking-wider font-bold block">Resultado esperado</span>
+                <pre class="whitespace-pre-wrap break-words text-sky-200 leading-relaxed"><code id="git-flow-out"></code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 12: PASO 1 · CREAR REPO Y DEVELOP -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2 · GUÍA PASO A PASO" data-title="Paso 1 (Tech Lead): Crear Repo y Rama develop">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-slate-100 text-[#00324D] border border-slate-300 rounded-full text-xs font-bold">
+            <i data-lucide="folder-plus" class="w-3.5 h-3.5 text-[#00324D]"></i>
+            <span>Paso 1 de 9 · Lo ejecuta únicamente el Tech Lead</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Crear el repositorio base y publicar <code class="font-mono text-blue-700">develop</code></h2>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 text-xs">
+            <div class="lg:col-span-5 space-y-2.5">
+              <ol class="space-y-2">
+                <li class="p-3 bg-white border border-slate-200 rounded-xl"><strong>1. En GitHub:</strong> clic en <strong>+ → New repository</strong>. Nombre: <code class="font-mono">equipo-XX-git-lab</code>.</li>
+                <li class="p-3 bg-white border border-slate-200 rounded-xl"><strong>2. Inicialización limpia:</strong> marque <strong>Add a README file</strong> y en <em>.gitignore template</em> seleccione <strong>Node</strong>.</li>
+                <li class="p-3 bg-white border border-slate-200 rounded-xl"><strong>3. Commit base en <code class="font-mono">main</code>:</strong> clone el repo, copie <code class="font-mono">.gitignore</code> y <code class="font-mono">.github/pull_request_template.md</code>, agregue <code class="font-mono">## Equipo</code> a <code class="font-mono">README.md</code> y haga push a <code class="font-mono">main</code> <strong>antes</strong> de activar candados.</li>
+                <li class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-950"><strong>Verificación:</strong> en GitHub, <code class="font-mono">main</code> ya tiene la plantilla PR y el selector de ramas muestra <code class="font-mono">main</code> y <code class="font-mono">develop</code>.</li>
+              </ol>
+            </div>
+            <div class="lg:col-span-7 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto space-y-2">
+              <div class="text-slate-400"># PowerShell · Tech Lead</div>
+              <pre><code class="language-bash">git clone https://github.com/&lt;usuario-lead&gt;/equipo-XX-git-lab.git
+cd equipo-XX-git-lab
+
+# Copiar .gitignore y .github/pull_request_template.md + preparar README
+New-Item -ItemType Directory -Force .github
+Add-Content README.md "`n## Equipo`n"
+git add .gitignore .github/pull_request_template.md README.md
+git commit -m "chore(repo): agregar gitignore, plantilla pr y seccion equipo"
+git push origin main
+
+# Crear y publicar la rama de integración
+git switch -c develop
+git push -u origin develop</code></pre>
+              <div class="text-sky-200 pt-1 border-t border-slate-700">Salida esperada: <code class="font-mono">Branch 'develop' set up to track 'origin/develop'.</code></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 13: PASO 2 · COLABORADORES Y PROTECCIÓN -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2 · GUÍA PASO A PASO" data-title="Paso 2 (Tech Lead): Colaboradores y Branch Protection">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-slate-100 text-[#00324D] border border-slate-300 rounded-full text-xs font-bold">
+            <i data-lucide="user-plus" class="w-3.5 h-3.5 text-[#00324D]"></i>
+            <span>Paso 2 de 9 · Configuración en GitHub (Tech Lead)</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Agregar colaboradores y activar el candado en GitHub</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <article class="p-4 bg-white border border-slate-200 rounded-xl space-y-2.5">
+              <h3 class="font-extrabold text-[#00324D] text-sm flex items-center gap-2"><i data-lucide="users" class="w-4 h-4 text-[#39A900]"></i> A. Invitar a los 2–4 integrantes</h3>
+              <ol class="list-decimal list-inside space-y-1.5 text-slate-700">
+                <li>Abra el repo → <strong>Settings → Collaborators</strong>.</li>
+                <li>Clic en <strong>Add people</strong> → escriba el usuario exacto de GitHub de cada compañero.</li>
+                <li>Cada compañero abre su correo o la campana de GitHub y hace clic en <strong>Accept invitation</strong>.</li>
+              </ol>
+              <div class="p-2.5 bg-amber-50 border border-amber-200 rounded-lg text-amber-950"><strong>Error frecuente:</strong> si un compañero intenta <code class="font-mono">git push</code> sin aceptar la invitación, GitHub devuelve <code class="font-mono">403 Permission denied</code>.</div>
+            </article>
+            <article class="p-4 bg-white border border-slate-200 rounded-xl space-y-2.5">
+              <h3 class="font-extrabold text-[#00324D] text-sm flex items-center gap-2"><i data-lucide="lock" class="w-4 h-4 text-amber-600"></i> B. Proteger <code class="font-mono">main</code> y <code class="font-mono">develop</code></h3>
+              <ol class="list-decimal list-inside space-y-1.5 text-slate-700">
+                <li><strong>Settings → Branches → Add branch protection rule</strong> (o <strong>Rules → Rulesets</strong>).</li>
+                <li>Patrón: <code class="font-mono font-bold">main</code> → marque <strong>Require a pull request before merging</strong> y <strong>Require approvals (1)</strong>.</li>
+                <li>Marque <strong>Do not allow bypassing the above settings</strong>.</li>
+                <li>Repita la misma regla para <code class="font-mono font-bold">develop</code>.</li>
+                <li>En <strong>Settings → General</strong> active <strong>Automatically delete head branches</strong>.</li>
+              </ol>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 14: PASO 3 · CLONAR E IDENTIDAD -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2 · GUÍA PASO A PASO" data-title="Paso 3 (Equipo): Clonar y Configurar Identidad">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold">
+            <i data-lucide="download" class="w-3.5 h-3.5 text-[#39A900]"></i>
+            <span>Paso 3 de 9 · Todos los colaboradores</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Clonar el repositorio y confirmar identidad local</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 text-xs">
+            <div class="lg:col-span-7 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto space-y-2">
+              <div class="text-slate-400"># 1. Configurar nombre y correo real de GitHub (una vez por PC)</div>
+              <pre><code class="language-bash">git config --global user.name "Carlos Perez"
+git config --global user.email "carlos.perez@misena.edu.co"
+
+# 2. Clonar el repositorio del equipo
+git clone https://github.com/&lt;usuario-lead&gt;/equipo-XX-git-lab.git
+cd equipo-XX-git-lab
+
+# 3. Ver todas las ramas (locales y remotas)
+git branch -a</code></pre>
+            </div>
+            <div class="lg:col-span-5 space-y-3">
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1.5">
+                <h3 class="font-extrabold text-[#00324D]">Salida esperada de <code class="font-mono">git branch -a</code></h3>
+                <div class="bg-slate-900 text-sky-200 p-2.5 rounded-lg font-mono text-[11px]">* main<br>  remotes/origin/develop<br>  remotes/origin/main</div>
+              </div>
+              <div class="p-3.5 bg-rose-50 border border-rose-200 rounded-xl text-rose-950">
+                <strong>Cuidado en PCs del SENA:</strong> si el equipo lo usó otra ficha antes, verifique <code class="font-mono">git config --global user.email</code> y el <em>Administrador de Credenciales de Windows</em> para no firmar commits con el nombre de otro aprendiz.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 15: PASO 4 · SINCRONIZAR Y CREAR RAMA -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2 · GUÍA PASO A PASO" data-title="Paso 4 (Developer): Sincronizar y Crear Rama Propia">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold">
+            <i data-lucide="git-branch" class="w-3.5 h-3.5 text-[#39A900]"></i>
+            <span>Paso 4 de 9 · Antes de iniciar cualquier tarea</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Ritual de arranque: <code class="font-mono text-blue-700">pull</code> de <code class="font-mono">develop</code> → nueva rama</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 text-xs">
+            <div class="lg:col-span-7 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto space-y-2">
+              <div class="text-slate-400"># SIEMPRE estos 3 comandos antes de escribir una sola línea</div>
+              <pre><code class="language-bash">git switch develop
+git pull origin develop
+git switch -c feat/perfil-carlos
+
+# Confirmar en qué rama está parado (el * debe estar en feat/...)
+git branch</code></pre>
+            </div>
+            <div class="lg:col-span-5 space-y-3">
+              <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-950 space-y-1">
+                <h3 class="font-extrabold">¿Por qué <code class="font-mono">git switch</code> en lugar de <code class="font-mono">checkout</code>?</h3>
+                <p>Git moderno separó <code class="font-mono">switch</code> (cambiar/crear ramas) de <code class="font-mono">restore</code> (deshacer cambios en archivos). Es más claro y evita borrar trabajo por error.</p>
+              </div>
+              <div class="p-3.5 bg-amber-50 border border-amber-200 rounded-xl text-amber-950">
+                <strong>Error clásico:</strong> crear <code class="font-mono">feat/b</code> estando parado dentro de <code class="font-mono">feat/a</code>. Eso mezcla dos tareas en el mismo PR. Vuelva siempre a <code class="font-mono">develop</code> primero.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 16: PASO 5 · COMMITS ATÓMICOS Y PUSH -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2 · GUÍA PASO A PASO" data-title="Paso 5 (Developer): Commits Atómicos y git push -u">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold">
+            <i data-lucide="upload-cloud" class="w-3.5 h-3.5 text-[#39A900]"></i>
+            <span>Paso 5 de 9 · Guardar y publicar su rama</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Inspeccionar, commitear y subir solo su rama</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 text-xs">
+            <div class="lg:col-span-7 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto space-y-2">
+              <div class="text-slate-400"># 1. Ver qué archivos cambió (¡jamás haga git add . a ciegas!)</div>
+              <pre><code class="language-bash">git status
+git diff
+
+# 2. Agregar archivos concretos y hacer commit descriptivo
+git add integrantes/carlos.md README.md
+git commit -m "feat(equipo): agregar ficha de carlos y actualizar readme"
+
+# 3. Subir la rama a GitHub por primera vez (-u enlaza el tracking)
+git push -u origin feat/perfil-carlos</code></pre>
+            </div>
+            <div class="lg:col-span-5 space-y-3">
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1">
+                <h3 class="font-extrabold text-[#00324D]">Qué hace <code class="font-mono">-u</code> (<code class="font-mono">--set-upstream</code>)</h3>
+                <p class="text-slate-600">Le dice a Git qué rama remota corresponde a su rama local. Si luego el revisor pide cambios, en los siguientes commits solo escribe <code class="font-mono">git push</code>.</p>
+              </div>
+              <div class="p-3.5 bg-blue-50 border border-blue-200 rounded-xl text-blue-950">
+                <strong>Verificación inmediata:</strong> la terminal imprime un enlace directo <code class="font-mono">https://github.com/.../pull/new/feat/...</code> y GitHub muestra el botón amarillo <strong>Compare &amp; pull request</strong>.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 17: PASO 6 · ABRIR PR Y ATENDER REVIEW -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2 · GUÍA PASO A PASO" data-title="Paso 6 (GitHub): Abrir PR y Atender Code Review">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-full text-xs font-bold">
+            <i data-lucide="git-pull-request" class="w-3.5 h-3.5 text-amber-700"></i>
+            <span>Paso 6 de 9 · Interacción Autor ↔ Revisor en GitHub</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Abrir el Pull Request y responder cambios solicitados</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <article class="p-4 bg-white border border-slate-200 rounded-xl space-y-2.5">
+              <h3 class="font-extrabold text-[#00324D] text-sm">Flujo del Autor del PR</h3>
+              <ol class="list-decimal list-inside space-y-1.5 text-slate-700">
+                <li>Clic en <strong>Compare &amp; pull request</strong>.</li>
+                <li>Cambie <strong>base</strong> a <code class="font-mono font-bold text-blue-700">develop</code> (verifique: <code class="font-mono">base: develop ← compare: feat/...</code>).</li>
+                <li>Complete título Conventional, descripción, evidencia y checklist.</li>
+                <li>En la columna derecha, asigne al menos 1 compañero en <strong>Reviewers</strong>.</li>
+                <li>Clic en <strong>Create pull request</strong>.</li>
+              </ol>
+            </article>
+            <article class="p-4 bg-white border border-slate-200 rounded-xl space-y-2.5">
+              <h3 class="font-extrabold text-emerald-800 text-sm">Si el revisor pide ajustes (Request Changes)</h3>
+              <p class="text-slate-600"><strong>NO cierre el PR ni cree una rama nueva.</strong> Corrija en su misma rama local y haga push:</p>
+              <div class="bg-slate-900 text-emerald-300 p-3 rounded-lg font-mono text-[11px] overflow-x-auto"><pre><code class="language-bash"># Parado en la misma rama feat/perfil-carlos
+git add integrantes/carlos.md
+git commit -m "fix(equipo): completar rol segun code review"
+git push</code></pre></div>
+              <p class="text-slate-600">El PR en GitHub se actualiza automáticamente con el nuevo commit; luego haga clic en <strong>Re-request review</strong>.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 18: PASO 7 · MERGE Y SINCRONIZAR EQUIPO -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2 · GUÍA PASO A PASO" data-title="Paso 7 (Equipo): Merge, Limpieza y Sincronización">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold">
+            <i data-lucide="git-merge" class="w-3.5 h-3.5 text-[#39A900]"></i>
+            <span>Paso 7 de 9 · Cerrar el ciclo limpio</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Aprobar, fusionar y limpiar ramas locales</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 text-xs">
+            <div class="lg:col-span-5 space-y-2.5">
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1">
+                <h3 class="font-extrabold text-[#00324D]">1. En GitHub (PR en verde)</h3>
+                <p class="text-slate-600">Con la aprobación del revisor y 0 conflictos, haga clic en <strong>Squash and merge → Confirm squash and merge</strong>.</p>
+              </div>
+              <div class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1">
+                <h3 class="font-extrabold text-[#00324D]">2. Borrar rama remota</h3>
+                <p class="text-slate-600">Si no activó el borrado automático, clic en <strong>Delete branch</strong>. Mantener 25 ramas viejas confunde al equipo.</p>
+              </div>
+              <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-950">
+                <strong>3. Avisar al equipo:</strong> "PR #12 fusionado en <code class="font-mono">develop</code>, hagan pull antes de empezar su próxima rama".
+              </div>
+            </div>
+            <div class="lg:col-span-7 bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto space-y-2">
+              <div class="text-slate-400"># En PowerShell (el autor y cualquier compañero del equipo)</div>
+              <pre><code class="language-bash">git switch develop
+git pull origin develop
+
+# Eliminar la rama local que ya fue fusionada
+git branch -d feat/perfil-carlos
+
+# Limpiar referencias a ramas remotas ya borradas en GitHub
+git fetch --prune</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 19: LAB INTERACTIVO 3 · CONFLICTOS DE MERGE -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2 · CONFLICTOS SIN PÁNICO" data-title="Paso 8 · Lab Interactivo 3: Resolver Conflictos de Merge">
+        <div class="max-w-6xl mx-auto w-full space-y-3.5">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-rose-50 text-rose-900 border border-rose-200 rounded-full text-xs font-bold">
+            <i data-lucide="git-compare" class="w-3.5 h-3.5 text-rose-600"></i>
+            <span>Paso 8 · Laboratorio Interactivo 3 · Dos compañeros editaron la misma línea de server/src/app.js</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Conflictos de Merge: qué significan y cómo resolverlos</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 text-xs">
+            <div class="lg:col-span-6 space-y-2.5 min-w-0">
+              <div class="bg-slate-900 text-slate-200 p-3.5 rounded-xl font-mono text-[11px] overflow-x-auto">
+                <div class="text-slate-400 mb-1">// server/src/app.js · Tras ejecutar: git fetch origin ; git merge origin/develop</div>
+                <pre><code class="language-javascript">app.use('/api/health', healthRoutes);
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+app.use('/api/auth', authRoutes);
+=======
+app.use('/api/content', contentRoutes);
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; origin/develop</code></pre>
+              </div>
+              <div class="space-y-1.5">
+                <span class="font-extrabold text-slate-800 block">Elija cómo resolvería este conflicto:</span>
+                <div class="flex flex-wrap gap-2" role="group" aria-label="Opciones de resolución de conflicto">
+                  <button type="button" id="btn-conflict-ours" aria-pressed="false" class="px-3 py-2 min-h-[44px] sm:min-h-[36px] rounded-xl text-xs font-bold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition-colors cursor-pointer">A. Solo HEAD (mi ruta)</button>
+                  <button type="button" id="btn-conflict-theirs" aria-pressed="false" class="px-3 py-2 min-h-[44px] sm:min-h-[36px] rounded-xl text-xs font-bold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition-colors cursor-pointer">B. Solo origin/develop</button>
+                  <button type="button" id="btn-conflict-both" aria-pressed="false" class="px-3 py-2 min-h-[44px] sm:min-h-[36px] rounded-xl text-xs font-bold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition-colors cursor-pointer">C. Integrar ambas sin marcadores</button>
+                </div>
+              </div>
+            </div>
+            <div class="lg:col-span-6 space-y-3 min-w-0">
+              <div id="git-conflict-feedback" class="p-3.5 rounded-xl border-2 border-slate-200 bg-slate-50 space-y-2 text-xs" aria-live="polite">
+                <strong id="git-conflict-badge" class="block text-slate-800">Seleccione una opción (A, B o C) para probar el resultado</strong>
+                <pre class="bg-slate-900 text-emerald-200 p-2.5 rounded-lg font-mono text-[11px] overflow-x-auto"><code id="git-conflict-result">// Aquí verá cómo queda server/src/app.js</code></pre>
+                <p id="git-conflict-explain" class="text-slate-600">Un conflicto no es un error grave: es Git pidiendo criterio humano porque dos personas modificaron exactamente la misma zona del archivo.</p>
+              </div>
+              <div class="bg-slate-900 text-slate-200 p-3 rounded-xl font-mono text-[11px] overflow-x-auto">
+                <div class="text-slate-400"># Comandos tras guardar el archivo limpio (sin &lt;&lt;&lt;&lt; ni ====)</div>
+                <pre><code class="language-bash">git add server/src/app.js
+git commit -m "chore(merge): resolver conflicto en app.js"
+git push</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 20: PASO 9 · RELEASE DEVELOP -> MAIN -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 2 · GUÍA PASO A PASO" data-title="Paso 9 (Tech Lead): Release develop → main y Tags">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold">
+            <i data-lucide="rocket" class="w-3.5 h-3.5 text-blue-700"></i>
+            <span>Paso 9 de 9 · Cierre de Sprint / Entrega al instructor</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Promover <code class="font-mono text-blue-700">develop → main</code> y etiquetar la versión</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <article class="p-4 bg-white border border-slate-200 rounded-xl space-y-2.5">
+              <h3 class="font-extrabold text-[#00324D] text-sm">Cuándo y cómo pasar a <code class="font-mono">main</code></h3>
+              <ol class="list-decimal list-inside space-y-1.5 text-slate-700">
+                <li>Verifique que <code class="font-mono">develop</code> compila, levanta el servidor y pasa todas las pruebas Bruno sin fallos.</li>
+                <li>El Tech Lead abre un PR: <code class="font-mono font-bold text-[#00324D]">base: main</code> ← <code class="font-mono font-bold text-blue-700">compare: develop</code>.</li>
+                <li>Otro integrante verifica el resumen del sprint y marca <strong>Approve</strong>.</li>
+                <li>Se integra con <strong>Create a merge commit</strong> (para preservar el rastro de cada PR del sprint) y <strong>NO se borra <code class="font-mono">develop</code></strong>.</li>
+              </ol>
+            </article>
+            <article class="p-4 bg-slate-900 text-slate-200 rounded-xl font-mono text-[11px] space-y-2">
+              <div class="text-slate-400"># Etiquetar la entrega oficial (SemVer: vMAJOR.MINOR.PATCH)</div>
+              <pre><code class="language-bash">git switch main
+git pull origin main
+git tag -a v1.0.0 -m "Entrega Sprint 1: API dual + catalogo"
+git push origin v1.0.0</code></pre>
+              <div class="p-2.5 bg-slate-800 rounded-lg text-slate-300 font-sans text-xs">
+                <strong>Ventaja en sustentación:</strong> el instructor puede revisar exactamente qué había en <code class="font-mono text-emerald-300">v1.0.0</code> aunque el equipo ya esté trabajando en el Sprint 2 sobre <code class="font-mono text-sky-300">develop</code>.
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 21: RETO PRÁCTICO EN AULA -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 3 · TALLER REAL EN EQUIPO" data-title="Reto Práctico en Aula (Equipos de 2 a 4)">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold">
+            <i data-lucide="flag" class="w-3.5 h-3.5 text-[#39A900]"></i>
+            <span>Bloque 3 · 45 minutos · Práctica real en GitHub</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Reto en equipo: montar <code class="font-mono text-[#39A900]">equipo-XX-git-lab</code> de punta a punta</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+            <article class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1.5">
+              <span class="font-mono font-extrabold text-[#00324D]">FASE 1 · 10 min</span>
+              <h3 class="font-extrabold text-slate-900">Base y Candados</h3>
+              <p class="text-slate-600">El Tech Lead crea el repo, sube <code class="font-mono">.gitignore</code> y plantilla PR, crea <code class="font-mono">develop</code>, invita a los 2–4 compañeros y protege <code class="font-mono">main</code> y <code class="font-mono">develop</code>.</p>
+            </article>
+            <article class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1.5">
+              <span class="font-mono font-extrabold text-emerald-800">FASE 2 · 15 min</span>
+              <h3 class="font-extrabold text-slate-900">Ramas en Paralelo</h3>
+              <p class="text-slate-600">Cada integrante crea <code class="font-mono">feat/perfil-nombre</code>, añade <code class="font-mono">integrantes/nombre.md</code> y agrega su nombre en la misma sección <code class="font-mono">## Equipo</code> de <code class="font-mono">README.md</code>.</p>
+            </article>
+            <article class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1.5">
+              <span class="font-mono font-extrabold text-amber-700">FASE 3 · 10 min</span>
+              <h3 class="font-extrabold text-slate-900">PRs + Conflicto Real</h3>
+              <p class="text-slate-600">El 1.er PR se aprueba y hace <em>Squash &amp; Merge</em>. El 2.º PR verá conflicto en <code class="font-mono">README.md</code>: lo resuelve conservando ambos nombres, hace push y logra aprobación.</p>
+            </article>
+            <article class="p-3.5 bg-white border border-slate-200 rounded-xl space-y-1.5">
+              <span class="font-mono font-extrabold text-blue-700">FASE 4 · 10 min</span>
+              <h3 class="font-extrabold text-slate-900">Release v1.0.0</h3>
+              <p class="text-slate-600">Con todos los integrantes integrados en <code class="font-mono">develop</code>, abren el PR <code class="font-mono">develop → main</code>, lo revisa otro integrante, fusionan y crean el tag <code class="font-mono">v1.0.0</code>.</p>
+            </article>
+          </div>
+          <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-xs text-blue-950 flex items-center gap-2">
+            <i data-lucide="file-text" class="w-4 h-4 text-blue-700 shrink-0"></i>
+            <span>La guía detallada paso a paso con cada comando PowerShell está disponible en <code class="font-mono font-bold">recursos/INSTRUCCIONES.md</code> y en el Visor de Archivos (diapositiva 23).</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 22: BOTIQUÍN DE EMERGENCIAS GIT -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 3 · BOTIQUÍN GIT" data-title="Botiquín de Emergencias: 5 Errores Reales y su Salida">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-rose-50 text-rose-900 border border-rose-200 rounded-full text-xs font-bold">
+            <i data-lucide="life-buoy" class="w-3.5 h-3.5 text-rose-600"></i>
+            <span>Rescate seguro · Cero git push --force en ramas compartidas</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Botiquín Git: qué hacer cuando algo sale mal</h2>
+          <div class="overflow-x-auto bg-white border border-slate-200 rounded-xl">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead class="bg-slate-900 text-white">
+                <tr>
+                  <th class="p-3">Accidente en aula</th>
+                  <th class="p-3">Salida segura (PowerShell)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 text-slate-700">
+                <tr>
+                  <td class="p-3 font-bold text-slate-900">1. <code class="font-mono text-rose-700">rejected (non-fast-forward)</code></td>
+                  <td class="p-3 font-mono text-[11px]">git pull origin &lt;rama&gt; ; # resolver conflicto si hay ; git push</td>
+                </tr>
+                <tr class="bg-slate-50/70">
+                  <td class="p-3 font-bold text-slate-900">2. Hice commits en <code class="font-mono">develop</code> sin crear rama</td>
+                  <td class="p-3 font-mono text-[11px]">git switch -c feat/mi-tarea ; git branch -f develop origin/develop</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-bold text-slate-900">3. Agregué <code class="font-mono">.env</code> con <code class="font-mono">git add</code> (sin push)</td>
+                  <td class="p-3 font-mono text-[11px]">git restore --staged .env  # (o git rm --cached .env si ya hubo commit)</td>
+                </tr>
+                <tr class="bg-slate-50/70">
+                  <td class="p-3 font-bold text-slate-900">4. Subí un secreto con <code class="font-mono">git push</code></td>
+                  <td class="p-3"><strong>Rote la contraseña/llave de inmediato</strong> (borrar el archivo no la saca del historial), luego límpiela del repo.</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-bold text-slate-900">5. Necesito deshacer un commit ya publicado</td>
+                  <td class="p-3 font-mono text-[11px]">git revert &lt;hash&gt;  # crea un commit inverso sin reescribir historia</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 23: VISOR DE ARCHIVOS DE REFERENCIA -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="ARCHIVOS DE REFERENCIA" data-title="Visor de Plantillas Listas para su Proyecto">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold">
+              <i data-lucide="code-2" class="w-3.5 h-3.5 text-blue-700"></i>
+              <span>Plantillas reales listas para copiar a su repositorio</span>
+            </div>
+            <button type="button" onclick="window.copyActiveCodeTab()" class="px-3 py-2 min-h-[44px] sm:min-h-[36px] bg-[#2D8200] hover:bg-[#1f5e00] text-white rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5 shadow-2xs self-start sm:self-auto cursor-pointer">
+              <i data-lucide="copy" class="w-3.5 h-3.5" id="icon-copy-tab"></i><span id="text-copy-tab">Copiar Archivo Activo</span>
+            </button>
+          </div>
+          <h2 class="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Visor de Plantillas Git &amp; GitHub</h2>
+          <div id="code-tabs" class="flex items-center gap-1.5 border-b border-slate-200 pb-2 text-xs font-mono overflow-x-auto"></div>
+          <div class="bg-slate-900 text-slate-200 p-4 rounded-xl font-mono text-[11px] sm:text-xs overflow-x-auto max-h-[380px] overflow-y-auto">
+            <pre><code id="active-code-box" class="language-bash"></code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 25 (24 ES AUTOEVALUACIÓN INYECTADA): RÚBRICA Y CIERRE -->
+      <section class="slide-item hidden flex flex-col justify-center py-6" data-block-label="BLOQUE 3 · EVIDENCIA Y SUSTENTACIÓN" data-title="Rúbrica de Sustentación &amp; Reto Opcional">
+        <div class="max-w-5xl mx-auto w-full space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-full text-xs font-bold">
+            <i data-lucide="award" class="w-3.5 h-3.5 text-[#39A900]"></i>
+            <span>Bloque 3 · Verificación directa en GitHub</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Rúbrica de Sustentación en Equipo (2 a 4 personas)</h2>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+            <div class="p-3.5 bg-white border border-slate-200 rounded-xl"><span class="text-2xl font-black text-[#00324D]">25%</span><h3 class="font-bold text-slate-900 mt-1">Gobernanza</h3><p class="text-slate-600">Protección en <code class="font-mono">main</code>/<code class="font-mono">develop</code>, colaboradores, <code class="font-mono">.gitignore</code> y plantilla PR.</p></div>
+            <div class="p-3.5 bg-white border border-slate-200 rounded-xl"><span class="text-2xl font-black text-[#39A900]">30%</span><h3 class="font-bold text-slate-900 mt-1">PRs &amp; Code Review</h3><p class="text-slate-600">1+ PR aprobado por cada integrante, revisión cruzada real y ramas borradas tras merge.</p></div>
+            <div class="p-3.5 bg-white border border-slate-200 rounded-xl"><span class="text-2xl font-black text-amber-600">20%</span><h3 class="font-bold text-slate-900 mt-1">Conflicto &amp; Commits</h3><p class="text-slate-600">Conflicto resuelto sin perder aportes + Conventional Commits claros + 0 secretos.</p></div>
+            <div class="p-3.5 bg-white border border-slate-200 rounded-xl"><span class="text-2xl font-black text-blue-700">25%</span><h3 class="font-bold text-slate-900 mt-1">Prueba en Vivo</h3><p class="text-slate-600">Un integrante al azar crea rama <code class="font-mono">fix/*</code>, sube cambio y abre PR en caliente.</p></div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
+              <strong class="text-[#00324D] block">Resumen: lo que se llevan hoy</strong>
+              <p class="text-slate-600">Un líder organiza el repo y los candados, todos trabajan en ramas <code class="font-mono">feat/*</code> desde <code class="font-mono">develop</code>, nadie aprueba su propio PR, los conflictos se resuelven integrando el trabajo del equipo y <code class="font-mono">main</code> siempre está lista para presentar.</p>
+            </div>
+            <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1">
+              <strong class="text-emerald-900 block">Reto opcional (equipos que terminan antes)</strong>
+              <p class="text-emerald-950">Agreguen <code class="font-mono">.github/CODEOWNERS</code> con sus usuarios reales y un flujo básico de GitHub Actions que ejecute <code class="font-mono">node --check</code> en cada Pull Request antes de permitir el merge.</p>
+            </div>
+          </div>
+        </div>
+      </section>

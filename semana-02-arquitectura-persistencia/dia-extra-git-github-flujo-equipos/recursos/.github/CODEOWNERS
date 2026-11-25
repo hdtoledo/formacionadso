@@ -1,0 +1,17 @@
+# =============================================================================
+# .github/CODEOWNERS — Revisores automáticos en GitHub
+# Reemplace @usuario-tech-lead y @dev-* por los usuarios reales de GitHub del equipo
+# =============================================================================
+
+# Por defecto, cualquier PR pide revisión del Tech Lead / Maintainer
+*                        @usuario-tech-lead
+
+# Archivos críticos de configuración y seguridad
+/.gitignore              @usuario-tech-lead
+/server/src/config/      @usuario-tech-lead
+/server/src/middlewares/ @usuario-tech-lead
+
+# Propiedad por módulo (ajuste según su equipo de 2 a 4 integrantes)
+/server/                 @usuario-tech-lead @dev-backend
+/client/                 @dev-frontend
+/database/               @dev-datos

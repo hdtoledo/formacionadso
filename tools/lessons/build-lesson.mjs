@@ -11,6 +11,7 @@ import { renderCards } from './bruno-cases.mjs';
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = 'semana-02-arquitectura-persistencia';
 const PRISM_SQL = '<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>';
+const PRISM_MD = '<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>';
 
 const LESSONS = {
   s09: {
@@ -58,6 +59,27 @@ const LESSONS = {
       ['db', 'db.js', 'src/config/db.js', 'javascript'],
       ['app', 'app.js', 'src/app.js', 'javascript']
     ]
+  },
+  extra2: {
+    dir: `${ROOT}/dia-extra-git-github-flujo-equipos`,
+    template: 'git-slides.template.html',
+    resSubdir: '',
+    quizLabel: 'el flujo de Git & GitHub en equipo',
+    extraScript: 'git-labs.js',
+    meta: {
+      lesson: 'extra2', week: 2, session: 'Extra 2',
+      title: 'Git & GitHub en Equipos Reales (2 a 4 Personas)', short: 'Git & GitHub en Equipo',
+      pageTitle: 'Sesión Extra | Git & GitHub en Equipos Reales: Ramas, PR y Merge | SENA ADSO',
+      description: 'Sesión Especial ADSO: flujo profesional Git y GitHub para equipos de 2 a 4 personas con roles, ramas, Pull Requests, Code Review, merge y laboratorio en vivo.',
+      extraHead: PRISM_MD
+    },
+    defaultTab: 'pr',
+    tabs: [
+      ['pr', 'pull_request_template.md', '.github/pull_request_template.md', 'markdown'],
+      ['ignore', '.gitignore', '.gitignore', 'bash'],
+      ['owners', '.github/CODEOWNERS', '.github/CODEOWNERS', 'bash'],
+      ['guide', 'INSTRUCCIONES.md', 'INSTRUCCIONES.md', 'markdown']
+    ]
   }
 };
 
@@ -69,14 +91,15 @@ if (!Object.hasOwn(LESSONS, key)) {
 const cfg = LESSONS[key];
 
 const RES = `${cfg.dir}/recursos`;
+const RES_SUBDIR = cfg.resSubdir ?? 'server';
 const read = (p) => fs.readFileSync(p, 'utf8').replace(/\r\n/g, '\n');
 // Rutas relativas a recursos/ de la sesión; "@s08/..." toma el archivo desde la Sesión 08
 // (código que la sesión reutiliza sin modificar, ej. middlewares/errorHandler.js).
 const S08_SERVER = `${ROOT}/dia-08-backend-express-arquitectura/recursos/server`;
 const src = (rel) => rel.startsWith('@s08/')
   ? read(path.join(S08_SERVER, rel.slice(5)))
-  : read(path.join(RES, rel.startsWith('database') ? '' : 'server', rel));
-const displayPath = (rel) => (rel.startsWith('database') ? rel : `server/${rel.replace(/^@s08\//, '')}`);
+  : read(path.join(RES, rel.startsWith('database') ? '' : RES_SUBDIR, rel));
+const displayPath = (rel) => (rel.startsWith('database') || !RES_SUBDIR ? rel : `${RES_SUBDIR}/${rel.replace(/^@s08\//, '')}`);
 
 // ---------------------------------------------------------------- extractores de código
 // Retrocede desde la línea i mientras la anterior pertenezca a un comentario JSDoc (/** … *)
@@ -151,11 +174,12 @@ const rawSlides = read(path.join(HERE, cfg.template))
   });
 
 // Autoevaluación antes de la diapositiva de cierre
-const slides = injectQuiz(rawSlides, cfg.meta.lesson, `la Sesión ${cfg.meta.session}`);
+const slides = injectQuiz(rawSlides, cfg.meta.lesson, cfg.quizLabel || `la Sesión ${cfg.meta.session}`);
 
 // ---------------------------------------------------------------- visor de código
 const snippetEntries = cfg.tabs.map(([k, , rel, lang]) => {
-  const code = rel.endsWith('.sql') ? src(rel).trimEnd() : `// ${displayPath(rel)}\n` + stripHeader(src(rel)).trimEnd();
+  const raw = src(rel).trimEnd();
+  const code = rel.endsWith('.sql') || !RES_SUBDIR ? raw : `// ${displayPath(rel)}\n` + stripHeader(raw).trimEnd();
   return `      ${k}: { lang: '${lang}', code: \`${tplEsc(code).replace(/<\/script/gi, '<\\/script')}\` }`;
 }).join(',\n');
 const tabMeta = JSON.stringify(cfg.tabs.map(([k, label]) => ({ key: k, label }))).replace(/</g, '\\u003c');
@@ -168,8 +192,8 @@ ${snippetEntries}
     const codeTabs = ${tabMeta};
     let activeTabKey = '${cfg.defaultTab}';
 
-    const TAB_ACTIVE = 'px-3 py-1.5 bg-slate-900 text-emerald-300 rounded-lg border border-slate-700 cursor-pointer font-bold shrink-0';
-    const TAB_IDLE = 'px-3 py-1.5 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer transition-colors shrink-0';
+    const TAB_ACTIVE = 'px-3 py-2 min-h-[44px] sm:min-h-[36px] bg-slate-900 text-emerald-300 rounded-lg border border-slate-700 cursor-pointer font-bold shrink-0';
+    const TAB_IDLE = 'px-3 py-2 min-h-[44px] sm:min-h-[36px] bg-white text-slate-700 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer transition-colors shrink-0';
 
     function renderCodeTabs() {
       const container = document.getElementById('code-tabs');
@@ -224,7 +248,7 @@ ${snippetEntries}
       renderCodeTabs();
       window.viewCodeTab('${cfg.defaultTab}');
     });
-  </script>`;
+  </script>${cfg.extraScript ? `\n  <script>\n${read(path.join(HERE, cfg.extraScript)).trimEnd().replace(/<\/script/gi, '<\\/script')}\n  </script>` : ''}`;
 
 const { html, total } = renderLesson(cfg.meta, slides, scripts);
 fs.writeFileSync(`${cfg.dir}/index.html`, html);

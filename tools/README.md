@@ -24,7 +24,7 @@ Cada lección solo contiene sus diapositivas y metadatos. El chasis (cintillo, h
 
 | Archivo | Uso |
 |---|---|
-| `lessons/build-lesson.mjs <s09\|s10>` | Genera `index.html` de una sesión desde su plantilla, insertando código real de `recursos/` y su autoevaluación. |
+| `lessons/build-lesson.mjs <s09\|s10\|extra2>` | Genera `index.html` de una sesión desde su plantilla, insertando código real de `recursos/` y su autoevaluación. |
 | `lessons/shell.mjs` | Estructura común (`<head>` de referencia + `<body>` con metadatos) usada por `build-lesson.mjs`. |
 | `lessons/quizzes.mjs` | **Fuente única** de las autoevaluaciones (3 preguntas por lección) y el inyector idempotente. |
 | `lessons/add-quizzes.mjs` | Inserta o actualiza la autoevaluación en las lecciones escritas a mano (S01–S08 y Extra). |
