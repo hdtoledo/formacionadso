@@ -13,10 +13,14 @@ get {
 tests {
   test("Inyección NoSQL en Tipo (400 Bad Request)", function () {
     expect(res.status).to.equal(400);
+    expect(res.body.code).to.equal("VALIDATION_ERROR");
     expect(res.body.fieldErrors).to.have.property("type");
+    expect(res.body).to.not.have.property("data");
   });
 }
 
 docs {
-  Express convierte ?type[$ne]=banner en el objeto { $ne: "banner" }. Sin validación, MongoDB devolvería todo lo que NO es banner.
+  Envía: ?type[$ne]=banner. Express lo convierte en el objeto { $ne: "banner" }.
+  Debe responder: 400 VALIDATION_ERROR con fieldErrors.type y ningún dato.
+  Sin validación, MongoDB devolvería los 8 contenidos que NO son banners: el atacante controlaría el filtro.
 }

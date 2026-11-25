@@ -56,7 +56,7 @@
     { id: 's09', week: 2, num: '09', title: 'Repositorio & Cero SQLi', slides: 32, icon: 'shield-check',
       href: 'semana-02-arquitectura-persistencia/dia-09-repositorio-usuarios-sqli/index.html',
       resource: { label: 'Guía S09', href: 'semana-02-arquitectura-persistencia/dia-09-repositorio-usuarios-sqli/recursos/INSTRUCCIONES.md' } },
-    { id: 's10', week: 2, num: '10', title: 'Mongoose & CRUD del Catálogo', slides: 22, icon: 'shapes',
+    { id: 's10', week: 2, num: '10', title: 'Mongoose & CRUD del Catálogo', slides: 30, icon: 'shapes',
       href: 'semana-02-arquitectura-persistencia/dia-10-mongoose-crud-contenidos/index.html',
       resource: { label: 'Guía S10', href: 'semana-02-arquitectura-persistencia/dia-10-mongoose-crud-contenidos/recursos/INSTRUCCIONES.md' } }
   ];

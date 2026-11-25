@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { escHtml, tplEsc, stripHeader } from '../lib-replace.mjs';
 import { renderLesson } from './shell.mjs';
 import { injectQuiz } from './quizzes.mjs';
+import { renderCards } from './bruno-cases.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = 'semana-02-arquitectura-persistencia';
@@ -61,11 +62,11 @@ const LESSONS = {
 };
 
 const key = process.argv[2];
-const cfg = LESSONS[key];
-if (!cfg) {
+if (!Object.hasOwn(LESSONS, key)) {
   console.error(`Uso: node tools/lessons/build-lesson.mjs <${Object.keys(LESSONS).join('|')}>`);
   process.exit(1);
 }
+const cfg = LESSONS[key];
 
 const RES = `${cfg.dir}/recursos`;
 const read = (p) => fs.readFileSync(p, 'utf8').replace(/\r\n/g, '\n');
@@ -78,6 +79,18 @@ const src = (rel) => rel.startsWith('@s08/')
 const displayPath = (rel) => (rel.startsWith('database') ? rel : `server/${rel.replace(/^@s08\//, '')}`);
 
 // ---------------------------------------------------------------- extractores de código
+// Retrocede desde la línea i mientras la anterior pertenezca a un comentario JSDoc (/** … *)
+// o a un separador de sección (// -----), para no cortar un comentario por la mitad.
+const COMMENT_LINE = /^\s*(\/\*\*|\*(?!\/)|\/\/ -{5,}|\/\/ \d+\. )/;
+function withLeadingComment(lines, i) {
+  let from = i;
+  if (/^\s*\*(?!\/)/.test(lines[from]) || /^\s*\/\*\*/.test(lines[from])) {
+    while (from > 0 && !/^\s*\/\*\*/.test(lines[from])) from--;
+  }
+  while (from > 0 && COMMENT_LINE.test(lines[from - 1]) && !/\*\/\s*$/.test(lines[from - 1])) from--;
+  return from;
+}
+
 const extractors = {
   BODY: (rel) => stripHeader(src(rel)).trimEnd(),
   HEAD: (rel) => stripHeader(src(rel)).split('\n/**\n')[0].trimEnd(),
@@ -89,6 +102,7 @@ const extractors = {
     if (lines[from - 1]?.trim() === '*/') { while (!lines[from - 1].startsWith('/**')) from--; from--; }
     while (from > 0 && lines[from - 1].startsWith('//')) from--;
     const end = lines.findIndex((l, i) => i > start && l === '}');
+    if (end < 0) throw new Error(`Cierre de función ${name} no encontrado en ${rel}`);
     return lines.slice(from, end + 1).join('\n');
   },
   BLOCK: (rel, marker) => {
@@ -96,6 +110,7 @@ const extractors = {
     const start = lines.findIndex((l) => l.includes(marker));
     if (start < 0) throw new Error(`Marcador "${marker}" no encontrado en ${rel}`);
     const end = lines.findIndex((l, i) => i > start && l.trim() === '}');
+    if (end < 0) throw new Error(`Cierre de bloque "${marker}" no encontrado en ${rel}`);
     return lines.slice(start, end + 1).join('\n');
   },
   // Desde la línea con el marcador (incluida) hasta el final del archivo
@@ -104,31 +119,36 @@ const extractors = {
     const lines = src(rel).split('\n');
     const s = lines.findIndex((l) => l.includes(marker));
     if (s < 0) throw new Error(`Marcador "${marker}" no encontrado en ${rel}`);
-    return lines.slice(s).join('\n').trimEnd();
+    return lines.slice(withLeadingComment(lines, s)).join('\n').trimEnd();
   },
+  // Desde la línea "inicio" hasta antes de "fin". Si un marcador cae dentro de un comentario
+  // /** … */ o bajo un separador "// -----", el fragmento arranca/termina en el comentario completo.
   SEC: (spec) => {
     const [rel, startMarker, endMarker] = spec.split('#');
     const lines = src(rel).split('\n');
     const s = lines.findIndex((l) => l.includes(startMarker));
     const e = lines.findIndex((l, i) => i > s && l.includes(endMarker));
     if (s < 0 || e < 0) throw new Error(`Sección no encontrada: ${spec}`);
-    return lines.slice(s, e).join('\n').trimEnd();
+    return lines.slice(withLeadingComment(lines, s), withLeadingComment(lines, e)).join('\n').trimEnd();
   },
   SQL: (spec) => {
     const [rel, startMarker, endMarker] = spec.split('#');
     const lines = src(rel).split('\n');
     const s = lines.findIndex((l) => l.includes(startMarker)) - 1;
     const e = lines.findIndex((l) => l.includes(endMarker)) - 1;
-    if (s < 0 || e < 0) throw new Error(`Sección SQL no encontrada: ${spec}`);
+    if (s < 0 || e <= s) throw new Error(`Sección SQL no encontrada: ${spec}`);
     return lines.slice(s, e).join('\n').trimEnd();
   }
 };
 
-const rawSlides = read(path.join(HERE, cfg.template)).replace(/\{\{(BODY|HEAD|FN|BLOCK|SQL|SEC|TAIL):([^}]+)\}\}/g, (_, kind, arg) => {
-  if (kind === 'SQL' || kind === 'SEC' || kind === 'TAIL') return escHtml(extractors[kind](arg));
-  const [rel, ...rest] = arg.split(':');
-  return escHtml(extractors[kind](rel, rest.join(':')));
-});
+// Reemplazo en una sola pasada: evita re-interpretar marcadores dentro de contenido ya expandido
+const rawSlides = read(path.join(HERE, cfg.template))
+  .replace(/\{\{(?:BRUNO:(\d+)-(\d+)|(BODY|HEAD|FN|BLOCK|SQL|SEC|TAIL):([^}]+))\}\}/g, (_, a, b, kind, arg) => {
+    if (a !== undefined) return renderCards(key, Number(a), Number(b));
+    if (kind === 'SQL' || kind === 'SEC' || kind === 'TAIL') return escHtml(extractors[kind](arg));
+    const [rel, ...rest] = arg.split(':');
+    return escHtml(extractors[kind](rel, rest.join(':')));
+  });
 
 // Autoevaluación antes de la diapositiva de cierre
 const slides = injectQuiz(rawSlides, cfg.meta.lesson, `la Sesión ${cfg.meta.session}`);
@@ -138,7 +158,7 @@ const snippetEntries = cfg.tabs.map(([k, , rel, lang]) => {
   const code = rel.endsWith('.sql') ? src(rel).trimEnd() : `// ${displayPath(rel)}\n` + stripHeader(src(rel)).trimEnd();
   return `      ${k}: { lang: '${lang}', code: \`${tplEsc(code).replace(/<\/script/gi, '<\\/script')}\` }`;
 }).join(',\n');
-const tabMeta = JSON.stringify(cfg.tabs.map(([k, label]) => ({ key: k, label })));
+const tabMeta = JSON.stringify(cfg.tabs.map(([k, label]) => ({ key: k, label }))).replace(/</g, '\\u003c');
 
 const scripts = `  <script>
     // Visor de código: generado desde recursos/ (el mismo código que se probó contra las bases de datos)
@@ -148,16 +168,19 @@ ${snippetEntries}
     const codeTabs = ${tabMeta};
     let activeTabKey = '${cfg.defaultTab}';
 
-    const TAB_ACTIVE = 'px-3 py-1 bg-slate-900 text-emerald-300 rounded-lg border border-slate-700 cursor-pointer font-bold shrink-0';
-    const TAB_IDLE = 'px-3 py-1 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer transition-colors shrink-0';
+    const TAB_ACTIVE = 'px-3 py-1.5 bg-slate-900 text-emerald-300 rounded-lg border border-slate-700 cursor-pointer font-bold shrink-0';
+    const TAB_IDLE = 'px-3 py-1.5 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer transition-colors shrink-0';
 
     function renderCodeTabs() {
       const container = document.getElementById('code-tabs');
       if (!container) return;
+      container.setAttribute('role', 'tablist');
       codeTabs.forEach(({ key, label }) => {
         const btn = document.createElement('button');
         btn.id = 'tab-btn-' + key;
         btn.type = 'button';
+        btn.setAttribute('role', 'tab');
+        btn.setAttribute('aria-selected', 'false');
         btn.textContent = label;
         btn.className = TAB_IDLE;
         btn.addEventListener('click', () => window.viewCodeTab(key));
@@ -172,7 +195,10 @@ ${snippetEntries}
       activeTabKey = tabKey;
       codeTabs.forEach(({ key }) => {
         const btn = document.getElementById('tab-btn-' + key);
-        if (btn) btn.className = key === tabKey ? TAB_ACTIVE : TAB_IDLE;
+        if (btn) {
+          btn.className = key === tabKey ? TAB_ACTIVE : TAB_IDLE;
+          btn.setAttribute('aria-selected', String(key === tabKey));
+        }
       });
       codeBox.className = 'language-' + snippet.lang;
       codeBox.textContent = snippet.code;
@@ -189,6 +215,8 @@ ${snippetEntries}
         if (!btnText) return;
         btnText.textContent = '¡Archivo Copiado!';
         setTimeout(() => { btnText.textContent = 'Copiar Archivo Activo'; }, 2200);
+      }).catch(() => {
+        window.presenter?.toast?.('No se pudo copiar al portapapeles.');
       });
     };
 

@@ -25,10 +25,13 @@ body:json {
 tests {
   test("Banner con Enlace JavaScript Malicioso (400 Bad Request)", function () {
     expect(res.status).to.equal(400);
+    expect(res.body.code).to.equal("VALIDATION_ERROR");
     expect(res.body.fieldErrors).to.have.property("ctaUrl");
   });
 }
 
 docs {
-  El esquema solo acepta enlaces https:// o rutas internas: bloquea un XSS futuro en el <a href> de React.
+  Envía: un banner con ctaUrl "javascript:alert(document.cookie)".
+  Debe responder: 400 VALIDATION_ERROR con fieldErrors.ctaUrl.
+  Demuestra: SAFE_LINK solo acepta https:// o rutas internas; bloquea un XSS futuro en el <a href> de React.
 }

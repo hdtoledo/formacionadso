@@ -142,9 +142,9 @@ window.ADSO_DOWNLOADS = [
       "server/bruno-catalogo/05 - Crear Servicio en Borrador (201 Created).bru",
       "server/bruno-catalogo/06 - Banner con Enlace JavaScript Malicioso (400 Bad Request).bru",
       "server/bruno-catalogo/07 - Código de Servicio Duplicado (409 Conflict).bru",
-      "server/bruno-catalogo/08 - Publicar Contenido (200 OK).bru",
-      "server/bruno-catalogo/09 - Cambiar Tipo (422 Unprocessable Entity).bru",
-      "server/bruno-catalogo/10 - Listado Admin de Borradores (200 OK).bru",
+      "server/bruno-catalogo/08 - Listado Admin de Borradores (200 OK).bru",
+      "server/bruno-catalogo/09 - Publicar Contenido (200 OK).bru",
+      "server/bruno-catalogo/10 - Cambiar Tipo (422 Unprocessable Entity).bru",
       "server/bruno-catalogo/11 - Eliminar Contenido (204 No Content).bru",
       "server/bruno-catalogo/12 - Eliminar de Nuevo (404 Not Found).bru",
       "server/bruno-catalogo/bruno.json",
@@ -162,12 +162,12 @@ window.ADSO_DOWNLOADS = [
     ],
     "session": {
       "href": "semana-02-arquitectura-persistencia/dia-10-mongoose-crud-contenidos/codigo-sesion-10.zip",
-      "bytes": 22748,
+      "bytes": 26918,
       "files": 23
     },
     "project": {
       "href": "semana-02-arquitectura-persistencia/dia-10-mongoose-crud-contenidos/proyecto-hasta-sesion-10.zip",
-      "bytes": 69106,
+      "bytes": 73275,
       "files": 58
     }
   }

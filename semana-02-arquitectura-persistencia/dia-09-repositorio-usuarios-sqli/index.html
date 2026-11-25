@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#00324D">
-  <title>Sesión 09 | Patrón Repositorio & Cero Inyección SQL | SENA ADSO</title>
+  <title>Sesión 09 | Patrón Repositorio &amp; Cero Inyección SQL | SENA ADSO</title>
   <meta name="description" content="Sesión 09: Patrón Repositorio para usuarios en PostgreSQL con Node.js y Express, consultas parametrizadas contra inyección SQL, transacciones con pool.connect y pruebas con Bruno. SENA CADPH Garzón.">
   <link rel="icon" type="image/png" href="../../assets/logo_green.png">
   
@@ -1226,7 +1226,7 @@ docs {
           <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Bruno Casos 01–06: qué enviar y qué debe responder</h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             <article class="p-3 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5 min-w-0">
-              <div class="flex items-center justify-between gap-2"><strong class="text-slate-900">01 · Health Check</strong><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-emerald-100 text-emerald-800">200</span></div>
+              <div class="flex items-center justify-between gap-2"><h3 class="font-bold text-slate-900">01 · Health Check</h3><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-emerald-100 text-emerald-800">200</span></div>
               <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Envía</span>
                 <pre class="mt-0.5 bg-slate-900 text-sky-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">GET {{baseUrl}}/api/health</code></pre></div>
               <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Debe responder</span>
@@ -1234,7 +1234,7 @@ docs {
               <p class="text-slate-600">Punto de partida: si PostgreSQL no está <em>healthy</em>, ninguna otra prueba tiene sentido.</p>
             </article>
             <article class="p-3 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5 min-w-0">
-              <div class="flex items-center justify-between gap-2"><strong class="text-slate-900">02 · Crear usuario</strong><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-emerald-100 text-emerald-800">201</span></div>
+              <div class="flex items-center justify-between gap-2"><h3 class="font-bold text-slate-900">02 · Crear usuario</h3><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-emerald-100 text-emerald-800">201</span></div>
               <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Envía</span>
                 <pre class="mt-0.5 bg-slate-900 text-sky-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">POST {{baseUrl}}/api/dev/users
 { "email": "Nuevo.Aprendiz@MiSena.edu.co" }</code></pre></div>
@@ -1246,7 +1246,7 @@ docs {
               <p class="text-slate-600">El correo se guarda en minúsculas y la respuesta <strong>no</strong> trae <code class="font-mono">password_hash</code>.</p>
             </article>
             <article class="p-3 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5 min-w-0">
-              <div class="flex items-center justify-between gap-2"><strong class="text-slate-900">03 · Duplicado en mayúsculas</strong><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-rose-100 text-rose-800">409</span></div>
+              <div class="flex items-center justify-between gap-2"><h3 class="font-bold text-slate-900">03 · Duplicado en mayúsculas</h3><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-rose-100 text-rose-800">409</span></div>
               <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Envía</span>
                 <pre class="mt-0.5 bg-slate-900 text-sky-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">POST {{baseUrl}}/api/dev/users
 { "email": "NUEVO.APRENDIZ@misena.edu.co" }</code></pre></div>
@@ -1256,11 +1256,10 @@ docs {
               <p class="text-slate-600">Necesita la 02. PostgreSQL lanza <code class="font-mono">23505</code> y el repositorio lo traduce a 409.</p>
             </article>
             <article class="p-3 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5 min-w-0">
-              <div class="flex items-center justify-between gap-2"><strong class="text-slate-900">04 · Asignación masiva de rol</strong><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-emerald-100 text-emerald-800">201</span></div>
+              <div class="flex items-center justify-between gap-2"><h3 class="font-bold text-slate-900">04 · Asignación masiva de rol</h3><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-emerald-100 text-emerald-800">201</span></div>
               <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Envía</span>
                 <pre class="mt-0.5 bg-slate-900 text-sky-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">POST {{baseUrl}}/api/dev/users
-{ "email": "intento.admin@misena.edu.co",
-  "role": "admin" }</code></pre></div>
+{ "email": "intento.admin@misena.edu.co", "role": "admin" }</code></pre></div>
               <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Debe responder</span>
                 <pre class="mt-0.5 bg-slate-900 text-emerald-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">{ "success": true, "data": {
   "email": "intento.admin@misena.edu.co",
@@ -1268,7 +1267,7 @@ docs {
               <p class="text-slate-600">El atacante pide ser admin y queda como <code class="font-mono">user</code>: el controlador solo lee <code class="font-mono">email</code>.</p>
             </article>
             <article class="p-3 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5 min-w-0">
-              <div class="flex items-center justify-between gap-2"><strong class="text-slate-900">05 · Correo inválido</strong><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-amber-100 text-amber-800">400</span></div>
+              <div class="flex items-center justify-between gap-2"><h3 class="font-bold text-slate-900">05 · Correo inválido</h3><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-amber-100 text-amber-800">400</span></div>
               <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Envía</span>
                 <pre class="mt-0.5 bg-slate-900 text-sky-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">POST {{baseUrl}}/api/dev/users
 { "email": 12345 }</code></pre></div>
@@ -1279,7 +1278,7 @@ docs {
               <p class="text-slate-600"><code class="font-mono">isValidEmail</code> lo rechaza antes de llegar a la base de datos.</p>
             </article>
             <article class="p-3 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5 min-w-0">
-              <div class="flex items-center justify-between gap-2"><strong class="text-slate-900">06 · Buscar por email</strong><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-emerald-100 text-emerald-800">200</span></div>
+              <div class="flex items-center justify-between gap-2"><h3 class="font-bold text-slate-900">06 · Buscar por email</h3><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-emerald-100 text-emerald-800">200</span></div>
               <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Envía</span>
                 <pre class="mt-0.5 bg-slate-900 text-sky-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">GET {{baseUrl}}/api/dev/users/by-email?email=ADMIN@sena.edu.co</code></pre></div>
               <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Debe responder</span>
@@ -1300,7 +1299,7 @@ docs {
           <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Bruno Casos 07–11: qué enviar y qué debe responder</h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             <article class="p-3 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5 min-w-0">
-              <div class="flex items-center justify-between gap-2"><strong class="text-slate-900">07 · Inyección SQL en email</strong><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-rose-100 text-rose-800">404</span></div>
+              <div class="flex items-center justify-between gap-2"><h3 class="font-bold text-slate-900">07 · Inyección SQL en email</h3><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-rose-100 text-rose-800">404</span></div>
               <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Envía</span>
                 <pre class="mt-0.5 bg-slate-900 text-sky-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">GET {{baseUrl}}/api/dev/users/by-email?email='OR'1'='1'--@x.co</code></pre></div>
               <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Debe responder</span>
@@ -1309,7 +1308,7 @@ docs {
               <p class="text-slate-600">Con SQL concatenado respondería <strong>200 con el primer usuario</strong>. Con <code class="font-mono">$1</code> el payload es solo texto: 0 filas.</p>
             </article>
             <article class="p-3 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5 min-w-0">
-              <div class="flex items-center justify-between gap-2"><strong class="text-slate-900">08 · ID inválido</strong><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-amber-100 text-amber-800">400</span></div>
+              <div class="flex items-center justify-between gap-2"><h3 class="font-bold text-slate-900">08 · ID inválido</h3><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-amber-100 text-amber-800">400</span></div>
               <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Envía</span>
                 <pre class="mt-0.5 bg-slate-900 text-sky-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">GET {{baseUrl}}/api/dev/users/123</code></pre></div>
               <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Debe responder</span>
@@ -1318,7 +1317,7 @@ docs {
               <p class="text-slate-600">Sin <code class="font-mono">isUuid</code>, PostgreSQL lanzaría <code class="font-mono">22P02</code> y la API respondería 500.</p>
             </article>
             <article class="p-3 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5 min-w-0">
-              <div class="flex items-center justify-between gap-2"><strong class="text-slate-900">09 · Buscar por ID</strong><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-emerald-100 text-emerald-800">200</span></div>
+              <div class="flex items-center justify-between gap-2"><h3 class="font-bold text-slate-900">09 · Buscar por ID</h3><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-emerald-100 text-emerald-800">200</span></div>
               <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Envía</span>
                 <pre class="mt-0.5 bg-slate-900 text-sky-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">GET {{baseUrl}}/api/dev/users/a0000000-0000-0000-0000-000000000001</code></pre></div>
               <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Debe responder</span>
@@ -1328,7 +1327,7 @@ docs {
               <p class="text-slate-600">UUID del administrador sembrado en la Sesión 06. Búsqueda por clave primaria.</p>
             </article>
             <article class="p-3 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5 min-w-0">
-              <div class="flex items-center justify-between gap-2"><strong class="text-slate-900">10 · Verificar cuenta</strong><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-emerald-100 text-emerald-800">200</span></div>
+              <div class="flex items-center justify-between gap-2"><h3 class="font-bold text-slate-900">10 · Verificar cuenta</h3><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-emerald-100 text-emerald-800">200</span></div>
               <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Envía</span>
                 <pre class="mt-0.5 bg-slate-900 text-sky-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">PATCH {{baseUrl}}/api/dev/users/b0000000-0000-0000-0000-000000000002/verify
 (sin body)</code></pre></div>
@@ -1339,7 +1338,7 @@ docs {
               <p class="text-slate-600">Transacción: UPDATE + DELETE de tokens. En psql, sus tokens deben quedar en 0.</p>
             </article>
             <article class="p-3 bg-white border border-slate-200 rounded-xl text-xs space-y-1.5 min-w-0">
-              <div class="flex items-center justify-between gap-2"><strong class="text-slate-900">11 · Re-verificar cuenta</strong><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-rose-100 text-rose-800">409</span></div>
+              <div class="flex items-center justify-between gap-2"><h3 class="font-bold text-slate-900">11 · Re-verificar cuenta</h3><span class="px-2 py-0.5 rounded-full font-mono font-extrabold bg-rose-100 text-rose-800">409</span></div>
               <div><span class="text-[10px] font-extrabold uppercase tracking-wide text-slate-500">Envía</span>
                 <pre class="mt-0.5 bg-slate-900 text-sky-200 rounded-lg p-2 font-mono text-[10.5px] leading-snug whitespace-pre-wrap break-all" style="white-space:pre-wrap;word-break:break-all"><code style="white-space:pre-wrap;word-break:break-all">PATCH {{baseUrl}}/api/dev/users/b0000000-0000-0000-0000-000000000002/verify
 (sin body)</code></pre></div>
@@ -1468,7 +1467,7 @@ COMMIT;</code></pre></div>
         <div class="max-w-5xl mx-auto w-full space-y-4">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div class="inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-900 border border-blue-200 rounded-full text-xs font-bold"><i data-lucide="code-2" class="w-3.5 h-3.5 text-blue-600"></i><span>Código probado contra PostgreSQL</span></div>
-            <button onclick="window.copyActiveCodeTab()" class="px-3 py-1.5 bg-[#39A900] hover:bg-[#2D8200] text-white rounded-lg text-xs font-bold transition-colors flex items-center space-x-1.5 shadow-2xs self-start sm:self-auto cursor-pointer">
+            <button type="button" onclick="window.copyActiveCodeTab()" class="px-3 py-1.5 bg-[#39A900] hover:bg-[#2D8200] text-white rounded-lg text-xs font-bold transition-colors flex items-center space-x-1.5 shadow-2xs self-start sm:self-auto cursor-pointer">
               <i data-lucide="copy" class="w-3.5 h-3.5" id="icon-copy-tab"></i><span id="text-copy-tab">Copiar Archivo Activo</span>
             </button>
           </div>
@@ -2022,16 +2021,19 @@ COMMIT;` }
     const codeTabs = [{"key":"repo","label":"UserRepository.js"},{"key":"ctrl","label":"devUserController.js"},{"key":"routes","label":"devUserRoutes.js"},{"key":"async","label":"asyncHandler.js"},{"key":"valid","label":"validators.js"},{"key":"app","label":"app.js"},{"key":"err","label":"errorHandler.js (S08)"},{"key":"mig","label":"02_hardening_auth_schema.sql"},{"key":"seed","label":"02_fix_seed_credentials.sql"},{"key":"reset","label":"99_reset_pruebas_sesion_09.sql"}];
     let activeTabKey = 'repo';
 
-    const TAB_ACTIVE = 'px-3 py-1 bg-slate-900 text-emerald-300 rounded-lg border border-slate-700 cursor-pointer font-bold shrink-0';
-    const TAB_IDLE = 'px-3 py-1 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer transition-colors shrink-0';
+    const TAB_ACTIVE = 'px-3 py-1.5 bg-slate-900 text-emerald-300 rounded-lg border border-slate-700 cursor-pointer font-bold shrink-0';
+    const TAB_IDLE = 'px-3 py-1.5 bg-white text-slate-600 hover:bg-slate-100 rounded-lg border border-slate-200 cursor-pointer transition-colors shrink-0';
 
     function renderCodeTabs() {
       const container = document.getElementById('code-tabs');
       if (!container) return;
+      container.setAttribute('role', 'tablist');
       codeTabs.forEach(({ key, label }) => {
         const btn = document.createElement('button');
         btn.id = 'tab-btn-' + key;
         btn.type = 'button';
+        btn.setAttribute('role', 'tab');
+        btn.setAttribute('aria-selected', 'false');
         btn.textContent = label;
         btn.className = TAB_IDLE;
         btn.addEventListener('click', () => window.viewCodeTab(key));
@@ -2046,7 +2048,10 @@ COMMIT;` }
       activeTabKey = tabKey;
       codeTabs.forEach(({ key }) => {
         const btn = document.getElementById('tab-btn-' + key);
-        if (btn) btn.className = key === tabKey ? TAB_ACTIVE : TAB_IDLE;
+        if (btn) {
+          btn.className = key === tabKey ? TAB_ACTIVE : TAB_IDLE;
+          btn.setAttribute('aria-selected', String(key === tabKey));
+        }
       });
       codeBox.className = 'language-' + snippet.lang;
       codeBox.textContent = snippet.code;
@@ -2063,6 +2068,8 @@ COMMIT;` }
         if (!btnText) return;
         btnText.textContent = '¡Archivo Copiado!';
         setTimeout(() => { btnText.textContent = 'Copiar Archivo Activo'; }, 2200);
+      }).catch(() => {
+        window.presenter?.toast?.('No se pudo copiar al portapapeles.');
       });
     };
 

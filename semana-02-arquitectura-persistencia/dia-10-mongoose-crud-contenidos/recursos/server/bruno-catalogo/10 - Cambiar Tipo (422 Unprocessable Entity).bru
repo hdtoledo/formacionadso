@@ -1,7 +1,7 @@
 meta {
-  name: 09 - Cambiar Tipo (422 Unprocessable Entity)
+  name: 10 - Cambiar Tipo (422 Unprocessable Entity)
   type: http
-  seq: 9
+  seq: 10
 }
 
 patch {
@@ -28,5 +28,7 @@ tests {
 }
 
 docs {
-  El discriminator de un documento no cambia: la petición es válida pero la regla de negocio la impide.
+  Envía: PATCH con { "type": "banner" } a un servicio.
+  Debe responder: 422 CONTENT_TYPE_IMMUTABLE.
+  Demuestra: la petición es válida, pero la regla de negocio impide cambiar el discriminator.
 }

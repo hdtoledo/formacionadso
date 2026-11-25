@@ -1,0 +1,25 @@
+meta {
+  name: 08 - Listado Admin de Borradores (200 OK)
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/api/dev/content?active=false
+  body: none
+  auth: none
+}
+
+tests {
+  test("Listado Admin de Borradores (200 OK)", function () {
+    expect(res.status).to.equal(200);
+    expect(res.body.data.every((c) => c.active === false)).to.equal(true);
+    expect(res.body.data.some((c) => c._id === bru.getVar("contentId"))).to.equal(true);
+  });
+}
+
+docs {
+  Envía: GET /api/dev/content?active=false (vista del panel administrativo).
+  Debe responder: 200 solo con borradores, entre ellos el servicio creado en la 05.
+  Demuestra: la ruta pública nunca muestra borradores; el listado admin sí.
+}

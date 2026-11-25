@@ -21,9 +21,10 @@ export const CONTENT_TYPES = ['banner', 'service', 'testimonial', 'stat', 'event
 export const CONTENT_CATEGORIES = ['software', 'agroindustria', 'seguridad', 'innovacion'];
 
 // Solo https://... o rutas internas que empiecen por "/".
-// Bloquea enlaces "javascript:alert(1)", que en un <a href> del frontend serían XSS.
+// Bloquea enlaces "javascript:alert(1)", que en un <a href> del frontend serían XSS,
+// y "//otro-dominio.com" (empieza por "/" pero el navegador lo trata como dominio externo).
 const HTTPS_URL = /^https:\/\/\S+$/;
-const SAFE_LINK = /^(https:\/\/\S+|\/[\w\-./]*)$/;
+const SAFE_LINK = /^(https:\/\/\S+|\/(?!\/)[\w\-./]*)$/;
 
 // -----------------------------------------------------------------------------
 // 1. Esquema base: lo que comparten TODOS los contenidos

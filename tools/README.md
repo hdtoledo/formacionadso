@@ -28,7 +28,9 @@ Cada lección solo contiene sus diapositivas y metadatos. El chasis (cintillo, h
 | `lessons/shell.mjs` | Estructura común (`<head>` de referencia + `<body>` con metadatos) usada por `build-lesson.mjs`. |
 | `lessons/quizzes.mjs` | **Fuente única** de las autoevaluaciones (3 preguntas por lección) y el inyector idempotente. |
 | `lessons/add-quizzes.mjs` | Inserta o actualiza la autoevaluación en las lecciones escritas a mano (S01–S08 y Extra). |
-| `lessons/gen-bruno-s09.mjs`, `lessons/gen-bruno-s10.mjs` | Generan la colección Bruno de la sesión (carpeta destino como argumento). |
+| `lessons/bruno-cases.mjs` | **Fuente única** de las colecciones Bruno (S09 y S10): método, URL, body, aserciones y la explicación "Envía / Debe responder" de cada caso. |
+| `lessons/gen-bruno.mjs <s09\|s10>` | Escribe la colección Bruno de la sesión en su carpeta de `recursos/` desde `bruno-cases.mjs`. |
+| `check-coverage.mjs <s09\|s10>` | Verifica que todo el código de la sesión se proyecte en las diapositivas: archivos nuevos completos y, en los modificados, las líneas nuevas respecto de la sesión anterior. |
 | `build-downloads.mjs` | Genera por sesión (S06 en adelante) `codigo-sesion-XX.zip` (solo lo que agrega o modifica) y `proyecto-hasta-sesion-XX.zip` (`mi-proyecto-adso/` acumulado), más `assets/js/downloads-data.js` para la sección "Código del proyecto por sesión" del portal. ZIP reproducible (fecha fija) y sin dependencias. |
 | `check-catalog.mjs` | Verifica que el catálogo del portal coincida con las lecciones: rutas, número de diapositivas, `data-lesson` y `data-title`. |
 | `check-scripts.mjs` | Verifica la sintaxis de los `<script>` inline de uno o varios HTML. |
@@ -36,7 +38,9 @@ Cada lección solo contiene sus diapositivas y metadatos. El chasis (cintillo, h
 | `lib-replace.mjs` | Utilidades compartidas (reemplazos exactos, escape HTML y de template literals). |
 
 ```powershell
+node tools/lessons/gen-bruno.mjs s10
 node tools/lessons/build-lesson.mjs s10
+node tools/check-coverage.mjs s10
 node tools/lessons/add-quizzes.mjs
 node tools/build-downloads.mjs
 node tools/check-catalog.mjs
@@ -59,8 +63,11 @@ El código de las diapositivas nunca se escribe a mano: se extrae de `recursos/`
 - `{{HEAD:ruta}}`: imports y constantes iniciales.
 - `{{FN:ruta:nombreFuncion}}`: una función con su comentario.
 - `{{BLOCK:ruta:marcador}}`: desde la línea del marcador hasta el primer `}`.
-- `{{SEC:ruta#inicio#fin}}`: desde la línea `inicio` (incluida) hasta la línea `fin` (excluida).
+- `{{SEC:ruta#inicio#fin}}`: desde la línea `inicio` (incluida) hasta la línea `fin` (excluida). Si un marcador cae dentro de un comentario `/** … */` o bajo un separador `// -----`, el corte incluye el comentario completo.
+- `{{TAIL:ruta#inicio}}`: desde la línea `inicio` hasta el final del archivo (mismo ajuste de comentarios).
 - `{{SQL:ruta#inicio#fin}}`: secciones de un script SQL.
+- `{{BRUNO:1-6}}`: tarjetas "Envía / Debe responder" de los casos 1 a 6 de la colección de la sesión (`bruno-cases.mjs`).
+- Las rutas son relativas a `recursos/server/` (o a `recursos/` si empiezan por `database`); `@s08/…` toma el archivo de la Sesión 08.
 
 ## Componentes interactivos disponibles en cualquier diapositiva
 

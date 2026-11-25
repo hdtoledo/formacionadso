@@ -2,6 +2,7 @@
 // para el shell de assets/js/presenter.js (v2). El shell (cintillo, header, pie, índice,
 // ayuda y temporizador) lo construye el motor en el navegador.
 import fs from 'node:fs';
+import { escHtml } from '../lib-replace.mjs';
 
 const BASE_HEAD_FROM = 'semana-02-arquitectura-persistencia/dia-08-backend-express-arquitectura/index.html';
 
@@ -16,7 +17,7 @@ export function renderLesson(lesson, slides, scripts) {
   const base = fs.readFileSync(BASE_HEAD_FROM, 'utf8').replace(/\r\n/g, '\n');
   let head = base.slice(0, base.indexOf('<body'));
   head = head
-    .replace(/<title>[^<]*<\/title>/, `<title>${lesson.pageTitle}</title>`)
+    .replace(/<title>[^<]*<\/title>/, `<title>${escHtml(lesson.pageTitle)}</title>`)
     .replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${escAttr(lesson.description)}">`);
   if (lesson.extraHead && !head.includes(lesson.extraHead)) {
     head = head.replace('</head>', `  ${lesson.extraHead}\n</head>`);
